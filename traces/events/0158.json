@@ -1,0 +1,1995 @@
+{
+  "doc_no": "0158",
+  "source": {
+    "title": "Protein engineering using variational free energy approximation",
+    "doi": "https://doi.org/10.1038/s41467-024-54814-w",
+    "license": "cc-by",
+    "pdf_name": "0156_10_1038_s41467_024_54814_w_protein_engineering_using_variational_free_energy_approximation.pdf",
+    "combined_md": "docs/0158/combined.md",
+    "mineru_md": "docs/0158/mineru.md"
+  },
+  "gist_memory": {
+    "paper_problem_memory": "Protein engineering is limited by the complexity of exploring vast design spaces and the difficulty of generating thermodynamically stable variants. Directed Evolution is laborious, and existing generative models often produce non-functional proteins because they cannot condition generation on thermodynamic stability. The authors hypothesize that learning the sequence-to-free-energy relationship from a small set of biophysical simulations using a VAE can overcome these limitations. They develop PREVENT to generate stable, functional variants by approximating the free energy landscape, enabling both controlled generation of low-energy variants and energy prediction for prioritization.",
+    "section_gists": [
+      {
+        "section_index": 3,
+        "heading": "Protein engineering using variational free energy approximation",
+        "gist": "Introduces the challenge of protein engineering: vast design space, need for thermodynamic stability. Directed Evolution is laborious; computational methods are limited by cost of free energy calculations. Generative deep learning can learn from sequence/structure data but often fails to produce stable variants. Hypothesis: learning sequence-to-free-energy relationship from a small set of biophysical simulations using a VAE can overcome this. PREVENT model proposed: generates variants with minimal free energy and predicts free energy for prioritization. Evaluated on EcNAGK, a conformationally dynamic homodimer. Designed 40 variants; 85% functional, 55% with similar growth to wildtype despite up to 9 mutations.",
+        "process_signals": [
+          "Problem: protein engineering requires exploring vast design space and ensuring thermodynamic stability.",
+          "Limitation of existing methods: DE is laborious; computational biophysical methods are costly; generative models don't condition on stability.",
+          "Hypothesis: VAE can learn sequence-to-free-energy relationship from a small set of simulations.",
+          "Solution: PREVENT model for controlled generation of low-energy variants and energy prediction.",
+          "Test case: EcNAGK, chosen for its complex thermodynamic landscape.",
+          "Key result: 85% of 40 designed variants functional, 55% with wildtype-like growth."
+        ],
+        "methods": [
+          "Variational Autoencoder (VAE) to learn sequence-to-free-energy relationship",
+          "In silico mutagenesis and free energy estimation (FOLDX) to create training data",
+          "Two design strategies: Prior Optimization of free Energy (POE) and Seeded Non-optimal free Energy ranking (SNE)"
+        ],
+        "metrics": [
+          "Fraction of functional variants (85%)",
+          "Growth rate comparison to wildtype (55% similar)"
+        ],
+        "failures_or_limits": [
+          "Not all variants completely recovered wildtype growth phenotype (only 55% similar).",
+          "Some variants did not produce viable transformants (7 out of 40)."
+        ]
+      },
+      {
+        "section_index": 4,
+        "heading": "Results",
+        "gist": "Describes computational experiments: in silico mutagenesis of EcNAGK generated 117,387 unique variants with up to 38 mutations (~15% residues). Free energy computed with FOLDX; most mutations destabilizing, positive correlation between mutations and ΔG. Dataset split 90/10 train/test. Subsampled training sets (25K, 50K, 75K) to study data size effect. Transformer VAE with 128-dim latent space, trained 1400 epochs, batch size 256, lr 1e-4, dropout 0.2, 25% masking. Evaluated reconstruction error and RMSE of free energy. Full dataset: reconstruction error 114.80 (perplexity 0.66), RMSE 9.27. With 25K: RMSE 12.12. Spearman correlation high (0.96 full, 0.92 25K). Concordance at top >80% for top 1000. Latent space analysis: 126/128 components active; PCA shows lower energy sequences central, higher energy peripheral (folding funnel).",
+        "process_signals": [
+          "Training data generation: random mutagenesis, FOLDX energy estimation.",
+          "Model training: transformer VAE, hyperparameters chosen.",
+          "Performance evaluation: reconstruction error, RMSE, Spearman correlation, CAT.",
+          "Observation: model robust to training set size; energy prediction correlates well with FOLDX.",
+          "Latent space organization resembles folding funnel, validating learned energy landscape."
+        ],
+        "methods": [
+          "In silico mutagenesis: random mutations up to 15% residues, discard duplicates.",
+          "Free energy estimation: FOLDX empirical force field.",
+          "Transformer VAE with 128-dim latent space, 25% masking.",
+          "Evaluation: reconstruction error, RMSE, Spearman correlation, concordance at top (CAT).",
+          "Latent space analysis: component activation (std >0.1), PCA."
+        ],
+        "metrics": [
+          "Reconstruction error: 114.80 (perplexity 0.66) for full dataset.",
+          "RMSE: 9.27 (full), 12.12 (25K).",
+          "Spearman correlation: 0.96 (full), 0.92 (25K).",
+          "CAT >80% for top 1000 variants."
+        ],
+        "failures_or_limits": [
+          "RMSE increases with smaller training sets (9.27 to 12.12).",
+          "Predicted energy values may differ from FOLDX, but ranking is robust."
+        ]
+      },
+      {
+        "section_index": 5,
+        "heading": "Hyperparameter analysis",
+        "gist": "Analyzed effect of latent dimension, transformer size, and training epochs. Smaller model (4 encoder layers, 2 decoder layers, 256 embedding, 4 heads) and original (8 encoder, 4 decoder, 512 embedding, 8 heads) tested. Training for 500 epochs sufficient; most models converge 100-200 epochs. Latent dimension doesn't affect reconstruction error. Model size and latent dimension affect RMSE: smaller model with 128-dim latent achieved lowest RMSE 6.84. Spearman correlation remained high (0.97-0.98) across all models.",
+        "process_signals": [
+          "Hyperparameter tuning: latent dimension, model size, epochs.",
+          "Finding: reconstruction error insensitive to latent dimension; RMSE affected by model size and latent dimension.",
+          "Smaller model with 128-dim latent gave best RMSE (6.84).",
+          "Spearman correlation consistently high, so original model used for downstream tasks."
+        ],
+        "methods": [
+          "Compared two transformer configurations: original (8 enc, 4 dec, 512 emb, 8 heads) and smaller (4 enc, 2 dec, 256 emb, 4 heads).",
+          "Varied latent dimensions (not specified, but 128 used).",
+          "Evaluated on held-out test set."
+        ],
+        "metrics": [
+          "RMSE: best 6.84 (smaller model, 128-dim).",
+          "Spearman correlation: 0.97-0.98."
+        ],
+        "failures_or_limits": [
+          "Original model had higher RMSE (9.27) than smaller model (6.84), but original used for downstream tasks due to high correlation."
+        ]
+      },
+      {
+        "section_index": 6,
+        "heading": "Sequence analysis of the EcNAGK variants generated by PREVENT",
+        "gist": "Generated variants using two strategies: POE (2000 samples) and SNE (30,000 samples). Filtered out training set duplicates, binding site mutations, duplicates. Obtained 1282 POE (66%) and 13,323 SNE (44%) new variants. POE variants more diverse (avg 7.09 mutations) than SNE (3.57). Only ~25% mutations conservative (BLOSUM62). Mutation types similar across strategies, but locations differ: POE mutates C-terminus (ATP-binding domain) with non-conservative mutations (e.g., D212W), SNE mutations uniform. PREVENT selects energetically favorable mutations regardless of evolutionary conservation.",
+        "process_signals": [
+          "Generation strategies: POE explores free energy landscape freely; SNE generates near wildtype.",
+          "Filtering criteria: remove training set duplicates, binding site mutations, duplicates.",
+          "Observation: POE yields more diverse variants with more mutations.",
+          "Surprising result: only 25% mutations conservative; PREVENT may ignore evolutionary information.",
+          "Mutation location bias: POE targets C-terminus, SNE uniform."
+        ],
+        "methods": [
+          "POE: prior optimization of free energy (constrained trust region method).",
+          "SNE: seeded non-optimal free energy ranking (encode seed, decode, rank by predicted energy).",
+          "Sequence analysis: BLOSUM62 for conservation, mutation distribution."
+        ],
+        "metrics": [
+          "Number of new variants: 1282 (POE), 13,323 (SNE).",
+          "Average mutations: 7.09 (POE), 3.57 (SNE).",
+          "Conservative mutations: ~25%."
+        ],
+        "failures_or_limits": [
+          "Low fraction of conservative mutations suggests model may not capture evolutionary constraints.",
+          "POE may introduce radical mutations in critical regions (e.g., ATP-binding domain)."
+        ]
+      },
+      {
+        "section_index": 7,
+        "heading": "Design of a library of EcNAGK variants",
+        "gist": "Built library for experimental validation: 10 lowest free energy from POE, 10 from SNE, plus 10 highest ELBO (SNL) and 10 highest identity to wildtype (SNI) for comparison. Average free energy: SNE -29.8 kcal/mol, SNL -18 kcal/mol. (Section truncated, but process clear: selection of variants for wet-lab testing.)",
+        "process_signals": [
+          "Library design: 40 variants total, 10 each from POE, SNE, SNL, SNI.",
+          "Comparison strategies: energy-driven (POE, SNE) vs. common generative strategies (ELBO, identity).",
+          "Energy range: SNE lowest, SNL highest."
+        ],
+        "methods": [
+          "Selection criteria: lowest free energy (POE, SNE), highest ELBO (SNL), highest identity (SNI)."
+        ],
+        "metrics": [
+          "Average free energy: SNE -29.8 kcal/mol, SNL -18 kcal/mol."
+        ],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 8,
+        "heading": "Establishing the auxotrophic screen for EcNAGK",
+        "gist": "EcNAGK (argB) is conditionally essential; argB knockouts can be rescued by expressing functional EcNAGK via plasmid. Initial expression with pKCHU-argB caused slow growth (>24h lag) due to overexpression. Recoded argB using E. coli codon bias, achieving 25-fold reduction in expression (RT-qPCR) and drastic growth improvement. Decided to backtranslate all variants using same codon bias strategy.",
+        "process_signals": [
+          "Experimental setup: auxotrophic screen in M9 minimal media without arginine.",
+          "Problem: initial overexpression caused severe growth penalty.",
+          "Solution: codon optimization reduced expression 25-fold, improved growth.",
+          "Decision: apply codon optimization to all variants."
+        ],
+        "methods": [
+          "Auxotrophic screen: BW25113 ΔargB strain, complementation with plasmid-borne variants.",
+          "Codon optimization using E. coli codon usage bias.",
+          "RT-qPCR to measure expression reduction."
+        ],
+        "metrics": [
+          "25-fold reduction in gene expression.",
+          "Drastic improvement in growth rate."
+        ],
+        "failures_or_limits": [
+          "Initial overexpression system caused >24h lag phase, penalizing cell growth."
+        ]
+      },
+      {
+        "section_index": 9,
+        "heading": "Screening the EcNAGK variant library",
+        "gist": "40 variants cloned into pKCHU, transformed into ΔargB using high-throughput OT-2 robot. 7 variants (poe4, snl3, snl6, snl7, sni10, sne1, sne3) did not produce viable transformants. 33 viable; 22 quickly recovered phenotype in minimal media, 6 slow/intermediate, 5 no recovery. Total 28 active (85% of 33 viable, or 70% of all 40). Energy-based strategies (POE+SNE) gave 14 functional variants with avg 5.64 mutations vs 1.64 for sequence-only (SNI+SNL). ELBO prioritization (SNL) yielded fewest viable variants. Top candidates (poe1, snl1, sni1, sne2) growth assay: poe1, sni1, sne2 similar to wildtype; sne2 had shorter lag; snl1 39% slower growth. Mutations not biased to surface; ~33% in hydrophobic regions. snl1 has radical Gly123 mutation (text cut off).",
+        "process_signals": [
+          "Transformation: 7 variants failed to produce viable transformants (possible toxicity or lethality).",
+          "Functional assay: 28/40 (70%) active, but 85% of viable ones.",
+          "Energy-based strategies yield more diverse functional variants (more mutations).",
+          "ELBO prioritization performed worst.",
+          "Growth rates: most top variants similar to wildtype, except snl1 slower.",
+          "Mutation location: not surface-biased."
+        ],
+        "methods": [
+          "High-throughput heat-shock transformation with OT-2 robot.",
+          "Auxotrophic selection on M9 minimal agar without arginine.",
+          "Growth curve assay in liquid minimal media.",
+          "Hydropathy analysis for mutation location."
+        ],
+        "metrics": [
+          "Viable transformants: 33/40 (82.5%).",
+          "Functional variants: 28/40 (70%) overall, 85% of viable.",
+          "Energy-based functional variants: 14, avg 5.64 mutations.",
+          "Sequence-only functional variants: 14, avg 1.64 mutations.",
+          "Growth rates: snl1 39% slower; sne2 23-34% shorter lag."
+        ],
+        "failures_or_limits": [
+          "7 variants non-viable (transformation failure).",
+          "5 viable variants non-functional (no rescue).",
+          "snl1 (highest ELBO) had reduced growth rate.",
+          "ELBO strategy yielded fewest viable variants."
+        ]
+      },
+      {
+        "section_index": 10,
+        "heading": "Discussion",
+        "gist": "PREVENT addresses complexity of protein folding by learning free energy landscape from few simulations. Enables generation and energy prediction; free energy minimization over latent space allows rapid identification of diverse functional variants. Cost of energy prediction constant with mutations, unlike direct FOLDX. EcNAGK redesign: 85% functional, but not all fully recovered wildtype growth. Energy-based selection yields more diverse functional proteins. Useful for drug discovery (bioequivalence). Limitations: FOLDX accuracy for large/unfolded proteins; may need other biophysical engines; ΔΔG might be more robust; model explainability needs work. Framework can learn other biochemical properties.",
+        "process_signals": [
+          "Key advantage: constant cost of energy prediction vs. mutations.",
+          "Validation: 85% functional, but incomplete recovery for some.",
+          "Energy information improves diversity of functional variants.",
+          "Limitations acknowledged: FOLDX reliability, need for other force fields, ΔΔG vs ΔG, explainability.",
+          "Generalizability: can learn other properties."
+        ],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": [
+          "FOLDX may be less accurate for large proteins or unfolded states.",
+          "Relative free energy changes (ΔΔG) might be more robust.",
+          "Model explainability not addressed.",
+          "Not all functional variants fully recovered wildtype growth."
+        ]
+      },
+      {
+        "section_index": 11,
+        "heading": "Methods",
+        "gist": "Placeholder for methods section; no content provided.",
+        "process_signals": [],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 12,
+        "heading": "In silico mutagenesis and free energy estimation",
+        "gist": "Generated EcNAGK variants by random mutagenesis (except first Met), up to 15% residues mutated, discarding duplicates. Estimated Gibbs free energy using FoldX: repaired wildtype structure, then BUILDMODEL with default parameters, averaging 2 runs. PREVENT extends VAE to two observed variables: sequence x and ΔG g, conditioned on latent z. Objective: maximize ELBO with reconstruction terms for sequence and energy, plus KL divergence. (Text cut off, but core method described.)",
+        "process_signals": [
+          "Training data: random mutagenesis, FOLDX energy estimation.",
+          "Model: VAE with two decoders (sequence and energy).",
+          "Objective: maximize ELBO with reconstruction losses for both modalities."
+        ],
+        "methods": [
+          "Random mutagenesis: uniform random mutations, up to 15% residues.",
+          "Free energy estimation: FoldX REPAIRPDB and BUILDMODEL, average 2 runs.",
+          "VAE with two observed variables: sequence and ΔG.",
+          "ELBO with reconstruction terms for sequence and energy."
+        ],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 13,
+        "heading": "Protein engineering using variational energy approximation",
+        "gist": "PREVENT implements two design strategies: SNE (seeded non-optimal energy ranking) and POE (prior optimization of free energy). SNE: encode seed, decode sequence, then estimate energy by passing generated sequence through encoder and energy decoder (N=300 samples). POE: minimize predicted free energy over latent space using constrained trust region method (within 3 std of mean), then decode optimal z to generate sequences, ranked by expected energy. POE aims to explore design space more efficiently and generate more diverse proteins.",
+        "process_signals": [
+          "Two strategies: SNE for ranking, POE for optimization-driven generation.",
+          "SNE: energy prediction via Monte Carlo sampling from posterior.",
+          "POE: latent space optimization with trust region constraint to control diversity.",
+          "Hypothesis: POE navigates design space more efficiently."
+        ],
+        "methods": [
+          "SNE: encode seed, decode sequence, re-encode to get energy posterior, sample N=300 to estimate E[g|x].",
+          "POE: constrained trust region method to minimize f_θ2(z), constraint: z within 3 std from mean.",
+          "Generated sequences ranked by expected energy."
+        ],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 15,
+        "heading": "Experimental materials",
+        "gist": "Lists materials: BW25113 ΔargB strain, plasmids, reagents, equipment (Opentrons OT-2 robot). No process information.",
+        "process_signals": [],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": []
+      }
+    ],
+    "global_hypotheses_about_storyline": [
+      "The research aimed to overcome the limitation of generative models in producing thermodynamically stable proteins by integrating free energy approximation into a VAE framework.",
+      "The initial hypothesis was that a VAE could learn the sequence-to-free-energy relationship from a small set of FOLDX simulations, enabling both generation of low-energy variants and energy prediction.",
+      "The choice of EcNAGK as a test case was motivated by its complex thermodynamic landscape, providing a challenging validation.",
+      "The two design strategies (POE and SNE) were developed to leverage the learned energy landscape in different ways: POE for de novo optimization, SNE for ranking seeded variants.",
+      "The experimental validation via auxotrophic screen was designed to directly test functionality in vivo, with the expectation that energy-based designs would yield more diverse functional variants.",
+      "The observation that only ~25% of mutations were conservative suggested that PREVENT prioritizes energetic stability over evolutionary conservation, which was a surprising but potentially advantageous feature.",
+      "The failure of some variants to transform or rescue growth indicated that predicted low energy does not guarantee in vivo functionality, possibly due to factors like expression toxicity or folding kinetics.",
+      "The comparison with ELBO and identity-based selection confirmed that energy information improves diversity without sacrificing functionality, supporting the core hypothesis.",
+      "The limitations acknowledged (FOLDX accuracy, need for ΔΔG, explainability) suggest future directions for improving the framework."
+    ],
+    "uncertainties_to_resolve": [
+      "Why did 7 variants fail to produce viable transformants? Was it due to toxicity, misfolding, or transformation inefficiency?",
+      "What specific mutations in non-functional variants caused loss of function?",
+      "How does PREVENT's performance compare to other state-of-the-art generative models on the same task?",
+      "Would using ΔΔG instead of ΔG improve the correlation with experimental stability?",
+      "How does the model perform on larger proteins or different folds?",
+      "Can the model be made explainable to identify general stabilizing mutation rules?",
+      "What is the impact of using different biophysical engines (e.g., Rosetta, neural network potentials) on the generated variants?",
+      "How does the codon optimization strategy affect the expression and functionality of variants beyond the growth improvement?",
+      "What is the false positive rate of the auxotrophic screen (i.e., variants that appear functional but have reduced activity)?"
+    ]
+  },
+  "chunk_events": [
+    {
+      "chunk_id": "C001",
+      "char_start": 0,
+      "char_end": 18000,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C001_E01",
+          "chunk_id": "C001",
+          "event_type": "problem",
+          "order_hint": 1,
+          "summary": "Protein engineering requires exploring a vast design space and ensuring thermodynamic stability, which is challenging.",
+          "methods_or_tools": [],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E01_01",
+            "EV_C001_E01_02"
+          ]
+        },
+        {
+          "event_id": "C001_E03",
+          "chunk_id": "C001",
+          "event_type": "design",
+          "order_hint": 3,
+          "summary": "Developed PREVENT model for controlled generation of variants with minimal free energy and prediction of free energy for prioritization.",
+          "methods_or_tools": [
+            "PREVENT model"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E03_01"
+          ]
+        },
+        {
+          "event_id": "C001_E05",
+          "chunk_id": "C001",
+          "event_type": "computation",
+          "order_hint": 5,
+          "summary": "Trained transformer VAE on mutagenesis dataset with 128-dim latent space, achieving reconstruction error 114.80 and RMSE 9.27 on full dataset.",
+          "methods_or_tools": [
+            "transformer VAE"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [
+            "reconstruction error: 114.80",
+            "RMSE: 9.27",
+            "Spearman correlation: 0.96"
+          ],
+          "evidence_ids": [
+            "EV_C001_E05_01",
+            "EV_C001_E05_02"
+          ]
+        },
+        {
+          "event_id": "C001_E06",
+          "chunk_id": "C001",
+          "event_type": "analysis",
+          "order_hint": 6,
+          "summary": "Latent space analysis revealed 126/128 active components and a folding funnel organization with lower energy sequences central.",
+          "methods_or_tools": [
+            "Principal Component Analysis (PCA)"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [
+            "126 active components"
+          ],
+          "evidence_ids": [
+            "EV_C001_E06_01"
+          ]
+        },
+        {
+          "event_id": "C001_E07",
+          "chunk_id": "C001",
+          "event_type": "analysis",
+          "order_hint": 7,
+          "summary": "Hyperparameter analysis showed smaller model with 128-dim latent achieved lowest RMSE 6.84, but Spearman correlation remained high across all models.",
+          "methods_or_tools": [],
+          "entities": [],
+          "numbers_or_metrics": [
+            "RMSE: 6.84",
+            "Spearman correlation: 0.97-0.98"
+          ],
+          "evidence_ids": [
+            "EV_C001_E07_01",
+            "EV_C001_E07_02"
+          ]
+        },
+        {
+          "event_id": "C001_E08",
+          "chunk_id": "C001",
+          "event_type": "computation",
+          "order_hint": 8,
+          "summary": "Generated variants using POE and SNE strategies, obtaining 1282 new variants from POE and 13,323 from SNE after filtering.",
+          "methods_or_tools": [
+            "POE",
+            "SNE"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [
+            "1282 new variants (POE)",
+            "13,323 new variants (SNE)"
+          ],
+          "evidence_ids": [
+            "EV_C001_E08_01",
+            "EV_C001_E08_02"
+          ]
+        }
+      ],
+      "notes": "Chunk covers problem statement, hypothesis, model design, training data generation, model training and evaluation, latent space analysis, hyperparameter analysis, and initial variant generation.",
+      "api_usage": {
+        "prompt_tokens": 9483,
+        "completion_tokens": 1412,
+        "total_tokens": 10895,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9227
+      }
+    },
+    {
+      "chunk_id": "C002",
+      "char_start": 17100,
+      "char_end": 35100,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C002_E01",
+          "chunk_id": "C002",
+          "event_type": "analysis",
+          "order_hint": 1,
+          "summary": "PREVENT achieves high concordance with FOLDX rankings regardless of training set size.",
+          "methods_or_tools": [
+            "concordance at the top (CAT) analysis"
+          ],
+          "entities": [
+            "PREVENT",
+            "FOLDX"
+          ],
+          "numbers_or_metrics": [
+            "concordance 75%"
+          ],
+          "evidence_ids": [
+            "EV_C002_E01_01"
+          ]
+        },
+        {
+          "event_id": "C002_E02",
+          "chunk_id": "C002",
+          "event_type": "computation",
+          "order_hint": 2,
+          "summary": "Generated variants using POE and SNE strategies and filtered duplicates and binding site mutations.",
+          "methods_or_tools": [
+            "POE",
+            "SNE"
+          ],
+          "entities": [
+            "EcNAGK"
+          ],
+          "numbers_or_metrics": [
+            "2000 variants POE",
+            "30,000 samples SNE",
+            "1282 new variants POE",
+            "13,323 variants SNE"
+          ],
+          "evidence_ids": [
+            "EV_C002_E02_01",
+            "EV_C002_E02_02"
+          ]
+        },
+        {
+          "event_id": "C002_E03",
+          "chunk_id": "C002",
+          "event_type": "analysis",
+          "order_hint": 3,
+          "summary": "POE variants are more diverse with more mutations than SNE variants.",
+          "methods_or_tools": [],
+          "entities": [
+            "POE",
+            "SNE"
+          ],
+          "numbers_or_metrics": [
+            "average 7.09 mutations POE",
+            "3.57 mutations SNE"
+          ],
+          "evidence_ids": [
+            "EV_C002_E03_01"
+          ]
+        },
+        {
+          "event_id": "C002_E05",
+          "chunk_id": "C002",
+          "event_type": "analysis",
+          "order_hint": 5,
+          "summary": "POE predominantly mutates the C-terminus with non-conservative mutations, while SNE mutations are uniform.",
+          "methods_or_tools": [],
+          "entities": [
+            "POE",
+            "SNE",
+            "ATP-binding domain"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E05_01",
+            "EV_C002_E05_02"
+          ]
+        },
+        {
+          "event_id": "C002_E06",
+          "chunk_id": "C002",
+          "event_type": "design",
+          "order_hint": 6,
+          "summary": "Designed a library of 40 EcNAGK variants for experimental validation, including energy-based and sequence-based strategies.",
+          "methods_or_tools": [
+            "POE",
+            "SNE",
+            "SNL",
+            "SNI"
+          ],
+          "entities": [
+            "EcNAGK"
+          ],
+          "numbers_or_metrics": [
+            "10 variants each",
+            "average free energy SNE -29.8 kcal/mol",
+            "SNL -18 kcal/mol"
+          ],
+          "evidence_ids": [
+            "EV_C002_E06_01",
+            "EV_C002_E06_02"
+          ]
+        }
+      ],
+      "notes": "Chunk covers sequence analysis of generated variants and library design for experimental validation.",
+      "api_usage": {
+        "prompt_tokens": 10095,
+        "completion_tokens": 1098,
+        "total_tokens": 11193,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9839
+      }
+    },
+    {
+      "chunk_id": "C003",
+      "char_start": 34200,
+      "char_end": 52200,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C003_E02",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 2,
+          "summary": "Structural prediction of variants using ESMFOLD shows high accuracy (avg pLDDT 89.64) and close resemblance to wildtype (avg RMSD 1.70Å).",
+          "methods_or_tools": [
+            "ESMFOLD"
+          ],
+          "entities": [
+            "EcNAGK variants"
+          ],
+          "numbers_or_metrics": [
+            "avg pLDDT 89.64",
+            "avg RMSD 1.70Å"
+          ],
+          "evidence_ids": [
+            "EV_C003_E02_01",
+            "EV_C003_E02_02"
+          ]
+        },
+        {
+          "event_id": "C003_E03",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 3,
+          "summary": "Inverse folding scoring confirms variants consistent with wildtype fold, though slightly less than wildtype (avg log-likelihood -1.069 vs -0.991).",
+          "methods_or_tools": [
+            "inverse folding scoring"
+          ],
+          "entities": [
+            "EcNAGK variants",
+            "wildtype EcNAGK"
+          ],
+          "numbers_or_metrics": [
+            "wildtype log-likelihood: -0.991",
+            "average variants log-likelihood: -1.069"
+          ],
+          "evidence_ids": [
+            "EV_C003_E03_01",
+            "EV_C003_E03_02"
+          ]
+        },
+        {
+          "event_id": "C003_E04",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 4,
+          "summary": "eNMA shows overall dynamics preserved, but increased flexibility in residues 58-65 and 211-216 may cause phenotypic differences.",
+          "methods_or_tools": [
+            "ensemble Normal Mode Analysis (eNMA)"
+          ],
+          "entities": [
+            "EcNAGK variants"
+          ],
+          "numbers_or_metrics": [
+            "average RMSF: 0.15"
+          ],
+          "evidence_ids": [
+            "EV_C003_E04_02"
+          ]
+        },
+        {
+          "event_id": "C003_E05",
+          "chunk_id": "C003",
+          "event_type": "problem",
+          "order_hint": 5,
+          "summary": "Initial plasmid-based expression of wildtype argB caused severe growth penalty (>24h lag) due to overexpression.",
+          "methods_or_tools": [],
+          "entities": [
+            "pKCHU-argB",
+            "BW25113 ΔargB"
+          ],
+          "numbers_or_metrics": [
+            "over 24 h of incubation"
+          ],
+          "evidence_ids": [
+            "EV_C003_E05_01",
+            "EV_C003_E05_02"
+          ]
+        },
+        {
+          "event_id": "C003_E07",
+          "chunk_id": "C003",
+          "event_type": "experiment",
+          "order_hint": 7,
+          "summary": "Transformation of 40 variants: 7 failed to produce viable transformants; 33 viable, 28 functional (85% of viable).",
+          "methods_or_tools": [
+            "heat-shock transformation",
+            "Opentrons OT-2 robot"
+          ],
+          "entities": [
+            "EcNAGK variants",
+            "BW25113 ΔargB"
+          ],
+          "numbers_or_metrics": [
+            "7 variants did not produce viable transformants",
+            "33 viable",
+            "28 functional",
+            "85%"
+          ],
+          "evidence_ids": [
+            "EV_C003_E07_01",
+            "EV_C003_E07_02",
+            "EV_C003_E07_03"
+          ]
+        },
+        {
+          "event_id": "C003_E08",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 8,
+          "summary": "Energy-based strategies yield more diverse functional variants (avg 5.64 mutations) than sequence-only (1.64), with minimal impact on functionality.",
+          "methods_or_tools": [
+            "Student t-test"
+          ],
+          "entities": [
+            "POE",
+            "SNE",
+            "SNI",
+            "SNL"
+          ],
+          "numbers_or_metrics": [
+            "5.64 mutations",
+            "1.64 mutations",
+            "p-value = 3.151 × 10^{-5}"
+          ],
+          "evidence_ids": [
+            "EV_C003_E08_01"
+          ]
+        }
+      ],
+      "notes": "Chunk covers quality control, structural analysis, establishment of auxotrophic screen, and screening results, providing key experimental validation events.",
+      "api_usage": {
+        "prompt_tokens": 9953,
+        "completion_tokens": 1535,
+        "total_tokens": 11488,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9697
+      }
+    },
+    {
+      "chunk_id": "C004",
+      "char_start": 51300,
+      "char_end": 69300,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C004_E01",
+          "chunk_id": "C004",
+          "event_type": "analysis",
+          "order_hint": 1,
+          "summary": "Computational structural analysis of generated variants using ESMFOLD, OPENMM, eNMA, and ESM-IF to assess structural compatibility and dynamics.",
+          "methods_or_tools": [
+            "ESMFOLD",
+            "OPENMM",
+            "Amber14 force field",
+            "eNMA",
+            "BIO3D",
+            "ESM-IF"
+          ],
+          "entities": [
+            "EcNAGK variants"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E01_01",
+            "EV_C004_E01_02",
+            "EV_C004_E01_03",
+            "EV_C004_E01_04",
+            "EV_C004_E01_05"
+          ]
+        },
+        {
+          "event_id": "C004_E03",
+          "chunk_id": "C004",
+          "event_type": "limitation",
+          "order_hint": 3,
+          "summary": "FOLDX accuracy is limited for large proteins or unfolded states, and relative free energy changes (ΔΔG) might be more robust.",
+          "methods_or_tools": [
+            "FOLDX"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E03_01"
+          ]
+        },
+        {
+          "event_id": "C004_E04",
+          "chunk_id": "C004",
+          "event_type": "limitation",
+          "order_hint": 4,
+          "summary": "Model explainability is not addressed; further investigation needed to unveil general design rules.",
+          "methods_or_tools": [],
+          "entities": [
+            "PREVENT"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E04_01"
+          ]
+        },
+        {
+          "event_id": "C004_E05",
+          "chunk_id": "C004",
+          "event_type": "design",
+          "order_hint": 5,
+          "summary": "PREVENT model extends VAE to two observed variables (sequence and ΔG) with separate decoders, trained by maximizing ELBO with reconstruction terms for both.",
+          "methods_or_tools": [
+            "VAE",
+            "Transformer",
+            "FCNN"
+          ],
+          "entities": [
+            "PREVENT"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E05_01",
+            "EV_C004_E05_02",
+            "EV_C004_E05_03"
+          ]
+        },
+        {
+          "event_id": "C004_E06",
+          "chunk_id": "C004",
+          "event_type": "design",
+          "order_hint": 6,
+          "summary": "Weighted random sampler ensures uniform coverage of free energy space during training by sampling inversely proportional to bin frequency.",
+          "methods_or_tools": [
+            "weighted random sampler"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E06_01",
+            "EV_C004_E06_02"
+          ]
+        }
+      ],
+      "notes": "Chunk contains methods for structural analysis, model architecture details, training procedure, design strategies (SNE, POE), and limitations. All events are directly supported by quotes.",
+      "api_usage": {
+        "prompt_tokens": 9761,
+        "completion_tokens": 1550,
+        "total_tokens": 11311,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9505
+      }
+    },
+    {
+      "chunk_id": "C005",
+      "char_start": 68400,
+      "char_end": 84088,
+      "chunk_relevance": "medium",
+      "events": [
+        {
+          "event_id": "C005_E02",
+          "chunk_id": "C005",
+          "event_type": "experiment",
+          "order_hint": 2,
+          "summary": "Constructed pKCHU-argB vector using JUMP method.",
+          "methods_or_tools": [
+            "JUMP assembly",
+            "Bsal",
+            "NEBuilder Master Mix"
+          ],
+          "entities": [
+            "pKCHU-argB",
+            "basic parts",
+            "destination vector"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C005_E02_01"
+          ]
+        },
+        {
+          "event_id": "C005_E03",
+          "chunk_id": "C005",
+          "event_type": "experiment",
+          "order_hint": 3,
+          "summary": "Purified EcNAGK variant DNA library from sequence-perfect clones.",
+          "methods_or_tools": [
+            "GeneJET Plasmid Miniprep kit"
+          ],
+          "entities": [
+            "EcNAGK variant DNA library",
+            "E. coli Top 10"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C005_E03_01"
+          ]
+        },
+        {
+          "event_id": "C005_E07",
+          "chunk_id": "C005",
+          "event_type": "experiment",
+          "order_hint": 7,
+          "summary": "Measured relative fold-expression of wildtype constructs using RT-qPCR.",
+          "methods_or_tools": [
+            "RT-qPCR",
+            "Livak method",
+            "16S rRNA (rrsA)"
+          ],
+          "entities": [
+            "BW25113 ΔargB",
+            "pKCHU-argB"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C005_E07_01"
+          ]
+        },
+        {
+          "event_id": "C005_E08",
+          "chunk_id": "C005",
+          "event_type": "analysis",
+          "order_hint": 8,
+          "summary": "Deposited data and code in public repositories.",
+          "methods_or_tools": [
+            "Zenodo",
+            "GitHub"
+          ],
+          "entities": [
+            "data",
+            "code"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C005_E08_01",
+            "EV_C005_E08_02"
+          ]
+        }
+      ],
+      "notes": "This chunk primarily contains experimental methods and data/code availability, with some analysis using ESM-IF. It describes wet-lab procedures but lacks major process events like problem statements or hypothesis testing.",
+      "api_usage": {
+        "prompt_tokens": 9292,
+        "completion_tokens": 1443,
+        "total_tokens": 10735,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9036
+      }
+    }
+  ],
+  "evidence_bank": [
+    {
+      "evidence_id": "EV_C001_E01_01",
+      "source_file": "docs/0158/combined.md",
+      "section": "C001",
+      "char_start": 747,
+      "char_end": 839,
+      "quote": "Engineering proteins is a challenging task requiring the exploration of a vast design space."
+    },
+    {
+      "evidence_id": "EV_C001_E01_02",
+      "source_file": "docs/0158/combined.md",
+      "section": "C001",
+      "char_start": 1095,
+      "char_end": 1203,
+      "quote": "most models do not generate thermodynamically stable proteins, thus leading to many non-functional variants."
+    },
+    {
+      "evidence_id": "EV_C001_E03_01",
+      "source_file": "docs/0158/combined.md",
+      "section": "C001",
+      "char_start": 4054,
+      "char_end": 4353,
+      "quote": "we developed the PRotein Engineering by Variational frEe eNergy approximation (PREVENT) model, which allows both the controlled generation of variants with minimal free energy as well as the prediction of the free energy associated with generated variants for downstream experimental prioritization."
+    },
+    {
+      "evidence_id": "EV_C001_E05_01",
+      "source_file": "docs/0158/combined.md",
+      "section": "C001",
+      "char_start": 9175,
+      "char_end": 9250,
+      "quote": "the reconstruction error was 114.80 (perplexity: 0.66) for the full dataset"
+    },
+    {
+      "evidence_id": "EV_C001_E05_02",
+      "source_file": "docs/0158/combined.md",
+      "section": "C001",
+      "char_start": 9515,
+      "char_end": 9582,
+      "quote": "obtained the best results when using the full dataset (RMSE = 9.27)"
+    },
+    {
+      "evidence_id": "EV_C001_E06_01",
+      "source_file": "docs/0158/combined.md",
+      "section": "C001",
+      "char_start": 10732,
+      "char_end": 10804,
+      "quote": "we found that the vast majority (126) of the 128 components to be active"
+    },
+    {
+      "evidence_id": "EV_C001_E07_01",
+      "source_file": "docs/0158/combined.md",
+      "section": "C001",
+      "char_start": 12397,
+      "char_end": 12505,
+      "quote": "the smaller model with 128-dimensional latent space achieving the lowest RMSE of 6.84 across all experiments"
+    },
+    {
+      "evidence_id": "EV_C001_E07_02",
+      "source_file": "docs/0158/combined.md",
+      "section": "C001",
+      "char_start": 12521,
+      "char_end": 12604,
+      "quote": "the Spearman correlation remained high across all models, ranging from 0.97 to 0.98"
+    },
+    {
+      "evidence_id": "EV_C001_E08_01",
+      "source_file": "docs/0158/combined.md",
+      "section": "C001",
+      "char_start": 17740,
+      "char_end": 17803,
+      "quote": "We generated 2000 variants using POE and 30,000 samples for SNE"
+    },
+    {
+      "evidence_id": "EV_C001_E08_02",
+      "source_file": "docs/0158/combined.md",
+      "section": "C001",
+      "char_start": 17965,
+      "char_end": 18000,
+      "quote": "we obtained 1282 new variants (66%)"
+    },
+    {
+      "evidence_id": "EV_C002_E01_01",
+      "source_file": "docs/0158/combined.md",
+      "section": "C002",
+      "char_start": 17261,
+      "char_end": 17361,
+      "quote": "PREVENT achieves a concordance 75% with FOLDX simulations regardless of the size of the training set"
+    },
+    {
+      "evidence_id": "EV_C002_E02_01",
+      "source_file": "docs/0158/combined.md",
+      "section": "C002",
+      "char_start": 17740,
+      "char_end": 17943,
+      "quote": "We generated 2000 variants using POE and 30,000 samples for SNE, and then removed those sequences that were i) present in the training set, ii) have mutations in the binding site, or iii) are duplicated."
+    },
+    {
+      "evidence_id": "EV_C002_E02_02",
+      "source_file": "docs/0158/combined.md",
+      "section": "C002",
+      "char_start": 17965,
+      "char_end": 18042,
+      "quote": "we obtained 1282 new variants (66%) for POE and 13,323 variants for SNE (44%)"
+    },
+    {
+      "evidence_id": "EV_C002_E03_01",
+      "source_file": "docs/0158/combined.md",
+      "section": "C002",
+      "char_start": 18241,
+      "char_end": 18351,
+      "quote": "POE variants are more diverse (see Fig. 3A) than SNE, with an average of 7.09 and 3.57 mutations respectively."
+    },
+    {
+      "evidence_id": "EV_C002_E05_01",
+      "source_file": "docs/0158/combined.md",
+      "section": "C002",
+      "char_start": 18784,
+      "char_end": 19011,
+      "quote": "POE predominantly mutates the C-terminus harboring the ATP-binding domain of the protein, which harbours highly non conservative mutations, such as the tryptophan introduced at position 212 in place of the aspartic acid residue"
+    },
+    {
+      "evidence_id": "EV_C002_E05_02",
+      "source_file": "docs/0158/combined.md",
+      "section": "C002",
+      "char_start": 19035,
+      "char_end": 19105,
+      "quote": "SNE introduced mutations almost uniformly across the wildtype sequence"
+    },
+    {
+      "evidence_id": "EV_C002_E06_01",
+      "source_file": "docs/0158/combined.md",
+      "section": "C002",
+      "char_start": 19563,
+      "char_end": 19902,
+      "quote": "we took the 10 variants with lowest free energy obtained with the POE strategy and the 10 variants with the lowest free energy generated with the SNE strategy. We further augmented this library by adding 10 variants with the highest ELBO, denoted as SNL, and 10 with the highest identity with respect to the wildtype, hereby denoted as SNI"
+    },
+    {
+      "evidence_id": "EV_C002_E06_02",
+      "source_file": "docs/0158/combined.md",
+      "section": "C002",
+      "char_start": 20025,
+      "char_end": 20157,
+      "quote": "Variants in the library have an average free energy ranging from -29.8 kcal/mol for the SNE group, to -18 kcal/mol for the SNL group"
+    },
+    {
+      "evidence_id": "EV_C003_E02_01",
+      "source_file": "docs/0158/combined.md",
+      "section": "C003",
+      "char_start": 39438,
+      "char_end": 39493,
+      "quote": "The predicted structures have an average pLDDT of 89.64"
+    },
+    {
+      "evidence_id": "EV_C003_E02_02",
+      "source_file": "docs/0158/combined.md",
+      "section": "C003",
+      "char_start": 39558,
+      "char_end": 39635,
+      "quote": "closely resembling the structure of the wildtype enzyme (average RMSD: 1.70Å)"
+    },
+    {
+      "evidence_id": "EV_C003_E03_01",
+      "source_file": "docs/0158/combined.md",
+      "section": "C003",
+      "char_start": 39742,
+      "char_end": 39785,
+      "quote": "the average inverse folding score of -0.077"
+    },
+    {
+      "evidence_id": "EV_C003_E03_02",
+      "source_file": "docs/0158/combined.md",
+      "section": "C003",
+      "char_start": 39928,
+      "char_end": 40000,
+      "quote": "wildtype log-likelihood: -0.991; average variants log-likelihood: -1.069"
+    },
+    {
+      "evidence_id": "EV_C003_E04_02",
+      "source_file": "docs/0158/combined.md",
+      "section": "C003",
+      "char_start": 40184,
+      "char_end": 40325,
+      "quote": "the region spanning residues 58 and 65, and 211 and 216, showed increased flexibility, which could potentially lead to phenotypic differences"
+    },
+    {
+      "evidence_id": "EV_C003_E05_01",
+      "source_file": "docs/0158/combined.md",
+      "section": "C003",
+      "char_start": 41656,
+      "char_end": 41745,
+      "quote": "we observed that argB knockouts required over 24 h of incubation to emerge from lag phase"
+    },
+    {
+      "evidence_id": "EV_C003_E05_02",
+      "source_file": "docs/0158/combined.md",
+      "section": "C003",
+      "char_start": 41779,
+      "char_end": 41885,
+      "quote": "we hypothesised that the strong EcNAGK overexpression was severely penalising cell growth in minimal media"
+    },
+    {
+      "evidence_id": "EV_C003_E07_01",
+      "source_file": "docs/0158/combined.md",
+      "section": "C003",
+      "char_start": 43091,
+      "char_end": 43196,
+      "quote": "7 EcNAGK variants (namely poe4, snl3, snl6, snl7, sni10, sne1, sne3) did not produce viable transformants"
+    },
+    {
+      "evidence_id": "EV_C003_E07_02",
+      "source_file": "docs/0158/combined.md",
+      "section": "C003",
+      "char_start": 43865,
+      "char_end": 43905,
+      "quote": "the total count of active variants to 28"
+    },
+    {
+      "evidence_id": "EV_C003_E07_03",
+      "source_file": "docs/0158/combined.md",
+      "section": "C003",
+      "char_start": 49407,
+      "char_end": 49496,
+      "quote": "85% of the designed and transformed EcNAGK variants enabled survival on auxotrophic media"
+    },
+    {
+      "evidence_id": "EV_C003_E08_01",
+      "source_file": "docs/0158/combined.md",
+      "section": "C003",
+      "char_start": 47247,
+      "char_end": 47460,
+      "quote": "functional variants designed using free energy information (POE, SNE) harbour, on average, significantly more mutations (5.64) compared to the 1.64 mutations found on variants selected by sequence only information"
+    },
+    {
+      "evidence_id": "EV_C004_E01_01",
+      "source_file": "docs/0158/combined.md",
+      "section": "C004",
+      "char_start": 67948,
+      "char_end": 67996,
+      "quote": "we developed a standardized analytical workflow."
+    },
+    {
+      "evidence_id": "EV_C004_E01_02",
+      "source_file": "docs/0158/combined.md",
+      "section": "C004",
+      "char_start": 68005,
+      "char_end": 68068,
+      "quote": "we obtained structure prediction for each variant using ESMFOLD"
+    },
+    {
+      "evidence_id": "EV_C004_E01_03",
+      "source_file": "docs/0158/combined.md",
+      "section": "C004",
+      "char_start": 68110,
+      "char_end": 68219,
+      "quote": "performed potential energy minimization to relax the predicted structure as implemented in the OPENMM package"
+    },
+    {
+      "evidence_id": "EV_C004_E01_04",
+      "source_file": "docs/0158/combined.md",
+      "section": "C004",
+      "char_start": 68345,
+      "char_end": 68419,
+      "quote": "ensemble Normal Mode Analysis (eNMA) was performed using the BIO3D package"
+    },
+    {
+      "evidence_id": "EV_C004_E01_05",
+      "source_file": "docs/0158/combined.md",
+      "section": "C004",
+      "char_start": 68601,
+      "char_end": 68755,
+      "quote": "we evaluated the likelihood of the variants to be compatible with the known wildtype structure. To do that, we used the ESM inverse folding model (ESM-IF)"
+    },
+    {
+      "evidence_id": "EV_C004_E03_01",
+      "source_file": "docs/0158/combined.md",
+      "section": "C004",
+      "char_start": 54021,
+      "char_end": 54217,
+      "quote": "FOLDX, a well-known and validated tool, which has been shown to be reliable mostly for small and medium size proteins, mostly due to the intrinsic difficulty of modeling proteins in unfolded state"
+    },
+    {
+      "evidence_id": "EV_C004_E04_01",
+      "source_file": "docs/0158/combined.md",
+      "section": "C004",
+      "char_start": 54943,
+      "char_end": 55039,
+      "quote": "identifying the best framework to make our model explainable will require further investigation."
+    },
+    {
+      "evidence_id": "EV_C004_E05_01",
+      "source_file": "docs/0158/combined.md",
+      "section": "C004",
+      "char_start": 60984,
+      "char_end": 61182,
+      "quote": "we built a new generative protein engineering model, called PRotein Engineering by Variational frEe eNergy approximation (PREVENT), by extending the classical Variational Autoencoder (VAE) framework"
+    },
+    {
+      "evidence_id": "EV_C004_E05_02",
+      "source_file": "docs/0158/combined.md",
+      "section": "C004",
+      "char_start": 62498,
+      "char_end": 62576,
+      "quote": "our model can be trained end-to-end by maximizing the ELBO defined as follows:"
+    },
+    {
+      "evidence_id": "EV_C004_E05_03",
+      "source_file": "docs/0158/combined.md",
+      "section": "C004",
+      "char_start": 64127,
+      "char_end": 64251,
+      "quote": "PREVENT uses 6 layers for the transformer encoder and 4 layers for the decoder with 512 embedding size split across 8 heads."
+    },
+    {
+      "evidence_id": "EV_C004_E06_01",
+      "source_file": "docs/0158/combined.md",
+      "section": "C004",
+      "char_start": 64722,
+      "char_end": 64844,
+      "quote": "we developed a weighted random sampler to ensure a uniform coverage of the sequence and free energy space during training."
+    },
+    {
+      "evidence_id": "EV_C004_E06_02",
+      "source_file": "docs/0158/combined.md",
+      "section": "C004",
+      "char_start": 64924,
+      "char_end": 65101,
+      "quote": "sequences were included in a mini-batch probabilistically at random, with a probability inversely proportional to the number of sequences in their corresponding free energy bin."
+    },
+    {
+      "evidence_id": "EV_C005_E02_01",
+      "source_file": "docs/0158/combined.md",
+      "section": "C005",
+      "char_start": 70243,
+      "char_end": 70374,
+      "quote": "pKCHU-argB was assembled via the Joint Universal Modular Plasmids (JUMP) method using pre-domesticated parts and destination vector"
+    },
+    {
+      "evidence_id": "EV_C005_E03_01",
+      "source_file": "docs/0158/combined.md",
+      "section": "C005",
+      "char_start": 71223,
+      "char_end": 71431,
+      "quote": "The EcNAGK variant DNA library was assembled and prepared commercially using the same basic parts as pKCHU-argB. Dried E. coli Top 10 cells, harbouring sequence-perfect clones, were individually reconstituted"
+    },
+    {
+      "evidence_id": "EV_C005_E07_01",
+      "source_file": "docs/0158/combined.md",
+      "section": "C005",
+      "char_start": 75256,
+      "char_end": 75369,
+      "quote": "Relative fold-expression was calculated via the Livak method using E. coli 16S rRNA (rrsA) as the reference gene."
+    },
+    {
+      "evidence_id": "EV_C005_E08_01",
+      "source_file": "docs/0158/combined.md",
+      "section": "C005",
+      "char_start": 75532,
+      "char_end": 75653,
+      "quote": "The data used and generated in this study have been deposited in Zenodo at under https://doi.org/10.5281/zenodo.13763481."
+    },
+    {
+      "evidence_id": "EV_C005_E08_02",
+      "source_file": "docs/0158/combined.md",
+      "section": "C005",
+      "char_start": 75808,
+      "char_end": 75897,
+      "quote": "The software is available at the following https://github.com/stracquadaniolab/prevent-nf"
+    },
+    {
+      "evidence_id": "EV_AUTO_001",
+      "source_file": "docs/0158/combined.md",
+      "section": "auto_specific",
+      "char_start": 49169,
+      "char_end": 49390,
+      "quote": "Therefore, we propose that the observed growth penalty may be attributed to the divergent nature of the Gly123Trp mutation and/or less favorable transcription regulation, which is mediated by our gene re-coding strategy."
+    },
+    {
+      "evidence_id": "EV_AUTO_002",
+      "source_file": "docs/0158/combined.md",
+      "section": "auto_specific",
+      "char_start": 48761,
+      "char_end": 49008,
+      "quote": "Notably, variant snl1 features a radical and sterically-intrusive Gly123Trp mutation in an otherwise highly-conserved position on $\\beta7$ , which likely destabilizes the $\\beta6-\\beta7$ hairpin in the NAG-binding subdomain (see Supplementary Fig."
+    },
+    {
+      "evidence_id": "EV_AUTO_003",
+      "source_file": "docs/0158/combined.md",
+      "section": "auto_specific",
+      "char_start": 81119,
+      "char_end": 81277,
+      "quote": "This work was supported by the UKRI EPSRC Fellowship (EP/V033794/1), the UKRI EPSRC grant (EP/Y01913X/1) and the IBioIC feasibility funding (FF-2022-04) to G."
+    },
+    {
+      "evidence_id": "EV_AUTO_004",
+      "source_file": "docs/0158/combined.md",
+      "section": "auto_specific",
+      "char_start": 80727,
+      "char_end": 80822,
+      "quote": "Wanner One-step inactivation of chromosomal genes in Escherichia coli K-12 using PCR products."
+    },
+    {
+      "evidence_id": "EV_AUTO_005",
+      "source_file": "docs/0158/combined.md",
+      "section": "auto_specific",
+      "char_start": 69844,
+      "char_end": 70048,
+      "quote": "The High-throughput transformations and agar plate spotting were achieved using an Opentrons OT-2 robot equipped with a thermocycler module, a single channel p20 pipette and a multi-channel p300 pipette."
+    },
+    {
+      "evidence_id": "EV_AUTO_006",
+      "source_file": "docs/0158/combined.md",
+      "section": "auto_specific",
+      "char_start": 82103,
+      "char_end": 82169,
+      "quote": "developed a transformation protocol for the Opentrons OT-2 robot."
+    },
+    {
+      "evidence_id": "EV_AUTO_007",
+      "source_file": "docs/0158/combined.md",
+      "section": "auto_specific",
+      "char_start": 42529,
+      "char_end": 42709,
+      "quote": "To this end, we developed a robust and high-throughput heat-shock transformation protocol using an Opentrons OT-2 robot, which allowed us to reliably and reproducibly transform E."
+    },
+    {
+      "evidence_id": "EV_AUTO_008",
+      "source_file": "docs/0158/combined.md",
+      "section": "auto_specific",
+      "char_start": 17945,
+      "char_end": 18227,
+      "quote": "With this criteria, we obtained 1282 new variants (66%) for POE and 13,323 variants for SNE (44%), which is expected given that the first strategy freely explores the free energy landscape of EcNAGK, whereas the second generates sequences within the region of the wildtype sequence."
+    },
+    {
+      "evidence_id": "EV_AUTO_009",
+      "source_file": "docs/0158/combined.md",
+      "section": "auto_specific",
+      "char_start": 7388,
+      "char_end": 7609,
+      "quote": "With our procedure, we generated 117,387 unique variants, with each variant harbouring up to 38 mutations ( $\\approx$ 15% of the residues), and then computed the associated free energy, $\\Delta G$ , using FOLDX $^{14}$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_010",
+      "source_file": "docs/0158/combined.md",
+      "section": "auto_specific",
+      "char_start": 73621,
+      "char_end": 73788,
+      "quote": "BW25113 $\\Delta argB$ transformants (harbouring pKCHU-argB or variants thereof) were propagated in YEP-kanamycin medium (10 mL) overnight with agitation (37 °C, 18 h)."
+    },
+    {
+      "evidence_id": "EV_AUTO_011",
+      "source_file": "docs/0158/combined.md",
+      "section": "auto_specific",
+      "char_start": 72792,
+      "char_end": 72958,
+      "quote": "BW25113 $\\Delta$ argB transformants (harbouring pKCHU-argB or variants thereof) were propagated in YEP-kanamycin medium (10 mL overnight with agitation (37 °C, 18 h)."
+    },
+    {
+      "evidence_id": "EV_AUTO_012",
+      "source_file": "docs/0158/combined.md",
+      "section": "auto_specific",
+      "char_start": 47496,
+      "char_end": 47706,
+      "quote": "177, $p$ -value = 3.151 × 10 $^{-5}$ ), suggesting that exploiting free energy information could yield more diverse library with minimal impact on the overall number of functional proteins obtained in a screen."
+    },
+    {
+      "evidence_id": "EV_AUTO_013",
+      "source_file": "docs/0158/combined.md",
+      "section": "auto_specific",
+      "char_start": 47392,
+      "char_end": 47496,
+      "quote": "64 mutations found on variants selected by sequence only information (Student t-test; t: 4.9173, df: 22."
+    },
+    {
+      "evidence_id": "EV_AUTO_014",
+      "source_file": "docs/0158/combined.md",
+      "section": "auto_specific",
+      "char_start": 43448,
+      "char_end": 43631,
+      "quote": "Remarkably, 22 of the 33 viable EcNAGK variants could quickly recover the BW25113 $\\Delta argB$ phenotype in standard M9 minimal salts solid media without L-arginine supplementation."
+    },
+    {
+      "evidence_id": "EV_AUTO_015",
+      "source_file": "docs/0158/combined.md",
+      "section": "auto_specific",
+      "char_start": 33885,
+      "char_end": 34115,
+      "quote": "B Distribution of the BLOSUM62 substitution matrix scores for the 9083 mutations introduced by the POE strategy and for the 47,573 mutations introduced by the SNE strategy; the vast majority of the mutations are non-conservative."
+    },
+    {
+      "evidence_id": "EV_AUTO_016",
+      "source_file": "docs/0158/combined.md",
+      "section": "auto_specific",
+      "char_start": 17260,
+      "char_end": 17476,
+      "quote": "PREVENT achieves a concordance 75% with FOLDX simulations regardless of the size of the training set, albeit moderate differences in ranking top sequences are observed when considering the top 100 and 1000 variants."
+    },
+    {
+      "evidence_id": "EV_AUTO_017",
+      "source_file": "docs/0158/combined.md",
+      "section": "auto_specific",
+      "char_start": 11985,
+      "char_end": 12143,
+      "quote": "First, we noticed that training for 500 epochs is usually sufficient to obtain a minimal validation loss, as most models converge between 100 and 200 epochs."
+    },
+    {
+      "evidence_id": "EV_AUTO_018",
+      "source_file": "docs/0158/combined.md",
+      "section": "auto_specific",
+      "char_start": 9862,
+      "char_end": 10040,
+      "quote": "96$ when training on the full dataset and only dropping to $\\rho = 0.92$ when using only 25K sequences, suggesting that predicted values are a robust metric for variants ranking."
+    },
+    {
+      "evidence_id": "EV_AUTO_019",
+      "source_file": "docs/0158/combined.md",
+      "section": "auto_specific",
+      "char_start": 72658,
+      "char_end": 72745,
+      "quote": "pKCHU-argB transformants were selected on YEP-agar (37 °C, 18 h) laced with kanamycin."
+    },
+    {
+      "evidence_id": "EV_AUTO_020",
+      "source_file": "docs/0158/combined.md",
+      "section": "auto_specific",
+      "char_start": 71626,
+      "char_end": 71799,
+      "quote": "Following biomass harvest by centrifugation (4000 rcf, 15 minutes), the plasmids encoding the (EcNAGK) variants were isolated using a GeneJET Plasmid Miniprep kit (Thermo)."
+    },
+    {
+      "evidence_id": "EV_AUTO_021",
+      "source_file": "docs/0158/combined.md",
+      "section": "auto_specific",
+      "char_start": 67998,
+      "char_end": 68344,
+      "quote": "First, we obtained structure prediction for each variant using ESMFOLD $^{26}$ with default parameters and then performed potential energy minimization to relax the predicted structure as implemented in the OPENMM package $^{27}$ using the Amber14 force field, while adding an harmonic potential energy term to restrain C $\\alpha$ atoms position."
+    },
+    {
+      "evidence_id": "EV_AUTO_022",
+      "source_file": "docs/0158/combined.md",
+      "section": "auto_specific",
+      "char_start": 49392,
+      "char_end": 49568,
+      "quote": "In conclusion, 85% of the designed and transformed EcNAGK variants enabled survival on auxotrophic media, with 67% permitting similar recovery levels to the wild-type sequence."
+    },
+    {
+      "evidence_id": "EV_AUTO_023",
+      "source_file": "docs/0158/combined.md",
+      "section": "auto_specific",
+      "char_start": 47516,
+      "char_end": 47706,
+      "quote": "151 × 10 $^{-5}$ ), suggesting that exploiting free energy information could yield more diverse library with minimal impact on the overall number of functional proteins obtained in a screen."
+    },
+    {
+      "evidence_id": "EV_AUTO_024",
+      "source_file": "docs/0158/combined.md",
+      "section": "auto_specific",
+      "char_start": 47370,
+      "char_end": 47483,
+      "quote": "64) compared to the 1.64 mutations found on variants selected by sequence only information (Student t-test; t: 4."
+    },
+    {
+      "evidence_id": "EV_AUTO_025",
+      "source_file": "docs/0158/combined.md",
+      "section": "auto_specific",
+      "char_start": 46803,
+      "char_end": 47060,
+      "quote": "14 out of the 28 viable variants were obtained by using either POE (6 variants) or SNE (8 variants); as expected, since they carry only 1 mutation, 9 out of 10 SNI variants recovered the phenotype, whereas only 5 out of the 10 SNL variants were functional."
+    },
+    {
+      "evidence_id": "EV_AUTO_026",
+      "source_file": "docs/0158/combined.md",
+      "section": "auto_specific",
+      "char_start": 41983,
+      "char_end": 42197,
+      "quote": "6) $^{16}$ , we measured an average 25-fold reduction in gene expression by RT-qPCR, which was associated with a drastic improvement in growth rate using both solid and liquid minimal media (see Supplementary Fig."
+    },
+    {
+      "evidence_id": "EV_AUTO_027",
+      "source_file": "docs/0158/combined.md",
+      "section": "auto_specific",
+      "char_start": 39956,
+      "char_end": 40002,
+      "quote": "991; average variants log-likelihood: -1.069)."
+    },
+    {
+      "evidence_id": "EV_AUTO_028",
+      "source_file": "docs/0158/combined.md",
+      "section": "auto_specific",
+      "char_start": 39795,
+      "char_end": 39997,
+      "quote": "5B, C), suggesting that variants are highly consistent with the wildtype fold albeit to a lesser extent than the wildtype sequence (wildtype log-likelihood: -0.991; average variants log-likelihood: -1."
+    },
+    {
+      "evidence_id": "EV_AUTO_029",
+      "source_file": "docs/0158/combined.md",
+      "section": "auto_specific",
+      "char_start": 20024,
+      "char_end": 20166,
+      "quote": "Variants in the library have an average free energy ranging from -29.8 kcal/mol for the SNE group, to -18 kcal/mol for the SNL group, with a"
+    },
+    {
+      "evidence_id": "EV_AUTO_030",
+      "source_file": "docs/0158/combined.md",
+      "section": "auto_specific",
+      "char_start": 18763,
+      "char_end": 19021,
+      "quote": "3C); in particular, POE predominantly mutates the C-terminus harboring the ATP-binding domain of the protein, which harbours highly non conservative mutations, such as the tryptophan introduced at position 212 in place of the aspartic acid residue (see Fig."
+    },
+    {
+      "evidence_id": "EV_AUTO_031",
+      "source_file": "docs/0158/combined.md",
+      "section": "auto_specific",
+      "char_start": 18351,
+      "char_end": 18608,
+      "quote": "Surprisingly, we observed that only $\\approx$ 25% of mutations were conservative, as measured by BLOSUM62 substitution matrix; this result suggests that PREVENT might select energetically favorable mutations regardless of evolutionary information (see Fig."
+    },
+    {
+      "evidence_id": "EV_AUTO_032",
+      "source_file": "docs/0158/combined.md",
+      "section": "auto_specific",
+      "char_start": 18316,
+      "char_end": 18351,
+      "quote": "09 and 3.57 mutations respectively."
+    },
+    {
+      "evidence_id": "EV_AUTO_033",
+      "source_file": "docs/0158/combined.md",
+      "section": "auto_specific",
+      "char_start": 10726,
+      "char_end": 10916,
+      "quote": "Here we found that the vast majority (126) of the 128 components to be active, albeit to a different level, suggesting that our model maps variants to different regions of the latent space."
+    },
+    {
+      "evidence_id": "EV_AUTO_034",
+      "source_file": "docs/0158/combined.md",
+      "section": "auto_specific",
+      "char_start": 10040,
+      "char_end": 10336,
+      "quote": "This is further confirmed by the concordance at the top (CAT) analysis of variants ranked by free energy values; in particular, we found a concordance higher than 80% when looking at the top 1000 ranked sequences, a trend observed regardless of the size of the mutagenesis dataset used (see Fig."
+    },
+    {
+      "evidence_id": "EV_AUTO_035",
+      "source_file": "docs/0158/combined.md",
+      "section": "auto_specific",
+      "char_start": 9931,
+      "char_end": 10040,
+      "quote": "92$ when using only 25K sequences, suggesting that predicted values are a robust metric for variants ranking."
+    },
+    {
+      "evidence_id": "EV_AUTO_036",
+      "source_file": "docs/0158/combined.md",
+      "section": "auto_specific",
+      "char_start": 7964,
+      "char_end": 8042,
+      "quote": "1A, B) and a held-out test set (10%, 11,149 variants) (see Supplementary Fig."
+    }
+  ],
+  "event_graph": {
+    "paper_main_problem": "Protein engineering is limited by the complexity of exploring vast design spaces and the difficulty of generating thermodynamically stable variants. Existing generative models often produce non-functional proteins because they cannot condition generation on thermodynamic stability.",
+    "canonical_events": [
+      {
+        "canonical_id": "K01",
+        "order": 1,
+        "event_type": "problem",
+        "summary": "Protein engineering requires exploring a vast design space and ensuring thermodynamic stability, which is challenging. Existing generative models often produce non-functional variants because they do not condition on stability.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E01"
+        ],
+        "evidence_ids": [
+          "EV_C001_E01_01",
+          "EV_C001_E01_02"
+        ],
+        "key_entities": [],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K03",
+        "order": 3,
+        "event_type": "design",
+        "summary": "Developed PREVENT model, extending VAE to two observed variables (sequence and ΔG) with separate decoders, trained by maximizing ELBO with reconstruction terms for both. Uses transformer architecture.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E03",
+          "C004_E05"
+        ],
+        "evidence_ids": [
+          "EV_C001_E03_01",
+          "EV_C004_E05_01",
+          "EV_C004_E05_02",
+          "EV_C004_E05_03"
+        ],
+        "key_entities": [
+          "PREVENT",
+          "VAE",
+          "transformer"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K04",
+        "order": 4,
+        "event_type": "computation",
+        "summary": "Generated training data: in silico random mutagenesis of EcNAGK (up to 15% residues), yielding 117,387 unique variants. Computed free energy ΔG using FOLDX.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [],
+        "evidence_ids": [
+          "EV_AUTO_009"
+        ],
+        "key_entities": [
+          "EcNAGK",
+          "FOLDX"
+        ],
+        "key_numbers": [
+          "117,387 variants",
+          "up to 38 mutations"
+        ]
+      },
+      {
+        "canonical_id": "K05",
+        "order": 5,
+        "event_type": "computation",
+        "summary": "Trained transformer VAE on mutagenesis dataset with 128-dim latent space, achieving reconstruction error 114.80 and RMSE 9.27 on full dataset. Spearman correlation 0.96.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E05"
+        ],
+        "evidence_ids": [
+          "EV_C001_E05_01",
+          "EV_C001_E05_02",
+          "EV_AUTO_018"
+        ],
+        "key_entities": [
+          "transformer VAE"
+        ],
+        "key_numbers": [
+          "reconstruction error: 114.80",
+          "RMSE: 9.27",
+          "Spearman correlation: 0.96"
+        ]
+      },
+      {
+        "canonical_id": "K06",
+        "order": 6,
+        "event_type": "analysis",
+        "summary": "Latent space analysis revealed 126/128 active components and a folding funnel organization with lower energy sequences central, validating learned energy landscape.",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C001_E06"
+        ],
+        "evidence_ids": [
+          "EV_C001_E06_01",
+          "EV_AUTO_033"
+        ],
+        "key_entities": [],
+        "key_numbers": [
+          "126 active components"
+        ]
+      },
+      {
+        "canonical_id": "K07",
+        "order": 7,
+        "event_type": "analysis",
+        "summary": "Hyperparameter analysis: smaller model with 128-dim latent achieved lowest RMSE 6.84, but Spearman correlation remained high (0.97-0.98) across all models. Original model used for downstream tasks.",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C001_E07"
+        ],
+        "evidence_ids": [
+          "EV_C001_E07_01",
+          "EV_C001_E07_02"
+        ],
+        "key_entities": [],
+        "key_numbers": [
+          "RMSE: 6.84",
+          "Spearman correlation: 0.97-0.98"
+        ]
+      },
+      {
+        "canonical_id": "K08",
+        "order": 8,
+        "event_type": "computation",
+        "summary": "Generated variants using two strategies: POE (prior optimization of free energy) and SNE (seeded non-optimal energy ranking). After filtering, obtained 1282 new variants from POE and 13,323 from SNE.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E08",
+          "C002_E02"
+        ],
+        "evidence_ids": [
+          "EV_C001_E08_01",
+          "EV_C001_E08_02",
+          "EV_C002_E02_01",
+          "EV_C002_E02_02"
+        ],
+        "key_entities": [
+          "POE",
+          "SNE"
+        ],
+        "key_numbers": [
+          "1282 new variants (POE)",
+          "13,323 new variants (SNE)"
+        ]
+      },
+      {
+        "canonical_id": "K09",
+        "order": 9,
+        "event_type": "analysis",
+        "summary": "Sequence analysis: POE variants more diverse (avg 7.09 mutations) than SNE (3.57). Only ~25% mutations conservative. POE targets C-terminus with non-conservative mutations; SNE mutations uniform.",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C002_E03",
+          "C002_E05"
+        ],
+        "evidence_ids": [
+          "EV_C002_E03_01",
+          "EV_C002_E05_01",
+          "EV_C002_E05_02",
+          "EV_AUTO_031",
+          "EV_AUTO_032"
+        ],
+        "key_entities": [
+          "POE",
+          "SNE"
+        ],
+        "key_numbers": [
+          "avg 7.09 mutations POE",
+          "3.57 mutations SNE",
+          "~25% conservative mutations"
+        ]
+      },
+      {
+        "canonical_id": "K10",
+        "order": 10,
+        "event_type": "design",
+        "summary": "Designed a library of 40 EcNAGK variants for experimental validation: 10 lowest free energy from POE, 10 from SNE, plus 10 highest ELBO (SNL) and 10 highest identity (SNI) for comparison.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E06"
+        ],
+        "evidence_ids": [
+          "EV_C002_E06_01",
+          "EV_C002_E06_02"
+        ],
+        "key_entities": [
+          "POE",
+          "SNE",
+          "SNL",
+          "SNI"
+        ],
+        "key_numbers": [
+          "40 variants",
+          "average free energy SNE -29.8 kcal/mol",
+          "SNL -18 kcal/mol"
+        ]
+      },
+      {
+        "canonical_id": "K11",
+        "order": 11,
+        "event_type": "failure",
+        "summary": "Initial plasmid-based expression of wildtype argB caused severe growth penalty (>24h lag) due to overexpression, requiring codon optimization.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E05"
+        ],
+        "evidence_ids": [
+          "EV_C003_E05_01",
+          "EV_C003_E05_02"
+        ],
+        "key_entities": [
+          "pKCHU-argB",
+          "BW25113 ΔargB"
+        ],
+        "key_numbers": [
+          ">24 h lag"
+        ]
+      },
+      {
+        "canonical_id": "K12",
+        "order": 12,
+        "event_type": "revision",
+        "summary": "Recoded argB using E. coli codon bias, achieving 25-fold reduction in expression and drastic growth improvement. Applied codon optimization to all variants.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [],
+        "evidence_ids": [
+          "EV_AUTO_026"
+        ],
+        "key_entities": [
+          "codon optimization"
+        ],
+        "key_numbers": [
+          "25-fold reduction in expression"
+        ]
+      },
+      {
+        "canonical_id": "K13",
+        "order": 13,
+        "event_type": "experiment",
+        "summary": "Transformed 40 variants into ΔargB strain using high-throughput OT-2 robot. 7 variants failed to produce viable transformants; 33 viable, 28 functional (85% of viable, 70% of all).",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E07"
+        ],
+        "evidence_ids": [
+          "EV_C003_E07_01",
+          "EV_C003_E07_02",
+          "EV_C003_E07_03",
+          "EV_AUTO_022"
+        ],
+        "key_entities": [
+          "EcNAGK variants",
+          "BW25113 ΔargB",
+          "OT-2 robot"
+        ],
+        "key_numbers": [
+          "7 non-viable",
+          "33 viable",
+          "28 functional",
+          "85% of viable",
+          "70% of all"
+        ]
+      },
+      {
+        "canonical_id": "K14",
+        "order": 14,
+        "event_type": "analysis",
+        "summary": "Energy-based strategies (POE+SNE) yielded 14 functional variants with avg 5.64 mutations vs 1.64 for sequence-only (SNI+SNL). ELBO prioritization (SNL) performed worst. Growth assays: most top variants similar to wildtype, except snl1 39% slower.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E08"
+        ],
+        "evidence_ids": [
+          "EV_C003_E08_01",
+          "EV_AUTO_012",
+          "EV_AUTO_013",
+          "EV_AUTO_025",
+          "EV_AUTO_002"
+        ],
+        "key_entities": [
+          "POE",
+          "SNE",
+          "SNL",
+          "SNI"
+        ],
+        "key_numbers": [
+          "5.64 mutations (energy-based)",
+          "1.64 mutations (sequence-only)",
+          "snl1 39% slower growth"
+        ]
+      },
+      {
+        "canonical_id": "K15",
+        "order": 15,
+        "event_type": "validation",
+        "summary": "Computational structural analysis (ESMFOLD, OPENMM, eNMA, ESM-IF) confirmed variants closely resemble wildtype structure (avg pLDDT 89.64, avg RMSD 1.70Å) and are consistent with wildtype fold, though slightly less stable.",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C003_E02",
+          "C003_E03",
+          "C003_E04",
+          "C004_E01"
+        ],
+        "evidence_ids": [
+          "EV_C003_E02_01",
+          "EV_C003_E02_02",
+          "EV_C003_E03_01",
+          "EV_C003_E03_02",
+          "EV_C003_E04_02",
+          "EV_C004_E01_01"
+        ],
+        "key_entities": [
+          "ESMFOLD",
+          "OPENMM",
+          "eNMA",
+          "ESM-IF"
+        ],
+        "key_numbers": [
+          "avg pLDDT 89.64",
+          "avg RMSD 1.70Å",
+          "wildtype log-likelihood: -0.991",
+          "average variants log-likelihood: -1.069"
+        ]
+      },
+      {
+        "canonical_id": "K16",
+        "order": 16,
+        "event_type": "limitation",
+        "summary": "FOLDX accuracy limited for large proteins or unfolded states; relative free energy changes (ΔΔG) might be more robust. Model explainability not addressed.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C004_E03",
+          "C004_E04"
+        ],
+        "evidence_ids": [
+          "EV_C004_E03_01",
+          "EV_C004_E04_01"
+        ],
+        "key_entities": [
+          "FOLDX"
+        ],
+        "key_numbers": []
+      }
+    ],
+    "edges": [
+      {
+        "source": "K03",
+        "target": "K04",
+        "relation": "enables",
+        "reason": "Model design requires training data, so in silico mutagenesis and free energy estimation are performed."
+      },
+      {
+        "source": "K04",
+        "target": "K05",
+        "relation": "enables",
+        "reason": "Training data is used to train the VAE."
+      },
+      {
+        "source": "K05",
+        "target": "K06",
+        "relation": "follows",
+        "reason": "After training, latent space is analyzed to validate the learned energy landscape."
+      },
+      {
+        "source": "K05",
+        "target": "K07",
+        "relation": "follows",
+        "reason": "Hyperparameter analysis is performed to optimize model performance."
+      },
+      {
+        "source": "K05",
+        "target": "K08",
+        "relation": "enables",
+        "reason": "Trained model is used to generate variants via POE and SNE strategies."
+      },
+      {
+        "source": "K08",
+        "target": "K09",
+        "relation": "follows",
+        "reason": "Generated variants are analyzed for diversity and mutation patterns."
+      },
+      {
+        "source": "K08",
+        "target": "K10",
+        "relation": "enables",
+        "reason": "Generated variants are used to design a library for experimental validation."
+      },
+      {
+        "source": "K10",
+        "target": "K11",
+        "relation": "follows",
+        "reason": "Experimental validation begins, but initial expression system causes growth penalty."
+      },
+      {
+        "source": "K11",
+        "target": "K12",
+        "relation": "refines",
+        "reason": "Growth penalty is resolved by codon optimization."
+      },
+      {
+        "source": "K12",
+        "target": "K13",
+        "relation": "enables",
+        "reason": "Codon-optimized variants are transformed and screened."
+      },
+      {
+        "source": "K13",
+        "target": "K14",
+        "relation": "follows",
+        "reason": "Screening results are analyzed to compare energy-based vs sequence-only strategies."
+      },
+      {
+        "source": "K14",
+        "target": "K15",
+        "relation": "validates",
+        "reason": "Computational structural analysis validates that functional variants maintain wildtype-like structure."
+      },
+      {
+        "source": "K14",
+        "target": "K16",
+        "relation": "follows",
+        "reason": "Limitations of the approach are discussed based on experimental and computational findings."
+      }
+    ],
+    "must_cover_points": [
+      "Problem of generating thermodynamically stable variants",
+      "Hypothesis of learning sequence-to-free-energy relationship with VAE",
+      "Design of PREVENT model with two decoders",
+      "Training data generation via in silico mutagenesis and FOLDX",
+      "Model training and performance (RMSE, Spearman correlation)",
+      "Variant generation using POE and SNE strategies",
+      "Library design for experimental validation",
+      "Failure of initial expression system and codon optimization fix",
+      "Experimental screening results (viability, functionality, mutation diversity)",
+      "Comparison of energy-based vs sequence-only strategies",
+      "Limitations (FOLDX accuracy, explainability)"
+    ],
+    "paper_not_suitable_reasons": []
+  }
+}

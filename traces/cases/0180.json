@@ -1,0 +1,771 @@
+{
+  "case": {
+    "case_id": "sci_evo_0180",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Structural elucidation of SARS-CoV-2 vital proteins: Computational methods reveal potential drug candidates against main protease, Nsp12 polymerase and Nsp13 helicase",
+      "doi": "https://doi.org/10.1016/j.jpha.2020.04.008",
+      "url": "",
+      "license": "cc-by-nc-nd",
+      "publication_date": "",
+      "raw_file": "0178_10_1016_j_jpha_2020_04_008_structural_elucidation_of_sars_cov_2_vital_proteins_computational_methods_reveal_potential.pdf",
+      "mineru_md": "docs/0180/mineru.md",
+      "combined_md": "docs/0180/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Urgent need for antivirals against SARS-CoV-2 due to COVID-19 pandemic. No licensed drugs or vaccines available.",
+      "target_object": "SARS-CoV-2 main protease (Mpro), Nsp12 polymerase, Nsp13 helicase",
+      "known_context": "Conserved viral proteins are attractive drug targets. Initial lack of crystal structures; homology models built. Later, crystal structure 6LU7 for Mpro became available.",
+      "constraints": [
+        "No licensed antiviral drugs or vaccines available",
+        "Urgent timeline due to pandemic"
+      ],
+      "input_data": [
+        "Homology models of Mpro, Nsp12, Nsp13",
+        "Crystal structure 6LU7 of Mpro",
+        "Docking library (Mcule database)"
+      ],
+      "quantifiable_goals": [
+        "Identify small molecule inhibitors via virtual screening and MD simulations"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "No licensed antiviral drugs or vaccines available for COVID-19.",
+        "gap_or_uncertainty": "Urgent need for rapid drug discovery methods.",
+        "hypothesis": "Computational drug discovery can serve as an alternative to high-throughput screening for hit-to-lead optimization.",
+        "decision": "Adopt computational methods for virtual screening.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "computational drug discovery",
+          "version": "",
+          "category": "in_silico"
+        },
+        "parameters": {},
+        "observation": "Computational methods provide a rapid alternative to tiresome high-throughput screening.",
+        "result_status": "success",
+        "next_step_reason": "Proceed to build homology models for target proteins.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0180/combined.md",
+            "section": "C001",
+            "quote_or_span": "To date, no licensed antiviral drugs or vaccines are available against COVID-19 although several clinical trials are under way to test possible therapies."
+          },
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0180/combined.md",
+            "section": "C001",
+            "quote_or_span": "During this urgent situation, computational drug discovery methods provide an alternative to tiresome high-throughput screening, particularly in the hit-to-lead-optimization stage."
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "design",
+        "state_before": "No crystal structures available for SARS-CoV-2 Mpro, Nsp12, Nsp13.",
+        "gap_or_uncertainty": "Need 3D structures for docking.",
+        "hypothesis": "Homology models can be built using related viral protein templates.",
+        "decision": "Generate homology models and refine with MD.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "homology modeling, AMBER18 MD",
+          "version": "",
+          "category": "molecular_dynamics"
+        },
+        "parameters": {
+          "force_field": "ff99SB",
+          "simulation_time": "20 ns"
+        },
+        "observation": "Homology models refined by 20 ns MD to remove steric clashes and optimize geometry.",
+        "result_status": "success",
+        "next_step_reason": "Validate Mpro model against available crystal structure.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E06_01",
+            "source_file": "docs/0180/combined.md",
+            "section": "C001",
+            "quote_or_span": "The generated homology models were refined using 20 ns molecular dynamics (MD) simulations to remove steric clashes and optimize side-chain geometry."
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "validation",
+        "state_before": "Mpro homology model built.",
+        "gap_or_uncertainty": "Need to assess model accuracy.",
+        "hypothesis": "Homology model should closely match crystal structure.",
+        "decision": "Compare Mpro model with crystal structure 6LU7.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "RMSD calculation",
+          "version": "",
+          "category": "structural_analysis"
+        },
+        "parameters": {},
+        "observation": "RMSD <0.5 Å between homology model and 6LU7, indicating high reliability.",
+        "result_status": "success",
+        "next_step_reason": "Switch to crystal structure for docking.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E07_01",
+            "source_file": "docs/0180/combined.md",
+            "section": "C001",
+            "quote_or_span": "With the availability of the crystal structure of SARS-CoV-2 Mpro (6LU7) complexed with N3 peptide, homology model was also compared and less than 0.5 Å RMSD was found, which indicated the reliability of the generated model with only subtle difference"
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "revision",
+        "state_before": "Homology model validated, but crystal structure available.",
+        "gap_or_uncertainty": "Crystal structure may provide more accurate docking.",
+        "hypothesis": "Using co-crystallized structure 6LU7 will improve docking accuracy.",
+        "decision": "Use 6LU7 for Mpro docking instead of homology model.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "molecular docking",
+          "version": "",
+          "category": "docking"
+        },
+        "parameters": {},
+        "observation": "Co-crystallized Mpro structure (6LU7) utilized for docking.",
+        "result_status": "success",
+        "next_step_reason": "Proceed to virtual screening pipeline.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E05_01",
+            "source_file": "docs/0180/combined.md",
+            "section": "C001",
+            "quote_or_span": "Later for molecular docking studies, a recently reported co-crystallized Mpro structure was utilized (PDB ID: 6LU7)."
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "experiment",
+        "state_before": "Structures ready for Mpro, Nsp12, Nsp13.",
+        "gap_or_uncertainty": "Need to identify potential inhibitors from large compound library.",
+        "hypothesis": "Stepwise virtual screening with ADMET filtering and two-stage docking will yield hits.",
+        "decision": "Apply virtual screening pipeline: ADMET, AutoDock Vina, Glide XP, MD, MM-GBSA.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "virtual screening pipeline",
+          "version": "",
+          "category": "virtual_screening"
+        },
+        "parameters": {
+          "docking_engines": [
+            "AutoDock Vina",
+            "Glide XP"
+          ],
+          "simulation_time": "20 ns",
+          "binding_energy": "MM-GBSA"
+        },
+        "observation": "Pipeline resulted in 5, 4, and 3 hits for Mpro, Nsp12, and Nsp13 respectively.",
+        "result_status": "success",
+        "next_step_reason": "Analyze ADMET filtering failures.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E01_01",
+            "source_file": "docs/0180/combined.md",
+            "section": "C002",
+            "quote_or_span": "A stepwise structure-based virtual screening pipeline was adopted considering the putative binding sites of SARS-CoV-2 Mpro, Nsp12 polymerase and Nsp13 helicase to identity potential hits"
+          },
+          {
+            "evidence_id": "EV_C002_E01_02",
+            "source_file": "docs/0180/combined.md",
+            "section": "C002",
+            "quote_or_span": "the subsequent screening resulted in 5, 4 and 3 hits for SARS-CoV-2 Mpro, Nsp12 and Nsp13, respectively"
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "analysis",
+        "state_before": "Initial virtual screening hits obtained.",
+        "gap_or_uncertainty": "Many hits may have poor drug-likeness or toxicity.",
+        "hypothesis": "ADMET filtering will remove unsuitable compounds.",
+        "decision": "Apply ADMET filters using Swiss-ADME.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Swiss-ADME",
+          "version": "",
+          "category": "admet_prediction"
+        },
+        "parameters": {},
+        "observation": "Substantial hits removed due to renal transporter inhibition, CYP450 effects, and high-risk groups like epoxides/quinones.",
+        "result_status": "failure",
+        "next_step_reason": "Proceed with remaining hits for detailed analysis.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E02_01",
+            "source_file": "docs/0180/combined.md",
+            "section": "C002",
+            "quote_or_span": "This filtering removed substantial hits that exhibited poor ADMET due to inhibitory effects on the renal organic cation transporter and CYP450 isozymes."
+          },
+          {
+            "evidence_id": "EV_C002_E02_02",
+            "source_file": "docs/0180/combined.md",
+            "section": "C002",
+            "quote_or_span": "a large subset of hits was found to contain high-risk chemical groups like epoxides and quinones"
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "analysis",
+        "state_before": "Filtered hits for Mpro.",
+        "gap_or_uncertainty": "Need to select best Mpro inhibitors based on binding and stability.",
+        "hypothesis": "Hits interacting with catalytic dyad and stable in MD will be promising.",
+        "decision": "Filter by catalytic dyad interaction, run 20 ns MD, calculate MM-GBSA.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "MD simulation, MM-GBSA",
+          "version": "",
+          "category": "molecular_dynamics"
+        },
+        "parameters": {
+          "simulation_time": "20 ns",
+          "stability_criterion": "last 5 ns"
+        },
+        "observation": "13 compounds analyzed; 5 selected based on stability and favorable MM-GBSA binding energies.",
+        "result_status": "success",
+        "next_step_reason": "Analyze Nsp12 hits.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E04_01",
+            "source_file": "docs/0180/combined.md",
+            "section": "C002",
+            "quote_or_span": "Top-ranked SARS-CoV-2 Mpro hits were filtered based on the interaction with the catalytic dyad (at least one H-bond with either His41 or Cys145 or strong vdW interactions)."
+          },
+          {
+            "evidence_id": "EV_C002_E04_02",
+            "source_file": "docs/0180/combined.md",
+            "section": "C002",
+            "quote_or_span": "A total of 13 compounds were analysed after 20 ns MD simulation based on the stability for at least last 5 ns."
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "analysis",
+        "state_before": "Filtered hits for Nsp12.",
+        "gap_or_uncertainty": "Need to select best Nsp12 inhibitors.",
+        "hypothesis": "Hits forming H-bonds with conserved motifs, especially motif C, will be effective.",
+        "decision": "Select by H-bond with motif C, run 20 ns MD, calculate MM-GBSA.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "MD simulation, MM-GBSA",
+          "version": "",
+          "category": "molecular_dynamics"
+        },
+        "parameters": {
+          "simulation_time": "20 ns"
+        },
+        "observation": "17 hits analyzed; 3 selected with stable RMSD and favorable MM-GBSA binding energies.",
+        "result_status": "success",
+        "next_step_reason": "Validate Nsp12 model against crystal structure.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E06_01",
+            "source_file": "docs/0180/combined.md",
+            "section": "C002",
+            "quote_or_span": "hits were selected based on establishing H-bond with conserved motifs, especially with signature motif C (SDD)"
+          },
+          {
+            "evidence_id": "EV_C002_E06_02",
+            "source_file": "docs/0180/combined.md",
+            "section": "C002",
+            "quote_or_span": "A total of 17 hits were analysed through 20ns MD simulations, and complexes with stable RMSD were further processed through MMGBSA binding free energy calculations."
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "validation",
+        "state_before": "Nsp12 hits identified using homology model.",
+        "gap_or_uncertainty": "Need to confirm binding modes with crystal structure.",
+        "hypothesis": "Docking into crystal structure 6M71 will show identical binding modes.",
+        "decision": "Dock cmp2, cmp17a, cmp21 into 6M71.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "molecular docking",
+          "version": "",
+          "category": "docking"
+        },
+        "parameters": {},
+        "observation": "Identical binding modes observed for cmp2, cmp17a, and cmp21 when docked into the polymerase active site of the crystal structure.",
+        "result_status": "success",
+        "next_step_reason": "Analyze Nsp13 hits.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E07_02",
+            "source_file": "docs/0180/combined.md",
+            "section": "C002",
+            "quote_or_span": "the conformations of cmp2, cmp17a and cmp21 showed identical binding modes when docked inside the polymerase active site of crystal structure"
+          },
+          {
+            "evidence_id": "EV_AUTO_021",
+            "source_file": "docs/0180/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Individual compounds of the docking library together with Mcule database were docked iteratively into respective binding pockets of the representative SARS-CoV-2 Mpro, Nsp12 polymerase, and Nsp13 helicase structures."
+          },
+          {
+            "evidence_id": "EV_C002_E01_01",
+            "source_file": "docs/0180/combined.md",
+            "section": "C002",
+            "quote_or_span": "A stepwise structure-based virtual screening pipeline was adopted considering the putative binding sites of SARS-CoV-2 Mpro, Nsp12 polymerase and Nsp13 helicase to identity potential hits"
+          },
+          {
+            "evidence_id": "EV_C002_E01_02",
+            "source_file": "docs/0180/combined.md",
+            "section": "C002",
+            "quote_or_span": "the subsequent screening resulted in 5, 4 and 3 hits for SARS-CoV-2 Mpro, Nsp12 and Nsp13, respectively"
+          },
+          {
+            "evidence_id": "EV_AUTO_013",
+            "source_file": "docs/0180/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "For SARS-CoV-2 Nsp13 helicase, top hits were selected based on significant interactions with six key residues (Lys288, Ser289, Asp374, Glu375, Gln404 and Arg567) including neighbouring residues involved in NTP hydrolysis $[42]$ ."
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "analysis",
+        "state_before": "Filtered hits for Nsp13.",
+        "gap_or_uncertainty": "Need to select best Nsp13 inhibitors.",
+        "hypothesis": "Hits interacting with six key NTPase residues will inhibit helicase.",
+        "decision": "Select by interactions with key residues, run 20 ns MD, calculate MM-GBSA.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "MD simulation, MM-GBSA",
+          "version": "",
+          "category": "molecular_dynamics"
+        },
+        "parameters": {
+          "simulation_time": "20 ns"
+        },
+        "observation": "4 compounds identified after MD with favorable MM-GBSA binding energies.",
+        "result_status": "success",
+        "next_step_reason": "Note lack of experimental validation.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E08_01",
+            "source_file": "docs/0180/combined.md",
+            "section": "C002",
+            "quote_or_span": "top hits were selected based on significant interactions with six key residues (Lys288, Ser289, Asp374, Glu375, Gln404 and Arg567) including neighbouring residues involved in NTP hydrolysis"
+          },
+          {
+            "evidence_id": "EV_C002_E08_02",
+            "source_file": "docs/0180/combined.md",
+            "section": "C002",
+            "quote_or_span": "A 20 ns MD simulation on top ranked complexes led to the identification of 4 best compounds"
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "analysis",
+        "state_before": "Computational hits identified for all three targets.",
+        "gap_or_uncertainty": "Study lacks experimental validation.",
+        "hypothesis": "Identified compounds are promising but require in vitro testing.",
+        "decision": "Conclude with recommendation for experimental validation.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "",
+          "version": "",
+          "category": ""
+        },
+        "parameters": {},
+        "observation": "Study provides structural insights and candidate inhibitors, but experimental validation is needed.",
+        "result_status": "partial",
+        "next_step_reason": "End of trajectory.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E08_01",
+            "source_file": "docs/0180/combined.md",
+            "section": "C001",
+            "quote_or_span": "Although the current study lacks experimental validation, the structural information obtained from this computational study has paved way for the design of targeted inhibitors to combat COVID-19 outbreak."
+          },
+          {
+            "evidence_id": "EV_C003_E07_01",
+            "source_file": "docs/0180/combined.md",
+            "section": "C003",
+            "quote_or_span": "this comprehensive study presents an integrated computational approach to the identification of novel inhibitors into the area of anti-nCoV treatment as a starting point, which warrants in vitro testing to evaluate compound efficacy."
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "Mpro homology model validated against crystal structure 6LU7 (RMSD <0.5 Å)",
+        "Nsp12 homology model validated against crystal structure 6M71 (identical binding modes)",
+        "Docking protocol validated by redocking N3 peptide into Mpro"
+      ],
+      "metrics": [
+        "RMSD",
+        "MM-GBSA binding free energy",
+        "ADMET properties"
+      ],
+      "final_conclusion": "Identified 5, 4, and 3 hits for Mpro, Nsp12, and Nsp13 respectively, with favorable binding energies and drug-like properties. Compounds warrant in vitro testing.",
+      "limitations": [
+        "No experimental validation of identified hits",
+        "Homology models used for Nsp12 and Nsp13 (though validated later)",
+        "ADMET filtering removed many hits due to toxicity risks"
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "All evidence IDs and quotes copied exactly from evidence bank.",
+        "Trajectory covers all coverage requirements.",
+        "No invented methods or results.",
+        "v22_specific_evidence_backfilled=4",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_specific_evidence_backfilled=4",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 99.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p1\\states\\0180.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p1\\events\\0180.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1
+        ],
+        "K02": [
+          1
+        ],
+        "K04": [
+          2
+        ],
+        "K05": [
+          2,
+          3,
+          4,
+          8
+        ],
+        "K06": [
+          2,
+          3,
+          4,
+          9
+        ],
+        "K07": [
+          5,
+          9
+        ],
+        "K08": [
+          6
+        ],
+        "K10": [
+          7
+        ],
+        "K11": [
+          7,
+          8
+        ],
+        "K12": [
+          2,
+          8,
+          9
+        ],
+        "K13": [
+          10
+        ],
+        "K14": [
+          11
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K04",
+            "K05",
+            "K06",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K05",
+            "K06"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K05",
+            "K06",
+            "K09"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K07"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K08"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K10",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K05",
+            "K11",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K06",
+            "K07",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K13"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K14"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 7,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "2h",
+          "5s"
+        ]
+      },
+      {
+        "step_index": 8,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "3s"
+        ]
+      },
+      {
+        "step_index": 9,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "2h"
+        ]
+      }
+    ],
+    "step_count": 11,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 99.0
+  },
+  "api_usage": {
+    "prompt_tokens": 98817,
+    "completion_tokens": 22028,
+    "total_tokens": 120845,
+    "prompt_cache_hit_tokens": 2688,
+    "prompt_cache_miss_tokens": 96129
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 3911,
+        "completion_tokens": 880,
+        "total_tokens": 4791,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 3911
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 12486,
+        "completion_tokens": 3274,
+        "total_tokens": 15760,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 12486
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 7981,
+        "completion_tokens": 1225,
+        "total_tokens": 9206,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7725
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 9009,
+        "completion_tokens": 1955,
+        "total_tokens": 10964,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8753
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 9026,
+        "completion_tokens": 1397,
+        "total_tokens": 10423,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8770
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 5186,
+        "completion_tokens": 45,
+        "total_tokens": 5231,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 4930
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 9805,
+        "completion_tokens": 3071,
+        "total_tokens": 12876,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 9421
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 10181,
+        "completion_tokens": 4639,
+        "total_tokens": 14820,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 9541
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 14423,
+        "completion_tokens": 857,
+        "total_tokens": 15280,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 14423
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 16809,
+        "completion_tokens": 4685,
+        "total_tokens": 21494,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 16169
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

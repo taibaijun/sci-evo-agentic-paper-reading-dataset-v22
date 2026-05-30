@@ -1,0 +1,863 @@
+{
+  "case": {
+    "case_id": "sci_evo_0019",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "High-throughput screening of spike variants uncovers the key residues that alter the affinity and antigenicity of SARS-CoV-2",
+      "doi": "https://doi.org/10.1038/s41421-023-00534-2",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0017_10_1038_s41421_023_00534_2_high_throughput_screening_of_spike_variants_uncovers_the_key_residues_that_alter_the_affin.pdf",
+      "mineru_md": "docs/0019/mineru.md",
+      "combined_md": "docs/0019/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Systematically identify key residues in full-length SARS-CoV-2 spike protein that alter ACE2-binding affinity and monoclonal antibody evasion using a mammalian cell surface-display platform.",
+      "target_object": "SARS-CoV-2 spike protein",
+      "known_context": "Prior DMS studies limited to RBD in yeast with different glycosylation; majority of S protein not investigated.",
+      "constraints": [],
+      "input_data": [],
+      "quantifiable_goals": []
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "Prior DMS studies limited to RBD in yeast with different glycosylation; majority of S protein not investigated.",
+        "gap_or_uncertainty": "Yeast-based DMS may not recapitulate human glycosylation and full-length S protein context.",
+        "hypothesis": "Mammalian cell surface-display of intact S variants better mimics authentic viral infection for studying ACE2 binding and mAb evasion.",
+        "decision": "Develop a mammalian cell surface-display platform for full-length S protein.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "literature analysis",
+          "version": "",
+          "category": "reasoning"
+        },
+        "parameters": {},
+        "observation": "The glycosyl pattern in yeast is quite different from that in human cells, and the majority of the S protein has not yet been investigated.",
+        "result_status": "success",
+        "next_step_reason": "Need to design a lentivirus-based surface-display system.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0019/combined.md",
+            "section": "C001",
+            "quote_or_span": "the glycosyl pattern in yeast is quite different from that in human cells, and the majority of the S protein has not yet been investigated"
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "design",
+        "state_before": "No mammalian display system for full-length S protein.",
+        "gap_or_uncertainty": "Need a construct that enables surface display and quantification of S variants.",
+        "hypothesis": "Fusing S variant to mCherry via T2A in a lentivirus backbone will allow surface display and expression monitoring.",
+        "decision": "Design lentivirus backbone with S variant fused to mCherry via T2A.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "lentivirus backbone design",
+          "version": "",
+          "category": "molecular cloning"
+        },
+        "parameters": {},
+        "observation": "Construct pWSLV03-S-mCherry created.",
+        "result_status": "success",
+        "next_step_reason": "Test the construct in mammalian cells.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E03_01",
+            "source_file": "docs/0019/combined.md",
+            "section": "C001",
+            "quote_or_span": "we fused it to mCherry fluorescence with a T2A linker in a lentivirus backbone (Fig. 1a)"
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "design",
+        "state_before": "Stable Δfurin-S template available.",
+        "gap_or_uncertainty": "Need to systematically mutate full-length S to identify key residues.",
+        "hypothesis": "Site-directed saturation mutagenesis of full-length S will mimic random viral mutations.",
+        "decision": "Design oligo pools for 1254 positions × 19 substitutions = 23,807 variants.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "oligo pool synthesis",
+          "version": "",
+          "category": "library construction"
+        },
+        "parameters": {
+          "positions": 1254,
+          "substitutions_per_position": 19,
+          "total_variants": 23807
+        },
+        "observation": "Library designed to cover all possible single amino acid substitutions.",
+        "result_status": "success",
+        "next_step_reason": "Generate high-coverage lentivirus library.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E04_01",
+            "source_file": "docs/0019/combined.md",
+            "section": "C004",
+            "quote_or_span": "we used oligo pools (1254 × 19 = 23,807, each carrying a designed mutation) to mutate the full-length S variants at specific sites"
+          },
+          {
+            "evidence_id": "EV_C004_E04_02",
+            "source_file": "docs/0019/combined.md",
+            "section": "C004",
+            "quote_or_span": "We used site-directed saturation mutagenesis to mimic the random viral mutations that occur in the host"
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "experiment",
+        "state_before": "Oligo pools designed.",
+        "gap_or_uncertainty": "Need to ensure library covers >96% of point mutations.",
+        "hypothesis": "Optimizing PCR parameters will yield high-coverage lentivirus library.",
+        "decision": "Optimize template/primer dosage, PCR temperature, cycles, etc.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "PCR optimization",
+          "version": "",
+          "category": "library preparation"
+        },
+        "parameters": {},
+        "observation": "Generated a high-coverage lentivirus library containing nearly all point mutations (>96%).",
+        "result_status": "success",
+        "next_step_reason": "Transduce cells at low MOI for single integration.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E05_01",
+            "source_file": "docs/0019/combined.md",
+            "section": "C004",
+            "quote_or_span": "we optimized the dosage of templates and primers, controlled the PCR temperature, amplification cycles, and other parameters, and finally generated a high-coverage lentivirus library, which contained nearly all the point mutations of the S protein sequence (> 96%)"
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "analysis",
+        "state_before": "Sorted and unsorted cell populations.",
+        "gap_or_uncertainty": "Need to quantify enrichment of each mutation.",
+        "hypothesis": "PacBio SMRT sequencing will provide accurate mutation frequencies.",
+        "decision": "Sequence by PacBio SMRT Sequel-II HiFi mode and calculate fold change (FC = proportion in sorted/unsorted).",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "PacBio SMRT sequencing",
+          "version": "Sequel-II HiFi",
+          "category": "DNA sequencing"
+        },
+        "parameters": {
+          "min_passes": 3,
+          "min_rq": 0.99,
+          "min_length": 100,
+          "accuracy": ">99%"
+        },
+        "observation": "CCS reads obtained with high accuracy; FC calculated for each mutation.",
+        "result_status": "success",
+        "next_step_reason": "Classify mutational effects and identify key residues.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E04_01",
+            "source_file": "docs/0019/combined.md",
+            "section": "C002",
+            "quote_or_span": "third-generation DNA sequencing (PacBio SMRT Sequel-II, HiFi mode)"
+          },
+          {
+            "evidence_id": "EV_C005_E08_01",
+            "source_file": "docs/0019/combined.md",
+            "section": "C005",
+            "quote_or_span": "The total obtained CCS reads were output by the sequencing company with the following parameters: min-passes 3--min-rq 0.99--min-length 100 (SNP accuracy >99%)."
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "validation",
+        "state_before": "Key residues identified from screen.",
+        "gap_or_uncertainty": "Need to confirm individual mutants' affinity.",
+        "hypothesis": "Candidates with FC > 2 will show higher affinity than Δfurin-S.",
+        "decision": "Validate 20 candidates by individual ACE2 binding assays.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "flow cytometry binding assay",
+          "version": "",
+          "category": "binding assay"
+        },
+        "parameters": {
+          "candidates": 20,
+          "reference": "Δfurin-S"
+        },
+        "observation": "19 showed higher affinity than Δfurin-S; 8 reached VOC-binding affinity level (Y369N, A372T, K386N, L390E, L390S, K386E, K386V, G413N).",
+        "result_status": "success",
+        "next_step_reason": "Investigate role of N-glycosylation in affinity.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E07_02",
+            "source_file": "docs/0019/combined.md",
+            "section": "C002",
+            "quote_or_span": "8 sites (Y369N, A372T, K386N, L390E, L390S, K386E, K386V, and G413N) even reached the VOC-binding affinity level"
+          },
+          {
+            "evidence_id": "EV_AUTO_012",
+            "source_file": "docs/0019/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "S5a–v and S6b), of which 8 sites (Y369N, A372T, K386N, L390E, L390S, K386E, K386V, and G413N) even reached the VOC-binding affinity level (Fig."
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "experiment",
+        "state_before": "N-glycan-related mutants identified among top hits.",
+        "gap_or_uncertainty": "Are these mutants actually glycosylated?",
+        "hypothesis": "Y369N, A372T, L390S, G413N introduce new N-glycan sites.",
+        "decision": "Express RBD variants and treat with PNGase F to confirm glycosylation.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "PNGase F treatment",
+          "version": "",
+          "category": "glycosylation analysis"
+        },
+        "parameters": {
+          "variants": [
+            "RBD-Y369N",
+            "RBD-A372T",
+            "RBD-L390S",
+            "RBD-G413N"
+          ]
+        },
+        "observation": "RBD-Y369N and RBD-A372T completely glycosylated (3 N-glycans); RBD-L390S and RBD-G413N incompletely glycosylated (2-3 N-glycans).",
+        "result_status": "success",
+        "next_step_reason": "Test effect of N-glycan addition on affinity and mAb resistance in Delta/Omicron.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E01_01",
+            "source_file": "docs/0019/combined.md",
+            "section": "C003",
+            "quote_or_span": "RBD-Y369N and RBD-A372T were completely glycosylated by three N-glycans, while RBD-L390S and RBD-G413N were incompletely glycosylated, encompassing both three N-glycan and two N-glycan isoforms"
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "experiment",
+        "state_before": "N-glycan mutants confirmed.",
+        "gap_or_uncertainty": "Do these N-glycans enhance affinity and mAb resistance in variant contexts?",
+        "hypothesis": "Adding N-glycans to Delta and Omicron S will increase affinity and mAb resistance.",
+        "decision": "Introduce L390S and G413N into Delta and Omicron S and measure affinity and REGN10987 binding.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "flow cytometry binding assay",
+          "version": "",
+          "category": "binding assay"
+        },
+        "parameters": {
+          "variants": [
+            "Delta",
+            "Omicron"
+          ],
+          "mutations": [
+            "L390S",
+            "G413N"
+          ],
+          "mAb": "REGN10987"
+        },
+        "observation": "L390S and G413N improved affinity 1.37–1.50-fold and increased mAb resistance in vitro.",
+        "result_status": "success",
+        "next_step_reason": "Test pseudovirus infectivity of N-glycan mutants.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E04_01",
+            "source_file": "docs/0019/combined.md",
+            "section": "C003",
+            "quote_or_span": "L390S and G413N steadily improved the affinity in vitro: 1.37-fold and 1.50-fold for Delta; 1.37-fold and 1.28-fold for Omicron"
+          },
+          {
+            "evidence_id": "EV_AUTO_007",
+            "source_file": "docs/0019/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "It was found that S205F, Y453F, Q493A, Q493M, Q498H, Q498Y, N501F, and N501T showed a 3–12-fold increase in infectivity, of which Y453F, Q493A, and Q498Y exhibited at least a 10-fold resistance to mAbs REGN10933, LY-CoV555, and REGN10987, respectively."
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "experiment",
+        "state_before": "N-glycan mutants increase affinity in vitro.",
+        "gap_or_uncertainty": "Does increased affinity translate to higher infectivity?",
+        "hypothesis": "N-glycan mutants will enhance pseudovirus infectivity.",
+        "decision": "Test pseudovirus infectivity of N-glycan mutants in 293T-ACE2-Furin cells.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "pseudovirus neutralization assay",
+          "version": "",
+          "category": "infectivity assay"
+        },
+        "parameters": {
+          "cell_line": "293T-ACE2-Furin",
+          "mutants": [
+            "Y369N",
+            "L390S",
+            "L390T",
+            "G413N",
+            "A372S",
+            "A372T"
+          ]
+        },
+        "observation": "N-glycan mutants drastically lost infectivity (e.g., L390S 816-fold reduction) despite increased affinity.",
+        "result_status": "failure",
+        "next_step_reason": "Contradiction prompts systematic pseudovirus testing of other high-affinity mutants.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E05_01",
+            "source_file": "docs/0019/combined.md",
+            "section": "C003",
+            "quote_or_span": "the corresponding pseudovirus greatly lost the ability to invade HEK293T cells overexpressing ACE2 and furin"
+          },
+          {
+            "evidence_id": "EV_AUTO_011",
+            "source_file": "docs/0019/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Four N-glycan-related mutants (Y369N, L390S, L390T, and G413N) drastically lost infectivity (293-fold, 816-fold, 1438-fold, and 62-fold, respectively), while two mutants (A372S and A372T) on the N370 glycan site showed slightly lower (1."
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "experiment",
+        "state_before": "N-glycan mutants reduce infectivity.",
+        "gap_or_uncertainty": "Which mutations increase infectivity?",
+        "hypothesis": "Some non-glycan mutations may enhance infectivity.",
+        "decision": "Systematically test pseudovirus infectivity of top affinity-enhancing mutants.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "pseudovirus infectivity assay",
+          "version": "",
+          "category": "infectivity assay"
+        },
+        "parameters": {
+          "reference": "WT (D614G)",
+          "mutants": [
+            "S205F",
+            "Y453F",
+            "Q493A",
+            "Q493M",
+            "Q498H",
+            "Q498Y",
+            "N501F",
+            "N501T"
+          ]
+        },
+        "observation": "Eight mutants (S205F, Y453F, Q493A, Q493M, Q498H, Q498Y, N501F, N501T) showed 3–12-fold increased infectivity over WT.",
+        "result_status": "success",
+        "next_step_reason": "Analyze relationship between affinity, infectivity, and furin cleavage.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E06_01",
+            "source_file": "docs/0019/combined.md",
+            "section": "C003",
+            "quote_or_span": "eight S variants (S205F, Y453F, Q493A, Q493M, Q498H, Q498Y, N501F, and N501T) displayed even higher invasion ability than D614G, ranging from a 3–12-fold increase compared to that of WT"
+          },
+          {
+            "evidence_id": "EV_AUTO_006",
+            "source_file": "docs/0019/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Notably, eight S variants (S205F, Y453F, Q493A, Q493M, Q498H, Q498Y, N501F, and N501T) displayed even higher invasion ability than D614G, ranging from a 3–12-fold increase compared to that of WT (Fig."
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "experiment",
+        "state_before": "High-risk mutants identified (e.g., Q493A, Q493M, Y453F, Q498Y, Q498H).",
+        "gap_or_uncertainty": "Do these mutants evade therapeutic mAbs?",
+        "hypothesis": "Mutations at key RBD residues will confer resistance to mAbs targeting those epitopes.",
+        "decision": "Perform neutralization assays with commercial mAbs (LY-CoV555, REGN10933, REGN10987, VIR-7831).",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "pseudovirus neutralization assay",
+          "version": "",
+          "category": "neutralization assay"
+        },
+        "parameters": {
+          "mAbs": [
+            "LY-CoV555",
+            "REGN10933",
+            "REGN10987",
+            "VIR-7831"
+          ],
+          "mutants": [
+            "Q493A",
+            "Q493M",
+            "Y453F",
+            "Q498Y",
+            "Q498H"
+          ]
+        },
+        "observation": "Q493A/M resistant to LY-CoV555 (8–58-fold); Y453F, Q493A resistant to REGN10933 (48–606-fold); Q498Y/H resistant to REGN10987 and VIR-7831 (3–19-fold).",
+        "result_status": "success",
+        "next_step_reason": "Test broader serum neutralization.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E02_01",
+            "source_file": "docs/0019/combined.md",
+            "section": "C004",
+            "quote_or_span": "Q493A and Q493M exhibited higher resistance to LY-CoV555 (Fig. 5c, 58-fold and 8-fold, respectively)"
+          },
+          {
+            "evidence_id": "EV_C004_E02_02",
+            "source_file": "docs/0019/combined.md",
+            "section": "C004",
+            "quote_or_span": "Y453F and Q493A obviously prevented the neutralization of REGN10933 (Fig. 5c, 606-fold and 48-fold, respectively)"
+          },
+          {
+            "evidence_id": "EV_C004_E02_03",
+            "source_file": "docs/0019/combined.md",
+            "section": "C004",
+            "quote_or_span": "Q498Y and Q498H exhibited strong evasion of REGN10987 and VIR-7831 (Fig. 5c, 19-fold and 3-fold, respectively)"
+          },
+          {
+            "evidence_id": "EV_AUTO_028",
+            "source_file": "docs/0019/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "5c, 606-fold and 48-fold, respectively); Q498Y and Q498H exhibited strong evasion of REGN10987 and VIR-7831 (Fig."
+          }
+        ]
+      },
+      {
+        "step_index": 12,
+        "phase": "experiment",
+        "state_before": "mAb resistance confirmed for key mutants.",
+        "gap_or_uncertainty": "Do these mutants also evade polyclonal serum antibodies?",
+        "hypothesis": "Q498Y may exhibit broader defense against serum antibodies.",
+        "decision": "Test serum neutralization against Q498Y pseudovirus.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "serum neutralization assay",
+          "version": "",
+          "category": "neutralization assay"
+        },
+        "parameters": {
+          "mutant": "Q498Y",
+          "serum": "convalescent or vaccinated sera"
+        },
+        "observation": "Q498Y exhibited broader defense against serum antibodies.",
+        "result_status": "success",
+        "next_step_reason": "Conclude with limitations and future directions.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E03_01",
+            "source_file": "docs/0019/combined.md",
+            "section": "C004",
+            "quote_or_span": "Q498Y also exhibited broader defense against serum antibodies (Fig. 5d)"
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "Individual ACE2 binding assays for top candidates",
+        "Pseudovirus infectivity assays",
+        "mAb neutralization assays",
+        "Serum neutralization assays"
+      ],
+      "metrics": [
+        "Fold change (FC) in mutation frequency",
+        "ACE2 binding affinity (MFI)",
+        "Pseudovirus infectivity (fold change vs WT)",
+        "IC50 fold change for mAbs"
+      ],
+      "final_conclusion": "Identified ten key RBD residues for ACE2 affinity; N-glycan mutants increase affinity but reduce infectivity; eight mutations increase infectivity 3–12-fold; Q493A/M, Y453F, Q498Y/H confer mAb resistance; Q498Y evades serum antibodies.",
+      "limitations": [
+        "Recombinational effect of multiple sites is complex; next variant hard to predict",
+        "Further screening of Omicron sequence needed",
+        "In vitro findings may not fully recapitulate in vivo infection"
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_quote_align_repaired=1",
+        "v22_step_trimmed=18_to_12",
+        "v22_specific_evidence_backfilled=1",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_specific_evidence_backfilled=1",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 100.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p2\\states\\0019.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p2\\events\\0019.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1
+        ],
+        "K03": [
+          2
+        ],
+        "K06": [
+          3
+        ],
+        "K07": [
+          3,
+          4
+        ],
+        "K10": [
+          5
+        ],
+        "K12": [
+          6
+        ],
+        "K13": [
+          7
+        ],
+        "K14": [
+          7,
+          8,
+          9,
+          10
+        ],
+        "K15": [
+          8,
+          9,
+          10
+        ],
+        "K16": [
+          8,
+          10,
+          11
+        ],
+        "K18": [
+          11
+        ],
+        "K19": [
+          11,
+          12
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K03"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K06",
+            "K07"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K07",
+            "K08"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K10"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K12"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K13",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K14",
+            "K15",
+            "K16"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K14",
+            "K15"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K14",
+            "K15",
+            "K16",
+            "K17"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K16",
+            "K18",
+            "K19"
+          ]
+        },
+        {
+          "step_index": 12,
+          "covered_event_ids": [
+            "K19"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 3,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "19s"
+        ]
+      },
+      {
+        "step_index": 6,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "19s",
+          "20"
+        ]
+      },
+      {
+        "step_index": 7,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "-3"
+        ]
+      }
+    ],
+    "step_count": 12,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 100.0
+  },
+  "api_usage": {
+    "prompt_tokens": 146668,
+    "completion_tokens": 32053,
+    "total_tokens": 178721,
+    "prompt_cache_hit_tokens": 3200,
+    "prompt_cache_miss_tokens": 143468
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 5738,
+        "completion_tokens": 861,
+        "total_tokens": 6599,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 5738
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 17191,
+        "completion_tokens": 3954,
+        "total_tokens": 21145,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 17191
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 9522,
+        "completion_tokens": 1325,
+        "total_tokens": 10847,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9266
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 9815,
+        "completion_tokens": 1690,
+        "total_tokens": 11505,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9559
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 10351,
+        "completion_tokens": 1641,
+        "total_tokens": 11992,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 10095
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 9601,
+        "completion_tokens": 1761,
+        "total_tokens": 11362,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9345
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C005",
+      "api_usage": {
+        "prompt_tokens": 9513,
+        "completion_tokens": 1981,
+        "total_tokens": 11494,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9257
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C006",
+      "api_usage": {
+        "prompt_tokens": 8141,
+        "completion_tokens": 65,
+        "total_tokens": 8206,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7885
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 13056,
+        "completion_tokens": 4279,
+        "total_tokens": 17335,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 12672
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 13832,
+        "completion_tokens": 7864,
+        "total_tokens": 21696,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 13192
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 18547,
+        "completion_tokens": 921,
+        "total_tokens": 19468,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 18547
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 21361,
+        "completion_tokens": 5711,
+        "total_tokens": 27072,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 20721
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

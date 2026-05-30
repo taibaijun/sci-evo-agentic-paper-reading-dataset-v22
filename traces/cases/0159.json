@@ -1,0 +1,893 @@
+{
+  "case": {
+    "case_id": "sci_evo_0159",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Machine learning optimization of candidate antibody yields highly diverse sub-nanomolar affinity antibody libraries",
+      "doi": "https://doi.org/10.1038/s41467-023-39022-2",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0157_10_1038_s41467_023_39022_2_machine_learning_optimization_of_candidate_antibody_yields_highly_diverse_sub_nanomolar_af.pdf",
+      "mineru_md": "docs/0159/mineru.md",
+      "combined_md": "docs/0159/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Developing a machine learning approach to optimize antibody single-chain variable fragments (scFvs) for high affinity and diversity, outperforming conventional directed evolution.",
+      "target_object": "antibody single-chain variable fragments (scFvs)",
+      "known_context": "Candidate antibodies from phage display are often weak binders; the vast search space of antibody sequences makes exhaustive evaluation infeasible.",
+      "constraints": [
+        "Cost limitations restrict training data to k=1,2,3 random mutations."
+      ],
+      "input_data": [
+        "Training data: random k=1,2,3 mutations in CDRs of candidate scFv Ab-14, with high-throughput binding quantification via yeast mating assay."
+      ],
+      "quantifiable_goals": [
+        "Engineer scFvs with significantly stronger binding than directed evolution.",
+        "Achieve high diversity and success rate in designed libraries."
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "Candidate antibodies from phage display are often weak binders; exhaustive evaluation of the vast antibody sequence space is infeasible.",
+        "gap_or_uncertainty": "How to efficiently engineer scFvs with stronger binding than typical directed evolution approaches.",
+        "hypothesis": "Integrating target-specific binding affinities with information from millions of natural protein sequences in a probabilistic machine learning framework can rapidly engineer scFvs that are significantly stronger binders than what typical directed evolution approaches would produce.",
+        "decision": "Develop a five-step process combining language models, Bayesian optimization, and high-throughput experimentation.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "probabilistic machine learning framework",
+          "version": "",
+          "category": "machine learning"
+        },
+        "parameters": {},
+        "observation": "Hypothesis formulated based on the potential of ML to leverage natural sequence information and binding data.",
+        "result_status": "success",
+        "next_step_reason": "Proceed to design the five-step process.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0159/combined.md",
+            "section": "C001",
+            "quote_or_span": "the vast search space of antibody sequences renders exhaustive evaluation of the entire antibody space infeasible"
+          },
+          {
+            "evidence_id": "EV_C001_E01_02",
+            "source_file": "docs/0159/combined.md",
+            "section": "C001",
+            "quote_or_span": "the resultant candidate antibodies are often weak binders or suffer from developability issues"
+          },
+          {
+            "evidence_id": "EV_C001_E03_01",
+            "source_file": "docs/0159/combined.md",
+            "section": "C001",
+            "quote_or_span": "We hypothesized that by integrating target-specific binding affinities with information from millions of natural protein sequences in a probabilistic machine learning framework, we could rapidly engineer scFvs that are significantly stronger binders than what typical directed evolution approaches would produce."
+          },
+          {
+            "evidence_id": "EV_C001_E04_01",
+            "source_file": "docs/0159/combined.md",
+            "section": "C001",
+            "quote_or_span": "we developed a five-step process that uniquely combines state-of-art language models, Bayesian optimization and high-throughput experimentation to generate high-affinity scFv libraries"
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "design",
+        "state_before": "Training data available; need sequence representations.",
+        "gap_or_uncertainty": "How to effectively represent antibody sequences for affinity prediction.",
+        "hypothesis": "Pre-trained BERT masked language models on large protein sequence databases (Pfam, OAS) can capture useful features for downstream affinity prediction.",
+        "decision": "Pre-train four BERT masked language models: a protein language model, an antibody heavy chain model, an antibody light chain model, and a paired heavy-light chain model.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "BERT masked language models",
+          "version": "",
+          "category": "language model"
+        },
+        "parameters": {
+          "databases": [
+            "Pfam",
+            "OAS"
+          ]
+        },
+        "observation": "Four pre-trained language models obtained.",
+        "result_status": "success",
+        "next_step_reason": "Build sequence-to-affinity models using these representations.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E06_01",
+            "source_file": "docs/0159/combined.md",
+            "section": "C001",
+            "quote_or_span": "We pre-trained four BERT masked language models, i.e., a protein language model, an antibody heavy chain model, an antibody light chain model and a paired heavy-light chain model."
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "design",
+        "state_before": "Language models provide sequence representations.",
+        "gap_or_uncertainty": "How to build sequence-to-affinity models with uncertainty quantification.",
+        "hypothesis": "Ensemble and Gaussian Process (GP) models can predict binding affinities with uncertainty, enabling Bayesian optimization.",
+        "decision": "Investigate two approaches for affinity prediction with uncertainty: an ensemble method and Gaussian Process (GP).",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "sequence-to-affinity models",
+          "version": "",
+          "category": "machine learning"
+        },
+        "parameters": {},
+        "observation": "Two sequence-to-affinity models with uncertainty quantification obtained.",
+        "result_status": "success",
+        "next_step_reason": "Construct Bayesian fitness landscape using these models.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E07_01",
+            "source_file": "docs/0159/combined.md",
+            "section": "C001",
+            "quote_or_span": "we investigated two approaches to predict affinities with uncertainty quantification: an ensemble method and Gaussian Process (GP)"
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "design",
+        "state_before": "Sequence-to-affinity models with uncertainty available.",
+        "gap_or_uncertainty": "How to efficiently search the vast sequence space for improved binders.",
+        "hypothesis": "A Bayesian fitness landscape mapping sequences to posterior probability of improved binding, combined with sampling strategies (hill climb, genetic algorithm, Gibbs), can identify high-affinity variants.",
+        "decision": "Construct Bayesian fitness landscape and apply three sampling strategies: hill climb (HC), genetic algorithm (GA), and Gibbs sampling.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "Bayesian fitness landscape and sampling strategies",
+          "version": "",
+          "category": "optimization"
+        },
+        "parameters": {
+          "sampling_strategies": [
+            "hill climb",
+            "genetic algorithm",
+            "Gibbs sampling"
+          ]
+        },
+        "observation": "Fitness landscape constructed; optimization performed.",
+        "result_status": "success",
+        "next_step_reason": "Generate libraries for experimental validation.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E08_01",
+            "source_file": "docs/0159/combined.md",
+            "section": "C001",
+            "quote_or_span": "a Bayesian-based fitness landscape was constructed to map the entire scFv sequence to a posterior probability, i.e., the probability that the estimated binding affinity is better than the candidate scFv Ab-14"
+          },
+          {
+            "evidence_id": "EV_C001_E08_02",
+            "source_file": "docs/0159/combined.md",
+            "section": "C001",
+            "quote_or_span": "Three strategies were used: hill climb (HC), genetic algorithm (GA) and Gibbs sampling."
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "experiment",
+        "state_before": "Optimized sequences identified in silico.",
+        "gap_or_uncertainty": "Need to experimentally validate the designed sequences.",
+        "hypothesis": "The top 6000 sequences per library, when synthesized and tested via yeast mating assay, will show improved binding over baseline.",
+        "decision": "Construct seven scFv libraries per chain: six from ML fitness functions (three ensemble, three GP) and one PSSM control; select top 6000 sequences per library for experimental testing.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "yeast mating assay",
+          "version": "",
+          "category": "high-throughput screening"
+        },
+        "parameters": {
+          "library_size": 6000,
+          "libraries": [
+            "En-HC",
+            "En-GA",
+            "En-Gibbs",
+            "GP-HC",
+            "GP-GA",
+            "GP-Gibbs",
+            "PSSM"
+          ]
+        },
+        "observation": "Libraries constructed and binding affinities measured.",
+        "result_status": "success",
+        "next_step_reason": "Analyze performance of ML designs vs. training data and PSSM.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E02_01",
+            "source_file": "docs/0159/combined.md",
+            "section": "C002",
+            "quote_or_span": "This resulted in seven scFv libraries per chain: three libraries from optimizing the ensemble-based fitness function (namely, En-HC, En-GA and En-Gibbs), three libraries from optimizing the GP-based fitness function (namely, GP-HC, GP-GA, GP-Gibbs), and one PSSM library"
+          },
+          {
+            "evidence_id": "EV_C005_E01_01",
+            "source_file": "docs/0159/combined.md",
+            "section": "C005",
+            "quote_or_span": "For each scFv chain (Ab-14-H variants and Ab-14-L variants), we constructed two fitness functions extrapolated from the ensemble and GP model, respectively."
+          },
+          {
+            "evidence_id": "EV_C005_E01_02",
+            "source_file": "docs/0159/combined.md",
+            "section": "C005",
+            "quote_or_span": "For each fitness function, we performed optimization using three sampling strategies."
+          },
+          {
+            "evidence_id": "EV_C005_E01_03",
+            "source_file": "docs/0159/combined.md",
+            "section": "C005",
+            "quote_or_span": "This resulted in 6 libraries per chain: 3 libraries from optimizing the ensemble-based fitness function (namely, En-HC, En-GA and En-Gibbs), and 3 libraries from optimizing the GP-based fitness function (namely, GP-HC, GP-GA, GP-Gibbs)."
+          },
+          {
+            "evidence_id": "EV_C005_E01_04",
+            "source_file": "docs/0159/combined.md",
+            "section": "C005",
+            "quote_or_span": "We then rank-ordered the generated sequences based on their fitness score per library and selected the top 6000 sequences per library for experimental validation."
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "analysis",
+        "state_before": "Experimental binding data collected for all libraries.",
+        "gap_or_uncertainty": "Do ML-designed libraries outperform the training data and conventional methods?",
+        "hypothesis": "ML designs, especially ensemble-based, will have a higher fraction of variants surpassing the best training binder compared to PSSM.",
+        "decision": "Compare the fraction of designs with stronger binding than the best training binder across libraries.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "comparative analysis",
+          "version": "",
+          "category": "statistical analysis"
+        },
+        "parameters": {},
+        "observation": ">25% of ensemble-based Ab-14-H designs beat the best training binder vs. 0.9% for PSSM.",
+        "result_status": "success",
+        "next_step_reason": "Evaluate success rates of different libraries.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E03_01",
+            "source_file": "docs/0159/combined.md",
+            "section": "C002",
+            "quote_or_span": "more than 25% of ensemble-based Ab-14-H variant designs have stronger measured binding affinities than the strongest measured binder in the training data, whereas only 0.9% of PSSM-based Ab-14-H variant designs outperform the strongest measured binder in the training data."
+          },
+          {
+            "evidence_id": "EV_AUTO_026",
+            "source_file": "docs/0159/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Notably, more than 25% of ensemble-based Ab-14-H variant designs have stronger measured binding affinities than the strongest measured binder in the training data, whereas only 0.9% of PSSM-based Ab-14-H variant designs outperform the strongest measured binder in the training data."
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "analysis",
+        "state_before": "Overall improvement over training data confirmed.",
+        "gap_or_uncertainty": "How do different ML libraries compare in terms of success rate (fraction of improved binders)?",
+        "hypothesis": "Ensemble-based libraries with HC and GA sampling will have high success rates, while Gibbs may underperform.",
+        "decision": "Calculate percent success (fraction of designs with improved binding over Ab-14) for each library.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "success rate calculation",
+          "version": "",
+          "category": "statistical analysis"
+        },
+        "parameters": {},
+        "observation": "En-HC: 94.3%, En-GA: 96% success; En-Gibbs heavy-chain: 12% success; PSSM: 23.8%.",
+        "result_status": "partial",
+        "next_step_reason": "Investigate diversity to explain the low success of En-Gibbs.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E05_01",
+            "source_file": "docs/0159/combined.md",
+            "section": "C002",
+            "quote_or_span": "The En-HC (94.3%) and En-GA (96%) libraries are particularly successful and outperform all GP-generated Ab-14H variant libraries (59.4–84.2%)."
+          },
+          {
+            "evidence_id": "EV_AUTO_005",
+            "source_file": "docs/0159/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "3%) and En-GA (96%) libraries are particularly successful and outperform all GP-generated Ab-14H variant libraries (59.4–84."
+          },
+          {
+            "evidence_id": "EV_AUTO_008",
+            "source_file": "docs/0159/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "3%) and En-GA (96%) libraries are particularly successful and outperform all GP-generated Ab-14H variant libraries (59."
+          },
+          {
+            "evidence_id": "EV_AUTO_009",
+            "source_file": "docs/0159/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The En-HC (94.3%) and En-GA (96%) libraries are particularly successful and outperform all GP-generated Ab-14H variant libraries (59."
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "analysis",
+        "state_before": "Success rates vary; En-Gibbs heavy-chain has low success.",
+        "gap_or_uncertainty": "Why does En-Gibbs heavy-chain have low success despite being ML-designed?",
+        "hypothesis": "En-Gibbs explores higher mutational distance (diversity) but at the cost of reduced affinity, indicating a diversity-affinity trade-off.",
+        "decision": "Analyze mutational distances (d_avg^Ab-14 and pairwise) for all libraries.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "diversity analysis",
+          "version": "",
+          "category": "bioinformatics"
+        },
+        "parameters": {},
+        "observation": "Ensemble-based libraries have d_avg^Ab-14 7.9–15.6 (En-Gibbs: 15.6) vs. GP 3.4–3.7 and PSSM 3.1; En-Gibbs sequences are on average 15.6 mutations from Ab-14-H and 14.9 from each other, but this high diversity reduces affinity.",
+        "result_status": "partial",
+        "next_step_reason": "Examine model extrapolation to understand why GP libraries have lower diversity.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E06_02",
+            "source_file": "docs/0159/combined.md",
+            "section": "C002",
+            "quote_or_span": "sequences in the En-Gibbs library are on average 15.6 distance away from Ab-14-H and 14.9 distance away from each other"
+          },
+          {
+            "evidence_id": "EV_C002_E06_03",
+            "source_file": "docs/0159/combined.md",
+            "section": "C002",
+            "quote_or_span": "this increase in mutational distance comes at the cost of reduced affinity"
+          },
+          {
+            "evidence_id": "EV_C003_E01_01",
+            "source_file": "docs/0159/combined.md",
+            "section": "C003",
+            "quote_or_span": "all ML-optimized libraries have higher $d_{avg}^{Ab-14}$ than the PSSM library (with $d_{avg}^{Ab-14}=3.1$ )"
+          },
+          {
+            "evidence_id": "EV_C003_E01_02",
+            "source_file": "docs/0159/combined.md",
+            "section": "C003",
+            "quote_or_span": "The ensemble-based libraries also have significantly higher $d_{avg}^{Ab-14}$ (7.9–15.6) than the GP-based libraries (3.4–3.7)"
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "analysis",
+        "state_before": "GP libraries show lower diversity and success than ensemble.",
+        "gap_or_uncertainty": "Why does the GP model fail to extrapolate to higher-order mutants?",
+        "hypothesis": "GP model has poor extrapolation for sequences with many mutations, as indicated by a sharp increase in MAE.",
+        "decision": "Evaluate GP model MAE as a function of mutational distance from Ab-14.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "error analysis",
+          "version": "",
+          "category": "machine learning evaluation"
+        },
+        "parameters": {},
+        "observation": "Sharp increase in MAE for heavy-chain GP model at ≥6 mutations, and for light-chain GP model at ≥10 mutations.",
+        "result_status": "failure",
+        "next_step_reason": "Compare with ensemble model's extrapolation performance.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E05_01",
+            "source_file": "docs/0159/combined.md",
+            "section": "C003",
+            "quote_or_span": "we observed a sharp increase in MAE on sequences with six or more mutations away from Ab-14-H for the heavy-chain GP model, and on sequences with ten or more mutations away from Ab-14-L for the light-chain GP model"
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "analysis",
+        "state_before": "GP model fails at high mutational distances.",
+        "gap_or_uncertainty": "Does the ensemble model generalize better?",
+        "hypothesis": "Ensemble model maintains low MAE across mutational distances and shows better correlation with measured affinities on designed variants.",
+        "decision": "Evaluate ensemble model's Spearman correlation on designed Ab-14-H variants and MAE vs. mutational distance.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "model comparison",
+          "version": "",
+          "category": "machine learning evaluation"
+        },
+        "parameters": {},
+        "observation": "Ensemble model Spearman correlation 0.69 vs. GP -0.42 on designed heavy-chain variants; ensemble shows no notable increase in MAE with mutational distance.",
+        "result_status": "success",
+        "next_step_reason": "Assess impact of sampling algorithm choice given the superior ensemble model.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E04_01",
+            "source_file": "docs/0159/combined.md",
+            "section": "C003",
+            "quote_or_span": "the heavy-chain ensemble model has a Spearman correlation of 0.69 but the heavy-chain GP model performs significantly worse (-0.42)"
+          },
+          {
+            "evidence_id": "EV_C003_E06_01",
+            "source_file": "docs/0159/combined.md",
+            "section": "C003",
+            "quote_or_span": "Ensemble models exhibit no notable increase in MAE as the mutational distance increases, indicating that the ensemble approach is more generalizable to higher-order mutants than the GP model"
+          },
+          {
+            "evidence_id": "EV_AUTO_015",
+            "source_file": "docs/0159/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The most notable difference is when evaluating on designed Ab-14-H variants, where the heavy-chain ensemble model has a Spearman correlation of 0.69 but the heavy-chain GP model performs significantly worse (-0."
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "analysis",
+        "state_before": "Ensemble model is superior; sampling strategies yield different outcomes.",
+        "gap_or_uncertainty": "How does the choice of sampling algorithm affect the quality of designed libraries when using the ensemble fitness landscape?",
+        "hypothesis": "HC and GA yield high success and large affinity improvements, while Gibbs yields high diversity but low success.",
+        "decision": "Compare fold improvement over PSSM and success rates for En-HC, En-GA, and En-Gibbs heavy-chain libraries.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "comparative analysis",
+          "version": "",
+          "category": "statistical analysis"
+        },
+        "parameters": {},
+        "observation": "En-HC: 28.7-fold improvement, 94.3% success; En-GA: 27.9-fold, 96% success; En-Gibbs: 2.9-fold improvement.",
+        "result_status": "partial",
+        "next_step_reason": "Validate the in silico performance metric for predicting library success.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E07_01",
+            "source_file": "docs/0159/combined.md",
+            "section": "C003",
+            "quote_or_span": "hill climb and genetic algorithms found scFvs with significant (28.7 and 27.9-fold, respectively) increases in binding over the best PSSM-sampled scFv"
+          },
+          {
+            "evidence_id": "EV_C003_E07_02",
+            "source_file": "docs/0159/combined.md",
+            "section": "C003",
+            "quote_or_span": "both methods were highly successful (94.3% and 96% success, respectively)"
+          },
+          {
+            "evidence_id": "EV_C003_E07_03",
+            "source_file": "docs/0159/combined.md",
+            "section": "C003",
+            "quote_or_span": "when combined with the Gibbs sampling algorithm, the best scFv sampled was only 2.9-fold better"
+          },
+          {
+            "evidence_id": "EV_AUTO_014",
+            "source_file": "docs/0159/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "When using the ensemble-extrapolated fitness landscape to engineer 14-Ab-H, hill climb and genetic algorithms found scFvs with significant (28.7 and 27."
+          }
+        ]
+      },
+      {
+        "step_index": 12,
+        "phase": "validation",
+        "state_before": "Experimental results show varying success; need a predictive metric.",
+        "gap_or_uncertainty": "Can an in silico metric predict the actual success of designed libraries?",
+        "hypothesis": "An in silico performance metric (estimated percent of success) will correlate with actual percent success on hold-out test data.",
+        "decision": "Compute in silico metric for each library and compare rankings with actual success rankings.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "in silico performance metric",
+          "version": "",
+          "category": "computational prediction"
+        },
+        "parameters": {},
+        "observation": "Predicted rankings match actual rankings with rank correlation 0.8.",
+        "result_status": "success",
+        "next_step_reason": "Acknowledge limitations and broader implications.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E08_01",
+            "source_file": "docs/0159/combined.md",
+            "section": "C003",
+            "quote_or_span": "the predicted rankings match well to the actual rankings with a rank correlation of 0.8"
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "Experimental validation via yeast mating assay",
+        "In silico performance metric correlation with actual success (rank correlation 0.8)"
+      ],
+      "metrics": [
+        "Percent success (fraction of designs with improved binding over Ab-14)",
+        "Fold improvement over best PSSM binder",
+        "Spearman correlation between predicted and measured affinities",
+        "Mutational distance (d_avg^Ab-14, pairwise distance)"
+      ],
+      "final_conclusion": "The ML-driven approach, particularly using ensemble models with hill climb or genetic algorithm sampling, successfully engineers highly diverse scFv libraries with sub-nanomolar affinity, significantly outperforming directed evolution (PSSM). The best design achieved a 28.7-fold improvement over PSSM with 94.3% success rate. However, a diversity-affinity trade-off exists, and GP models fail to extrapolate to high-order mutants.",
+      "limitations": [
+        "Cost limitations restricted training data to k=1,2,3 random mutations.",
+        "Diversity-affinity trade-off: high diversity (e.g., En-Gibbs) can reduce affinity.",
+        "GP model shows poor extrapolation for sequences with ≥6 (heavy) or ≥10 (light) mutations."
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_step_trimmed=16_to_12",
+        "v22_specific_evidence_backfilled=3",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_specific_evidence_backfilled=1",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 100.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_mainline_batch30_p2\\states\\0159.json",
+  "events_path": "outputs\\agentic_v22\\v22_mainline_batch30_p2\\events\\0159.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1,
+          4
+        ],
+        "K07": [
+          4
+        ],
+        "K08": [
+          5
+        ],
+        "K09": [
+          5,
+          6,
+          7,
+          11
+        ],
+        "K10": [
+          7,
+          8,
+          9,
+          11
+        ],
+        "K11": [
+          6,
+          7,
+          8,
+          11
+        ],
+        "K12": [
+          8,
+          9
+        ],
+        "K13": [
+          8,
+          10,
+          11
+        ],
+        "K14": [
+          7,
+          11
+        ],
+        "K15": [
+          11,
+          12
+        ],
+        "K17": [
+          2
+        ],
+        "K18": [
+          7,
+          8,
+          11
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02",
+            "K03"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K05",
+            "K17"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K03",
+            "K06"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K01",
+            "K06",
+            "K07"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K04",
+            "K08",
+            "K09"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K09",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K09",
+            "K10",
+            "K11",
+            "K14",
+            "K18"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K10",
+            "K11",
+            "K12",
+            "K13",
+            "K18"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K10",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K13"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K09",
+            "K10",
+            "K11",
+            "K13",
+            "K14",
+            "K15",
+            "K18"
+          ]
+        },
+        {
+          "step_index": 12,
+          "covered_event_ids": [
+            "K15"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 7,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "12%",
+          "23.8%"
+        ]
+      }
+    ],
+    "step_count": 12,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 100.0
+  },
+  "api_usage": {
+    "prompt_tokens": 146778,
+    "completion_tokens": 32021,
+    "total_tokens": 178799,
+    "prompt_cache_hit_tokens": 3200,
+    "prompt_cache_miss_tokens": 143578
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 4445,
+        "completion_tokens": 839,
+        "total_tokens": 5284,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 4445
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 13551,
+        "completion_tokens": 4119,
+        "total_tokens": 17670,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 13551
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 8609,
+        "completion_tokens": 1341,
+        "total_tokens": 9950,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8353
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 10059,
+        "completion_tokens": 1439,
+        "total_tokens": 11498,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9803
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 8685,
+        "completion_tokens": 1511,
+        "total_tokens": 10196,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8429
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 8336,
+        "completion_tokens": 1291,
+        "total_tokens": 9627,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8080
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C005",
+      "api_usage": {
+        "prompt_tokens": 8704,
+        "completion_tokens": 1953,
+        "total_tokens": 10657,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8448
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C006",
+      "api_usage": {
+        "prompt_tokens": 7044,
+        "completion_tokens": 59,
+        "total_tokens": 7103,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6788
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 16449,
+        "completion_tokens": 4198,
+        "total_tokens": 20647,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 16065
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 15885,
+        "completion_tokens": 7624,
+        "total_tokens": 23509,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 15245
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 20742,
+        "completion_tokens": 974,
+        "total_tokens": 21716,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 20742
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 24269,
+        "completion_tokens": 6673,
+        "total_tokens": 30942,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 23629
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

@@ -1,0 +1,2069 @@
+{
+  "doc_no": "0097",
+  "source": {
+    "title": "SESNet: sequence-structure feature-integrated deep learning method for data-efficient protein engineering",
+    "doi": "https://doi.org/10.1186/s13321-023-00688-x",
+    "license": "cc-by",
+    "pdf_name": "0095_10_1186_s13321_023_00688_x_sesnet_sequence_structure_feature_integrated_deep_learning_method_for_data_efficient_prote.pdf",
+    "combined_md": "docs/0097/combined.md",
+    "mineru_md": "docs/0097/mineru.md"
+  },
+  "gist_memory": {
+    "paper_problem_memory": "The paper addresses the challenge of predicting protein fitness for high-order mutants with limited experimental data. Existing supervised models require large datasets, while unsupervised models underperform on high-order mutants. The goal is to develop a data-efficient method that integrates sequence and structure features.",
+    "section_gists": [
+      {
+        "section_index": 3,
+        "heading": "METHODOLOGY",
+        "gist": "Section header only, no content.",
+        "process_signals": [],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 5,
+        "heading": "SESNet: sequence-structure feature-integrated deep learning method for data-efficient protein engineering",
+        "gist": "Title and author list, no research content.",
+        "process_signals": [],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 6,
+        "heading": "Abstract",
+        "gist": "SESNet is a supervised deep-learning model that predicts protein mutant fitness by integrating local evolutionary context (MSA), global sequence features (protein language model), and structure information with an attention mechanism. It outperforms state-of-the-art on 26 DMS datasets. A data augmentation strategy using unsupervised model scores for pre-training enables high accuracy with few experimental data (<50), especially for high-order mutants (>4 mutations).",
+        "process_signals": [
+          "Problem: lack of sufficient experimental data for high-order mutant fitness prediction.",
+          "Hypothesis: integrating sequence and structure with attention improves prediction.",
+          "Design: three encoders (local, global, structure) and attention mechanism.",
+          "Key result: outperforms state-of-the-art; data augmentation boosts performance with small data."
+        ],
+        "methods": [
+          "Supervised deep learning with three encoders: local (MSA-based), global (protein language model), structure module.",
+          "Attention mechanism to integrate features.",
+          "Data augmentation: pre-train on unsupervised model scores, fine-tune on small experimental data."
+        ],
+        "metrics": [
+          "Spearman correlation on 26 DMS datasets.",
+          "Performance on high-order mutants (>4 mutation sites)."
+        ],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 7,
+        "heading": "Introduction",
+        "gist": "Directed evolution is limited by experimental screening costs, especially for high-order mutants. Deep learning can predict fitness landscapes. Existing models use either protein language models (global sequences) or MSA-based models (local evolutionary info), and some combine both, but they focus on sequence only. Structure information is underutilized. Supervised models need large experimental data; unsupervised models are worse for high-order mutants. The goal is a data-efficient model that fuses sequence and structure to predict fitness, especially high-order mutants, with minimal experimental data.",
+        "process_signals": [
+          "Constraint: experimental data is costly, especially for high-order mutants.",
+          "Gap: no method effectively fuses sequence and structure for fitness prediction.",
+          "Hypothesis: fusing sequence (local and global) and structure with attention will improve accuracy and data efficiency.",
+          "Motivation: reduce experimental burden by using data augmentation."
+        ],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": [
+          "Existing supervised models require hundreds to thousands of experimental data points.",
+          "Unsupervised models perform worse on high-order mutants."
+        ]
+      },
+      {
+        "section_index": 8,
+        "heading": "Results",
+        "gist": "Section header only, no content.",
+        "process_signals": [],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 9,
+        "heading": "Deep learning-based architecture of SESNet for predicting protein fitness",
+        "gist": "SESNet has three encoders: local encoder (Potts model from MSA for residue interdependencies), global encoder (protein language model for universal sequence features), and structure module (3D geometric features around each residue). Integrated sequence representation from local and global encoders is fed into an attention layer to get sequence attention weights, averaged with structure attention weights from the structure module. The combined attention weights are multiplied with the integrated sequence representation and passed through a fully connected layer to predict fitness. Attention weights also identify key sites.",
+        "process_signals": [
+          "Design decision: use three encoders to capture complementary information.",
+          "Integration: concatenate local and global representations, then apply attention with structure weights.",
+          "Hypothesis: attention mechanism will highlight important residues."
+        ],
+        "methods": [
+          "Local encoder: Potts model on MSA, outputs Lx(L+1) matrix, transformed to fixed length via FC layer, combined with Bi-LSTM initialization.",
+          "Global encoder: pre-trained protein language model (ESM-1b).",
+          "Structure module: pre-trained ESM-IF1, frozen during training.",
+          "Attention: sequence attention from integrated representation, structure attention from structure module, averaged to combined attention weights.",
+          "Prediction: dot product of combined attention and integrated representation, then MLP."
+        ],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 10,
+        "heading": "SESNet outperforms state-of-the-art methods for predicting fitness of variants on deep mutation scan (DMS) datasets",
+        "gist": "Compared SESNet with supervised models (ECNet, ESM-1b) and unsupervised models (ESM-1v, ESM-IF1, MSA transformer) on 20 DMS datasets. Supervised models generally outperform unsupervised. SESNet achieves best performance in 19/20 datasets. Also tested on higher-order mutants (double-site and quadruple-site) by training on low-order mutants; SESNet outperforms all others. Datasets cover various functions (catalysis, stability, binding, fluorescence).",
+        "process_signals": [
+          "Validation: SESNet outperforms state-of-the-art on diverse DMS datasets.",
+          "Observation: supervised models better than unsupervised, as expected.",
+          "Strength: SESNet excels on high-order mutants when trained on low-order data."
+        ],
+        "methods": [
+          "Five-fold cross-validation on single-site mutants.",
+          "For double-site mutants: train on single-site, test on double-site.",
+          "For quadruple-site mutants: train on single/double/triple, test on quadruple."
+        ],
+        "metrics": [
+          "Spearman correlation.",
+          "Performance on 20 datasets (single-site) and 6 datasets (higher-order)."
+        ],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 11,
+        "heading": "All three components contribute positively to the performance of SESNet",
+        "gist": "Ablation study on 20 single-site mutant datasets: removing local encoder reduces average Spearman from 0.672 to 0.639; removing global encoder drops to 0.247; removing structure module drops to 0.630. All components contribute, with global encoder being most significant.",
+        "process_signals": [
+          "Ablation confirms each component is beneficial.",
+          "Global encoder has largest impact, but structure module still adds value (4% improvement)."
+        ],
+        "methods": [
+          "Ablation: remove each encoder/module and compare performance."
+        ],
+        "metrics": [
+          "Average Spearman correlation over 20 datasets."
+        ],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 12,
+        "heading": "The combined attention weights guide the finding of the key AA site",
+        "gist": "Attention weights indicate residue importance. On GFP, 5/20 top attention sites are key (chromophore or top fitness-changing). Without structure module, only 3/20 are key. On RRM, 11/20 top attention sites are key (binding sites or top fitness-changing). Without structure module, only 3/7 top attention sites are key. Structure module improves identification of key sites beyond correlation improvement.",
+        "process_signals": [
+          "Hypothesis confirmed: attention weights correlate with functional importance.",
+          "Structure module enhances interpretability, identifying more key sites.",
+          "Even though structure module gives modest correlation boost, it aids biological insight."
+        ],
+        "methods": [
+          "Train on single-site mutants, extract attention weights on wild-type sequence.",
+          "Compare top attention sites with known key sites (experimental or structural)."
+        ],
+        "metrics": [
+          "Number of key sites recovered in top-20 attention scores."
+        ],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 13,
+        "heading": "Data-augmentation strategy boosts the performance of the fitness prediction when finetuned by a small size of labelled experimental data",
+        "gist": "Data augmentation: pre-train SESNet on fitness scores from unsupervised model (ESM-IF1) for all single and 30,000 double mutants of GFP, then fine-tune on limited experimental single-site data (40, 80, 160, 320). Pre-trained model significantly outperforms original model, especially with 40 data points, and maintains high accuracy for high-order mutants (up to 15-site). Improvement is larger for higher-order mutants. Strategy reduces experimental data needs.",
+        "process_signals": [
+          "Innovation: data augmentation using unsupervised model scores as pseudo-labels.",
+          "Key result: pre-training enables high accuracy with very few experimental data.",
+          "Observation: pre-training helps most when experimental data is extremely limited.",
+          "Practical value: only ~40 experimental data needed, affordable for most labs."
+        ],
+        "methods": [
+          "Pre-training: use ESM-IF1 to score all single and 30,000 random double mutants.",
+          "Fine-tuning: on 40, 80, 160, 320 experimental single-site mutants.",
+          "Evaluation: Spearman correlation on high-order mutants (2- to 15-site)."
+        ],
+        "metrics": [
+          "Spearman correlation for different numbers of fine-tuning data and mutation orders."
+        ],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 14,
+        "heading": "Learned models provide insight into protein fitness",
+        "gist": "t-SNE of last hidden layer shows trained SESNet separates positive and negative mutants, while untrained does not. Pre-training alone gives rough separation; fine-tuning with 40 data points sharpens boundary. Without pre-training, separation is ambiguous. Data augmentation provides good initialization, enabling learning with limited data.",
+        "process_signals": [
+          "Visualization confirms model learns meaningful fitness landscape.",
+          "Pre-training provides useful initialization, explaining data augmentation success.",
+          "Without pre-training, model fails to separate mutants with limited data."
+        ],
+        "methods": [
+          "t-SNE visualization of latent representations.",
+          "Compare trained vs untrained, pre-trained vs not pre-trained."
+        ],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 15,
+        "heading": "Discussion",
+        "gist": "SESNet leverages sequence and structure to predict fitness, outperforming state-of-the-art. Data augmentation strategy significantly improves accuracy with limited experimental data (~40) and for high-order mutants (>4 mutations). The approach is practical for ordinary labs and applicable to most proteins.",
+        "process_signals": [
+          "Summary of contributions.",
+          "Emphasis on practical value and broad applicability."
+        ],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 16,
+        "heading": "Method",
+        "gist": "Section header only, no content.",
+        "process_signals": [],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 18,
+        "heading": "Local encoder",
+        "gist": "Local encoder uses Potts model on MSA to capture residue interdependencies. Energy function with single-site and pairwise coupling terms. Parameters estimated via regularized maximum pseudolikelihood. Each residue represented by (L+1)-long vector, transformed to fixed length d_l=128 via FC layer to avoid overfitting. Sequence also passed through Bi-LSTM for random initialization. Output is concatenation, size L x 2d_l.",
+        "process_signals": [
+          "Design choice: Potts model for evolutionary constraints.",
+          "Detail: fixed-length transformation to prevent overfitting.",
+          "Integration: Bi-LSTM provides additional sequence context."
+        ],
+        "methods": [
+          "Potts model with single-site and pairwise terms.",
+          "Regularized maximum pseudolikelihood for parameter estimation.",
+          "FC layer to reduce dimensionality to 128.",
+          "Bi-LSTM for sequence encoding."
+        ],
+        "metrics": [],
+        "failures_or_limits": []
+      }
+    ],
+    "global_hypotheses_about_storyline": [
+      "The research aimed to overcome the data scarcity problem in protein fitness prediction by integrating multiple data modalities (local coevolution, global sequence semantics, structure) with an attention mechanism.",
+      "The hypothesis was that combining these features would improve prediction accuracy, especially for high-order mutants, and that attention would highlight functionally important residues.",
+      "A secondary hypothesis was that pre-training on noisy labels from unsupervised models could provide a good initialization, enabling effective learning from very few experimental data points.",
+      "The trajectory moved from architecture design, to benchmarking, to ablation, to interpretability analysis, to addressing data efficiency via augmentation, and finally to latent space analysis confirming the learned representations."
+    ],
+    "uncertainties_to_resolve": [
+      "The paper does not explicitly discuss failures or negative results; the trajectory appears linear. Were there any initial designs that underperformed?",
+      "How sensitive is the model to the choice of unsupervised model for pre-training? Only ESM-IF1 was used in the main text, but Fig. 5 mentions ProGen2 for another dataset.",
+      "The structure module uses wild-type structure; how does this affect prediction for mutants that cause conformational changes?",
+      "The data augmentation strategy uses only single and double mutants for pre-training; could including higher-order mutants in pre-training further improve results?",
+      "The paper mentions 26 datasets in abstract but 20 in results; discrepancy needs clarification.",
+      "The local encoder uses a Potts model; how does it compare to using ESM-MSA-1b or other MSA-based encoders?",
+      "The global encoder is ESM-1b; would more recent language models (e.g., ESM-2) improve performance?",
+      "The attention mechanism averages sequence and structure weights; was other fusion methods (e.g., gating) explored?",
+      "The paper claims practical value, but no experimental validation of predicted mutants is provided; this remains a future step."
+    ]
+  },
+  "chunk_events": [
+    {
+      "chunk_id": "C001",
+      "char_start": 0,
+      "char_end": 18000,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C001_E01",
+          "chunk_id": "C001",
+          "event_type": "problem",
+          "order_hint": 1,
+          "summary": "Deep learning for protein engineering is limited by lack of sufficient experimental data to train accurate models for high-order mutants.",
+          "methods_or_tools": [],
+          "entities": [
+            "deep learning",
+            "protein engineering",
+            "high-order mutants"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E01_01"
+          ]
+        },
+        {
+          "event_id": "C001_E02",
+          "chunk_id": "C001",
+          "event_type": "design",
+          "order_hint": 2,
+          "summary": "SESNet is a supervised deep-learning model that integrates local evolutionary context, global sequence features, and structure information with an attention mechanism.",
+          "methods_or_tools": [
+            "local encoder (MSA-based)",
+            "global encoder (protein language model)",
+            "structure module",
+            "attention mechanism"
+          ],
+          "entities": [
+            "SESNet"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E02_01",
+            "EV_C001_E02_02"
+          ]
+        },
+        {
+          "event_id": "C001_E03",
+          "chunk_id": "C001",
+          "event_type": "validation",
+          "order_hint": 3,
+          "summary": "SESNet outperforms state-of-the-art models on 26 deep mutational scanning datasets.",
+          "methods_or_tools": [],
+          "entities": [
+            "SESNet",
+            "state-of-the-art models"
+          ],
+          "numbers_or_metrics": [
+            "26 deep mutational scanning datasets"
+          ],
+          "evidence_ids": [
+            "EV_C001_E03_01"
+          ]
+        },
+        {
+          "event_id": "C001_E04",
+          "chunk_id": "C001",
+          "event_type": "design",
+          "order_hint": 4,
+          "summary": "A data augmentation strategy uses unsupervised model scores to pre-train SESNet, then fine-tunes on a small number of experimental data.",
+          "methods_or_tools": [
+            "data augmentation",
+            "unsupervised models",
+            "pre-training",
+            "fine-tuning"
+          ],
+          "entities": [
+            "SESNet"
+          ],
+          "numbers_or_metrics": [
+            "<50 experimental mutation data"
+          ],
+          "evidence_ids": [
+            "EV_C001_E04_01",
+            "EV_C001_E04_02"
+          ]
+        },
+        {
+          "event_id": "C001_E05",
+          "chunk_id": "C001",
+          "event_type": "experiment",
+          "order_hint": 5,
+          "summary": "SESNet outperforms supervised and unsupervised models on 20 DMS datasets, and on higher-order mutants trained on low-order data.",
+          "methods_or_tools": [
+            "ECNet",
+            "ESM-1b",
+            "ESM-1v",
+            "ESM-IF1",
+            "MSA transformer"
+          ],
+          "entities": [
+            "SESNet",
+            "DMS datasets"
+          ],
+          "numbers_or_metrics": [
+            "19 out of 20 datasets",
+            "6 datasets of higher-order mutants"
+          ],
+          "evidence_ids": [
+            "EV_C001_E05_01",
+            "EV_C001_E05_02"
+          ]
+        },
+        {
+          "event_id": "C001_E06",
+          "chunk_id": "C001",
+          "event_type": "analysis",
+          "order_hint": 6,
+          "summary": "Ablation study shows all three components (local, global, structure) contribute positively, with global encoder most significant.",
+          "methods_or_tools": [
+            "ablation study"
+          ],
+          "entities": [
+            "local encoder",
+            "global encoder",
+            "structure module"
+          ],
+          "numbers_or_metrics": [
+            "average spearman correlation 0.672 (original), 0.639 (no local), 0.247 (no global), 0.630 (no structure)"
+          ],
+          "evidence_ids": [
+            "EV_C001_E06_01",
+            "EV_C001_E06_02"
+          ]
+        },
+        {
+          "event_id": "C001_E07",
+          "chunk_id": "C001",
+          "event_type": "analysis",
+          "order_hint": 7,
+          "summary": "Combined attention weights identify key AA sites; structure module improves identification of key sites.",
+          "methods_or_tools": [
+            "attention weights"
+          ],
+          "entities": [
+            "GFP",
+            "key AA sites"
+          ],
+          "numbers_or_metrics": [
+            "5 out of 20 top attention-score sites are key"
+          ],
+          "evidence_ids": [
+            "EV_C001_E07_01",
+            "EV_C001_E07_02"
+          ]
+        }
+      ],
+      "notes": "Chunk covers abstract, introduction, and early results sections, providing key design, validation, and analysis events.",
+      "api_usage": {
+        "prompt_tokens": 7695,
+        "completion_tokens": 1437,
+        "total_tokens": 9132,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7439
+      }
+    },
+    {
+      "chunk_id": "C002",
+      "char_start": 17100,
+      "char_end": 35100,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C002_E01",
+          "chunk_id": "C002",
+          "event_type": "analysis",
+          "order_hint": 1,
+          "summary": "Attention weights from SESNet are used to identify key amino acid sites important for protein fitness.",
+          "methods_or_tools": [
+            "attention mechanism",
+            "SESNet"
+          ],
+          "entities": [
+            "GFP",
+            "RRM"
+          ],
+          "numbers_or_metrics": [
+            "5 out of 20 top attention-score AA sites are key sites for GFP",
+            "11 out of 20 top attention-score AA sites are key sites for RRM"
+          ],
+          "evidence_ids": [
+            "EV_C002_E01_01",
+            "EV_C002_E01_02",
+            "EV_C002_E01_03"
+          ]
+        },
+        {
+          "event_id": "C002_E02",
+          "chunk_id": "C002",
+          "event_type": "analysis",
+          "order_hint": 2,
+          "summary": "Removing the structure module reduces the number of key sites identified by attention weights.",
+          "methods_or_tools": [
+            "ablation study"
+          ],
+          "entities": [
+            "structure module",
+            "GFP",
+            "RRM"
+          ],
+          "numbers_or_metrics": [
+            "only 3 key sites identified for GFP without structure module",
+            "3 key sites identified for RRM without structure module"
+          ],
+          "evidence_ids": [
+            "EV_C002_E02_01",
+            "EV_C002_E02_02"
+          ]
+        },
+        {
+          "event_id": "C002_E03",
+          "chunk_id": "C002",
+          "event_type": "analysis",
+          "order_hint": 3,
+          "summary": "The structure module contributes to identifying key amino acids beyond its modest improvement in Spearman correlation.",
+          "methods_or_tools": [
+            "ablation study"
+          ],
+          "entities": [
+            "structure module"
+          ],
+          "numbers_or_metrics": [
+            "average spearman correlation improved by 4 percent"
+          ],
+          "evidence_ids": [
+            "EV_C002_E03_01"
+          ]
+        },
+        {
+          "event_id": "C002_E04",
+          "chunk_id": "C002",
+          "event_type": "limitation",
+          "order_hint": 4,
+          "summary": "The structure module is insufficient for capturing precise structural information needed for optimizing fluorescence intensity in GFP.",
+          "methods_or_tools": [],
+          "entities": [
+            "GFP",
+            "structure module"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E04_01"
+          ]
+        },
+        {
+          "event_id": "C002_E05",
+          "chunk_id": "C002",
+          "event_type": "design",
+          "order_hint": 5,
+          "summary": "A data augmentation strategy is proposed: pre-train SESNet on fitness scores from an unsupervised model, then fine-tune on limited experimental data.",
+          "methods_or_tools": [
+            "data augmentation",
+            "pre-training",
+            "fine-tuning",
+            "ESM-IF1"
+          ],
+          "entities": [
+            "GFP"
+          ],
+          "numbers_or_metrics": [
+            "pre-training on all single-site mutants and 30,000 double-site mutants"
+          ],
+          "evidence_ids": [
+            "EV_C002_E05_01",
+            "EV_C002_E05_02"
+          ]
+        },
+        {
+          "event_id": "C002_E06",
+          "chunk_id": "C002",
+          "event_type": "experiment",
+          "order_hint": 6,
+          "summary": "Pre-trained SESNet significantly outperforms the original model when fine-tuned on small experimental datasets, especially for high-order mutants.",
+          "methods_or_tools": [
+            "pre-training",
+            "fine-tuning",
+            "ESM-IF1"
+          ],
+          "entities": [
+            "GFP"
+          ],
+          "numbers_or_metrics": [
+            "40 experimental data points",
+            "spearman correlation of 0.5–0.7 for multisite-mutants"
+          ],
+          "evidence_ids": [
+            "EV_C002_E06_01",
+            "EV_C002_E06_02"
+          ]
+        },
+        {
+          "event_id": "C002_E07",
+          "chunk_id": "C002",
+          "event_type": "analysis",
+          "order_hint": 7,
+          "summary": "With only 40 experimental data, the pre-trained model matches the unsupervised model for low-order mutants and outperforms it for high-order mutants.",
+          "methods_or_tools": [
+            "pre-training",
+            "fine-tuning",
+            "ESM-IF1"
+          ],
+          "entities": [
+            "GFP"
+          ],
+          "numbers_or_metrics": [
+            "40 experimental data",
+            "high-order mutants >4 mutation sites"
+          ],
+          "evidence_ids": [
+            "EV_C002_E07_01"
+          ]
+        },
+        {
+          "event_id": "C002_E08",
+          "chunk_id": "C002",
+          "event_type": "validation",
+          "order_hint": 8,
+          "summary": "The data augmentation strategy is validated with another unsupervised model (ProGen2) and on other proteins, showing similar improvements.",
+          "methods_or_tools": [
+            "ProGen2",
+            "data augmentation"
+          ],
+          "entities": [
+            "GFP",
+            "F7YBW8",
+            "CAPSD_AAV2S"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E08_01",
+            "EV_C002_E08_02"
+          ]
+        }
+      ],
+      "notes": "This chunk contains analysis of attention weights for key site identification, limitation of structure module, and detailed description and validation of the data augmentation strategy.",
+      "api_usage": {
+        "prompt_tokens": 8446,
+        "completion_tokens": 1476,
+        "total_tokens": 9922,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8190
+      }
+    },
+    {
+      "chunk_id": "C003",
+      "char_start": 34200,
+      "char_end": 52200,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C003_E01",
+          "chunk_id": "C003",
+          "event_type": "validation",
+          "order_hint": 1,
+          "summary": "Data augmentation strategy validated on additional proteins F7YBW8 and CAPSD_AAV2S using ProGen2 for pre-training, showing improved performance over original model and unsupervised model.",
+          "methods_or_tools": [
+            "ProGen2",
+            "ESM-IF1"
+          ],
+          "entities": [
+            "F7YBW8",
+            "CAPSD_AAV2S"
+          ],
+          "numbers_or_metrics": [
+            "37 experimental data points",
+            "20 experimental data points",
+            "2-23 sites"
+          ],
+          "evidence_ids": [
+            "EV_C003_E01_01",
+            "EV_C003_E01_02"
+          ]
+        },
+        {
+          "event_id": "C003_E02",
+          "chunk_id": "C003",
+          "event_type": "validation",
+          "order_hint": 2,
+          "summary": "Pre-trained model outperforms original model on single-site mutants across most datasets when fine-tuning on limited data.",
+          "methods_or_tools": [],
+          "entities": [],
+          "numbers_or_metrics": [
+            "18 out of 20 datasets",
+            "19 out of 20 datasets",
+            "20, 40, 100 experimental data points"
+          ],
+          "evidence_ids": [
+            "EV_C003_E02_01"
+          ]
+        },
+        {
+          "event_id": "C003_E03",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 3,
+          "summary": "t-SNE visualization shows trained SESNet separates positive and negative mutants, while untrained model does not.",
+          "methods_or_tools": [
+            "t-SNE"
+          ],
+          "entities": [
+            "GFP",
+            "RRM"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E03_02"
+          ]
+        },
+        {
+          "event_id": "C003_E04",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 4,
+          "summary": "Pre-training provides good parameter initialization, enabling clear separation of mutants after fine-tuning with limited data, unlike direct training.",
+          "methods_or_tools": [
+            "t-SNE"
+          ],
+          "entities": [
+            "GFP"
+          ],
+          "numbers_or_metrics": [
+            "40 experimental data points"
+          ],
+          "evidence_ids": [
+            "EV_C003_E04_02"
+          ]
+        },
+        {
+          "event_id": "C003_E05",
+          "chunk_id": "C003",
+          "event_type": "design",
+          "order_hint": 5,
+          "summary": "Local encoder uses Potts model on MSA to capture residue interdependencies, with fixed-length transformation to avoid overfitting.",
+          "methods_or_tools": [
+            "Potts model",
+            "HHsuite",
+            "regularized maximum pseudolikelihood",
+            "Bi-LSTM"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [
+            "d_l = 128"
+          ],
+          "evidence_ids": [
+            "EV_C003_E05_01"
+          ]
+        },
+        {
+          "event_id": "C003_E06",
+          "chunk_id": "C003",
+          "event_type": "design",
+          "order_hint": 6,
+          "summary": "Global encoder uses pre-trained protein language model ESM-1b, selected after testing multiple models on validation datasets.",
+          "methods_or_tools": [
+            "ESM-1b",
+            "UniRep",
+            "TAPE",
+            "ESM-1v",
+            "ProteinBERT"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [
+            "n = 1420",
+            "h = 256"
+          ],
+          "evidence_ids": [
+            "EV_C003_E06_01"
+          ]
+        },
+        {
+          "event_id": "C003_E07",
+          "chunk_id": "C003",
+          "event_type": "design",
+          "order_hint": 7,
+          "summary": "Structure module uses ESM-IF1 to generate reconstruction perplexities, avoiding direct 3D coordinate encoding due to computational cost.",
+          "methods_or_tools": [
+            "ESM-IF1"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E07_01"
+          ]
+        },
+        {
+          "event_id": "C003_E08",
+          "chunk_id": "C003",
+          "event_type": "design",
+          "order_hint": 8,
+          "summary": "Intra-attention mechanism combines sequence attention from local and global encoders with structure attention from reconstruction perplexities.",
+          "methods_or_tools": [
+            "layer normalization",
+            "dot attention"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E08_01"
+          ]
+        }
+      ],
+      "notes": "Chunk contains validation of data augmentation on additional proteins, analysis of learned representations via t-SNE, and detailed design of model architecture (local, global, structure encoders, attention).",
+      "api_usage": {
+        "prompt_tokens": 8771,
+        "completion_tokens": 1445,
+        "total_tokens": 10216,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8515
+      }
+    },
+    {
+      "chunk_id": "C004",
+      "char_start": 51300,
+      "char_end": 69300,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C004_E01",
+          "chunk_id": "C004",
+          "event_type": "design",
+          "order_hint": 1,
+          "summary": "The model uses a dynamic weight to incorporate zero-shot scores, with a sigmoid gate to control trust in the unsupervised prediction.",
+          "methods_or_tools": [
+            "sigmoid gating",
+            "mean square error loss"
+          ],
+          "entities": [
+            "zero-shot model",
+            "unsupervised model"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E01_01",
+            "EV_C004_E01_02"
+          ]
+        },
+        {
+          "event_id": "C004_E03",
+          "chunk_id": "C004",
+          "event_type": "experiment",
+          "order_hint": 3,
+          "summary": "Single-site mutation prediction: five-fold cross-validation with random splitting, compared to ECNet, ESM-1b, ESM-1v, MSA transformer.",
+          "methods_or_tools": [
+            "five-fold cross-validation",
+            "early stopping"
+          ],
+          "entities": [
+            "ECNet",
+            "ESM-1b",
+            "ESM-1v",
+            "MSA transformer"
+          ],
+          "numbers_or_metrics": [
+            "five folds",
+            "7:1 train-validation split"
+          ],
+          "evidence_ids": [
+            "EV_C004_E03_01",
+            "EV_C004_E03_02"
+          ]
+        },
+        {
+          "event_id": "C004_E04",
+          "chunk_id": "C004",
+          "event_type": "experiment",
+          "order_hint": 4,
+          "summary": "High-order mutation prediction: train on low-order mutants, test on high-order mutants using five-fold cross-validation on low-order data.",
+          "methods_or_tools": [
+            "five-fold cross-validation",
+            "external test set"
+          ],
+          "entities": [
+            "high-order mutants",
+            "low-order mutants"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E04_01",
+            "EV_C004_E04_02"
+          ]
+        },
+        {
+          "event_id": "C004_E05",
+          "chunk_id": "C004",
+          "event_type": "design",
+          "order_hint": 5,
+          "summary": "Data augmentation strategy: pre-train on unsupervised model scores for all single and 30,000 random double mutants, then fine-tune on limited experimental data.",
+          "methods_or_tools": [
+            "pre-training",
+            "fine-tuning",
+            "ESM-IF1",
+            "ProGen2"
+          ],
+          "entities": [
+            "ESM-IF1",
+            "ProGen2"
+          ],
+          "numbers_or_metrics": [
+            "30,000 double-site mutants",
+            "10 epochs",
+            "learning rate 5e-4"
+          ],
+          "evidence_ids": [
+            "EV_C004_E05_01",
+            "EV_C004_E05_02"
+          ]
+        },
+        {
+          "event_id": "C004_E06",
+          "chunk_id": "C004",
+          "event_type": "experiment",
+          "order_hint": 6,
+          "summary": "Training details: hyperparameter tuning via local grid search on GFP and RRM datasets, using Adam optimizer with weight decay.",
+          "methods_or_tools": [
+            "Adam optimizer",
+            "grid search",
+            "GPU server"
+          ],
+          "entities": [
+            "GFP",
+            "RRM"
+          ],
+          "numbers_or_metrics": [
+            "hidden size [128, 256, 512]",
+            "learning rate [1e-3, 5e-4, 1e-4, 5e-5, 1e-5]",
+            "dropout [0.1, 0.2, 0.4]"
+          ],
+          "evidence_ids": [
+            "EV_C004_E06_01",
+            "EV_C004_E06_02"
+          ]
+        },
+        {
+          "event_id": "C004_E07",
+          "chunk_id": "C004",
+          "event_type": "experiment",
+          "order_hint": 7,
+          "summary": "Model contrast: reproduced ECNet and ESM-1b locally, used code from GitHub for ESM-IF1, ESM-1v, MSA transformer.",
+          "methods_or_tools": [
+            "ECNet",
+            "ESM-1b",
+            "ESM-IF1",
+            "ESM-1v",
+            "MSA transformer"
+          ],
+          "entities": [
+            "GitHub"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E07_01",
+            "EV_C004_E07_02"
+          ]
+        },
+        {
+          "event_id": "C004_E08",
+          "chunk_id": "C004",
+          "event_type": "analysis",
+          "order_hint": 8,
+          "summary": "Supplementary figures show attention scores identify key sites, and pre-training improves separation of positive/negative mutants in latent space.",
+          "methods_or_tools": [
+            "t-SNE",
+            "attention scores"
+          ],
+          "entities": [
+            "GFP",
+            "RRM"
+          ],
+          "numbers_or_metrics": [
+            "top-20 attention-score AA sites"
+          ],
+          "evidence_ids": [
+            "EV_C004_E08_01",
+            "EV_C004_E08_02"
+          ]
+        }
+      ],
+      "notes": "This chunk contains detailed methodology for data augmentation, training, and evaluation, as well as supplementary results on attention and latent space analysis.",
+      "api_usage": {
+        "prompt_tokens": 7862,
+        "completion_tokens": 1583,
+        "total_tokens": 9445,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7606
+      }
+    },
+    {
+      "chunk_id": "C005",
+      "char_start": 68400,
+      "char_end": 73352,
+      "chunk_relevance": "none",
+      "events": [],
+      "notes": "This chunk contains only references and publisher information, with no research process events.",
+      "api_usage": {
+        "prompt_tokens": 5088,
+        "completion_tokens": 47,
+        "total_tokens": 5135,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 4832
+      }
+    }
+  ],
+  "evidence_bank": [
+    {
+      "evidence_id": "EV_C001_E01_01",
+      "source_file": "docs/0097/combined.md",
+      "section": "C001",
+      "char_start": 858,
+      "char_end": 1072,
+      "quote": "Deep learning has been widely used for protein engineering. However, it is limited by the lack of sufficient experimental data to train an accurate model for predicting the functional fitness of high-order mutants."
+    },
+    {
+      "evidence_id": "EV_C001_E02_01",
+      "source_file": "docs/0097/combined.md",
+      "section": "C001",
+      "char_start": 1079,
+      "char_end": 1264,
+      "quote": "we develop SESNet, a supervised deep-learning model to predict the fitness for protein mutants by leveraging both sequence and structure information, and exploiting attention mechanism."
+    },
+    {
+      "evidence_id": "EV_C001_E02_02",
+      "source_file": "docs/0097/combined.md",
+      "section": "C001",
+      "char_start": 1265,
+      "char_end": 1536,
+      "quote": "Our model integrates local evolutionary context from homologous sequences, the global evolutionary context encoding rich semantic from the universal protein sequence space and the structure information accounting for the microenvironment around each residue in a protein."
+    },
+    {
+      "evidence_id": "EV_C001_E03_01",
+      "source_file": "docs/0097/combined.md",
+      "section": "C001",
+      "char_start": 1537,
+      "char_end": 1683,
+      "quote": "We show that SESNet outperforms state-of-the-art models for predicting the sequence-function relationship on 26 deep mutational scanning datasets."
+    },
+    {
+      "evidence_id": "EV_C001_E04_01",
+      "source_file": "docs/0097/combined.md",
+      "section": "C001",
+      "char_start": 1702,
+      "char_end": 1813,
+      "quote": "we propose a data augmentation strategy by leveraging the data from unsupervised models to pre-train our model."
+    },
+    {
+      "evidence_id": "EV_C001_E04_02",
+      "source_file": "docs/0097/combined.md",
+      "section": "C001",
+      "char_start": 1826,
+      "char_end": 2064,
+      "quote": "our model can achieve strikingly high accuracy in prediction of the fitness of protein mutants, especially for the higher order variants (>4 mutation sites), when finetuned by using only a small number of experimental mutation data (<50)."
+    },
+    {
+      "evidence_id": "EV_C001_E05_01",
+      "source_file": "docs/0097/combined.md",
+      "section": "C001",
+      "char_start": 15242,
+      "char_end": 15420,
+      "quote": "in 19 out of 20 datasets, the supervised models generally outperform the unsupervised ones as expected, and our model (SESNet) achieves the best performance among all the models."
+    },
+    {
+      "evidence_id": "EV_C001_E05_02",
+      "source_file": "docs/0097/combined.md",
+      "section": "C001",
+      "char_start": 15431,
+      "char_end": 15688,
+      "quote": "we further explored the ability of our model to predict the fitness of higher-order variants by training it using the experimental results of the low-order variants on 6 datasets of DMS. As shown in Fig. 2B and C, our model outperforms all the other models."
+    },
+    {
+      "evidence_id": "EV_C001_E06_01",
+      "source_file": "docs/0097/combined.md",
+      "section": "C001",
+      "char_start": 16653,
+      "char_end": 16849,
+      "quote": "the average spearman correlation of the original model is 0.672, much higher than that without local encoder (0.639), that without global encoder (0.247) and that without structure module (0.630)."
+    },
+    {
+      "evidence_id": "EV_C001_E06_02",
+      "source_file": "docs/0097/combined.md",
+      "section": "C001",
+      "char_start": 16850,
+      "char_end": 17098,
+      "quote": "The ablation study reveals that all three components contribute to the improvement of model performance, and the contribution from the global encoder, which captures the sequence feature in global protein sequence universe, is the most significant."
+    },
+    {
+      "evidence_id": "EV_C001_E07_01",
+      "source_file": "docs/0097/combined.md",
+      "section": "C001",
+      "char_start": 17171,
+      "char_end": 17288,
+      "quote": "The combined attention weights can be used to measure the importance of each AA site on protein fitness when mutated."
+    },
+    {
+      "evidence_id": "EV_C001_E07_02",
+      "source_file": "docs/0097/combined.md",
+      "section": "C001",
+      "char_start": 17936,
+      "char_end": 18000,
+      "quote": "one can observe that, at least 5 out of 20 top attention-score A"
+    },
+    {
+      "evidence_id": "EV_C002_E01_01",
+      "source_file": "docs/0097/combined.md",
+      "section": "C002",
+      "char_start": 17171,
+      "char_end": 17288,
+      "quote": "The combined attention weights can be used to measure the importance of each AA site on protein fitness when mutated."
+    },
+    {
+      "evidence_id": "EV_C002_E01_02",
+      "source_file": "docs/0097/combined.md",
+      "section": "C002",
+      "char_start": 17958,
+      "char_end": 18048,
+      "quote": "at least 5 out of 20 top attention-score AA sites predicted by our model are the key sites"
+    },
+    {
+      "evidence_id": "EV_C002_E01_03",
+      "source_file": "docs/0097/combined.md",
+      "section": "C002",
+      "char_start": 18988,
+      "char_end": 19068,
+      "quote": "11 out of 20 top attention-score AA sites predicted by our model are the key AAs"
+    },
+    {
+      "evidence_id": "EV_C002_E02_01",
+      "source_file": "docs/0097/combined.md",
+      "section": "C002",
+      "char_start": 18320,
+      "char_end": 18451,
+      "quote": "when we removed the structure module from the model, only three residues in the predicted top-20 attention-score AA is the key site"
+    },
+    {
+      "evidence_id": "EV_C002_E02_02",
+      "source_file": "docs/0097/combined.md",
+      "section": "C002",
+      "char_start": 19218,
+      "char_end": 19330,
+      "quote": "3 key residues can be found in the predicted top-seven attention-score AAs, when we removed the structure module"
+    },
+    {
+      "evidence_id": "EV_C002_E03_01",
+      "source_file": "docs/0097/combined.md",
+      "section": "C002",
+      "char_start": 19774,
+      "char_end": 19888,
+      "quote": "the addition of the structural module improves the average spearman correlation over 20 datasets only by 4 percent"
+    },
+    {
+      "evidence_id": "EV_C002_E04_01",
+      "source_file": "docs/0097/combined.md",
+      "section": "C002",
+      "char_start": 25140,
+      "char_end": 25257,
+      "quote": "The current structure module in our SESNet is not sufficient to fully capture such information and needs improvement."
+    },
+    {
+      "evidence_id": "EV_C002_E05_01",
+      "source_file": "docs/0097/combined.md",
+      "section": "C002",
+      "char_start": 25883,
+      "char_end": 26123,
+      "quote": "we propose a simple strategy of data augmentation by using the result generated by one unsupervised model to pre-train our model on a given protein, and then fine-tuning it using a limited number of experimental results on the same protein."
+    },
+    {
+      "evidence_id": "EV_C002_E05_02",
+      "source_file": "docs/0097/combined.md",
+      "section": "C002",
+      "char_start": 26965,
+      "char_end": 27083,
+      "quote": "We used the fitness results of low-order mutants predicted by the unsupervised model, ESM-IF1, to pre-train our model."
+    },
+    {
+      "evidence_id": "EV_C002_E06_01",
+      "source_file": "docs/0097/combined.md",
+      "section": "C002",
+      "char_start": 27537,
+      "char_end": 27603,
+      "quote": "the performance of the pre-trained model is significantly improved"
+    },
+    {
+      "evidence_id": "EV_C002_E06_02",
+      "source_file": "docs/0097/combined.md",
+      "section": "C002",
+      "char_start": 32686,
+      "char_end": 32830,
+      "quote": "the pretrained model can achieve high spearman correlation of 0.5–0.7 for multisite-mutants, even for high-order mutants with 5–8 mutation sites"
+    },
+    {
+      "evidence_id": "EV_C002_E07_01",
+      "source_file": "docs/0097/combined.md",
+      "section": "C002",
+      "char_start": 33416,
+      "char_end": 33675,
+      "quote": "when only 40 experimental data were used for training, the pretrained model has similar performance as compared to the unsupervised model for low-order mutants (<4 mutation sites), but clearly outperforms the latter for high-order mutants (>4 mutation sites)."
+    },
+    {
+      "evidence_id": "EV_C002_E08_01",
+      "source_file": "docs/0097/combined.md",
+      "section": "C002",
+      "char_start": 34230,
+      "char_end": 34378,
+      "quote": "we used ProGen2 [8], an unsupervised model to learn the global sequence information, for data augmentation, and still derived the similar conclusion"
+    },
+    {
+      "evidence_id": "EV_C002_E08_02",
+      "source_file": "docs/0097/combined.md",
+      "section": "C002",
+      "char_start": 34625,
+      "char_end": 34761,
+      "quote": "To further validate the generality of the data augmentation strategy proposed here, we did the analysis on the dataset of other proteins"
+    },
+    {
+      "evidence_id": "EV_C003_E01_01",
+      "source_file": "docs/0097/combined.md",
+      "section": "C003",
+      "char_start": 35153,
+      "char_end": 35379,
+      "quote": "the pre-trained model outperforms both the original model without pretraining and the unsupervised model in the fitness prediction of all multi-site mutants (2–4 sites) after finetuned by using only 37 experimental data points"
+    },
+    {
+      "evidence_id": "EV_C003_E01_02",
+      "source_file": "docs/0097/combined.md",
+      "section": "C003",
+      "char_start": 35436,
+      "char_end": 35604,
+      "quote": "the pre-trained model also achieves the best performance in all of the high-order mutants ranging from 2 to 23 sites, when finetuned by only 20 experimental data points"
+    },
+    {
+      "evidence_id": "EV_C003_E02_01",
+      "source_file": "docs/0097/combined.md",
+      "section": "C003",
+      "char_start": 35975,
+      "char_end": 36214,
+      "quote": "our pre-trained model generally outperforms the original one in majority of datasets: 18 out of 20 datasets when fine-tuning on 20 experimental data points, and in 19 out of 20 datasets when finetuning on 40 or 100 experimental data points"
+    },
+    {
+      "evidence_id": "EV_C003_E03_02",
+      "source_file": "docs/0097/combined.md",
+      "section": "C003",
+      "char_start": 37340,
+      "char_end": 37461,
+      "quote": "the representations from untrained model cannot provide a distinguishable boundary between positive and negative variants"
+    },
+    {
+      "evidence_id": "EV_C003_E04_02",
+      "source_file": "docs/0097/combined.md",
+      "section": "C003",
+      "char_start": 40990,
+      "char_end": 41061,
+      "quote": "the pre-training can furnish a good parameter initialization for SESNet"
+    },
+    {
+      "evidence_id": "EV_C003_E05_01",
+      "source_file": "docs/0097/combined.md",
+      "section": "C003",
+      "char_start": 43112,
+      "char_end": 43161,
+      "quote": "we use Potts model to establish the local encoder"
+    },
+    {
+      "evidence_id": "EV_C003_E06_01",
+      "source_file": "docs/0097/combined.md",
+      "section": "C003",
+      "char_start": 46166,
+      "char_end": 46338,
+      "quote": "We test these language models on our validation datasets, and results show that ESM-1b performs better than others. Therefore, we chose to use ESM-1b as the global encoder."
+    },
+    {
+      "evidence_id": "EV_C003_E07_01",
+      "source_file": "docs/0097/combined.md",
+      "section": "C003",
+      "char_start": 48791,
+      "char_end": 49071,
+      "quote": "we do not directly encode distance map or the 3D coordinate of mutated protein. Since before that encoding process, we need to fold every specific mutant from their sequences, which will lead to unaffordable computational cost and is unpractical for the task of fitness prediction"
+    },
+    {
+      "evidence_id": "EV_C003_E08_01",
+      "source_file": "docs/0097/combined.md",
+      "section": "C003",
+      "char_start": 50710,
+      "char_end": 50814,
+      "quote": "We use the average of sequence attention and structure attention as the final combined attention weights"
+    },
+    {
+      "evidence_id": "EV_C004_E01_01",
+      "source_file": "docs/0097/combined.md",
+      "section": "C004",
+      "char_start": 51672,
+      "char_end": 51765,
+      "quote": "The scale of p quantifies how much should the model trust the score from the zero-shot model."
+    },
+    {
+      "evidence_id": "EV_C004_E01_02",
+      "source_file": "docs/0097/combined.md",
+      "section": "C004",
+      "char_start": 52053,
+      "char_end": 52163,
+      "quote": "We utilize the mean square error (MSE) as the loss function to update model parameters during back-propagation"
+    },
+    {
+      "evidence_id": "EV_C004_E03_01",
+      "source_file": "docs/0097/combined.md",
+      "section": "C004",
+      "char_start": 54101,
+      "char_end": 54189,
+      "quote": "we randomly split a given dataset into five folds by randomized shuffling and splitting."
+    },
+    {
+      "evidence_id": "EV_C004_E03_02",
+      "source_file": "docs/0097/combined.md",
+      "section": "C004",
+      "char_start": 55004,
+      "char_end": 55128,
+      "quote": "The error bars of each model in Fig. 2a are the standard deviations of the five-time testing results (spearman correlation)."
+    },
+    {
+      "evidence_id": "EV_C004_E04_01",
+      "source_file": "docs/0097/combined.md",
+      "section": "C004",
+      "char_start": 55175,
+      "char_end": 55295,
+      "quote": "We evaluated the performance for predicting the fitness of high-order mutants by the model trained on low-order mutants."
+    },
+    {
+      "evidence_id": "EV_C004_E04_02",
+      "source_file": "docs/0097/combined.md",
+      "section": "C004",
+      "char_start": 55434,
+      "char_end": 55587,
+      "quote": "we randomly split the data of low-order mutants into five folds, and then picked one fold as validation set and the remaining four folds as training set."
+    },
+    {
+      "evidence_id": "EV_C004_E05_01",
+      "source_file": "docs/0097/combined.md",
+      "section": "C004",
+      "char_start": 55809,
+      "char_end": 55922,
+      "quote": "The data augmentation was conducted by pre-training our model on the results predicted by the unsupervised model."
+    },
+    {
+      "evidence_id": "EV_C004_E05_02",
+      "source_file": "docs/0097/combined.md",
+      "section": "C004",
+      "char_start": 55939,
+      "char_end": 56119,
+      "quote": "we first built a mutant library, which contains all the single-site mutants and 30,000 double-site mutants randomly selected from tens of millions of saturated double-site mutants."
+    },
+    {
+      "evidence_id": "EV_C004_E06_01",
+      "source_file": "docs/0097/combined.md",
+      "section": "C004",
+      "char_start": 57286,
+      "char_end": 57443,
+      "quote": "Hyperparameters of the model were tuned with a local grid search on two representative datasets, GFP for multi-sites dataset and RRM for single-site dataset."
+    },
+    {
+      "evidence_id": "EV_C004_E06_02",
+      "source_file": "docs/0097/combined.md",
+      "section": "C004",
+      "char_start": 57223,
+      "char_end": 57285,
+      "quote": "SESNet was trained using the Adam optimizer with weight decay."
+    },
+    {
+      "evidence_id": "EV_C004_E07_01",
+      "source_file": "docs/0097/combined.md",
+      "section": "C004",
+      "char_start": 57887,
+      "char_end": 57968,
+      "quote": "The source code of ECNet model for contrast is downloaded from the GitHub website"
+    },
+    {
+      "evidence_id": "EV_C004_E07_02",
+      "source_file": "docs/0097/combined.md",
+      "section": "C004",
+      "char_start": 58027,
+      "char_end": 58142,
+      "quote": "The ESM-1b model is also reproduced in our local computers with architecture that is described in their publication"
+    },
+    {
+      "evidence_id": "EV_C004_E08_01",
+      "source_file": "docs/0097/combined.md",
+      "section": "C004",
+      "char_start": 60466,
+      "char_end": 60652,
+      "quote": "When the structural module is present, there are five sites (marked by the blue ellipse in the subgraph A) identified by our model accords with the key AA sites discovered by experiments"
+    },
+    {
+      "evidence_id": "EV_C004_E08_02",
+      "source_file": "docs/0097/combined.md",
+      "section": "C004",
+      "char_start": 63002,
+      "char_end": 63128,
+      "quote": "after training by part of the experimental data set, the positive and negative mutants can be separated into different spaces."
+    },
+    {
+      "evidence_id": "EV_AUTO_001",
+      "source_file": "docs/0097/combined.md",
+      "section": "auto_specific",
+      "char_start": 52927,
+      "char_end": 53160,
+      "quote": "group G and FOS-JUN heterodimer from Ref $[48]$ , and the prion-like domain of TDP-43 from Ref $[49]$ to evaluate the ability of our model to predict the effect of double-sites mutant by learning from the data of single-site mutant."
+    },
+    {
+      "evidence_id": "EV_AUTO_002",
+      "source_file": "docs/0097/combined.md",
+      "section": "auto_specific",
+      "char_start": 41356,
+      "char_end": 41538,
+      "quote": ", directly training the model on 40 experimental data points, the separation between the positive and negative high-order mutants is rather ambiguous (Additional file 1: Figure S6C)."
+    },
+    {
+      "evidence_id": "EV_AUTO_003",
+      "source_file": "docs/0097/combined.md",
+      "section": "auto_specific",
+      "char_start": 41062,
+      "char_end": 41297,
+      "quote": "After further fine-tuning the pre-trained SESNet by only 40 experimental data points of single-site mutants, a rather clear boundary between negative and positive high-order mutants is further outlined (Additional file 1: Figure S6B)."
+    },
+    {
+      "evidence_id": "EV_AUTO_004",
+      "source_file": "docs/0097/combined.md",
+      "section": "auto_specific",
+      "char_start": 37326,
+      "char_end": 37497,
+      "quote": "In contrast, the representations from untrained model cannot provide a distinguishable boundary between positive and negative variants (Additional file 1: Figure S5C, D)."
+    },
+    {
+      "evidence_id": "EV_AUTO_005",
+      "source_file": "docs/0097/combined.md",
+      "section": "auto_specific",
+      "char_start": 37135,
+      "char_end": 37326,
+      "quote": ", the experimental fitness values being larger or smaller than that of wildtype, generated by the trained SESNet are clearly clustered into distinct groups (Additional file 1: Figure S5A, B)."
+    },
+    {
+      "evidence_id": "EV_AUTO_006",
+      "source_file": "docs/0097/combined.md",
+      "section": "auto_specific",
+      "char_start": 18933,
+      "char_end": 19069,
+      "quote": "Figure 3C and Additional file 1: Figure S2A show that 11 out of 20 top attention-score AA sites predicted by our model are the key AAs."
+    },
+    {
+      "evidence_id": "EV_AUTO_007",
+      "source_file": "docs/0097/combined.md",
+      "section": "auto_specific",
+      "char_start": 37924,
+      "char_end": 38062,
+      "quote": "As seen in Additional file 1: Figure S6A, after pretraining even without finetuning by the experimental data, SESNet can already roughly"
+    },
+    {
+      "evidence_id": "EV_AUTO_008",
+      "source_file": "docs/0097/combined.md",
+      "section": "auto_specific",
+      "char_start": 19337,
+      "char_end": 19376,
+      "quote": "3D and Additional file 1: Figure S2B)."
+    },
+    {
+      "evidence_id": "EV_AUTO_009",
+      "source_file": "docs/0097/combined.md",
+      "section": "auto_specific",
+      "char_start": 18457,
+      "char_end": 18496,
+      "quote": "3B and Additional file 1: Figure S1B)."
+    },
+    {
+      "evidence_id": "EV_AUTO_010",
+      "source_file": "docs/0097/combined.md",
+      "section": "auto_specific",
+      "char_start": 18265,
+      "char_end": 18304,
+      "quote": "3A and Additional file 1: Figure S1A)."
+    },
+    {
+      "evidence_id": "EV_AUTO_011",
+      "source_file": "docs/0097/combined.md",
+      "section": "auto_specific",
+      "char_start": 61708,
+      "char_end": 61889,
+      "quote": "A-D: The spearman correlation of fitness prediction on multiple sites (2-8 sites) mutants by finetuning on 40, 100, 400, 1084 experimental single-site variants from dataset of GFP."
+    },
+    {
+      "evidence_id": "EV_AUTO_012",
+      "source_file": "docs/0097/combined.md",
+      "section": "auto_specific",
+      "char_start": 31948,
+      "char_end": 32140,
+      "quote": "A–D: The spearman correlation of fitness prediction on multiple sites (2–8 sites) mutants by finetuning using 40, 100, 400, 1084 single-site experimental mutation results from dataset of GFP."
+    },
+    {
+      "evidence_id": "EV_AUTO_013",
+      "source_file": "docs/0097/combined.md",
+      "section": "auto_specific",
+      "char_start": 34625,
+      "char_end": 34959,
+      "quote": "To further validate the generality of the data augmentation strategy proposed here, we did the analysis on the dataset of other proteins: toxin-antitoxin complex (F7YBW8) [34] containing data up to 4 sites mutants, and Adeno-associated virus capsids (CAPSD\\_AAV2S) [35], a deep mutational dataset including data up to 23-site mutants."
+    },
+    {
+      "evidence_id": "EV_AUTO_014",
+      "source_file": "docs/0097/combined.md",
+      "section": "auto_specific",
+      "char_start": 62185,
+      "char_end": 62335,
+      "quote": "A-C: The spearman correlation of fitness prediction on single-site mutants by finetuning on 20, 40, 100 single-site variants from different datasets."
+    },
+    {
+      "evidence_id": "EV_AUTO_015",
+      "source_file": "docs/0097/combined.md",
+      "section": "auto_specific",
+      "char_start": 17927,
+      "char_end": 18265,
+      "quote": "Indeed, one can observe that, at least 5 out of 20 top attention-score AA sites predicted by our model are the key sites as two of them (G65 and T201) are located at the chromophore, and the other three (P73, R71 and G230) were among the top 20 residues discovered in experiment to render the highest change of fitness when mutated (Fig."
+    },
+    {
+      "evidence_id": "EV_AUTO_016",
+      "source_file": "docs/0097/combined.md",
+      "section": "auto_specific",
+      "char_start": 56244,
+      "char_end": 56315,
+      "quote": "While we used 90% of the data as training test, 10% as validation set."
+    },
+    {
+      "evidence_id": "EV_AUTO_017",
+      "source_file": "docs/0097/combined.md",
+      "section": "auto_specific",
+      "char_start": 40411,
+      "char_end": 40654,
+      "quote": "A–B: The spearman correlation of fitness prediction on high-order mutants by finetuning on 37 experimental single-site mutation results from datasets of F7YBW8 and on 20 experimental single-site mutation results of CAPSD\\_AAV2S, respectively."
+    },
+    {
+      "evidence_id": "EV_AUTO_018",
+      "source_file": "docs/0097/combined.md",
+      "section": "auto_specific",
+      "char_start": 35430,
+      "char_end": 35605,
+      "quote": "5B), the pre-trained model also achieves the best performance in all of the high-order mutants ranging from 2 to 23 sites, when finetuned by only 20 experimental data points."
+    },
+    {
+      "evidence_id": "EV_AUTO_019",
+      "source_file": "docs/0097/combined.md",
+      "section": "auto_specific",
+      "char_start": 35148,
+      "char_end": 35380,
+      "quote": "5A, the pre-trained model outperforms both the original model without pretraining and the unsupervised model in the fitness prediction of all multi-site mutants (2–4 sites) after finetuned by using only 37 experimental data points."
+    },
+    {
+      "evidence_id": "EV_AUTO_020",
+      "source_file": "docs/0097/combined.md",
+      "section": "auto_specific",
+      "char_start": 23092,
+      "char_end": 23221,
+      "quote": "P73, G230 and R71 are among the experimentally-discovered top 20 sites, which render the highest change of fitness when mutated."
+    },
+    {
+      "evidence_id": "EV_AUTO_021",
+      "source_file": "docs/0097/combined.md",
+      "section": "auto_specific",
+      "char_start": 17560,
+      "char_end": 17927,
+      "quote": "The ground truth of the key sites of GFP are defined here as the experimentally discovered top 20 sites, which exhibit the largest change of protein fitness when mutated, or the AAs forming and stabilizing the chromophore, which are known to significantly affect the fluorescent function of the protein [30], but lack the fitness results in the experimental dataset."
+    },
+    {
+      "evidence_id": "EV_AUTO_022",
+      "source_file": "docs/0097/combined.md",
+      "section": "auto_specific",
+      "char_start": 17378,
+      "char_end": 17560,
+      "quote": "To test this approximation, we trained our model on the experimental data of 1084 single-site mutants in the dataset of GFP [29], a green fluorescent protein from Aequorea victoria."
+    },
+    {
+      "evidence_id": "EV_AUTO_023",
+      "source_file": "docs/0097/combined.md",
+      "section": "auto_specific",
+      "char_start": 7040,
+      "char_end": 7349,
+      "quote": "Generally speaking, the supervised model can often achieve better performance as compared to the unsupervised model $[26]$ , but the former requires a great amount (at least hundreds to thousands) of experimental mutation data of the protein studied for training, which is experimentally challenging $[18]$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_024",
+      "source_file": "docs/0097/combined.md",
+      "section": "auto_specific",
+      "char_start": 6981,
+      "char_end": 7040,
+      "quote": ", prediction of the fitness of protein mutants $[24, 26]$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_025",
+      "source_file": "docs/0097/combined.md",
+      "section": "auto_specific",
+      "char_start": 5380,
+      "char_end": 5687,
+      "quote": "And more recent works have proposed to combine these two strategies: learning on evolutionary information together with global natural sequences as the representation $[17, 18]$ , and trained the model on the labelled experimental data of screened variants to predict the fitness of all possible sequences."
+    },
+    {
+      "evidence_id": "EV_AUTO_026",
+      "source_file": "docs/0097/combined.md",
+      "section": "auto_specific",
+      "char_start": 71991,
+      "char_end": 72072,
+      "quote": "Rollins NJ et al (2019) Inferring protein 3D structure from deep mutation scans."
+    },
+    {
+      "evidence_id": "EV_AUTO_027",
+      "source_file": "docs/0097/combined.md",
+      "section": "auto_specific",
+      "char_start": 71428,
+      "char_end": 71542,
+      "quote": "Meier J et al (2021) Language models enable zero-shot prediction of the effects of mutations on protein function."
+    },
+    {
+      "evidence_id": "EV_AUTO_028",
+      "source_file": "docs/0097/combined.md",
+      "section": "auto_specific",
+      "char_start": 71123,
+      "char_end": 71260,
+      "quote": "Seemayer S, Gruber M, Söding J (2014) CCMpred—fast and precise prediction of protein residue–residue contacts from correlated mutations."
+    },
+    {
+      "evidence_id": "EV_AUTO_029",
+      "source_file": "docs/0097/combined.md",
+      "section": "auto_specific",
+      "char_start": 70596,
+      "char_end": 70695,
+      "quote": "Frazer J et al (2021) Disease variant prediction with deep generative models of evolutionary data."
+    },
+    {
+      "evidence_id": "EV_AUTO_030",
+      "source_file": "docs/0097/combined.md",
+      "section": "auto_specific",
+      "char_start": 69989,
+      "char_end": 70082,
+      "quote": "Hsu C et al (2022) Learning protein fitness models from evolutionary and assay-labeled data."
+    },
+    {
+      "evidence_id": "EV_AUTO_031",
+      "source_file": "docs/0097/combined.md",
+      "section": "auto_specific",
+      "char_start": 69425,
+      "char_end": 69509,
+      "quote": "Sarkisyan KS et al (2016) Local fitness landscape of the green fluorescent protein."
+    },
+    {
+      "evidence_id": "EV_AUTO_032",
+      "source_file": "docs/0097/combined.md",
+      "section": "auto_specific",
+      "char_start": 69278,
+      "char_end": 69387,
+      "quote": "Shroff R et al (2020) Discovery of novel gain-of-function mutations guided by structure-based deep learning."
+    },
+    {
+      "evidence_id": "EV_AUTO_033",
+      "source_file": "docs/0097/combined.md",
+      "section": "auto_specific",
+      "char_start": 67566,
+      "char_end": 67641,
+      "quote": "Hopf TA et al (2017) Mutation effects predicted from sequence covariation."
+    },
+    {
+      "evidence_id": "EV_AUTO_034",
+      "source_file": "docs/0097/combined.md",
+      "section": "auto_specific",
+      "char_start": 67203,
+      "char_end": 67325,
+      "quote": "Riesselman AJ, Ingraham JB, Marks DS (2018) Deep generative models of genetic variation capture the effects of mutations."
+    },
+    {
+      "evidence_id": "EV_AUTO_035",
+      "source_file": "docs/0097/combined.md",
+      "section": "auto_specific",
+      "char_start": 65375,
+      "char_end": 65476,
+      "quote": "Wu Z et al (2019) Machine learning-assisted directed protein evolution with combinatorial libraries."
+    },
+    {
+      "evidence_id": "EV_AUTO_036",
+      "source_file": "docs/0097/combined.md",
+      "section": "auto_specific",
+      "char_start": 63758,
+      "char_end": 63874,
+      "quote": "C: the representations from the model directly trained on 40 single-site experimental mutants without pre-training."
+    }
+  ],
+  "event_graph": {
+    "paper_main_problem": "Predicting protein fitness for high-order mutants with limited experimental data.",
+    "canonical_events": [
+      {
+        "canonical_id": "K01",
+        "order": 1,
+        "event_type": "problem",
+        "summary": "Deep learning for protein engineering is limited by lack of sufficient experimental data to train accurate models for high-order mutants.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E01"
+        ],
+        "evidence_ids": [
+          "EV_C001_E01_01"
+        ],
+        "key_entities": [
+          "deep learning",
+          "protein engineering",
+          "high-order mutants"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K02",
+        "order": 2,
+        "event_type": "design",
+        "summary": "SESNet architecture: supervised deep-learning model integrating local evolutionary context (Potts model on MSA), global sequence features (ESM-1b), and structure information (ESM-IF1) with an attention mechanism.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E02",
+          "C003_E05",
+          "C003_E06",
+          "C003_E07",
+          "C003_E08"
+        ],
+        "evidence_ids": [
+          "EV_C001_E02_01",
+          "EV_C001_E02_02",
+          "EV_C003_E05_01",
+          "EV_C003_E06_01",
+          "EV_C003_E07_01",
+          "EV_C003_E08_01"
+        ],
+        "key_entities": [
+          "SESNet",
+          "local encoder",
+          "global encoder",
+          "structure module",
+          "attention mechanism"
+        ],
+        "key_numbers": [
+          "d_l=128",
+          "n=1420",
+          "h=256"
+        ]
+      },
+      {
+        "canonical_id": "K03",
+        "order": 3,
+        "event_type": "experiment",
+        "summary": "SESNet outperforms state-of-the-art supervised and unsupervised models on 20 DMS datasets (19/20) and on higher-order mutants trained on low-order data.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E05",
+          "C004_E03",
+          "C004_E04"
+        ],
+        "evidence_ids": [
+          "EV_C001_E05_01",
+          "EV_C001_E05_02",
+          "EV_C004_E03_01",
+          "EV_C004_E04_01"
+        ],
+        "key_entities": [
+          "SESNet",
+          "ECNet",
+          "ESM-1b",
+          "ESM-1v",
+          "MSA transformer",
+          "DMS datasets"
+        ],
+        "key_numbers": [
+          "19 out of 20 datasets",
+          "6 datasets of higher-order mutants"
+        ]
+      },
+      {
+        "canonical_id": "K04",
+        "order": 4,
+        "event_type": "analysis",
+        "summary": "Ablation study: all three components (local, global, structure) contribute positively; global encoder most significant (drop to 0.247), structure module adds 4% improvement.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E06"
+        ],
+        "evidence_ids": [
+          "EV_C001_E06_01",
+          "EV_C001_E06_02"
+        ],
+        "key_entities": [
+          "local encoder",
+          "global encoder",
+          "structure module"
+        ],
+        "key_numbers": [
+          "average Spearman 0.672 (original), 0.639 (no local), 0.247 (no global), 0.630 (no structure)"
+        ]
+      },
+      {
+        "canonical_id": "K05",
+        "order": 5,
+        "event_type": "analysis",
+        "summary": "Attention weights identify key AA sites; structure module improves identification (5/20 key sites for GFP, 11/20 for RRM) beyond correlation gain.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E07",
+          "C002_E01",
+          "C002_E02",
+          "C002_E03"
+        ],
+        "evidence_ids": [
+          "EV_C001_E07_01",
+          "EV_C001_E07_02",
+          "EV_C002_E01_01",
+          "EV_C002_E01_02",
+          "EV_C002_E01_03",
+          "EV_C002_E02_01"
+        ],
+        "key_entities": [
+          "GFP",
+          "RRM",
+          "attention weights",
+          "structure module"
+        ],
+        "key_numbers": [
+          "5 out of 20 top attention-score sites are key for GFP",
+          "11 out of 20 for RRM"
+        ]
+      },
+      {
+        "canonical_id": "K06",
+        "order": 6,
+        "event_type": "limitation",
+        "summary": "Structure module insufficient for capturing precise structural information needed for optimizing fluorescence intensity in GFP.",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C002_E04"
+        ],
+        "evidence_ids": [
+          "EV_C002_E04_01"
+        ],
+        "key_entities": [
+          "GFP",
+          "structure module"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K07",
+        "order": 7,
+        "event_type": "design",
+        "summary": "Data augmentation strategy: pre-train SESNet on fitness scores from unsupervised model (ESM-IF1) for all single and 30,000 random double mutants, then fine-tune on limited experimental data.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E04",
+          "C002_E05",
+          "C004_E05"
+        ],
+        "evidence_ids": [
+          "EV_C001_E04_01",
+          "EV_C001_E04_02",
+          "EV_C002_E05_01",
+          "EV_C002_E05_02",
+          "EV_C004_E05_01",
+          "EV_C004_E05_02"
+        ],
+        "key_entities": [
+          "data augmentation",
+          "pre-training",
+          "fine-tuning",
+          "ESM-IF1"
+        ],
+        "key_numbers": [
+          "30,000 double-site mutants",
+          "<50 experimental data"
+        ]
+      },
+      {
+        "canonical_id": "K08",
+        "order": 8,
+        "event_type": "experiment",
+        "summary": "Pre-trained SESNet significantly outperforms original model when fine-tuned on small experimental datasets (e.g., 40 points), especially for high-order mutants (Spearman 0.5-0.7 for multisite).",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E06",
+          "C002_E07"
+        ],
+        "evidence_ids": [
+          "EV_C002_E06_01",
+          "EV_C002_E06_02",
+          "EV_C002_E07_01"
+        ],
+        "key_entities": [
+          "GFP",
+          "pre-training",
+          "fine-tuning"
+        ],
+        "key_numbers": [
+          "40 experimental data points",
+          "Spearman 0.5-0.7 for multisite mutants"
+        ]
+      },
+      {
+        "canonical_id": "K09",
+        "order": 9,
+        "event_type": "validation",
+        "summary": "Data augmentation strategy validated with another unsupervised model (ProGen2) and on other proteins (F7YBW8, CAPSD_AAV2S), showing similar improvements.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E08",
+          "C003_E01"
+        ],
+        "evidence_ids": [
+          "EV_C002_E08_01",
+          "EV_C002_E08_02",
+          "EV_C003_E01_01",
+          "EV_C003_E01_02"
+        ],
+        "key_entities": [
+          "ProGen2",
+          "F7YBW8",
+          "CAPSD_AAV2S"
+        ],
+        "key_numbers": [
+          "37 experimental data points",
+          "20 experimental data points",
+          "2-23 sites"
+        ]
+      },
+      {
+        "canonical_id": "K10",
+        "order": 10,
+        "event_type": "validation",
+        "summary": "Pre-trained model outperforms original model on single-site mutants across most datasets (18/20 with 20 data points, 19/20 with 40 or 100) when fine-tuning on limited data.",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C003_E02"
+        ],
+        "evidence_ids": [
+          "EV_C003_E02_01"
+        ],
+        "key_entities": [],
+        "key_numbers": [
+          "18 out of 20 datasets",
+          "19 out of 20 datasets",
+          "20, 40, 100 experimental data points"
+        ]
+      },
+      {
+        "canonical_id": "K11",
+        "order": 11,
+        "event_type": "analysis",
+        "summary": "t-SNE visualization: trained SESNet separates positive and negative mutants; pre-training provides good initialization, enabling clear separation after fine-tuning with limited data.",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C003_E03",
+          "C003_E04"
+        ],
+        "evidence_ids": [
+          "EV_C003_E03_02",
+          "EV_C003_E04_02"
+        ],
+        "key_entities": [
+          "GFP",
+          "RRM",
+          "t-SNE"
+        ],
+        "key_numbers": [
+          "40 experimental data points"
+        ]
+      },
+      {
+        "canonical_id": "K12",
+        "order": 12,
+        "event_type": "design",
+        "summary": "Model uses dynamic weight (sigmoid gate) to incorporate zero-shot scores, with MSE loss.",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C004_E01"
+        ],
+        "evidence_ids": [
+          "EV_C004_E01_01",
+          "EV_C004_E01_02"
+        ],
+        "key_entities": [
+          "zero-shot model",
+          "sigmoid gating",
+          "MSE loss"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K13",
+        "order": 13,
+        "event_type": "experiment",
+        "summary": "Training details: hyperparameter tuning via grid search on GFP and RRM, Adam optimizer, five-fold cross-validation, early stopping.",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C004_E06",
+          "C004_E03"
+        ],
+        "evidence_ids": [
+          "EV_C004_E06_01",
+          "EV_C004_E06_02",
+          "EV_C004_E03_01"
+        ],
+        "key_entities": [
+          "GFP",
+          "RRM",
+          "Adam optimizer",
+          "grid search"
+        ],
+        "key_numbers": [
+          "hidden size [128,256,512]",
+          "learning rate [1e-3,5e-4,1e-4,5e-5,1e-5]",
+          "dropout [0.1,0.2,0.4]"
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "source": "K01",
+        "target": "K02",
+        "relation": "enables",
+        "reason": "Problem motivates design of SESNet architecture."
+      },
+      {
+        "source": "K02",
+        "target": "K03",
+        "relation": "enables",
+        "reason": "Architecture enables benchmarking experiments."
+      },
+      {
+        "source": "K03",
+        "target": "K04",
+        "relation": "follows",
+        "reason": "Ablation study analyzes contribution of components after benchmarking."
+      },
+      {
+        "source": "K04",
+        "target": "K05",
+        "relation": "follows",
+        "reason": "Attention analysis further investigates structure module's role."
+      },
+      {
+        "source": "K05",
+        "target": "K06",
+        "relation": "contradicts",
+        "reason": "Limitation of structure module noted despite its benefits."
+      },
+      {
+        "source": "K03",
+        "target": "K07",
+        "relation": "enables",
+        "reason": "Data augmentation strategy designed to address data efficiency."
+      },
+      {
+        "source": "K07",
+        "target": "K08",
+        "relation": "enables",
+        "reason": "Pre-training strategy tested on GFP."
+      },
+      {
+        "source": "K08",
+        "target": "K09",
+        "relation": "validates",
+        "reason": "Strategy validated on other proteins and unsupervised models."
+      },
+      {
+        "source": "K09",
+        "target": "K10",
+        "relation": "validates",
+        "reason": "Further validation on single-site mutants across datasets."
+      },
+      {
+        "source": "K08",
+        "target": "K11",
+        "relation": "follows",
+        "reason": "t-SNE analysis explains why pre-training works."
+      },
+      {
+        "source": "K02",
+        "target": "K12",
+        "relation": "refines",
+        "reason": "Dynamic weight design detail."
+      },
+      {
+        "source": "K03",
+        "target": "K13",
+        "relation": "follows",
+        "reason": "Training details support experimental setup."
+      }
+    ],
+    "must_cover_points": [
+      "Problem of data scarcity for high-order mutants.",
+      "SESNet architecture integrating sequence and structure with attention.",
+      "Benchmarking on DMS datasets showing state-of-the-art performance.",
+      "Ablation study confirming all components contribute.",
+      "Attention weights identify key residues, enhanced by structure module.",
+      "Data augmentation strategy using unsupervised model pre-training.",
+      "Significant improvement with limited experimental data, especially for high-order mutants.",
+      "Validation on multiple proteins and unsupervised models."
+    ],
+    "paper_not_suitable_reasons": []
+  }
+}

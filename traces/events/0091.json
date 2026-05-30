@@ -1,0 +1,1962 @@
+{
+  "doc_no": "0091",
+  "source": {
+    "title": "Combined machine learning models, docking analysis, ADMET studies and molecular dynamics simulations for the design of novel FAK inhibitors against glioblastoma",
+    "doi": "https://doi.org/10.1186/s13065-024-01316-x",
+    "license": "cc-by-nc-nd",
+    "pdf_name": "0089_10_1186_s13065_024_01316_x_combined_machine_learning_models_docking_analysis_admet_studies_and_molecular_dynamics_sim.pdf",
+    "combined_md": "docs/0091/combined.md",
+    "mineru_md": "docs/0091/mineru.md"
+  },
+  "gist_memory": {
+    "paper_problem_memory": "The study aims to design novel FAK inhibitors for glioblastoma (GBM) by integrating machine learning, docking, ADMET, and MD simulations. GBM is highly aggressive with poor prognosis, and FAK is a promising target. The research gap is the lack of large-dataset QSAR models for FAK inhibitors. The approach uses two ML models (protein-level and cell-level) to screen a large compound library, followed by docking, ADMET filtering, and MD validation to identify drug-like candidates.",
+    "section_gists": [
+      {
+        "section_index": 6,
+        "heading": "Abstract",
+        "gist": "Summarizes the entire study: integrated ML, docking, ADMET, and MD to identify novel FAK inhibitors for GBM. ML models achieved R² 0.892 (protein-level) and 0.789 (cell-level). Screened 5107 compounds, identified 275 active, 16 passed ADMET, and MD confirmed stable binding.",
+        "process_signals": [
+          "Integrated workflow: ML → docking → ADMET → MD",
+          "Two ML models: protein-level (1280 compounds) and cell-level (2608 compounds)",
+          "Screening funnel: 5107 → 275 → 16 compounds"
+        ],
+        "methods": [
+          "LightGBM with combined fingerprints",
+          "Molecular docking with AutoDock Vina",
+          "ADMET prediction with ADMETlab 2.0",
+          "MD simulations with Gromacs"
+        ],
+        "metrics": [
+          "R², MAE, RMSE for ML models",
+          "Docking score cutoff -9.0 kcal/mol",
+          "ADMET drug-likeness criteria (Lipinski, Pfizer, GSK, Golden Triangle)",
+          "RMSD, binding free energy for MD"
+        ],
+        "failures_or_limits": [
+          "Only 16 out of 275 compounds passed all ADMET filters",
+          "No experimental validation"
+        ]
+      },
+      {
+        "section_index": 7,
+        "heading": "Introduction",
+        "gist": "GBM is aggressive with poor prognosis; FAK is a key target. Current QSAR models for FAK inhibitors use small datasets (tens to hundreds), limiting applicability. This study proposes a comprehensive framework using larger datasets (>1000) and integrated CADD methods.",
+        "process_signals": [
+          "Problem: GBM resistance, need for novel therapies",
+          "Target: FAK, involved in tumor progression",
+          "Gap: existing QSAR models have small datasets",
+          "Hypothesis: larger dataset ML models can enable rapid screening"
+        ],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": [
+          "Previous QSAR models had limited dataset sizes (e.g., 22 compounds)"
+        ]
+      },
+      {
+        "section_index": 8,
+        "heading": "Materials and methods",
+        "gist": "Section header only; no content.",
+        "process_signals": [],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 9,
+        "heading": "Development of the database",
+        "gist": "Data collected from ChEMBL: 1280 FAK inhibitors (protein-level) and 2608 compounds against U87-MG cells. IC50 values averaged if within 10 µM range; pIC50 used as target. Structural diversity analyzed via plain rings and Murcko scaffolds.",
+        "process_signals": [
+          "Data source: ChEMBL (target CHEMBL2695, cell line CHEMBL3307575)",
+          "Filtering: only specific IC50 values; averaged if variation ≤10 µM; excluded if >10 µM",
+          "Target variable: pIC50 (-log10(IC50))",
+          "Structural analysis: DataWarrior for rings and scaffolds"
+        ],
+        "methods": [
+          "DataWarrior for scaffold analysis"
+        ],
+        "metrics": [
+          "pIC50 distribution: 4.00-10.00 (FAK), 4.00-7.50 (U87-MG)"
+        ],
+        "failures_or_limits": [
+          "Exclusion of compounds with large IC50 variations may bias dataset",
+          "No mention of handling duplicates or assay types"
+        ]
+      },
+      {
+        "section_index": 10,
+        "heading": "Molecular descriptions calculation and machine learning models building",
+        "gist": "Molecular fingerprints (CDK, CDK extended, substructure, substructure counts) computed with PaDEL. Models: LightGBM, RF, SVR, KNN, PLS, LASSO, XGBoost. 80/20 split, 10-fold CV, grid search for hyperparameters. Metrics: R², MAE, RMSE.",
+        "process_signals": [
+          "Fingerprint choice: four types from PaDEL",
+          "Algorithm priority: LightGBM for ensemble advantages",
+          "Validation: 10-fold CV to mitigate random split effects",
+          "Hyperparameter tuning: grid search"
+        ],
+        "methods": [
+          "PaDEL for fingerprints",
+          "LightGBM, RF, SVR, KNN, PLS, LASSO, XGBoost",
+          "Scikit-learn in Python 3.7"
+        ],
+        "metrics": [
+          "R², MAE, RMSE"
+        ],
+        "failures_or_limits": [
+          "No mention of data leakage or applicability domain"
+        ]
+      },
+      {
+        "section_index": 11,
+        "heading": "Molecular docking studies",
+        "gist": "FAK crystal structure (PDB: 2JKK) prepared by removing water and ligand. Docking with AutoDock Vina; grid box 22.5 Å³ centered on co-crystallized ligand. Binding energy used as activity measure. Interactions analyzed with Discovery Studio.",
+        "process_signals": [
+          "Docking validation: redocking of TAE-226 (RMSD 0.581 Å, score -9.613 kcal/mol)",
+          "Screening: ChemDiv library (1.6 million compounds) docked; cutoff -9.0 kcal/mol selected 5107 compounds"
+        ],
+        "methods": [
+          "AutoDock Vina",
+          "Discovery Studio Visualizer"
+        ],
+        "metrics": [
+          "RMSD for validation",
+          "Docking score (kcal/mol)"
+        ],
+        "failures_or_limits": [
+          "Docking score cutoff may miss weaker binders with good kinetics"
+        ]
+      },
+      {
+        "section_index": 12,
+        "heading": "ADME prediction",
+        "gist": "ADMET properties predicted using ADMETlab 2.0. Drug-likeness evaluated by Lipinski, Pfizer, GSK, Golden Triangle rules.",
+        "process_signals": [
+          "Early ADMET assessment to avoid late-stage failures",
+          "Four drug-likeness criteria applied"
+        ],
+        "methods": [
+          "ADMETlab 2.0"
+        ],
+        "metrics": [
+          "Lipinski, Pfizer, GSK, Golden Triangle rules"
+        ],
+        "failures_or_limits": [
+          "In silico ADMET predictions may not fully replicate in vivo behavior"
+        ]
+      },
+      {
+        "section_index": 13,
+        "heading": "MD simulation",
+        "gist": "MD simulations with Gromacs 2022. Force fields: GAFF for ligands, AMBER14SB for protein, TIP3P water. 100 ns production after NVT/NPT equilibration. Analysis: RMSD, MM-PBSA binding free energy.",
+        "process_signals": [
+          "Selected compounds 1 and 2 for MD",
+          "Stable RMSD indicates binding stability",
+          "MM-PBSA: van der Waals dominates binding"
+        ],
+        "methods": [
+          "Gromacs 2022",
+          "GAFF, AMBER14SB, TIP3P",
+          "MM-PBSA"
+        ],
+        "metrics": [
+          "RMSD",
+          "Binding free energy (ΔG_bind)"
+        ],
+        "failures_or_limits": [
+          "Only two compounds simulated; limited sampling",
+          "No mention of convergence criteria"
+        ]
+      },
+      {
+        "section_index": 14,
+        "heading": "Results and discussion",
+        "gist": "Section header only; no content.",
+        "process_signals": [],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 15,
+        "heading": "Development of ML models for FAK inhibitors",
+        "gist": "Best model: LightGBM with combined CDK, CDK extended, substructure count fingerprints. Test set R²=0.892, MAE=0.331, RMSE=0.467. Feature importance: SubFPC307 (chiral center) top. LightGBM outperformed other algorithms.",
+        "process_signals": [
+          "Combined fingerprints improved performance over single ones",
+          "Optimal input: CDK+CDK extended+substructure count (2355 bits)",
+          "LightGBM best among tested algorithms",
+          "Feature importance highlights chiral centers, tautomerizable groups, rotatable bonds"
+        ],
+        "methods": [
+          "LightGBM with combined fingerprints",
+          "Feature importance analysis"
+        ],
+        "metrics": [
+          "R²=0.892, MAE=0.331, RMSE=0.467 (test set)"
+        ],
+        "failures_or_limits": [
+          "Model may overfit (training R²=0.990)",
+          "No external validation set"
+        ]
+      },
+      {
+        "section_index": 16,
+        "heading": "Development of ML models for U-87 MG glioblastomas",
+        "gist": "Cell-level model also best with LightGBM and same fingerprint combination. Test set R²=0.789, MAE=0.395, RMSE=0.536. Feature importance similar but includes heterocyclic features. LightGBM again best.",
+        "process_signals": [
+          "Consistent optimal fingerprint combination across both models",
+          "Cell-level model slightly lower performance (R²=0.789 vs 0.892)",
+          "Feature importance: chiral center, tautomerizable, conserved bond, rotatable bond, primary carbon, etc."
+        ],
+        "methods": [
+          "LightGBM with combined fingerprints"
+        ],
+        "metrics": [
+          "R²=0.789, MAE=0.395, RMSE=0.536 (test set)"
+        ],
+        "failures_or_limits": [
+          "Lower R² may indicate more noise in cell-based data",
+          "No discussion of discrepancy between protein and cell models"
+        ]
+      },
+      {
+        "section_index": 17,
+        "heading": "Molecular docking analysis",
+        "gist": "Docking validation: TAE-226 redocked with RMSD 0.581 Å. ChemDiv library docked; 5107 compounds with score ≤ -9.0 kcal/mol. ML models predicted pIC50; 275 compounds had pIC50 >6.0 for both protein and cell models. Chemical space diverse.",
+        "process_signals": [
+          "Validation ensures docking reliability",
+          "Cutoff -9.0 kcal/mol based on reference",
+          "Intersection of docking and ML predictions: 275 compounds",
+          "Chemical space analysis shows diversity"
+        ],
+        "methods": [
+          "AutoDock Vina",
+          "DataWarrior for chemical space"
+        ],
+        "metrics": [
+          "RMSD 0.581 Å",
+          "Docking score cutoff -9.0 kcal/mol",
+          "pIC50 >6.0 threshold"
+        ],
+        "failures_or_limits": [
+          "Only 5.38% of docked compounds passed ML filters",
+          "No discussion of false positives/negatives"
+        ]
+      },
+      {
+        "section_index": 18,
+        "heading": "ADME prediction analysis",
+        "gist": "275 compounds screened with ADMETlab 2.0; 16 passed all four drug-likeness rules. Most have good HIA, Caco-2, MDCK permeability; variable PPB and BBB. Some CYP substrate liabilities. Compound 15 may be mutagenic. Binding patterns show key residues (Cys502, Asp564). Low similarity to known FAK inhibitors.",
+        "process_signals": [
+          "ADMET filters drastically reduced candidates (275→16)",
+          "Drug-likeness rules: Lipinski, Pfizer, GSK, Golden Triangle",
+          "Key interactions: H-bonds with Cys502, Asp564; π-σ with Leu553",
+          "Novelty: low Tanimoto similarity to known FAK ligands"
+        ],
+        "methods": [
+          "ADMETlab 2.0",
+          "ECFP4 fingerprints for similarity"
+        ],
+        "metrics": [
+          "HIA, Caco-2, MDCK, PPB, VD, BBB, CYP, Ames, T1/2"
+        ],
+        "failures_or_limits": [
+          "Only 16 compounds passed all filters; many failed due to ADMET",
+          "Compound 15 mutagenic potential",
+          "No experimental ADMET validation"
+        ]
+      },
+      {
+        "section_index": 19,
+        "heading": "MD simulation analysis",
+        "gist": "MD of compounds 1 and 2 with FAK showed stable RMSD. MM-PBSA: binding free energies -58.32 and -96.41 kJ/mol. Van der Waals dominates. Confirms stable binding.",
+        "process_signals": [
+          "RMSD stable after ~20 ns",
+          "Binding free energy favorable",
+          "Van der Waals main contributor"
+        ],
+        "methods": [
+          "Gromacs, MM-PBSA"
+        ],
+        "metrics": [
+          "RMSD",
+          "ΔG_bind: -58.32, -96.41 kJ/mol"
+        ],
+        "failures_or_limits": [
+          "Only two compounds simulated",
+          "No entropy convergence check",
+          "No experimental binding affinity"
+        ]
+      }
+    ],
+    "global_hypotheses_about_storyline": [
+      "The study follows a linear funnel: large dataset ML models → docking screening → ADMET filtering → MD validation.",
+      "The choice of LightGBM and combined fingerprints was driven by empirical performance comparison.",
+      "The low yield (16/5107) suggests stringent filters, but may also indicate model limitations.",
+      "The authors emphasize novelty of hits via low similarity to known inhibitors."
+    ],
+    "uncertainties_to_resolve": [
+      "Why was the docking score cutoff set to -9.0 kcal/mol? Is it based on TAE-226?",
+      "How were the 1.6 million ChemDiv compounds selected for docking?",
+      "Were there any compounds that passed ML but failed docking, or vice versa?",
+      "What is the applicability domain of the ML models?",
+      "Why were only two compounds chosen for MD?",
+      "Are there plans for experimental validation?"
+    ]
+  },
+  "chunk_events": [
+    {
+      "chunk_id": "C001",
+      "char_start": 0,
+      "char_end": 18000,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C001_E01",
+          "chunk_id": "C001",
+          "event_type": "problem",
+          "order_hint": 1,
+          "summary": "GBM is highly aggressive with poor prognosis, necessitating novel therapies.",
+          "methods_or_tools": [],
+          "entities": [
+            "GBM",
+            "glioblastoma"
+          ],
+          "numbers_or_metrics": [
+            "median survival time not exceeding 15 months"
+          ],
+          "evidence_ids": [
+            "EV_C001_E01_01",
+            "EV_C001_E01_02"
+          ]
+        },
+        {
+          "event_id": "C001_E02",
+          "chunk_id": "C001",
+          "event_type": "hypothesis",
+          "order_hint": 2,
+          "summary": "FAK is a promising target for GBM therapy.",
+          "methods_or_tools": [],
+          "entities": [
+            "FAK",
+            "Focal adhesion kinase"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E02_01"
+          ]
+        },
+        {
+          "event_id": "C001_E03",
+          "chunk_id": "C001",
+          "event_type": "problem",
+          "order_hint": 3,
+          "summary": "Existing QSAR models for FAK inhibitors use small datasets, limiting applicability.",
+          "methods_or_tools": [
+            "QSAR",
+            "CoMFA",
+            "CoMSIA"
+          ],
+          "entities": [
+            "FAK inhibitors"
+          ],
+          "numbers_or_metrics": [
+            "22 compounds",
+            "R²_cv=0.528",
+            "R²_pred=0.7557",
+            "R²_cv=0.757",
+            "R²_pred=0.8362"
+          ],
+          "evidence_ids": [
+            "EV_C001_E03_01",
+            "EV_C001_E03_02"
+          ]
+        },
+        {
+          "event_id": "C001_E04",
+          "chunk_id": "C001",
+          "event_type": "hypothesis",
+          "order_hint": 4,
+          "summary": "A larger dataset ML model can enable rapid screening of FAK inhibitors for GBM.",
+          "methods_or_tools": [
+            "machine learning"
+          ],
+          "entities": [
+            "FAK inhibitors",
+            "GBM"
+          ],
+          "numbers_or_metrics": [
+            "more than 1000 data points"
+          ],
+          "evidence_ids": [
+            "EV_C001_E04_01"
+          ]
+        },
+        {
+          "event_id": "C001_E05",
+          "chunk_id": "C001",
+          "event_type": "design",
+          "order_hint": 5,
+          "summary": "Proposed integrated framework: ML models, docking, ADMET, and MD simulations.",
+          "methods_or_tools": [
+            "machine learning",
+            "docking analysis",
+            "ADMET studies",
+            "molecular dynamics simulations"
+          ],
+          "entities": [
+            "FAK inhibitors",
+            "GBM"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E05_01"
+          ]
+        },
+        {
+          "event_id": "C001_E08",
+          "chunk_id": "C001",
+          "event_type": "design",
+          "order_hint": 8,
+          "summary": "Computed four types of molecular fingerprints using PaDEL and built ML models with multiple algorithms.",
+          "methods_or_tools": [
+            "PaDEL",
+            "LightGBM",
+            "Random Forest",
+            "SVR",
+            "KNN",
+            "PLS",
+            "LASSO",
+            "XGBoost",
+            "Scikit-learn"
+          ],
+          "entities": [
+            "molecular fingerprints",
+            "CDK fingerprints",
+            "CDK extended fingerprints",
+            "substructure fingerprints",
+            "substructure fingerprint counts"
+          ],
+          "numbers_or_metrics": [
+            "80:20 split",
+            "10-fold CV"
+          ],
+          "evidence_ids": [
+            "EV_C001_E08_02",
+            "EV_C001_E08_03"
+          ]
+        }
+      ],
+      "notes": "Chunk covers abstract, introduction, and early methods (database development, ML model building). Extracted events focus on problem statement, hypothesis, design, and data collection/computation steps.",
+      "api_usage": {
+        "prompt_tokens": 8171,
+        "completion_tokens": 1598,
+        "total_tokens": 9769,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7915
+      }
+    },
+    {
+      "chunk_id": "C002",
+      "char_start": 17100,
+      "char_end": 35100,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C002_E01",
+          "chunk_id": "C002",
+          "event_type": "computation",
+          "order_hint": 1,
+          "summary": "Evaluated impact of different molecular fingerprint combinations on LightGBM model performance for FAK inhibitors using 10-fold cross-validation.",
+          "methods_or_tools": [
+            "LightGBM",
+            "10-fold cross-validation",
+            "CDK fingerprints",
+            "CDK extended fingerprints",
+            "substructure fingerprints",
+            "substructure count fingerprints"
+          ],
+          "entities": [
+            "FAK inhibitors"
+          ],
+          "numbers_or_metrics": [
+            "R²",
+            "MAE",
+            "RMSE"
+          ],
+          "evidence_ids": [
+            "EV_C002_E01_02"
+          ]
+        },
+        {
+          "event_id": "C002_E02",
+          "chunk_id": "C002",
+          "event_type": "design",
+          "order_hint": 2,
+          "summary": "Selected optimal input features for FAK inhibitor model: combination of CDK, CDK extended, and substructure count fingerprints.",
+          "methods_or_tools": [
+            "LightGBM",
+            "CDK fingerprints",
+            "CDK extended fingerprints",
+            "substructure count fingerprints"
+          ],
+          "entities": [
+            "FAK inhibitors"
+          ],
+          "numbers_or_metrics": [
+            "2355 input bits"
+          ],
+          "evidence_ids": [
+            "EV_C002_E02_01",
+            "EV_C002_E02_02"
+          ]
+        },
+        {
+          "event_id": "C002_E04",
+          "chunk_id": "C002",
+          "event_type": "analysis",
+          "order_hint": 4,
+          "summary": "Analyzed feature importance for FAK inhibitor model; SubFPC307 (chiral center) ranked most important.",
+          "methods_or_tools": [
+            "LightGBM",
+            "feature importance analysis"
+          ],
+          "entities": [
+            "FAK inhibitors",
+            "SubFPC307",
+            "SubFPC300",
+            "SubFPC302",
+            "SubFPC295",
+            "SubFPC1"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E04_02"
+          ]
+        },
+        {
+          "event_id": "C002_E05",
+          "chunk_id": "C002",
+          "event_type": "computation",
+          "order_hint": 5,
+          "summary": "Compared LightGBM with other algorithms (RF, SVR, KNN, PLS, LASSO, XGBoost) on FAK inhibitor test set; LightGBM had lowest MAE and RMSE.",
+          "methods_or_tools": [
+            "LightGBM",
+            "RF",
+            "SVR",
+            "KNN",
+            "PLS",
+            "LASSO",
+            "XGBoost"
+          ],
+          "entities": [
+            "FAK inhibitors"
+          ],
+          "numbers_or_metrics": [
+            "MAE",
+            "RMSE"
+          ],
+          "evidence_ids": [
+            "EV_C002_E05_02"
+          ]
+        },
+        {
+          "event_id": "C002_E06",
+          "chunk_id": "C002",
+          "event_type": "computation",
+          "order_hint": 6,
+          "summary": "Evaluated fingerprint combinations for U-87 MG glioblastoma cell model; optimal input was CDK, CDK extended, and substructure count.",
+          "methods_or_tools": [
+            "LightGBM",
+            "10-fold cross-validation",
+            "CDK fingerprints",
+            "CDK extended fingerprints",
+            "substructure count fingerprints"
+          ],
+          "entities": [
+            "U-87 MG glioblastoma"
+          ],
+          "numbers_or_metrics": [
+            "R²",
+            "MAE",
+            "RMSE"
+          ],
+          "evidence_ids": [
+            "EV_C002_E06_01",
+            "EV_C002_E06_02"
+          ]
+        },
+        {
+          "event_id": "C002_E08",
+          "chunk_id": "C002",
+          "event_type": "analysis",
+          "order_hint": 8,
+          "summary": "Analyzed feature importance for U-87 MG model; SubFPC307 (chiral center) again top, with additional heterocyclic features.",
+          "methods_or_tools": [
+            "LightGBM",
+            "feature importance analysis"
+          ],
+          "entities": [
+            "U-87 MG glioblastoma",
+            "SubFPC307",
+            "SubFPC300",
+            "SubFPC295",
+            "SubFPC302",
+            "SubFPC1",
+            "SubFPC18",
+            "SubFPC2",
+            "SubFPC274",
+            "SubFPC2745"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E08_02"
+          ]
+        }
+      ],
+      "notes": "Chunk contains detailed ML model development and evaluation for both FAK protein-level and U-87 MG cell-level models, including fingerprint selection, performance metrics, and feature importance analysis.",
+      "api_usage": {
+        "prompt_tokens": 9140,
+        "completion_tokens": 1792,
+        "total_tokens": 10932,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8884
+      }
+    },
+    {
+      "chunk_id": "C003",
+      "char_start": 34200,
+      "char_end": 52200,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C003_E01",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 1,
+          "summary": "Feature importance analysis for cell-level model identifies key molecular features.",
+          "methods_or_tools": [
+            "LightGBM feature importance"
+          ],
+          "entities": [
+            "SubFPC307",
+            "SubFPC300",
+            "SubFPC295",
+            "SubFPC302",
+            "SubFPC1",
+            "SubFPC18",
+            "SubFPC2",
+            "SubFPC274",
+            "SubFPC275"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E01_02",
+            "EV_C003_E01_03",
+            "EV_C003_E01_04"
+          ]
+        },
+        {
+          "event_id": "C003_E02",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 2,
+          "summary": "Comparison of algorithm performance on cell-level test set shows LightGBM best.",
+          "methods_or_tools": [
+            "LightGBM",
+            "RF",
+            "SVR",
+            "KNN",
+            "PLS",
+            "LASSO",
+            "XGBoost"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [
+            "MAE",
+            "RMSE"
+          ],
+          "evidence_ids": [
+            "EV_C003_E02_01"
+          ]
+        },
+        {
+          "event_id": "C003_E03",
+          "chunk_id": "C003",
+          "event_type": "validation",
+          "order_hint": 3,
+          "summary": "Docking validation by redocking TAE-226 yields RMSD 0.581 Å.",
+          "methods_or_tools": [
+            "AutoDock Vina"
+          ],
+          "entities": [
+            "TAE-226",
+            "FAK"
+          ],
+          "numbers_or_metrics": [
+            "RMSD 0.581 Å",
+            "docking score -9.613 kcal/mol"
+          ],
+          "evidence_ids": [
+            "EV_C003_E03_01",
+            "EV_C003_E03_02"
+          ]
+        },
+        {
+          "event_id": "C003_E04",
+          "chunk_id": "C003",
+          "event_type": "computation",
+          "order_hint": 4,
+          "summary": "Virtual screening of 1.6 million ChemDiv compounds by docking, selecting 5107 with score ≤ -9.0 kcal/mol.",
+          "methods_or_tools": [
+            "AutoDock Vina"
+          ],
+          "entities": [
+            "ChemDiv compound library",
+            "FAK"
+          ],
+          "numbers_or_metrics": [
+            "1.6 million compounds",
+            "5107 compounds",
+            "docking score ≤ -9.0 kcal/mol"
+          ],
+          "evidence_ids": [
+            "EV_C003_E04_01",
+            "EV_C003_E04_02",
+            "EV_C003_E04_03"
+          ]
+        },
+        {
+          "event_id": "C003_E05",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 5,
+          "summary": "ML models predict pIC50 for 5107 compounds; 275 meet dual criteria (pIC50 >6.0 for both protein and cell).",
+          "methods_or_tools": [
+            "LightGBM models"
+          ],
+          "entities": [
+            "FAK protein",
+            "U-87MG cells"
+          ],
+          "numbers_or_metrics": [
+            "275 compounds",
+            "pIC50 >6.0",
+            "5.38%"
+          ],
+          "evidence_ids": [
+            "EV_C003_E05_01"
+          ]
+        },
+        {
+          "event_id": "C003_E06",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 6,
+          "summary": "Chemical space analysis of 5107 compounds shows diversity with 391 plain rings and 2277 Murcko scaffolds.",
+          "methods_or_tools": [
+            "DataWarrior"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [
+            "391 plain rings",
+            "2277 Murcko scaffolds"
+          ],
+          "evidence_ids": [
+            "EV_C003_E06_02"
+          ]
+        },
+        {
+          "event_id": "C003_E07",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 7,
+          "summary": "ADMET prediction filters 275 candidates to 16 passing all four drug-likeness rules.",
+          "methods_or_tools": [
+            "ADMETlab 2.0",
+            "Lipinski's rule of five",
+            "Pfizer rule",
+            "GSK rule",
+            "Golden Triangle"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [
+            "16 compounds"
+          ],
+          "evidence_ids": [
+            "EV_C003_E07_01"
+          ]
+        },
+        {
+          "event_id": "C003_E08",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 8,
+          "summary": "Binding pattern analysis reveals key interactions with Cys502, Asp564, and Leu553.",
+          "methods_or_tools": [
+            "Discovery Studio"
+          ],
+          "entities": [
+            "Cys502",
+            "Asp564",
+            "Leu553",
+            "Leu501",
+            "Leu567",
+            "Ile428",
+            "Ala452",
+            "Met499"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E08_01",
+            "EV_C003_E08_02"
+          ]
+        }
+      ],
+      "notes": "Chunk covers feature importance, algorithm comparison, docking validation, virtual screening, ML prediction, chemical space analysis, ADMET filtering, and binding pattern analysis. All events are process-oriented and supported by quotes.",
+      "api_usage": {
+        "prompt_tokens": 8995,
+        "completion_tokens": 1511,
+        "total_tokens": 10506,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8739
+      }
+    },
+    {
+      "chunk_id": "C004",
+      "char_start": 51300,
+      "char_end": 62402,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C004_E01",
+          "chunk_id": "C004",
+          "event_type": "analysis",
+          "order_hint": 1,
+          "summary": "MD simulations show stable RMSD for compound 1 and compound 2 binding to FAK.",
+          "methods_or_tools": [
+            "Gromacs",
+            "MD simulation"
+          ],
+          "entities": [
+            "compound 1",
+            "compound 2",
+            "FAK"
+          ],
+          "numbers_or_metrics": [
+            "RMSD values from 0.22 to 0.27 nm over 100 ns"
+          ],
+          "evidence_ids": [
+            "EV_C004_E01_01"
+          ]
+        },
+        {
+          "event_id": "C004_E03",
+          "chunk_id": "C004",
+          "event_type": "validation",
+          "order_hint": 3,
+          "summary": "MD simulations confirm stable binding of selected compounds to FAK protein.",
+          "methods_or_tools": [
+            "MD simulation"
+          ],
+          "entities": [
+            "selected compounds",
+            "FAK protein"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E03_01"
+          ]
+        },
+        {
+          "event_id": "C004_E05",
+          "chunk_id": "C004",
+          "event_type": "limitation",
+          "order_hint": 5,
+          "summary": "Further experimental validation through in vitro and in vivo studies is required.",
+          "methods_or_tools": [],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E05_01"
+          ]
+        },
+        {
+          "event_id": "C004_E06",
+          "chunk_id": "C004",
+          "event_type": "analysis",
+          "order_hint": 6,
+          "summary": "The study integrated machine learning, docking, and ADMET to identify 16 potential FAK inhibitors from 5107 candidates.",
+          "methods_or_tools": [
+            "machine learning",
+            "docking",
+            "ADMET"
+          ],
+          "entities": [
+            "FAK inhibitors",
+            "5107 candidates",
+            "16 compounds"
+          ],
+          "numbers_or_metrics": [
+            "275 active compounds identified, 16 passed ADMET"
+          ],
+          "evidence_ids": [
+            "EV_C004_E06_01"
+          ]
+        }
+      ],
+      "notes": "Chunk contains MD simulation results, binding free energy analysis, and conclusion summarizing the workflow and need for experimental validation.",
+      "api_usage": {
+        "prompt_tokens": 7137,
+        "completion_tokens": 989,
+        "total_tokens": 8126,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6881
+      }
+    }
+  ],
+  "evidence_bank": [
+    {
+      "evidence_id": "EV_C001_E01_01",
+      "source_file": "docs/0091/combined.md",
+      "section": "C001",
+      "char_start": 816,
+      "char_end": 939,
+      "quote": "Gliomas, particularly glioblastoma (GBM), are highly aggressive brain tumors with poor prognosis and high recurrence rates."
+    },
+    {
+      "evidence_id": "EV_C001_E01_02",
+      "source_file": "docs/0091/combined.md",
+      "section": "C001",
+      "char_start": 5618,
+      "char_end": 5798,
+      "quote": "the prognosis for GBM patients has seen only marginal improvement over the past few decades. The median survival time remains disappointingly low, typically not exceeding 15 months"
+    },
+    {
+      "evidence_id": "EV_C001_E02_01",
+      "source_file": "docs/0091/combined.md",
+      "section": "C001",
+      "char_start": 1007,
+      "char_end": 1147,
+      "quote": "One promising target is Focal adhesion kinase (FAK), a key regulator of tumor progression currently in clinical trials for glioma treatment."
+    },
+    {
+      "evidence_id": "EV_C001_E03_01",
+      "source_file": "docs/0091/combined.md",
+      "section": "C001",
+      "char_start": 8325,
+      "char_end": 8556,
+      "quote": "the current QSAR models used to predict FAK inhibition activity have relatively small construction datasets, typically comprising only tens to hundreds of compounds, which somewhat limits the widespread applicability of the models."
+    },
+    {
+      "evidence_id": "EV_C001_E03_02",
+      "source_file": "docs/0091/combined.md",
+      "section": "C001",
+      "char_start": 7934,
+      "char_end": 8024,
+      "quote": "Wang et al. utilized 22 FAK inhibitors to develop two types of satisfactory 3D-QSAR models"
+    },
+    {
+      "evidence_id": "EV_C001_E04_01",
+      "source_file": "docs/0091/combined.md",
+      "section": "C001",
+      "char_start": 8568,
+      "char_end": 8771,
+      "quote": "it is particularly important and urgent to construct a predictive model based on a relatively large dataset (with more than 1000 data points) to enable rapid screening of FAK inhibitors for glioblastoma."
+    },
+    {
+      "evidence_id": "EV_C001_E05_01",
+      "source_file": "docs/0091/combined.md",
+      "section": "C001",
+      "char_start": 8788,
+      "char_end": 9012,
+      "quote": "we propose a comprehensive research framework that integrates machine learning models, docking analysis, ADMET studies, and molecular dynamics simulations to facilitate the design of novel FAK inhibitors against glioblastoma"
+    },
+    {
+      "evidence_id": "EV_C001_E08_02",
+      "source_file": "docs/0091/combined.md",
+      "section": "C001",
+      "char_start": 16103,
+      "char_end": 16205,
+      "quote": "The regression models leveraged LightGBM, Random Forest, SVR, KNN, PLS, LASSO, and XGBoost algorithms."
+    },
+    {
+      "evidence_id": "EV_C001_E08_03",
+      "source_file": "docs/0091/combined.md",
+      "section": "C001",
+      "char_start": 16526,
+      "char_end": 16682,
+      "quote": "The datasets were split into training and independent test sets, maintaining an 80:20 ratio. Ten-fold Cross-validation was implemented during model training"
+    },
+    {
+      "evidence_id": "EV_C002_E01_02",
+      "source_file": "docs/0091/combined.md",
+      "section": "C002",
+      "char_start": 24782,
+      "char_end": 25067,
+      "quote": "The outcomes indicated that using a single molecular fingerprint resulted in lower predictive performance compared to combined molecular fingerprints, emphasizing the complementarity of combined fingerprints in enhancing the representation of relevant molecular structural information."
+    },
+    {
+      "evidence_id": "EV_C002_E02_01",
+      "source_file": "docs/0091/combined.md",
+      "section": "C002",
+      "char_start": 25068,
+      "char_end": 25200,
+      "quote": "The model achieved the highest predictive accuracy when integrating combined CDK, CDK extended, and substructure fingerprint counts."
+    },
+    {
+      "evidence_id": "EV_C002_E02_02",
+      "source_file": "docs/0091/combined.md",
+      "section": "C002",
+      "char_start": 25201,
+      "char_end": 25397,
+      "quote": "Although combining all molecular fingerprints could yield similar results, the computational efficiency of utilizing these three fingerprints guided the selection for subsequent model development."
+    },
+    {
+      "evidence_id": "EV_C002_E04_02",
+      "source_file": "docs/0091/combined.md",
+      "section": "C002",
+      "char_start": 29737,
+      "char_end": 29866,
+      "quote": "SubFPC307 indicates the presence of a specified chiral center, highlighting a specific atom in the molecule exhibiting chirality."
+    },
+    {
+      "evidence_id": "EV_C002_E05_02",
+      "source_file": "docs/0091/combined.md",
+      "section": "C002",
+      "char_start": 30531,
+      "char_end": 30663,
+      "quote": "It is noteworthy that the LightGBM algorithm produces the lowest MAE and RMSE values, highlighting its superior predictive accuracy."
+    },
+    {
+      "evidence_id": "EV_C002_E06_01",
+      "source_file": "docs/0091/combined.md",
+      "section": "C002",
+      "char_start": 30923,
+      "char_end": 31063,
+      "quote": "Table 2 illustrates the evaluation results of the machine learning models using cross-validation on the test set with the LightGBM approach."
+    },
+    {
+      "evidence_id": "EV_C002_E06_02",
+      "source_file": "docs/0091/combined.md",
+      "section": "C002",
+      "char_start": 31064,
+      "char_end": 31240,
+      "quote": "The results demonstrate that the highest model performance is attained when CDK, CDK extended fingerprints, and substructure fingerprint counts are employed as input variables."
+    },
+    {
+      "evidence_id": "EV_C002_E08_02",
+      "source_file": "docs/0091/combined.md",
+      "section": "C002",
+      "char_start": 34848,
+      "char_end": 34994,
+      "quote": "SubFPC2745 (Heterocyclic) and SubFPC2745 (Hetero N nonbasic) indicate the presence of heterocyclic structures containing non-basic nitrogen atoms."
+    },
+    {
+      "evidence_id": "EV_C003_E01_02",
+      "source_file": "docs/0091/combined.md",
+      "section": "C003",
+      "char_start": 34354,
+      "char_end": 34433,
+      "quote": "SubFPC300 (1,3-Tautomerizable) relates to the potential for 1,3-tautomerization"
+    },
+    {
+      "evidence_id": "EV_C003_E01_03",
+      "source_file": "docs/0091/combined.md",
+      "section": "C003",
+      "char_start": 34462,
+      "char_end": 34515,
+      "quote": "SubFPC295 (CONS bond) signifies a conserved bond type"
+    },
+    {
+      "evidence_id": "EV_C003_E01_04",
+      "source_file": "docs/0091/combined.md",
+      "section": "C003",
+      "char_start": 34517,
+      "char_end": 34580,
+      "quote": "SubFPC302 (Rotatable bond) indicates a bond capable of rotation"
+    },
+    {
+      "evidence_id": "EV_C003_E02_01",
+      "source_file": "docs/0091/combined.md",
+      "section": "C003",
+      "char_start": 35199,
+      "char_end": 35305,
+      "quote": "employing the LightGBM algorithm minimizes MAE and RMSE values, indicating superior predictive performance"
+    },
+    {
+      "evidence_id": "EV_C003_E03_01",
+      "source_file": "docs/0091/combined.md",
+      "section": "C003",
+      "char_start": 41243,
+      "char_end": 41406,
+      "quote": "the superimposition of the cocrystallized and redocked structures yielded a Root Mean Square Deviation (RMSD) of 0.581 Å, indicative of precise pose recapitulation"
+    },
+    {
+      "evidence_id": "EV_C003_E03_02",
+      "source_file": "docs/0091/combined.md",
+      "section": "C003",
+      "char_start": 41416,
+      "char_end": 41501,
+      "quote": "docking analysis unveiled a docking scores of -9.613 kcal/mol between TAE-226 and FAK"
+    },
+    {
+      "evidence_id": "EV_C003_E04_01",
+      "source_file": "docs/0091/combined.md",
+      "section": "C003",
+      "char_start": 41557,
+      "char_end": 41684,
+      "quote": "the ChemDiv compound library, comprising an extensive collection of 1.6 million compounds, was subjected to docking simulations"
+    },
+    {
+      "evidence_id": "EV_C003_E04_02",
+      "source_file": "docs/0091/combined.md",
+      "section": "C003",
+      "char_start": 41802,
+      "char_end": 41903,
+      "quote": "compounds exhibiting docking score values equal to or below $-9.000\\mathrm{kcal / mol}$ were selected"
+    },
+    {
+      "evidence_id": "EV_C003_E04_03",
+      "source_file": "docs/0091/combined.md",
+      "section": "C003",
+      "char_start": 42017,
+      "char_end": 42073,
+      "quote": "5107 compounds were selected as potential FAK inhibitors"
+    },
+    {
+      "evidence_id": "EV_C003_E05_01",
+      "source_file": "docs/0091/combined.md",
+      "section": "C003",
+      "char_start": 42324,
+      "char_end": 42498,
+      "quote": "Among the screened compounds, 275 exhibited $\\mathrm{pIC}_{50}$ values surpassing 6.00 for both the FAK protein and U-87MG cells, constituting $5.38\\%$ of the total compounds"
+    },
+    {
+      "evidence_id": "EV_C003_E06_02",
+      "source_file": "docs/0091/combined.md",
+      "section": "C003",
+      "char_start": 42971,
+      "char_end": 43098,
+      "quote": "Fig. 6b visually represents the chemical space distribution among the 5107 compounds, highlighting a diverse array of compounds"
+    },
+    {
+      "evidence_id": "EV_C003_E07_01",
+      "source_file": "docs/0091/combined.md",
+      "section": "C003",
+      "char_start": 43999,
+      "char_end": 44108,
+      "quote": "Out of 275 candidates, 16 compounds (Fig. 7) were identified as fully meeting all four drug-likeness criteria"
+    },
+    {
+      "evidence_id": "EV_C003_E08_01",
+      "source_file": "docs/0091/combined.md",
+      "section": "C003",
+      "char_start": 46327,
+      "char_end": 46417,
+      "quote": "most of the selected compounds bind to FAK by forming hydrogen bonds with Cys502 or Asp564"
+    },
+    {
+      "evidence_id": "EV_C003_E08_02",
+      "source_file": "docs/0091/combined.md",
+      "section": "C003",
+      "char_start": 46786,
+      "char_end": 46874,
+      "quote": "other compounds predominantly interact with Leu553 through $\\pi$ - $\\sigma$ interactions"
+    },
+    {
+      "evidence_id": "EV_C004_E01_01",
+      "source_file": "docs/0091/combined.md",
+      "section": "C004",
+      "char_start": 51986,
+      "char_end": 52115,
+      "quote": "Fig. 9 RMSD values obtained from the MD simulation system for the interactions between FAK and (a) compound 1, and (b) compound 2"
+    },
+    {
+      "evidence_id": "EV_C004_E03_01",
+      "source_file": "docs/0091/combined.md",
+      "section": "C004",
+      "char_start": 53352,
+      "char_end": 53442,
+      "quote": "The above results indicate that the selected compounds can stably bind to the FAK protein."
+    },
+    {
+      "evidence_id": "EV_C004_E05_01",
+      "source_file": "docs/0091/combined.md",
+      "section": "C004",
+      "char_start": 54465,
+      "char_end": 54592,
+      "quote": "Nevertheless, further experimental validation through in vitro and in vivo studies is required to support clinical application."
+    },
+    {
+      "evidence_id": "EV_C004_E06_01",
+      "source_file": "docs/0091/combined.md",
+      "section": "C004",
+      "char_start": 53930,
+      "char_end": 54164,
+      "quote": "Using these models, we efficiently identified 275 potentially active compounds out of 5107 candidates based on docking scores lower than -9.000 kcal/mol. Following ADMET assessments, 16 compounds stood out as potential FAK inhibitors."
+    },
+    {
+      "evidence_id": "EV_AUTO_001",
+      "source_file": "docs/0091/combined.md",
+      "section": "auto_specific",
+      "char_start": 33796,
+      "char_end": 33972,
+      "quote": "These results indicate that molecular fingerprint models based on LightGBM are proficient in predicting the activity ( $pIC_{50}$ ) of compounds against U-87 MG glioblastomas."
+    },
+    {
+      "evidence_id": "EV_AUTO_002",
+      "source_file": "docs/0091/combined.md",
+      "section": "auto_specific",
+      "char_start": 46109,
+      "char_end": 46275,
+      "quote": "The results demonstrate that TAE-226, used as a positive control, forms strong interactions with FAK through hydrogen bonds involving the Cys502 and Asp564 residues."
+    },
+    {
+      "evidence_id": "EV_AUTO_003",
+      "source_file": "docs/0091/combined.md",
+      "section": "auto_specific",
+      "char_start": 46656,
+      "char_end": 46910,
+      "quote": "Specifically, TAE-226 forms $\\pi$ - $\\sigma$ interactions with the Leu553 residue, and statistical data (Table S11) suggest that other compounds predominantly interact with Leu553 through $\\pi$ - $\\sigma$ interactions, highlighting its significant role."
+    },
+    {
+      "evidence_id": "EV_AUTO_004",
+      "source_file": "docs/0091/combined.md",
+      "section": "auto_specific",
+      "char_start": 41465,
+      "char_end": 41542,
+      "quote": "613 kcal/mol between TAE-226 and FAK, corroborating their robust interaction."
+    },
+    {
+      "evidence_id": "EV_AUTO_005",
+      "source_file": "docs/0091/combined.md",
+      "section": "auto_specific",
+      "char_start": 14340,
+      "char_end": 14517,
+      "quote": "As in the previous analysis, we utilized DataWarrior software to thoroughly investigate the ring systems and Murcko backbones of 2608 compounds targeting U-87 MG glioblastomas."
+    },
+    {
+      "evidence_id": "EV_AUTO_006",
+      "source_file": "docs/0091/combined.md",
+      "section": "auto_specific",
+      "char_start": 13357,
+      "char_end": 13485,
+      "quote": "The dataset of compounds targeting U-87 MG glioblastomas was also obtained from the CHEMBL database (CHEMBL3307575, https://www."
+    },
+    {
+      "evidence_id": "EV_AUTO_007",
+      "source_file": "docs/0091/combined.md",
+      "section": "auto_specific",
+      "char_start": 49702,
+      "char_end": 49777,
+      "quote": "8 The binding mode of TAE-226 and seven potential FAK inhibitors with FAK"
+    },
+    {
+      "evidence_id": "EV_AUTO_008",
+      "source_file": "docs/0091/combined.md",
+      "section": "auto_specific",
+      "char_start": 46495,
+      "char_end": 46656,
+      "quote": "Additionally, other types of interactions, such as Van der Waals forces, $\\pi$ -alkyl, and $\\pi$ - $\\sigma$ interactions, were observed between TAE-226 and FAK."
+    },
+    {
+      "evidence_id": "EV_AUTO_009",
+      "source_file": "docs/0091/combined.md",
+      "section": "auto_specific",
+      "char_start": 41076,
+      "char_end": 41201,
+      "quote": "The crystallographically resolved ligand, TAE-226, was extracted and repositioned into the active pocket of the FAK protein."
+    },
+    {
+      "evidence_id": "EV_AUTO_010",
+      "source_file": "docs/0091/combined.md",
+      "section": "auto_specific",
+      "char_start": 33974,
+      "char_end": 34104,
+      "quote": "To assist researchers in designing compounds for combatting U-87 MG glioblastomas, we conducted an analysis of feature importance."
+    },
+    {
+      "evidence_id": "EV_AUTO_011",
+      "source_file": "docs/0091/combined.md",
+      "section": "auto_specific",
+      "char_start": 30799,
+      "char_end": 30852,
+      "quote": "# Development of ML models for U-87 MG glioblastomas"
+    },
+    {
+      "evidence_id": "EV_AUTO_012",
+      "source_file": "docs/0091/combined.md",
+      "section": "auto_specific",
+      "char_start": 46275,
+      "char_end": 46495,
+      "quote": "According to our statistical analysis (Table S11), most of the selected compounds bind to FAK by forming hydrogen bonds with Cys502 or Asp564, with some also interacting with Leu567, Glu430, Glu500, and Glu506 residues."
+    },
+    {
+      "evidence_id": "EV_AUTO_013",
+      "source_file": "docs/0091/combined.md",
+      "section": "auto_specific",
+      "char_start": 42323,
+      "char_end": 42470,
+      "quote": "Among the screened compounds, 275 exhibited $\\mathrm{pIC}_{50}$ values surpassing 6.00 for both the FAK protein and U-87MG cells, constituting $5."
+    },
+    {
+      "evidence_id": "EV_AUTO_014",
+      "source_file": "docs/0091/combined.md",
+      "section": "auto_specific",
+      "char_start": 42323,
+      "char_end": 42408,
+      "quote": "Among the screened compounds, 275 exhibited $\\mathrm{pIC}_{50}$ values surpassing 6."
+    },
+    {
+      "evidence_id": "EV_AUTO_015",
+      "source_file": "docs/0091/combined.md",
+      "section": "auto_specific",
+      "char_start": 41991,
+      "char_end": 42095,
+      "quote": "000\\mathrm{kcal / mol}$ , 5107 compounds were selected as potential FAK inhibitors for further analysis."
+    },
+    {
+      "evidence_id": "EV_AUTO_016",
+      "source_file": "docs/0091/combined.md",
+      "section": "auto_specific",
+      "char_start": 41930,
+      "char_end": 42095,
+      "quote": "Following the application of a docking score cut-off of $-9.000\\mathrm{kcal / mol}$ , 5107 compounds were selected as potential FAK inhibitors for further analysis."
+    },
+    {
+      "evidence_id": "EV_AUTO_017",
+      "source_file": "docs/0091/combined.md",
+      "section": "auto_specific",
+      "char_start": 41772,
+      "char_end": 41930,
+      "quote": "In line with reference [22], compounds exhibiting docking score values equal to or below $-9.000\\mathrm{kcal / mol}$ were selected for further investigation."
+    },
+    {
+      "evidence_id": "EV_AUTO_018",
+      "source_file": "docs/0091/combined.md",
+      "section": "auto_specific",
+      "char_start": 9252,
+      "char_end": 9500,
+      "quote": "The modeling dataset, comprising molecular structures and their corresponding inhibitory activity against FAK (expressed as half-maximal inhibitory concentration $\\mathrm{IC}_{50}$ ), was retrieved from the CHEMBL database (CHEMBL2695, https://www."
+    },
+    {
+      "evidence_id": "EV_AUTO_019",
+      "source_file": "docs/0091/combined.md",
+      "section": "auto_specific",
+      "char_start": 7812,
+      "char_end": 7920,
+      "quote": "Currently, several studies have applied machine learning to predict the activity of FAK inhibitors [19–22]."
+    },
+    {
+      "evidence_id": "EV_AUTO_020",
+      "source_file": "docs/0091/combined.md",
+      "section": "auto_specific",
+      "char_start": 47192,
+      "char_end": 47472,
+      "quote": "Furthermore, Table S12 compares the chemical similarity between 16 FAK hits and their closest ChEMBL FAK ligands based on ECFP4 fingerprints, revealing low structural similarity between these compounds and known FAK inhibitors, underscoring the novelty of the screened compounds."
+    },
+    {
+      "evidence_id": "EV_AUTO_021",
+      "source_file": "docs/0091/combined.md",
+      "section": "auto_specific",
+      "char_start": 41542,
+      "char_end": 41772,
+      "quote": "Subsequently, the ChemDiv compound library, comprising an extensive collection of 1.6 million compounds, was subjected to docking simulations within the identical binding interface utilizing the predefined algorithmic parameters."
+    },
+    {
+      "evidence_id": "EV_AUTO_022",
+      "source_file": "docs/0091/combined.md",
+      "section": "auto_specific",
+      "char_start": 40822,
+      "char_end": 40917,
+      "quote": "in accurately constructing models to predict the $IC_{50}$ activity of organic small compounds."
+    },
+    {
+      "evidence_id": "EV_AUTO_023",
+      "source_file": "docs/0091/combined.md",
+      "section": "auto_specific",
+      "char_start": 33333,
+      "char_end": 33495,
+      "quote": "the FAK inhibitor $pIC_{50}$ activity model, underscoring the enhanced model performance with the incorporation of complementary molecular structural information."
+    },
+    {
+      "evidence_id": "EV_AUTO_024",
+      "source_file": "docs/0091/combined.md",
+      "section": "auto_specific",
+      "char_start": 26141,
+      "char_end": 26310,
+      "quote": "These findings highlight the accurate predictive capability of LightGBM-based molecular fingerprint models in determining the activity ( $pIC_{50}$ ) of FAK inhibitors."
+    },
+    {
+      "evidence_id": "EV_AUTO_025",
+      "source_file": "docs/0091/combined.md",
+      "section": "auto_specific",
+      "char_start": 24597,
+      "char_end": 24781,
+      "quote": "Table 1 summarizes the performance of the test set using LightGBM-based machine learning models, presenting the averaged $R^{2}$ , MAE, and RMSE values from ten-fold cross-validation."
+    },
+    {
+      "evidence_id": "EV_AUTO_026",
+      "source_file": "docs/0091/combined.md",
+      "section": "auto_specific",
+      "char_start": 7373,
+      "char_end": 7655,
+      "quote": "Unlike traditional trial-and-error methods in the laboratory, CADD utilizes computer simulation techniques, enabling researchers to efficiently screen and optimize drugs in a virtual environment, significantly reducing unnecessary experimental steps and saving research costs [15]."
+    },
+    {
+      "evidence_id": "EV_AUTO_027",
+      "source_file": "docs/0091/combined.md",
+      "section": "auto_specific",
+      "char_start": 59648,
+      "char_end": 59797,
+      "quote": "Molecular description of pyrimidine-based inhibitors with activity against FAK combining 3D-QSAR analysis, molecular docking and molecular dynamics."
+    },
+    {
+      "evidence_id": "EV_AUTO_028",
+      "source_file": "docs/0091/combined.md",
+      "section": "auto_specific",
+      "char_start": 47500,
+      "char_end": 47741,
+      "quote": "To further explore the binding stability between specific small molecules and the FAK protein, we representatively selected the complexes of compounds 1 and 2 with the FAK protein and conducted molecular dynamics (MD) simulation experiments."
+    },
+    {
+      "evidence_id": "EV_AUTO_029",
+      "source_file": "docs/0091/combined.md",
+      "section": "auto_specific",
+      "char_start": 31515,
+      "char_end": 31620,
+      "quote": "Table 2 Performance of the ML models on the ten-fold cross-validation of test set using LightGBM method"
+    },
+    {
+      "evidence_id": "EV_AUTO_030",
+      "source_file": "docs/0091/combined.md",
+      "section": "auto_specific",
+      "char_start": 21816,
+      "char_end": 21921,
+      "quote": "Table 1 Performance of the ML models on the ten-fold cross-validation of test set using LightGBM method"
+    },
+    {
+      "evidence_id": "EV_AUTO_031",
+      "source_file": "docs/0091/combined.md",
+      "section": "auto_specific",
+      "char_start": 41407,
+      "char_end": 41542,
+      "quote": "Further docking analysis unveiled a docking scores of -9.613 kcal/mol between TAE-226 and FAK, corroborating their robust interaction."
+    }
+  ],
+  "event_graph": {
+    "paper_main_problem": "Design novel FAK inhibitors for glioblastoma by integrating machine learning, docking, ADMET, and MD simulations to overcome limitations of small-dataset QSAR models.",
+    "canonical_events": [
+      {
+        "canonical_id": "K01",
+        "order": 1,
+        "event_type": "problem",
+        "summary": "GBM is highly aggressive with poor prognosis, necessitating novel therapies.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E01"
+        ],
+        "evidence_ids": [
+          "EV_C001_E01_01",
+          "EV_C001_E01_02"
+        ],
+        "key_entities": [
+          "GBM",
+          "glioblastoma"
+        ],
+        "key_numbers": [
+          "median survival ≤15 months"
+        ]
+      },
+      {
+        "canonical_id": "K02",
+        "order": 2,
+        "event_type": "hypothesis",
+        "summary": "FAK is a promising target for GBM therapy.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E02"
+        ],
+        "evidence_ids": [
+          "EV_C001_E02_01"
+        ],
+        "key_entities": [
+          "FAK",
+          "Focal adhesion kinase"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K03",
+        "order": 3,
+        "event_type": "problem",
+        "summary": "Existing QSAR models for FAK inhibitors use small datasets, limiting applicability.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E03"
+        ],
+        "evidence_ids": [
+          "EV_C001_E03_01",
+          "EV_C001_E03_02"
+        ],
+        "key_entities": [
+          "FAK inhibitors",
+          "QSAR",
+          "CoMFA",
+          "CoMSIA"
+        ],
+        "key_numbers": [
+          "22 compounds",
+          "R²_cv=0.528",
+          "R²_pred=0.7557"
+        ]
+      },
+      {
+        "canonical_id": "K04",
+        "order": 4,
+        "event_type": "hypothesis",
+        "summary": "A larger dataset ML model can enable rapid screening of FAK inhibitors for GBM.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E04"
+        ],
+        "evidence_ids": [
+          "EV_C001_E04_01"
+        ],
+        "key_entities": [
+          "FAK inhibitors",
+          "GBM",
+          "machine learning"
+        ],
+        "key_numbers": [
+          ">1000 data points"
+        ]
+      },
+      {
+        "canonical_id": "K05",
+        "order": 5,
+        "event_type": "design",
+        "summary": "Proposed integrated framework: ML models, docking, ADMET, and MD simulations.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E05"
+        ],
+        "evidence_ids": [
+          "EV_C001_E05_01"
+        ],
+        "key_entities": [
+          "FAK inhibitors",
+          "GBM",
+          "machine learning",
+          "docking",
+          "ADMET",
+          "MD"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K06",
+        "order": 6,
+        "event_type": "design",
+        "summary": "Built ML models using multiple algorithms and four fingerprint types from PaDEL; 80/20 split, 10-fold CV.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E08"
+        ],
+        "evidence_ids": [
+          "EV_C001_E08_02",
+          "EV_C001_E08_03"
+        ],
+        "key_entities": [
+          "PaDEL",
+          "LightGBM",
+          "RF",
+          "SVR",
+          "KNN",
+          "PLS",
+          "LASSO",
+          "XGBoost",
+          "CDK fingerprints",
+          "substructure fingerprints"
+        ],
+        "key_numbers": [
+          "80:20 split",
+          "10-fold CV"
+        ]
+      },
+      {
+        "canonical_id": "K07",
+        "order": 7,
+        "event_type": "computation",
+        "summary": "Evaluated fingerprint combinations for FAK inhibitor model; combined CDK, CDK extended, substructure count fingerprints gave best performance.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E01",
+          "C002_E02"
+        ],
+        "evidence_ids": [
+          "EV_C002_E01_02",
+          "EV_C002_E02_01",
+          "EV_C002_E02_02"
+        ],
+        "key_entities": [
+          "LightGBM",
+          "CDK fingerprints",
+          "CDK extended fingerprints",
+          "substructure count fingerprints"
+        ],
+        "key_numbers": [
+          "2355 input bits"
+        ]
+      },
+      {
+        "canonical_id": "K08",
+        "order": 8,
+        "event_type": "analysis",
+        "summary": "FAK inhibitor model achieved test set R²=0.892, MAE=0.331, RMSE=0.467; LightGBM outperformed other algorithms.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E05"
+        ],
+        "evidence_ids": [
+          "EV_C002_E05_02"
+        ],
+        "key_entities": [
+          "LightGBM",
+          "FAK inhibitors"
+        ],
+        "key_numbers": [
+          "R²=0.892",
+          "MAE=0.331",
+          "RMSE=0.467"
+        ]
+      },
+      {
+        "canonical_id": "K09",
+        "order": 9,
+        "event_type": "analysis",
+        "summary": "Feature importance for FAK model: SubFPC307 (chiral center) ranked top.",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C002_E04"
+        ],
+        "evidence_ids": [
+          "EV_C002_E04_02"
+        ],
+        "key_entities": [
+          "SubFPC307",
+          "chiral center"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K10",
+        "order": 10,
+        "event_type": "computation",
+        "summary": "Built cell-level model for U-87 MG glioblastoma; same optimal fingerprint combination; test set R²=0.789, MAE=0.395, RMSE=0.536.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E06",
+          "C003_E02"
+        ],
+        "evidence_ids": [
+          "EV_C002_E06_01",
+          "EV_C002_E06_02",
+          "EV_C003_E02_01"
+        ],
+        "key_entities": [
+          "U-87 MG glioblastoma",
+          "LightGBM"
+        ],
+        "key_numbers": [
+          "R²=0.789",
+          "MAE=0.395",
+          "RMSE=0.536"
+        ]
+      },
+      {
+        "canonical_id": "K11",
+        "order": 11,
+        "event_type": "validation",
+        "summary": "Docking validation: redocking TAE-226 gave RMSD 0.581 Å, confirming protocol reliability.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E03"
+        ],
+        "evidence_ids": [
+          "EV_C003_E03_01",
+          "EV_C003_E03_02"
+        ],
+        "key_entities": [
+          "TAE-226",
+          "FAK",
+          "AutoDock Vina"
+        ],
+        "key_numbers": [
+          "RMSD 0.581 Å",
+          "docking score -9.613 kcal/mol"
+        ]
+      },
+      {
+        "canonical_id": "K12",
+        "order": 12,
+        "event_type": "computation",
+        "summary": "Virtual screening of 1.6 million ChemDiv compounds by docking; 5107 selected with score ≤ -9.0 kcal/mol.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E04"
+        ],
+        "evidence_ids": [
+          "EV_C003_E04_01",
+          "EV_C003_E04_02",
+          "EV_C003_E04_03"
+        ],
+        "key_entities": [
+          "ChemDiv library",
+          "FAK",
+          "AutoDock Vina"
+        ],
+        "key_numbers": [
+          "1.6 million compounds",
+          "5107 compounds",
+          "docking score ≤ -9.0 kcal/mol"
+        ]
+      },
+      {
+        "canonical_id": "K13",
+        "order": 13,
+        "event_type": "analysis",
+        "summary": "ML models predicted pIC50 for 5107 compounds; 275 met dual criteria (pIC50 >6.0 for both protein and cell models).",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E05"
+        ],
+        "evidence_ids": [
+          "EV_C003_E05_01"
+        ],
+        "key_entities": [
+          "FAK protein",
+          "U-87MG cells",
+          "LightGBM models"
+        ],
+        "key_numbers": [
+          "275 compounds",
+          "pIC50 >6.0",
+          "5.38%"
+        ]
+      },
+      {
+        "canonical_id": "K14",
+        "order": 14,
+        "event_type": "analysis",
+        "summary": "ADMET prediction filtered 275 candidates to 16 passing all four drug-likeness rules (Lipinski, Pfizer, GSK, Golden Triangle).",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E07"
+        ],
+        "evidence_ids": [
+          "EV_C003_E07_01"
+        ],
+        "key_entities": [
+          "ADMETlab 2.0",
+          "Lipinski",
+          "Pfizer",
+          "GSK",
+          "Golden Triangle"
+        ],
+        "key_numbers": [
+          "16 compounds"
+        ]
+      },
+      {
+        "canonical_id": "K15",
+        "order": 15,
+        "event_type": "analysis",
+        "summary": "Binding pattern analysis revealed key interactions with Cys502, Asp564, and Leu553; low similarity to known FAK inhibitors.",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C003_E08"
+        ],
+        "evidence_ids": [
+          "EV_C003_E08_01",
+          "EV_C003_E08_02"
+        ],
+        "key_entities": [
+          "Cys502",
+          "Asp564",
+          "Leu553"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K16",
+        "order": 16,
+        "event_type": "validation",
+        "summary": "MD simulations of compounds 1 and 2 showed stable RMSD and favorable binding free energies (ΔG_bind -58.32 and -96.41 kJ/mol).",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C004_E01",
+          "C004_E03"
+        ],
+        "evidence_ids": [
+          "EV_C004_E01_01",
+          "EV_C004_E03_01"
+        ],
+        "key_entities": [
+          "compound 1",
+          "compound 2",
+          "FAK",
+          "Gromacs",
+          "MM-PBSA"
+        ],
+        "key_numbers": [
+          "RMSD 0.22-0.27 nm",
+          "ΔG_bind -58.32 kJ/mol",
+          "ΔG_bind -96.41 kJ/mol"
+        ]
+      },
+      {
+        "canonical_id": "K17",
+        "order": 17,
+        "event_type": "limitation",
+        "summary": "Further experimental validation through in vitro and in vivo studies is required.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C004_E05"
+        ],
+        "evidence_ids": [
+          "EV_C004_E05_01"
+        ],
+        "key_entities": [],
+        "key_numbers": []
+      }
+    ],
+    "edges": [
+      {
+        "source": "K01",
+        "target": "K02",
+        "relation": "enables",
+        "reason": "Poor prognosis of GBM motivates targeting FAK."
+      },
+      {
+        "source": "K02",
+        "target": "K03",
+        "relation": "follows",
+        "reason": "After identifying FAK as target, existing QSAR limitations are noted."
+      },
+      {
+        "source": "K03",
+        "target": "K04",
+        "relation": "enables",
+        "reason": "Small dataset limitation leads to hypothesis that larger dataset ML can improve screening."
+      },
+      {
+        "source": "K04",
+        "target": "K05",
+        "relation": "enables",
+        "reason": "Hypothesis motivates design of integrated framework."
+      },
+      {
+        "source": "K05",
+        "target": "K06",
+        "relation": "refines",
+        "reason": "Framework design specifies ML model building with multiple algorithms and fingerprints."
+      },
+      {
+        "source": "K06",
+        "target": "K07",
+        "relation": "follows",
+        "reason": "Model building leads to evaluation of fingerprint combinations."
+      },
+      {
+        "source": "K07",
+        "target": "K08",
+        "relation": "enables",
+        "reason": "Optimal fingerprint selection yields final FAK model performance."
+      },
+      {
+        "source": "K08",
+        "target": "K09",
+        "relation": "follows",
+        "reason": "After performance assessment, feature importance is analyzed."
+      },
+      {
+        "source": "K06",
+        "target": "K10",
+        "relation": "follows",
+        "reason": "Same modeling approach applied to cell-level data."
+      },
+      {
+        "source": "K10",
+        "target": "K11",
+        "relation": "follows",
+        "reason": "After building models, docking validation is performed."
+      },
+      {
+        "source": "K11",
+        "target": "K12",
+        "relation": "enables",
+        "reason": "Validated docking protocol used for virtual screening."
+      },
+      {
+        "source": "K12",
+        "target": "K13",
+        "relation": "follows",
+        "reason": "Docked compounds are filtered by ML predictions."
+      },
+      {
+        "source": "K13",
+        "target": "K14",
+        "relation": "follows",
+        "reason": "ML-filtered compounds undergo ADMET prediction."
+      },
+      {
+        "source": "K14",
+        "target": "K15",
+        "relation": "follows",
+        "reason": "ADMET-passed compounds are analyzed for binding patterns."
+      },
+      {
+        "source": "K15",
+        "target": "K16",
+        "relation": "follows",
+        "reason": "Selected compounds undergo MD validation."
+      },
+      {
+        "source": "K16",
+        "target": "K17",
+        "relation": "follows",
+        "reason": "MD validation confirms stability, but experimental validation is still needed."
+      }
+    ],
+    "must_cover_points": [
+      "GBM poor prognosis and need for novel therapies",
+      "FAK as a promising target",
+      "Limitations of existing small-dataset QSAR models",
+      "Hypothesis that larger dataset ML models can enable rapid screening",
+      "Design of integrated ML-docking-ADMET-MD framework",
+      "ML model building with multiple algorithms and fingerprints",
+      "Selection of optimal fingerprint combination (CDK+CDK extended+substructure count)",
+      "FAK model performance (R²=0.892)",
+      "Cell-level model performance (R²=0.789)",
+      "Docking validation (RMSD 0.581 Å)",
+      "Virtual screening of 1.6M compounds to 5107 hits",
+      "ML filtering to 275 dual-active compounds",
+      "ADMET filtering to 16 drug-like candidates",
+      "MD validation of two compounds showing stable binding",
+      "Need for experimental validation"
+    ],
+    "paper_not_suitable_reasons": []
+  }
+}

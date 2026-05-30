@@ -1,0 +1,804 @@
+{
+  "case": {
+    "case_id": "sci_evo_0108",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "A High-Throughput Screening System Based on Fluorescence-Activated Cell Sorting for the Directed Evolution of Chitinase A",
+      "doi": "https://doi.org/10.3390/ijms22063041",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0106_10_3390_ijms22063041_a_high_throughput_screening_system_based_on_fluorescence_activated_cell_sorting_for_the_di.pdf",
+      "mineru_md": "docs/0108/mineru.md",
+      "combined_md": "docs/0108/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Developing a FACS-based high-throughput screening system for directed evolution of chitinase A that overcomes leakage of the hydrophobic fluorescent product 4MU from double emulsions.",
+      "target_object": "Chitinase A (ChiA)",
+      "known_context": "FACS-based screening in double emulsions is limited by leakage of hydrophobic products like 4MU, causing false negatives and false positives.",
+      "constraints": [
+        "Must use commercially available substrate 4MUTC",
+        "Must maintain cell viability during expression and screening"
+      ],
+      "input_data": [
+        "E. coli cells expressing ChiA",
+        "4MUTC substrate"
+      ],
+      "quantifiable_goals": [
+        "Achieve enrichment of positive cells",
+        "Identify mutants with improved activity over wild-type"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "Hydrophobic product 4MU leaks from double emulsions, causing signal decline and crosstalk, limiting FACS-based screening for chitinase.",
+        "gap_or_uncertainty": "How to prevent 4MU leakage from emulsion compartments to enable reliable FACS-based screening.",
+        "hypothesis": "Cyclodextrins can trap hydrophobic 4MU to prevent leakage from emulsion compartments.",
+        "decision": "Test cyclodextrins as retention agents for 4MU in emulsion systems.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "literature-based reasoning",
+          "version": "",
+          "category": "reasoning"
+        },
+        "parameters": {},
+        "observation": "Cyclodextrins are known to form inclusion complexes with hydrophobic molecules, potentially retaining 4MU in the aqueous phase.",
+        "result_status": "success",
+        "next_step_reason": "Verify the hypothesis by testing cyclodextrins in biphasic and emulsion systems.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0108/combined.md",
+            "section": "C001",
+            "quote_or_span": "we observed a decline in the level of fluorescent product if the emulsions were incubated for longer time (Figure 1d), probably reflecting the hydrophobic nature of 4MU, which can diffuse out of the internal water phase of the emulsion system through the oil phase and, potentially, into other droplets."
+          },
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0108/combined.md",
+            "section": "C001",
+            "quote_or_span": "we considered this as a model to overcome the diffusion of a hydrophobic product from the emulsion compartments and therefore increase the range of substrates that can be used with FACS-based screening for other enzyme classes."
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "experiment",
+        "state_before": "Hypothesis that cyclodextrins can trap 4MU; initial ChiA activity assay verified in MTP format.",
+        "gap_or_uncertainty": "Need to confirm that cyclodextrins effectively retain 4MU in water phase and prevent leakage in emulsions.",
+        "hypothesis": "A 100-fold molar excess of HCD will retain >95% of 4MU in the water phase.",
+        "decision": "Test different cyclodextrins (HCD, MCD) in biphasic mixture and single oil-in-water emulsions.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "biphasic partitioning assay",
+          "version": "",
+          "category": "biochemical assay"
+        },
+        "parameters": {
+          "cyclodextrin_type": "HCD",
+          "molar_excess": "100-fold"
+        },
+        "observation": "100-fold molar excess of HCD retains >95% of 4MU in water phase; single emulsion confirms HCD retains 4MU better than no cyclodextrin or MCD.",
+        "result_status": "success",
+        "next_step_reason": "Incorporate HCD into double emulsion design and add quenching system to further reduce crosstalk.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E03_01",
+            "source_file": "docs/0108/combined.md",
+            "section": "C002",
+            "quote_or_span": "a 100-fold molar excess of HCD over 4MU keeps more than 95% of 4MU in the water phase"
+          },
+          {
+            "evidence_id": "EV_C002_E04_01",
+            "source_file": "docs/0108/combined.md",
+            "section": "C002",
+            "quote_or_span": "The presence of positive (green droplets) in the P2-Q1 quarter confirmed that 4MU entered the oil system in the absence of CDs but was retained more efficiently when HCD was present in the water phase"
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "design",
+        "state_before": "HCD effectively retains 4MU in single emulsions; double emulsion system still prone to crosstalk from leaked 4MU.",
+        "gap_or_uncertainty": "Leaked 4MU in outer phase can still cause false positives; need to quench external fluorescence.",
+        "hypothesis": "Adding HCD to outer phase and HRP/H2O2 quenching system will minimize crosstalk from leaked 4MU.",
+        "decision": "Optimize double emulsion with HCD in inner and outer phases plus HRP/H2O2 quenching system.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "double emulsion formulation",
+          "version": "",
+          "category": "emulsion-based compartmentalization"
+        },
+        "parameters": {
+          "inner_phase_additive": "HCD",
+          "outer_phase_additives": "HCD, HRP, H2O2"
+        },
+        "observation": "Optimized double emulsion system designed with HCD in both phases and HRP/H2O2 quenching in outer phase.",
+        "result_status": "success",
+        "next_step_reason": "Test the optimized system with a reference library to assess enrichment and viability.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E05_01",
+            "source_file": "docs/0108/combined.md",
+            "section": "C002",
+            "quote_or_span": "we also added HCD to the external water phase of the double emulsions to provide insurance"
+          },
+          {
+            "evidence_id": "EV_AUTO_026",
+            "source_file": "docs/0108/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Using the optimized system containing HCD in the inner phase, and HCD, HRP, and $H_{2}O_{2}$ in the outer phase, we prepared reference libraries containing 5% ChiA-positive cells mixed with 95% nonexpressing cells and compartmentalized them in double emulsions."
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "experiment",
+        "state_before": "Optimized double emulsion system ready for testing with reference library containing 5% ChiA-positive cells.",
+        "gap_or_uncertainty": "Will the optimized system allow enrichment of positive cells without toxicity issues?",
+        "hypothesis": "Sorting the reference library will yield enriched positive cells.",
+        "decision": "Sort reference library with 5% positive cells using optimized double emulsion system.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "FACS",
+          "version": "",
+          "category": "fluorescence-activated cell sorting"
+        },
+        "parameters": {
+          "positive_cell_percentage": "5%",
+          "expression_time": "18 h"
+        },
+        "observation": "Recovered fewer than 300 colonies, none positive; presorting plating showed <1% positive, indicating ChiA toxicity.",
+        "result_status": "failure",
+        "next_step_reason": "Investigate cause of low recovery; test viability at different expression times.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E06_01",
+            "source_file": "docs/0108/combined.md",
+            "section": "C002",
+            "quote_or_span": "we recovered fewer than 300 colonies from the plates and none of them were positive"
+          },
+          {
+            "evidence_id": "EV_C002_E06_02",
+            "source_file": "docs/0108/combined.md",
+            "section": "C002",
+            "quote_or_span": "despite the initial mix containing 5% positive cells, less than 1% of cells recovered from the presorting plate were positive"
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "experiment",
+        "state_before": "Sorting failure due to low recovery of positive cells; suspected ChiA toxicity.",
+        "gap_or_uncertainty": "Is long-term ChiA expression bactericidal? What expression time maintains viability?",
+        "hypothesis": "Long-term (18 h) ChiA expression kills E. coli; shorter expression (2–6 h) will maintain viability.",
+        "decision": "Test viability of E. coli expressing ChiA for different durations.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "viability assay",
+          "version": "",
+          "category": "cell viability assay"
+        },
+        "parameters": {
+          "expression_times": [
+            "18 h",
+            "2–6 h"
+          ]
+        },
+        "observation": "18 h ChiA expression kills >99% of cells (less than 0.6% recovery); 2–6 h expression maintains viability.",
+        "result_status": "success",
+        "next_step_reason": "Reduce expression time to 4 h and repeat sorting.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E07_01",
+            "source_file": "docs/0108/combined.md",
+            "section": "C002",
+            "quote_or_span": "the expression of ChiA was bactericidal to E. coli cells after 18 h, resulting in the recovery of less than 0.6% of the colonies"
+          },
+          {
+            "evidence_id": "EV_C002_E07_02",
+            "source_file": "docs/0108/combined.md",
+            "section": "C002",
+            "quote_or_span": "cells expressing ChiA for 2–6 h, confirming that the main bactericidal factor was the long-term expression of ChiA"
+          },
+          {
+            "evidence_id": "EV_C002_E08_01",
+            "source_file": "docs/0108/combined.md",
+            "section": "C002",
+            "quote_or_span": "We therefore reduced the chiA expression time to 4 h, which does not affect cell viability but still allows the detection of ChiA activity."
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "revision",
+        "state_before": "Viability data shows 4 h expression is non-toxic and allows activity detection.",
+        "gap_or_uncertainty": "Will reduced expression time enable successful enrichment of positive cells?",
+        "hypothesis": "Reducing expression time to 4 h will allow enrichment of ChiA-positive cells without toxicity.",
+        "decision": "Reduce chiA expression time to 4 h and sort mutant library.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "FACS",
+          "version": "",
+          "category": "fluorescence-activated cell sorting"
+        },
+        "parameters": {
+          "expression_time": "4 h"
+        },
+        "observation": "Achieved 17-fold enrichment of positive cell population.",
+        "result_status": "success",
+        "next_step_reason": "Validate improved mutants by secondary screening.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E08_01",
+            "source_file": "docs/0108/combined.md",
+            "section": "C002",
+            "quote_or_span": "We therefore reduced the chiA expression time to 4 h, which does not affect cell viability but still allows the detection of ChiA activity."
+          },
+          {
+            "evidence_id": "EV_C002_E08_02",
+            "source_file": "docs/0108/combined.md",
+            "section": "C002",
+            "quote_or_span": "After sorting the positive events, we achieved a 17-fold enrichment of the positive cell population."
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "validation",
+        "state_before": "Enriched mutant library obtained after sorting.",
+        "gap_or_uncertainty": "Which mutants show improved activity compared to wild-type?",
+        "hypothesis": "Secondary screening will identify mutants with higher chitinase activity.",
+        "decision": "Perform secondary screening of 300 colonies in MTP format.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "MTP-based fluorescence assay",
+          "version": "",
+          "category": "biochemical assay"
+        },
+        "parameters": {
+          "number_of_colonies": 300,
+          "controls": "20 wild-type positive, 20 vector-only negative"
+        },
+        "observation": "Identified 12 mutants with higher activity than wild-type ChiA, one of which (DH08) was 100% more active.",
+        "result_status": "success",
+        "next_step_reason": "Analyze mutations structurally to understand basis of improvement.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E08_01",
+            "source_file": "docs/0108/combined.md",
+            "section": "C003",
+            "quote_or_span": "This is the first report describing an ultrahigh-throughput screening system for improving chitinase activity"
+          },
+          {
+            "evidence_id": "EV_AUTO_024",
+            "source_file": "docs/0108/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "We identified 12 mutants with higher activity than wild-type ChiA, one of which (DH08) was 100% more active."
+          },
+          {
+            "evidence_id": "EV_C002_E06_01",
+            "source_file": "docs/0108/combined.md",
+            "section": "C002",
+            "quote_or_span": "we recovered fewer than 300 colonies from the plates and none of them were positive"
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "simulation",
+        "state_before": "12 improved mutants identified; no crystal structure available for ChiA.",
+        "gap_or_uncertainty": "Where are the mutations located relative to the active site?",
+        "hypothesis": "Mutations are likely distant from the active site, affecting activity indirectly.",
+        "decision": "Build homology model of ChiA based on 1edq template (30% similarity) and map mutations.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "homology modeling",
+          "version": "",
+          "category": "computational modeling"
+        },
+        "parameters": {
+          "template": "1edq",
+          "similarity": "30%"
+        },
+        "observation": "Mutations positioned >5 Å from active site, in loops or edges of secondary structures.",
+        "result_status": "success",
+        "next_step_reason": "Analyze mutation distribution and types across variants.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E01_01",
+            "source_file": "docs/0108/combined.md",
+            "section": "C003",
+            "quote_or_span": "A crystal structure for ChiA is not yet available. We therefore constructed a homology model for the enzyme based on the 1edq sequence, which has 30% similarity to ChiA."
+          },
+          {
+            "evidence_id": "EV_C003_E01_02",
+            "source_file": "docs/0108/combined.md",
+            "section": "C003",
+            "quote_or_span": "the mutations obtained in this study are positioned at a distance of more than 5 Å from the active site"
+          },
+          {
+            "evidence_id": "EV_AUTO_032",
+            "source_file": "docs/0108/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Despite these limitations, the current version of the assay enabled the recovery of 12 improved ChiA variants, in most cases featuring mutations in surface loops far from the active site."
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "analysis",
+        "state_before": "Mutations mapped on homology model; need to understand mutation patterns.",
+        "gap_or_uncertainty": "Are there any recurring mutations or hotspots? What types of mutations are present?",
+        "hypothesis": "Mutations are distributed across the sequence with no clustering; multiple mutations per variant complicate interpretation.",
+        "decision": "Analyze mutation frequency, types (conservative, charge-changing, proline-related), and distribution.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "sequence analysis",
+          "version": "",
+          "category": "bioinformatics"
+        },
+        "parameters": {},
+        "observation": "Only one mutation (E389D) shared among two mutants; rest unique, no clustering; 49 total mutations across 12 variants, including 14 conservative and 16 charge-changing substitutions.",
+        "result_status": "success",
+        "next_step_reason": "Discuss limitations of the study.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E03_01",
+            "source_file": "docs/0108/combined.md",
+            "section": "C003",
+            "quote_or_span": "Only one mutation (E389D) was found in two different mutants (AB01 and GM). The rest of the mutations were unique and distributed over the entire sequence of the protein. We did not observe any clustering or any regions with a higher mutational load."
+          },
+          {
+            "evidence_id": "EV_C003_E04_02",
+            "source_file": "docs/0108/combined.md",
+            "section": "C003",
+            "quote_or_span": "Three of our mutants (P190, P436T, and S441P) involved exchanges that either removed or introduced proline residues"
+          },
+          {
+            "evidence_id": "EV_C003_E04_03",
+            "source_file": "docs/0108/combined.md",
+            "section": "C003",
+            "quote_or_span": "We identified 16 such substitutions: K16I, K24N, W42R, D110N, K128E, H130N, D220Y, R147L, N192K, G303D, V304D, D427N, R448C, N469D, G516R, and R574Q."
+          },
+          {
+            "evidence_id": "EV_C003_E05_01",
+            "source_file": "docs/0108/combined.md",
+            "section": "C003",
+            "quote_or_span": "All our variants contained multiple mutations, making it difficult to speculate on the importance of individual residues"
+          },
+          {
+            "evidence_id": "EV_AUTO_023",
+            "source_file": "docs/0108/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The 12 variants we identified feature a total of 49 mutations."
+          },
+          {
+            "evidence_id": "EV_AUTO_032",
+            "source_file": "docs/0108/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Despite these limitations, the current version of the assay enabled the recovery of 12 improved ChiA variants, in most cases featuring mutations in surface loops far from the active site."
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "analysis",
+        "state_before": "Improved mutants identified but activity improvements capped at ~2-fold.",
+        "gap_or_uncertainty": "Why are activity improvements limited?",
+        "hypothesis": "Toxicity of ChiA in E. coli limits recovery of highly active mutants.",
+        "decision": "Conclude that toxicity remains an issue and propose future strategies.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "data interpretation",
+          "version": "",
+          "category": "reasoning"
+        },
+        "parameters": {},
+        "observation": "Mutants never exceeded wild-type activity by more than twofold; toxicity likely caps improvements. Future work: shorter induction, cell-free systems.",
+        "result_status": "partial",
+        "next_step_reason": "Acknowledge additional limitations of the study.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E07_01",
+            "source_file": "docs/0108/combined.md",
+            "section": "C003",
+            "quote_or_span": "the mutants recovered from the library never exceeded the wild-type activity by more than twofold, suggesting that toxicity remains an issue for enzymes with much higher levels of activity"
+          },
+          {
+            "evidence_id": "EV_C003_E07_02",
+            "source_file": "docs/0108/combined.md",
+            "section": "C003",
+            "quote_or_span": "We are considering several strategies to overcome this drawback, including the testing of even shorter induction periods and the use of cell-free in vitro coupled transcription–translation systems"
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "analysis",
+        "state_before": "Homology model used for structural interpretation; limitations noted.",
+        "gap_or_uncertainty": "How reliable is the structural interpretation given low model accuracy?",
+        "hypothesis": "Low homology model accuracy (30% similarity) and unmodeled N-/C-terminal regions limit structural interpretation.",
+        "decision": "Plan single mutant analysis and MD simulations to validate findings.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "critical assessment",
+          "version": "",
+          "category": "reasoning"
+        },
+        "parameters": {},
+        "observation": "Model accuracy limited; single mutant evaluation and MD simulations underway.",
+        "result_status": "partial",
+        "next_step_reason": "Conclude the study.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E05_02",
+            "source_file": "docs/0108/combined.md",
+            "section": "C003",
+            "quote_or_span": "The evaluation of single mutants is currently underway, combined with molecular dynamics simulations."
+          },
+          {
+            "evidence_id": "EV_C003_E01_01",
+            "source_file": "docs/0108/combined.md",
+            "section": "C003",
+            "quote_or_span": "A crystal structure for ChiA is not yet available. We therefore constructed a homology model for the enzyme based on the 1edq sequence, which has 30% similarity to ChiA."
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "Secondary screening in MTP format with wild-type and negative controls",
+        "DNA sequencing to confirm mutations"
+      ],
+      "metrics": [
+        "Fold enrichment of positive cells (17-fold)",
+        "Relative activity compared to wild-type (up to 100% increase)"
+      ],
+      "final_conclusion": "A FACS-based screening system using HCD and HRP/H2O2 quenching was developed, enabling 17-fold enrichment and identification of 12 improved ChiA mutants, though toxicity limited improvements to ~2-fold.",
+      "limitations": [
+        "Toxicity of ChiA in E. coli limits recovery of highly active mutants",
+        "Low homology model accuracy (30% similarity) limits structural interpretation",
+        "Multiple mutations per variant hinder identification of causative residues"
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_phase_action_fixed=1",
+        "v22_specific_evidence_backfilled=6",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_quote_align_repaired=1",
+        "v22_specific_evidence_backfilled=5",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 96.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_mainline_batch30\\states\\0108.json",
+  "events_path": "outputs\\agentic_v22\\v22_mainline_batch30\\events\\0108.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1
+        ],
+        "K02": [
+          1,
+          2
+        ],
+        "K03": [
+          2
+        ],
+        "K04": [
+          2
+        ],
+        "K05": [
+          2
+        ],
+        "K07": [
+          4,
+          7
+        ],
+        "K08": [
+          4,
+          5
+        ],
+        "K09": [
+          4,
+          5,
+          6
+        ],
+        "K10": [
+          7,
+          10
+        ],
+        "K12": [
+          9
+        ],
+        "K13": [
+          6,
+          10
+        ],
+        "K14": [
+          11
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K02",
+            "K03",
+            "K04",
+            "K05",
+            "K06"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K06"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K07",
+            "K08",
+            "K09"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K08",
+            "K09"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K09",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K07",
+            "K10"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K11"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K12"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K10",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K11",
+            "K14"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 5,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "99%"
+        ]
+      },
+      {
+        "step_index": 9,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "14"
+        ]
+      }
+    ],
+    "step_count": 11,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 96.0
+  },
+  "api_usage": {
+    "prompt_tokens": 99544,
+    "completion_tokens": 21353,
+    "total_tokens": 120897,
+    "prompt_cache_hit_tokens": 6272,
+    "prompt_cache_miss_tokens": 93272
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 3686,
+        "completion_tokens": 569,
+        "total_tokens": 4255,
+        "prompt_tokens_details": {
+          "cached_tokens": 3584
+        },
+        "prompt_cache_hit_tokens": 3584,
+        "prompt_cache_miss_tokens": 102
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 9171,
+        "completion_tokens": 2409,
+        "total_tokens": 11580,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 9171
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 7319,
+        "completion_tokens": 1010,
+        "total_tokens": 8329,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7063
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 7867,
+        "completion_tokens": 1423,
+        "total_tokens": 9290,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7611
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 7739,
+        "completion_tokens": 1367,
+        "total_tokens": 9106,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7483
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 7154,
+        "completion_tokens": 52,
+        "total_tokens": 7206,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6898
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 9841,
+        "completion_tokens": 2795,
+        "total_tokens": 12636,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 9457
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 11730,
+        "completion_tokens": 5172,
+        "total_tokens": 16902,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 11090
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 16120,
+        "completion_tokens": 882,
+        "total_tokens": 17002,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 16120
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 18917,
+        "completion_tokens": 5674,
+        "total_tokens": 24591,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 18277
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

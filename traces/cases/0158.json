@@ -1,0 +1,951 @@
+{
+  "case": {
+    "case_id": "sci_evo_0158",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Protein engineering using variational free energy approximation",
+      "doi": "https://doi.org/10.1038/s41467-024-54814-w",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0156_10_1038_s41467_024_54814_w_protein_engineering_using_variational_free_energy_approximation.pdf",
+      "mineru_md": "docs/0158/mineru.md",
+      "combined_md": "docs/0158/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Protein engineering is limited by the complexity of exploring vast design spaces and the difficulty of generating thermodynamically stable variants. Existing generative models often produce non-functional proteins because they cannot condition generation on thermodynamic stability.",
+      "target_object": "EcNAGK (N-acetyl-L-glutamate kinase)",
+      "known_context": "Generative models for protein design typically focus on sequence diversity but neglect thermodynamic stability, leading to many non-functional variants.",
+      "constraints": [
+        "Variants must be thermodynamically stable",
+        "Variants must retain enzymatic function",
+        "Mutations should not disrupt binding sites"
+      ],
+      "input_data": [
+        "Wildtype EcNAGK sequence and structure"
+      ],
+      "quantifiable_goals": [
+        "Generate functional EcNAGK variants with improved or maintained stability",
+        "Achieve high experimental viability and functionality rates"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "Protein engineering requires exploring a vast design space and ensuring thermodynamic stability, which is challenging. Existing generative models often produce non-functional variants because they do not condition on stability.",
+        "gap_or_uncertainty": "How to generate protein variants that are both diverse and thermodynamically stable?",
+        "hypothesis": "A variational autoencoder that jointly models sequence and free energy can learn a latent representation that captures the sequence-to-stability relationship, enabling the generation of stable variants.",
+        "decision": "Develop a model that extends VAE to two observed variables (sequence and ΔG) with separate decoders, trained by maximizing ELBO with reconstruction terms for both.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "Variational Autoencoder (VAE)",
+          "version": "custom",
+          "category": "generative_model"
+        },
+        "parameters": {},
+        "observation": "The PREVENT model is designed to allow controlled generation of variants with minimal free energy and prediction of free energy for generated variants.",
+        "result_status": "success",
+        "next_step_reason": "Model design requires training data, so in silico mutagenesis and free energy estimation are performed.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0158/combined.md",
+            "section": "C001",
+            "quote_or_span": "Engineering proteins is a challenging task requiring the exploration of a vast design space."
+          },
+          {
+            "evidence_id": "EV_C001_E01_02",
+            "source_file": "docs/0158/combined.md",
+            "section": "C001",
+            "quote_or_span": "most models do not generate thermodynamically stable proteins, thus leading to many non-functional variants."
+          },
+          {
+            "evidence_id": "EV_C001_E03_01",
+            "source_file": "docs/0158/combined.md",
+            "section": "C001",
+            "quote_or_span": "we developed the PRotein Engineering by Variational frEe eNergy approximation (PREVENT) model, which allows both the controlled generation of variants with minimal free energy as well as the prediction of the free energy associated with generated variants for downstream experimental prioritization."
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "simulation",
+        "state_before": "Training dataset of 117,387 variants with sequences and FOLDX ΔG values.",
+        "gap_or_uncertainty": "Can the transformer VAE learn a meaningful latent representation that captures the sequence-to-free-energy relationship?",
+        "hypothesis": "Training a transformer VAE with 128-dim latent space on the full dataset will yield low reconstruction error and high Spearman correlation between predicted and true ΔG.",
+        "decision": "Train transformer VAE on full dataset with 128-dim latent space.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "Transformer VAE",
+          "version": "custom",
+          "category": "generative_model"
+        },
+        "parameters": {
+          "latent_dim": 128,
+          "encoder_layers": 6,
+          "decoder_layers": 4,
+          "embedding_size": 512,
+          "heads": 8
+        },
+        "observation": "Reconstruction error 114.80, RMSE 9.27, Spearman correlation 0.96 on full dataset.",
+        "result_status": "success",
+        "next_step_reason": "After training, latent space is analyzed to validate the learned energy landscape.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E05_01",
+            "source_file": "docs/0158/combined.md",
+            "section": "C001",
+            "quote_or_span": "the reconstruction error was 114.80 (perplexity: 0.66) for the full dataset"
+          },
+          {
+            "evidence_id": "EV_C001_E05_02",
+            "source_file": "docs/0158/combined.md",
+            "section": "C001",
+            "quote_or_span": "obtained the best results when using the full dataset (RMSE = 9.27)"
+          },
+          {
+            "evidence_id": "EV_AUTO_018",
+            "source_file": "docs/0158/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "96$ when training on the full dataset and only dropping to $\\rho = 0.92$ when using only 25K sequences, suggesting that predicted values are a robust metric for variants ranking."
+          },
+          {
+            "evidence_id": "EV_AUTO_009",
+            "source_file": "docs/0158/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "With our procedure, we generated 117,387 unique variants, with each variant harbouring up to 38 mutations ( $\\approx$ 15% of the residues), and then computed the associated free energy, $\\Delta G$ , using FOLDX $^{14}$ ."
+          },
+          {
+            "evidence_id": "EV_C001_E07_01",
+            "source_file": "docs/0158/combined.md",
+            "section": "C001",
+            "quote_or_span": "the smaller model with 128-dimensional latent space achieving the lowest RMSE of 6.84 across all experiments"
+          },
+          {
+            "evidence_id": "EV_AUTO_033",
+            "source_file": "docs/0158/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Here we found that the vast majority (126) of the 128 components to be active, albeit to a different level, suggesting that our model maps variants to different regions of the latent space."
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "analysis",
+        "state_before": "Latent space validated; model performance metrics known.",
+        "gap_or_uncertainty": "Can model performance be improved with different hyperparameters?",
+        "hypothesis": "A smaller model with 128-dim latent space may achieve lower RMSE while maintaining high Spearman correlation.",
+        "decision": "Perform hyperparameter analysis across different model sizes.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Hyperparameter sweep",
+          "version": "custom",
+          "category": "model_selection"
+        },
+        "parameters": {
+          "latent_dims": [
+            128,
+            256,
+            512
+          ]
+        },
+        "observation": "Smaller model with 128-dim latent achieved lowest RMSE 6.84, but Spearman correlation remained high (0.97-0.98) across all models. Original model used for downstream tasks.",
+        "result_status": "partial",
+        "next_step_reason": "Trained model is used to generate variants via POE and SNE strategies.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E07_01",
+            "source_file": "docs/0158/combined.md",
+            "section": "C001",
+            "quote_or_span": "the smaller model with 128-dimensional latent space achieving the lowest RMSE of 6.84 across all experiments"
+          },
+          {
+            "evidence_id": "EV_C001_E07_02",
+            "source_file": "docs/0158/combined.md",
+            "section": "C001",
+            "quote_or_span": "the Spearman correlation remained high across all models, ranging from 0.97 to 0.98"
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "simulation",
+        "state_before": "Trained PREVENT model available.",
+        "gap_or_uncertainty": "How to generate novel variants with low free energy?",
+        "hypothesis": "Two strategies can be used: POE (prior optimization of free energy) for exploring low-energy regions, and SNE (seeded non-optimal energy ranking) for generating variants near wildtype.",
+        "decision": "Generate 2000 variants using POE and 30,000 samples for SNE, then filter duplicates and binding site mutations.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "PREVENT generation",
+          "version": "custom",
+          "category": "generative_model"
+        },
+        "parameters": {
+          "POE_samples": 2000,
+          "SNE_samples": 30000
+        },
+        "observation": "After filtering, obtained 1282 new variants from POE (66%) and 13,323 from SNE (44%).",
+        "result_status": "success",
+        "next_step_reason": "Generated variants are analyzed for diversity and mutation patterns.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E08_01",
+            "source_file": "docs/0158/combined.md",
+            "section": "C001",
+            "quote_or_span": "We generated 2000 variants using POE and 30,000 samples for SNE"
+          },
+          {
+            "evidence_id": "EV_C001_E08_02",
+            "source_file": "docs/0158/combined.md",
+            "section": "C001",
+            "quote_or_span": "we obtained 1282 new variants (66%)"
+          },
+          {
+            "evidence_id": "EV_C002_E02_01",
+            "source_file": "docs/0158/combined.md",
+            "section": "C002",
+            "quote_or_span": "We generated 2000 variants using POE and 30,000 samples for SNE, and then removed those sequences that were i) present in the training set, ii) have mutations in the binding site, or iii) are duplicated."
+          },
+          {
+            "evidence_id": "EV_C002_E02_02",
+            "source_file": "docs/0158/combined.md",
+            "section": "C002",
+            "quote_or_span": "we obtained 1282 new variants (66%) for POE and 13,323 variants for SNE (44%)"
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "analysis",
+        "state_before": "Generated variant pools from POE and SNE.",
+        "gap_or_uncertainty": "How diverse are the generated variants and what are their mutation patterns?",
+        "hypothesis": "POE variants will be more diverse and target specific regions with non-conservative mutations, while SNE variants will be more uniform.",
+        "decision": "Analyze mutation counts, BLOSUM62 scores, and positional mutation frequencies.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Sequence analysis",
+          "version": "custom",
+          "category": "bioinformatics"
+        },
+        "parameters": {},
+        "observation": "POE variants more diverse (avg 7.09 mutations) than SNE (3.57). Only ~25% mutations conservative. POE targets C-terminus with non-conservative mutations; SNE mutations uniform.",
+        "result_status": "success",
+        "next_step_reason": "Generated variants are used to design a library for experimental validation.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E03_01",
+            "source_file": "docs/0158/combined.md",
+            "section": "C002",
+            "quote_or_span": "POE variants are more diverse (see Fig. 3A) than SNE, with an average of 7.09 and 3.57 mutations respectively."
+          },
+          {
+            "evidence_id": "EV_C002_E05_01",
+            "source_file": "docs/0158/combined.md",
+            "section": "C002",
+            "quote_or_span": "POE predominantly mutates the C-terminus harboring the ATP-binding domain of the protein, which harbours highly non conservative mutations, such as the tryptophan introduced at position 212 in place of the aspartic acid residue"
+          },
+          {
+            "evidence_id": "EV_C002_E05_02",
+            "source_file": "docs/0158/combined.md",
+            "section": "C002",
+            "quote_or_span": "SNE introduced mutations almost uniformly across the wildtype sequence"
+          },
+          {
+            "evidence_id": "EV_AUTO_031",
+            "source_file": "docs/0158/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Surprisingly, we observed that only $\\approx$ 25% of mutations were conservative, as measured by BLOSUM62 substitution matrix; this result suggests that PREVENT might select energetically favorable mutations regardless of evolutionary information (see Fig."
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "design",
+        "state_before": "Large pools of generated variants available.",
+        "gap_or_uncertainty": "Which variants should be experimentally tested to validate the approach?",
+        "hypothesis": "Selecting top variants by free energy from POE and SNE, and comparing with sequence-only selection (highest ELBO and highest identity), will demonstrate the advantage of energy-based design.",
+        "decision": "Design a library of 40 EcNAGK variants: 10 lowest free energy from POE, 10 from SNE, plus 10 highest ELBO (SNL) and 10 highest identity (SNI) for comparison.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "Library design",
+          "version": "custom",
+          "category": "experimental_design"
+        },
+        "parameters": {
+          "library_size": 40,
+          "groups": [
+            "POE",
+            "SNE",
+            "SNL",
+            "SNI"
+          ],
+          "selection_criteria": "lowest free energy (POE, SNE), highest ELBO (SNL), highest identity (SNI)"
+        },
+        "observation": "Variants in the library have an average free energy ranging from -29.8 kcal/mol for the SNE group, to -18 kcal/mol for the SNL group.",
+        "result_status": "success",
+        "next_step_reason": "Experimental validation begins, but initial expression system causes growth penalty.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E06_01",
+            "source_file": "docs/0158/combined.md",
+            "section": "C002",
+            "quote_or_span": "we took the 10 variants with lowest free energy obtained with the POE strategy and the 10 variants with the lowest free energy generated with the SNE strategy. We further augmented this library by adding 10 variants with the highest ELBO, denoted as SNL, and 10 with the highest identity with respect to the wildtype, hereby denoted as SNI"
+          },
+          {
+            "evidence_id": "EV_C002_E06_02",
+            "source_file": "docs/0158/combined.md",
+            "section": "C002",
+            "quote_or_span": "Variants in the library have an average free energy ranging from -29.8 kcal/mol for the SNE group, to -18 kcal/mol for the SNL group"
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "experiment",
+        "state_before": "Library of 40 variants designed for expression in E. coli ΔargB strain.",
+        "gap_or_uncertainty": "Can the variants be expressed and screened in a high-throughput manner?",
+        "hypothesis": "Plasmid-based expression of wildtype argB will complement the auxotrophy, but overexpression may cause toxicity.",
+        "decision": "Transform wildtype argB plasmid into ΔargB strain and assess growth.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Plasmid transformation",
+          "version": "pKCHU-argB",
+          "category": "molecular_biology"
+        },
+        "parameters": {
+          "strain": "BW25113 ΔargB",
+          "plasmid": "pKCHU-argB"
+        },
+        "observation": "Initial plasmid-based expression of wildtype argB caused severe growth penalty (>24h lag) due to overexpression.",
+        "result_status": "failure",
+        "next_step_reason": "Growth penalty is resolved by codon optimization.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E05_01",
+            "source_file": "docs/0158/combined.md",
+            "section": "C003",
+            "quote_or_span": "we observed that argB knockouts required over 24 h of incubation to emerge from lag phase"
+          },
+          {
+            "evidence_id": "EV_C003_E05_02",
+            "source_file": "docs/0158/combined.md",
+            "section": "C003",
+            "quote_or_span": "we hypothesised that the strong EcNAGK overexpression was severely penalising cell growth in minimal media"
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "revision",
+        "state_before": "Overexpression of wildtype argB causes growth penalty.",
+        "gap_or_uncertainty": "How to reduce expression to a tolerable level?",
+        "hypothesis": "Recoding argB using E. coli codon bias will reduce expression and improve growth.",
+        "decision": "Recode argB using E. coli codon bias and apply codon optimization to all variants.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Codon optimization",
+          "version": "E. coli codon bias",
+          "category": "synthetic_biology"
+        },
+        "parameters": {},
+        "observation": "Achieved 25-fold reduction in expression and drastic growth improvement.",
+        "result_status": "success",
+        "next_step_reason": "Codon-optimized variants are transformed and screened.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_026",
+            "source_file": "docs/0158/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "6) $^{16}$ , we measured an average 25-fold reduction in gene expression by RT-qPCR, which was associated with a drastic improvement in growth rate using both solid and liquid minimal media (see Supplementary Fig."
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "experiment",
+        "state_before": "Codon-optimized variant library ready for transformation.",
+        "gap_or_uncertainty": "Will the designed variants be viable and functional in complementing the argB knockout?",
+        "hypothesis": "A high-throughput transformation and screening protocol will allow assessment of viability and functionality.",
+        "decision": "Transform 40 variants into ΔargB strain using high-throughput OT-2 robot and screen on auxotrophic media.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "OT-2 robot",
+          "version": "Opentrons OT-2",
+          "category": "laboratory_automation"
+        },
+        "parameters": {
+          "variants": 40,
+          "strain": "BW25113 ΔargB"
+        },
+        "observation": "7 variants failed to produce viable transformants; 33 viable, 28 functional (85% of viable).",
+        "result_status": "partial",
+        "next_step_reason": "Screening results are analyzed to compare energy-based vs sequence-only strategies.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E07_01",
+            "source_file": "docs/0158/combined.md",
+            "section": "C003",
+            "quote_or_span": "7 EcNAGK variants (namely poe4, snl3, snl6, snl7, sni10, sne1, sne3) did not produce viable transformants"
+          },
+          {
+            "evidence_id": "EV_C003_E07_02",
+            "source_file": "docs/0158/combined.md",
+            "section": "C003",
+            "quote_or_span": "the total count of active variants to 28"
+          },
+          {
+            "evidence_id": "EV_C003_E07_03",
+            "source_file": "docs/0158/combined.md",
+            "section": "C003",
+            "quote_or_span": "85% of the designed and transformed EcNAGK variants enabled survival on auxotrophic media"
+          },
+          {
+            "evidence_id": "EV_AUTO_022",
+            "source_file": "docs/0158/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "In conclusion, 85% of the designed and transformed EcNAGK variants enabled survival on auxotrophic media, with 67% permitting similar recovery levels to the wild-type sequence."
+          },
+          {
+            "evidence_id": "EV_AUTO_007",
+            "source_file": "docs/0158/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "To this end, we developed a robust and high-throughput heat-shock transformation protocol using an Opentrons OT-2 robot, which allowed us to reliably and reproducibly transform E."
+          },
+          {
+            "evidence_id": "EV_AUTO_006",
+            "source_file": "docs/0158/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "developed a transformation protocol for the Opentrons OT-2 robot."
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "analysis",
+        "state_before": "Experimental screening results available.",
+        "gap_or_uncertainty": "Do energy-based strategies yield more diverse functional variants than sequence-only strategies?",
+        "hypothesis": "Energy-based strategies (POE+SNE) will yield functional variants with more mutations than sequence-only (SNI+SNL), and ELBO prioritization (SNL) will perform worst.",
+        "decision": "Compare mutation counts and functionality across groups; perform growth assays.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Statistical analysis",
+          "version": "custom",
+          "category": "data_analysis"
+        },
+        "parameters": {},
+        "observation": "Energy-based strategies (POE+SNE) yielded 14 functional variants with avg 5.64 mutations vs 1.64 for sequence-only (SNI+SNL). ELBO prioritization (SNL) performed worst.",
+        "result_status": "success",
+        "next_step_reason": "Computational structural analysis validates that functional variants maintain wildtype-like structure.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E08_01",
+            "source_file": "docs/0158/combined.md",
+            "section": "C003",
+            "quote_or_span": "functional variants designed using free energy information (POE, SNE) harbour, on average, significantly more mutations (5.64) compared to the 1.64 mutations found on variants selected by sequence only information"
+          },
+          {
+            "evidence_id": "EV_AUTO_012",
+            "source_file": "docs/0158/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "177, $p$ -value = 3.151 × 10 $^{-5}$ ), suggesting that exploiting free energy information could yield more diverse library with minimal impact on the overall number of functional proteins obtained in a screen."
+          },
+          {
+            "evidence_id": "EV_AUTO_013",
+            "source_file": "docs/0158/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "64 mutations found on variants selected by sequence only information (Student t-test; t: 4.9173, df: 22."
+          },
+          {
+            "evidence_id": "EV_AUTO_025",
+            "source_file": "docs/0158/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "14 out of the 28 viable variants were obtained by using either POE (6 variants) or SNE (8 variants); as expected, since they carry only 1 mutation, 9 out of 10 SNI variants recovered the phenotype, whereas only 5 out of the 10 SNL variants were functional."
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "validation",
+        "state_before": "Functional variants identified, but structural integrity unknown.",
+        "gap_or_uncertainty": "Do the functional variants maintain the wildtype fold and stability?",
+        "hypothesis": "Computational structural analysis (ESMFOLD, OPENMM, eNMA, ESM-IF) will confirm that variants closely resemble wildtype structure.",
+        "decision": "Predict structures, perform energy minimization, normal mode analysis, and inverse folding evaluation.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "ESMFOLD, OPENMM, eNMA, ESM-IF",
+          "version": "default",
+          "category": "structural_bioinformatics"
+        },
+        "parameters": {},
+        "observation": "Variants closely resemble wildtype structure (avg pLDDT 89.64, avg RMSD 1.70Å) and are consistent with wildtype fold, though slightly less stable (wildtype log-likelihood: -0.991; average variants log-likelihood: -1.069).",
+        "result_status": "success",
+        "next_step_reason": "Limitations of the approach are discussed based on experimental and computational findings.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E02_01",
+            "source_file": "docs/0158/combined.md",
+            "section": "C003",
+            "quote_or_span": "The predicted structures have an average pLDDT of 89.64"
+          },
+          {
+            "evidence_id": "EV_C003_E02_02",
+            "source_file": "docs/0158/combined.md",
+            "section": "C003",
+            "quote_or_span": "closely resembling the structure of the wildtype enzyme (average RMSD: 1.70Å)"
+          },
+          {
+            "evidence_id": "EV_C003_E03_01",
+            "source_file": "docs/0158/combined.md",
+            "section": "C003",
+            "quote_or_span": "the average inverse folding score of -0.077"
+          },
+          {
+            "evidence_id": "EV_C003_E03_02",
+            "source_file": "docs/0158/combined.md",
+            "section": "C003",
+            "quote_or_span": "wildtype log-likelihood: -0.991; average variants log-likelihood: -1.069"
+          }
+        ]
+      },
+      {
+        "step_index": 12,
+        "phase": "analysis",
+        "state_before": "Experimental and computational validation completed.",
+        "gap_or_uncertainty": "What are the limitations of the PREVENT approach?",
+        "hypothesis": "FOLDX accuracy may be limited for large proteins or unfolded states, and model explainability remains an open challenge.",
+        "decision": "Discuss limitations regarding FOLDX reliability and model explainability.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Limitation analysis",
+          "version": "N/A",
+          "category": "discussion"
+        },
+        "parameters": {},
+        "observation": "FOLDX accuracy is limited for large proteins or unfolded states; relative free energy changes (ΔΔG) might be more robust. Model explainability not addressed.",
+        "result_status": "inconclusive",
+        "next_step_reason": "These limitations inform future work.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E03_01",
+            "source_file": "docs/0158/combined.md",
+            "section": "C004",
+            "quote_or_span": "FOLDX, a well-known and validated tool, which has been shown to be reliable mostly for small and medium size proteins, mostly due to the intrinsic difficulty of modeling proteins in unfolded state"
+          },
+          {
+            "evidence_id": "EV_C004_E04_01",
+            "source_file": "docs/0158/combined.md",
+            "section": "C004",
+            "quote_or_span": "identifying the best framework to make our model explainable will require further investigation."
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "Experimental complementation assay in E. coli ΔargB",
+        "Growth assays in minimal media",
+        "Computational structural analysis (ESMFOLD, OPENMM, eNMA, ESM-IF)"
+      ],
+      "metrics": [
+        "Viability rate: 85% of transformed variants",
+        "Functionality rate: 70% of all variants",
+        "Average mutations in functional energy-based variants: 5.64 vs 1.64 for sequence-only",
+        "Structural similarity: avg pLDDT 89.64, avg RMSD 1.70Å"
+      ],
+      "final_conclusion": "PREVENT successfully generates functional EcNAGK variants with higher diversity when using free energy information, while maintaining wildtype-like structure. Energy-based strategies outperform sequence-only methods in yielding diverse functional variants.",
+      "limitations": [
+        "FOLDX accuracy limited for large proteins or unfolded states; relative free energy changes (ΔΔG) might be more robust.",
+        "Model explainability not addressed."
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_step_trimmed=13_to_12",
+        "v22_specific_evidence_backfilled=5",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_step_trimmed=13_to_12",
+        "v22_specific_evidence_backfilled=5",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 100.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p4\\states\\0158.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p4\\events\\0158.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1
+        ],
+        "K04": [
+          1,
+          2
+        ],
+        "K05": [
+          1,
+          2,
+          3
+        ],
+        "K08": [
+          4,
+          6
+        ],
+        "K09": [
+          5,
+          10
+        ],
+        "K10": [
+          4,
+          5,
+          6,
+          10
+        ],
+        "K11": [
+          7,
+          8
+        ],
+        "K12": [
+          7,
+          8
+        ],
+        "K13": [
+          9
+        ],
+        "K14": [
+          6,
+          10
+        ],
+        "K15": [
+          11
+        ],
+        "K16": [
+          12
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K03",
+            "K04",
+            "K05"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K04",
+            "K05",
+            "K06",
+            "K07"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K05",
+            "K07"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K08",
+            "K10"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K09",
+            "K10"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K08",
+            "K10",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K11",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K11",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K13"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K09",
+            "K10",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K15"
+          ]
+        },
+        {
+          "step_index": 12,
+          "covered_event_ids": [
+            "K16"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 2,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "0.96"
+        ]
+      },
+      {
+        "step_index": 3,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "-0.98"
+        ]
+      },
+      {
+        "step_index": 6,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "10h",
+          "40"
+        ]
+      },
+      {
+        "step_index": 7,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "40"
+        ]
+      },
+      {
+        "step_index": 9,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "33",
+          "40"
+        ]
+      }
+    ],
+    "step_count": 12,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 100.0
+  },
+  "api_usage": {
+    "prompt_tokens": 141393,
+    "completion_tokens": 32065,
+    "total_tokens": 173458,
+    "prompt_cache_hit_tokens": 2944,
+    "prompt_cache_miss_tokens": 138449
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 4601,
+        "completion_tokens": 685,
+        "total_tokens": 5286,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 4601
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 15239,
+        "completion_tokens": 4682,
+        "total_tokens": 19921,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 15239
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 9483,
+        "completion_tokens": 1412,
+        "total_tokens": 10895,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9227
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 10095,
+        "completion_tokens": 1098,
+        "total_tokens": 11193,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9839
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 9953,
+        "completion_tokens": 1535,
+        "total_tokens": 11488,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9697
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 9761,
+        "completion_tokens": 1550,
+        "total_tokens": 11311,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9505
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C005",
+      "api_usage": {
+        "prompt_tokens": 9292,
+        "completion_tokens": 1443,
+        "total_tokens": 10735,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9036
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 14358,
+        "completion_tokens": 3966,
+        "total_tokens": 18324,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 13974
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 14339,
+        "completion_tokens": 7132,
+        "total_tokens": 21471,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 13699
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 20327,
+        "completion_tokens": 1307,
+        "total_tokens": 21634,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 20327
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 23945,
+        "completion_tokens": 7255,
+        "total_tokens": 31200,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 23305
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

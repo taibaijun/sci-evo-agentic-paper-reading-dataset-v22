@@ -1,0 +1,795 @@
+{
+  "case": {
+    "case_id": "sci_evo_0044",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Dissecting the evolvability landscape of the CalB active site toward aromatic substrates",
+      "doi": "https://doi.org/10.1038/s41598-019-51940-0",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0042_10_1038_s41598_019_51940_0_dissecting_the_evolvability_landscape_of_the_calb_active_site_toward_aromatic_substrates.pdf",
+      "mineru_md": "docs/0044/mineru.md",
+      "combined_md": "docs/0044/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Engineering CalB lipase to improve activity toward bulky aromatic substrates (methyl cinnamate and methyl salicylate) due to poor native recognition, while overcoming limitations of high-throughput screening for transesterification.",
+      "target_object": "CalB lipase",
+      "known_context": "CalB has poor activity on bulky aromatic substrates; high-throughput screening for transesterification is difficult.",
+      "constraints": [
+        "High-throughput screening for transesterification is challenging",
+        "Limited screening capacity"
+      ],
+      "input_data": [
+        "WT CalB sequence and structure",
+        "Previous CalB mutations (136 mutations)"
+      ],
+      "quantifiable_goals": [
+        "Increase transesterification activity toward methyl cinnamate and methyl salicylate",
+        "Design smaller, smarter mutant libraries"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "CalB has poor activity on bulky aromatic substrates and high-throughput screening for transesterification is difficult.",
+        "gap_or_uncertainty": "How to efficiently engineer CalB for improved activity on bulky aromatics given screening limitations.",
+        "hypothesis": "A combinatorial semi-rational approach (ISRD) combining virtual docking, iterative saturation mutagenesis, and RIN analysis can design smaller, smarter mutant libraries.",
+        "decision": "Adopt ISRD approach.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "ISRD (Integrated Semi-Rational Design)",
+          "version": "",
+          "category": "computational_design"
+        },
+        "parameters": {},
+        "observation": "ISRD approach proposed to partly overcome screening challenge.",
+        "result_status": "success",
+        "next_step_reason": "Need to identify mutable residues using RIN analysis.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0044/combined.md",
+            "section": "C001",
+            "quote_or_span": "the functional analysis and identification of active variants among such high numbers of mutational possibilities is not a trivial task"
+          },
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0044/combined.md",
+            "section": "C001",
+            "quote_or_span": "we describe a combinatorial semi-rational approach to partly overcome this challenge and help design smaller and smarter mutant libraries"
+          },
+          {
+            "evidence_id": "EV_C001_E03_01",
+            "source_file": "docs/0044/combined.md",
+            "section": "C001",
+            "quote_or_span": "By adapting a liquid medium transesterification assay in organic solvent conditions with a combination of virtual docking, iterative saturation mutagenesis, and residue interaction network (RIN) analysis"
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "design",
+        "state_before": "ISRD hypothesis formulated; need to select mutable residues.",
+        "gap_or_uncertainty": "Which residues are likely to yield beneficial mutations?",
+        "hypothesis": "Residues with low betweenness centrality in RIN are more likely to accommodate beneficial mutations.",
+        "decision": "Use RIN analysis of previous CalB mutations to guide selection.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Residue Interaction Network (RIN) analysis",
+          "version": "",
+          "category": "computational_analysis"
+        },
+        "parameters": {
+          "dataset": "previous CalB mutations"
+        },
+        "observation": "More than 80% of previous beneficial mutations had low betweenness centrality.",
+        "result_status": "success",
+        "next_step_reason": "Select WT CalB as starting template based on similar performance to L278P variant.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E07_01",
+            "source_file": "docs/0044/combined.md",
+            "section": "C001",
+            "quote_or_span": "We found that more than 80% of previous beneficial mutations that either increase CalB activity or improve protein stability exhibit low values of betweenness centrality measure"
+          },
+          {
+            "evidence_id": "EV_C001_E08_01",
+            "source_file": "docs/0044/combined.md",
+            "section": "C001",
+            "quote_or_span": "Due to similar synthetic performance relative to the previously reported variant CalB-L278P, we selected WT CalB as a proper starting template for all future protein engineering steps"
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "experiment",
+        "state_before": "WT CalB selected as starting template.",
+        "gap_or_uncertainty": "Need efficient expression system for CalB.",
+        "hypothesis": "E. coli Rosetta (DE3) with SB medium, 0.1 mM IPTG, 16°C will yield high CalB expression.",
+        "decision": "Optimize overexpression conditions.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Bacterial overexpression",
+          "version": "",
+          "category": "protein_expression"
+        },
+        "parameters": {
+          "strain": "E. coli Rosetta (DE3)",
+          "medium": "SB",
+          "IPTG": "0.1 mM",
+          "temperature": "16°C"
+        },
+        "observation": "Most efficient bacterial CalB producer identified.",
+        "result_status": "success",
+        "next_step_reason": "Develop screening assay for transesterification activity.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E05_01",
+            "source_file": "docs/0044/combined.md",
+            "section": "C001",
+            "quote_or_span": "the most efficient bacterial CalB producer was found to be E. coli Rosetta (DE3) grown on SB medium (0.1 mM IPTG induction, 16°C)"
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "experiment",
+        "state_before": "CalB expression optimized.",
+        "gap_or_uncertainty": "Need a high-throughput screening assay for transesterification.",
+        "hypothesis": "A liquid medium assay using vinyl substrates and MBTH detection can screen transesterification activity.",
+        "decision": "Develop and standardize liquid medium transesterification assay.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Liquid medium transesterification assay",
+          "version": "",
+          "category": "screening_assay"
+        },
+        "parameters": {
+          "substrates": "vinyl cinnamate, vinyl salicylate",
+          "detection": "MBTH"
+        },
+        "observation": "Assay adapted and standardized for CalB synthetic activity screening.",
+        "result_status": "success",
+        "next_step_reason": "Select active-site mutational hot spots using docking and RIN.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E06_01",
+            "source_file": "docs/0044/combined.md",
+            "section": "C001",
+            "quote_or_span": "we adapted and standardized a liquid medium CalB synthetic activity screening assay using vinyl analogs to mimic cinnamic and salicylic acid compound recognition"
+          },
+          {
+            "evidence_id": "EV_C005_E07_01",
+            "source_file": "docs/0044/combined.md",
+            "section": "C005",
+            "quote_or_span": "Substrates were used on a 3:1 ratio of methanol (Sigma) and vinyl cinnamate (or vinyl salicylate) (Aldrich), two analogs of the target substrates cinnamic acid and salicylic acid."
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "design",
+        "state_before": "Screening assay ready; need to select positions for mutagenesis.",
+        "gap_or_uncertainty": "Which active-site positions to mutate?",
+        "hypothesis": "Positions with high docking energy contributions and low betweenness centrality are promising targets.",
+        "decision": "Combine virtual docking energy ranking and RIN betweenness centrality to select hot spots.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Virtual docking and RIN analysis",
+          "version": "",
+          "category": "computational_design"
+        },
+        "parameters": {
+          "energy_cutoff": "-1.0 kcal/mol"
+        },
+        "observation": "Selected positions 40, 134, 138, 154, 157, 189 for G1 libraries.",
+        "result_status": "success",
+        "next_step_reason": "Design G1 site-saturation mutagenesis libraries.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E01_01",
+            "source_file": "docs/0044/combined.md",
+            "section": "C002",
+            "quote_or_span": "Identification and selection of active-site mutational 'hot spots' by convergence of two approaches. First, identification of residue positions that stabilize the ligand-enzyme complex is achieved by virtual docking, after which involvement of those positions in the maintenance of structure and topology of the active-site cavity is performed by a Residue Interaction Network (RIN) analysis"
+          },
+          {
+            "evidence_id": "EV_C002_E01_02",
+            "source_file": "docs/0044/combined.md",
+            "section": "C002",
+            "quote_or_span": "amino acid replacements exhibiting high energy contributions to binary complex stabilization and low values of betweenness centrality measure were selected as promising positional targets for mutagenesis"
+          },
+          {
+            "evidence_id": "EV_C002_E02_01",
+            "source_file": "docs/0044/combined.md",
+            "section": "C002",
+            "quote_or_span": "For the first generation of mutants (G1), we designed 6 distinct site-saturation mutagenesis libraries at CalB positions 40, 134, 138, 154, 157, and 189, which were then individually screened against both substrate analogs. These semi-randomized positions were selected according to favorable energy contributions with respect to enzyme-substrate complex stabilization"
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "design",
+        "state_before": "Hot spots selected.",
+        "gap_or_uncertainty": "Need to create mutant libraries for screening.",
+        "hypothesis": "Site-saturation mutagenesis at selected positions will yield variants with improved activity.",
+        "decision": "Design site-saturation mutagenesis libraries at positions 40, 134, 138, 154, 157, 189.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Site-saturation mutagenesis",
+          "version": "",
+          "category": "mutagenesis"
+        },
+        "parameters": {
+          "positions": [
+            40,
+            134,
+            138,
+            154,
+            157,
+            189
+          ]
+        },
+        "observation": "G1 libraries constructed.",
+        "result_status": "success",
+        "next_step_reason": "Screen G1 libraries for improved methyl cinnamate transesterification.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E02_01",
+            "source_file": "docs/0044/combined.md",
+            "section": "C002",
+            "quote_or_span": "For the first generation of mutants (G1), we designed 6 distinct site-saturation mutagenesis libraries at CalB positions 40, 134, 138, 154, 157, and 189, which were then individually screened against both substrate analogs. These semi-randomized positions were selected according to favorable energy contributions with respect to enzyme-substrate complex stabilization"
+          },
+          {
+            "evidence_id": "EV_C005_E03_01",
+            "source_file": "docs/0044/combined.md",
+            "section": "C005",
+            "quote_or_span": "Based on virtual docking predictions, an individual saturation mutagenesis library was designed for each selected position in the active site of CalB."
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "experiment",
+        "state_before": "G1 libraries constructed.",
+        "gap_or_uncertainty": "Which G1 variants improve methyl cinnamate transesterification?",
+        "hypothesis": "Variants at positions T138 and D134 will show increased activity.",
+        "decision": "Screen G1 libraries against methyl cinnamate.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Transesterification screening assay",
+          "version": "",
+          "category": "screening_assay"
+        },
+        "parameters": {
+          "substrate": "methyl cinnamate"
+        },
+        "observation": "6 variants with increased activity; T138G, T138A, T138S, T138N show up to 4-fold improvement.",
+        "result_status": "success",
+        "next_step_reason": "Expand mutational exploration to additional positions for G2.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E04_01",
+            "source_file": "docs/0044/combined.md",
+            "section": "C002",
+            "quote_or_span": "the most active methyl cinnamate G1 variants were observed for randomized positions T138 and D134 (Fig. 3A), where 6 variants showed increased transesterification activity relative to WT. The most efficient G1 variants are T138G, T138A, T138S, and T138N, displaying up to 4-fold increase in methyl cinnamate production relative to WT CalB"
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "experiment",
+        "state_before": "G2 libraries designed.",
+        "gap_or_uncertainty": "Will combining G1 and G2 mutations yield synergistic improvements?",
+        "hypothesis": "Adding G2 mutations V190A or D134S to T138G will further increase activity.",
+        "decision": "Screen double mutants T138G-V190A and T138G-D134S.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Transesterification screening assay",
+          "version": "",
+          "category": "screening_assay"
+        },
+        "parameters": {
+          "substrate": "methyl cinnamate"
+        },
+        "observation": "Double mutants show nearly 6-fold improvement over WT.",
+        "result_status": "success",
+        "next_step_reason": "Explore methyl salicylate trajectory.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E05_01",
+            "source_file": "docs/0044/combined.md",
+            "section": "C002",
+            "quote_or_span": "The addition of G2-selected mutations (V190A and D134S) to the G1-T138G template allowed selection of double mutants displaying production yields nearly 6-fold that of the WT conversion rate for the same compound"
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "experiment",
+        "state_before": "Methyl cinnamate trajectory successful; methyl salicylate activity still poor.",
+        "gap_or_uncertainty": "Can CalB activity on methyl salicylate be improved?",
+        "hypothesis": "Mutations V154L and L278A may improve methyl salicylate transesterification.",
+        "decision": "Screen for methyl salicylate activity.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Transesterification screening assay",
+          "version": "",
+          "category": "screening_assay"
+        },
+        "parameters": {
+          "substrate": "methyl salicylate"
+        },
+        "observation": "Double mutant V154L-L278A shows 3.6-fold increase; WT had <0.5% conversion.",
+        "result_status": "success",
+        "next_step_reason": "Design G3 libraries combining positive mutations.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E06_01",
+            "source_file": "docs/0044/combined.md",
+            "section": "C002",
+            "quote_or_span": "we nevertheless selected a double mutant (V154L-L278A) exhibiting 3.6-fold increase in catalytic activity relative to WT CalB. Noteworthy is the fact that WT CalB shows negligible synthetic activity against vinyl salicylate (<0.5% conversion)"
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "experiment",
+        "state_before": "G3 libraries designed.",
+        "gap_or_uncertainty": "Will combining D134S and V190A with T138G be beneficial?",
+        "hypothesis": "Triple mutant T138G-V190A-D134S may show additive effects.",
+        "decision": "Screen G3 libraries for methyl cinnamate activity.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Transesterification screening assay",
+          "version": "",
+          "category": "screening_assay"
+        },
+        "parameters": {
+          "substrate": "methyl cinnamate"
+        },
+        "observation": "Combining D134S and V190A with T138G had deleterious effects.",
+        "result_status": "failure",
+        "next_step_reason": "Analyze why combination was deleterious using RIN and NMA.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E03_01",
+            "source_file": "docs/0044/combined.md",
+            "section": "C003",
+            "quote_or_span": "active G2 substitutions (D134S and V190A) in the context of the favorable G1 single mutation T138G had deleterious effects on the performance of CalB towards methyl cinnamate synthesis"
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "analysis",
+        "state_before": "Deleterious effects explained; need to understand cavity organization.",
+        "gap_or_uncertainty": "How is the catalytic cavity organized to guide further engineering?",
+        "hypothesis": "The catalytic cavity is divided into three main residue modules.",
+        "decision": "Perform RIN analysis to identify residue modules.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Residue Interaction Network (RIN) analysis",
+          "version": "",
+          "category": "computational_analysis"
+        },
+        "parameters": {},
+        "observation": "RIN analysis revealed the catalytic cavity is divided into three main residue modules.",
+        "result_status": "success",
+        "next_step_reason": "Examine structural basis of improved double mutants.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E07_01",
+            "source_file": "docs/0044/combined.md",
+            "section": "C002",
+            "quote_or_span": "Our RIN analysis shows that the catalytic cavity of CalB is divided into three main residue modules, which describe clustering interactions defined by the Linkland algorithm"
+          }
+        ]
+      },
+      {
+        "step_index": 12,
+        "phase": "analysis",
+        "state_before": "Modular organization identified; need to understand how double mutants improve activity.",
+        "gap_or_uncertainty": "How do T138G-V190A and V154L-L278A enhance substrate binding?",
+        "hypothesis": "Both double mutants stabilize substrate aromatic rings, aligning the carbonyl moiety near S105.",
+        "decision": "Analyze modeled enzyme-substrate complexes.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Molecular modeling",
+          "version": "",
+          "category": "computational_analysis"
+        },
+        "parameters": {},
+        "observation": "Both double mutants T138G-V190A and V154L-L278A stabilize substrate aromatic rings, allowing proximal alignment of the carbonyl moiety 2–4 Å from catalytic S105.",
+        "result_status": "success",
+        "next_step_reason": "Validate overall approach and summarize findings.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E02_01",
+            "source_file": "docs/0044/combined.md",
+            "section": "C003",
+            "quote_or_span": "Both double mutants T138G-V190A and V154L-L278A favor stabilization of substrate aromatic rings, allowing proximal alignment of the carbonyl moiety 2–4 Å away from the catalytic S105 (dashed line)."
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "Screening of 60-66 clones per library over 3 generations",
+        "Comparison to WT and previously reported variants"
+      ],
+      "metrics": [
+        "Fold increase in transesterification activity",
+        "Number of improved mutants"
+      ],
+      "final_conclusion": "ISRD approach yielded 12 improved mutants from screening only 0.308% of sequence space, with best variants showing up to 6-fold improvement for methyl cinnamate and 3.6-fold for methyl salicylate.",
+      "limitations": [
+        "Only 11 out of 23 active-site cavity positions explored",
+        "G3 variants did not outperform best G2 candidates",
+        "Deleterious effects observed when combining certain beneficial mutations"
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_step_trimmed=15_to_12",
+        "v22_specific_evidence_backfilled=7",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_step_trimmed=14_to_12",
+        "v22_specific_evidence_backfilled=1",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 96.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_mainline_batch30\\states\\0044.json",
+  "events_path": "outputs\\agentic_v22\\v22_mainline_batch30\\events\\0044.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1,
+          3,
+          4,
+          9
+        ],
+        "K02": [
+          1
+        ],
+        "K03": [
+          2
+        ],
+        "K05": [
+          3
+        ],
+        "K06": [
+          1,
+          4
+        ],
+        "K07": [
+          4,
+          5
+        ],
+        "K09": [
+          6,
+          7
+        ],
+        "K11": [
+          7,
+          8,
+          10
+        ],
+        "K12": [
+          8,
+          9
+        ],
+        "K14": [
+          10
+        ],
+        "K17": [
+          11
+        ],
+        "K18": [
+          12
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02",
+            "K06"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K03",
+            "K04"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K01",
+            "K05"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K01",
+            "K06",
+            "K07"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K07",
+            "K08"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K08",
+            "K09"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K09",
+            "K10",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K11",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K01",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K11",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K17"
+          ]
+        },
+        {
+          "step_index": 12,
+          "covered_event_ids": [
+            "K18"
+          ]
+        }
+      ]
+    },
+    "warnings": [],
+    "step_count": 12,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 96.0
+  },
+  "api_usage": {
+    "prompt_tokens": 115403,
+    "completion_tokens": 27255,
+    "total_tokens": 142658,
+    "prompt_cache_hit_tokens": 4992,
+    "prompt_cache_miss_tokens": 110411
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 1849,
+        "completion_tokens": 366,
+        "total_tokens": 2215,
+        "prompt_tokens_details": {
+          "cached_tokens": 1792
+        },
+        "prompt_cache_hit_tokens": 1792,
+        "prompt_cache_miss_tokens": 57
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 7515,
+        "completion_tokens": 2057,
+        "total_tokens": 9572,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 7515
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 6637,
+        "completion_tokens": 1207,
+        "total_tokens": 7844,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6381
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 7798,
+        "completion_tokens": 1809,
+        "total_tokens": 9607,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7542
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 7714,
+        "completion_tokens": 1501,
+        "total_tokens": 9215,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7458
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 7059,
+        "completion_tokens": 1260,
+        "total_tokens": 8319,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6803
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C005",
+      "api_usage": {
+        "prompt_tokens": 7211,
+        "completion_tokens": 1445,
+        "total_tokens": 8656,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6955
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C006",
+      "api_usage": {
+        "prompt_tokens": 5629,
+        "completion_tokens": 59,
+        "total_tokens": 5688,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 5373
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 12660,
+        "completion_tokens": 4927,
+        "total_tokens": 17587,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 12276
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 13101,
+        "completion_tokens": 6095,
+        "total_tokens": 19196,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 12461
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 17712,
+        "completion_tokens": 737,
+        "total_tokens": 18449,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 17712
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 20518,
+        "completion_tokens": 5792,
+        "total_tokens": 26310,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 19878
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

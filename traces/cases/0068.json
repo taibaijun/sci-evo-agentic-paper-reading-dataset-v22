@@ -1,0 +1,874 @@
+{
+  "case": {
+    "case_id": "sci_evo_0068",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Droplet-based microfluidic high-throughput screening of heterologous enzymes secreted by the yeast Yarrowia lipolytica",
+      "doi": "https://doi.org/10.1186/s12934-017-0629-5",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0066_10_1186_s12934_017_0629_5_droplet_based_microfluidic_high_throughput_screening_of_heterologous_enzymes_secreted_by_t.pdf",
+      "mineru_md": "docs/0068/mineru.md",
+      "combined_md": "docs/0068/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Lack of rapid and generalized high-throughput screening (HTS) systems for secreted enzymes in directed evolution, due to reliance on cytoplasmic expression in E. coli requiring lysis.",
+      "target_object": "Secreted heterologous enzymes (xylanase, cellobiohydrolase, endoglucanase, protease) from Aspergillus niger expressed in Yarrowia lipolytica",
+      "known_context": "Most droplet-based microfluidic systems use cytoplasmic expression in E. coli, requiring lysis or membrane transport for enzyme assay.",
+      "constraints": [
+        "Enzymes must be secreted",
+        "Compatible fluorescent assays required"
+      ],
+      "input_data": [],
+      "quantifiable_goals": [
+        "Detect enzyme activity in droplets with low variability",
+        "Screen mutant libraries for thermostable variants"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "Lack of rapid and generalized HTS systems is a major bottleneck for directed evolution of biocatalysts. Most droplet-based microfluidic systems use cytoplasmic expression in E. coli, requiring lysis.",
+        "gap_or_uncertainty": "Need for an extracellular expression system to avoid lysis step in droplet-based microfluidic HTS.",
+        "hypothesis": "Y. lipolytica's secretion abilities can be exploited to build an extracellular expression system for droplet-based microfluidic HTS, avoiding lysis.",
+        "decision": "Use Y. lipolytica as host for secreted enzyme expression.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "Literature-based reasoning",
+          "version": "",
+          "category": "reasoning"
+        },
+        "parameters": {},
+        "observation": "Y. lipolytica is known for excellent secretion abilities.",
+        "result_status": "success",
+        "next_step_reason": "Design expression constructs for target enzymes.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0068/combined.md",
+            "section": "C001",
+            "quote_or_span": "The lack of rapid and generalized high-throughput screening (HTS) systems has proven to be a major bottleneck when it comes to creating biocatalysts via directed evolution and protein engineering approaches."
+          },
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0068/combined.md",
+            "section": "C001",
+            "quote_or_span": "most of the enzymes screened to date are expressed within the cytoplasm of Escherichia coli cells, which means that a lysis step must take place inside the droplets for enzyme activity to be assayed."
+          },
+          {
+            "evidence_id": "EV_C001_E03_01",
+            "source_file": "docs/0068/combined.md",
+            "section": "C001",
+            "quote_or_span": "we take advantage of the excellent secretion abilities of the yeast Yarrowia lipolytica to describe a highly efficient expression system particularly suitable for the droplet-based microfluidic HTS."
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "design",
+        "state_before": "Hypothesis to use Y. lipolytica secretion for HTS.",
+        "gap_or_uncertainty": "Need to express and secrete target enzymes in Y. lipolytica.",
+        "hypothesis": "Codon-optimized A. niger genes integrated at zeta docking platform will yield high secretion.",
+        "decision": "Design expression cassettes for five A. niger hydrolytic genes (xlnb, xlnc, cbha, egla, pep1) in Y. lipolytica JMY2566 with zeta docking platform.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "Codon optimization and gene synthesis",
+          "version": "",
+          "category": "molecular biology"
+        },
+        "parameters": {
+          "genes": [
+            "xlnb",
+            "xlnc",
+            "cbha",
+            "egla",
+            "pep1"
+          ],
+          "host": "Y. lipolytica JMY2566",
+          "integration": "zeta docking platform"
+        },
+        "observation": "Five genes were codon-optimized and overexpressed in Y. lipolytica strain JMY2566 with a zeta docking platform for consistent integration.",
+        "result_status": "success",
+        "next_step_reason": "Test expression and secretion.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E04_01",
+            "source_file": "docs/0068/combined.md",
+            "section": "C001",
+            "quote_or_span": "The five genes were codon optimized and overexpressed in Y. lipolytica strain JMY2566"
+          },
+          {
+            "evidence_id": "EV_C001_E04_02",
+            "source_file": "docs/0068/combined.md",
+            "section": "C001",
+            "quote_or_span": "This strain possesses a zeta docking platform that favors integration at that specific locus"
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "experiment",
+        "state_before": "Expression constructs designed.",
+        "gap_or_uncertainty": "Will the enzymes be overproduced and secreted?",
+        "hypothesis": "Enzymes will be secreted as major proteins in supernatant.",
+        "decision": "Grow transformants and analyze crude supernatant by SDS-PAGE.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "SDS-PAGE",
+          "version": "",
+          "category": "protein analysis"
+        },
+        "parameters": {},
+        "observation": "All five enzymes were successfully overproduced and secreted as major proteins in crude supernatant without extensive optimization.",
+        "result_status": "success",
+        "next_step_reason": "Validate enzyme activity.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E05_01",
+            "source_file": "docs/0068/combined.md",
+            "section": "C001",
+            "quote_or_span": "Each of the target enzymes was successfully overproduced and secreted as a major protein in the crude supernatant."
+          },
+          {
+            "evidence_id": "EV_C001_E05_02",
+            "source_file": "docs/0068/combined.md",
+            "section": "C001",
+            "quote_or_span": "All the enzymes demonstrated high expression levels without requiring any extensive optimization of growth conditions."
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "validation",
+        "state_before": "Enzymes secreted.",
+        "gap_or_uncertainty": "Are the secreted enzymes active?",
+        "hypothesis": "Secreted enzymes retain activity.",
+        "decision": "Assay activity with fluorogenic substrates.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Fluorogenic substrate assay",
+          "version": "",
+          "category": "enzyme assay"
+        },
+        "parameters": {
+          "substrates": [
+            "xylobiose-based coumarin",
+            "cellobiose-based coumarin",
+            "BODIPY-casein"
+          ]
+        },
+        "observation": "All encoded proteins were found to be active after secretion. Endoglucanase A (egla) displayed low activity on cellobiose substrate, likely due to substrate specificity.",
+        "result_status": "partial",
+        "next_step_reason": "Proceed to droplet encapsulation despite egla limitation.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E06_01",
+            "source_file": "docs/0068/combined.md",
+            "section": "C001",
+            "quote_or_span": "All encoded proteins were found to be active after secretion."
+          },
+          {
+            "evidence_id": "EV_C001_E07_01",
+            "source_file": "docs/0068/combined.md",
+            "section": "C001",
+            "quote_or_span": "JMY4343 (egla) displayed a low activity with this substrate, seemingly due to the endocellulase activity of endoglucanase A"
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "experiment",
+        "state_before": "Active secreted enzymes confirmed.",
+        "gap_or_uncertainty": "Can Y. lipolytica cells be encapsulated and grown in droplets?",
+        "hypothesis": "Optimized encapsulation conditions will allow single-cell growth and secretion.",
+        "decision": "Encapsulate single Y. lipolytica cells in 20 pl droplets with continuous stirring; produce droplets at 2500–3000/s.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Droplet-based microfluidics",
+          "version": "",
+          "category": "microfluidics"
+        },
+        "parameters": {
+          "droplet_volume": "20 pl",
+          "stirring": "continuous",
+          "production_rate": "2500–3000/s"
+        },
+        "observation": "Droplets produced at 2500–3000/s; cells grew and secreted enzymes after 16 h incubation.",
+        "result_status": "success",
+        "next_step_reason": "Detect enzyme activity in droplets.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E01_03",
+            "source_file": "docs/0068/combined.md",
+            "section": "C002",
+            "quote_or_span": "cell suspensions were also continuously stirred during the encapsulation process to prevent cell sedimentation"
+          },
+          {
+            "evidence_id": "EV_C002_E01_04",
+            "source_file": "docs/0068/combined.md",
+            "section": "C002",
+            "quote_or_span": "Droplets were produced at a rate of 2500 to 3000 per second via hydrodynamic flow focusing"
+          },
+          {
+            "evidence_id": "EV_C002_E02_01",
+            "source_file": "docs/0068/combined.md",
+            "section": "C002",
+            "quote_or_span": "Droplets were collected off chip in a glass vial and incubated for 16 h at 28 °C to allow cell growth and enzyme secretion."
+          },
+          {
+            "evidence_id": "EV_C002_E02_02",
+            "source_file": "docs/0068/combined.md",
+            "section": "C002",
+            "quote_or_span": "the droplets contained dozens of cells after incubation, showing that Y. lipolytica was able to replicate in the droplets."
+          },
+          {
+            "evidence_id": "EV_AUTO_015",
+            "source_file": "docs/0068/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "4 JMY4346 (xlnb) and JMY4510 (xlnc) strains activity in droplets 2D histograms showing the blue fluorescence (xylanase activity) and the red fluorescence (barcoding) of a binary 20 pl droplets emulsion containing JMY4346 (xlnb) and JMY4510 (xlnc) strains analyzed in the integrated screening device just after injection of the xylanase substrate (a) and after on-chip incubation (b)."
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "experiment",
+        "state_before": "Cells grown in droplets.",
+        "gap_or_uncertainty": "Can xylanase activity be detected with low variability?",
+        "hypothesis": "Xylanase activity will show low CV due to uniform expression and controlled incubation.",
+        "decision": "Picoinject xylobiose-based coumarin substrate, incubate on-chip, and measure fluorescence; use sulforhodamine B for optical encoding.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Integrated microfluidic screening device",
+          "version": "",
+          "category": "microfluidics"
+        },
+        "parameters": {
+          "substrate": "xylobiose-based coumarin",
+          "encoding_dye": "sulforhodamine B"
+        },
+        "observation": "Xylanase activity of two strains (xlnb and xlnc) was detected with low variability (CV 3%). Positive droplet percentage for xlnb was 2.7%.",
+        "result_status": "success",
+        "next_step_reason": "Test other enzymes.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E03_01",
+            "source_file": "docs/0068/combined.md",
+            "section": "C002",
+            "quote_or_span": "Both strains showed remarkably low variability in their signal distributions."
+          },
+          {
+            "evidence_id": "EV_C002_E03_02",
+            "source_file": "docs/0068/combined.md",
+            "section": "C002",
+            "quote_or_span": "coefficient of variation [CV] of 3%"
+          },
+          {
+            "evidence_id": "EV_AUTO_018",
+            "source_file": "docs/0068/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "For JMY4346 (xlnb) strain, a positive droplet population showing xylanase activity (2.7% of the droplets [theoretically 3% if $\\lambda = 0."
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "analysis",
+        "state_before": "Low variability observed for xylanase.",
+        "gap_or_uncertainty": "Why is variability low?",
+        "hypothesis": "Low variability is due to Y. lipolytica expression system and delay line design.",
+        "decision": "Attribute low variability to constitutive promoter and uniform incubation time.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Data analysis",
+          "version": "",
+          "category": "analysis"
+        },
+        "parameters": {},
+        "observation": "Low variability attributed to Y. lipolytica expression system and precise control of incubation time via delay line design.",
+        "result_status": "success",
+        "next_step_reason": "Proceed to other enzymes.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E04_01",
+            "source_file": "docs/0068/combined.md",
+            "section": "C002",
+            "quote_or_span": "This narrow phenotypic distribution at the single cell level within a monoclonal population is highly desirable for enzymatic screening applications and is due to a combination of two factors."
+          },
+          {
+            "evidence_id": "EV_C002_E04_02",
+            "source_file": "docs/0068/combined.md",
+            "section": "C002",
+            "quote_or_span": "the expression system developed in Y. lipolytica under a strong constitutive promoter is characterized by low variability in expression levels"
+          },
+          {
+            "evidence_id": "EV_C002_E04_03",
+            "source_file": "docs/0068/combined.md",
+            "section": "C002",
+            "quote_or_span": "the delay line structure design, made of constrictions and expansions, ensured that average droplet residence time, and hence incubation time, displayed little variance"
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "experiment",
+        "state_before": "Xylanase detection successful.",
+        "gap_or_uncertainty": "Can cellobiohydrolase and protease be detected?",
+        "hypothesis": "Cellobiohydrolase and protease will show activity with comparable narrow signal distribution.",
+        "decision": "Assay cellobiohydrolase (cbha) and protease (pep1) with respective fluorogenic substrates.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Integrated microfluidic screening device",
+          "version": "",
+          "category": "microfluidics"
+        },
+        "parameters": {
+          "substrates": [
+            "cellobiose-based coumarin",
+            "BODIPY-casein"
+          ]
+        },
+        "observation": "Cellobiohydrolase and protease activities were detected with comparable narrow signal distribution, demonstrating efficient and reliable detection.",
+        "result_status": "success",
+        "next_step_reason": "Proceed to library screening.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E05_01",
+            "source_file": "docs/0068/combined.md",
+            "section": "C002",
+            "quote_or_span": "Each strain showed hydrolytic activity against the respective substrate with comparable narrow signal distribution, while no activity was detected for the other strains."
+          },
+          {
+            "evidence_id": "EV_C002_E05_02",
+            "source_file": "docs/0068/combined.md",
+            "section": "C002",
+            "quote_or_span": "These results demonstrate that our droplet-based microfluidic HTS system is an efficient and reliable method for detecting endoxylanase, cellobiohydrolase, and protease activity."
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "design",
+        "state_before": "Xylanase detection robust.",
+        "gap_or_uncertainty": "Need to create mutant libraries for thermostability screening.",
+        "hypothesis": "Error-prone PCR libraries of xlnc will yield variants with altered thermostability.",
+        "decision": "Generate error-prone PCR libraries of xlnc gene with low (library A, ~2 mutations/kb) and medium (library B, >4 mutations/kb) mutation frequencies.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "Error-prone PCR",
+          "version": "",
+          "category": "molecular biology"
+        },
+        "parameters": {
+          "gene": "xlnc",
+          "library_A_mutation_rate": "~2 mutations/kb",
+          "library_B_mutation_rate": ">4 mutations/kb"
+        },
+        "observation": "Libraries A and B generated.",
+        "result_status": "success",
+        "next_step_reason": "Screen libraries with heat shock.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E03_01",
+            "source_file": "docs/0068/combined.md",
+            "section": "C003",
+            "quote_or_span": "Libraries were generated from xlnc gene using error-prone PCR."
+          },
+          {
+            "evidence_id": "EV_C004_E01_01",
+            "source_file": "docs/0068/combined.md",
+            "section": "C004",
+            "quote_or_span": "We built libraries of error-prone xlnc variants using a two-step PCR amplification according to [30]."
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "experiment",
+        "state_before": "Libraries ready.",
+        "gap_or_uncertainty": "Can thermostable variants be enriched by heat shock?",
+        "hypothesis": "Heat shock at 90 °C for 30 s will inactivate less stable variants, enriching thermostable ones.",
+        "decision": "Encapsulate libraries, apply heat shock (90 °C, 30 s), and assay xylanase activity before and after.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Integrated microfluidic screening device with heat shock module",
+          "version": "",
+          "category": "microfluidics"
+        },
+        "parameters": {
+          "heat_shock_temperature": "90 °C",
+          "heat_shock_duration": "30 s"
+        },
+        "observation": "Before heat shock, 27% of clones in library A and 9% in library B displayed xylanase activity; none had greater activity than wild-type. After heat shock, 1% (8 clones) in library A and 0.17% (1 clone) in library B had higher activities than wild-type.",
+        "result_status": "success",
+        "next_step_reason": "Validate hits by microtiter plate and sequencing.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E04_01",
+            "source_file": "docs/0068/combined.md",
+            "section": "C003",
+            "quote_or_span": "Using the droplet-based microfluidic HTS system described above, both libraries were analyzed before and after a heat shock of 90 °C for 30 s"
+          },
+          {
+            "evidence_id": "EV_C004_E02_01",
+            "source_file": "docs/0068/combined.md",
+            "section": "C004",
+            "quote_or_span": "The JMY4510 (xlnc) wild-type, library A, and library B were encapsulated in 20 pl droplets as described above."
+          },
+          {
+            "evidence_id": "EV_C004_E03_01",
+            "source_file": "docs/0068/combined.md",
+            "section": "C004",
+            "quote_or_span": "To generate the heat shock, the droplets were run through PTFE tubing (0.56 mm × 1.07 mm) immersed in a 90 °C water bath. The flow rate was set such that residence time within the tubing was 30 s."
+          },
+          {
+            "evidence_id": "EV_C004_E04_01",
+            "source_file": "docs/0068/combined.md",
+            "section": "C004",
+            "quote_or_span": "The droplets were then collected in a glass vial and reloaded into the integrated screening device to assay post-heat-shock levels of xylanase activity."
+          },
+          {
+            "evidence_id": "EV_C003_E06_01",
+            "source_file": "docs/0068/combined.md",
+            "section": "C003",
+            "quote_or_span": "After exposure to heat shock, 1% of the clones (8 clones) in library A were found to have higher activities than the wild-type xylanase (>mean wild-type activity + 3σ]), while this percentage was 0.17% (1 clone) for library B."
+          },
+          {
+            "evidence_id": "EV_C003_E05_01",
+            "source_file": "docs/0068/combined.md",
+            "section": "C003",
+            "quote_or_span": "Before exposure to heat shock, 27% of the clones (216 clones) in library A and 9% of the clones (54 clones) in library B displayed xylanase activity. None of these clones were found to have greater activity than wild-type xylanase (>mean wild-type activity + 3σ)."
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "validation",
+        "state_before": "Putative thermostable hits identified.",
+        "gap_or_uncertainty": "Are the hits truly thermostable? What mutations do they carry?",
+        "hypothesis": "Microtiter plate retest will confirm thermostability; sequencing will reveal mutations.",
+        "decision": "Isolate 480 clones from library A, retest in microtiter plates, and sequence six confirmed thermostable mutants.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Microtiter plate assay and Sanger sequencing",
+          "version": "",
+          "category": "enzyme assay and sequencing"
+        },
+        "parameters": {
+          "clones_isolated": 480,
+          "sequenced_mutants": 6
+        },
+        "observation": "Microtiter plate screening identified six thermostable mutants, similar to droplet-based HTS results. Sequencing revealed 1–6 point mutations (average 2.5) with higher density at N-terminus.",
+        "result_status": "success",
+        "next_step_reason": "Conclude platform capabilities and limitations.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E07_01",
+            "source_file": "docs/0068/combined.md",
+            "section": "C003",
+            "quote_or_span": "To evaluate the sensitivity of our droplet-based microfluidic HTS system as compared to more classical, lower-throughput microtiter plate methods, 480 clones were isolated from library A and placed in 96-well plates."
+          },
+          {
+            "evidence_id": "EV_C003_E08_01",
+            "source_file": "docs/0068/combined.md",
+            "section": "C003",
+            "quote_or_span": "The sequencing of the mutated gene in the six clones reveals that they contain from 1 to 6 point mutations (average of 2.5) at the amino acid level"
+          },
+          {
+            "evidence_id": "EV_C003_E08_02",
+            "source_file": "docs/0068/combined.md",
+            "section": "C003",
+            "quote_or_span": "Mutations are located all along the protein, with a higher density at the N-terminus"
+          }
+        ]
+      },
+      {
+        "step_index": 12,
+        "phase": "analysis",
+        "state_before": "Platform validated for xylanase thermostability screening.",
+        "gap_or_uncertainty": "What are the limitations of the platform?",
+        "hypothesis": "Platform is limited to secreted enzymes with compatible fluorescent assays; some enzymes show lower signal.",
+        "decision": "State limitations based on egla low activity and the need for compatible fluorescent substrates.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Critical assessment",
+          "version": "",
+          "category": "analysis"
+        },
+        "parameters": {},
+        "observation": "The platform is limited to secreted enzymes with compatible fluorescent assays; endoglucanase A had low activity on cellobiose substrate.",
+        "result_status": "partial",
+        "next_step_reason": "None (final step).",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E07_01",
+            "source_file": "docs/0068/combined.md",
+            "section": "C001",
+            "quote_or_span": "JMY4343 (egla) displayed a low activity with this substrate, seemingly due to the endocellulase activity of endoglucanase A"
+          },
+          {
+            "evidence_id": "EV_C002_E05_01",
+            "source_file": "docs/0068/combined.md",
+            "section": "C002",
+            "quote_or_span": "Each strain showed hydrolytic activity against the respective substrate with comparable narrow signal distribution, while no activity was detected for the other strains."
+          },
+          {
+            "evidence_id": "EV_C002_E05_02",
+            "source_file": "docs/0068/combined.md",
+            "section": "C002",
+            "quote_or_span": "These results demonstrate that our droplet-based microfluidic HTS system is an efficient and reliable method for detecting endoxylanase, cellobiohydrolase, and protease activity."
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "Microtiter plate retest of 480 clones",
+        "Sanger sequencing of six thermostable mutants"
+      ],
+      "metrics": [
+        "Coefficient of variation (CV) for xylanase activity: 3%",
+        "Hit rate for thermostable variants: 6 out of 480 clones in library A"
+      ],
+      "final_conclusion": "A droplet-based microfluidic HTS system using Y. lipolytica secretion was developed and validated for xylanase thermostability screening, with limitations for some enzymes.",
+      "limitations": [
+        "Limited to secreted enzymes with compatible fluorescent assays",
+        "Endoglucanase A had low activity on cellobiose substrate"
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_specific_evidence_backfilled=5",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_specific_evidence_backfilled=3",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 96.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p1\\states\\0068.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p1\\events\\0068.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 11,
+      "covered_event_count": 11,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1
+        ],
+        "K03": [
+          1
+        ],
+        "K06": [
+          4
+        ],
+        "K08": [
+          5
+        ],
+        "K09": [
+          5,
+          6
+        ],
+        "K10": [
+          6
+        ],
+        "K13": [
+          9
+        ],
+        "K14": [
+          10
+        ],
+        "K15": [
+          10
+        ],
+        "K16": [
+          11
+        ],
+        "K17": [
+          4,
+          8,
+          12
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02",
+            "K03"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K04"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K05"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K06",
+            "K07",
+            "K17"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K08",
+            "K09"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K09",
+            "K10",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K11"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K12",
+            "K17"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K13"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K14",
+            "K15"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K16"
+          ]
+        },
+        {
+          "step_index": 12,
+          "covered_event_ids": [
+            "K07",
+            "K12",
+            "K17"
+          ]
+        }
+      ]
+    },
+    "warnings": [],
+    "step_count": 12,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 96.0
+  },
+  "api_usage": {
+    "prompt_tokens": 124451,
+    "completion_tokens": 27363,
+    "total_tokens": 151814,
+    "prompt_cache_hit_tokens": 2944,
+    "prompt_cache_miss_tokens": 121507
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 7014,
+        "completion_tokens": 929,
+        "total_tokens": 7943,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 7014
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 11782,
+        "completion_tokens": 2640,
+        "total_tokens": 14422,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 11782
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 7582,
+        "completion_tokens": 1350,
+        "total_tokens": 8932,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7326
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 8460,
+        "completion_tokens": 1638,
+        "total_tokens": 10098,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8204
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 8111,
+        "completion_tokens": 1649,
+        "total_tokens": 9760,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7855
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 7885,
+        "completion_tokens": 1116,
+        "total_tokens": 9001,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7629
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C005",
+      "api_usage": {
+        "prompt_tokens": 7364,
+        "completion_tokens": 57,
+        "total_tokens": 7421,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7108
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 11607,
+        "completion_tokens": 3874,
+        "total_tokens": 15481,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 11223
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 13593,
+        "completion_tokens": 6714,
+        "total_tokens": 20307,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 12953
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 19102,
+        "completion_tokens": 824,
+        "total_tokens": 19926,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 19102
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 21951,
+        "completion_tokens": 6572,
+        "total_tokens": 28523,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 21311
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

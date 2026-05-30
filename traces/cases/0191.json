@@ -1,0 +1,996 @@
+{
+  "case": {
+    "case_id": "sci_evo_0191",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Creating a more robust 5-hydroxymethylfurfural oxidase by combining computational predictions with a novel effective library design",
+      "doi": "https://doi.org/10.1186/s13068-018-1051-x",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0189_10_1186_s13068_018_1051_x_creating_a_more_robust_5_hydroxymethylfurfural_oxidase_by_combining_computational_predicti.pdf",
+      "mineru_md": "docs/0191/mineru.md",
+      "combined_md": "docs/0191/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Engineering a more robust 5-hydroxymethylfurfural oxidase (HMFO) for industrial FDCA production by enhancing thermostability while maintaining activity.",
+      "target_object": "5-hydroxymethylfurfural oxidase (HMFO)",
+      "known_context": "Wild-type HMFO has low thermostability (Tm_app = 48.5 °C) and inefficient final oxidation step, limiting industrial application.",
+      "constraints": [
+        "Avoid active-site residues (within 5 Å of FAD) to preserve activity"
+      ],
+      "input_data": [
+        "HMFO crystal structure (PDB:4UDQ)"
+      ],
+      "quantifiable_goals": [
+        "Increase thermostability (Tm_app)",
+        "Maintain or improve catalytic activity for FDCA production"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "Wild-type HMFO has low thermostability (Tm_app = 48.5 °C) and inefficient final oxidation step.",
+        "gap_or_uncertainty": "Need to identify stabilizing mutations without compromising activity.",
+        "hypothesis": "FRESCO computational method can predict stabilizing mutations in HMFO by avoiding active-site residues.",
+        "decision": "Apply FRESCO to HMFO structure (PDB:4UDQ) to predict stabilizing point mutations.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "FRESCO",
+          "version": "",
+          "category": "computational_method"
+        },
+        "parameters": {},
+        "observation": "FRESCO is a recently developed method for identifying thermostabilizing mutations.",
+        "result_status": "success",
+        "next_step_reason": "Proceed to in silico screening of all possible point mutations.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0191/combined.md",
+            "section": "C001",
+            "quote_or_span": "the enzyme displays only a modest stability"
+          },
+          {
+            "evidence_id": "EV_C001_E01_02",
+            "source_file": "docs/0191/combined.md",
+            "section": "C001",
+            "quote_or_span": "it is rather inefficient in the last step"
+          },
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0191/combined.md",
+            "section": "C001",
+            "quote_or_span": "we decided to enhance its thermostability using the recently developed FRESCO method: a computational approach to identify thermostabilizing mutations in a protein structure"
+          },
+          {
+            "evidence_id": "EV_AUTO_013",
+            "source_file": "docs/0191/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The results of the ThermoFAD analysis showed that the 8xHMFO (I73V, H74Y, Q187E, G356H, V367L, T414K, A419Y, and A435E) was the most thermostable variant with an improvement of 13 °C compared with the WT ( $T_{m}^{app} = 48.5$ °C)."
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "design",
+        "state_before": "Hypothesis that FRESCO can predict stabilizing mutations.",
+        "gap_or_uncertainty": "Which specific point mutations are predicted to be stabilizing?",
+        "hypothesis": "Mutations with predicted ΔΔG_Fold < -5 kJ/mol and favorable MD simulations will stabilize HMFO.",
+        "decision": "Perform in silico screening: model all point mutations (excluding residues within 5 Å of FAD), filter by FoldX and Rosetta free energy predictions, then MD simulations and visual inspection.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "FoldX, Rosetta, Yasara MD",
+          "version": "",
+          "category": "computational_modeling"
+        },
+        "parameters": {
+          "exclusion_zone": "5 Å from FAD",
+          "energy_threshold": "ΔΔG_Fold < -5 kJ/mol"
+        },
+        "observation": "All possible point mutations were modeled excluding residues within 5 Å of FAD; those with predicted ΔΔG_Fold < -5 kJ/mol were submitted to MD simulations.",
+        "result_status": "success",
+        "next_step_reason": "Experimentally test the selected single mutants for thermostability.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E03_01",
+            "source_file": "docs/0191/combined.md",
+            "section": "C001",
+            "quote_or_span": "all possible point mutations were modeled (excluding residues that are within 5 Å from the FAD cofactor)"
+          },
+          {
+            "evidence_id": "EV_AUTO_027",
+            "source_file": "docs/0191/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The single point mutations with a predicted $\\Delta\\Delta G^{Fold} < -5$ kJ mol $^{-1}$ were subsequently submitted to MD simulations under Yasara as previously described [18, 19]."
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "experiment",
+        "state_before": "Single mutants selected from computational screening.",
+        "gap_or_uncertainty": "Which of these predicted mutations actually increase thermostability?",
+        "hypothesis": "Some of the selected mutants will show increased Tm_app in ThermoFAD assay.",
+        "decision": "Express single point variants in E. coli and measure thermostability by ThermoFAD assay.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "ThermoFAD",
+          "version": "",
+          "category": "biochemical_assay"
+        },
+        "parameters": {
+          "expression_system": "E. coli BL21(DE3) with pET SUMO-HMFO",
+          "assay": "ThermoFAD in phosphate buffer 50 mM pH 8.0"
+        },
+        "observation": "ThermoFAD assay was used to determine unfolding temperature of HMFO variants.",
+        "result_status": "success",
+        "next_step_reason": "Select top mutations for combination based on ΔTm_app and activity.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E05_01",
+            "source_file": "docs/0191/combined.md",
+            "section": "C003",
+            "quote_or_span": "The single point variants were expressed in E. coli BL21(DE3) cells with the pET SUMO-HMFO vector."
+          },
+          {
+            "evidence_id": "EV_C003_E08_01",
+            "source_file": "docs/0191/combined.md",
+            "section": "C003",
+            "quote_or_span": "The melting temperature of HMFO cell-free extract or purified variants was tested by the ThermoFAD method, which allows to determine the unfolding temperature based on the release of the flavin cofactor"
+          },
+          {
+            "evidence_id": "EV_AUTO_032",
+            "source_file": "docs/0191/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "$T_{m}^{app}$ values of HMFO variants (30 $\\mu$ M) obtained by ThermoFAD in phosphate buffer 50 mM pH 8.0"
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "analysis",
+        "state_before": "Stabilizing single mutants identified.",
+        "gap_or_uncertainty": "Which mutations to combine for additive stabilization without losing activity?",
+        "hypothesis": "Top 8 mutations (I73V, H74Y, Q187E, G356H, V367L, T414K, A419Y, A435E) will combine additively; I73V and H74Y are neighboring and may show additive effect.",
+        "decision": "Select top 8 mutations based on highest Tm_app and activity (vanillyl alcohol assay); test additivity of I73V and H74Y.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "vanillyl alcohol assay",
+          "version": "",
+          "category": "biochemical_assay"
+        },
+        "parameters": {},
+        "observation": "I73V and H74Y were combined to verify additive effect; all 8 mutations retained activity.",
+        "result_status": "success",
+        "next_step_reason": "Design gene shuffling method to combine the 7 mutation sites (I73V-H74Y as one module).",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_008",
+            "source_file": "docs/0191/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "For the gene shuffling library, we chose the eight mutations which resulted in the highest $T_{m}^{app}$ values: I73V, H74Y, Q187E, G356H, V367L, T414K, A419Y, and A435E."
+          },
+          {
+            "evidence_id": "EV_AUTO_020",
+            "source_file": "docs/0191/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Before performing gene shuffling, the mutations I73V and H74Y, being neighboring residues, were combined to verify whether they display an additive effect."
+          },
+          {
+            "evidence_id": "EV_AUTO_003",
+            "source_file": "docs/0191/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Activity towards vanillyl alcohol of HMFO mutants I73V, H74Y, Q187E, G356H, V367L, T414K, A419Y, and A435E."
+          },
+          {
+            "evidence_id": "EV_AUTO_004",
+            "source_file": "docs/0191/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The HMFO mutants I73V, H74Y, Q187E, G356H, V367L, T414K, A419Y, A435E were tested using enzyme activity towards vanillyl alcohol as reported previously $[8]$ ."
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "design",
+        "state_before": "Top 8 mutations selected; I73V-H74Y combined as one module.",
+        "gap_or_uncertainty": "Need a rapid method to combine 7 mutation sites (128 combinations) without step-wise mutagenesis.",
+        "hypothesis": "Golden Gate gene shuffling with BsaI can create all combinations in a one-pot reaction.",
+        "decision": "Design two donor vectors (WT and 8-fold mutant) with 8 BsaI sites flanking 7 gene modules, and an acceptor vector; perform one-pot restriction-ligation.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "Golden Gate cloning",
+          "version": "",
+          "category": "molecular_biology"
+        },
+        "parameters": {
+          "enzyme": "BsaI",
+          "modules": 7,
+          "combinations": 128
+        },
+        "observation": "Method designed to generate all 128 combinations in a single reaction.",
+        "result_status": "success",
+        "next_step_reason": "Generate and analyze the shuffled library.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E08_01",
+            "source_file": "docs/0191/combined.md",
+            "section": "C001",
+            "quote_or_span": "we now developed a new and facile gene shuffling approach to rapidly combine stabilizing mutations in a one-pot reaction"
+          },
+          {
+            "evidence_id": "EV_C002_E01_01",
+            "source_file": "docs/0191/combined.md",
+            "section": "C002",
+            "quote_or_span": "The aim of the gene shuffling approach was to create a library of all the possible combinations (128) of the selected 7 sites"
+          },
+          {
+            "evidence_id": "EV_C002_E01_02",
+            "source_file": "docs/0191/combined.md",
+            "section": "C002",
+            "quote_or_span": "The Golden Gate gene shuffling which we developed for the FRESCO strategy is a one-pot reaction that involves only three designed vectors and a single restriction-ligation reaction"
+          },
+          {
+            "evidence_id": "EV_C002_E02_01",
+            "source_file": "docs/0191/combined.md",
+            "section": "C002",
+            "quote_or_span": "The first step was the design of two synthetic genes, one wild-type version and one with the selected 7 mutations; each containing 8 BsaI restriction sites that flank the 7 gene modules"
+          },
+          {
+            "evidence_id": "EV_AUTO_005",
+            "source_file": "docs/0191/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "one mutated region (the first module containing 2 mutations, and the 8 mutations are: I73V-H74Y, Q187E, G356H, V367L, T414K, A419Y, A435E) and the other synthetic gene with the same modules arrangement but without mutations, corresponding to the wild-type DNA sequence."
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "experiment",
+        "state_before": "Golden Gate gene shuffling method designed.",
+        "gap_or_uncertainty": "Does the method generate a high-quality library with efficient shuffling?",
+        "hypothesis": "The one-pot reaction will yield a library with high percentage of correct restriction pattern and shuffling efficiency.",
+        "decision": "Perform restriction-ligation, transform E. coli, and analyze colonies by colony PCR and sequencing.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Golden Gate cloning, colony PCR, sequencing",
+          "version": "",
+          "category": "molecular_biology"
+        },
+        "parameters": {
+          "thermocycler_program": "37°C 5 min, 16°C 10 min, 50 cycles; 50°C 10 min; 80°C 10 min",
+          "host": "NEB 10β cells"
+        },
+        "observation": "97% of colonies had correct restriction pattern; shuffling efficiency was 65%.",
+        "result_status": "success",
+        "next_step_reason": "Screen the library for thermostability and HMF activity.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E03_01",
+            "source_file": "docs/0191/combined.md",
+            "section": "C002",
+            "quote_or_span": "The results showed that 97% of the colonies contained the correct restriction pattern and the shuffling efficiency was 65%"
+          },
+          {
+            "evidence_id": "EV_C003_E02_01",
+            "source_file": "docs/0191/combined.md",
+            "section": "C003",
+            "quote_or_span": "the thermocycler program was: incubation at 37 °C for 5 min and at 16 °C for 10 min repeated 50 times, followed by a final incubation at 50 °C for 10 min (final digestion) and at 80 °C for 10 min (enzyme inactivation)."
+          },
+          {
+            "evidence_id": "EV_C003_E03_01",
+            "source_file": "docs/0191/combined.md",
+            "section": "C003",
+            "quote_or_span": "The restriction-ligation reaction (5 $\\mu$ L) were used to transform 100 $\\mu$ L of chemically competent NEB 10 $\\beta$ cells plated on 100 $\\mu$ g mL $^{-1}$ ampicillin LB agar plates."
+          },
+          {
+            "evidence_id": "EV_C003_E04_01",
+            "source_file": "docs/0191/combined.md",
+            "section": "C003",
+            "quote_or_span": "The hmfo variants were verified first by colony PCR (DreamTaq Green PCR Master Mix, Thermo Fisher) to determine the inserts size and then by sequencing."
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "experiment",
+        "state_before": "Shuffled library generated with 65% efficiency.",
+        "gap_or_uncertainty": "Which combination of mutations yields the highest thermostability without compromising activity?",
+        "hypothesis": "Variants with more mutations will be more thermostable, but some mutations may reduce activity.",
+        "decision": "Screen library using ThermoFAD and HMF activity assay.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "ThermoFAD, HMF oxidation assay",
+          "version": "",
+          "category": "biochemical_assay"
+        },
+        "parameters": {
+          "expression": "pBAD SUMO-HMFO in NEB 10β"
+        },
+        "observation": "8xHMFO (all 8 mutations) had highest Tm_app (+13 °C) but Q187E reduced activity.",
+        "result_status": "partial",
+        "next_step_reason": "Identify best variant without Q187E.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E04_01",
+            "source_file": "docs/0191/combined.md",
+            "section": "C002",
+            "quote_or_span": "the 8xHMFO (I73V, H74Y, Q187E, G356H, V367L, T414K, A419Y, and A435E) was the most thermostable variant with an improvement of 13 °C compared with the WT"
+          },
+          {
+            "evidence_id": "EV_C002_E04_02",
+            "source_file": "docs/0191/combined.md",
+            "section": "C002",
+            "quote_or_span": "the mutation Q187E had a negative effect on the activity"
+          },
+          {
+            "evidence_id": "EV_AUTO_013",
+            "source_file": "docs/0191/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The results of the ThermoFAD analysis showed that the 8xHMFO (I73V, H74Y, Q187E, G356H, V367L, T414K, A419Y, and A435E) was the most thermostable variant with an improvement of 13 °C compared with the WT ( $T_{m}^{app} = 48.5$ °C)."
+          },
+          {
+            "evidence_id": "EV_AUTO_021",
+            "source_file": "docs/0191/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Yet, an alignment of the best 9 multi-site mutants that presented an higher $T_{m}^{app}$ together with a preserved ability to oxidize HMF demonstrated that the mutation Q187E had a negative effect on the activity (Additional file 3: Table S3)."
+          },
+          {
+            "evidence_id": "EV_C002_E03_01",
+            "source_file": "docs/0191/combined.md",
+            "section": "C002",
+            "quote_or_span": "The results showed that 97% of the colonies contained the correct restriction pattern and the shuffling efficiency was 65%"
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "analysis",
+        "state_before": "8xHMFO most stable but Q187E detrimental to activity.",
+        "gap_or_uncertainty": "Which variant without Q187E is the best compromise?",
+        "hypothesis": "7xHMFO (I73V, H74Y, G356H, V367L, T414K, A419Y, A435E) will have high thermostability and activity comparable to WT.",
+        "decision": "Select 7xHMFO as best variant based on Tm_app and kinetic parameters.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "kinetic assay",
+          "version": "",
+          "category": "biochemical_assay"
+        },
+        "parameters": {},
+        "observation": "7xHMFO has Tm_app = 60.5 °C and kcat/Km comparable to WT.",
+        "result_status": "success",
+        "next_step_reason": "Validate 7xHMFO for operational stability and cosolvent tolerance.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_009",
+            "source_file": "docs/0191/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Therefore, the best multiple mutant was considered to be the 7xHMFO mutant (I73V, H74Y, G356H, V367L, T414K, A419Y, and A435E) with a $T_{m}^{app}$ of 60."
+          },
+          {
+            "evidence_id": "EV_AUTO_014",
+            "source_file": "docs/0191/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Therefore, the best multiple mutant was considered to be the 7xHMFO mutant (I73V, H74Y, G356H, V367L, T414K, A419Y, and A435E) with a $T_{m}^{app}$ of 60.5 °C and $k_{cat}$ and $K_{m}$ values comparable with the wild-type enzyme (Table 1) [8]."
+          },
+          {
+            "evidence_id": "EV_AUTO_010",
+            "source_file": "docs/0191/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "$^{a}$ The 7xHMFO variant includes the mutations: I73V, H74Y, G356H, V367L, T414K, A419Y, and A435E"
+          },
+          {
+            "evidence_id": "EV_C002_E04_01",
+            "source_file": "docs/0191/combined.md",
+            "section": "C002",
+            "quote_or_span": "the 8xHMFO (I73V, H74Y, Q187E, G356H, V367L, T414K, A419Y, and A435E) was the most thermostable variant with an improvement of 13 °C compared with the WT"
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "validation",
+        "state_before": "7xHMFO identified as best thermostable variant.",
+        "gap_or_uncertainty": "Does 7xHMFO exhibit improved operational stability and cosolvent tolerance?",
+        "hypothesis": "7xHMFO will retain activity longer at elevated temperature and tolerate cosolvents better than WT.",
+        "decision": "Test long-term stability at 40 °C and activity in presence of cosolvents (dioxane, methanol, DMSO, ethanol).",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "HMF oxidation assay",
+          "version": "",
+          "category": "biochemical_assay"
+        },
+        "parameters": {
+          "temperature": "40 °C",
+          "cosolvents": [
+            "dioxane",
+            "methanol",
+            "DMSO",
+            "ethanol"
+          ]
+        },
+        "observation": "7xHMFO retained 50% activity after 10 days at 40 °C (WT lost activity in 2 days); improved tolerance to all cosolvents tested.",
+        "result_status": "success",
+        "next_step_reason": "Introduce activity-enhancing mutations V367R and W466F into 7xHMFO scaffold.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E06_01",
+            "source_file": "docs/0191/combined.md",
+            "section": "C002",
+            "quote_or_span": "the thermostable variant retained 50% of its activity even after 10 days of incubation at 40 °C"
+          },
+          {
+            "evidence_id": "EV_C002_E06_02",
+            "source_file": "docs/0191/combined.md",
+            "section": "C002",
+            "quote_or_span": "The 7xHMFO showed a much higher tolerance towards four commonly used cosolvents"
+          },
+          {
+            "evidence_id": "EV_AUTO_024",
+            "source_file": "docs/0191/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Oxidation rates of HMF by HMFO wild-type and thermostable 7xHMFO variant after incubation at 40 °C [1 mM] in phosphate buffer 50 mM pH 8.0."
+          },
+          {
+            "evidence_id": "EV_AUTO_025",
+            "source_file": "docs/0191/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Oxidation rates of HMF by HMFO wild-type and thermostable 7xHMFO variant after incubation at 40 °C [1 mM] in phosphate buffer 50 mM pH 8."
+          },
+          {
+            "evidence_id": "EV_AUTO_016",
+            "source_file": "docs/0191/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "To further tune the 7xHMFO variant towards conversion of HMF into FDCA, we introduced two mutations (V367R and W466F) in the active site that have been shown to be beneficial for FDCA production from HMF [11]."
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "experiment",
+        "state_before": "7xHMFO validated as robust scaffold.",
+        "gap_or_uncertainty": "Can activity for FDCA production be improved by introducing active-site mutations without losing too much stability?",
+        "hypothesis": "Mutations V367R and W466F, known to enhance FDCA production, can be added to 7xHMFO to create 8AxHMFO and 8BxHMFO.",
+        "decision": "Introduce V367R and W466F into 7xHMFO by whole-plasmid PCR; create 8AxHMFO (7x + W466F) and 8BxHMFO (7x + V367R, W466F).",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "whole-plasmid PCR",
+          "version": "",
+          "category": "molecular_biology"
+        },
+        "parameters": {
+          "template": "pBAD SUMO-7xHMFO",
+          "mutations": [
+            "V367R",
+            "W466F"
+          ]
+        },
+        "observation": "8AxHMFO and 8BxHMFO were created; both had reduced Tm_app but still higher than WT.",
+        "result_status": "partial",
+        "next_step_reason": "Test FDCA conversion performance of 8BxHMFO.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E07_01",
+            "source_file": "docs/0191/combined.md",
+            "section": "C002",
+            "quote_or_span": "we introduced two mutations (V367R and W466F) in the active site"
+          },
+          {
+            "evidence_id": "EV_AUTO_015",
+            "source_file": "docs/0191/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Since V367 had already been mutated in the 7xHMFO variant (V367L), we included in the analysis also another 8xHMFO variant with only the W466F mutation."
+          },
+          {
+            "evidence_id": "EV_AUTO_016",
+            "source_file": "docs/0191/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "To further tune the 7xHMFO variant towards conversion of HMF into FDCA, we introduced two mutations (V367R and W466F) in the active site that have been shown to be beneficial for FDCA production from HMF [11]."
+          },
+          {
+            "evidence_id": "EV_AUTO_006",
+            "source_file": "docs/0191/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "$^{c}$ The 8BxHMFO variant includes the mutations: I73V, H74Y, G356H, V367R, T414K, A419Y, A435E, and W466F"
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "validation",
+        "state_before": "8BxHMFO created with reduced Tm_app but still above WT.",
+        "gap_or_uncertainty": "Does 8BxHMFO outperform WT and double mutant (V367R-W466F) in FDCA conversion at elevated temperature?",
+        "hypothesis": "Improved operational stability of 8BxHMFO will compensate for lower catalytic efficiency, leading to higher conversion at 40 °C.",
+        "decision": "Compare FDCA conversion of WT, V367R-W466F, and 8BxHMFO at 25 °C and 40 °C.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "HMF conversion assay",
+          "version": "",
+          "category": "biochemical_assay"
+        },
+        "parameters": {
+          "substrate": "5.0 mM HMF",
+          "temperatures": [
+            "25 °C",
+            "40 °C"
+          ]
+        },
+        "observation": "At 40 °C, only 8BxHMFO performed well (>95% conversion in 9 h); at 25 °C, 8BxHMFO reached almost full conversion in 24 h, while double mutant <50% and WT <5%.",
+        "result_status": "success",
+        "next_step_reason": "Acknowledge trade-off between activity and stability.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E08_01",
+            "source_file": "docs/0191/combined.md",
+            "section": "C002",
+            "quote_or_span": "At this temperature, only the 8BxHMFO mutant performed well (> 95% conversion in only 9 h)"
+          },
+          {
+            "evidence_id": "EV_C002_E08_02",
+            "source_file": "docs/0191/combined.md",
+            "section": "C002",
+            "quote_or_span": "This indicates that the higher conversion is largely due to an improved operational stability"
+          },
+          {
+            "evidence_id": "EV_AUTO_028",
+            "source_file": "docs/0191/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "At 25 °C, an almost full conversion in 24 h could be achieved, while the conversion with the double mutant and the wild-type enzyme remained below 50 and 5%, respectively."
+          },
+          {
+            "evidence_id": "EV_AUTO_011",
+            "source_file": "docs/0191/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The conversion performed by HMFO WT, HMFO V367R-W466F, HMFO I73V-H74Y-G356H-V367L-T414K-A419Y-A435E (7xHMFO), HMFO I73V-H74Y-G356H-V367L-T414K-A419Y-A435E-W466F (8AxHMFO), HMFO I73V-H74Y-G356H-V367R-T414K-A419Y-A435E-W466F (8BxHMFO), using 5.0 mM 5-(hydroxymethyl)furfural as a substrate were carried out at 25 or 40 °C, with shaking at 1000 rpm."
+          },
+          {
+            "evidence_id": "EV_AUTO_017",
+            "source_file": "docs/0191/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The mutant V367R-W466F HMFO was found to be the best variant for FDCA production with a $k_{cat}/K_{m}$ value for FFA conversion > 1000-fold higher than for the wild-type enzyme $[11]$ ."
+          },
+          {
+            "evidence_id": "EV_AUTO_016",
+            "source_file": "docs/0191/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "To further tune the 7xHMFO variant towards conversion of HMF into FDCA, we introduced two mutations (V367R and W466F) in the active site that have been shown to be beneficial for FDCA production from HMF [11]."
+          }
+        ]
+      },
+      {
+        "step_index": 12,
+        "phase": "analysis",
+        "state_before": "8BxHMFO shows high conversion but lower kcat/Km than double mutant.",
+        "gap_or_uncertainty": "Trade-off between activity-enhancing mutations and thermostability.",
+        "hypothesis": "Activity mutations V367R and W466F reduce thermostability, but the 7xHMFO scaffold provides sufficient operational stability to compensate.",
+        "decision": "Conclude that 8BxHMFO's performance is due to improved operational stability despite lower catalytic efficiency; 7xHMFO is a robust scaffold for further engineering.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "comparative analysis",
+          "version": "",
+          "category": "data_analysis"
+        },
+        "parameters": {},
+        "observation": "kcat/Km of 8BxHMFO is 0.1 s^-1 mM^-1 vs 2.2 s^-1 mM^-1 for double mutant; trade-off exists but operational stability wins.",
+        "result_status": "success",
+        "next_step_reason": "Method advances FRESCO protocol; 7xHMFO can be used for further engineering.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_031",
+            "source_file": "docs/0191/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "1\\ s^{-1}\\ mM^{-1}$ which compared to the reported $k_{cat}/K_{m}$ value of the double mutant is relatively low ( $2.2\\ s^{-1}\\ mM^{-1}$ ) (Additional file 8: Figure S3) [11]."
+          },
+          {
+            "evidence_id": "EV_AUTO_017",
+            "source_file": "docs/0191/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The mutant V367R-W466F HMFO was found to be the best variant for FDCA production with a $k_{cat}/K_{m}$ value for FFA conversion > 1000-fold higher than for the wild-type enzyme $[11]$ ."
+          },
+          {
+            "evidence_id": "EV_C001_E08_01",
+            "source_file": "docs/0191/combined.md",
+            "section": "C001",
+            "quote_or_span": "we now developed a new and facile gene shuffling approach to rapidly combine stabilizing mutations in a one-pot reaction"
+          },
+          {
+            "evidence_id": "EV_AUTO_016",
+            "source_file": "docs/0191/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "To further tune the 7xHMFO variant towards conversion of HMF into FDCA, we introduced two mutations (V367R and W466F) in the active site that have been shown to be beneficial for FDCA production from HMF [11]."
+          },
+          {
+            "evidence_id": "EV_AUTO_019",
+            "source_file": "docs/0191/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The gene single point variants, the double mutant I73V H74Y, the 8AxHMFO, and the 8BxHMFO were obtained from pET SUMO-HMFO or pBAD SUMO-7xHMFO by whole-plasmid PCR with PfuUltra II Hotstart PCR Master Mix (Agilent)."
+          },
+          {
+            "evidence_id": "EV_AUTO_014",
+            "source_file": "docs/0191/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Therefore, the best multiple mutant was considered to be the 7xHMFO mutant (I73V, H74Y, G356H, V367L, T414K, A419Y, and A435E) with a $T_{m}^{app}$ of 60.5 °C and $k_{cat}$ and $K_{m}$ values comparable with the wild-type enzyme (Table 1) [8]."
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "ThermoFAD assay for thermostability",
+        "HMF oxidation assay for activity",
+        "Long-term incubation at 40 °C",
+        "Cosolvent tolerance assay",
+        "FDCA conversion assay at 25 °C and 40 °C"
+      ],
+      "metrics": [
+        "Tm_app",
+        "kcat/Km",
+        "Conversion percentage",
+        "Residual activity after incubation"
+      ],
+      "final_conclusion": "7xHMFO is a highly thermostable scaffold (Tm_app 60.5 °C) with WT-like activity; 8BxHMFO achieves >95% FDCA conversion in 9 h at 40 °C due to improved operational stability, despite lower catalytic efficiency. Golden Gate gene shuffling efficiently combined stabilizing mutations, advancing the FRESCO protocol.",
+      "limitations": [
+        "Trade-off: activity-enhancing mutations reduce thermostability; 8BxHMFO has lower kcat/Km than the double mutant.",
+        "Shuffling efficiency was 65%, not 100%."
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_specific_evidence_backfilled=12",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_specific_evidence_backfilled=11",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 100.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p6\\states\\0191.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p6\\events\\0191.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1
+        ],
+        "K03": [
+          1,
+          2
+        ],
+        "K04": [
+          3
+        ],
+        "K05": [
+          4,
+          8
+        ],
+        "K06": [
+          5,
+          12
+        ],
+        "K07": [
+          6,
+          7
+        ],
+        "K08": [
+          1,
+          3,
+          4,
+          6,
+          7,
+          8,
+          10,
+          12
+        ],
+        "K09": [
+          7,
+          8,
+          12
+        ],
+        "K10": [
+          9
+        ],
+        "K12": [
+          10,
+          11,
+          12
+        ],
+        "K13": [
+          11,
+          12
+        ],
+        "K14": [
+          5,
+          12
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02",
+            "K03",
+            "K08"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K02",
+            "K03"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K04",
+            "K08"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K05",
+            "K08"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K06",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K07",
+            "K08"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K07",
+            "K08",
+            "K09"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K05",
+            "K08",
+            "K09"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K10",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K08",
+            "K11",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K11",
+            "K12",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 12,
+          "covered_event_ids": [
+            "K06",
+            "K08",
+            "K09",
+            "K11",
+            "K12",
+            "K13",
+            "K14"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 7,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "+13"
+        ]
+      },
+      {
+        "step_index": 11,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "50%"
+        ]
+      },
+      {
+        "step_index": 12,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "-1mm",
+          "0.1s",
+          "2.2s"
+        ]
+      }
+    ],
+    "step_count": 12,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 100.0
+  },
+  "api_usage": {
+    "prompt_tokens": 114838,
+    "completion_tokens": 29607,
+    "total_tokens": 144445,
+    "prompt_cache_hit_tokens": 2432,
+    "prompt_cache_miss_tokens": 112406
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 5698,
+        "completion_tokens": 967,
+        "total_tokens": 6665,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 5698
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 10309,
+        "completion_tokens": 2891,
+        "total_tokens": 13200,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 10309
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 7760,
+        "completion_tokens": 1204,
+        "total_tokens": 8964,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7504
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 8795,
+        "completion_tokens": 1714,
+        "total_tokens": 10509,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8539
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 8053,
+        "completion_tokens": 1637,
+        "total_tokens": 9690,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7797
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 11200,
+        "completion_tokens": 3806,
+        "total_tokens": 15006,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 10816
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 14311,
+        "completion_tokens": 7975,
+        "total_tokens": 22286,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 13671
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 22775,
+        "completion_tokens": 1554,
+        "total_tokens": 24329,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 22775
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 25937,
+        "completion_tokens": 7859,
+        "total_tokens": 33796,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 25297
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

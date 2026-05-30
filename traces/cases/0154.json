@@ -1,0 +1,1049 @@
+{
+  "case": {
+    "case_id": "sci_evo_0154",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Computational design and engineering of self-assembling multivalent microproteins with therapeutic potential against SARS-CoV-2",
+      "doi": "https://doi.org/10.1186/s12951-024-02329-3",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0152_10_1186_s12951_024_02329_3_computational_design_and_engineering_of_self_assembling_multivalent_microproteins_with_the.pdf",
+      "mineru_md": "docs/0154/mineru.md",
+      "combined_md": "docs/0154/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Need for broad-spectrum antivirals against evolving SARS-CoV-2 variants that evade existing monovalent drugs.",
+      "target_object": "SARS-CoV-2 spike protein trimer",
+      "known_context": "SARS-CoV-2 mutations reduce efficacy of existing drugs and limit conserved epitopes; Omicron variants predominantly adopt 1-RBD-up conformation, evading many antibodies.",
+      "constraints": [
+        "Design must achieve multivalent binding to all three RBDs",
+        "Constructs must self-assemble into stable trimers",
+        "Linkers must span calculated minimum distances"
+      ],
+      "input_data": [
+        "Structures of miniACE2, F-scaffold (T4 fibritin foldon), C-scaffold (coiled-coil)",
+        "SARS-CoV-2 spike protein structures"
+      ],
+      "quantifiable_goals": [
+        "Achieve sub-nanomolar binding affinity (KD < 1 nM)",
+        "Broad neutralization of Omicron variants including cluster 2",
+        "Induce 3-RBD-up conformation"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "Existing monovalent drugs lose efficacy against SARS-CoV-2 variants due to mutations reducing conserved epitopes.",
+        "gap_or_uncertainty": "How to achieve broad-spectrum neutralization despite epitope mutations.",
+        "hypothesis": "Multivalent drugs can synergistically bind all three RBDs of the S protein, enhancing avidity and neutralization breadth.",
+        "decision": "Pursue computational design of self-assembling trivalent microproteins targeting the S protein.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "Literature-based reasoning",
+          "version": "",
+          "category": "conceptual"
+        },
+        "parameters": {},
+        "observation": "Multivalent binding could overcome limitations of monovalent binders by increasing avidity and resisting mutations.",
+        "result_status": "success",
+        "next_step_reason": "Hypothesis motivates computational design approach.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0154/combined.md",
+            "section": "C001",
+            "quote_or_span": "the ongoing mutations in SARS-CoV-2 not only diminish the efficacy of existing drugs, but also reduce the number of conserved epitopes in drug targets, posing a significant challenge to drug design and development"
+          },
+          {
+            "evidence_id": "EV_C001_E01_02",
+            "source_file": "docs/0154/combined.md",
+            "section": "C001",
+            "quote_or_span": "there is an urgent need to develop novel therapeutic agents that can effectively combat emerging SARS-CoV-2 variants, such as broad-spectrum neutralizing antibodies or other protein drugs"
+          },
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0154/combined.md",
+            "section": "C001",
+            "quote_or_span": "multivalent drugs can use their pharmacophores (e.g., an antibody to a single RBD) to synergistically bind to the three RBDs of the S protein, thereby enhancing therapeutic effectiveness against the viruses"
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "design",
+        "state_before": "Hypothesis of multivalent binding established; need to select components and design linkers.",
+        "gap_or_uncertainty": "Which monovalent binder and trimerization scaffolds to use, and how to connect them.",
+        "hypothesis": "miniACE2 as binder and F-/C-scaffolds as trimerization domains can yield self-assembling trimers if linkers span required distances.",
+        "decision": "Select miniACE2, F-scaffold (T4 fibritin foldon), C-scaffold (coiled-coil); calculate minimum linker distances.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "Structure-guided design",
+          "version": "",
+          "category": "computational_design"
+        },
+        "parameters": {
+          "binder": "miniACE2",
+          "scaffolds": [
+            "F-scaffold",
+            "C-scaffold"
+          ],
+          "method": "Lagrange multiplier"
+        },
+        "observation": "Minimum linker distances: 19.37 Å for F-scaffold, 17.98 Å for C-scaffold.",
+        "result_status": "success",
+        "next_step_reason": "Distances inform linker length sampling.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_020",
+            "source_file": "docs/0154/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "To obtain optimal multivalent constructs, we then selected two well-studied self-assembling domains as the test trimerization scaffolds, namely the $\\beta$ -propeller-like foldon domain of T4 fibritin used in vaccines $[27–29]$ and an $\\alpha$ -helical coiled-coil peptide $[30]$ , which will be referred to as F-scaffold and C-scaffold, respectively (Fig."
+          },
+          {
+            "evidence_id": "EV_C001_E06_01",
+            "source_file": "docs/0154/combined.md",
+            "section": "C001",
+            "quote_or_span": "we calculated the minimum distance required for a linker to connect miniACE2 and the given trimerization scaffold using the Lagrange multiplier method, and found that the minimum distances for the F- and C-scaffolds are 19.37 Å and 17.98 Å, respectively"
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "design",
+        "state_before": "Minimum linker distances known; need to select linker types and lengths.",
+        "gap_or_uncertainty": "Which linker sequences and repeat numbers yield suitable distance distributions.",
+        "hypothesis": "Flexible (GGGGS)n and rigid (EAAAK)n linkers with n=3 or 5 will provide appropriate reach and conformational sampling.",
+        "decision": "Use RosettaRemodel to sample (GGGGS)n and (EAAAK)n for n=2-5; reject n=2 (too short) and n=4 (irregular distributions); select n=3 and 5.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "RosettaRemodel",
+          "version": "",
+          "category": "computational_design"
+        },
+        "parameters": {
+          "linker_types": [
+            "(GGGGS)n",
+            "(EAAAK)n"
+          ],
+          "n_values": [
+            2,
+            3,
+            4,
+            5
+          ],
+          "trajectories_per_linker": 1000
+        },
+        "observation": "n=2 linkers too short; n=4 gave irregular distance distributions; n=3 and 5 covered desired range. Selected four test linkers: (GGGGS)3, (GGGGS)5, (EAAAK)3, (EAAAK)5.",
+        "result_status": "partial",
+        "next_step_reason": "Selected linkers used to build constructs for MD evaluation.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E07_03",
+            "source_file": "docs/0154/combined.md",
+            "section": "C001",
+            "quote_or_span": "the distance distributions for n=4 were irregular, neither as narrow as n=3 nor as broad as n=5; furthermore, those for n=3 and 5 have covered most of the range seen in n=4, making n=4 less preferable"
+          },
+          {
+            "evidence_id": "EV_C002_E01_01",
+            "source_file": "docs/0154/combined.md",
+            "section": "C002",
+            "quote_or_span": "indicating that linkers designed with n=2 may not be suitable"
+          },
+          {
+            "evidence_id": "EV_C002_E02_01",
+            "source_file": "docs/0154/combined.md",
+            "section": "C002",
+            "quote_or_span": "the distance distributions for n=4 were irregular, neither as narrow as n=3 nor as broad as n=5; furthermore, those for n=3 and 5 have covered most of the range seen in n=4, making n=4 less preferable"
+          },
+          {
+            "evidence_id": "EV_C002_E03_01",
+            "source_file": "docs/0154/combined.md",
+            "section": "C002",
+            "quote_or_span": "we chose four test linkers, the flexible $(GGGGS)_{3}$ and $(GGGGS)_{5}$ , and the rigid $(EAAAK)_{3}$ and $(EAAAK)_{5}$"
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "simulation",
+        "state_before": "Constructs with selected linkers built; need to evaluate self-assembly tendency.",
+        "gap_or_uncertainty": "Which construct has the strongest self-assembly and most homogeneous conformation.",
+        "hypothesis": "MD simulations and MM/GBSA will rank constructs; F-scaffold constructs may be more stable.",
+        "decision": "Run 3×300 ns MD simulations for each construct; calculate MM/GBSA binding free energies.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "GROMACS",
+          "version": "",
+          "category": "molecular_dynamics"
+        },
+        "parameters": {
+          "force_field": "AMBER 99SB-ILDN",
+          "simulation_time": "300 ns",
+          "replicates": 3,
+          "analysis": "MM/GBSA"
+        },
+        "observation": "F-scaffold constructs generally more stable; MP-5ff had lowest relative binding free energy, implying strongest self-assembly tendency.",
+        "result_status": "success",
+        "next_step_reason": "MP-5ff identified as top candidate; proceed to conformational analysis.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E05_01",
+            "source_file": "docs/0154/combined.md",
+            "section": "C002",
+            "quote_or_span": "the binding free energies of the F-scaffold constructs are typically lower than those of the C-scaffold constructs"
+          },
+          {
+            "evidence_id": "EV_C002_E06_01",
+            "source_file": "docs/0154/combined.md",
+            "section": "C002",
+            "quote_or_span": "MP-5ff has the lowest relative binding free energy, implying the strongest self-assembly tendency"
+          },
+          {
+            "evidence_id": "EV_C006_E07_01",
+            "source_file": "docs/0154/combined.md",
+            "section": "C006",
+            "quote_or_span": "All-atom MD simulations were performed using GROMACS software with AMBER 99SB-ILDN force field"
+          },
+          {
+            "evidence_id": "EV_C006_E07_02",
+            "source_file": "docs/0154/combined.md",
+            "section": "C006",
+            "quote_or_span": "For each construct, three independent 300-ns production runs were performed."
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "analysis",
+        "state_before": "MP-5ff identified as energetically favorable; need to assess conformational homogeneity.",
+        "gap_or_uncertainty": "Whether MP-5ff adopts a single stable trimer conformation or multiple states.",
+        "hypothesis": "PCA-based free energy landscapes will reveal conformational distribution; MP-5ff may show a single narrow well.",
+        "decision": "Construct FELs from MD trajectories using PCA; compare MP-5ff with other constructs.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Bio3D",
+          "version": "",
+          "category": "data_analysis"
+        },
+        "parameters": {
+          "method": "PCA",
+          "frames": "last 150 ns"
+        },
+        "observation": "MP-5ff showed a single low-energy well, indicating high conformational homogeneity; other constructs had multiple wells.",
+        "result_status": "success",
+        "next_step_reason": "MP-5ff predicted to be best trimer; proceed to experimental validation.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E07_01",
+            "source_file": "docs/0154/combined.md",
+            "section": "C002",
+            "quote_or_span": "the resulting FELs showed the distribution patterns of the simulated constructs and their possible"
+          },
+          {
+            "evidence_id": "EV_C003_E01_01",
+            "source_file": "docs/0154/combined.md",
+            "section": "C003",
+            "quote_or_span": "only MP-5ff showed only a low-energy trimer conformation in the simulations, suggesting that the conformational homogeneity of this protein is the best."
+          },
+          {
+            "evidence_id": "EV_C003_E02_01",
+            "source_file": "docs/0154/combined.md",
+            "section": "C003",
+            "quote_or_span": "except MP-5ff the FELs of all constructs had multiple low-energy wells (in blue), suggesting that multiple low-energy trimer-like conformations coexist in the simulations."
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "experiment",
+        "state_before": "MP-5ff computationally predicted as optimal; need experimental confirmation.",
+        "gap_or_uncertainty": "Whether MP-5ff indeed forms stable trimers with high affinity and neutralization.",
+        "hypothesis": "MP-5ff will show high trimerization efficiency, single conformation, and enhanced binding/neutralization over monovalent miniACE2.",
+        "decision": "Express and purify MP-5ff; characterize by SEC, Native-PAGE, BLI, and pseudovirus neutralization.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "SEC, Native-PAGE, BLI, pseudovirus neutralization assay",
+          "version": "",
+          "category": "biochemical_assay"
+        },
+        "parameters": {
+          "target": "SARS-CoV-2 RBD (Wuhan-Hu-1 for BLI; pseudovirus for neutralization)"
+        },
+        "observation": "SEC: sharpest peak; Native-PAGE: single band; BLI: KD <1 pM (1000-fold over miniACE2); neutralization IC50 29 pM (23-fold improvement).",
+        "result_status": "success",
+        "next_step_reason": "MP-5ff validated; generalize trimerization unit to nanobody.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E03_01",
+            "source_file": "docs/0154/combined.md",
+            "section": "C003",
+            "quote_or_span": "the peak of MP-5ff appears to be the sharpest and the most concentrated one, indicating that it is the most efficient trivalent construct"
+          },
+          {
+            "evidence_id": "EV_C003_E04_01",
+            "source_file": "docs/0154/combined.md",
+            "section": "C003",
+            "quote_or_span": "only MP-5ff presented a single protein band, indicating a single stable trimer conformation"
+          },
+          {
+            "evidence_id": "EV_C004_E01_01",
+            "source_file": "docs/0154/combined.md",
+            "section": "C004",
+            "quote_or_span": "SEC profiles of the purified proteins of the constructs."
+          },
+          {
+            "evidence_id": "EV_C004_E02_01",
+            "source_file": "docs/0154/combined.md",
+            "section": "C004",
+            "quote_or_span": "Native-PAGE analysis of the protein trimer fractions isolated from SEC."
+          },
+          {
+            "evidence_id": "EV_AUTO_014",
+            "source_file": "docs/0154/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "5d, the monovalent miniACE2 was already able to inhibit the virus with an $IC_{50}$ of 682 pM; nonetheless, the trivalent MP-5ff still significantly enhanced the neutralizing activity ( $IC_{50}=29$ pM), exhibiting a 23-fold increase."
+          },
+          {
+            "evidence_id": "EV_AUTO_020",
+            "source_file": "docs/0154/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "To obtain optimal multivalent constructs, we then selected two well-studied self-assembling domains as the test trimerization scaffolds, namely the $\\beta$ -propeller-like foldon domain of T4 fibritin used in vaccines $[27–29]$ and an $\\alpha$ -helical coiled-coil peptide $[30]$ , which will be referred to as F-scaffold and C-scaffold, respectively (Fig."
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "design",
+        "state_before": "MP-5ff trimerization unit (5ff) validated; want to test generalizability.",
+        "gap_or_uncertainty": "Whether the 5ff unit can be applied to a different binder (nanobody) to create a broad-spectrum antiviral.",
+        "hypothesis": "Fusing Nb67 to 5ff will yield a trivalent nanobody (Tr67) with enhanced affinity and breadth.",
+        "decision": "Design Tr67 by genetically fusing Nb67 to the 5ff trimerization unit.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "Genetic fusion design",
+          "version": "",
+          "category": "protein_engineering"
+        },
+        "parameters": {
+          "binder": "Nb67",
+          "trimerization_unit": "5ff"
+        },
+        "observation": "Tr67 construct designed.",
+        "result_status": "success",
+        "next_step_reason": "Proceed to experimental characterization of Tr67.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E07_01",
+            "source_file": "docs/0154/combined.md",
+            "section": "C003",
+            "quote_or_span": "we applied the 5ff trimerization unit to engineer a trivalent nanobody targeting the dominant circulating Omicron variants"
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "experiment",
+        "state_before": "Tr67 designed; need to assess trimerization, binding, and neutralization against Omicron BA.1.",
+        "gap_or_uncertainty": "Whether Tr67 forms stable trimers and shows improved potency over monovalent Nb67.",
+        "hypothesis": "Tr67 will exhibit high trimerization efficiency, enhanced binding affinity, and strong neutralization of BA.1.",
+        "decision": "Express Tr67; characterize by SEC, Native-PAGE, BLI, and pseudovirus neutralization (BA.1).",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "SEC, Native-PAGE, BLI, pseudovirus neutralization assay",
+          "version": "",
+          "category": "biochemical_assay"
+        },
+        "parameters": {
+          "target": "Omicron BA.1 RBD/pseudovirus"
+        },
+        "observation": "SEC/Native-PAGE: high trimerization and homogeneity similar to MP-5ff; BLI: KD 0.746 nM (20-fold over Nb67); neutralization IC50 55 pM.",
+        "result_status": "success",
+        "next_step_reason": "Tr67 shows promise; test breadth against more Omicron variants.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E06_01",
+            "source_file": "docs/0154/combined.md",
+            "section": "C004",
+            "quote_or_span": "SEC and Native-PAGE analysis of Tr67, showing high trimerization tendency and conformational homogeneity."
+          },
+          {
+            "evidence_id": "EV_C004_E06_02",
+            "source_file": "docs/0154/combined.md",
+            "section": "C004",
+            "quote_or_span": "Tr67 has a trimerization efficiency and conformational homogeneity very similar to that of MP-5ff."
+          },
+          {
+            "evidence_id": "EV_C004_E07_01",
+            "source_file": "docs/0154/combined.md",
+            "section": "C004",
+            "quote_or_span": "BLI measurement of the binding kinetics of the monovalent Nb67 and Tr67 to the immobilized RBD of SARS-CoV-2 pseudovirus (Omicron BA.1)."
+          },
+          {
+            "evidence_id": "EV_C004_E08_01",
+            "source_file": "docs/0154/combined.md",
+            "section": "C004",
+            "quote_or_span": "Neutralizing activities of Nb67 and Tr67 against SARS-CoV-2 pseudovirus (Omicron BA.1)."
+          },
+          {
+            "evidence_id": "EV_AUTO_019",
+            "source_file": "docs/0154/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The resulting $K_{D}$ was 0.746 nM, which is an about 20-fold increase in affinity compared to that of the monovalent Nb67 ( $K_{D}=15."
+          },
+          {
+            "evidence_id": "EV_AUTO_018",
+            "source_file": "docs/0154/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "746 nM, which is an about 20-fold increase in affinity compared to that of the monovalent Nb67 ( $K_{D}=15."
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "experiment",
+        "state_before": "Tr67 neutralizes BA.1; need to test against broader panel of Omicron variants.",
+        "gap_or_uncertainty": "Whether Tr67 can neutralize Omicron variants that escape monovalent Nb67, especially cluster 2.",
+        "hypothesis": "Tr67 will broadly neutralize Omicron variants, including cluster 2, due to avidity effects.",
+        "decision": "Test Tr67 and Nb67 against pseudoviruses of BA.5, BF.7, BQ.1.1, XBB.1, XBB.1.5.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Pseudovirus neutralization assay",
+          "version": "",
+          "category": "virological_assay"
+        },
+        "parameters": {
+          "variants": [
+            "BA.5",
+            "BF.7",
+            "BQ.1.1",
+            "XBB.1",
+            "XBB.1.5"
+          ]
+        },
+        "observation": "Tr67 neutralized all variants (IC50: 0.5-14.6 nM); Nb67 failed against cluster 2.",
+        "result_status": "success",
+        "next_step_reason": "Broad neutralization achieved; determine structural basis.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C005_E01_01",
+            "source_file": "docs/0154/combined.md",
+            "section": "C005",
+            "quote_or_span": "Tr67 has a significant increase in the neutralizing activity against all the tested Omicron variants"
+          },
+          {
+            "evidence_id": "EV_C005_E01_02",
+            "source_file": "docs/0154/combined.md",
+            "section": "C005",
+            "quote_or_span": "Nb67 was able to neutralize the Omicron variants in cluster 1 but not those in cluster 2"
+          },
+          {
+            "evidence_id": "EV_AUTO_036",
+            "source_file": "docs/0154/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Thus, compared with its monovalent counterpart, Tr67 has a significant increase in the neutralizing activity against all the tested Omicron variants, suggesting that multivalent proteins have the potential to be developed into broad-spectrum drugs against the emerging SARS-CoV-2 variants."
+          },
+          {
+            "evidence_id": "EV_C005_E04_01",
+            "source_file": "docs/0154/combined.md",
+            "section": "C005",
+            "quote_or_span": "for variants BA.5, BF.7, BQ.1.1, XBB.1, and XBB.1.5 variants (cluster 2), Nb67 in the best-scoring poses was not located at the expected sites"
+          },
+          {
+            "evidence_id": "EV_AUTO_035",
+            "source_file": "docs/0154/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "1.5 variants (cluster 2), Nb67 in the best-scoring poses was not located at the expected sites, but at other sites that are sterically unfavorable in the 1-RBD-up conformation of the S protein (Additional file 1: Fig."
+          },
+          {
+            "evidence_id": "EV_AUTO_015",
+            "source_file": "docs/0154/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "1.5, unlike most neutralizing antibodies, which lose potency against these variants $[5, 47, 48]$ ."
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "validation",
+        "state_before": "Tr67 shows broad neutralization; need structural confirmation of binding mode.",
+        "gap_or_uncertainty": "Whether Tr67 indeed binds all three RBDs in 3-RBD-up conformation as designed.",
+        "hypothesis": "Cryo-EM will reveal Tr67 bound to Omicron BA.1 spike in 3-RBD-up state.",
+        "decision": "Perform cryo-EM on Tr67–Omicron BA.1 spike complex.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Cryo-EM",
+          "version": "",
+          "category": "structural_biology"
+        },
+        "parameters": {
+          "resolution": "9 Å",
+          "microscope": "FEI Glacios, 200 kV"
+        },
+        "observation": "3D reconstruction at 9 Å confirmed Tr67 binds all three RBDs, inducing 3-RBD-up conformation.",
+        "result_status": "success",
+        "next_step_reason": "Structure obtained; analyze interfaces to explain broad neutralization.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C005_E02_01",
+            "source_file": "docs/0154/combined.md",
+            "section": "C005",
+            "quote_or_span": "the cryo-EM structure provided experimental evidence that Tr67 is indeed bound to the epitopes specified by the computational design"
+          },
+          {
+            "evidence_id": "EV_C005_E02_02",
+            "source_file": "docs/0154/combined.md",
+            "section": "C005",
+            "quote_or_span": "the cryo-EM structure did confirm that Tr67 can induce the Omicron spike into the 3-RBD-up conformation"
+          },
+          {
+            "evidence_id": "EV_C006_E01_01",
+            "source_file": "docs/0154/combined.md",
+            "section": "C006",
+            "quote_or_span": "we captured the structure of the Omicron BA.1 spike protein in the 3-RBD-up conformation, and thus provided mechanistic insights into the antiviral activity of the trivalent nanobody Tr67."
+          },
+          {
+            "evidence_id": "EV_AUTO_034",
+            "source_file": "docs/0154/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "1 spike protein in the 3-RBD-up conformation, and thus provided mechanistic insights into the antiviral activity of the trivalent nanobody Tr67."
+          },
+          {
+            "evidence_id": "EV_C006_E04_02",
+            "source_file": "docs/0154/combined.md",
+            "section": "C006",
+            "quote_or_span": "This not only results in wider binding interfaces (e.g., in Fig. 8e), but also ensures that all three bound binders (Nb67s) in Tr67 remain tightly associated with the RBDs."
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "analysis",
+        "state_before": "Cryo-EM structure available; need to rationalize broad neutralization and Nb67 escape.",
+        "gap_or_uncertainty": "Why Tr67 neutralizes cluster 2 variants while Nb67 fails.",
+        "hypothesis": "Tr67 has larger interface and more interactions; Nb67 cannot dock to cluster 2 RBDs at expected epitope due to mutations.",
+        "decision": "Analyze interface residues and perform docking simulations of Nb67 to cluster 2 RBDs.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Interface analysis, docking",
+          "version": "",
+          "category": "computational_analysis"
+        },
+        "parameters": {},
+        "observation": "Tr67 interface: 21 Nb67 residues, 25 RBD residues (vs. 14, 16 for monovalent). Nb67 docking to cluster 2 RBDs placed at non-canonical sites.",
+        "result_status": "success",
+        "next_step_reason": "Mechanism explained; acknowledge limitations.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C005_E03_01",
+            "source_file": "docs/0154/combined.md",
+            "section": "C005",
+            "quote_or_span": "the Nb67 binder in Tr67 has a larger contact area with the Omicron RBD"
+          },
+          {
+            "evidence_id": "EV_C005_E03_02",
+            "source_file": "docs/0154/combined.md",
+            "section": "C005",
+            "quote_or_span": "the number of interfacial residues also supports that Tr67 could establish a more extensive network of interactions"
+          },
+          {
+            "evidence_id": "EV_C005_E04_01",
+            "source_file": "docs/0154/combined.md",
+            "section": "C005",
+            "quote_or_span": "for variants BA.5, BF.7, BQ.1.1, XBB.1, and XBB.1.5 variants (cluster 2), Nb67 in the best-scoring poses was not located at the expected sites"
+          },
+          {
+            "evidence_id": "EV_C005_E05_01",
+            "source_file": "docs/0154/combined.md",
+            "section": "C005",
+            "quote_or_span": "the synergistic binding of the three Nb67s in Tr67 increases the binding interface and then leads to higher binding affinities that could resist the mutations"
+          },
+          {
+            "evidence_id": "EV_AUTO_007",
+            "source_file": "docs/0154/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "fused protein of gp41 NHR to the T4 fibritin trimerization domain to construct trimeric anti-HIV-1 therapeutics [25]."
+          }
+        ]
+      },
+      {
+        "step_index": 12,
+        "phase": "revision",
+        "state_before": "Tr67 validated in vitro; need to state limitations and future work.",
+        "gap_or_uncertainty": "In vivo efficacy, pharmacokinetics, immunogenicity, and biosafety not evaluated.",
+        "hypothesis": "Further studies required to assess therapeutic potential.",
+        "decision": "Acknowledge that study is limited to computational design and in vitro validation.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Critical assessment",
+          "version": "",
+          "category": "reasoning"
+        },
+        "parameters": {},
+        "observation": "Study focused on design and in vitro validation; in vivo data needed.",
+        "result_status": "inconclusive",
+        "next_step_reason": "Conclude trajectory.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C006_E05_01",
+            "source_file": "docs/0154/combined.md",
+            "section": "C006",
+            "quote_or_span": "our study mainly focused on the computational design of a series of self-assembling multivalent microproteins and the in vitro validation of their physicochemical properties, improved binding affinity, and neutralizing activity"
+          },
+          {
+            "evidence_id": "EV_C006_E05_02",
+            "source_file": "docs/0154/combined.md",
+            "section": "C006",
+            "quote_or_span": "further research is needed to investigate the in vivo therapeutic efficacy, pharmacokinetics, immunogenicity, and biosafety of Tr67"
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "Size-exclusion chromatography (SEC)",
+        "Native-PAGE",
+        "Biolayer interferometry (BLI)",
+        "Pseudovirus neutralization assay",
+        "Cryo-electron microscopy (cryo-EM)"
+      ],
+      "metrics": [
+        "Trimerization efficiency (SEC peak sharpness)",
+        "Conformational homogeneity (Native-PAGE bands)",
+        "Binding affinity (KD)",
+        "Neutralization potency (IC50)",
+        "Structural resolution (Å)"
+      ],
+      "final_conclusion": "Computationally designed trivalent microprotein MP-5ff and its nanobody derivative Tr67 achieved sub-nanomolar binding, broad neutralization of Omicron variants including cluster 2, and induced 3-RBD-up conformation, validating the multivalent design strategy.",
+      "limitations": [
+        "No in vivo therapeutic efficacy data",
+        "Pharmacokinetics, immunogenicity, and biosafety not evaluated",
+        "Cryo-EM resolution limited to 9 Å",
+        "MM/GBSA has limitations in absolute binding free energy prediction"
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_specific_evidence_backfilled=9",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_specific_evidence_backfilled=9",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 100.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p5\\states\\0154.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p5\\events\\0154.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1
+        ],
+        "K02": [
+          1
+        ],
+        "K04": [
+          2,
+          6
+        ],
+        "K05": [
+          2
+        ],
+        "K06": [
+          3
+        ],
+        "K07": [
+          4
+        ],
+        "K09": [
+          6,
+          8
+        ],
+        "K11": [
+          6,
+          8
+        ],
+        "K12": [
+          8,
+          9,
+          11
+        ],
+        "K13": [
+          10
+        ],
+        "K14": [
+          9,
+          11
+        ],
+        "K15": [
+          12
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02",
+            "K03"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K04",
+            "K05"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K06"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K07"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K08"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K04",
+            "K09",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K10"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K09",
+            "K11",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K12",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K13"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K12",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 12,
+          "covered_event_ids": [
+            "K15"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 3,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "-5"
+        ]
+      },
+      {
+        "step_index": 6,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "1000"
+        ]
+      },
+      {
+        "step_index": 8,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "55",
+          "7s"
+        ]
+      },
+      {
+        "step_index": 9,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "-14.6nm",
+          "0.5"
+        ]
+      },
+      {
+        "step_index": 11,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "14",
+          "16",
+          "21"
+        ]
+      }
+    ],
+    "step_count": 12,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 100.0
+  },
+  "api_usage": {
+    "prompt_tokens": 176454,
+    "completion_tokens": 36115,
+    "total_tokens": 212569,
+    "prompt_cache_hit_tokens": 3712,
+    "prompt_cache_miss_tokens": 172742
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 5089,
+        "completion_tokens": 1006,
+        "total_tokens": 6095,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 5089
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 16646,
+        "completion_tokens": 4246,
+        "total_tokens": 20892,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 16646
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 9176,
+        "completion_tokens": 1841,
+        "total_tokens": 11017,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8920
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 10652,
+        "completion_tokens": 1245,
+        "total_tokens": 11897,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 10396
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 10301,
+        "completion_tokens": 1458,
+        "total_tokens": 11759,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 10045
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 9771,
+        "completion_tokens": 1541,
+        "total_tokens": 11312,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9515
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C005",
+      "api_usage": {
+        "prompt_tokens": 9170,
+        "completion_tokens": 1461,
+        "total_tokens": 10631,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8914
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C006",
+      "api_usage": {
+        "prompt_tokens": 9017,
+        "completion_tokens": 1560,
+        "total_tokens": 10577,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8761
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C007",
+      "api_usage": {
+        "prompt_tokens": 9840,
+        "completion_tokens": 1584,
+        "total_tokens": 11424,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9584
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C008",
+      "api_usage": {
+        "prompt_tokens": 5101,
+        "completion_tokens": 50,
+        "total_tokens": 5151,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 4845
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 17931,
+        "completion_tokens": 3947,
+        "total_tokens": 21878,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 17547
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 15828,
+        "completion_tokens": 7615,
+        "total_tokens": 23443,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 15188
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 22086,
+        "completion_tokens": 1141,
+        "total_tokens": 23227,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 22086
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 25846,
+        "completion_tokens": 7420,
+        "total_tokens": 33266,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 25206
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

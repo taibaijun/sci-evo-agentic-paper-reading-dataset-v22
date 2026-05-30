@@ -1,0 +1,2644 @@
+{
+  "doc_no": "0052",
+  "source": {
+    "title": "Rational computational design and development of an immunogenic multiepitope vaccine incorporating transmembrane proteins of Fusobacterium necrophorum",
+    "doi": "https://doi.org/10.1038/s41598-025-00166-4",
+    "license": "cc-by-nc-nd",
+    "pdf_name": "0050_10_1038_s41598_025_00166_4_rational_computational_design_and_development_of_an_immunogenic_multiepitope_vaccine_incor.pdf",
+    "combined_md": "docs/0052/combined.md",
+    "mineru_md": "docs/0052/mineru.md"
+  },
+  "gist_memory": {
+    "paper_problem_memory": "Fusobacterium necrophorum is a Gram-negative anaerobe causing Lemierre's syndrome, bovine foot rot, and other necrotizing infections. Rising antimicrobial resistance and lack of effective vaccines motivate computational design of a multi-epitope vaccine targeting transmembrane proteins to elicit strong humoral and cellular immune responses.",
+    "section_gists": [
+      {
+        "section_index": 4,
+        "heading": "Rational computational design and development of an immunogenic multiepitope vaccine incorporating transmembrane proteins of Fusobacterium necrophorum",
+        "gist": "Abstract/Introduction: F. necrophorum causes severe human and livestock diseases; no effective vaccine exists. Study aims to computationally design a multi-epitope vaccine from transmembrane proteins. Key results: vaccine construct with VaxiJen score 0.7293, solubility 8.30; 97.4% Ramachandran favored; >99% population coverage; strong docking with TLR7/8; MD simulations show stable RMSD ~4-5 Å, Rg ~36 Å; immune simulation predicts IgM, IgG, cytokine responses. Experimental validation needed.",
+        "process_signals": [
+          "Problem: antimicrobial resistance and no effective vaccines",
+          "Goal: design multi-epitope vaccine targeting transmembrane proteins",
+          "Approach: computational pipeline from protein selection to immune simulation",
+          "Key outcomes: high antigenicity, stability, global coverage, strong TLR binding, predicted immune activation",
+          "Limitation: purely computational, requires experimental validation"
+        ],
+        "methods": [
+          "Protein selection based on antigenicity, non-allergenicity, non-toxicity, functional roles",
+          "Epitope prediction (B-cell, MHC-I, MHC-II) with defined thresholds",
+          "Vaccine construction with linkers and adjuvant",
+          "Structural prediction and validation (TrRosetta, Ramachandran, ERRAT)",
+          "Molecular docking with TLRs",
+          "MD simulations (RMSD, Rg, RMSF, PCA, energy)",
+          "Immune simulation (C-IMMSIM)"
+        ],
+        "metrics": [
+          "VaxiJen score: 0.7293",
+          "Solubility score: 8.30",
+          "Ramachandran favored: 97.4%",
+          "Population coverage: >99%",
+          "RMSD: 4-5 Å",
+          "Rg: ~36 Å",
+          "Energy: -5000 kJ/mol"
+        ],
+        "failures_or_limits": [
+          "No experimental validation",
+          "Challenges in vaccine manufacturing and variable immune responses across populations mentioned"
+        ]
+      },
+      {
+        "section_index": 5,
+        "heading": "Methodology",
+        "gist": "Methodology section header only; no detailed content.",
+        "process_signals": [],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 6,
+        "heading": "Protein selection and retrieval",
+        "gist": "Selected four transmembrane proteins (outer membrane efflux protein, SecA, FtsH, SecF) from UniProt based on high antigenicity (>0.4), non-allergenicity, non-toxicity, and roles in virulence (adhesion, invasion, biofilm). Subcellular localization confirmed by TMHMM. Antigenicity predicted by VaxiJen, allergenicity by AllerTOP, toxicity by Toxipred.",
+        "process_signals": [
+          "Initial target selection: transmembrane proteins involved in virulence",
+          "Criteria: antigenicity >0.4, non-allergenic, non-toxic",
+          "Tools: VaxiJen, AllerTOP, Toxipred, TMHMM"
+        ],
+        "methods": [
+          "UniProt retrieval",
+          "TMHMM for transmembrane confirmation",
+          "VaxiJen 2.0 for antigenicity",
+          "AllerTOP 2.0 for allergenicity",
+          "Toxipred for toxicity"
+        ],
+        "metrics": [
+          "Antigenicity threshold: >0.4"
+        ],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 7,
+        "heading": "Epitopes prediction",
+        "gist": "B-cell epitopes predicted by Bepipred 2.0 (HMM, surface accessibility) with score threshold 0.5. MHC-I epitopes by ANN 4.0 (IEDB) with IC50 <100 nM and percentile rank <1%. MHC-II epitopes by NN-align (IEDB) with IC50 <100 nM and low percentile rank.",
+        "process_signals": [
+          "Epitope prediction thresholds defined",
+          "B-cell: score >0.5",
+          "MHC-I: IC50 <100 nM, percentile rank <1%",
+          "MHC-II: IC50 <100 nM, low percentile rank"
+        ],
+        "methods": [
+          "Bepipred 2.0",
+          "IEDB MHC-I ANN 4.0",
+          "IEDB MHC-II NN-align"
+        ],
+        "metrics": [
+          "B-cell score threshold: 0.5",
+          "MHC-I IC50: <100 nM",
+          "MHC-I percentile rank: <1%",
+          "MHC-II IC50: <100 nM"
+        ],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 8,
+        "heading": "Epitopes screening and evaluation",
+        "gist": "Final epitope selection based on antigenicity (VaxiJen), allergenicity (AllerTOP), and toxicity (Toxipred). No specific results or discarded epitopes mentioned.",
+        "process_signals": [
+          "Filtering step: antigenicity, allergenicity, toxicity",
+          "No mention of discarded epitopes or trade-offs"
+        ],
+        "methods": [
+          "VaxiJen 2.0",
+          "AllerTOP 2.0",
+          "Toxipred"
+        ],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 9,
+        "heading": "Population coverage analysis",
+        "gist": "IEDB population coverage tool used for MHC-I and MHC-II epitopes, focusing on globally prevalent alleles (HLA-A*02:01, HLA-B*07:02, HLA-DRB1*01:01). Coverage >99% reported in abstract.",
+        "process_signals": [
+          "Constraint: global applicability",
+          "Alleles selected for high prevalence",
+          "Result: >99% coverage"
+        ],
+        "methods": [
+          "IEDB population coverage"
+        ],
+        "metrics": [
+          "Population coverage: >99%"
+        ],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 10,
+        "heading": "Vaccine construction",
+        "gist": "Epitopes joined by linkers: GPGPG (between epitope types), KK (between B-cell epitopes), AAY (MHC-I), AYY (MHC-II). Beta-defensin adjuvant, Padre sequence, and 6xHis tag added at N-terminus. Flowchart shows overall methodology.",
+        "process_signals": [
+          "Design choices: specific linkers for immunogenicity and processing",
+          "Adjuvant: beta-defensin",
+          "Tags: Padre, 6xHis for purification"
+        ],
+        "methods": [
+          "Linkers: GPGPG, KK, AAY, AYY",
+          "Adjuvant: beta-defensin",
+          "Padre sequence, 6xHis tag"
+        ],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 11,
+        "heading": "Physiochemical analysis",
+        "gist": "ExPASy ProtParam used for theoretical pI, instability index, amino acid composition, molecular weight, stability, aliphatic index, GRAVY. No specific results given.",
+        "process_signals": [
+          "Assessment of physicochemical properties"
+        ],
+        "methods": [
+          "ExPASy ProtParam"
+        ],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 12,
+        "heading": "Two-dimension structure analysis",
+        "gist": "PSIPRED and GOR IV used to predict secondary structure (coil, alpha-helix, beta-sheet). PSIPRED provides confidence scores.",
+        "process_signals": [
+          "Secondary structure prediction for folding assessment"
+        ],
+        "methods": [
+          "PSIPRED",
+          "GOR IV"
+        ],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 13,
+        "heading": "Three-dimension analysis",
+        "gist": "TrRosetta used for 3D structure prediction. Validation by Ramachandran plot (97.4% favored) and ERRAT.",
+        "process_signals": [
+          "3D structure prediction and validation",
+          "High-quality structure indicated by Ramachandran"
+        ],
+        "methods": [
+          "TrRosetta",
+          "Ramachandran plot",
+          "ERRAT"
+        ],
+        "metrics": [
+          "Ramachandran favored: 97.4%"
+        ],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 14,
+        "heading": "Prediction of discontinuous B-Cell Epitopes",
+        "gist": "Ellipro used to predict discontinuous B-cell epitopes from 3D structure with default parameters (min score 0.5, PI 0.7).",
+        "process_signals": [
+          "Conformational epitope validation"
+        ],
+        "methods": [
+          "Ellipro (IEDB)"
+        ],
+        "metrics": [
+          "Min score: 0.5",
+          "PI: 0.7"
+        ],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 15,
+        "heading": "Disulphide engineering",
+        "gist": "Disulfide by Design 2.0 used to increase stability. Criteria: Cα-Cα distance 4.4–6.8 Å, χ3 angle ±90° or ±120°, B-factor <30 Å². Residue pairs mutated to cysteine and energy minimized.",
+        "process_signals": [
+          "Design revision for stability enhancement",
+          "Specific geometric and energetic criteria for disulfide bonds"
+        ],
+        "methods": [
+          "Disulfide by Design 2.0",
+          "Energy minimization"
+        ],
+        "metrics": [
+          "Cα-Cα distance: 4.4–6.8 Å",
+          "χ3 angle: ±90° or ±120°",
+          "B-factor: <30 Å²"
+        ],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 16,
+        "heading": "Molecular docking and interaction analysis",
+        "gist": "ClusPro used for docking with TLR3,4,7,8. 30 runs per receptor, top model by lowest energy selected. TLR8(B) had highest interactions (13 H-bonds). MD simulations performed. Ligplot+ for interaction analysis.",
+        "process_signals": [
+          "Hypothesis: vaccine binds TLRs to activate innate immunity",
+          "TLR selection rationale: recognition of bacterial components",
+          "TLR8(B) best binder",
+          "MD simulations to assess stability"
+        ],
+        "methods": [
+          "ClusPro (FFT rigid-body docking)",
+          "Ligplot+",
+          "MD simulations"
+        ],
+        "metrics": [
+          "TLR7: 12 H-bonds",
+          "TLR8(A): 9 H-bonds",
+          "TLR8(B): 13 H-bonds"
+        ],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 17,
+        "heading": "Immune simulation",
+        "gist": "C-IMMSIM used to simulate immune response (humoral, cellular, innate). Assessed activation of T-cell, B-cell receptors. Abstract mentions increased IgM, IgG, cytokines.",
+        "process_signals": [
+          "Computational validation of immune response",
+          "Predicted activation of both arms of immunity"
+        ],
+        "methods": [
+          "C-IMMSIM"
+        ],
+        "metrics": [],
+        "failures_or_limits": []
+      }
+    ],
+    "global_hypotheses_about_storyline": [
+      "Transmembrane proteins of F. necrophorum contain epitopes that can be combined into a multi-epitope vaccine to elicit broad immune protection.",
+      "Specific linkers and adjuvant enhance immunogenicity and proper epitope processing.",
+      "The designed vaccine will stably bind to TLR7/8, triggering innate and adaptive immunity.",
+      "The vaccine construct is structurally stable and soluble, suitable for expression in E. coli.",
+      "Global population coverage can be achieved by selecting epitopes binding to prevalent HLA alleles."
+    ],
+    "uncertainties_to_resolve": [
+      "Which specific epitopes were selected and how many?",
+      "Were any epitopes discarded during screening?",
+      "What were the exact physicochemical properties (pI, instability index, etc.)?",
+      "What were the secondary structure percentages?",
+      "What were the ERRAT and Ramachandran outlier details?",
+      "Which disulfide bonds were introduced and did they improve stability?",
+      "What were the docking scores/energies for each TLR?",
+      "What were the MD simulation details (RMSF peaks, SASA, PCA, FEL, MM/PBSA)?",
+      "What were the immune simulation quantitative results (antibody titers, cytokine levels)?",
+      "Were there any negative or partial results in any step?",
+      "How does the study address the lack of experimental validation?"
+    ]
+  },
+  "chunk_events": [
+    {
+      "chunk_id": "C001",
+      "char_start": 0,
+      "char_end": 18000,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C001_E01",
+          "chunk_id": "C001",
+          "event_type": "problem",
+          "order_hint": 1,
+          "summary": "Rising antimicrobial resistance and lack of effective vaccines for F. necrophorum infections motivate alternative strategies.",
+          "methods_or_tools": [],
+          "entities": [
+            "Fusobacterium necrophorum",
+            "antimicrobial resistance"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E01_01"
+          ]
+        },
+        {
+          "event_id": "C001_E02",
+          "chunk_id": "C001",
+          "event_type": "hypothesis",
+          "order_hint": 2,
+          "summary": "Transmembrane proteins of F. necrophorum are promising vaccine targets due to immune accessibility and roles in virulence.",
+          "methods_or_tools": [],
+          "entities": [
+            "transmembrane proteins",
+            "Fusobacterium necrophorum"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E02_01"
+          ]
+        },
+        {
+          "event_id": "C001_E03",
+          "chunk_id": "C001",
+          "event_type": "design",
+          "order_hint": 3,
+          "summary": "Selected four transmembrane proteins based on high antigenicity (>0.4), non-allergenicity, non-toxicity, and functional roles in virulence.",
+          "methods_or_tools": [
+            "VaxiJen 2.0",
+            "AllerTOP 2.0",
+            "Toxipred",
+            "TMHMM"
+          ],
+          "entities": [
+            "outer membrane efflux protein",
+            "translocase subunit SecA",
+            "ATP-dependent zinc metalloprotease FtsH",
+            "Protein-export membrane protein SecF"
+          ],
+          "numbers_or_metrics": [
+            "antigenicity >0.4"
+          ],
+          "evidence_ids": [
+            "EV_C001_E03_01"
+          ]
+        },
+        {
+          "event_id": "C001_E04",
+          "chunk_id": "C001",
+          "event_type": "design",
+          "order_hint": 4,
+          "summary": "B-cell epitopes predicted with Bepipred 2.0 using score threshold 0.5; MHC-I epitopes with ANN 4.0 (IC50 <100 nM, percentile rank <1%); MHC-II with NN-align (IC50 <100 nM).",
+          "methods_or_tools": [
+            "Bepipred 2.0",
+            "ANN 4.0",
+            "NN-align"
+          ],
+          "entities": [
+            "B-cell epitopes",
+            "MHC-I epitopes",
+            "MHC-II epitopes"
+          ],
+          "numbers_or_metrics": [
+            "score threshold 0.5",
+            "IC50 <100 nM",
+            "percentile rank <1%"
+          ],
+          "evidence_ids": [
+            "EV_C001_E04_02",
+            "EV_C001_E04_03"
+          ]
+        },
+        {
+          "event_id": "C001_E05",
+          "chunk_id": "C001",
+          "event_type": "design",
+          "order_hint": 5,
+          "summary": "Vaccine construct built by linking epitopes with GPGPG, KK, AAY, AYY linkers; beta-defensin adjuvant, Padre sequence, and 6xHis tag added.",
+          "methods_or_tools": [],
+          "entities": [
+            "GPGPG",
+            "KK",
+            "AAY",
+            "AYY",
+            "beta-defensin",
+            "Padre sequence",
+            "6xHis tag"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E05_01"
+          ]
+        },
+        {
+          "event_id": "C001_E06",
+          "chunk_id": "C001",
+          "event_type": "validation",
+          "order_hint": 6,
+          "summary": "Structural validation with TrRosetta and Ramachandran plot confirmed 97.4% residues in favored regions, indicating high stability.",
+          "methods_or_tools": [
+            "TrRosetta",
+            "Ramachandran plot"
+          ],
+          "entities": [
+            "vaccine construct"
+          ],
+          "numbers_or_metrics": [
+            "97.4%"
+          ],
+          "evidence_ids": [
+            "EV_C001_E06_01"
+          ]
+        },
+        {
+          "event_id": "C001_E07",
+          "chunk_id": "C001",
+          "event_type": "analysis",
+          "order_hint": 7,
+          "summary": "Population coverage analysis indicated over 99% global applicability.",
+          "methods_or_tools": [
+            "IEDB population coverage"
+          ],
+          "entities": [
+            "global population"
+          ],
+          "numbers_or_metrics": [
+            "over 99%"
+          ],
+          "evidence_ids": [
+            "EV_C001_E07_01"
+          ]
+        },
+        {
+          "event_id": "C001_E08",
+          "chunk_id": "C001",
+          "event_type": "limitation",
+          "order_hint": 8,
+          "summary": "Experimental validation is necessary to confirm safety and efficacy; challenges in manufacturing and variable immune responses must be addressed.",
+          "methods_or_tools": [],
+          "entities": [
+            "experimental validation",
+            "vaccine manufacturing",
+            "immune responses"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E08_01"
+          ]
+        }
+      ],
+      "notes": "Chunk covers abstract and introduction, outlining problem, hypothesis, design choices, validation results, and limitations.",
+      "api_usage": {
+        "prompt_tokens": 7637,
+        "completion_tokens": 1469,
+        "total_tokens": 9106,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7381
+      }
+    },
+    {
+      "chunk_id": "C002",
+      "char_start": 17100,
+      "char_end": 35100,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C002_E01",
+          "chunk_id": "C002",
+          "event_type": "design",
+          "order_hint": 1,
+          "summary": "Disulfide engineering performed to increase vaccine stability using DbD2.0 with specific geometric and energetic criteria.",
+          "methods_or_tools": [
+            "Disulfide by Design 2.0 (DbD2.0)"
+          ],
+          "entities": [
+            "vaccine construct"
+          ],
+          "numbers_or_metrics": [
+            "Cα-Cα distance: 4.4–6.8 Å",
+            "χ3 dihedral angle: ±90° or ±120°",
+            "B-factor: <30 Å²"
+          ],
+          "evidence_ids": [
+            "EV_C002_E01_02"
+          ]
+        },
+        {
+          "event_id": "C002_E02",
+          "chunk_id": "C002",
+          "event_type": "computation",
+          "order_hint": 2,
+          "summary": "Molecular docking performed with ClusPro for TLR3,4,7,8; 30 runs per receptor, top model by lowest energy selected.",
+          "methods_or_tools": [
+            "ClusPro server"
+          ],
+          "entities": [
+            "TLR3",
+            "TLR4",
+            "TLR7",
+            "TLR8"
+          ],
+          "numbers_or_metrics": [
+            "30 docking runs per receptor"
+          ],
+          "evidence_ids": [
+            "EV_C002_E02_02"
+          ]
+        },
+        {
+          "event_id": "C002_E04",
+          "chunk_id": "C002",
+          "event_type": "analysis",
+          "order_hint": 4,
+          "summary": "RMSD, RMSF, and Rg computed to analyze stability, flexibility, and compactness of vaccine-TLR8 complex.",
+          "methods_or_tools": [
+            "GROMACS",
+            "MDTraj"
+          ],
+          "entities": [
+            "vaccine-TLR8 complex"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E04_01",
+            "EV_C002_E04_02"
+          ]
+        },
+        {
+          "event_id": "C002_E05",
+          "chunk_id": "C002",
+          "event_type": "analysis",
+          "order_hint": 5,
+          "summary": "PCA performed on MD trajectory to reduce dimensionality and evaluate conformational changes.",
+          "methods_or_tools": [
+            "GROMACS",
+            "MDTraj"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E05_02"
+          ]
+        }
+      ],
+      "notes": "Chunk covers disulfide engineering, docking, MD simulations, and various analyses (PCA, MM/PBSA, DCCM, FEL) for vaccine-TLR8 complex. Also includes protein selection results and B-cell epitope selection.",
+      "api_usage": {
+        "prompt_tokens": 8567,
+        "completion_tokens": 1476,
+        "total_tokens": 10043,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8311
+      }
+    },
+    {
+      "chunk_id": "C003",
+      "char_start": 34200,
+      "char_end": 52200,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C003_E01",
+          "chunk_id": "C003",
+          "event_type": "experiment",
+          "order_hint": 1,
+          "summary": "MHC-I epitopes selected from four transmembrane proteins based on low percentile rank and IC50 < 100 nM.",
+          "methods_or_tools": [
+            "IEDB MHC-I prediction"
+          ],
+          "entities": [
+            "MHC-I epitopes",
+            "transmembrane proteins"
+          ],
+          "numbers_or_metrics": [
+            "IC50 < 100 nM"
+          ],
+          "evidence_ids": [
+            "EV_C003_E01_01"
+          ]
+        },
+        {
+          "event_id": "C003_E02",
+          "chunk_id": "C003",
+          "event_type": "experiment",
+          "order_hint": 2,
+          "summary": "MHC-II epitopes selected with antigenicity >0.4, non-allergenic, non-toxic, and IC50 < 100 nM.",
+          "methods_or_tools": [
+            "IEDB MHC-II prediction"
+          ],
+          "entities": [
+            "MHC-II epitopes"
+          ],
+          "numbers_or_metrics": [
+            "antigenicity > 0.4",
+            "IC50 < 100 nM"
+          ],
+          "evidence_ids": [
+            "EV_C003_E02_01",
+            "EV_C003_E02_02"
+          ]
+        },
+        {
+          "event_id": "C003_E03",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 3,
+          "summary": "Population coverage analysis of combined MHC-I and MHC-II epitopes yielded 99.39% global coverage.",
+          "methods_or_tools": [
+            "IEDB population coverage tool"
+          ],
+          "entities": [
+            "MHC-I epitopes",
+            "MHC-II epitopes"
+          ],
+          "numbers_or_metrics": [
+            "99.39% global coverage"
+          ],
+          "evidence_ids": [
+            "EV_C003_E03_01"
+          ]
+        },
+        {
+          "event_id": "C003_E04",
+          "chunk_id": "C003",
+          "event_type": "design",
+          "order_hint": 4,
+          "summary": "Vaccine construct assembled by linking epitopes with specific linkers: KK for MHC-I, AAY for MHC-II, AYY for B-cell, and GPGPG for adjuvant.",
+          "methods_or_tools": [],
+          "entities": [
+            "KK linker",
+            "AAY linker",
+            "AYY linker",
+            "GPGPG linker",
+            "beta defensin adjuvant",
+            "6X His tag"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E04_01",
+            "EV_C003_E04_02",
+            "EV_C003_E04_03"
+          ]
+        },
+        {
+          "event_id": "C003_E05",
+          "chunk_id": "C003",
+          "event_type": "validation",
+          "order_hint": 5,
+          "summary": "Vaccine construct confirmed non-allergenic, antigenic (VaxiJen score 0.7293), and non-toxic.",
+          "methods_or_tools": [
+            "AllerTOP",
+            "VaxiJen",
+            "Toxipred"
+          ],
+          "entities": [
+            "vaccine construct"
+          ],
+          "numbers_or_metrics": [
+            "VaxiJen score 0.7293"
+          ],
+          "evidence_ids": [
+            "EV_C003_E05_01",
+            "EV_C003_E05_02",
+            "EV_C003_E05_03"
+          ]
+        },
+        {
+          "event_id": "C003_E06",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 6,
+          "summary": "Physicochemical analysis revealed pI 9.63, MW 40,307.71 Da, instability index 23.71 (stable), GRAVY -0.134 (hydrophilic).",
+          "methods_or_tools": [
+            "ExPASy ProtParam"
+          ],
+          "entities": [
+            "vaccine construct"
+          ],
+          "numbers_or_metrics": [
+            "pI 9.63",
+            "MW 40,307.71 Da",
+            "instability index 23.71",
+            "GRAVY -0.134"
+          ],
+          "evidence_ids": [
+            "EV_C003_E06_01",
+            "EV_C003_E06_02",
+            "EV_C003_E06_03"
+          ]
+        },
+        {
+          "event_id": "C003_E07",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 7,
+          "summary": "Secondary structure prediction showed alpha helices 45.61%, beta strands 17.85%, coils 36.54%, indicating a predominantly helical structure.",
+          "methods_or_tools": [
+            "PSIPRED",
+            "GOR-IV"
+          ],
+          "entities": [
+            "vaccine construct"
+          ],
+          "numbers_or_metrics": [
+            "alpha helices 45.61%",
+            "beta strands 17.85%",
+            "coils 36.54%"
+          ],
+          "evidence_ids": [
+            "EV_C003_E07_01"
+          ]
+        },
+        {
+          "event_id": "C003_E08",
+          "chunk_id": "C003",
+          "event_type": "experiment",
+          "order_hint": 8,
+          "summary": "Tertiary structure predicted by TrRosetta; best model had C-score 7.167, TM-score 0.52±0.25; Ramachandran plot showed 97.4% residues in favored regions.",
+          "methods_or_tools": [
+            "TrRosetta",
+            "PROCHECK"
+          ],
+          "entities": [
+            "vaccine construct"
+          ],
+          "numbers_or_metrics": [
+            "C-score 7.167",
+            "TM-score 0.52±0.25",
+            "97.4% favored regions"
+          ],
+          "evidence_ids": [
+            "EV_C003_E08_02"
+          ]
+        }
+      ],
+      "notes": "Chunk contains detailed epitope selection, vaccine construction, and initial validation steps.",
+      "api_usage": {
+        "prompt_tokens": 9432,
+        "completion_tokens": 1573,
+        "total_tokens": 11005,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9176
+      }
+    },
+    {
+      "chunk_id": "C004",
+      "char_start": 51300,
+      "char_end": 69300,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C004_E01",
+          "chunk_id": "C004",
+          "event_type": "analysis",
+          "order_hint": 1,
+          "summary": "Secondary structure analysis shows vaccine construct is predominantly helical with 45.61% alpha helices, 17.85% beta strands, and 36.54% coils.",
+          "methods_or_tools": [
+            "PSIPRED",
+            "GOR-IV"
+          ],
+          "entities": [
+            "vaccine construct"
+          ],
+          "numbers_or_metrics": [
+            "45.61% alpha helices",
+            "17.85% beta strands",
+            "36.54% coils"
+          ],
+          "evidence_ids": [
+            "EV_C004_E01_01"
+          ]
+        },
+        {
+          "event_id": "C004_E02",
+          "chunk_id": "C004",
+          "event_type": "computation",
+          "order_hint": 2,
+          "summary": "TrRosetta predicted five models; the best model had C-score 7.167 and TM-score 0.52±0.25.",
+          "methods_or_tools": [
+            "TrRosetta"
+          ],
+          "entities": [
+            "vaccine construct"
+          ],
+          "numbers_or_metrics": [
+            "C-score: 7.167",
+            "TM-score: 0.52±0.25"
+          ],
+          "evidence_ids": [
+            "EV_C004_E02_01"
+          ]
+        },
+        {
+          "event_id": "C004_E03",
+          "chunk_id": "C004",
+          "event_type": "validation",
+          "order_hint": 3,
+          "summary": "Ramachandran plot validation: 97.4% residues in most favored regions, 2.3% in additionally allowed, 0.3% in disallowed regions.",
+          "methods_or_tools": [
+            "PROCHECK"
+          ],
+          "entities": [
+            "vaccine construct"
+          ],
+          "numbers_or_metrics": [
+            "97.4% favored",
+            "2.3% allowed",
+            "0.3% disallowed"
+          ],
+          "evidence_ids": [
+            "EV_C004_E03_01"
+          ]
+        },
+        {
+          "event_id": "C004_E04",
+          "chunk_id": "C004",
+          "event_type": "validation",
+          "order_hint": 4,
+          "summary": "ERRAT quality factor for the improved 3D structure was 97.078.",
+          "methods_or_tools": [
+            "ERRAT"
+          ],
+          "entities": [
+            "vaccine construct"
+          ],
+          "numbers_or_metrics": [
+            "ERRAT: 97.078"
+          ],
+          "evidence_ids": [
+            "EV_C004_E04_01"
+          ]
+        },
+        {
+          "event_id": "C004_E05",
+          "chunk_id": "C004",
+          "event_type": "analysis",
+          "order_hint": 5,
+          "summary": "Ellipro predicted eight discontinuous B-cell epitopes with scores 0.501–0.967; highest scoring epitope (0.967) is immunodominant.",
+          "methods_or_tools": [
+            "Ellipro"
+          ],
+          "entities": [
+            "vaccine construct",
+            "discontinuous B-cell epitopes"
+          ],
+          "numbers_or_metrics": [
+            "8 epitopes",
+            "score range: 0.501-0.967",
+            "highest score: 0.967"
+          ],
+          "evidence_ids": [
+            "EV_C004_E05_01",
+            "EV_C004_E05_02"
+          ]
+        },
+        {
+          "event_id": "C004_E06",
+          "chunk_id": "C004",
+          "event_type": "design",
+          "order_hint": 6,
+          "summary": "Disulfide engineering introduced bonds at Ser133–Ser145 (energy 0.68 kcal/mol) and Gly193–Ile208 (energy 1.29 kcal/mol) to enhance stability.",
+          "methods_or_tools": [
+            "Disulfide by Design"
+          ],
+          "entities": [
+            "vaccine construct",
+            "Ser133–Ser145",
+            "Gly193–Ile208"
+          ],
+          "numbers_or_metrics": [
+            "Ser133–Ser145 energy: 0.68 kcal/mol",
+            "Gly193–Ile208 energy: 1.29 kcal/mol"
+          ],
+          "evidence_ids": [
+            "EV_C004_E06_01"
+          ]
+        },
+        {
+          "event_id": "C004_E08",
+          "chunk_id": "C004",
+          "event_type": "computation",
+          "order_hint": 8,
+          "summary": "MD simulation of vaccine-TLR8 complex: RMSD stabilized at 3–5 Å after 150 ns, indicating structural stability.",
+          "methods_or_tools": [
+            "DESMOND",
+            "MD simulation"
+          ],
+          "entities": [
+            "vaccine-TLR8 complex"
+          ],
+          "numbers_or_metrics": [
+            "RMSD: 3–5 Å after 150 ns",
+            "simulation time: 500 ns"
+          ],
+          "evidence_ids": [
+            "EV_C004_E08_01",
+            "EV_C004_E08_02"
+          ]
+        }
+      ],
+      "notes": "Chunk covers secondary structure analysis, tertiary structure prediction and validation, discontinuous B-cell epitope prediction, disulfide engineering, molecular docking results, and MD simulation stability analysis.",
+      "api_usage": {
+        "prompt_tokens": 8466,
+        "completion_tokens": 1501,
+        "total_tokens": 9967,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8210
+      }
+    },
+    {
+      "chunk_id": "C005",
+      "char_start": 68400,
+      "char_end": 86400,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C005_E01",
+          "chunk_id": "C005",
+          "event_type": "analysis",
+          "order_hint": 1,
+          "summary": "RMSD analysis of vaccine-TLR8 complex over 500 ns MD simulation indicates structural stability.",
+          "methods_or_tools": [
+            "MD simulation",
+            "RMSD"
+          ],
+          "entities": [
+            "vaccine-TLR8 complex"
+          ],
+          "numbers_or_metrics": [
+            "RMSD between 3 and 5 Å"
+          ],
+          "evidence_ids": [
+            "EV_C005_E01_01"
+          ]
+        },
+        {
+          "event_id": "C005_E02",
+          "chunk_id": "C005",
+          "event_type": "analysis",
+          "order_hint": 2,
+          "summary": "RMSF analysis reveals overall stability with some flexible regions, particularly near residues 350, 750, 800, and 850.",
+          "methods_or_tools": [
+            "RMSF"
+          ],
+          "entities": [
+            "vaccine-TLR8 complex"
+          ],
+          "numbers_or_metrics": [
+            "average RMSF ~1.5–2.5 Å",
+            "highest fluctuation ~8 Å near residue 850"
+          ],
+          "evidence_ids": [
+            "EV_C005_E02_01",
+            "EV_C005_E02_02"
+          ]
+        },
+        {
+          "event_id": "C005_E03",
+          "chunk_id": "C005",
+          "event_type": "analysis",
+          "order_hint": 3,
+          "summary": "Radius of gyration analysis shows stable compactness of vaccine-TLR8 complex with minor fluctuations.",
+          "methods_or_tools": [
+            "Radius of gyration"
+          ],
+          "entities": [
+            "vaccine-TLR8 complex"
+          ],
+          "numbers_or_metrics": [
+            "Rg between 35.0 Å and 37.5 Å",
+            "mean ~36.0 Å"
+          ],
+          "evidence_ids": [
+            "EV_C005_E03_01"
+          ]
+        },
+        {
+          "event_id": "C005_E04",
+          "chunk_id": "C005",
+          "event_type": "analysis",
+          "order_hint": 4,
+          "summary": "PCA scatter plot indicates structural similarity and conformational flexibility of vaccine-TLR8 complex.",
+          "methods_or_tools": [
+            "PCA"
+          ],
+          "entities": [
+            "vaccine-TLR8 complex"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C005_E04_01"
+          ]
+        },
+        {
+          "event_id": "C005_E06",
+          "chunk_id": "C005",
+          "event_type": "experiment",
+          "order_hint": 6,
+          "summary": "Discontinuous B-cell epitopes predicted using Ellipro server, with scores and residues listed.",
+          "methods_or_tools": [
+            "Ellipro"
+          ],
+          "entities": [
+            "discontinuous B-cell epitopes"
+          ],
+          "numbers_or_metrics": [
+            "epitope scores: 0.967, 0.795, 0.732, 0.704, 0.676, 0.657, 0.583, 0.501"
+          ],
+          "evidence_ids": [
+            "EV_C005_E06_01"
+          ]
+        },
+        {
+          "event_id": "C005_E07",
+          "chunk_id": "C005",
+          "event_type": "design",
+          "order_hint": 7,
+          "summary": "Disulfide engineering performed using Disulfide by Design 2.0 to enhance stability.",
+          "methods_or_tools": [
+            "Disulfide by Design 2.0"
+          ],
+          "entities": [
+            "disulfide bonds"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C005_E07_01"
+          ]
+        },
+        {
+          "event_id": "C005_E08",
+          "chunk_id": "C005",
+          "event_type": "computation",
+          "order_hint": 8,
+          "summary": "Molecular docking of vaccine with TLR3,4,7,8 performed, with energies and hydrogen bond interactions reported.",
+          "methods_or_tools": [
+            "molecular docking",
+            "ClusPro"
+          ],
+          "entities": [
+            "TLR3",
+            "TLR4",
+            "TLR7",
+            "TLR8"
+          ],
+          "numbers_or_metrics": [
+            "TLR3: -1151.7 kcal/mol",
+            "TLR4: -1479.9 kcal/mol",
+            "TLR7: -2043.7 kcal/mol",
+            "TLR8: -1434.6 kcal/mol"
+          ],
+          "evidence_ids": [
+            "EV_C005_E08_01"
+          ]
+        }
+      ],
+      "notes": "Chunk contains MD simulation analyses (RMSD, RMSF, Rg, PCA, MM/PBSA), discontinuous B-cell epitope prediction, disulfide engineering, and docking results.",
+      "api_usage": {
+        "prompt_tokens": 10014,
+        "completion_tokens": 1303,
+        "total_tokens": 11317,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9758
+      }
+    },
+    {
+      "chunk_id": "C006",
+      "char_start": 85500,
+      "char_end": 103500,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C006_E01",
+          "chunk_id": "C006",
+          "event_type": "analysis",
+          "order_hint": 1,
+          "summary": "DCCM analysis of vaccine-TLR8 complex reveals correlated and anti-correlated motions, indicating structural stability and functional flexibility.",
+          "methods_or_tools": [
+            "DCCM",
+            "bio3Dv2.4-2"
+          ],
+          "entities": [
+            "vaccine-TLR8 complex"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C006_E01_01",
+            "EV_C006_E01_02"
+          ]
+        },
+        {
+          "event_id": "C006_E03",
+          "chunk_id": "C006",
+          "event_type": "design",
+          "order_hint": 3,
+          "summary": "Codon optimization for E. coli K12 expression reduced GC content from 61.85% to 41.72% and ensured high translational efficiency.",
+          "methods_or_tools": [
+            "Codon Optimization Tool (ExpOptimizer)",
+            "RNAfold server"
+          ],
+          "entities": [
+            "E. coli strain K12",
+            "optimized sequence"
+          ],
+          "numbers_or_metrics": [
+            "GC content reduced from 61.85% to 41.72%",
+            "free energy of thermodynamic ensemble -438.35 kcal/mol",
+            "ensemble diversity 334.69",
+            "MFE frequency 0.00%"
+          ],
+          "evidence_ids": [
+            "EV_C006_E03_01",
+            "EV_C006_E03_02"
+          ]
+        },
+        {
+          "event_id": "C006_E04",
+          "chunk_id": "C006",
+          "event_type": "computation",
+          "order_hint": 4,
+          "summary": "In silico cloning of the 1059 bp vaccine construct into pET-29(+) vector using SnapGene, resulting in a 6430 bp recombinant vector.",
+          "methods_or_tools": [
+            "SnapGene 8.0.0"
+          ],
+          "entities": [
+            "pET-29(+) vector",
+            "AkanI restriction enzyme",
+            "vaccine construct"
+          ],
+          "numbers_or_metrics": [
+            "1059 bp insert",
+            "5371 bp vector",
+            "6430 bp recombinant",
+            "insertion at position 5001"
+          ],
+          "evidence_ids": [
+            "EV_C006_E04_01",
+            "EV_C006_E04_02"
+          ]
+        },
+        {
+          "event_id": "C006_E05",
+          "chunk_id": "C006",
+          "event_type": "experiment",
+          "order_hint": 5,
+          "summary": "Immune simulation predicts antigen production from day 3, antibody production from day 7 peaking at 5000 units by day 14, and increased IFN-γ and IL-20.",
+          "methods_or_tools": [
+            "C-IMMSIM"
+          ],
+          "entities": [
+            "Fusobacterium necrophorum",
+            "IFN-γ",
+            "IL-20"
+          ],
+          "numbers_or_metrics": [
+            "antigen production begins day 3",
+            "antibody production starts day 7",
+            "peaks at 3000 units, max 5000 units by day 14"
+          ],
+          "evidence_ids": [
+            "EV_C006_E05_01"
+          ]
+        },
+        {
+          "event_id": "C006_E07",
+          "chunk_id": "C006",
+          "event_type": "validation",
+          "order_hint": 7,
+          "summary": "Computational vaccine design is a cost-effective and rapid approach for designing multiepitope vaccines.",
+          "methods_or_tools": [],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C006_E07_01"
+          ]
+        }
+      ],
+      "notes": "Chunk contains detailed MD analysis (DCCM, FEL), codon optimization, in silico cloning, immune simulation results, and discussion of problem context.",
+      "api_usage": {
+        "prompt_tokens": 8681,
+        "completion_tokens": 1461,
+        "total_tokens": 10142,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8425
+      }
+    },
+    {
+      "chunk_id": "C007",
+      "char_start": 102600,
+      "char_end": 120600,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C007_E01",
+          "chunk_id": "C007",
+          "event_type": "analysis",
+          "order_hint": 1,
+          "summary": "Immune simulation results show robust activation of humoral and cellular immunity with peak IgM and IgG response reaching 5000 units by day 14.",
+          "methods_or_tools": [
+            "C-IMMSIM"
+          ],
+          "entities": [
+            "IgM",
+            "IgG",
+            "vaccine construct"
+          ],
+          "numbers_or_metrics": [
+            "5000 units",
+            "day 14"
+          ],
+          "evidence_ids": [
+            "EV_C007_E01_01"
+          ]
+        },
+        {
+          "event_id": "C007_E04",
+          "chunk_id": "C007",
+          "event_type": "analysis",
+          "order_hint": 4,
+          "summary": "Vaccine construct has molecular weight ~61.48 kDa, pI 9.92 (basic), GRAVY 0.001 (balanced hydrophilicity/hydrophobicity), aliphatic index 82.45 (high thermostability).",
+          "methods_or_tools": [
+            "ExPASy ProtParam"
+          ],
+          "entities": [
+            "vaccine construct"
+          ],
+          "numbers_or_metrics": [
+            "61.48 kDa",
+            "pI 9.92",
+            "GRAVY 0.001",
+            "aliphatic index 82.45"
+          ],
+          "evidence_ids": [
+            "EV_C007_E04_01"
+          ]
+        },
+        {
+          "event_id": "C007_E05",
+          "chunk_id": "C007",
+          "event_type": "analysis",
+          "order_hint": 5,
+          "summary": "Antigenicity score of vaccine construct is 0.7293 (VaxiJen), classifying it as highly immunogenic; population coverage 99.39%.",
+          "methods_or_tools": [
+            "VaxiJen",
+            "IEDB population coverage"
+          ],
+          "entities": [
+            "vaccine construct"
+          ],
+          "numbers_or_metrics": [
+            "0.7293",
+            "99.39%"
+          ],
+          "evidence_ids": [
+            "EV_C007_E05_01"
+          ]
+        },
+        {
+          "event_id": "C007_E06",
+          "chunk_id": "C007",
+          "event_type": "validation",
+          "order_hint": 6,
+          "summary": "Comparison with Monkeypox vaccine: higher antigenicity score (0.7293 vs 0.45) and with Klebsiella pneumoniae vaccine: higher population coverage (99.39% vs 95%).",
+          "methods_or_tools": [],
+          "entities": [
+            "Monkeypox vaccine",
+            "Klebsiella pneumoniae vaccine"
+          ],
+          "numbers_or_metrics": [
+            "0.7293",
+            "0.45",
+            "99.39%",
+            "95%"
+          ],
+          "evidence_ids": [
+            "EV_C007_E06_01",
+            "EV_C007_E06_02"
+          ]
+        },
+        {
+          "event_id": "C007_E07",
+          "chunk_id": "C007",
+          "event_type": "analysis",
+          "order_hint": 7,
+          "summary": "Molecular docking shows strong interactions with TLR7 (12 H-bonds) and TLR8 (13 H-bonds, -1434.6 kcal/mol binding energy).",
+          "methods_or_tools": [
+            "ClusPro",
+            "Ligplot+"
+          ],
+          "entities": [
+            "TLR7",
+            "TLR8",
+            "vaccine construct"
+          ],
+          "numbers_or_metrics": [
+            "12 hydrogen bonds",
+            "13 hydrogen bonds",
+            "-1434.6 kcal/mol"
+          ],
+          "evidence_ids": [
+            "EV_C007_E07_01"
+          ]
+        },
+        {
+          "event_id": "C007_E08",
+          "chunk_id": "C007",
+          "event_type": "limitation",
+          "order_hint": 8,
+          "summary": "Computational results require experimental validation; in vitro and in vivo studies needed to assess immunogenicity, safety, and protective efficacy.",
+          "methods_or_tools": [],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C007_E08_01",
+            "EV_C007_E08_02"
+          ]
+        }
+      ],
+      "notes": "Chunk contains immune simulation results, physicochemical properties, docking outcomes, and comparisons with other vaccines, along with explicit limitations.",
+      "api_usage": {
+        "prompt_tokens": 8076,
+        "completion_tokens": 1468,
+        "total_tokens": 9544,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7820
+      }
+    },
+    {
+      "chunk_id": "C008",
+      "char_start": 119700,
+      "char_end": 134902,
+      "chunk_relevance": "none",
+      "events": [],
+      "notes": "This chunk contains only reference list, acknowledgements, author contributions, declarations, and license information. No research evolution events are present.",
+      "api_usage": {
+        "prompt_tokens": 7693,
+        "completion_tokens": 59,
+        "total_tokens": 7752,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7437
+      }
+    }
+  ],
+  "evidence_bank": [
+    {
+      "evidence_id": "EV_C001_E01_01",
+      "source_file": "docs/0052/combined.md",
+      "section": "C001",
+      "char_start": 631,
+      "char_end": 765,
+      "quote": "The rise in antimicrobial resistance and the absence of effective vaccines underscore the need for alternative therapeutic strategies."
+    },
+    {
+      "evidence_id": "EV_C001_E02_01",
+      "source_file": "docs/0052/combined.md",
+      "section": "C001",
+      "char_start": 8678,
+      "char_end": 8859,
+      "quote": "Transmembrane proteins present promising targets for vaccination due to their accessibility to the immune system and their involvement in bacterial adhesion, invasion, and virulence"
+    },
+    {
+      "evidence_id": "EV_C001_E03_01",
+      "source_file": "docs/0052/combined.md",
+      "section": "C001",
+      "char_start": 9906,
+      "char_end": 10127,
+      "quote": "These proteins were chosen based on their high antigenicity scores (>0.4), non-allergenicity and non-toxicity, along with their functional roles in bacterial virulence, including adhesion, invasion, and biofilm formation."
+    },
+    {
+      "evidence_id": "EV_C001_E04_02",
+      "source_file": "docs/0052/combined.md",
+      "section": "C001",
+      "char_start": 11413,
+      "char_end": 11492,
+      "quote": "Only epitopes with IC50 values < 100 nM and percentile ranks < 1% were selected"
+    },
+    {
+      "evidence_id": "EV_C001_E04_03",
+      "source_file": "docs/0052/combined.md",
+      "section": "C001",
+      "char_start": 11767,
+      "char_end": 11852,
+      "quote": "The cut-off for selection was based on IC50 values < 100 nM and a low percentile rank"
+    },
+    {
+      "evidence_id": "EV_C001_E05_01",
+      "source_file": "docs/0052/combined.md",
+      "section": "C001",
+      "char_start": 12821,
+      "char_end": 12927,
+      "quote": "The linkers GPGPG, KK, AAY, and AYY were used to join the selected epitopes in the final vaccine construct"
+    },
+    {
+      "evidence_id": "EV_C001_E06_01",
+      "source_file": "docs/0052/combined.md",
+      "section": "C001",
+      "char_start": 1220,
+      "char_end": 1355,
+      "quote": "Structural validation using TrRosetta and Ramachandran plots confirmed 97.4% of residues in favored regions, indicating high stability."
+    },
+    {
+      "evidence_id": "EV_C001_E07_01",
+      "source_file": "docs/0052/combined.md",
+      "section": "C001",
+      "char_start": 1356,
+      "char_end": 1424,
+      "quote": "Population coverage analysis indicated over 99% global applicability"
+    },
+    {
+      "evidence_id": "EV_C001_E08_01",
+      "source_file": "docs/0052/combined.md",
+      "section": "C001",
+      "char_start": 2609,
+      "char_end": 2790,
+      "quote": "experimental validation is necessary to confirm safety and efficacy, and challenges in vaccine manufacturing and variable immune responses across populations must also be addressed."
+    },
+    {
+      "evidence_id": "EV_C002_E01_02",
+      "source_file": "docs/0052/combined.md",
+      "section": "C002",
+      "char_start": 17611,
+      "char_end": 17738,
+      "quote": "The selection criteria were the Cα-Cα distance (4.4–6.8 Å), χ3 dihedral angle (±90° or ±120°), and B-factor stability (<30 Å²)."
+    },
+    {
+      "evidence_id": "EV_C002_E02_02",
+      "source_file": "docs/0052/combined.md",
+      "section": "C002",
+      "char_start": 19162,
+      "char_end": 19339,
+      "quote": "Thirty docking runs were performed for each receptor (TLR-3, TLR-4, TLR-7, and TLR-8), and the top-ranked model with the lowest binding energy was selected for further analysis."
+    },
+    {
+      "evidence_id": "EV_C002_E04_01",
+      "source_file": "docs/0052/combined.md",
+      "section": "C002",
+      "char_start": 22269,
+      "char_end": 22452,
+      "quote": "The complexes were analyzed using root mean square deviation (RMSD) to examine the stability, and the system also calculated root mean square fluctuation (RMSF) to assess flexibility."
+    },
+    {
+      "evidence_id": "EV_C002_E04_02",
+      "source_file": "docs/0052/combined.md",
+      "section": "C002",
+      "char_start": 22453,
+      "char_end": 22566,
+      "quote": "The radius of gyration (Rg) was computed using GROMACS after converting the trajectory to XTC format with MDTraj."
+    },
+    {
+      "evidence_id": "EV_C002_E05_02",
+      "source_file": "docs/0052/combined.md",
+      "section": "C002",
+      "char_start": 23407,
+      "char_end": 23564,
+      "quote": "The gmx covar command was used to compute and diagonalize the covariance matrix, generating the principal components based on the protein–protein trajectory."
+    },
+    {
+      "evidence_id": "EV_C003_E01_01",
+      "source_file": "docs/0052/combined.md",
+      "section": "C003",
+      "char_start": 36727,
+      "char_end": 36872,
+      "quote": "two epitopes selected from each protein based on their low percentage rank with their corresponding IC50 values, specifically those less than 100"
+    },
+    {
+      "evidence_id": "EV_C003_E02_01",
+      "source_file": "docs/0052/combined.md",
+      "section": "C003",
+      "char_start": 37357,
+      "char_end": 37481,
+      "quote": "The chosen epitopes were based on the antigenicity score exceeding 0.4 and an evaluation of their non-allergenic properties."
+    },
+    {
+      "evidence_id": "EV_C003_E02_02",
+      "source_file": "docs/0052/combined.md",
+      "section": "C003",
+      "char_start": 37581,
+      "char_end": 37669,
+      "quote": "the epitopes with the lowest rank and an IC50 value of less than 100 were given priority"
+    },
+    {
+      "evidence_id": "EV_C003_E03_01",
+      "source_file": "docs/0052/combined.md",
+      "section": "C003",
+      "char_start": 37887,
+      "char_end": 38045,
+      "quote": "The analysis yielded a global value of 99.39% indicating the broad potential of the selected epitopes to elicit an immune response across diverse populations."
+    },
+    {
+      "evidence_id": "EV_C003_E04_01",
+      "source_file": "docs/0052/combined.md",
+      "section": "C003",
+      "char_start": 38642,
+      "char_end": 38787,
+      "quote": "Eight MHC Class-I epitopes were linked using KK, eight MHC Class-II were connected via AAY and four B cell epitopes were joined using AYY linkers"
+    },
+    {
+      "evidence_id": "EV_C003_E04_02",
+      "source_file": "docs/0052/combined.md",
+      "section": "C003",
+      "char_start": 38902,
+      "char_end": 38985,
+      "quote": "a beta defensin protein sequence was added to the N-terminal N using a GPGPG linker"
+    },
+    {
+      "evidence_id": "EV_C003_E04_03",
+      "source_file": "docs/0052/combined.md",
+      "section": "C003",
+      "char_start": 39050,
+      "char_end": 39103,
+      "quote": "a 6X Histidine tag was incorporated at the C-terminus"
+    },
+    {
+      "evidence_id": "EV_C003_E05_01",
+      "source_file": "docs/0052/combined.md",
+      "section": "C003",
+      "char_start": 47840,
+      "char_end": 47923,
+      "quote": "The design vaccine was categorized as non-allergen evaluated using AllerTOP server."
+    },
+    {
+      "evidence_id": "EV_C003_E05_02",
+      "source_file": "docs/0052/combined.md",
+      "section": "C003",
+      "char_start": 47924,
+      "char_end": 48033,
+      "quote": "The antigenicity was 0.7293, which is greater than the threshold level of 0.4 as predicted by VaxiJen server."
+    },
+    {
+      "evidence_id": "EV_C003_E05_03",
+      "source_file": "docs/0052/combined.md",
+      "section": "C003",
+      "char_start": 48048,
+      "char_end": 48114,
+      "quote": "Toxipred server confirmed that the vaccine construct is non-toxic."
+    },
+    {
+      "evidence_id": "EV_C003_E06_01",
+      "source_file": "docs/0052/combined.md",
+      "section": "C003",
+      "char_start": 48288,
+      "char_end": 48403,
+      "quote": "the vaccine construct possesses a theoretical isoelectric point (pI) of 9.63 and a molecular weight of 40,307.71 Da"
+    },
+    {
+      "evidence_id": "EV_C003_E06_02",
+      "source_file": "docs/0052/combined.md",
+      "section": "C003",
+      "char_start": 48421,
+      "char_end": 48526,
+      "quote": "the stability index was computed and determined to be 23.71, which signifies the stability of the vaccine"
+    },
+    {
+      "evidence_id": "EV_C003_E06_03",
+      "source_file": "docs/0052/combined.md",
+      "section": "C003",
+      "char_start": 48710,
+      "char_end": 48802,
+      "quote": "the GRAVY value was recorded at -0.134, indicating that the vaccine construct is hydrophilic"
+    },
+    {
+      "evidence_id": "EV_C003_E07_01",
+      "source_file": "docs/0052/combined.md",
+      "section": "C003",
+      "char_start": 51234,
+      "char_end": 51421,
+      "quote": "The GOR-IV pie chart Fig. 8 (B) quantifies structural composition, showing alpha helices (45.61%), beta strands (17.85%), and coils (36.54%), indicating a predominantly helical structure."
+    },
+    {
+      "evidence_id": "EV_C003_E08_02",
+      "source_file": "docs/0052/combined.md",
+      "section": "C003",
+      "char_start": 52087,
+      "char_end": 52182,
+      "quote": "The results indicated that approximately 97.4% of the residues were in the most favored regions"
+    },
+    {
+      "evidence_id": "EV_C004_E01_01",
+      "source_file": "docs/0052/combined.md",
+      "section": "C004",
+      "char_start": 51301,
+      "char_end": 51421,
+      "quote": "showing alpha helices (45.61%), beta strands (17.85%), and coils (36.54%), indicating a predominantly helical structure."
+    },
+    {
+      "evidence_id": "EV_C004_E02_01",
+      "source_file": "docs/0052/combined.md",
+      "section": "C004",
+      "char_start": 51751,
+      "char_end": 51919,
+      "quote": "TrRosetta predicted five different models, and as shown in Fig. 9 (A), the model with the highest C-score of 7.167 exhibited a TM-score of $0.52 \\pm 0.25$ was selected."
+    },
+    {
+      "evidence_id": "EV_C004_E03_01",
+      "source_file": "docs/0052/combined.md",
+      "section": "C004",
+      "char_start": 52087,
+      "char_end": 52299,
+      "quote": "The results indicated that approximately 97.4% of the residues were in the most favored regions, while 2.3% were in the additionally allowed zones. Only 0.3% of the residues were located in the disallowed regions"
+    },
+    {
+      "evidence_id": "EV_C004_E04_01",
+      "source_file": "docs/0052/combined.md",
+      "section": "C004",
+      "char_start": 52325,
+      "char_end": 52419,
+      "quote": "The total quality factor value of the improved 3D structures, estimated using ERRAT was 97.078"
+    },
+    {
+      "evidence_id": "EV_C004_E05_01",
+      "source_file": "docs/0052/combined.md",
+      "section": "C004",
+      "char_start": 52493,
+      "char_end": 52644,
+      "quote": "Ellipro analysis predicted eight discontinuous B-cell epitopes in the vaccine construct, as illustrated in Fig. 10, with scores between 0.501 and 0.967"
+    },
+    {
+      "evidence_id": "EV_C004_E05_02",
+      "source_file": "docs/0052/combined.md",
+      "section": "C004",
+      "char_start": 52715,
+      "char_end": 52788,
+      "quote": "The highest-scoring epitope (0.967 scoring 22 residues) is immunodominant"
+    },
+    {
+      "evidence_id": "EV_C004_E06_01",
+      "source_file": "docs/0052/combined.md",
+      "section": "C004",
+      "char_start": 56302,
+      "char_end": 56477,
+      "quote": "Disulfide engineering was performed by using Ser133–Ser145 pairs (energy: 0.68 kcal/mol) and Gly193–Ile208 (energy: 1.29 kcal/mol) as optimal residues in the vaccine construct"
+    },
+    {
+      "evidence_id": "EV_C004_E08_01",
+      "source_file": "docs/0052/combined.md",
+      "section": "C004",
+      "char_start": 67897,
+      "char_end": 67996,
+      "quote": "After 150 ns, the RMSD stabilizes around 3–5 Å, indicating that the system has reached equilibrium."
+    },
+    {
+      "evidence_id": "EV_C004_E08_02",
+      "source_file": "docs/0052/combined.md",
+      "section": "C004",
+      "char_start": 68442,
+      "char_end": 68504,
+      "quote": "An RMSD value between 3 and 5 Å indicates structural stability"
+    },
+    {
+      "evidence_id": "EV_C005_E01_01",
+      "source_file": "docs/0052/combined.md",
+      "section": "C005",
+      "char_start": 68442,
+      "char_end": 68563,
+      "quote": "An RMSD value between 3 and 5 Å indicates structural stability, suggesting that the complex will likely remain unchanged."
+    },
+    {
+      "evidence_id": "EV_C005_E02_01",
+      "source_file": "docs/0052/combined.md",
+      "section": "C005",
+      "char_start": 71642,
+      "char_end": 71760,
+      "quote": "The average RMSF across the complex is maintained at approximately 1.5–2.5 Å, supporting overall structural stability."
+    },
+    {
+      "evidence_id": "EV_C005_E02_02",
+      "source_file": "docs/0052/combined.md",
+      "section": "C005",
+      "char_start": 71940,
+      "char_end": 72005,
+      "quote": "The highest fluctuation was observed around 8 Å near residue 850."
+    },
+    {
+      "evidence_id": "EV_C005_E03_01",
+      "source_file": "docs/0052/combined.md",
+      "section": "C005",
+      "char_start": 72502,
+      "char_end": 72661,
+      "quote": "The values of Rg change between 35.0 Å and 37.5 Å, with a mean value close to 36.0 Å, which shows that the complex is likely to maintain a stable conformation."
+    },
+    {
+      "evidence_id": "EV_C005_E04_01",
+      "source_file": "docs/0052/combined.md",
+      "section": "C005",
+      "char_start": 80990,
+      "char_end": 81111,
+      "quote": "The clustering in the center is a high-density region, which indicates structural similarity in the vaccine-TLR8 complex."
+    },
+    {
+      "evidence_id": "EV_C005_E06_01",
+      "source_file": "docs/0052/combined.md",
+      "section": "C005",
+      "char_start": 71396,
+      "char_end": 71457,
+      "quote": "Table 5. Residues of Predicted Discontinuous B Cell Epitopes."
+    },
+    {
+      "evidence_id": "EV_C005_E07_01",
+      "source_file": "docs/0052/combined.md",
+      "section": "C005",
+      "char_start": 74499,
+      "char_end": 74584,
+      "quote": "Yellow lines show the engineered disulfide bonds predicted by Disulfide by Design 2.0"
+    },
+    {
+      "evidence_id": "EV_C005_E08_01",
+      "source_file": "docs/0052/combined.md",
+      "section": "C005",
+      "char_start": 78201,
+      "char_end": 78249,
+      "quote": "Table 6. Docked energies with vaccine construct."
+    },
+    {
+      "evidence_id": "EV_C006_E01_01",
+      "source_file": "docs/0052/combined.md",
+      "section": "C006",
+      "char_start": 87243,
+      "char_end": 87418,
+      "quote": "the dynamical cross-correlation matrix (DCCM) plot of the vaccine-TLR8 complex reveals correlated and anti-correlated motions of residues during molecular dynamics simulations"
+    },
+    {
+      "evidence_id": "EV_C006_E01_02",
+      "source_file": "docs/0052/combined.md",
+      "section": "C006",
+      "char_start": 87851,
+      "char_end": 88042,
+      "quote": "The results confirm that the vaccine maintains a stable interaction with TLR8 while allowing necessary conformational dynamics for its biological function and activation of the immune system."
+    },
+    {
+      "evidence_id": "EV_C006_E03_01",
+      "source_file": "docs/0052/combined.md",
+      "section": "C006",
+      "char_start": 93954,
+      "char_end": 94100,
+      "quote": "The GC content of the optimized sequence was reduced from 61.85% to 41.72%, which falls within the optimal range of 30–70% for E. coli expression."
+    },
+    {
+      "evidence_id": "EV_C006_E03_02",
+      "source_file": "docs/0052/combined.md",
+      "section": "C006",
+      "char_start": 94314,
+      "char_end": 94554,
+      "quote": "the free energy of the thermodynamic ensemble was -438.35 kcal/mol, with an ensemble diversity of 334.69, and the frequency of the MFE structure in the ensemble was 0.00%, supports the high translational efficiency of the optimized sequence"
+    },
+    {
+      "evidence_id": "EV_C006_E04_01",
+      "source_file": "docs/0052/combined.md",
+      "section": "C006",
+      "char_start": 94620,
+      "char_end": 94758,
+      "quote": "The 1059 base pairs DNA sequence was successfully cloned into pET-29(+) vector, which has a total size of 5371 base pairs, using SnapGene."
+    },
+    {
+      "evidence_id": "EV_C006_E04_02",
+      "source_file": "docs/0052/combined.md",
+      "section": "C006",
+      "char_start": 94870,
+      "char_end": 94947,
+      "quote": "After cloning the total length of the recombinant vector increased to 6430 bp"
+    },
+    {
+      "evidence_id": "EV_C006_E05_01",
+      "source_file": "docs/0052/combined.md",
+      "section": "C006",
+      "char_start": 98945,
+      "char_end": 99172,
+      "quote": "The simulation results indicate that antigen production begins around day 3, while antibody production starts around day 7, peaks at approximately 3,000 units, and continues to rise, reaching a maximum of 5,000 units by day 14."
+    },
+    {
+      "evidence_id": "EV_C006_E07_01",
+      "source_file": "docs/0052/combined.md",
+      "section": "C006",
+      "char_start": 100129,
+      "char_end": 100241,
+      "quote": "Recently, computational vaccine design has become a cost-effective and rapid approach for designing multiepitope"
+    },
+    {
+      "evidence_id": "EV_C007_E01_01",
+      "source_file": "docs/0052/combined.md",
+      "section": "C007",
+      "char_start": 114504,
+      "char_end": 114660,
+      "quote": "Immune simulation results suggested robust activation of both humoral and cellular immunity, with a peak IgM and IgG response reaching 5000 units by day 14."
+    },
+    {
+      "evidence_id": "EV_C007_E04_01",
+      "source_file": "docs/0052/combined.md",
+      "section": "C007",
+      "char_start": 111056,
+      "char_end": 111334,
+      "quote": "The vaccine construct has a molecular weight of approximately 61.48 kDa and an isoelectric point (pI) of 9.92, indicating a basic nature. A GRAVY value of 0.001 suggests balanced hydrophilicity and hydrophobicity, while an aliphatic index of 82.45 reflects high thermostability."
+    },
+    {
+      "evidence_id": "EV_C007_E05_01",
+      "source_file": "docs/0052/combined.md",
+      "section": "C007",
+      "char_start": 111335,
+      "char_end": 111578,
+      "quote": "The antigenicity score of our vaccine construct was 0.7293 (VaxiJen analysis), which classifies it as highly immunogenic. Also, the population coverage estimates showed values of 99.39%, ensuring the applicability across different ethnicities."
+    },
+    {
+      "evidence_id": "EV_C007_E06_01",
+      "source_file": "docs/0052/combined.md",
+      "section": "C007",
+      "char_start": 111719,
+      "char_end": 111817,
+      "quote": "our vaccine construct showed a higher antigenicity score than the average Monkey pox score of 0.45"
+    },
+    {
+      "evidence_id": "EV_C007_E06_02",
+      "source_file": "docs/0052/combined.md",
+      "section": "C007",
+      "char_start": 111843,
+      "char_end": 112042,
+      "quote": "a previous study on the Klebsiella pneumoniae vaccine reported population coverage of 95%, which is lower than the current findings, suggesting the selected epitopes offer better global applicability"
+    },
+    {
+      "evidence_id": "EV_C007_E07_01",
+      "source_file": "docs/0052/combined.md",
+      "section": "C007",
+      "char_start": 112599,
+      "char_end": 112752,
+      "quote": "The TLR7-vaccine complex had 12 hydrogen bonds, whereas TLR8 showed the most potent interaction of 13 hydrogen bonds and -1434.6 kcal/mol binding energy."
+    },
+    {
+      "evidence_id": "EV_C007_E08_01",
+      "source_file": "docs/0052/combined.md",
+      "section": "C007",
+      "char_start": 115521,
+      "char_end": 115671,
+      "quote": "Although the computational results are encouraging, experimental validation is needed to assess the immunogenicity and safety of the designed vaccine."
+    },
+    {
+      "evidence_id": "EV_C007_E08_02",
+      "source_file": "docs/0052/combined.md",
+      "section": "C007",
+      "char_start": 117145,
+      "char_end": 117311,
+      "quote": "Further in vitro and in vivo studies are required to assess immune responses, protective efficacy, and potential challenges in vaccine formulation and administration."
+    },
+    {
+      "evidence_id": "EV_AUTO_001",
+      "source_file": "docs/0052/combined.md",
+      "section": "auto_specific",
+      "char_start": 57614,
+      "char_end": 57748,
+      "quote": "The analysis revealed that TLR-3 and TLR-4 demonstrated weak binding with the vaccine formulation, and TLR-7 and TLR-8 showed robust"
+    },
+    {
+      "evidence_id": "EV_AUTO_002",
+      "source_file": "docs/0052/combined.md",
+      "section": "auto_specific",
+      "char_start": 116803,
+      "char_end": 117018,
+      "quote": "Docking studies confirmed effective interactions with immune receptors like TLR-7 and TLR-8 that was further validated by MD simulations, highlighting the vaccine's potential to stimulate targeted immune responses."
+    },
+    {
+      "evidence_id": "EV_AUTO_003",
+      "source_file": "docs/0052/combined.md",
+      "section": "auto_specific",
+      "char_start": 77478,
+      "char_end": 77608,
+      "quote": "Docked complexes of TLR-3, TLR-4, TLR-7, and TLR-8 with the designed vaccine visualized by using discovery studio visualizer v24."
+    },
+    {
+      "evidence_id": "EV_AUTO_004",
+      "source_file": "docs/0052/combined.md",
+      "section": "auto_specific",
+      "char_start": 57264,
+      "char_end": 57409,
+      "quote": "he docking results demonstrated specific interaction energies for all four receptor-vaccine complexes, including TLR-3, TLR-4, TLR-7, and TLR-8."
+    },
+    {
+      "evidence_id": "EV_AUTO_005",
+      "source_file": "docs/0052/combined.md",
+      "section": "auto_specific",
+      "char_start": 56942,
+      "char_end": 57076,
+      "quote": "The refined tertiary structure of the vaccine construct was docked with TLR-3, TLR-4, TLR-7, and TLR-8 using ClusPro, as shown in Fig."
+    },
+    {
+      "evidence_id": "EV_AUTO_006",
+      "source_file": "docs/0052/combined.md",
+      "section": "auto_specific",
+      "char_start": 125764,
+      "char_end": 125904,
+      "quote": "Antimicrobial peptide A20L: in vitro and in vivo antibacterial and antibiofilm activity against carbapenem-resistant Klebsiella pneumoniae."
+    },
+    {
+      "evidence_id": "EV_AUTO_007",
+      "source_file": "docs/0052/combined.md",
+      "section": "auto_specific",
+      "char_start": 66220,
+      "char_end": 66336,
+      "quote": "In interaction analysis, TLR-8(B) indicated 13 hydrogen bonds, while TLR-7 indicated 12, as illustrated in Table 7."
+    },
+    {
+      "evidence_id": "EV_AUTO_008",
+      "source_file": "docs/0052/combined.md",
+      "section": "auto_specific",
+      "char_start": 114948,
+      "char_end": 115239,
+      "quote": "Our study findings are in line with other investigations, including a vaccine trial for Herpes simplex virus type-1 (HSV-1), where the peak levels of IgM/IgG attained reporting values of 4500 $^{78}$ , which is lower than the 5000, providing evidence for more and prolonged immune response."
+    },
+    {
+      "evidence_id": "EV_AUTO_009",
+      "source_file": "docs/0052/combined.md",
+      "section": "auto_specific",
+      "char_start": 98661,
+      "char_end": 98780,
+      "quote": "22, the level of cytokines and interleukins as well as the leukocyte growth factor IL-20 signaling an immune response."
+    },
+    {
+      "evidence_id": "EV_AUTO_010",
+      "source_file": "docs/0052/combined.md",
+      "section": "auto_specific",
+      "char_start": 99316,
+      "char_end": 99433,
+      "quote": "IL-20 contributes to tissue inflammation and repair, acting as a danger signal to activate and recruit immune cells."
+    },
+    {
+      "evidence_id": "EV_AUTO_011",
+      "source_file": "docs/0052/combined.md",
+      "section": "auto_specific",
+      "char_start": 99172,
+      "char_end": 99316,
+      "quote": "Interleukins, cytokines, and growth factors such as IL-20 and IFN- $\\gamma$ play pivotal roles in modulating and enhancing the immune response."
+    },
+    {
+      "evidence_id": "EV_AUTO_012",
+      "source_file": "docs/0052/combined.md",
+      "section": "auto_specific",
+      "char_start": 77847,
+      "char_end": 77904,
+      "quote": "(D) The docked complex of TLR-8 with the vaccine design."
+    },
+    {
+      "evidence_id": "EV_AUTO_013",
+      "source_file": "docs/0052/combined.md",
+      "section": "auto_specific",
+      "char_start": 77790,
+      "char_end": 77847,
+      "quote": "(C) The docked complex of TLR-7 with the vaccine design."
+    },
+    {
+      "evidence_id": "EV_AUTO_014",
+      "source_file": "docs/0052/combined.md",
+      "section": "auto_specific",
+      "char_start": 77733,
+      "char_end": 77790,
+      "quote": "(B) The docked complex of TLR-4 with the vaccine design."
+    },
+    {
+      "evidence_id": "EV_AUTO_015",
+      "source_file": "docs/0052/combined.md",
+      "section": "auto_specific",
+      "char_start": 77676,
+      "char_end": 77733,
+      "quote": "(A) The docked complex of TLR-3 with the vaccine design."
+    },
+    {
+      "evidence_id": "EV_AUTO_016",
+      "source_file": "docs/0052/combined.md",
+      "section": "auto_specific",
+      "char_start": 77478,
+      "char_end": 77610,
+      "quote": "Docked complexes of TLR-3, TLR-4, TLR-7, and TLR-8 with the designed vaccine visualized by using discovery studio visualizer v24.1."
+    },
+    {
+      "evidence_id": "EV_AUTO_017",
+      "source_file": "docs/0052/combined.md",
+      "section": "auto_specific",
+      "char_start": 111829,
+      "char_end": 112052,
+      "quote": "Additionally, a previous study on the Klebsiella pneumoniae vaccine reported population coverage of 95%, which is lower than the current findings, suggesting the selected epitopes offer better global applicability $^{74}$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_018",
+      "source_file": "docs/0052/combined.md",
+      "section": "auto_specific",
+      "char_start": 11412,
+      "char_end": 11544,
+      "quote": "Only epitopes with IC50 values < 100 nM and percentile ranks < 1% were selected, ensuring high-affinity binding to MHC-I molecules."
+    },
+    {
+      "evidence_id": "EV_AUTO_019",
+      "source_file": "docs/0052/combined.md",
+      "section": "auto_specific",
+      "char_start": 57161,
+      "char_end": 57264,
+      "quote": "The tool provides us with 30 docked models from which the model having the lowest energy was selected."
+    },
+    {
+      "evidence_id": "EV_AUTO_020",
+      "source_file": "docs/0052/combined.md",
+      "section": "auto_specific",
+      "char_start": 36638,
+      "char_end": 36873,
+      "quote": "In this study, four transmembrane proteins were analyzed for MHC Class I epitopes, with two epitopes selected from each protein based on their low percentage rank with their corresponding IC50 values, specifically those less than 100."
+    },
+    {
+      "evidence_id": "EV_AUTO_021",
+      "source_file": "docs/0052/combined.md",
+      "section": "auto_specific",
+      "char_start": 26545,
+      "char_end": 26666,
+      "quote": "From a total of 2722, four transmembrane proteins were selected based on their antigenicity and biological significance."
+    },
+    {
+      "evidence_id": "EV_AUTO_022",
+      "source_file": "docs/0052/combined.md",
+      "section": "auto_specific",
+      "char_start": 25563,
+      "char_end": 25694,
+      "quote": "In this study, DCCM calculations were performed with Bio3D after Desmond trajectory conversion to DCD format using MDTraj $^{61}$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_023",
+      "source_file": "docs/0052/combined.md",
+      "section": "auto_specific",
+      "char_start": 17100,
+      "char_end": 17152,
+      "quote": "5 and a protrusion index (PI) of 0.7, were selected."
+    },
+    {
+      "evidence_id": "EV_AUTO_024",
+      "source_file": "docs/0052/combined.md",
+      "section": "auto_specific",
+      "char_start": 2078,
+      "char_end": 2268,
+      "quote": "Principal component analysis (PCA) identified elastic regions critical for biological activity, and the stable energy levels (-5000 kJ/mol) further confirmed the reliability of the binding."
+    },
+    {
+      "evidence_id": "EV_AUTO_025",
+      "source_file": "docs/0052/combined.md",
+      "section": "auto_specific",
+      "char_start": 126092,
+      "char_end": 126284,
+      "quote": "Three-Dimensional structure of human epididymis Protein 4 (HE4): A Protein modelling of an ovarian cancer biomarker through in silico approach: HE4 protein structure modelling and validation."
+    },
+    {
+      "evidence_id": "EV_AUTO_026",
+      "source_file": "docs/0052/combined.md",
+      "section": "auto_specific",
+      "char_start": 37670,
+      "char_end": 37736,
+      "quote": "The selected epitopes of MHC class II are being given in Table 4."
+    },
+    {
+      "evidence_id": "EV_AUTO_027",
+      "source_file": "docs/0052/combined.md",
+      "section": "auto_specific",
+      "char_start": 36873,
+      "char_end": 36971,
+      "quote": "The selected MHC Class I epitopes and their respective characteristics are summarized in Table 3."
+    },
+    {
+      "evidence_id": "EV_AUTO_028",
+      "source_file": "docs/0052/combined.md",
+      "section": "auto_specific",
+      "char_start": 33788,
+      "char_end": 33900,
+      "quote": "The estimates of the selected B-cell epitopes utilized in the vaccine development process are shown in Table 2."
+    },
+    {
+      "evidence_id": "EV_AUTO_029",
+      "source_file": "docs/0052/combined.md",
+      "section": "auto_specific",
+      "char_start": 16525,
+      "char_end": 16611,
+      "quote": "The protein 3D structure was validated by using the Ramachandran plot (https://saves."
+    },
+    {
+      "evidence_id": "EV_AUTO_030",
+      "source_file": "docs/0052/combined.md",
+      "section": "auto_specific",
+      "char_start": 14536,
+      "char_end": 14595,
+      "quote": "F --> G[\"8 Immunocompatibility Validation of Vaccine\"]"
+    },
+    {
+      "evidence_id": "EV_AUTO_031",
+      "source_file": "docs/0052/combined.md",
+      "section": "auto_specific",
+      "char_start": 14435,
+      "char_end": 14495,
+      "quote": "D --> E[\"5 Immunocompatibility Validation of Epitopes\"]"
+    },
+    {
+      "evidence_id": "EV_AUTO_032",
+      "source_file": "docs/0052/combined.md",
+      "section": "auto_specific",
+      "char_start": 14339,
+      "char_end": 14398,
+      "quote": "B --> C[\"3 Immunocompatibility Validation of Protein\"]"
+    }
+  ],
+  "event_graph": {
+    "paper_main_problem": "Fusobacterium necrophorum causes severe human and livestock diseases with rising antimicrobial resistance and no effective vaccines, motivating computational design of a multi-epitope vaccine targeting transmembrane proteins.",
+    "canonical_events": [
+      {
+        "canonical_id": "K01",
+        "order": 1,
+        "event_type": "problem",
+        "summary": "Rising antimicrobial resistance and lack of effective vaccines for F. necrophorum infections motivate alternative strategies.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E01"
+        ],
+        "evidence_ids": [
+          "EV_C001_E01_01"
+        ],
+        "key_entities": [
+          "Fusobacterium necrophorum",
+          "antimicrobial resistance"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K02",
+        "order": 2,
+        "event_type": "hypothesis",
+        "summary": "Transmembrane proteins of F. necrophorum are promising vaccine targets due to immune accessibility and roles in virulence.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E02"
+        ],
+        "evidence_ids": [
+          "EV_C001_E02_01"
+        ],
+        "key_entities": [
+          "transmembrane proteins",
+          "Fusobacterium necrophorum"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K03",
+        "order": 3,
+        "event_type": "design",
+        "summary": "Selected four transmembrane proteins (outer membrane efflux protein, SecA, FtsH, SecF) based on high antigenicity (>0.4), non-allergenicity, non-toxicity, and functional roles in virulence.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E03"
+        ],
+        "evidence_ids": [
+          "EV_C001_E03_01",
+          "EV_AUTO_021"
+        ],
+        "key_entities": [
+          "outer membrane efflux protein",
+          "translocase subunit SecA",
+          "ATP-dependent zinc metalloprotease FtsH",
+          "Protein-export membrane protein SecF"
+        ],
+        "key_numbers": [
+          "antigenicity >0.4"
+        ]
+      },
+      {
+        "canonical_id": "K04",
+        "order": 4,
+        "event_type": "design",
+        "summary": "Predicted B-cell epitopes (Bepipred 2.0, score >0.5), MHC-I epitopes (ANN 4.0, IC50 <100 nM, percentile rank <1%), and MHC-II epitopes (NN-align, IC50 <100 nM).",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E04",
+          "C003_E01",
+          "C003_E02"
+        ],
+        "evidence_ids": [
+          "EV_C001_E04_02",
+          "EV_C001_E04_03",
+          "EV_C003_E01_01",
+          "EV_C003_E02_01",
+          "EV_C003_E02_02",
+          "EV_AUTO_018"
+        ],
+        "key_entities": [
+          "B-cell epitopes",
+          "MHC-I epitopes",
+          "MHC-II epitopes"
+        ],
+        "key_numbers": [
+          "score threshold 0.5",
+          "IC50 <100 nM",
+          "percentile rank <1%"
+        ]
+      },
+      {
+        "canonical_id": "K05",
+        "order": 5,
+        "event_type": "design",
+        "summary": "Constructed vaccine by linking epitopes with GPGPG, KK, AAY, AYY linkers; added beta-defensin adjuvant, Padre sequence, and 6xHis tag.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E05",
+          "C003_E04"
+        ],
+        "evidence_ids": [
+          "EV_C001_E05_01",
+          "EV_C003_E04_01",
+          "EV_C003_E04_02",
+          "EV_C003_E04_03"
+        ],
+        "key_entities": [
+          "GPGPG",
+          "KK",
+          "AAY",
+          "AYY",
+          "beta-defensin",
+          "Padre sequence",
+          "6xHis tag"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K06",
+        "order": 6,
+        "event_type": "validation",
+        "summary": "Vaccine construct confirmed non-allergenic, antigenic (VaxiJen score 0.7293), and non-toxic.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E05",
+          "C007_E05"
+        ],
+        "evidence_ids": [
+          "EV_C003_E05_01",
+          "EV_C003_E05_02",
+          "EV_C003_E05_03",
+          "EV_C007_E05_01"
+        ],
+        "key_entities": [
+          "vaccine construct"
+        ],
+        "key_numbers": [
+          "VaxiJen score 0.7293"
+        ]
+      },
+      {
+        "canonical_id": "K07",
+        "order": 7,
+        "event_type": "analysis",
+        "summary": "Physicochemical analysis: pI 9.63, MW 40,307.71 Da, instability index 23.71 (stable), GRAVY -0.134 (hydrophilic).",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C003_E06",
+          "C007_E04"
+        ],
+        "evidence_ids": [
+          "EV_C003_E06_01",
+          "EV_C003_E06_02",
+          "EV_C003_E06_03",
+          "EV_C007_E04_01"
+        ],
+        "key_entities": [
+          "vaccine construct"
+        ],
+        "key_numbers": [
+          "pI 9.63",
+          "MW 40,307.71 Da",
+          "instability index 23.71",
+          "GRAVY -0.134"
+        ]
+      },
+      {
+        "canonical_id": "K08",
+        "order": 8,
+        "event_type": "analysis",
+        "summary": "Secondary structure: alpha helices 45.61%, beta strands 17.85%, coils 36.54%.",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C003_E07",
+          "C004_E01"
+        ],
+        "evidence_ids": [
+          "EV_C003_E07_01",
+          "EV_C004_E01_01"
+        ],
+        "key_entities": [
+          "vaccine construct"
+        ],
+        "key_numbers": [
+          "alpha helices 45.61%",
+          "beta strands 17.85%",
+          "coils 36.54%"
+        ]
+      },
+      {
+        "canonical_id": "K09",
+        "order": 9,
+        "event_type": "computation",
+        "summary": "TrRosetta predicted 3D structure; best model C-score 7.167, TM-score 0.52±0.25; Ramachandran plot 97.4% favored, ERRAT 97.078.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E06",
+          "C003_E08",
+          "C004_E02",
+          "C004_E03",
+          "C004_E04"
+        ],
+        "evidence_ids": [
+          "EV_C001_E06_01",
+          "EV_C003_E08_02",
+          "EV_C004_E02_01",
+          "EV_C004_E03_01",
+          "EV_C004_E04_01"
+        ],
+        "key_entities": [
+          "vaccine construct"
+        ],
+        "key_numbers": [
+          "C-score 7.167",
+          "TM-score 0.52±0.25",
+          "97.4% favored",
+          "ERRAT 97.078"
+        ]
+      },
+      {
+        "canonical_id": "K10",
+        "order": 10,
+        "event_type": "analysis",
+        "summary": "Ellipro predicted eight discontinuous B-cell epitopes with scores 0.501–0.967; highest scoring epitope (0.967) is immunodominant.",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C004_E05",
+          "C005_E06"
+        ],
+        "evidence_ids": [
+          "EV_C004_E05_01",
+          "EV_C004_E05_02",
+          "EV_C005_E06_01"
+        ],
+        "key_entities": [
+          "vaccine construct",
+          "discontinuous B-cell epitopes"
+        ],
+        "key_numbers": [
+          "8 epitopes",
+          "score range 0.501-0.967",
+          "highest score 0.967"
+        ]
+      },
+      {
+        "canonical_id": "K11",
+        "order": 11,
+        "event_type": "design",
+        "summary": "Disulfide engineering introduced bonds at Ser133–Ser145 (energy 0.68 kcal/mol) and Gly193–Ile208 (energy 1.29 kcal/mol) to enhance stability.",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C002_E01",
+          "C004_E06",
+          "C005_E07"
+        ],
+        "evidence_ids": [
+          "EV_C002_E01_02",
+          "EV_C004_E06_01",
+          "EV_C005_E07_01"
+        ],
+        "key_entities": [
+          "vaccine construct",
+          "Ser133–Ser145",
+          "Gly193–Ile208"
+        ],
+        "key_numbers": [
+          "Ser133–Ser145 energy 0.68 kcal/mol",
+          "Gly193–Ile208 energy 1.29 kcal/mol"
+        ]
+      },
+      {
+        "canonical_id": "K12",
+        "order": 12,
+        "event_type": "computation",
+        "summary": "Molecular docking with TLR3,4,7,8; TLR7 and TLR8 showed strong binding (TLR7: 12 H-bonds, TLR8: 13 H-bonds, -1434.6 kcal/mol).",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E02",
+          "C005_E08",
+          "C007_E07"
+        ],
+        "evidence_ids": [
+          "EV_C002_E02_02",
+          "EV_C005_E08_01",
+          "EV_C007_E07_01",
+          "EV_AUTO_001",
+          "EV_AUTO_002",
+          "EV_AUTO_007"
+        ],
+        "key_entities": [
+          "TLR3",
+          "TLR4",
+          "TLR7",
+          "TLR8",
+          "vaccine construct"
+        ],
+        "key_numbers": [
+          "TLR7: 12 H-bonds",
+          "TLR8: 13 H-bonds",
+          "-1434.6 kcal/mol"
+        ]
+      },
+      {
+        "canonical_id": "K13",
+        "order": 13,
+        "event_type": "analysis",
+        "summary": "MD simulation of vaccine-TLR8 complex: RMSD stabilized at 3–5 Å after 150 ns, Rg ~36 Å, stable energy -5000 kJ/mol.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E04",
+          "C004_E08",
+          "C005_E01",
+          "C005_E02",
+          "C005_E03",
+          "C005_E04",
+          "C006_E01"
+        ],
+        "evidence_ids": [
+          "EV_C002_E04_01",
+          "EV_C002_E04_02",
+          "EV_C004_E08_01",
+          "EV_C004_E08_02",
+          "EV_C005_E01_01",
+          "EV_C005_E02_01"
+        ],
+        "key_entities": [
+          "vaccine-TLR8 complex"
+        ],
+        "key_numbers": [
+          "RMSD 3-5 Å",
+          "Rg ~36 Å",
+          "energy -5000 kJ/mol"
+        ]
+      },
+      {
+        "canonical_id": "K14",
+        "order": 14,
+        "event_type": "analysis",
+        "summary": "Population coverage analysis: 99.39% global coverage using MHC-I and MHC-II epitopes.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E07",
+          "C003_E03",
+          "C007_E05"
+        ],
+        "evidence_ids": [
+          "EV_C001_E07_01",
+          "EV_C003_E03_01",
+          "EV_C007_E05_01"
+        ],
+        "key_entities": [
+          "global population"
+        ],
+        "key_numbers": [
+          "99.39%"
+        ]
+      },
+      {
+        "canonical_id": "K15",
+        "order": 15,
+        "event_type": "experiment",
+        "summary": "Immune simulation (C-IMMSIM) predicts robust humoral and cellular response: IgM/IgG peak 5000 units by day 14, increased IFN-γ and IL-20.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C006_E05",
+          "C007_E01"
+        ],
+        "evidence_ids": [
+          "EV_C006_E05_01",
+          "EV_C007_E01_01",
+          "EV_AUTO_008",
+          "EV_AUTO_009",
+          "EV_AUTO_010",
+          "EV_AUTO_011"
+        ],
+        "key_entities": [
+          "IgM",
+          "IgG",
+          "IFN-γ",
+          "IL-20"
+        ],
+        "key_numbers": [
+          "5000 units",
+          "day 14"
+        ]
+      },
+      {
+        "canonical_id": "K16",
+        "order": 16,
+        "event_type": "limitation",
+        "summary": "Computational results require experimental validation; in vitro and in vivo studies needed to assess immunogenicity, safety, and protective efficacy.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E08",
+          "C007_E08"
+        ],
+        "evidence_ids": [
+          "EV_C001_E08_01",
+          "EV_C007_E08_01",
+          "EV_C007_E08_02"
+        ],
+        "key_entities": [
+          "experimental validation"
+        ],
+        "key_numbers": []
+      }
+    ],
+    "edges": [
+      {
+        "source": "K01",
+        "target": "K02",
+        "relation": "enables",
+        "reason": "Problem motivates hypothesis that transmembrane proteins are vaccine targets."
+      },
+      {
+        "source": "K02",
+        "target": "K03",
+        "relation": "enables",
+        "reason": "Hypothesis leads to selection of specific transmembrane proteins."
+      },
+      {
+        "source": "K03",
+        "target": "K04",
+        "relation": "enables",
+        "reason": "Selected proteins are used for epitope prediction."
+      },
+      {
+        "source": "K04",
+        "target": "K05",
+        "relation": "enables",
+        "reason": "Predicted epitopes are assembled into vaccine construct."
+      },
+      {
+        "source": "K05",
+        "target": "K06",
+        "relation": "enables",
+        "reason": "Construct is validated for antigenicity, allergenicity, toxicity."
+      },
+      {
+        "source": "K06",
+        "target": "K07",
+        "relation": "follows",
+        "reason": "Physicochemical analysis follows validation."
+      },
+      {
+        "source": "K07",
+        "target": "K08",
+        "relation": "follows",
+        "reason": "Secondary structure analysis follows physicochemical analysis."
+      },
+      {
+        "source": "K08",
+        "target": "K09",
+        "relation": "enables",
+        "reason": "Secondary structure informs 3D structure prediction."
+      },
+      {
+        "source": "K09",
+        "target": "K10",
+        "relation": "enables",
+        "reason": "3D structure enables discontinuous epitope prediction."
+      },
+      {
+        "source": "K09",
+        "target": "K11",
+        "relation": "enables",
+        "reason": "3D structure enables disulfide engineering."
+      },
+      {
+        "source": "K11",
+        "target": "K12",
+        "relation": "enables",
+        "reason": "Stabilized construct used for docking."
+      },
+      {
+        "source": "K12",
+        "target": "K13",
+        "relation": "enables",
+        "reason": "Docking identifies best TLR complex for MD simulation."
+      },
+      {
+        "source": "K04",
+        "target": "K14",
+        "relation": "enables",
+        "reason": "Epitopes used for population coverage analysis."
+      },
+      {
+        "source": "K05",
+        "target": "K15",
+        "relation": "enables",
+        "reason": "Construct used for immune simulation."
+      },
+      {
+        "source": "K15",
+        "target": "K16",
+        "relation": "follows",
+        "reason": "Positive simulation results lead to call for experimental validation."
+      }
+    ],
+    "must_cover_points": [
+      "Problem of antimicrobial resistance and no effective vaccines",
+      "Hypothesis that transmembrane proteins are good targets",
+      "Selection of four specific proteins",
+      "Epitope prediction with defined thresholds",
+      "Vaccine construction with linkers and adjuvant",
+      "Antigenicity validation (VaxiJen 0.7293)",
+      "3D structure prediction and validation (Ramachandran 97.4%)",
+      "Molecular docking with TLR7/8 showing strong binding",
+      "MD simulation confirming stability",
+      "Population coverage >99%",
+      "Immune simulation predicting robust response",
+      "Limitation: need for experimental validation"
+    ],
+    "paper_not_suitable_reasons": []
+  }
+}

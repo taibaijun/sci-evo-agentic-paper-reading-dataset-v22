@@ -1,0 +1,910 @@
+{
+  "case": {
+    "case_id": "sci_evo_0163",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "A versatile active learning workflow for optimization of genetic and metabolic networks",
+      "doi": "https://doi.org/10.1038/s41467-022-31245-z",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0161_10_1038_s41467_022_31245_z_a_versatile_active_learning_workflow_for_optimization_of_genetic_and_metabolic_networks.pdf",
+      "mineru_md": "docs/0163/mineru.md",
+      "combined_md": "docs/0163/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Optimization of biological networks is limited by wet lab labor, cost, and lack of convenient computational tools.",
+      "target_object": "biological networks (genetic and metabolic)",
+      "known_context": "Active learning can reduce experiments and be made accessible via a simple online interface.",
+      "constraints": [
+        "Limited wet lab labor and cost",
+        "Lack of convenient computational tools"
+      ],
+      "input_data": [],
+      "quantifiable_goals": [
+        "Minimize number of experiments",
+        "Maximize yield or fold-change of target output"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "Optimization of biological networks is limited by wet lab labor, cost, and lack of convenient computational tools.",
+        "gap_or_uncertainty": "Can active learning reduce experiments and be made accessible via a simple online interface?",
+        "hypothesis": "Active learning can reduce experiments and be made accessible via a simple online interface.",
+        "decision": "Develop METIS, a versatile active machine learning workflow with a simple online interface.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "METIS",
+          "version": "initial",
+          "category": "active learning workflow"
+        },
+        "parameters": {},
+        "observation": "METIS is designed for experimentalists with no programming experience, using Google Colab.",
+        "result_status": "success",
+        "next_step_reason": "Need to design the modular, customizable workflow.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0163/combined.md",
+            "section": "C001",
+            "quote_or_span": "Optimization of biological networks is often limited by wet lab labor and cost, and the lack of convenient computational tools."
+          },
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0163/combined.md",
+            "section": "C001",
+            "quote_or_span": "Here, we describe METIS, a versatile active machine learning workflow with a simple online interface for the data-driven optimization of biological targets with minimal experiments."
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "simulation",
+        "state_before": "Workflow designed, but algorithm not selected.",
+        "gap_or_uncertainty": "Which machine learning algorithm performs best with limited data?",
+        "hypothesis": "XGBoost and linear regressors may outperform DNN/MLP with limited data.",
+        "decision": "Compare four algorithms using a gold regressor on an existing TXTL dataset.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "gold regressor",
+          "version": "",
+          "category": "simulation"
+        },
+        "parameters": {
+          "algorithms": [
+            "XGBoost",
+            "linear regressors",
+            "DNN",
+            "MLP"
+          ],
+          "rounds": 10,
+          "data_points_per_round": 100
+        },
+        "observation": "XGBoost and linear regressors outperformed DNN/MLP with limited data.",
+        "result_status": "success",
+        "next_step_reason": "Select XGBoost for the workflow due to its performance with fewer data points.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E04_01",
+            "source_file": "docs/0163/combined.md",
+            "section": "C001",
+            "quote_or_span": "We used the gold regressor to assess the performance of four different machine learning algorithms over 10 rounds of active learning (Fig. 1a)."
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "analysis",
+        "state_before": "Algorithm comparison completed.",
+        "gap_or_uncertainty": "Which algorithm to select for the workflow?",
+        "hypothesis": "XGBoost handles non-linear interactions and sparsity, and works with as few as 10 data points per round.",
+        "decision": "Select XGBoost for the workflow.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "XGBoost",
+          "version": "",
+          "category": "machine learning"
+        },
+        "parameters": {
+          "min_data_points_per_round": 10
+        },
+        "observation": "XGBoost outperformed linear regressors when fewer data points per round were used.",
+        "result_status": "success",
+        "next_step_reason": "Validate the workflow in a real-world experimental setup.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E05_01",
+            "source_file": "docs/0163/combined.md",
+            "section": "C001",
+            "quote_or_span": "XGBoost outperformed linear regressors when fewer data points per round were used (Supplementary Fig. 1)."
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "experiment",
+        "state_before": "Workflow with XGBoost ready for real-world testing.",
+        "gap_or_uncertainty": "Can METIS optimize Gfp production in an E. coli TXTL system with limited experiments?",
+        "hypothesis": "Active learning with XGBoost can increase Gfp yield up to 20-fold over 10 rounds with 20 experiments per round.",
+        "decision": "Perform active learning over 10 rounds with 20 experiments per round, optimizing 13 variable factors.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "METIS with XGBoost",
+          "version": "",
+          "category": "active learning"
+        },
+        "parameters": {
+          "rounds": 10,
+          "experiments_per_round": 20,
+          "factors": 13
+        },
+        "observation": "Relative yield increased up to 20-fold.",
+        "result_status": "success",
+        "next_step_reason": "Apply workflow to optimize LacI gene circuits.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E06_01",
+            "source_file": "docs/0163/combined.md",
+            "section": "C001",
+            "quote_or_span": "Having validated the workflow with an existing data set, we next sought to test it in a real-world experimental setup, simulating a situation in which the number of combinations that can be tested is limited by available equipment, readout and experimental cost."
+          },
+          {
+            "evidence_id": "EV_C001_E06_02",
+            "source_file": "docs/0163/combined.md",
+            "section": "C001",
+            "quote_or_span": "We chose (again) to optimize relative Gfp production (yield) in an E. coli"
+          },
+          {
+            "evidence_id": "EV_C002_E01_01",
+            "source_file": "docs/0163/combined.md",
+            "section": "C002",
+            "quote_or_span": "performed an active learning process over 10 rounds with only 20 experiments per round"
+          },
+          {
+            "evidence_id": "EV_C002_E01_02",
+            "source_file": "docs/0163/combined.md",
+            "section": "C002",
+            "quote_or_span": "the relative yield increased up to 20"
+          },
+          {
+            "evidence_id": "EV_AUTO_024",
+            "source_file": "docs/0163/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "To optimize composition of the TXTL system, we defined a concentration range for each of the 13 factors (Code availability), and performed an active learning process over 10 rounds with only 20 experiments per round (Fig."
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "experiment",
+        "state_before": "Feature importance suggests resource competition by LacI plasmid.",
+        "gap_or_uncertainty": "Does the LacI plasmid cause resource competition?",
+        "hypothesis": "Titration of LacI plasmid will show a negative effect on the optimal LacI circuit.",
+        "decision": "Perform titration experiment with LacI plasmid against fixed Gfp plasmid.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "titration experiment",
+          "version": "",
+          "category": "wet lab"
+        },
+        "parameters": {},
+        "observation": "Addition of LacI plasmid has a strong negative effect on the optimal LacI circuit, indicating resource competition between plasmids.",
+        "result_status": "success",
+        "next_step_reason": "Design approach to overcome resource competition by replacing LacI plasmid with purified LacI.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E01_01",
+            "source_file": "docs/0163/combined.md",
+            "section": "C003",
+            "quote_or_span": "By performing a titration experiment with $P_{T7}-LacI$ , we could show that addition of the LacI plasmid has indeed a strong negative effect on the optimal LacI circuit (i.e., with pTHS)"
+          },
+          {
+            "evidence_id": "EV_C003_E02_01",
+            "source_file": "docs/0163/combined.md",
+            "section": "C003",
+            "quote_or_span": "we titrated the LacI plasmid with either T7 or a constitutive promoter against a fixed concentration of the Gfp expressing plasmid under control of either T7 or a constitutive promoter"
+          },
+          {
+            "evidence_id": "EV_C003_E03_01",
+            "source_file": "docs/0163/combined.md",
+            "section": "C003",
+            "quote_or_span": "These results indicated a resource competition between the two plasmids, according to which the T7 promoter wins competition"
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "design",
+        "state_before": "Resource competition confirmed.",
+        "gap_or_uncertainty": "How to overcome resource competition?",
+        "hypothesis": "Replacing LacI plasmid with purified LacI protein will alleviate resource competition.",
+        "decision": "Use METIS module to extract 20 most informative combinations, replace LacI plasmid with purified LacI, and perform experiment.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "K most informative combinations module of METIS",
+          "version": "",
+          "category": "analysis"
+        },
+        "parameters": {
+          "K": 20
+        },
+        "observation": "Downloaded 20 most informative combinations, replaced LacI plasmid with purified LacI, performed experiment as Day_0.",
+        "result_status": "success",
+        "next_step_reason": "Test the 20 setups with purified LacI.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E05_01",
+            "source_file": "docs/0163/combined.md",
+            "section": "C003",
+            "quote_or_span": "Downloaded 20 most informative combinations"
+          },
+          {
+            "evidence_id": "EV_C003_E05_02",
+            "source_file": "docs/0163/combined.md",
+            "section": "C003",
+            "quote_or_span": "Replaced LacI plasmid with purified LacI"
+          },
+          {
+            "evidence_id": "EV_C003_E05_03",
+            "source_file": "docs/0163/combined.md",
+            "section": "C003",
+            "quote_or_span": "Performed the experiment, input to the model as Day_0"
+          },
+          {
+            "evidence_id": "EV_C004_E02_01",
+            "source_file": "docs/0163/combined.md",
+            "section": "C004",
+            "quote_or_span": "Using a module of METIS called “K most informative combinations” (with the number K to be defined by the user), we extracted the 20 most informative combinations of the active learning cycle"
+          },
+          {
+            "evidence_id": "EV_C004_E03_01",
+            "source_file": "docs/0163/combined.md",
+            "section": "C004",
+            "quote_or_span": "repeated these 20 setup by replacing $P_{T7}-LacI$ plasmid with purified LacI protein (Fig. 3j), resulting in a strong improvement in the objective function, and in particular Gfp fold-change"
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "experiment",
+        "state_before": "20 setups with purified LacI designed.",
+        "gap_or_uncertainty": "Will replacing LacI plasmid with purified LacI improve Gfp fold-change?",
+        "hypothesis": "Purified LacI protein will result in strong improvement in objective function and Gfp fold-change.",
+        "decision": "Repeat the 20 setups by replacing P_T7-LacI plasmid with purified LacI protein.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "purified LacI protein",
+          "version": "",
+          "category": "reagent"
+        },
+        "parameters": {},
+        "observation": "Strong improvement in objective function and Gfp fold-change.",
+        "result_status": "success",
+        "next_step_reason": "Validate that resource competition was limiting for all SLC and MLC circuits.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E01_01",
+            "source_file": "docs/0163/combined.md",
+            "section": "C004",
+            "quote_or_span": "To overcome resource competition, we tested purified LacI protein instead of the LacI plasmid in the TXTL system, which resulted in improved Gfp productivity"
+          },
+          {
+            "evidence_id": "EV_C004_E03_01",
+            "source_file": "docs/0163/combined.md",
+            "section": "C004",
+            "quote_or_span": "repeated these 20 setup by replacing $P_{T7}-LacI$ plasmid with purified LacI protein (Fig. 3j), resulting in a strong improvement in the objective function, and in particular Gfp fold-change"
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "validation",
+        "state_before": "Improvement observed with purified LacI.",
+        "gap_or_uncertainty": "Was resource competition the limiting factor for all circuits?",
+        "hypothesis": "All SLC and MLC circuits will improve upon providing external LacI.",
+        "decision": "Check improvement of all four SLC and MLC circuits with external LacI.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "comparison",
+          "version": "",
+          "category": "analysis"
+        },
+        "parameters": {},
+        "observation": "All four SLC and MLC circuits improved upon providing external LacI, confirming resource competition as limiting factor.",
+        "result_status": "success",
+        "next_step_reason": "Continue with one additional round of active learning using the new dataset.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E04_01",
+            "source_file": "docs/0163/combined.md",
+            "section": "C004",
+            "quote_or_span": "Note that among these 20 combinations were again all four SLC and MLC circuits. All of them improved upon providing external LacI, clearly demonstrating that resource competition had been limiting performance of the SLC and MLC circuits."
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "experiment",
+        "state_before": "Resource competition validated as limiting factor.",
+        "gap_or_uncertainty": "Can further active learning improve fold-change?",
+        "hypothesis": "One additional round of active learning with the new dataset will improve fold-change up to 123.",
+        "decision": "Continue with one additional round of active learning using the dataset from the purified LacI experiment.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "METIS",
+          "version": "",
+          "category": "active learning"
+        },
+        "parameters": {
+          "additional_rounds": 1
+        },
+        "observation": "Fold-change improved to up to 123, a 15-fold improvement over 10 rounds with plasmid and 34-fold over initial.",
+        "result_status": "success",
+        "next_step_reason": "Apply workflow to optimize transcription & translation unit.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E05_01",
+            "source_file": "docs/0163/combined.md",
+            "section": "C004",
+            "quote_or_span": "Continuing with only one additional round of active learning using this dataset, we were able to improve the fold-change to up to 123 (Fig. 3k), which is 15-fold improvement compared to that of 10 rounds of active learning with the $P_{T7}-LacI$ plasmid and 34-fold improvement compared to the initial setup."
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "experiment",
+        "state_before": "LacI circuit optimization completed.",
+        "gap_or_uncertainty": "Can METIS optimize a transcription & translation unit with many potential conditions?",
+        "hypothesis": "Active learning can achieve 12-fold improvement in yield with only 50 transcription & translation units tested per round over 4 rounds.",
+        "decision": "Optimize transcription & translation unit with 10,800 potential conditions using 50 units per round for 4 rounds.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "METIS",
+          "version": "",
+          "category": "active learning"
+        },
+        "parameters": {
+          "rounds": 4,
+          "units_per_round": 50,
+          "potential_conditions": 10800
+        },
+        "observation": "Yield improved up to 12-fold on Day 3.",
+        "result_status": "success",
+        "next_step_reason": "Analyze effect of exploration rate on optimization.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E08_01",
+            "source_file": "docs/0163/combined.md",
+            "section": "C004",
+            "quote_or_span": "The plot representing the average of triplicates (n = 3 independent experiments) as the result of 4 rounds of active learning, with 50 transcription & translation units tested per round."
+          },
+          {
+            "evidence_id": "EV_C005_E01_02",
+            "source_file": "docs/0163/combined.md",
+            "section": "C005",
+            "quote_or_span": "Over 4 rounds of active learning, yield of the transcription & translation unit improved up to 12-fold on Day 3."
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "analysis",
+        "state_before": "Transcription unit optimization achieved 12-fold improvement.",
+        "gap_or_uncertainty": "Did the optimization reach an optimum?",
+        "hypothesis": "High exploration rate on Day 3 will result in wide yield distribution but no further improvement.",
+        "decision": "Analyze the effect of high exploration rate on Day 3.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "exploration rate analysis",
+          "version": "",
+          "category": "analysis"
+        },
+        "parameters": {},
+        "observation": "High exploration rate on Day 3 resulted in wide yield distribution but no further improvement, indicating an optimum was reached.",
+        "result_status": "success",
+        "next_step_reason": "Test the 20 most informative combinations in vivo.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C005_E02_01",
+            "source_file": "docs/0163/combined.md",
+            "section": "C005",
+            "quote_or_span": "Using a high exploration rate on Day 3 resulted in a wide distribution of yields, but no further improvement, indicating that an optimum had been reached"
+          },
+          {
+            "evidence_id": "EV_C005_E03_01",
+            "source_file": "docs/0163/combined.md",
+            "section": "C005",
+            "quote_or_span": "we additionally investigated the effect of the 20 most informative combinations in vivo"
+          },
+          {
+            "evidence_id": "EV_C005_E01_02",
+            "source_file": "docs/0163/combined.md",
+            "section": "C005",
+            "quote_or_span": "Over 4 rounds of active learning, yield of the transcription & translation unit improved up to 12-fold on Day 3."
+          }
+        ]
+      },
+      {
+        "step_index": 12,
+        "phase": "experiment",
+        "state_before": "Optimum reached in cell-free system.",
+        "gap_or_uncertainty": "Do the optimized conditions translate to in vivo?",
+        "hypothesis": "The 20 most informative combinations will show correlation between cell-free and in vivo yields.",
+        "decision": "Investigate the 20 most informative combinations in vivo.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "in vivo testing",
+          "version": "",
+          "category": "wet lab"
+        },
+        "parameters": {
+          "combinations": 20
+        },
+        "observation": "Cell-free and in vivo yields showed a relatively low correlation of 0.41.",
+        "result_status": "partial",
+        "next_step_reason": "None (end of trajectory).",
+        "evidence": [
+          {
+            "evidence_id": "EV_C005_E03_01",
+            "source_file": "docs/0163/combined.md",
+            "section": "C005",
+            "quote_or_span": "we additionally investigated the effect of the 20 most informative combinations in vivo"
+          },
+          {
+            "evidence_id": "EV_C005_E03_02",
+            "source_file": "docs/0163/combined.md",
+            "section": "C005",
+            "quote_or_span": "the cell-free and in vivo yields for the 20 combinations showed a relatively low correlation of 0.41"
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "Real-world experimental validation in E. coli TXTL system",
+        "Titration experiment to confirm resource competition",
+        "Comparison of SLC and MLC circuits with external LacI",
+        "In vivo testing of informative combinations"
+      ],
+      "metrics": [
+        "Fold-change in Gfp production",
+        "Relative yield",
+        "Correlation between cell-free and in vivo yields"
+      ],
+      "final_conclusion": "METIS successfully optimized genetic and metabolic networks, achieving up to 34-fold improvement in LacI circuits and 12-fold improvement in transcription unit, but cell-free to in vivo translation showed low correlation.",
+      "limitations": [
+        "Low correlation (0.41) between cell-free and in vivo yields",
+        "Manual adjustment of exploration-exploitation ratio required"
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_step_trimmed=15_to_12",
+        "v22_specific_evidence_backfilled=4",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_step_trimmed=14_to_12",
+        "v22_specific_evidence_backfilled=4",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 99.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p4\\states\\0163.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p4\\events\\0163.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1
+        ],
+        "K02": [
+          1
+        ],
+        "K04": [
+          2,
+          3
+        ],
+        "K05": [
+          2,
+          3
+        ],
+        "K06": [
+          4
+        ],
+        "K08": [
+          4,
+          7
+        ],
+        "K12": [
+          5,
+          6,
+          7,
+          9
+        ],
+        "K13": [
+          7,
+          8,
+          9
+        ],
+        "K14": [
+          8,
+          9,
+          10
+        ],
+        "K16": [
+          9,
+          10,
+          11
+        ],
+        "K17": [
+          11
+        ],
+        "K18": [
+          11,
+          12
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02",
+            "K03"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K04",
+            "K05"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K04",
+            "K05"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K06",
+            "K08"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K10",
+            "K11",
+            "K12",
+            "K15"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K11",
+            "K12",
+            "K15"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K08",
+            "K09",
+            "K11",
+            "K12",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K13",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K11",
+            "K12",
+            "K13",
+            "K14",
+            "K16"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K14",
+            "K16"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K16",
+            "K17",
+            "K18"
+          ]
+        },
+        {
+          "step_index": 12,
+          "covered_event_ids": [
+            "K18"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 10,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "10800"
+        ]
+      }
+    ],
+    "step_count": 12,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 99.0
+  },
+  "api_usage": {
+    "prompt_tokens": 141242,
+    "completion_tokens": 32213,
+    "total_tokens": 173455,
+    "prompt_cache_hit_tokens": 3968,
+    "prompt_cache_miss_tokens": 137274
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 2425,
+        "completion_tokens": 365,
+        "total_tokens": 2790,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 2425
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 6918,
+        "completion_tokens": 1616,
+        "total_tokens": 8534,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 6918
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 7379,
+        "completion_tokens": 1051,
+        "total_tokens": 8430,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7123
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 7696,
+        "completion_tokens": 903,
+        "total_tokens": 8599,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7440
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 8306,
+        "completion_tokens": 822,
+        "total_tokens": 9128,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8050
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 7943,
+        "completion_tokens": 1414,
+        "total_tokens": 9357,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7687
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C005",
+      "api_usage": {
+        "prompt_tokens": 7620,
+        "completion_tokens": 1490,
+        "total_tokens": 9110,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7364
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C006",
+      "api_usage": {
+        "prompt_tokens": 5836,
+        "completion_tokens": 1688,
+        "total_tokens": 7524,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 5580
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C007",
+      "api_usage": {
+        "prompt_tokens": 6539,
+        "completion_tokens": 1735,
+        "total_tokens": 8274,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6283
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C008",
+      "api_usage": {
+        "prompt_tokens": 7308,
+        "completion_tokens": 1160,
+        "total_tokens": 8468,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7052
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C009",
+      "api_usage": {
+        "prompt_tokens": 2788,
+        "completion_tokens": 55,
+        "total_tokens": 2843,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 2532
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 14844,
+        "completion_tokens": 6462,
+        "total_tokens": 21306,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 14460
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 14848,
+        "completion_tokens": 6398,
+        "total_tokens": 21246,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 14208
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 18588,
+        "completion_tokens": 1041,
+        "total_tokens": 19629,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 18588
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 22204,
+        "completion_tokens": 6013,
+        "total_tokens": 28217,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 21564
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

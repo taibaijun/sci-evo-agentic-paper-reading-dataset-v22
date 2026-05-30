@@ -1,0 +1,935 @@
+{
+  "case": {
+    "case_id": "sci_evo_0175",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Improvements of the productivity and saccharification efficiency of the cellulolytic β-glucosidase D2-BGL in Pichia pastoris via directed evolution",
+      "doi": "https://doi.org/10.1186/s13068-021-01973-3",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0173_10_1186_s13068_021_01973_3_improvements_of_the_productivity_and_saccharification_efficiency_of_the_cellulolytic_gluco.pdf",
+      "mineru_md": "docs/0175/mineru.md",
+      "combined_md": "docs/0175/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Improve catalytic efficiency, substrate inhibition tolerance, and recombinant production of the fungal GH3 β-glucosidase D2-BGL for biomass saccharification via directed evolution.",
+      "target_object": "D2-BGL β-glucosidase",
+      "known_context": "D2-BGL is a GH3 β-glucosidase from a metagenomic library with high substrate affinity but suffers from substrate inhibition and low recombinant production.",
+      "constraints": [
+        "Maintain pH and thermostability",
+        "Use S. cerevisiae for library construction and P. pastoris for production"
+      ],
+      "input_data": [
+        "WT D2-BGL sequence",
+        "Homology model based on A. niger BGL1"
+      ],
+      "quantifiable_goals": [
+        "Increase specific activity at high cellobiose concentration",
+        "Increase recombinant enzyme production in P. pastoris",
+        "Improve glucose release from sugarcane bagasse"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "D2-BGL has high substrate affinity but suffers from substrate inhibition and low recombinant production.",
+        "gap_or_uncertainty": "Unknown whether random mutagenesis can discover beneficial mutations not predictable from structure.",
+        "hypothesis": "Random mutagenesis coupled with high-throughput screening can discover new beneficial mutations in D2-BGL.",
+        "decision": "Proceed with error-prone PCR and screening.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "literature reasoning",
+          "version": "",
+          "category": "reasoning"
+        },
+        "parameters": {},
+        "observation": "Random mutagenesis with high-throughput screening is a powerful tool for discovering beneficial mutations.",
+        "result_status": "success",
+        "next_step_reason": "Hypothesis justifies experimental design choices.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0175/combined.md",
+            "section": "C001",
+            "quote_or_span": "random mutagenesis coupled with an efficient high-throughput screening process represents a powerful molecular tool for discovering new beneficial mutations."
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "design",
+        "state_before": "Need to construct mutant libraries and produce enzyme for characterization.",
+        "gap_or_uncertainty": "Choice of expression hosts for library construction and large-scale production.",
+        "hypothesis": "S. cerevisiae is suitable for library construction due to efficient homologous recombination; P. pastoris is better for large-scale production due to higher yields and appropriate glycosylation.",
+        "decision": "Use S. cerevisiae for mutant library construction and P. pastoris for large-scale production.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "host selection",
+          "version": "",
+          "category": "experimental design"
+        },
+        "parameters": {},
+        "observation": "S. cerevisiae deemed suitable for library construction; P. pastoris deemed better producer for large-scale.",
+        "result_status": "success",
+        "next_step_reason": "Host selection enables rational design and library construction.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E03_01",
+            "source_file": "docs/0175/combined.md",
+            "section": "C001",
+            "quote_or_span": "S. cerevisiae was deemed to be a suitable expression host for constructing the D2-BGL mutant library, whereas P. pastoris was deemed to be a better producer of recombinant enzyme in large-scale."
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "experiment",
+        "state_before": "F256M mutation designed but not tested.",
+        "gap_or_uncertainty": "Effect of F256 substitutions on activity and substrate inhibition.",
+        "hypothesis": "F256M will maintain activity at low substrate and reduce inhibition at high substrate.",
+        "decision": "Test F256C, F256Y, F256M mutants for specific activity at 10 and 50 mM cellobiose.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "site-directed mutagenesis",
+          "version": "QuikChange Lightning",
+          "category": "molecular biology"
+        },
+        "parameters": {
+          "substrate": "cellobiose",
+          "concentrations": [
+            "10 mM",
+            "50 mM"
+          ]
+        },
+        "observation": "F256C and F256Y reduce activity; F256M shows similar activity at 10 mM but 26% higher at 50 mM, indicating reduced substrate inhibition.",
+        "result_status": "success",
+        "next_step_reason": "F256M identified as beneficial, used as template for second library.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_017",
+            "source_file": "docs/0175/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The specific activity of the F256M mutant at 10 mM cellobiose was not significantly different to WT D2 (151."
+          },
+          {
+            "evidence_id": "EV_AUTO_018",
+            "source_file": "docs/0175/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "However, the F256C mutant presented lower specific activity than WT D2 ( $112 \\pm 6$ vs $144."
+          },
+          {
+            "evidence_id": "EV_AUTO_028",
+            "source_file": "docs/0175/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "As the position of F256 depends on residue W34 via hydrophobic interactions between their aromatic rings, we suggest that the aliphatic side-chain in methionine confers greater structural flexibility than phenylalanine when facing W34 and cellobiose, resulting in a reduced effect of substrate inhibition on the F256M mutant."
+          },
+          {
+            "evidence_id": "EV_C001_E07_01",
+            "source_file": "docs/0175/combined.md",
+            "section": "C001",
+            "quote_or_span": "Mut C (F256M + Y260D) showed similar specific activity with WT D2 at 10 mM cellobiose but higher specific activity (up to 50%) at 50 mM cellobiose"
+          },
+          {
+            "evidence_id": "EV_AUTO_009",
+            "source_file": "docs/0175/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Mut C (F256M + Y260D) showed similar specific activity with WT D2 at 10 mM cellobiose but higher specific activity (up to 50%) at 50 mM cellobiose (Fig."
+          },
+          {
+            "evidence_id": "EV_AUTO_016",
+            "source_file": "docs/0175/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "In D2-BGL F256Y and F256M mutants, the F256 was substituted by tyrosine Y (stick in green) or by methionine M (stick by blue), respectively."
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "experiment",
+        "state_before": "F256M mutant shows reduced substrate inhibition but further improvements possible.",
+        "gap_or_uncertainty": "Whether additional mutations can further enhance activity and expression.",
+        "hypothesis": "Error-prone PCR libraries from WT and F256M templates will yield mutants with improved properties.",
+        "decision": "Construct ePCR libraries from WT D2 and F256M templates and screen with pNPG assay.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "error-prone PCR",
+          "version": "",
+          "category": "molecular biology"
+        },
+        "parameters": {
+          "template": "WT D2 and F256M",
+          "screening assay": "pNPG",
+          "format": "96-well plates"
+        },
+        "observation": "From WT library: 26,912 transformants, top 2% (440) selected. From F256M library: 1,848 transformants, top 0.2% (4) selected.",
+        "result_status": "success",
+        "next_step_reason": "Screening yields hits validated by flask assay.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E05_01",
+            "source_file": "docs/0175/combined.md",
+            "section": "C001",
+            "quote_or_span": "We performed error-prone PCR (ePCR) on WT D2 and the F256M mutant as templates to generate two mutant libraries."
+          },
+          {
+            "evidence_id": "EV_C004_E02_01",
+            "source_file": "docs/0175/combined.md",
+            "section": "C004",
+            "quote_or_span": "The mutated D2-BGL sequence was generated using ePCR with 100 ng of YEp-D2 as template"
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "experiment",
+        "state_before": "Selected transformants from screening need validation.",
+        "gap_or_uncertainty": "Which mutants have improved specific activity and substrate inhibition tolerance.",
+        "hypothesis": "Flask validation will identify mutants with higher specific activity.",
+        "decision": "Perform flask culture and cellobiase activity assay on selected mutants.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "flask culture and activity assay",
+          "version": "",
+          "category": "biochemistry"
+        },
+        "parameters": {
+          "substrate": "cellobiose",
+          "concentrations": [
+            "10 mM",
+            "50 mM"
+          ]
+        },
+        "observation": "Mut A (D358G+S496P) and Mut B (D224G+S592T) show ~24% higher specific activity at 10 mM cellobiose; Mut C (F256M+Y260D) shows 50% higher at 50 mM cellobiose.",
+        "result_status": "success",
+        "next_step_reason": "Mut B contains D224G, leading to hypothesis about expression enhancement.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E06_01",
+            "source_file": "docs/0175/combined.md",
+            "section": "C001",
+            "quote_or_span": "Mut A (D358G + S496P) and Mut B (D224G + S592T) showed 24% and 23% higher specific activity than WT D2 at 10 mM cellobiose, respectively"
+          },
+          {
+            "evidence_id": "EV_C001_E07_01",
+            "source_file": "docs/0175/combined.md",
+            "section": "C001",
+            "quote_or_span": "Mut C (F256M + Y260D) showed similar specific activity with WT D2 at 10 mM cellobiose but higher specific activity (up to 50%) at 50 mM cellobiose"
+          },
+          {
+            "evidence_id": "EV_AUTO_002",
+            "source_file": "docs/0175/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Mut A (D358G + S496P) and Mut B (D224G + S592T) showed 24% and 23% higher specific activity than WT D2 at 10 mM cellobiose, respectively (Fig."
+          },
+          {
+            "evidence_id": "EV_AUTO_009",
+            "source_file": "docs/0175/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Mut C (F256M + Y260D) showed similar specific activity with WT D2 at 10 mM cellobiose but higher specific activity (up to 50%) at 50 mM cellobiose (Fig."
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "hypothesis",
+        "state_before": "Mut B shows increased activity in culture supernatant but not improved specific activity.",
+        "gap_or_uncertainty": "Mechanism behind increased activity of Mut B.",
+        "hypothesis": "D224G mutation enhances expression of recombinant D2-BGL.",
+        "decision": "Test hypothesis by constructing double mutants with D224G.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "hypothesis generation",
+          "version": "",
+          "category": "reasoning"
+        },
+        "parameters": {},
+        "observation": "Hypothesis that D224G enhances expression based on increased activity without improved specific activity.",
+        "result_status": "success",
+        "next_step_reason": "Hypothesis tested by constructing double mutants.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E03_01",
+            "source_file": "docs/0175/combined.md",
+            "section": "C002",
+            "quote_or_span": "we hypothesized that the substitution D224G may enhance the expression of recombinant D2-BGL"
+          },
+          {
+            "evidence_id": "EV_AUTO_024",
+            "source_file": "docs/0175/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "These results suggest that the mutation D224G could increase the"
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "experiment",
+        "state_before": "Hypothesis that D224G enhances expression.",
+        "gap_or_uncertainty": "Whether D224G increases enzyme production without affecting specific activity.",
+        "hypothesis": "Double mutants (D224G+F256M) and (D224G+Y260D) will show increased production but similar specific activity.",
+        "decision": "Construct and characterize double mutants.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "site-directed mutagenesis",
+          "version": "",
+          "category": "molecular biology"
+        },
+        "parameters": {},
+        "observation": "Double mutants produce 24.2 and 24.1 mg/L, more than twofold higher than single mutants (10 and 10.2 mg/L), without improving specific activity.",
+        "result_status": "success",
+        "next_step_reason": "Confirmation of D224G effect enables design of triple mutant.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E04_01",
+            "source_file": "docs/0175/combined.md",
+            "section": "C002",
+            "quote_or_span": "Inclusion of the D224G mutation also increased the enzyme activity of these two double mutants without improving their specific activities"
+          },
+          {
+            "evidence_id": "EV_C002_E04_02",
+            "source_file": "docs/0175/combined.md",
+            "section": "C002",
+            "quote_or_span": "The production of recombinant enzyme is estimated to be 24.2 mg/L in the (D224G + F256M) mutant and 24.1 mg/L in the (D224G + Y260D) mutant, which is more than twofold higher than that in the F256M mutant (10 mg/L) and the Y260D mutant (10.2 mg/L)"
+          },
+          {
+            "evidence_id": "EV_AUTO_005",
+            "source_file": "docs/0175/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "1 mg/L in the (D224G + Y260D) mutant, which is more than twofold higher than that in the F256M mutant (10 mg/L) and the Y260D mutant (10."
+          },
+          {
+            "evidence_id": "EV_AUTO_006",
+            "source_file": "docs/0175/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Inclusion of the D224G mutation also increased the enzyme activity of these two double mutants without improving their specific activities in comparison with the mutants with single mutation F256M or Y260D (Table1)."
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "design",
+        "state_before": "Beneficial mutations identified: F256M, Y260D enhance activity; D224G enhances expression.",
+        "gap_or_uncertainty": "Whether combining all three mutations will yield additive benefits.",
+        "hypothesis": "Triple mutant (F256M+Y260D+D224G) will combine enhanced activity and expression.",
+        "decision": "Design and construct Mut M with triple mutation.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "combinatorial design",
+          "version": "",
+          "category": "protein engineering"
+        },
+        "parameters": {},
+        "observation": "Mut M designed by combining F256M, Y260D, and D224G.",
+        "result_status": "success",
+        "next_step_reason": "Design leads to production and characterization of Mut M.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E05_01",
+            "source_file": "docs/0175/combined.md",
+            "section": "C002",
+            "quote_or_span": "we generated the Mut M mutant with triple mutation (F256M + Y260D + D224G)"
+          },
+          {
+            "evidence_id": "EV_AUTO_004",
+            "source_file": "docs/0175/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "To verify if the beneficial effect of the enhancement of activity is cumulative with the increase of enzyme expression, next we generated the Mut M mutant with triple mutation (F256M + Y260D + D224G)."
+          },
+          {
+            "evidence_id": "EV_AUTO_008",
+            "source_file": "docs/0175/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The best D2-BGL mutant generated, Mut M, was constructed by combining beneficial mutations D224G, F256M and Y260D."
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "validation",
+        "state_before": "Mut M shows higher activity, but protein levels need confirmation.",
+        "gap_or_uncertainty": "Whether increased activity is due to higher protein production.",
+        "hypothesis": "Mut M produces more recombinant protein than WT.",
+        "decision": "Quantify protein production by Western blotting.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Western blotting",
+          "version": "",
+          "category": "protein analysis"
+        },
+        "parameters": {},
+        "observation": "Mut M production is 2.7-fold higher (28.8 vs 10.8 mg/L) in P. pastoris; also 2.4-fold higher at 72h (31±7 vs 13±2 mg/L).",
+        "result_status": "success",
+        "next_step_reason": "Sufficient protein allows detailed kinetic analysis.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E07_01",
+            "source_file": "docs/0175/combined.md",
+            "section": "C002",
+            "quote_or_span": "protein amounts of recombinant D2-BGL visualized using Western blotting analysis were clearly higher for Mut M than WT D2"
+          },
+          {
+            "evidence_id": "EV_C002_E07_02",
+            "source_file": "docs/0175/combined.md",
+            "section": "C002",
+            "quote_or_span": "protein production was always higher for Mut M than WT D2 in the culture supernatant"
+          },
+          {
+            "evidence_id": "EV_C002_E07_03",
+            "source_file": "docs/0175/combined.md",
+            "section": "C002",
+            "quote_or_span": "the production of Mut M is 2.7-fold higher in P. pastoris (28.8 vs 10.8 mg/L in WT D2)"
+          },
+          {
+            "evidence_id": "EV_C003_E01_01",
+            "source_file": "docs/0175/combined.md",
+            "section": "C003",
+            "quote_or_span": "After 72 h, production of D2-BGL was estimated to be 2.4-fold higher for the Mut M compared to the WT D2 strain (31±7 vs 13±2 mg/L)"
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "experiment",
+        "state_before": "Mut M shows higher activity and production, but kinetic parameters unknown.",
+        "gap_or_uncertainty": "Kinetic basis for improved performance and trade-offs.",
+        "hypothesis": "Mut M will have altered kinetic parameters reflecting reduced substrate inhibition but possibly increased glucose inhibition.",
+        "decision": "Determine kinetic parameters for WT, F256M, and Mut M.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "kinetic assay",
+          "version": "",
+          "category": "biochemistry"
+        },
+        "parameters": {
+          "substrate": "cellobiose",
+          "inhibitor": "glucose"
+        },
+        "observation": "F256M increases Vmax, Km, Ki_substrate; Mut M shows Vmax 469 U/L, Km 1.69 mM, Ki_sub 200 mM (vs 133 mM WT), but Ki_glu 1.59 mM (vs 3.23 mM WT), indicating better substrate inhibition tolerance but increased glucose inhibition.",
+        "result_status": "partial",
+        "next_step_reason": "Improved kinetics predict better saccharification performance.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_035",
+            "source_file": "docs/0175/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Values of $V_{max}$ , $K_{m}$ and $K_{i_{substrate}}$ towards cellobiose were increased in F256M (584±13 U/L, 1."
+          },
+          {
+            "evidence_id": "EV_AUTO_022",
+            "source_file": "docs/0175/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "pastoris-expressed WT D2, as well as F256M and Mut M mutant proteins, to evaluate their catalytic efficiency towards cellobiose and pNPG (Table 2 and Additional File 1: FigureS3)."
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "experiment",
+        "state_before": "Mut M has improved kinetics and production, but application performance unknown.",
+        "gap_or_uncertainty": "Whether Mut M improves saccharification of real biomass.",
+        "hypothesis": "Mut M will release more glucose from sugarcane bagasse, especially at high biomass loading.",
+        "decision": "Perform saccharification assays on acid-pretreated sugarcane bagasse at 1-7.5% loading.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "saccharification assay",
+          "version": "",
+          "category": "bioprocess"
+        },
+        "parameters": {
+          "biomass": "acid-pretreated sugarcane bagasse",
+          "loading": [
+            "1%",
+            "2%",
+            "5%",
+            "7.5%"
+          ],
+          "time": "6h and 72h"
+        },
+        "observation": "Mut M releases 22% more glucose at 1% biomass and 57% more at 7.5% after 6h; maintains higher conversion at high loading (42% vs 32% at 7.5% after 72h).",
+        "result_status": "success",
+        "next_step_reason": "Mechanistic hypothesis to explain increased production.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E07_01",
+            "source_file": "docs/0175/combined.md",
+            "section": "C003",
+            "quote_or_span": "The glucose obtained from sugarcane bagasse hydrolysis with Mut M was 22% higher than that for WT D2 (0.70±0.04 vs 0.58±0.02 mg) for 1% biomass, and 57% higher (4.59±0.27 vs 2.92±0.08 mg) for 7.5% biomass after a 6-h hydrolysis process"
+          },
+          {
+            "evidence_id": "EV_C003_E08_01",
+            "source_file": "docs/0175/combined.md",
+            "section": "C003",
+            "quote_or_span": "the conversion rate obtained with C1.5L+Mut M decreased slower than the one with C1.5L+WT D2 (53 to 42% vs 49 to 32%)"
+          },
+          {
+            "evidence_id": "EV_C004_E07_01",
+            "source_file": "docs/0175/combined.md",
+            "section": "C004",
+            "quote_or_span": "The saccharification assays were carried out with 1, 2, 5 or 7.5% sugarcane bagasse (w/v) in 1 mL reaction solution"
+          },
+          {
+            "evidence_id": "EV_C003_E01_01",
+            "source_file": "docs/0175/combined.md",
+            "section": "C003",
+            "quote_or_span": "After 72 h, production of D2-BGL was estimated to be 2.4-fold higher for the Mut M compared to the WT D2 strain (31±7 vs 13±2 mg/L)"
+          }
+        ]
+      },
+      {
+        "step_index": 12,
+        "phase": "hypothesis",
+        "state_before": "Mut M shows higher production, but mechanism unclear.",
+        "gap_or_uncertainty": "Why Mut M mutations increase recombinant protein production.",
+        "hypothesis": "Mut M mutations facilitate protein folding and sorting in ER, reducing unfolded protein response (UPR).",
+        "decision": "Measure UPR-related gene expression.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "qRT-PCR",
+          "version": "",
+          "category": "molecular biology"
+        },
+        "parameters": {},
+        "observation": "Relative expression of UPR-related genes was lower for Mut M than WT D2, supporting hypothesis.",
+        "result_status": "success",
+        "next_step_reason": "Provides mechanistic insight for future engineering.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E02_01",
+            "source_file": "docs/0175/combined.md",
+            "section": "C003",
+            "quote_or_span": "relative expression of UPR-related genes was lower for over-expression of the Mut M variant than for WT D2"
+          },
+          {
+            "evidence_id": "EV_C003_E03_01",
+            "source_file": "docs/0175/combined.md",
+            "section": "C003",
+            "quote_or_span": "we speculate that the Mut M mutations could facilitate protein folding and sorting in ER, resulting in a lower level of UPR"
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "Western blotting for protein quantification",
+        "Kinetic parameter determination",
+        "Saccharification assays on sugarcane bagasse"
+      ],
+      "metrics": [
+        "Specific activity (U/mg)",
+        "Protein production (mg/L)",
+        "Glucose release (mg)",
+        "Conversion rate (%)",
+        "Kinetic parameters (Vmax, Km, Ki)"
+      ],
+      "final_conclusion": "Triple mutant Mut M (F256M+Y260D+D224G) combines enhanced activity, reduced substrate inhibition, and increased production, leading to up to 57% more glucose release from sugarcane bagasse at high biomass loading, but with increased glucose inhibition.",
+      "limitations": [
+        "Increased glucose inhibition (Ki_glu 1.59 vs 3.23 mM) may limit performance in high-glucose environments",
+        "Mechanism of D224G expression enhancement not fully elucidated",
+        "Only tested on one biomass type (sugarcane bagasse)"
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_step_trimmed=14_to_12",
+        "v22_phase_action_fixed=2",
+        "v22_specific_evidence_backfilled=4",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_specific_evidence_backfilled=4",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 100.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p5\\states\\0175.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p5\\events\\0175.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K02": [
+          1,
+          4
+        ],
+        "K03": [
+          2
+        ],
+        "K05": [
+          3,
+          4,
+          5,
+          10
+        ],
+        "K06": [
+          4
+        ],
+        "K07": [
+          3,
+          5,
+          7,
+          8
+        ],
+        "K08": [
+          5,
+          6,
+          7
+        ],
+        "K09": [
+          5,
+          6,
+          7,
+          8
+        ],
+        "K10": [
+          5,
+          7,
+          8
+        ],
+        "K11": [
+          4,
+          5
+        ],
+        "K12": [
+          9,
+          11,
+          12
+        ],
+        "K14": [
+          11
+        ],
+        "K15": [
+          12
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K02"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K03"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K05",
+            "K07",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K02",
+            "K05",
+            "K06",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K05",
+            "K07",
+            "K08",
+            "K09",
+            "K10",
+            "K11",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K08",
+            "K09"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K07",
+            "K08",
+            "K09",
+            "K10"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K07",
+            "K09",
+            "K10"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K12"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K05",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K12",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 12,
+          "covered_event_ids": [
+            "K12",
+            "K15"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 3,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "26%",
+          "56s"
+        ]
+      },
+      {
+        "step_index": 4,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "0.2%",
+          "1848",
+          "2%",
+          "26912",
+          "440"
+        ]
+      },
+      {
+        "step_index": 10,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "1.59mm",
+          "1.69mm",
+          "133mm",
+          "200mm",
+          "3.23mm",
+          "469"
+        ]
+      },
+      {
+        "step_index": 11,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "-7.5%",
+          "6h"
+        ]
+      }
+    ],
+    "step_count": 12,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 100.0
+  },
+  "api_usage": {
+    "prompt_tokens": 127822,
+    "completion_tokens": 29196,
+    "total_tokens": 157018,
+    "prompt_cache_hit_tokens": 2944,
+    "prompt_cache_miss_tokens": 124878
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 6985,
+        "completion_tokens": 853,
+        "total_tokens": 7838,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 6985
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 12460,
+        "completion_tokens": 3352,
+        "total_tokens": 15812,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 12460
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 8572,
+        "completion_tokens": 1319,
+        "total_tokens": 9891,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8316
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 10081,
+        "completion_tokens": 1558,
+        "total_tokens": 11639,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9825
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 8967,
+        "completion_tokens": 1616,
+        "total_tokens": 10583,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8711
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 8667,
+        "completion_tokens": 1677,
+        "total_tokens": 10344,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8411
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C005",
+      "api_usage": {
+        "prompt_tokens": 6428,
+        "completion_tokens": 52,
+        "total_tokens": 6480,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6172
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 12069,
+        "completion_tokens": 3673,
+        "total_tokens": 15742,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 11685
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 12955,
+        "completion_tokens": 7224,
+        "total_tokens": 20179,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 12315
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 18664,
+        "completion_tokens": 1373,
+        "total_tokens": 20037,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 18664
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 21974,
+        "completion_tokens": 6499,
+        "total_tokens": 28473,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 21334
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

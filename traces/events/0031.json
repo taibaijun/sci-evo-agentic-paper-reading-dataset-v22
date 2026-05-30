@@ -1,0 +1,2032 @@
+{
+  "doc_no": "0031",
+  "source": {
+    "title": "AMMOS: Automated Molecular Mechanics Optimization tool for in silico Screening",
+    "doi": "https://doi.org/10.1186/1471-2105-9-438",
+    "license": "cc-by",
+    "pdf_name": "0029_10_1186_1471_2105_9_438_ammos_automated_molecular_mechanics_optimization_tool_for_in_silico_screening.pdf",
+    "combined_md": "docs/0031/combined.md",
+    "mineru_md": "docs/0031/mineru.md"
+  },
+  "gist_memory": {
+    "paper_problem_memory": "Virtual screening tools lack structural optimization of compounds and receptor flexibility, leading to inaccurate binding pose prediction and scoring. AMMOS addresses this by providing automatic MM minimization of compound libraries and pre-docked protein-ligand complexes to improve enrichment and pose accuracy.",
+    "section_gists": [
+      {
+        "section_index": 4,
+        "heading": "Abstract",
+        "gist": "AMMOS is an open-source tool for refining 3D structures of small molecules and energy minimizing protein-ligand complexes using AMMP. It improves enrichment in virtual screening, finding 40-60% of actives in top 3-5% of database after post-docking minimization.",
+        "process_signals": [
+          "Problem: structural optimization, receptor flexibility, accurate prediction of interactions not easily addressed by available programs.",
+          "Hypothesis: post-docking optimization improves efficiency of SBVLS.",
+          "Result: AMMOS improved enrichment after pre-docking stage."
+        ],
+        "methods": [
+          "AMMP molecular mechanics",
+          "Energy minimization of protein-ligand complexes",
+          "Enrichment studies"
+        ],
+        "metrics": [
+          "Enrichment factor: % actives in top % of database"
+        ],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 5,
+        "heading": "Background",
+        "gist": "SBVLS faces challenges: receptor flexibility, accurate binding energy prediction, ranking compounds, and library quality. Post-docking optimization via MM can improve pose and scoring. AMMOS uses AMMP for fast, automatic minimization of large compound sets.",
+        "process_signals": [
+          "Problem: receptor flexibility, scoring inaccuracies, library quality.",
+          "Prior work: post-docking optimization improves enrichment.",
+          "Design choice: AMMP chosen for speed, multipole method, robust optimizers, and open-source license."
+        ],
+        "methods": [
+          "AMMP molecular mechanics",
+          "Post-docking energy minimization"
+        ],
+        "metrics": [],
+        "failures_or_limits": [
+          "Full conformational sampling not feasible for large number of complexes.",
+          "MM cannot explore large conformational changes."
+        ]
+      },
+      {
+        "section_index": 6,
+        "heading": "Methods",
+        "gist": "Methods section placeholder.",
+        "process_signals": [],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 7,
+        "heading": "AMMP Molecular Mechanics",
+        "gist": "AMMP force fields sp4 and sp5 are based on UFF and AMBER charges. sp5 is an improved version with better electrostatics. Minimization methods tested: steepest descent, conjugate gradient, BFGS, simplex, genetic algorithm.",
+        "process_signals": [
+          "Design choice: sp4 and sp5 force fields.",
+          "Method selection: tested multiple minimizers to find most efficient."
+        ],
+        "methods": [
+          "AMMP force fields sp4, sp5",
+          "Minimization methods: steepest descent, conjugate gradient, BFGS, simplex, GA"
+        ],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 9,
+        "heading": "Energy minimization of small organic molecules using AMMOS",
+        "gist": "Tested sp4 and sp5 on four molecules. Conjugate gradient and GA gave lowest energies; conjugate gradient chosen for speed. sp4 performed slightly better than sp5. Protocol: 2x500 iterations, convergence 0.02 kcal/mol/Å.",
+        "process_signals": [
+          "Hypothesis: sp5 should be better, but sp4 gave slightly lower energies.",
+          "Decision: conjugate gradient with sp4 selected for automatic procedure.",
+          "Protocol development: 2x500 iterations as compromise between optimization and speed."
+        ],
+        "methods": [
+          "Conjugate gradient minimization",
+          "sp4 and sp5 force fields",
+          "Gasteiger-Marsili charges"
+        ],
+        "metrics": [
+          "Energy minimization convergence",
+          "Number of iterations"
+        ],
+        "failures_or_limits": [
+          "sp5 underperformed sp4 for some molecules.",
+          "Steepest descent and simplex gave higher energies."
+        ]
+      },
+      {
+        "section_index": 10,
+        "heading": "Docking and scoring protocol",
+        "gist": "Multi-step docking with DOCK6: rigid body docking with MS-DOCK, then flexible docking with anchor-first algorithm. Used contact scoring then DOCK energy score. Saved up to 10 poses per ligand for AMMOS minimization.",
+        "process_signals": [
+          "Experimental setup: two-stage VLS to reduce number of complexes for minimization.",
+          "Parameter choices: bump overlap 0.75 for NA, 0.50 for ER based on previous observations."
+        ],
+        "methods": [
+          "DOCK6 rigid and flexible docking",
+          "MS-DOCK protocol",
+          "Contact scoring and DOCK energy score"
+        ],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 14,
+        "heading": "Results",
+        "gist": "Results section placeholder.",
+        "process_signals": [],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 15,
+        "heading": "Algorithm of AMMOS",
+        "gist": "AMMOS automates minimization of pre-docked complexes with five flexibility cases (fully flexible to rigid receptor). Uses PREAMMP and AMMP autolink. Minimization: 2x500 iterations conjugate gradient. Rescoring by AMMP interaction energy.",
+        "process_signals": [
+          "Design choice: five flexibility cases to balance accuracy and speed.",
+          "Default protocol: 2x500 iterations conjugate gradient."
+        ],
+        "methods": [
+          "PREAMMP and AMMP autolink",
+          "Conjugate gradient minimization",
+          "AMMP interaction energy rescoring"
+        ],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 16,
+        "heading": "Implementation of AMMOS",
+        "gist": "Implemented in C and Python, uses AMMP and PREAMMP. Handles large ligand sets via parallel processing. sp5 force field created from literature parameters. Execution times: 0.3s per small molecule, 24s-5min per complex depending on flexibility.",
+        "process_signals": [
+          "Technical constraint: long execution times for full flexibility; parallel mode implemented.",
+          "sp5 not natively in AMMP; created from reference parameters."
+        ],
+        "methods": [
+          "C and Python implementation",
+          "Parallel processing"
+        ],
+        "metrics": [
+          "Execution time per molecule/complex"
+        ],
+        "failures_or_limits": [
+          "Computational cost high for full flexibility (case 1: 5 min per complex)."
+        ]
+      },
+      {
+        "section_index": 19,
+        "heading": "Energy minimization of small molecules with AMMOS",
+        "gist": "Conjugate gradient with sp4 chosen as default. 2x500 iterations sufficient. Nonbon potential selected for speed. sp4 gave slightly lower energies than sp5 for some molecules.",
+        "process_signals": [
+          "Observation: conjugate gradient and GA best, but GA slower.",
+          "Decision: sp4 over sp5 due to better energy reduction.",
+          "Protocol: 2x500 iterations, nonbon potential."
+        ],
+        "methods": [
+          "Conjugate gradient minimization",
+          "sp4 force field",
+          "Nonbon potential"
+        ],
+        "metrics": [
+          "Energy minimization convergence",
+          "Number of iterations"
+        ],
+        "failures_or_limits": [
+          "sp5 did not outperform sp4 as expected.",
+          "Steepest descent failed to resolve clashes."
+        ]
+      },
+      {
+        "section_index": 20,
+        "heading": "Energy minimization of small molecules with other force fields",
+        "gist": "AMMOS (sp4) compared to MMFF94s and Tff. Similar energy reduction and RMSD from initial structures. RMSD from X-ray structures comparable across force fields, validating AMMOS.",
+        "process_signals": [
+          "Validation: AMMOS results similar to established force fields.",
+          "Observation: RMSD from X-ray ~1-2 Å, acceptable for docking."
+        ],
+        "methods": [
+          "Comparison with MMFF94s and Tff force fields",
+          "RMSD calculation"
+        ],
+        "metrics": [
+          "RMSD from initial and X-ray structures",
+          "Energy differences"
+        ],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 22,
+        "heading": "Enrichment studies using AMMOS",
+        "gist": "AMMOS minimization improved enrichment for ER (cases 3,4 better than 5) and NA (case 5 slightly better). Pose RMSD <1.5 Å for most inhibitors. Full flexibility (case 1,2) tested only on actives due to cost.",
+        "process_signals": [
+          "Observation: partial flexibility (cases 3,4) best for ER; rigid receptor (case 5) best for NA.",
+          "Failure: full flexibility not always beneficial; NA prefers rigid receptor.",
+          "Limitation: case 1,2 too expensive for full library."
+        ],
+        "methods": [
+          "Enrichment studies with AMMOS minimization cases 1-5",
+          "RMSD comparison to X-ray poses"
+        ],
+        "metrics": [
+          "Enrichment: % actives in top % of database",
+          "RMSD from X-ray"
+        ],
+        "failures_or_limits": [
+          "Case 1,2 not tested on full library due to computational cost.",
+          "NA enrichment only modest; rigid receptor slightly better."
+        ]
+      },
+      {
+        "section_index": 23,
+        "heading": "Discussion",
+        "gist": "AMMOS addresses need for open-source post-processing tool in SBVLS. It refines compound structures, optimizes binding poses, and rescores. Useful in hierarchical VLS protocols.",
+        "process_signals": [
+          "Motivation: open-source tool for MM optimization in screening.",
+          "Application: pre-docking minimization and post-docking refinement."
+        ],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": [
+          "Limited to two protein targets.",
+          "Force field accuracy may affect results."
+        ]
+      },
+      {
+        "section_index": 24,
+        "heading": "Structural refinement of the compound collections with AMMOS",
+        "gist": "Pre-docking minimization may improve docking accuracy. Ligands bind in low-energy states, so minimizing strain energy is beneficial. AMMOS can automatically minimize large compound collections.",
+        "process_signals": [
+          "Hypothesis: minimizing compounds before docking improves results.",
+          "Preliminary evidence: docking ER inhibitors minimized with AMMOS improved accuracy."
+        ],
+        "methods": [
+          "Pre-docking minimization with AMMOS"
+        ],
+        "metrics": [],
+        "failures_or_limits": []
+      }
+    ],
+    "global_hypotheses_about_storyline": [
+      "Post-docking MM minimization improves enrichment and pose prediction in SBVLS.",
+      "Pre-docking minimization of compound libraries enhances docking accuracy.",
+      "Partial receptor flexibility during minimization is sufficient and more efficient than full flexibility.",
+      "AMMP sp4 force field with conjugate gradient provides a good balance of speed and accuracy for large-scale screening."
+    ],
+    "uncertainties_to_resolve": [
+      "Why sp5 underperformed sp4 despite being an improved version.",
+      "Whether pre-docking minimization consistently improves enrichment across diverse targets.",
+      "Optimal balance between receptor flexibility and computational cost.",
+      "Generalizability to other protein targets and docking programs."
+    ]
+  },
+  "chunk_events": [
+    {
+      "chunk_id": "C001",
+      "char_start": 0,
+      "char_end": 18000,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C001_E01",
+          "chunk_id": "C001",
+          "event_type": "problem",
+          "order_hint": 1,
+          "summary": "Virtual screening programs do not easily address structural optimization of compounds, receptor flexibility, and accurate prediction of protein-ligand interactions.",
+          "methods_or_tools": [],
+          "entities": [
+            "virtual screening",
+            "structural optimization",
+            "receptor flexibility",
+            "protein-ligand interactions"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E01_01"
+          ]
+        },
+        {
+          "event_id": "C001_E02",
+          "chunk_id": "C001",
+          "event_type": "hypothesis",
+          "order_hint": 2,
+          "summary": "Post-docking optimization and structural refinement of compounds can improve the efficiency of structure-based virtual screening.",
+          "methods_or_tools": [],
+          "entities": [
+            "post-docking optimization",
+            "structural refinement",
+            "structure-based virtual screening"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E02_01"
+          ]
+        },
+        {
+          "event_id": "C001_E03",
+          "chunk_id": "C001",
+          "event_type": "design",
+          "order_hint": 3,
+          "summary": "AMMOS was developed to automatically refine 3D structures of small molecules and energy minimize protein-ligand complexes using AMMP.",
+          "methods_or_tools": [
+            "AMMP"
+          ],
+          "entities": [
+            "AMMOS",
+            "AMMP",
+            "small molecules",
+            "protein-ligand complexes"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E03_01"
+          ]
+        },
+        {
+          "event_id": "C001_E04",
+          "chunk_id": "C001",
+          "event_type": "experiment",
+          "order_hint": 4,
+          "summary": "AMMOS was evaluated by comparing minimized small molecule structures with those from Tripos and MMFF94s force fields.",
+          "methods_or_tools": [
+            "Tripos force field",
+            "MMFF94s force field"
+          ],
+          "entities": [
+            "AMMOS",
+            "small molecules"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E04_01"
+          ]
+        },
+        {
+          "event_id": "C001_E05",
+          "chunk_id": "C001",
+          "event_type": "experiment",
+          "order_hint": 5,
+          "summary": "AMMOS was used for full flexible minimization of protein-ligand complexes from a multi-step virtual screening, and enrichment was assessed.",
+          "methods_or_tools": [
+            "multi-step virtual screening"
+          ],
+          "entities": [
+            "AMMOS",
+            "protein-ligand complexes",
+            "estrogen receptor",
+            "neuraminidase"
+          ],
+          "numbers_or_metrics": [
+            "60% of initially added inhibitors"
+          ],
+          "evidence_ids": [
+            "EV_C001_E05_01"
+          ]
+        },
+        {
+          "event_id": "C001_E06",
+          "chunk_id": "C001",
+          "event_type": "analysis",
+          "order_hint": 6,
+          "summary": "AMMOS improved enrichment, finding 40-60% of actives in the top 3-5% of the database after pre-docking stage.",
+          "methods_or_tools": [],
+          "entities": [
+            "AMMOS",
+            "active compounds"
+          ],
+          "numbers_or_metrics": [
+            "40 to 60% of actives",
+            "top 3% to 5%"
+          ],
+          "evidence_ids": [
+            "EV_C001_E06_01"
+          ]
+        },
+        {
+          "event_id": "C001_E07",
+          "chunk_id": "C001",
+          "event_type": "limitation",
+          "order_hint": 7,
+          "summary": "Full conformational sampling is not feasible for a large number of protein-ligand complexes due to exponential rise in conformations.",
+          "methods_or_tools": [],
+          "entities": [
+            "protein-ligand complexes",
+            "conformational sampling"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E07_01"
+          ]
+        },
+        {
+          "event_id": "C001_E08",
+          "chunk_id": "C001",
+          "event_type": "design",
+          "order_hint": 8,
+          "summary": "AMMOS uses AMMP for fast energy minimization due to its fast multipole method and robust optimizers.",
+          "methods_or_tools": [
+            "AMMP",
+            "fast multipole method"
+          ],
+          "entities": [
+            "AMMOS",
+            "AMMP"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E08_01",
+            "EV_C001_E08_02"
+          ]
+        }
+      ],
+      "notes": "Chunk contains abstract, background, and methods sections with clear problem statement, hypothesis, design choices, experimental setup, and limitations.",
+      "api_usage": {
+        "prompt_tokens": 6826,
+        "completion_tokens": 1407,
+        "total_tokens": 8233,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6570
+      }
+    },
+    {
+      "chunk_id": "C002",
+      "char_start": 17100,
+      "char_end": 35100,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C002_E01",
+          "chunk_id": "C002",
+          "event_type": "experiment",
+          "order_hint": 1,
+          "summary": "Tested AMMOS minimization on four small molecules using sp4 and sp5 force fields with five optimization methods.",
+          "methods_or_tools": [
+            "AMMOS",
+            "sp4 force field",
+            "sp5 force field",
+            "steepest descent",
+            "conjugate gradient",
+            "BFGS",
+            "simplex",
+            "genetic algorithm"
+          ],
+          "entities": [
+            "raloxifene",
+            "FDI",
+            "thymidine",
+            "PR2"
+          ],
+          "numbers_or_metrics": [
+            "energy minimization convergence",
+            "number of iterations"
+          ],
+          "evidence_ids": [
+            "EV_C002_E01_02"
+          ]
+        },
+        {
+          "event_id": "C002_E02",
+          "chunk_id": "C002",
+          "event_type": "analysis",
+          "order_hint": 2,
+          "summary": "Conjugate gradient and GA produced lowest energies, but GA was slower; steepest descent and simplex gave higher energies.",
+          "methods_or_tools": [
+            "conjugate gradient",
+            "genetic algorithm",
+            "steepest descent",
+            "simplex"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E02_01",
+            "EV_C002_E02_02"
+          ]
+        },
+        {
+          "event_id": "C002_E03",
+          "chunk_id": "C002",
+          "event_type": "analysis",
+          "order_hint": 3,
+          "summary": "sp4 minimized slightly better than sp5 in terms of energy differences, contrary to expectation that sp5 is improved.",
+          "methods_or_tools": [
+            "sp4 force field",
+            "sp5 force field"
+          ],
+          "entities": [
+            "thymidine",
+            "raloxifene"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E03_01"
+          ]
+        },
+        {
+          "event_id": "C002_E04",
+          "chunk_id": "C002",
+          "event_type": "design",
+          "order_hint": 4,
+          "summary": "Chose conjugate gradient with sp4 as the default minimization protocol for AMMOS.",
+          "methods_or_tools": [
+            "conjugate gradient",
+            "sp4 force field"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E04_01"
+          ]
+        },
+        {
+          "event_id": "C002_E05",
+          "chunk_id": "C002",
+          "event_type": "experiment",
+          "order_hint": 5,
+          "summary": "Tested robustness by minimizing structures with internal clashes; steepest descent failed, conjugate gradient succeeded.",
+          "methods_or_tools": [
+            "steepest descent",
+            "conjugate gradient"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E05_01"
+          ]
+        },
+        {
+          "event_id": "C002_E08",
+          "chunk_id": "C002",
+          "event_type": "limitation",
+          "order_hint": 8,
+          "summary": "Execution times can be very long for large ligand sets; parallel mode implemented to speed up.",
+          "methods_or_tools": [
+            "parallel processing"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [
+            "0.3 sec per small molecule",
+            "24 sec for case 5",
+            "44 sec for case 3",
+            "5 min for case 1"
+          ],
+          "evidence_ids": [
+            "EV_C002_E08_01",
+            "EV_C002_E08_02"
+          ]
+        }
+      ],
+      "notes": "Chunk covers testing of minimization methods, selection of default protocol, algorithm description, and implementation details including parallelization.",
+      "api_usage": {
+        "prompt_tokens": 7957,
+        "completion_tokens": 1330,
+        "total_tokens": 9287,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7701
+      }
+    },
+    {
+      "chunk_id": "C003",
+      "char_start": 34200,
+      "char_end": 52200,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C003_E01",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 1,
+          "summary": "Conjugate gradient succeeded to overcome clashes where steepest descent failed.",
+          "methods_or_tools": [
+            "conjugate gradient",
+            "steepest descent"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E01_01"
+          ]
+        },
+        {
+          "event_id": "C003_E02",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 2,
+          "summary": "sp4 minimized slightly better than sp5 in terms of energy differences for thymidine and raloxifene.",
+          "methods_or_tools": [
+            "sp4 force field",
+            "sp5 force field"
+          ],
+          "entities": [
+            "thymidine",
+            "raloxifene"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E02_01"
+          ]
+        },
+        {
+          "event_id": "C003_E03",
+          "chunk_id": "C003",
+          "event_type": "design",
+          "order_hint": 3,
+          "summary": "Chose conjugate gradient and sp4 as the minimization protocol for subsequent assessment.",
+          "methods_or_tools": [
+            "conjugate gradient",
+            "sp4 force field"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E03_01"
+          ]
+        },
+        {
+          "event_id": "C003_E04",
+          "chunk_id": "C003",
+          "event_type": "design",
+          "order_hint": 4,
+          "summary": "Accepted 2×500 iterations as an appropriate number of steps for automatic AMMOS procedure.",
+          "methods_or_tools": [],
+          "entities": [],
+          "numbers_or_metrics": [
+            "2×500 iterations"
+          ],
+          "evidence_ids": [
+            "EV_C003_E04_01"
+          ]
+        },
+        {
+          "event_id": "C003_E05",
+          "chunk_id": "C003",
+          "event_type": "design",
+          "order_hint": 5,
+          "summary": "Selected nonbon potential for further evaluation because other potentials increased calculation length without significant differences.",
+          "methods_or_tools": [
+            "nonbon potential",
+            "debye",
+            "screen",
+            "shadow"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E05_01"
+          ]
+        },
+        {
+          "event_id": "C003_E06",
+          "chunk_id": "C003",
+          "event_type": "validation",
+          "order_hint": 6,
+          "summary": "AMMOS results are close to those obtained by MMFF94s and Tff force fields, confirming ability to remove ligand energy strains.",
+          "methods_or_tools": [
+            "AMMOS",
+            "MMFF94s",
+            "Tff"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E06_01"
+          ]
+        },
+        {
+          "event_id": "C003_E08",
+          "chunk_id": "C003",
+          "event_type": "experiment",
+          "order_hint": 8,
+          "summary": "AMMOS minimization applied to a chemical library of 37970 molecules; 76% had ΔE below 50 kcal/mol.",
+          "methods_or_tools": [
+            "AMMOS"
+          ],
+          "entities": [
+            "chemical library"
+          ],
+          "numbers_or_metrics": [
+            "37970 molecules",
+            "76% ΔE < 50 kcal/mol"
+          ],
+          "evidence_ids": [
+            "EV_C003_E08_01"
+          ]
+        }
+      ],
+      "notes": "Chunk contains detailed analysis of minimization protocol selection, validation against other force fields, and large-scale library minimization results.",
+      "api_usage": {
+        "prompt_tokens": 8180,
+        "completion_tokens": 1079,
+        "total_tokens": 9259,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7924
+      }
+    },
+    {
+      "chunk_id": "C004",
+      "char_start": 51300,
+      "char_end": 69300,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C004_E01",
+          "chunk_id": "C004",
+          "event_type": "analysis",
+          "order_hint": 1,
+          "summary": "AMMOS minimization improved enrichment for ER with partial flexibility (cases 3,4) and for NA with rigid receptor (case 5).",
+          "methods_or_tools": [
+            "AMMOS",
+            "enrichment studies"
+          ],
+          "entities": [
+            "ER",
+            "NA"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E01_01",
+            "EV_C004_E01_02"
+          ]
+        },
+        {
+          "event_id": "C004_E02",
+          "chunk_id": "C004",
+          "event_type": "analysis",
+          "order_hint": 2,
+          "summary": "RMSD between AMMOS minimized and X-ray structures was measured for ER and NA inhibitors across flexibility cases.",
+          "methods_or_tools": [
+            "RMSD calculation",
+            "AMMOS minimization"
+          ],
+          "entities": [
+            "ER",
+            "NA"
+          ],
+          "numbers_or_metrics": [
+            "RMSD (Å)"
+          ],
+          "evidence_ids": [
+            "EV_C004_E02_01"
+          ]
+        },
+        {
+          "event_id": "C004_E03",
+          "chunk_id": "C004",
+          "event_type": "analysis",
+          "order_hint": 3,
+          "summary": "Enrichment graphs show percentage of actives retrieved vs. database screened after AMMOS rescoring for ER and NA.",
+          "methods_or_tools": [
+            "AMMOS rescoring",
+            "enrichment graphs"
+          ],
+          "entities": [
+            "ER",
+            "NA"
+          ],
+          "numbers_or_metrics": [
+            "% of proceeded database",
+            "% activs"
+          ],
+          "evidence_ids": [
+            "EV_C004_E03_01"
+          ]
+        },
+        {
+          "event_id": "C004_E04",
+          "chunk_id": "C004",
+          "event_type": "analysis",
+          "order_hint": 4,
+          "summary": "For ER, fully flexible minimization in the binding site improved enrichment, retrieving 50% of inhibitors in top 3% of database.",
+          "methods_or_tools": [
+            "AMMOS",
+            "fully flexible minimization"
+          ],
+          "entities": [
+            "ER"
+          ],
+          "numbers_or_metrics": [
+            "50% of inhibitors",
+            "top 3% of database"
+          ],
+          "evidence_ids": [
+            "EV_C004_E04_01"
+          ]
+        },
+        {
+          "event_id": "C004_E05",
+          "chunk_id": "C004",
+          "event_type": "analysis",
+          "order_hint": 5,
+          "summary": "After AMMOS rescoring, 40% of NA inhibitors and 60% of ER actives were found in top 5% of compound libraries.",
+          "methods_or_tools": [
+            "AMMOS rescoring"
+          ],
+          "entities": [
+            "NA",
+            "ER"
+          ],
+          "numbers_or_metrics": [
+            "40% of NA inhibitors",
+            "60% of ER actives",
+            "top 5% of libraries"
+          ],
+          "evidence_ids": [
+            "EV_C004_E05_01"
+          ]
+        },
+        {
+          "event_id": "C004_E06",
+          "chunk_id": "C004",
+          "event_type": "limitation",
+          "order_hint": 6,
+          "summary": "Post-docking MM minimization can worsen enrichment for some proteins, e.g., NA and thymidine kinase, possibly due to large pockets with small ligands.",
+          "methods_or_tools": [
+            "AMMOS",
+            "post-docking MM minimization"
+          ],
+          "entities": [
+            "NA",
+            "thymidine kinase"
+          ],
+          "numbers_or_metrics": [
+            "Volume of ligand/Volume of pocket ratio 0.44 and 0.45"
+          ],
+          "evidence_ids": [
+            "EV_C004_E06_01",
+            "EV_C004_E06_02",
+            "EV_C004_E06_03"
+          ]
+        },
+        {
+          "event_id": "C004_E07",
+          "chunk_id": "C004",
+          "event_type": "limitation",
+          "order_hint": 7,
+          "summary": "AMMOS does not consider solvation effects; automated protocol for solvation and water molecules planned for future release.",
+          "methods_or_tools": [
+            "AMMOS"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E07_01",
+            "EV_C004_E07_02"
+          ]
+        }
+      ],
+      "notes": "Chunk contains enrichment results, RMSD analysis, discussion of limitations, and speed metrics.",
+      "api_usage": {
+        "prompt_tokens": 8104,
+        "completion_tokens": 1339,
+        "total_tokens": 9443,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7848
+      }
+    },
+    {
+      "chunk_id": "C005",
+      "char_start": 68400,
+      "char_end": 81204,
+      "chunk_relevance": "medium",
+      "events": [
+        {
+          "event_id": "C005_E01",
+          "chunk_id": "C005",
+          "event_type": "limitation",
+          "order_hint": 1,
+          "summary": "AMMOS does not consider solvation effects; automated solvation will be added in future.",
+          "methods_or_tools": [],
+          "entities": [
+            "AMMOS"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C005_E01_01",
+            "EV_C005_E01_02"
+          ]
+        },
+        {
+          "event_id": "C005_E02",
+          "chunk_id": "C005",
+          "event_type": "validation",
+          "order_hint": 2,
+          "summary": "AMMOS tested on two protein targets (ER and NA) with different binding sites, retrieving most actives in top 3-5% of database.",
+          "methods_or_tools": [
+            "AMMOS",
+            "MS-DOCK",
+            "DOCK6"
+          ],
+          "entities": [
+            "ER",
+            "NA"
+          ],
+          "numbers_or_metrics": [
+            "top 3% to 5%"
+          ],
+          "evidence_ids": [
+            "EV_C005_E02_01",
+            "EV_C005_E02_02"
+          ]
+        },
+        {
+          "event_id": "C005_E03",
+          "chunk_id": "C005",
+          "event_type": "design",
+          "order_hint": 3,
+          "summary": "AMMOS allows use of other docking programs; MS-DOCK and DOCK6 were used in this work.",
+          "methods_or_tools": [
+            "MS-DOCK",
+            "DOCK6"
+          ],
+          "entities": [
+            "AMMOS"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C005_E03_01"
+          ]
+        },
+        {
+          "event_id": "C005_E04",
+          "chunk_id": "C005",
+          "event_type": "limitation",
+          "order_hint": 4,
+          "summary": "Solvation not fully automated; users must prepare input files for water molecules.",
+          "methods_or_tools": [],
+          "entities": [
+            "AMMOS"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C005_E04_01"
+          ]
+        },
+        {
+          "event_id": "C005_E05",
+          "chunk_id": "C005",
+          "event_type": "design",
+          "order_hint": 5,
+          "summary": "AMMOS is written in C and Python, runs on Linux and MacOSX, and is freely available under GNU Public License.",
+          "methods_or_tools": [
+            "C",
+            "Python"
+          ],
+          "entities": [
+            "AMMOS"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C005_E05_01",
+            "EV_C005_E05_02"
+          ]
+        }
+      ],
+      "notes": "Chunk contains concluding remarks, availability, and references. Extracted events focus on limitations, validation results, and design choices explicitly stated.",
+      "api_usage": {
+        "prompt_tokens": 6510,
+        "completion_tokens": 780,
+        "total_tokens": 7290,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6254
+      }
+    }
+  ],
+  "evidence_bank": [
+    {
+      "evidence_id": "EV_C001_E01_01",
+      "source_file": "docs/0031/combined.md",
+      "section": "C001",
+      "char_start": 1705,
+      "char_end": 1922,
+      "quote": "available computer programs do not easily address problems such as: structural optimization of compounds in a screening library, receptor flexibility/induced-fit, and accurate prediction of protein-ligand interactions"
+    },
+    {
+      "evidence_id": "EV_C001_E02_01",
+      "source_file": "docs/0031/combined.md",
+      "section": "C001",
+      "char_start": 1924,
+      "char_end": 2149,
+      "quote": "It has been shown that structural optimization of chemical compounds and that post-docking optimization in multi-step structure-based virtual screening approaches help to further improve the overall efficiency of the methods."
+    },
+    {
+      "evidence_id": "EV_C001_E03_01",
+      "source_file": "docs/0031/combined.md",
+      "section": "C001",
+      "char_start": 2183,
+      "char_end": 2439,
+      "quote": "we developed the program AMMOS for refining both, the 3D structures of the small molecules present in chemical libraries and the predicted receptor-ligand complexes through allowing partial to full atom flexibility through molecular mechanics optimization."
+    },
+    {
+      "evidence_id": "EV_C001_E04_01",
+      "source_file": "docs/0031/combined.md",
+      "section": "C001",
+      "char_start": 2657,
+      "char_end": 2838,
+      "quote": "The performance of our package was evaluated by comparing the structures of small chemical entities minimized by AMMOS with those minimized with the Tripos and MMFF94s force fields."
+    },
+    {
+      "evidence_id": "EV_C001_E05_01",
+      "source_file": "docs/0031/combined.md",
+      "section": "C001",
+      "char_start": 2845,
+      "char_end": 3195,
+      "quote": "AMMOS was used for full flexible minimization of protein-ligands complexes obtained from a mutli-step virtual screening. Enrichment studies of the selected pre-docked complexes containing 60% of the initially added inhibitors were carried out with or without final AMMOS minimization on two protein targets having different binding pocket properties."
+    },
+    {
+      "evidence_id": "EV_C001_E06_01",
+      "source_file": "docs/0031/combined.md",
+      "section": "C001",
+      "char_start": 3196,
+      "char_end": 3380,
+      "quote": "AMMOS was able to improve the enrichment after the pre-docking stage with 40 to 60% of the initially added active compounds found in the top 3% to 5% of the entire compound collection."
+    },
+    {
+      "evidence_id": "EV_C001_E07_01",
+      "source_file": "docs/0031/combined.md",
+      "section": "C001",
+      "char_start": 5094,
+      "char_end": 5204,
+      "quote": "the full sampling of all possible conformations is not feasible for a large number of protein-ligand complexes"
+    },
+    {
+      "evidence_id": "EV_C001_E08_01",
+      "source_file": "docs/0031/combined.md",
+      "section": "C001",
+      "char_start": 7833,
+      "char_end": 7951,
+      "quote": "AMMOS proposes relatively fast energy minimization by making use of the full-featured molecular mechanics program AMMP"
+    },
+    {
+      "evidence_id": "EV_C001_E08_02",
+      "source_file": "docs/0031/combined.md",
+      "section": "C001",
+      "char_start": 8343,
+      "char_end": 8556,
+      "quote": "AMMP has several advantages that make it relevant for the present applications such as: a fast multipole method for including all atoms in the calculation of long-range potentials and robust structural optimizers."
+    },
+    {
+      "evidence_id": "EV_C002_E01_02",
+      "source_file": "docs/0031/combined.md",
+      "section": "C002",
+      "char_start": 30455,
+      "char_end": 30580,
+      "quote": "Table 1 and Additional file 1 present the results for the four molecules and the five different applied optimization methods."
+    },
+    {
+      "evidence_id": "EV_C002_E02_01",
+      "source_file": "docs/0031/combined.md",
+      "section": "C002",
+      "char_start": 31206,
+      "char_end": 31314,
+      "quote": "conjugate gradient and GA produced lowest energies, however GA was much slower due to its stochastic nature."
+    },
+    {
+      "evidence_id": "EV_C002_E02_02",
+      "source_file": "docs/0031/combined.md",
+      "section": "C002",
+      "char_start": 31059,
+      "char_end": 31170,
+      "quote": "For all tested molecules, steepest descent and simplex search led to minimized structures with higher energies."
+    },
+    {
+      "evidence_id": "EV_C002_E03_01",
+      "source_file": "docs/0031/combined.md",
+      "section": "C002",
+      "char_start": 34449,
+      "char_end": 34689,
+      "quote": "Although sp5 has been reported to be an improved version of sp4 [39], in our work sp4 minimized slightly better than sp5 in terms of energy differences between the initial and minimized structure, in particular for thymidine and raloxifene."
+    },
+    {
+      "evidence_id": "EV_C002_E04_01",
+      "source_file": "docs/0031/combined.md",
+      "section": "C002",
+      "char_start": 34690,
+      "char_end": 34824,
+      "quote": "Following the above observations, we chose conjugate gradient and sp4 as the minimization protocol for subsequent assessment of AMMOS."
+    },
+    {
+      "evidence_id": "EV_C002_E05_01",
+      "source_file": "docs/0031/combined.md",
+      "section": "C002",
+      "char_start": 31315,
+      "char_end": 31432,
+      "quote": "We also minimized structures containing important internal clashes in order to assess the robustness of the approach."
+    },
+    {
+      "evidence_id": "EV_C002_E08_01",
+      "source_file": "docs/0031/combined.md",
+      "section": "C002",
+      "char_start": 29151,
+      "char_end": 29246,
+      "quote": "execution times when a large number of ligands should be minimized with AMMOS can be very long."
+    },
+    {
+      "evidence_id": "EV_C002_E08_02",
+      "source_file": "docs/0031/combined.md",
+      "section": "C002",
+      "char_start": 29247,
+      "char_end": 29322,
+      "quote": "To speed-up the calculations, AMMOS allows jobs to be ran in parallel mode."
+    },
+    {
+      "evidence_id": "EV_C003_E01_01",
+      "source_file": "docs/0031/combined.md",
+      "section": "C003",
+      "char_start": 34358,
+      "char_end": 34448,
+      "quote": "optimized, while conjugate gradient succeeded to overcome the clashes (results not shown)."
+    },
+    {
+      "evidence_id": "EV_C003_E02_01",
+      "source_file": "docs/0031/combined.md",
+      "section": "C003",
+      "char_start": 34531,
+      "char_end": 34689,
+      "quote": "sp4 minimized slightly better than sp5 in terms of energy differences between the initial and minimized structure, in particular for thymidine and raloxifene."
+    },
+    {
+      "evidence_id": "EV_C003_E03_01",
+      "source_file": "docs/0031/combined.md",
+      "section": "C003",
+      "char_start": 34724,
+      "char_end": 34824,
+      "quote": "we chose conjugate gradient and sp4 as the minimization protocol for subsequent assessment of AMMOS."
+    },
+    {
+      "evidence_id": "EV_C003_E04_01",
+      "source_file": "docs/0031/combined.md",
+      "section": "C003",
+      "char_start": 35648,
+      "char_end": 35744,
+      "quote": "we accepted 2×500 iterations as an appropriate number of steps for the automatic AMMOS procedure"
+    },
+    {
+      "evidence_id": "EV_C003_E05_01",
+      "source_file": "docs/0031/combined.md",
+      "section": "C003",
+      "char_start": 36371,
+      "char_end": 36435,
+      "quote": "we selected the nonbon potential for further evaluation of AMMOS"
+    },
+    {
+      "evidence_id": "EV_C003_E06_01",
+      "source_file": "docs/0031/combined.md",
+      "section": "C003",
+      "char_start": 38364,
+      "char_end": 38465,
+      "quote": "the results obtained after minimization with AMMOS are close to those obtained by other force fields."
+    },
+    {
+      "evidence_id": "EV_C003_E08_01",
+      "source_file": "docs/0031/combined.md",
+      "section": "C003",
+      "char_start": 43645,
+      "char_end": 43770,
+      "quote": "The AMMOS procedure for minimization of small compounds was applied to a chemical library of 37970 single conformer molecules"
+    },
+    {
+      "evidence_id": "EV_C004_E01_01",
+      "source_file": "docs/0031/combined.md",
+      "section": "C004",
+      "char_start": 51304,
+      "char_end": 51423,
+      "quote": "when the protein was kept rigid (case 5, green), slightly better results for NA were achieved after AMMOS minimization."
+    },
+    {
+      "evidence_id": "EV_C004_E01_02",
+      "source_file": "docs/0031/combined.md",
+      "section": "C004",
+      "char_start": 51455,
+      "char_end": 51548,
+      "quote": "AMMOS performs well and its use can help to improve enrichment in multi-step SBVLS protocols."
+    },
+    {
+      "evidence_id": "EV_C004_E02_01",
+      "source_file": "docs/0031/combined.md",
+      "section": "C004",
+      "char_start": 55375,
+      "char_end": 55488,
+      "quote": "RMSD (Å) between the AMMOS minimized and X-ray structures for the inhibitors retrieved for the ER and NA targets."
+    },
+    {
+      "evidence_id": "EV_C004_E03_01",
+      "source_file": "docs/0031/combined.md",
+      "section": "C004",
+      "char_start": 58049,
+      "char_end": 58139,
+      "quote": "Enrichment graphs for ER (A) and NA (B) inhibitors after AMMOS minimization and rescoring."
+    },
+    {
+      "evidence_id": "EV_C004_E04_01",
+      "source_file": "docs/0031/combined.md",
+      "section": "C004",
+      "char_start": 63933,
+      "char_end": 64138,
+      "quote": "employing fully flexible minimization in the binding site can considerably improve enrichment as it was observed in the case of ER with 50% of the inhibitors retrieved in the top 3% of the entire database."
+    },
+    {
+      "evidence_id": "EV_C004_E05_01",
+      "source_file": "docs/0031/combined.md",
+      "section": "C004",
+      "char_start": 64407,
+      "char_end": 64556,
+      "quote": "after AMMOS rescoring, we found 40% of the NA inhibitors and 60% of the ER active compounds in the top 5% of the compound libraries (2000 compounds)."
+    },
+    {
+      "evidence_id": "EV_C004_E06_01",
+      "source_file": "docs/0031/combined.md",
+      "section": "C004",
+      "char_start": 66342,
+      "char_end": 66407,
+      "quote": "we did not obtain better enrichment after AMMOS in the case of NA"
+    },
+    {
+      "evidence_id": "EV_C004_E06_02",
+      "source_file": "docs/0031/combined.md",
+      "section": "C004",
+      "char_start": 66657,
+      "char_end": 66785,
+      "quote": "for some binding pockets and ligands, allowing post-docking relaxation of the protein-ligand complexes may worsen the enrichment"
+    },
+    {
+      "evidence_id": "EV_C004_E06_03",
+      "source_file": "docs/0031/combined.md",
+      "section": "C004",
+      "char_start": 66944,
+      "char_end": 67108,
+      "quote": "For NA and thymidine kinase, the ligands do not fill well the binding sites (with a Volume of the ligand/Volume of the pocket ratio of 0.44 and 0.45, respectively)."
+    },
+    {
+      "evidence_id": "EV_C004_E07_01",
+      "source_file": "docs/0031/combined.md",
+      "section": "C004",
+      "char_start": 68898,
+      "char_end": 68986,
+      "quote": "The present version of AMMOS does not take into consideration possible solvation effects"
+    },
+    {
+      "evidence_id": "EV_C004_E07_02",
+      "source_file": "docs/0031/combined.md",
+      "section": "C004",
+      "char_start": 69192,
+      "char_end": 69299,
+      "quote": "Automated protocol will be implemented in a future release of AMMOS to treat solvation and water molecules."
+    },
+    {
+      "evidence_id": "EV_C005_E01_01",
+      "source_file": "docs/0031/combined.md",
+      "section": "C005",
+      "char_start": 68898,
+      "char_end": 68986,
+      "quote": "The present version of AMMOS does not take into consideration possible solvation effects"
+    },
+    {
+      "evidence_id": "EV_C005_E01_02",
+      "source_file": "docs/0031/combined.md",
+      "section": "C005",
+      "char_start": 69192,
+      "char_end": 69299,
+      "quote": "Automated protocol will be implemented in a future release of AMMOS to treat solvation and water molecules."
+    },
+    {
+      "evidence_id": "EV_C005_E02_01",
+      "source_file": "docs/0031/combined.md",
+      "section": "C005",
+      "char_start": 68506,
+      "char_end": 68614,
+      "quote": "We applied our package on two protein targets, ER and NA, which have very different binding site properties."
+    },
+    {
+      "evidence_id": "EV_C005_E02_02",
+      "source_file": "docs/0031/combined.md",
+      "section": "C005",
+      "char_start": 68615,
+      "char_end": 68778,
+      "quote": "Results show that AMMOS performs well on large pre-docked compound collections, retrieving most of the active compounds in the top 3% to 5% of the entire database."
+    },
+    {
+      "evidence_id": "EV_C005_E03_01",
+      "source_file": "docs/0031/combined.md",
+      "section": "C005",
+      "char_start": 68779,
+      "char_end": 68896,
+      "quote": "Although MS-DOCK and DOCK6 were used in this work, users can apply other docking programs to dock a compound library."
+    },
+    {
+      "evidence_id": "EV_C005_E04_01",
+      "source_file": "docs/0031/combined.md",
+      "section": "C005",
+      "char_start": 69072,
+      "char_end": 69191,
+      "quote": "in such a situation, we do not provide a fully automatic procedure and the users should prepare the proper input files."
+    },
+    {
+      "evidence_id": "EV_C005_E05_01",
+      "source_file": "docs/0031/combined.md",
+      "section": "C005",
+      "char_start": 69477,
+      "char_end": 69579,
+      "quote": "AMMOS is written in C and python and runs on Linux platforms. It is also operational on MacOSX system."
+    },
+    {
+      "evidence_id": "EV_C005_E05_02",
+      "source_file": "docs/0031/combined.md",
+      "section": "C005",
+      "char_start": 69653,
+      "char_end": 69754,
+      "quote": "The source code of AMMOS is freely available under the terms and conditions of the GNU Public License"
+    },
+    {
+      "evidence_id": "EV_AUTO_001",
+      "source_file": "docs/0031/combined.md",
+      "section": "auto_specific",
+      "char_start": 20454,
+      "char_end": 20974,
+      "quote": "de 1kim); thieno [3,2-b]pyridine-2-sulfonic acid [2-oxo-1-(1h-pyrrolo[2,3-c]pyridin-2-ylmethyl)-pyrrolidin-3-yl]-amide (PR2) (an inhibitor of coagulation factor X, PDB code 1f0r). To test the performance of AMMOS on a large number of small organic molecules we used the ChemBridge diversity set $[55]$ . Our decoy library contained 37970 molecules after ADME/Tox filtering with the program Filter 1.0.2 [43]. We merged 20 known active compounds for ER and NA (with activities ranging from micromolar to nanomolar) and"
+    },
+    {
+      "evidence_id": "EV_AUTO_002",
+      "source_file": "docs/0031/combined.md",
+      "section": "auto_specific",
+      "char_start": 20388,
+      "char_end": 20908,
+      "quote": "DB code 1b9s); thymidine (an inhibitor of thymidine kinase, PDB code 1kim); thieno [3,2-b]pyridine-2-sulfonic acid [2-oxo-1-(1h-pyrrolo[2,3-c]pyridin-2-ylmethyl)-pyrrolidin-3-yl]-amide (PR2) (an inhibitor of coagulation factor X, PDB code 1f0r). To test the performance of AMMOS on a large number of small organic molecules we used the ChemBridge diversity set $[55]$ . Our decoy library contained 37970 molecules after ADME/Tox filtering with the program Filter 1.0.2 [43]. We merged 20 known active compounds for ER"
+    },
+    {
+      "evidence_id": "EV_AUTO_003",
+      "source_file": "docs/0031/combined.md",
+      "section": "auto_specific",
+      "char_start": 20365,
+      "char_end": 20885,
+      "quote": "tor of neuraminidase, PDB code 1b9s); thymidine (an inhibitor of thymidine kinase, PDB code 1kim); thieno [3,2-b]pyridine-2-sulfonic acid [2-oxo-1-(1h-pyrrolo[2,3-c]pyridin-2-ylmethyl)-pyrrolidin-3-yl]-amide (PR2) (an inhibitor of coagulation factor X, PDB code 1f0r). To test the performance of AMMOS on a large number of small organic molecules we used the ChemBridge diversity set $[55]$ . Our decoy library contained 37970 molecules after ADME/Tox filtering with the program Filter 1.0.2 [43]. We merged 20 known a"
+    },
+    {
+      "evidence_id": "EV_AUTO_004",
+      "source_file": "docs/0031/combined.md",
+      "section": "auto_specific",
+      "char_start": 20351,
+      "char_end": 20871,
+      "quote": "DI) (an inhibitor of neuraminidase, PDB code 1b9s); thymidine (an inhibitor of thymidine kinase, PDB code 1kim); thieno [3,2-b]pyridine-2-sulfonic acid [2-oxo-1-(1h-pyrrolo[2,3-c]pyridin-2-ylmethyl)-pyrrolidin-3-yl]-amide (PR2) (an inhibitor of coagulation factor X, PDB code 1f0r). To test the performance of AMMOS on a large number of small organic molecules we used the ChemBridge diversity set $[55]$ . Our decoy library contained 37970 molecules after ADME/Tox filtering with the program Filter 1.0.2 [43]. We mer"
+    },
+    {
+      "evidence_id": "EV_AUTO_005",
+      "source_file": "docs/0031/combined.md",
+      "section": "auto_specific",
+      "char_start": 20340,
+      "char_end": 20860,
+      "quote": "oic acid (FDI) (an inhibitor of neuraminidase, PDB code 1b9s); thymidine (an inhibitor of thymidine kinase, PDB code 1kim); thieno [3,2-b]pyridine-2-sulfonic acid [2-oxo-1-(1h-pyrrolo[2,3-c]pyridin-2-ylmethyl)-pyrrolidin-3-yl]-amide (PR2) (an inhibitor of coagulation factor X, PDB code 1f0r). To test the performance of AMMOS on a large number of small organic molecules we used the ChemBridge diversity set $[55]$ . Our decoy library contained 37970 molecules after ADME/Tox filtering with the program Filter 1.0.2 ["
+    },
+    {
+      "evidence_id": "EV_AUTO_006",
+      "source_file": "docs/0031/combined.md",
+      "section": "auto_specific",
+      "char_start": 20337,
+      "char_end": 20857,
+      "quote": "enzoic acid (FDI) (an inhibitor of neuraminidase, PDB code 1b9s); thymidine (an inhibitor of thymidine kinase, PDB code 1kim); thieno [3,2-b]pyridine-2-sulfonic acid [2-oxo-1-(1h-pyrrolo[2,3-c]pyridin-2-ylmethyl)-pyrrolidin-3-yl]-amide (PR2) (an inhibitor of coagulation factor X, PDB code 1f0r). To test the performance of AMMOS on a large number of small organic molecules we used the ChemBridge diversity set $[55]$ . Our decoy library contained 37970 molecules after ADME/Tox filtering with the program Filter 1.0."
+    },
+    {
+      "evidence_id": "EV_AUTO_007",
+      "source_file": "docs/0031/combined.md",
+      "section": "auto_specific",
+      "char_start": 20299,
+      "char_end": 20819,
+      "quote": "ylamino)-3-[n-(2-ethylbutanoylamino)]benzoic acid (FDI) (an inhibitor of neuraminidase, PDB code 1b9s); thymidine (an inhibitor of thymidine kinase, PDB code 1kim); thieno [3,2-b]pyridine-2-sulfonic acid [2-oxo-1-(1h-pyrrolo[2,3-c]pyridin-2-ylmethyl)-pyrrolidin-3-yl]-amide (PR2) (an inhibitor of coagulation factor X, PDB code 1f0r). To test the performance of AMMOS on a large number of small organic molecules we used the ChemBridge diversity set $[55]$ . Our decoy library contained 37970 molecules after ADME/Tox f"
+    },
+    {
+      "evidence_id": "EV_AUTO_008",
+      "source_file": "docs/0031/combined.md",
+      "section": "auto_specific",
+      "char_start": 20284,
+      "char_end": 20804,
+      "quote": "err); 4-(n-acetylamino)-3-[n-(2-ethylbutanoylamino)]benzoic acid (FDI) (an inhibitor of neuraminidase, PDB code 1b9s); thymidine (an inhibitor of thymidine kinase, PDB code 1kim); thieno [3,2-b]pyridine-2-sulfonic acid [2-oxo-1-(1h-pyrrolo[2,3-c]pyridin-2-ylmethyl)-pyrrolidin-3-yl]-amide (PR2) (an inhibitor of coagulation factor X, PDB code 1f0r). To test the performance of AMMOS on a large number of small organic molecules we used the ChemBridge diversity set $[55]$ . Our decoy library contained 37970 molecules a"
+    },
+    {
+      "evidence_id": "EV_AUTO_009",
+      "source_file": "docs/0031/combined.md",
+      "section": "auto_specific",
+      "char_start": 20331,
+      "char_end": 20851,
+      "quote": "ino)]benzoic acid (FDI) (an inhibitor of neuraminidase, PDB code 1b9s); thymidine (an inhibitor of thymidine kinase, PDB code 1kim); thieno [3,2-b]pyridine-2-sulfonic acid [2-oxo-1-(1h-pyrrolo[2,3-c]pyridin-2-ylmethyl)-pyrrolidin-3-yl]-amide (PR2) (an inhibitor of coagulation factor X, PDB code 1f0r). To test the performance of AMMOS on a large number of small organic molecules we used the ChemBridge diversity set $[55]$ . Our decoy library contained 37970 molecules after ADME/Tox filtering with the program Filter"
+    },
+    {
+      "evidence_id": "EV_AUTO_010",
+      "source_file": "docs/0031/combined.md",
+      "section": "auto_specific",
+      "char_start": 20314,
+      "char_end": 20834,
+      "quote": "2-ethylbutanoylamino)]benzoic acid (FDI) (an inhibitor of neuraminidase, PDB code 1b9s); thymidine (an inhibitor of thymidine kinase, PDB code 1kim); thieno [3,2-b]pyridine-2-sulfonic acid [2-oxo-1-(1h-pyrrolo[2,3-c]pyridin-2-ylmethyl)-pyrrolidin-3-yl]-amide (PR2) (an inhibitor of coagulation factor X, PDB code 1f0r). To test the performance of AMMOS on a large number of small organic molecules we used the ChemBridge diversity set $[55]$ . Our decoy library contained 37970 molecules after ADME/Tox filtering with t"
+    },
+    {
+      "evidence_id": "EV_AUTO_011",
+      "source_file": "docs/0031/combined.md",
+      "section": "auto_specific",
+      "char_start": 64398,
+      "char_end": 64556,
+      "quote": "Indeed, after AMMOS rescoring, we found 40% of the NA inhibitors and 60% of the ER active compounds in the top 5% of the compound libraries (2000 compounds)."
+    },
+    {
+      "evidence_id": "EV_AUTO_012",
+      "source_file": "docs/0031/combined.md",
+      "section": "auto_specific",
+      "char_start": 47778,
+      "char_end": 47966,
+      "quote": "After flexible docking, we disposed of two target-specific compound libraries, each containing 12,000 compounds (52,345 conformers) for ER and 22,000 compounds (70,120 conformers) for NA."
+    },
+    {
+      "evidence_id": "EV_AUTO_013",
+      "source_file": "docs/0031/combined.md",
+      "section": "auto_specific",
+      "char_start": 5404,
+      "char_end": 5667,
+      "quote": "Thus it is still difficult to discriminate bioactive compounds from false positives $[13,14]$ despite recent efforts to improve enrichment via, for instance, docking on different protein targets $[15]$ or through optimized or new scoring functions $[12,16,17]$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_014",
+      "source_file": "docs/0031/combined.md",
+      "section": "auto_specific",
+      "char_start": 19102,
+      "char_end": 19282,
+      "quote": "Secondly, the retrieved non-minimized top ranked compounds (30–50 % of the library containing at least 60% of the actives) were directly re-docked using a flexible docking mode (i."
+    },
+    {
+      "evidence_id": "EV_AUTO_015",
+      "source_file": "docs/0031/combined.md",
+      "section": "auto_specific",
+      "char_start": 65015,
+      "char_end": 65209,
+      "quote": "In average, for these ten targets, better enrichment factors were obtained in the top 0.5% of the proceeded database, however only 10–30% of the inhibitors were retrieved in this limited range."
+    },
+    {
+      "evidence_id": "EV_AUTO_016",
+      "source_file": "docs/0031/combined.md",
+      "section": "auto_specific",
+      "char_start": 63923,
+      "char_end": 64138,
+      "quote": "As seen, employing fully flexible minimization in the binding site can considerably improve enrichment as it was observed in the case of ER with 50% of the inhibitors retrieved in the top 3% of the entire database."
+    },
+    {
+      "evidence_id": "EV_AUTO_017",
+      "source_file": "docs/0031/combined.md",
+      "section": "auto_specific",
+      "char_start": 62678,
+      "char_end": 62883,
+      "quote": "Some of these questions start to be addressed as for instance several recent studies suggest that post-docking energy minimization can significantly improve enrichment for some protein targets $[24-26]$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_018",
+      "source_file": "docs/0031/combined.md",
+      "section": "auto_specific",
+      "char_start": 47268,
+      "char_end": 47559,
+      "quote": "In our previous study $[47]$ , we demonstrated that for large ligands filling well the binding pocket (which is the case of ER) selecting the top 30% of the database after shape-complementarity filtering by rigid docking gives a sufficient enrichment for a subsequent flexible docking step."
+    },
+    {
+      "evidence_id": "EV_AUTO_019",
+      "source_file": "docs/0031/combined.md",
+      "section": "auto_specific",
+      "char_start": 21466,
+      "char_end": 21595,
+      "quote": "The resulting chemical library was transformed in single 3D conformer and saved in mol2 format using the program OMEGA 2.0 [43]."
+    },
+    {
+      "evidence_id": "EV_AUTO_020",
+      "source_file": "docs/0031/combined.md",
+      "section": "auto_specific",
+      "char_start": 6310,
+      "char_end": 6442,
+      "quote": "Recent examples of docked poses and enrichment improvements after post-docking energy minimization support this view $[19,24-27]$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_021",
+      "source_file": "docs/0031/combined.md",
+      "section": "auto_specific",
+      "char_start": 66641,
+      "char_end": 66943,
+      "quote": "It seems, that for some binding pockets and ligands, allowing post-docking relaxation of the protein-ligand complexes may worsen the enrichment, thereby increasing the number of false positives, as we observed not only in our investigation of NA and thymidine kinase but also in other studies [25,63]."
+    },
+    {
+      "evidence_id": "EV_AUTO_022",
+      "source_file": "docs/0031/combined.md",
+      "section": "auto_specific",
+      "char_start": 66186,
+      "char_end": 66317,
+      "quote": "95) allowing receptor relaxation with AMMOS (case 3 and case 4) led to considerable improvement of the enrichment factors (see Fig."
+    },
+    {
+      "evidence_id": "EV_AUTO_023",
+      "source_file": "docs/0031/combined.md",
+      "section": "auto_specific",
+      "char_start": 66007,
+      "char_end": 66317,
+      "quote": "Along the same line of reasoning, in our study and in the case of ER where large ligands fill well the binding site (with the ratio Volume of the ligand/Volume of the pocket of 0.95) allowing receptor relaxation with AMMOS (case 3 and case 4) led to considerable improvement of the enrichment factors (see Fig."
+    },
+    {
+      "evidence_id": "EV_AUTO_024",
+      "source_file": "docs/0031/combined.md",
+      "section": "auto_specific",
+      "char_start": 64829,
+      "char_end": 65015,
+      "quote": "For instance the MM scoring method PLOP [25] involving a generalized Born solvent model has been shown to improve the overall enrichment only for five out of ten tested protein targets."
+    },
+    {
+      "evidence_id": "EV_AUTO_025",
+      "source_file": "docs/0031/combined.md",
+      "section": "auto_specific",
+      "char_start": 62883,
+      "char_end": 63392,
+      "quote": "It is expected that rescoring after MM minimization cannot help when the ligand is wrongly positioned in the binding cavity, however, when the pose generated by a docking engine is near the experimental conformation, energy minimization seems to be able to optimize locally the structure of the complexes, and in this case, the computed energy values (based on traditional force fields or via other scoring approaches) of the minimized structures can be effective at improving ranking and enrichment $[24]$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_026",
+      "source_file": "docs/0031/combined.md",
+      "section": "auto_specific",
+      "char_start": 50561,
+      "char_end": 50683,
+      "quote": "Figure 5 shows the enrichment graphs for the two targets before and after application of the AMMOS minimization protocol."
+    },
+    {
+      "evidence_id": "EV_AUTO_027",
+      "source_file": "docs/0031/combined.md",
+      "section": "auto_specific",
+      "char_start": 50387,
+      "char_end": 50561,
+      "quote": "The final selected pre-docked protein-ligand complexes for both protein targets containing 60% of the real active compounds were subjected to energy minimization with AMMOS."
+    },
+    {
+      "evidence_id": "EV_AUTO_028",
+      "source_file": "docs/0031/combined.md",
+      "section": "auto_specific",
+      "char_start": 47559,
+      "char_end": 47778,
+      "quote": "When relatively small ligands bind to a very open and flat pocket (which is the case of NA), 50% of the top ranked ligands after the first rigid docking step should be selected for the subsequent flexible docking step."
+    },
+    {
+      "evidence_id": "EV_AUTO_029",
+      "source_file": "docs/0031/combined.md",
+      "section": "auto_specific",
+      "char_start": 46653,
+      "char_end": 46766,
+      "quote": "The decoy library contains 37,970 drug-like molecules and two protein targets were used for the VLS experiments."
+    },
+    {
+      "evidence_id": "EV_AUTO_030",
+      "source_file": "docs/0031/combined.md",
+      "section": "auto_specific",
+      "char_start": 45805,
+      "char_end": 45889,
+      "quote": "Energy minimization results for a chemical library of 37970 small organic molecules."
+    },
+    {
+      "evidence_id": "EV_AUTO_031",
+      "source_file": "docs/0031/combined.md",
+      "section": "auto_specific",
+      "char_start": 43645,
+      "char_end": 43807,
+      "quote": "The AMMOS procedure for minimization of small compounds was applied to a chemical library of 37970 single conformer molecules (see Methods, Compound collections)."
+    },
+    {
+      "evidence_id": "EV_AUTO_032",
+      "source_file": "docs/0031/combined.md",
+      "section": "auto_specific",
+      "char_start": 35884,
+      "char_end": 36180,
+      "quote": "Further, we examined 4 different potential functions for non-bonded interactions as implemented and named in AMMP: 1) nonbon – involving point atom electrostatics; 2) screen – 1s distributed charge electrostatics; 3) debye – Debye screened potentials and 4) shadow – 4-D non-bonded for embedding."
+    },
+    {
+      "evidence_id": "EV_AUTO_033",
+      "source_file": "docs/0031/combined.md",
+      "section": "auto_specific",
+      "char_start": 23832,
+      "char_end": 24019,
+      "quote": "Our minimization step with AMMP applied on the protein-ligand complexes for the selected protein flexibility case involves $2 \\times 500$ iterations with conjugate gradient optimization."
+    },
+    {
+      "evidence_id": "EV_AUTO_034",
+      "source_file": "docs/0031/combined.md",
+      "section": "auto_specific",
+      "char_start": 20758,
+      "char_end": 20852,
+      "quote": "Our decoy library contained 37970 molecules after ADME/Tox filtering with the program Filter"
+    },
+    {
+      "evidence_id": "EV_AUTO_035",
+      "source_file": "docs/0031/combined.md",
+      "section": "auto_specific",
+      "char_start": 18756,
+      "char_end": 18939,
+      "quote": "We have seen that for large and flat cavities binding relatively small ligands like in the case of NA, a bump overlap of 0.75 improves the enrichment after a rigid docking procedure."
+    },
+    {
+      "evidence_id": "EV_AUTO_036",
+      "source_file": "docs/0031/combined.md",
+      "section": "auto_specific",
+      "char_start": 18681,
+      "char_end": 18756,
+      "quote": "These values were selected according to our previous observations $[47]$ ."
+    }
+  ],
+  "event_graph": {
+    "paper_main_problem": "Virtual screening tools lack structural optimization of compounds and receptor flexibility, leading to inaccurate binding pose prediction and scoring.",
+    "canonical_events": [
+      {
+        "canonical_id": "K01",
+        "order": 1,
+        "event_type": "problem",
+        "summary": "Virtual screening programs do not easily address structural optimization of compounds, receptor flexibility, and accurate prediction of protein-ligand interactions.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E01"
+        ],
+        "evidence_ids": [
+          "EV_C001_E01_01"
+        ],
+        "key_entities": [
+          "virtual screening",
+          "structural optimization",
+          "receptor flexibility",
+          "protein-ligand interactions"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K02",
+        "order": 2,
+        "event_type": "hypothesis",
+        "summary": "Post-docking optimization and structural refinement of compounds can improve the efficiency of structure-based virtual screening.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E02"
+        ],
+        "evidence_ids": [
+          "EV_C001_E02_01"
+        ],
+        "key_entities": [
+          "post-docking optimization",
+          "structural refinement",
+          "structure-based virtual screening"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K03",
+        "order": 3,
+        "event_type": "design",
+        "summary": "AMMOS was developed to automatically refine 3D structures of small molecules and energy minimize protein-ligand complexes using AMMP.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E03",
+          "C001_E08"
+        ],
+        "evidence_ids": [
+          "EV_C001_E03_01",
+          "EV_C001_E08_01",
+          "EV_C001_E08_02"
+        ],
+        "key_entities": [
+          "AMMOS",
+          "AMMP",
+          "small molecules",
+          "protein-ligand complexes"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K04",
+        "order": 4,
+        "event_type": "experiment",
+        "summary": "Tested AMMOS minimization on four small molecules using sp4 and sp5 force fields with five optimization methods.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E01"
+        ],
+        "evidence_ids": [
+          "EV_C002_E01_02"
+        ],
+        "key_entities": [
+          "raloxifene",
+          "FDI",
+          "thymidine",
+          "PR2",
+          "sp4 force field",
+          "sp5 force field",
+          "steepest descent",
+          "conjugate gradient",
+          "BFGS",
+          "simplex",
+          "genetic algorithm"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K05",
+        "order": 5,
+        "event_type": "analysis",
+        "summary": "Conjugate gradient and GA produced lowest energies, but GA was slower; steepest descent and simplex gave higher energies.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E02",
+          "C003_E01"
+        ],
+        "evidence_ids": [
+          "EV_C002_E02_01",
+          "EV_C002_E02_02",
+          "EV_C003_E01_01"
+        ],
+        "key_entities": [
+          "conjugate gradient",
+          "genetic algorithm",
+          "steepest descent",
+          "simplex"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K06",
+        "order": 6,
+        "event_type": "analysis",
+        "summary": "sp4 minimized slightly better than sp5 in terms of energy differences, contrary to expectation that sp5 is improved.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E03",
+          "C003_E02"
+        ],
+        "evidence_ids": [
+          "EV_C002_E03_01",
+          "EV_C003_E02_01"
+        ],
+        "key_entities": [
+          "sp4 force field",
+          "sp5 force field",
+          "thymidine",
+          "raloxifene"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K07",
+        "order": 7,
+        "event_type": "design",
+        "summary": "Chose conjugate gradient with sp4 as the default minimization protocol for AMMOS, with 2×500 iterations and nonbon potential.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E04",
+          "C003_E03",
+          "C003_E04",
+          "C003_E05"
+        ],
+        "evidence_ids": [
+          "EV_C002_E04_01",
+          "EV_C003_E03_01",
+          "EV_C003_E04_01",
+          "EV_C003_E05_01"
+        ],
+        "key_entities": [
+          "conjugate gradient",
+          "sp4 force field",
+          "nonbon potential"
+        ],
+        "key_numbers": [
+          "2×500 iterations"
+        ]
+      },
+      {
+        "canonical_id": "K08",
+        "order": 8,
+        "event_type": "validation",
+        "summary": "AMMOS results are close to those obtained by MMFF94s and Tff force fields, confirming ability to remove ligand energy strains.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E06"
+        ],
+        "evidence_ids": [
+          "EV_C003_E06_01"
+        ],
+        "key_entities": [
+          "AMMOS",
+          "MMFF94s",
+          "Tff"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K09",
+        "order": 9,
+        "event_type": "experiment",
+        "summary": "AMMOS minimization applied to a chemical library of 37970 molecules; 76% had ΔE below 50 kcal/mol.",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C003_E08"
+        ],
+        "evidence_ids": [
+          "EV_C003_E08_01"
+        ],
+        "key_entities": [
+          "chemical library"
+        ],
+        "key_numbers": [
+          "37970 molecules",
+          "76% ΔE < 50 kcal/mol"
+        ]
+      },
+      {
+        "canonical_id": "K10",
+        "order": 10,
+        "event_type": "experiment",
+        "summary": "AMMOS was used for full flexible minimization of protein-ligand complexes from a multi-step virtual screening, and enrichment was assessed.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E05"
+        ],
+        "evidence_ids": [
+          "EV_C001_E05_01"
+        ],
+        "key_entities": [
+          "AMMOS",
+          "protein-ligand complexes",
+          "estrogen receptor",
+          "neuraminidase"
+        ],
+        "key_numbers": [
+          "60% of initially added inhibitors"
+        ]
+      },
+      {
+        "canonical_id": "K11",
+        "order": 11,
+        "event_type": "analysis",
+        "summary": "AMMOS minimization improved enrichment for ER with partial flexibility (cases 3,4) and for NA with rigid receptor (case 5).",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C004_E01"
+        ],
+        "evidence_ids": [
+          "EV_C004_E01_01",
+          "EV_C004_E01_02"
+        ],
+        "key_entities": [
+          "ER",
+          "NA"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K12",
+        "order": 12,
+        "event_type": "analysis",
+        "summary": "After AMMOS rescoring, 40% of NA inhibitors and 60% of ER actives were found in top 5% of compound libraries.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E06",
+          "C004_E05"
+        ],
+        "evidence_ids": [
+          "EV_C001_E06_01",
+          "EV_C004_E05_01"
+        ],
+        "key_entities": [
+          "NA",
+          "ER"
+        ],
+        "key_numbers": [
+          "40% of NA inhibitors",
+          "60% of ER actives",
+          "top 5% of libraries"
+        ]
+      },
+      {
+        "canonical_id": "K13",
+        "order": 13,
+        "event_type": "limitation",
+        "summary": "Post-docking MM minimization can worsen enrichment for some proteins, e.g., NA and thymidine kinase, possibly due to large pockets with small ligands.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C004_E06"
+        ],
+        "evidence_ids": [
+          "EV_C004_E06_01",
+          "EV_C004_E06_02",
+          "EV_C004_E06_03"
+        ],
+        "key_entities": [
+          "NA",
+          "thymidine kinase"
+        ],
+        "key_numbers": [
+          "Volume of ligand/Volume of pocket ratio 0.44 and 0.45"
+        ]
+      },
+      {
+        "canonical_id": "K14",
+        "order": 14,
+        "event_type": "limitation",
+        "summary": "AMMOS does not consider solvation effects; automated protocol for solvation and water molecules planned for future release.",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C004_E07",
+          "C005_E01"
+        ],
+        "evidence_ids": [
+          "EV_C004_E07_01",
+          "EV_C004_E07_02",
+          "EV_C005_E01_01",
+          "EV_C005_E01_02"
+        ],
+        "key_entities": [
+          "AMMOS"
+        ],
+        "key_numbers": []
+      }
+    ],
+    "edges": [
+      {
+        "source": "K01",
+        "target": "K02",
+        "relation": "enables",
+        "reason": "The problem motivates the hypothesis that post-docking optimization can improve virtual screening."
+      },
+      {
+        "source": "K02",
+        "target": "K03",
+        "relation": "enables",
+        "reason": "The hypothesis leads to the design of AMMOS to perform automatic minimization."
+      },
+      {
+        "source": "K03",
+        "target": "K04",
+        "relation": "enables",
+        "reason": "AMMOS design requires testing minimization protocols on small molecules."
+      },
+      {
+        "source": "K04",
+        "target": "K05",
+        "relation": "follows",
+        "reason": "Analysis of minimization results from the experiment."
+      },
+      {
+        "source": "K05",
+        "target": "K06",
+        "relation": "follows",
+        "reason": "Further analysis comparing force fields."
+      },
+      {
+        "source": "K06",
+        "target": "K07",
+        "relation": "enables",
+        "reason": "The analysis leads to the design choice of conjugate gradient with sp4."
+      },
+      {
+        "source": "K07",
+        "target": "K08",
+        "relation": "enables",
+        "reason": "The chosen protocol is validated against other force fields."
+      },
+      {
+        "source": "K08",
+        "target": "K09",
+        "relation": "follows",
+        "reason": "Validation is followed by large-scale application to a chemical library."
+      },
+      {
+        "source": "K07",
+        "target": "K10",
+        "relation": "enables",
+        "reason": "The protocol is used for full flexible minimization of protein-ligand complexes."
+      },
+      {
+        "source": "K10",
+        "target": "K11",
+        "relation": "follows",
+        "reason": "Enrichment analysis after minimization."
+      },
+      {
+        "source": "K11",
+        "target": "K12",
+        "relation": "follows",
+        "reason": "Quantitative enrichment results."
+      },
+      {
+        "source": "K12",
+        "target": "K13",
+        "relation": "contradicts",
+        "reason": "While enrichment improved for some, it worsened for others, highlighting a limitation."
+      },
+      {
+        "source": "K13",
+        "target": "K14",
+        "relation": "follows",
+        "reason": "Another limitation regarding solvation effects is noted."
+      }
+    ],
+    "must_cover_points": [
+      "Problem of structural optimization and receptor flexibility in virtual screening.",
+      "Hypothesis that post-docking optimization improves enrichment.",
+      "Design of AMMOS using AMMP for automatic minimization.",
+      "Testing of minimization methods and force fields on small molecules.",
+      "Selection of conjugate gradient with sp4 as default protocol.",
+      "Validation against MMFF94s and Tff force fields.",
+      "Application to protein-ligand complexes and enrichment assessment.",
+      "Improvement in enrichment for ER with partial flexibility and for NA with rigid receptor.",
+      "Quantitative enrichment results (40-60% actives in top 3-5%).",
+      "Limitation that post-docking minimization can worsen enrichment for some targets.",
+      "Limitation of no solvation effects."
+    ],
+    "paper_not_suitable_reasons": []
+  }
+}

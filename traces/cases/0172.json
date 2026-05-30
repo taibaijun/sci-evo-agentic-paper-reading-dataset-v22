@@ -1,0 +1,943 @@
+{
+  "case": {
+    "case_id": "sci_evo_0172",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "A broadly neutralizing humanized ACE2-targeting antibody against SARS-CoV-2 variants",
+      "doi": "https://doi.org/10.1038/s41467-021-25331-x",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0170_10_1038_s41467_021_25331_x_a_broadly_neutralizing_humanized_ace2_targeting_antibody_against_sars_cov_2_variants.pdf",
+      "mineru_md": "docs/0172/mineru.md",
+      "combined_md": "docs/0172/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "The rapid emergence of SARS-CoV-2 variants with RBD mutations that escape existing antibody therapies necessitates broadly effective countermeasures.",
+      "target_object": "ACE2-blocking monoclonal antibody",
+      "known_context": "SARS-CoV-2 variants with RBD mutations (e.g., D614G, B.1.1.7, B.1.351) are spreading and can escape existing antibody therapies. ACE2 is the conserved host receptor for SARSr-CoVs.",
+      "constraints": [
+        "Must block ACE2-RBD interaction",
+        "Must not downregulate ACE2 or impair its enzymatic activity",
+        "Must be safe in non-human primates"
+      ],
+      "input_data": [
+        "hACE2 protein (residues 19-615)",
+        "SARS-CoV and SARS-CoV-2 spike pseudotyped viruses"
+      ],
+      "quantifiable_goals": [
+        "Broad neutralization of SARS-CoV-2 variants",
+        "High binding affinity to hACE2 (KD < 10 nM)",
+        "In vivo efficacy in mouse model",
+        "Safety in cynomolgus monkeys"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "SARS-CoV-2 variants with RBD mutations are emerging and escaping existing antibody therapies.",
+        "gap_or_uncertainty": "Existing antibody therapies target the RBD, which is prone to mutation. A host-directed approach may provide broader neutralization.",
+        "hypothesis": "Targeting the conserved host receptor ACE2 with a blocking antibody may provide broad neutralization against SARSr-CoVs and variants.",
+        "decision": "Pursue isolation of ACE2-blocking monoclonal antibodies.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "literature analysis",
+          "version": "",
+          "category": "reasoning"
+        },
+        "parameters": {},
+        "observation": "ACE2 is the conserved receptor for SARS-CoV and SARS-CoV-2; RBD mutations can escape RBD-targeting antibodies.",
+        "result_status": "success",
+        "next_step_reason": "Hypothesis supported by known biology; proceed to antibody generation.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0172/combined.md",
+            "section": "C001",
+            "quote_or_span": "The successive emergences and accelerating spread of novel severe acute respiratory syndrome coronavirus 2 (SARS-CoV-2) lineages and evolved resistance to some ongoing clinical therapeutics increase the risks associated with the coronavirus disease 2019 (COVID-19) pandemic."
+          },
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0172/combined.md",
+            "section": "C001",
+            "quote_or_span": "An urgent intervention for broadly effective therapies to limit the morbidity and mortality of COVID-19 and future transmission events from SARS-related coronaviruses (SARSr-CoVs) is needed."
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "design",
+        "state_before": "Hypothesis that ACE2-blocking antibody can provide broad neutralization.",
+        "gap_or_uncertainty": "No ACE2-blocking antibody with broad activity has been isolated.",
+        "hypothesis": "Immunizing mice with hACE2 will elicit antibodies that block ACE2-RBD interaction.",
+        "decision": "Immunize BALB/c mice with hACE2, generate hybridomas, and screen for ACE2-blocking antibodies.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "mouse immunization and hybridoma screening",
+          "version": "",
+          "category": "antibody generation"
+        },
+        "parameters": {
+          "antigen": "hACE2 (19-615)",
+          "immunization": "prime-boost, 4-week interval",
+          "screening": "pseudovirus inhibition on HEK293T-hACE2 cells"
+        },
+        "observation": "Five clones of MAbs blocked infection with SARS-CoV and SARS-CoV-2 pseudotyped virus.",
+        "result_status": "success",
+        "next_step_reason": "Lead clone h11B11 identified for further characterization.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E04_01",
+            "source_file": "docs/0172/combined.md",
+            "section": "C001",
+            "quote_or_span": "To generate murine anti-hACE2 antibodies, BALB/c mice received hACE2 (19–615) soluble antigens in a prime-boost immunization regimen with a 4-week interval."
+          },
+          {
+            "evidence_id": "EV_C001_E05_01",
+            "source_file": "docs/0172/combined.md",
+            "section": "C001",
+            "quote_or_span": "After screening hybridoma supernatants, five clones of the MAbs that blocked HEK293T-hACE2 cell infection with SARS-CoV and SARS-CoV-2 spike pseudotyped virus were identified"
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "experiment",
+        "state_before": "Five ACE2-blocking MAb clones identified.",
+        "gap_or_uncertainty": "Which clone has the best inhibitory activity?",
+        "hypothesis": "Clone h11B11 will show significant inhibitory activity against pseudovirus infection.",
+        "decision": "Test inhibitory activity of clone h11B11 against SARS-CoV and SARS-CoV-2 pseudoviruses.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "pseudovirus neutralization assay",
+          "version": "",
+          "category": "virology"
+        },
+        "parameters": {
+          "cell line": "HEK293T-hACE2",
+          "pseudoviruses": "SARS-CoV, SARS-CoV-2"
+        },
+        "observation": "Clone h11B11 exhibited significant inhibitory activity against pseudotyped virus infection.",
+        "result_status": "success",
+        "next_step_reason": "h11B11 selected for humanization to reduce immunogenicity.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E06_01",
+            "source_file": "docs/0172/combined.md",
+            "section": "C001",
+            "quote_or_span": "clone h11B11 exhibited significant inhibitory activity against pseudotyped virus infection"
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "design",
+        "state_before": "Murine antibody h11B11 shows inhibitory activity.",
+        "gap_or_uncertainty": "Murine antibodies can be immunogenic in humans.",
+        "hypothesis": "Humanizing h11B11 will retain binding while reducing immunogenicity.",
+        "decision": "Humanize h11B11.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "antibody humanization",
+          "version": "",
+          "category": "antibody engineering"
+        },
+        "parameters": {},
+        "observation": "Humanized h11B11 (h11B11) generated.",
+        "result_status": "success",
+        "next_step_reason": "Validate that humanization did not impair binding.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E03_01",
+            "source_file": "docs/0172/combined.md",
+            "section": "C001",
+            "quote_or_span": "Here, we isolate and humanize an angiotensin-converting enzyme-2 (ACE2)-blocking monoclonal antibody (MAb), named h11B11, which exhibits potent inhibitory activity against SARS-CoV and circulating global SARS-CoV-2 lineages."
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "validation",
+        "state_before": "Humanized h11B11 generated.",
+        "gap_or_uncertainty": "Does humanization affect binding kinetics?",
+        "hypothesis": "Humanized h11B11 retains binding kinetics comparable to parental murine antibody.",
+        "decision": "Compare binding kinetics of humanized and parental h11B11 to hACE2 by SPR.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "surface plasmon resonance (SPR)",
+          "version": "",
+          "category": "biophysics"
+        },
+        "parameters": {
+          "analyte": "hACE2",
+          "ligand": "h11B11 (humanized and parental)"
+        },
+        "observation": "Binding kinetics of humanized and parental MAbs to hACE2 was consistent.",
+        "result_status": "success",
+        "next_step_reason": "Proceed to functional characterization of humanized h11B11.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E08_01",
+            "source_file": "docs/0172/combined.md",
+            "section": "C001",
+            "quote_or_span": "Surface plasmon resonance (SPR) showed that the binding kinetics of humanized and parental MAbs to hACE2 was consistent"
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "experiment",
+        "state_before": "Humanized h11B11 validated to retain binding.",
+        "gap_or_uncertainty": "Does h11B11 block RBD binding, and does it affect ACE2 surface expression or enzymatic activity?",
+        "hypothesis": "h11B11 blocks RBD-ACE2 interaction and does not downregulate ACE2 or impair its enzymatic activity.",
+        "decision": "Assess RBD blocking, ACE2 surface levels, and enzymatic activity.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "ELISA, flow cytometry, enzymatic assay",
+          "version": "",
+          "category": "biochemistry"
+        },
+        "parameters": {
+          "concentrations": "h11B11 up to 400 μg/ml",
+          "cell line": "HEK293T-hACE2"
+        },
+        "observation": "h11B11 blocked RBD binding; membrane ACE2 levels unaffected; enzymatic activity not impaired.",
+        "result_status": "success",
+        "next_step_reason": "Characterize neutralization breadth against variants.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E07_01",
+            "source_file": "docs/0172/combined.md",
+            "section": "C002",
+            "quote_or_span": "the levels of membrane-expressed hACE2 were not affected after incubating with h11B11"
+          },
+          {
+            "evidence_id": "EV_AUTO_017",
+            "source_file": "docs/0172/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Then, 25 $\\mu$ l h11B11 proteins at various final concentrations of 100, 200, and 400 $\\mu$ g/ml or hACE2 inhibitor (MLN-4760, Sigma, 5."
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "experiment",
+        "state_before": "h11B11 blocks RBD binding and preserves ACE2 function.",
+        "gap_or_uncertainty": "Does h11B11 neutralize diverse SARS-CoV-2 variants and other SARSr-CoVs?",
+        "hypothesis": "h11B11 will broadly neutralize SARS-CoV, SARS-CoV-2, and variants but not NL63 due to different RBD binding mode.",
+        "decision": "Test neutralization against 34 pseudoviruses including variants D614G, B.1.1.7, B.1.351, and NL63.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "pseudovirus neutralization assay",
+          "version": "",
+          "category": "virology"
+        },
+        "parameters": {
+          "pseudoviruses": "34 strains including variants",
+          "cell line": "HEK293T-hACE2"
+        },
+        "observation": "h11B11 neutralized SARS-CoV, SARS-CoV-2, and variants; no activity against NL63; S19P ACE2 variant completely resistant.",
+        "result_status": "partial",
+        "next_step_reason": "Structural analysis needed to understand mechanism and NL63 escape.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_010",
+            "source_file": "docs/0172/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Next, we set out to investigate the inhibitory activity of h11B11 against 34 pseudoviruses, including high-frequency SARS-CoV-2 variants and combined variants with D614G, across the entire S protein."
+          },
+          {
+            "evidence_id": "EV_AUTO_016",
+            "source_file": "docs/0172/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "However, the S19P variant exhibited complete resistance to the MAb, revealing the importance of S19 on NTH for h11B11 binding to hACE2."
+          },
+          {
+            "evidence_id": "EV_AUTO_026",
+            "source_file": "docs/0172/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "59 $\\mu$ g/ml) in all three pseudoviruses expressing the SARS-CoV-2 S antigens of lineages with sustained transmission (D614G, B."
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "simulation",
+        "state_before": "h11B11 broadly neutralizes SARS-CoV-2 variants but not NL63; S19P ACE2 variant resistant.",
+        "gap_or_uncertainty": "What is the structural basis for broad neutralization and NL63 escape?",
+        "hypothesis": "h11B11 binds N-terminal helix of ACE2, sterically clashing with SARS-CoV and SARS-CoV-2 RBDs but not NL63 RBD.",
+        "decision": "Determine cryo-EM and crystal structures of h11B11-ACE2 complex and compare with RBD-ACE2 complexes.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "cryo-EM and X-ray crystallography",
+          "version": "",
+          "category": "structural biology"
+        },
+        "parameters": {
+          "resolution": "3.8 Å",
+          "complexes": "h11B11/hACE2, RBD/hACE2"
+        },
+        "observation": "h11B11 binds N-terminal helix of ACE2; steric clash with SARS-CoV and SARS-CoV-2 RBDs; no clash with NL63 RBD.",
+        "result_status": "success",
+        "next_step_reason": "Structural insights support in vivo efficacy testing.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E03_01",
+            "source_file": "docs/0172/combined.md",
+            "section": "C003",
+            "quote_or_span": "The structure of the h11B11/hACE2 complex was determined at a resolution of 3.8 Å"
+          },
+          {
+            "evidence_id": "EV_C003_E04_01",
+            "source_file": "docs/0172/combined.md",
+            "section": "C003",
+            "quote_or_span": "h11b11 blocks SARS-CoV-RBD and SARS-CoV-2-RBD to bind to hACE2 mainly through N-terminal epitope competition and steric clash"
+          },
+          {
+            "evidence_id": "EV_C003_E05_01",
+            "source_file": "docs/0172/combined.md",
+            "section": "C003",
+            "quote_or_span": "No structural evidence directly indicates that the MAb h11B11 inhibits the binding of HCoV-NL63-RBD and ACE2"
+          },
+          {
+            "evidence_id": "EV_C004_E01_01",
+            "source_file": "docs/0172/combined.md",
+            "section": "C004",
+            "quote_or_span": "Fig. 5 Structural basis of the competitive binding of h11B11 and RBDs with hACE2."
+          },
+          {
+            "evidence_id": "EV_AUTO_002",
+            "source_file": "docs/0172/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The binding profiles of h11B11 to five hACE2 variants (S19P, I21T, K26R, N33D, and D38E) in the N-terminal helix (NTH), which may greatly affect the stability of receptors and MAb binding, were further analyzed."
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "experiment",
+        "state_before": "Structural basis for neutralization established.",
+        "gap_or_uncertainty": "Does h11B11 protect against SARS-CoV-2 in vivo?",
+        "hypothesis": "Prophylactic and therapeutic administration of h11B11 will reduce viral load in hACE2 transgenic mice.",
+        "decision": "Test h11B11 in hACE2 transgenic mice with prophylactic (pre-exposure) and therapeutic (post-exposure) dosing.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "mouse challenge model",
+          "version": "",
+          "category": "in vivo"
+        },
+        "parameters": {
+          "doses": "5 and 25 mg/kg",
+          "timing": "day -1 (prophylactic), day +1 (therapeutic)",
+          "virus": "SARS-CoV-2"
+        },
+        "observation": "Prophylactic groups: viral titers below detection limit in 9/10 mice; therapeutic groups: ~10-fold reduction in viral load.",
+        "result_status": "success",
+        "next_step_reason": "Promising efficacy warrants safety evaluation in non-human primates.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E06_01",
+            "source_file": "docs/0172/combined.md",
+            "section": "C002",
+            "quote_or_span": "for the prophylactic (pre-exposure) groups, both high- and low-dose administration of h11B11 resulted in viral titers in the lungs below the detection limit for nine of ten mice"
+          },
+          {
+            "evidence_id": "EV_C005_E01_01",
+            "source_file": "docs/0172/combined.md",
+            "section": "C005",
+            "quote_or_span": "Animals in the pre-exposure groups were injected with 5 or 25 mg/kg antibody one day before the viral challenge."
+          },
+          {
+            "evidence_id": "EV_C005_E01_02",
+            "source_file": "docs/0172/combined.md",
+            "section": "C005",
+            "quote_or_span": "In the post-exposure groups, the mice were administered with 5 or 25 mg/kg antibody one day after the viral challenge."
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "experiment",
+        "state_before": "h11B11 shows in vivo efficacy in mice.",
+        "gap_or_uncertainty": "Is h11B11 safe in a relevant animal model?",
+        "hypothesis": "Repeated high-dose h11B11 infusion in cynomolgus monkeys will not cause significant changes in blood pressure, hematology, or clinical chemistry.",
+        "decision": "Administer h11B11 to cynomolgus monkeys at 60 and 180 mg/kg once weekly for 3 weeks and monitor safety parameters.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "non-human primate safety study",
+          "version": "",
+          "category": "toxicology"
+        },
+        "parameters": {
+          "doses": "60 and 180 mg/kg",
+          "frequency": "once a week for 3 weeks",
+          "monitoring": "blood pressure, hematology, clinical chemistry"
+        },
+        "observation": "No significant changes in blood pressure, hematology, or clinical chemistry; minor blood pressure fluctuations within normal range.",
+        "result_status": "success",
+        "next_step_reason": "Safety profile supports further development, but limitations noted.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E08_01",
+            "source_file": "docs/0172/combined.md",
+            "section": "C002",
+            "quote_or_span": "An SPR assay confirmed that this MAb shows analogous binding affinities to hACE2 and cynomolgus ACE2"
+          },
+          {
+            "evidence_id": "EV_C003_E01_01",
+            "source_file": "docs/0172/combined.md",
+            "section": "C003",
+            "quote_or_span": "Compared with the predose measurements, the mean diastolic and systolic blood pressure of all animals in the following 6 days after the second dosing showed only minor changes, from 90 to 102 mm Hg"
+          },
+          {
+            "evidence_id": "EV_C003_E02_02",
+            "source_file": "docs/0172/combined.md",
+            "section": "C003",
+            "quote_or_span": "These indexes of the animals in the two groups were not significantly affected by multiple administrations"
+          },
+          {
+            "evidence_id": "EV_C004_E04_01",
+            "source_file": "docs/0172/combined.md",
+            "section": "C004",
+            "quote_or_span": "injections of three doses of 180 mg/kg h11B11 did not induce drastic blood pressure changes or obvious toxicological damage in nonhuman primate models."
+          },
+          {
+            "evidence_id": "EV_C005_E02_01",
+            "source_file": "docs/0172/combined.md",
+            "section": "C005",
+            "quote_or_span": "Cynomolgus monkeys were administered via repeated intravenous infusion (60 or 180 mg/kg at once a week for 3 weeks)."
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "analysis",
+        "state_before": "h11B11 shows efficacy and safety in animal models.",
+        "gap_or_uncertainty": "What are the limitations of h11B11?",
+        "hypothesis": "S19P ACE2 polymorphism and NL63 inactivity are key limitations; comprehensive GLP safety study needed.",
+        "decision": "Acknowledge limitations: S19P resistance, no NL63 activity, need for comprehensive safety evaluation.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "data interpretation",
+          "version": "",
+          "category": "analysis"
+        },
+        "parameters": {},
+        "observation": "S19P variant completely resistant; no structural evidence for NL63 inhibition; comprehensive GLP-compliant safety evaluation needed.",
+        "result_status": "partial",
+        "next_step_reason": "Limitations inform final validation and future work.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_016",
+            "source_file": "docs/0172/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "However, the S19P variant exhibited complete resistance to the MAb, revealing the importance of S19 on NTH for h11B11 binding to hACE2."
+          },
+          {
+            "evidence_id": "EV_C003_E05_01",
+            "source_file": "docs/0172/combined.md",
+            "section": "C003",
+            "quote_or_span": "No structural evidence directly indicates that the MAb h11B11 inhibits the binding of HCoV-NL63-RBD and ACE2"
+          },
+          {
+            "evidence_id": "EV_C004_E05_01",
+            "source_file": "docs/0172/combined.md",
+            "section": "C004",
+            "quote_or_span": "Considering the limited animal numbers and the lack of histopathology assays, a comprehensive GLP-compliant safety evaluation is needed."
+          }
+        ]
+      },
+      {
+        "step_index": 12,
+        "phase": "validation",
+        "state_before": "All data collected, limitations identified.",
+        "gap_or_uncertainty": "Is h11B11 a promising therapeutic candidate overall?",
+        "hypothesis": "h11B11 is a broadly promising therapeutic candidate against SARSr-CoVs and variants.",
+        "decision": "Conclude that ACE2-blocking MAb h11B11 represents a promising candidate with superior affinity and safety compared to soluble ACE2 decoys.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "evidence synthesis",
+          "version": "",
+          "category": "analysis"
+        },
+        "parameters": {},
+        "observation": "h11B11 shows broad neutralization, high affinity, in vivo efficacy, and safety; limitations include S19P resistance and NL63 inactivity.",
+        "result_status": "success",
+        "next_step_reason": "Final conclusion reached.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E06_01",
+            "source_file": "docs/0172/combined.md",
+            "section": "C004",
+            "quote_or_span": "our work shows that the ACE2-blocking MAb represents a broadly promising therapeutic candidate against emergence, re-emergence, and future zoonotic transmission events from SARSr-CoVs and variants."
+          },
+          {
+            "evidence_id": "EV_AUTO_002",
+            "source_file": "docs/0172/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The binding profiles of h11B11 to five hACE2 variants (S19P, I21T, K26R, N33D, and D38E) in the N-terminal helix (NTH), which may greatly affect the stability of receptors and MAb binding, were further analyzed."
+          },
+          {
+            "evidence_id": "EV_AUTO_016",
+            "source_file": "docs/0172/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "However, the S19P variant exhibited complete resistance to the MAb, revealing the importance of S19 on NTH for h11B11 binding to hACE2."
+          },
+          {
+            "evidence_id": "EV_AUTO_015",
+            "source_file": "docs/0172/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Meanwhile, we speculate two reasons for the S19P variant eliminating the interaction between hACE2 and MAb h11B11."
+          },
+          {
+            "evidence_id": "EV_AUTO_001",
+            "source_file": "docs/0172/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The coding sequences of SARS-CoV-RBD (residues 306–527, accession number: NC\\_004718), SARS-CoV-2-RBD (residues 319–541, accession number EPI\\_ISL\\_402119), hACE2 (residues 19–615, accession number BAJ21180), and hACE2 variants (S19P, I21T, K26R, N33D, and D38E) fused with N-terminal native signal peptides and C-terminal 6× His tag were, respectively, cloned into the pCAGGS expression vector (Addgene) using the EcoRI and XhoI restriction sites."
+          },
+          {
+            "evidence_id": "EV_AUTO_032",
+            "source_file": "docs/0172/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "We found that a low-frequency locus, S19P (rs73635825, $p = 7."
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "SPR binding kinetics",
+        "Pseudovirus neutralization assays",
+        "Cryo-EM and X-ray crystallography",
+        "hACE2 transgenic mouse challenge",
+        "Cynomolgus monkey safety study"
+      ],
+      "metrics": [
+        "KD (binding affinity)",
+        "IC50 (neutralization potency)",
+        "Viral titer reduction",
+        "Blood pressure, hematology, clinical chemistry"
+      ],
+      "final_conclusion": "h11B11 is a broadly promising therapeutic candidate against SARSr-CoVs and variants, with superior affinity and safety profile compared to soluble ACE2 decoys.",
+      "limitations": [
+        "S19P ACE2 polymorphism completely abolishes binding",
+        "No activity against NL63",
+        "Limited animal numbers and lack of histopathology in safety study"
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_specific_evidence_backfilled=7",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 100.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p2\\states\\0172.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p2\\events\\0172.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1,
+          8
+        ],
+        "K02": [
+          1,
+          4,
+          8,
+          12
+        ],
+        "K03": [
+          2
+        ],
+        "K04": [
+          2,
+          3,
+          7
+        ],
+        "K06": [
+          4,
+          5
+        ],
+        "K07": [
+          6,
+          7
+        ],
+        "K08": [
+          7,
+          8,
+          11,
+          12
+        ],
+        "K09": [
+          7,
+          8,
+          11
+        ],
+        "K10": [
+          9
+        ],
+        "K11": [
+          10
+        ],
+        "K12": [
+          7,
+          8,
+          11,
+          12
+        ],
+        "K13": [
+          12
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K03",
+            "K04"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K04"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K02",
+            "K05",
+            "K06"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K06"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K07"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K04",
+            "K07",
+            "K08",
+            "K09",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K01",
+            "K02",
+            "K08",
+            "K09",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K10"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K11"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K08",
+            "K09",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 12,
+          "covered_event_ids": [
+            "K02",
+            "K08",
+            "K12",
+            "K13"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 3,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "1s"
+        ]
+      },
+      {
+        "step_index": 4,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "1s"
+        ]
+      },
+      {
+        "step_index": 7,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "1.1",
+          "1.351"
+        ]
+      },
+      {
+        "step_index": 10,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "1s"
+        ]
+      },
+      {
+        "step_index": 11,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "1s"
+        ]
+      },
+      {
+        "step_index": 12,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "1s"
+        ]
+      }
+    ],
+    "step_count": 12,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 100.0
+  },
+  "api_usage": {
+    "prompt_tokens": 116011,
+    "completion_tokens": 25539,
+    "total_tokens": 141550,
+    "prompt_cache_hit_tokens": 3200,
+    "prompt_cache_miss_tokens": 112811
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 2313,
+        "completion_tokens": 522,
+        "total_tokens": 2835,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 2313
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 8696,
+        "completion_tokens": 2017,
+        "total_tokens": 10713,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 8696
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 7533,
+        "completion_tokens": 1412,
+        "total_tokens": 8945,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7277
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 8197,
+        "completion_tokens": 1717,
+        "total_tokens": 9914,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7941
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 8539,
+        "completion_tokens": 1476,
+        "total_tokens": 10015,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8283
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 7514,
+        "completion_tokens": 1033,
+        "total_tokens": 8547,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7258
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C005",
+      "api_usage": {
+        "prompt_tokens": 7319,
+        "completion_tokens": 1027,
+        "total_tokens": 8346,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7063
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C006",
+      "api_usage": {
+        "prompt_tokens": 2819,
+        "completion_tokens": 47,
+        "total_tokens": 2866,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 2563
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 11077,
+        "completion_tokens": 3095,
+        "total_tokens": 14172,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 10693
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 12385,
+        "completion_tokens": 6148,
+        "total_tokens": 18533,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 11745
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 18365,
+        "completion_tokens": 908,
+        "total_tokens": 19273,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 18365
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 21254,
+        "completion_tokens": 6137,
+        "total_tokens": 27391,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 20614
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

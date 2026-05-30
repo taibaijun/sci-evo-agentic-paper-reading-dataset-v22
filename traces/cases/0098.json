@@ -1,0 +1,927 @@
+{
+  "case": {
+    "case_id": "sci_evo_0098",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "A computationally designed ACE2 decoy has broad efficacy against SARS-CoV-2 omicron variants and related viruses in vitro and in vivo",
+      "doi": "https://doi.org/10.1038/s42003-023-04860-9",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0096_10_1038_s42003_023_04860_9_a_computationally_designed_ace2_decoy_has_broad_efficacy_against_sars_cov_2_omicron_varian.pdf",
+      "mineru_md": "docs/0098/mineru.md",
+      "combined_md": "docs/0098/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "SARS-CoV-2 omicron subvariants evade monoclonal antibodies and vaccine immunity, necessitating broad-spectrum pan-coronavirus therapeutics.",
+      "target_object": "soluble ACE2 decoy",
+      "known_context": "Omicron subvariants continue to mutate, reducing efficacy of existing antibodies and vaccines.",
+      "constraints": [
+        "Must maintain broad neutralization across variants and sarbecoviruses",
+        "Must resist mutational escape"
+      ],
+      "input_data": [
+        "Structures of ACE2-RBD complexes",
+        "Previous FFWF decoy design"
+      ],
+      "quantifiable_goals": [
+        "Achieve picomolar binding affinity to RBD",
+        "Neutralize omicron subvariants in vitro and in vivo"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "SARS-CoV-2 omicron subvariants evade monoclonal antibodies and vaccine immunity.",
+        "gap_or_uncertainty": "Need for broad-spectrum pan-coronavirus therapeutics that resist mutational escape.",
+        "hypothesis": "Affinity-enhanced soluble ACE2 decoys can outcompete native ACE2 and resist mutational escape because mutations reducing decoy binding would also reduce native receptor binding.",
+        "decision": "Pursue computational design of affinity-enhanced ACE2 decoys.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "literature_review",
+          "version": "",
+          "category": "reasoning"
+        },
+        "parameters": {},
+        "observation": "Any mutation in the RBD that limits binding to the sACE2 derivative will likely have reduced binding towards native ACE2 receptors potentially making the virus unfit to propagate.",
+        "result_status": "success",
+        "next_step_reason": "Hypothesis motivates design of first-generation decoy.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0098/combined.md",
+            "section": "C001",
+            "quote_or_span": "SARS-CoV-2, especially B.1.1.529/omicron and its sublineages, continues to mutate to evade monoclonal antibodies and antibodies elicited by vaccination."
+          },
+          {
+            "evidence_id": "EV_C001_E01_02",
+            "source_file": "docs/0098/combined.md",
+            "section": "C001",
+            "quote_or_span": "there is an urgent need to develop broad-spectrum pan-coronavirus therapeutics that can protect against both future SARS-CoV-2 variants and developing SARS-associated viruses"
+          },
+          {
+            "evidence_id": "EV_C001_E02_02",
+            "source_file": "docs/0098/combined.md",
+            "section": "C001",
+            "quote_or_span": "Any mutation in the RBD that limits binding to the sACE2 derivative will likely have reduced binding towards native ACE2 receptors potentially making the virus unfit to propagate."
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "design",
+        "state_before": "Hypothesis of affinity-enhanced ACE2 decoys.",
+        "gap_or_uncertainty": "Need to design a decoy with improved affinity and breadth.",
+        "hypothesis": "Mutations S19F, T27F, K31W, N330F will enhance binding.",
+        "decision": "Design first-generation decoy FFWF using Rosetta flex ddG.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "Rosetta flex ddG",
+          "version": "",
+          "category": "computational_protein_design"
+        },
+        "parameters": {
+          "mutations": [
+            "S19F",
+            "T27F",
+            "K31W",
+            "N330F"
+          ]
+        },
+        "observation": "FFWF achieved 1.8 nM affinity but had limited coverage and solubility issues.",
+        "result_status": "partial",
+        "next_step_reason": "Limitations of FFWF motivate second-generation design.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_004",
+            "source_file": "docs/0098/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Using computational protein design with the Rosetta flex ddG protocol $^{41}$ , we previously engineered a four mutation sACE2 decoy, FFWF, containing mutations S19F, T27F, K31W, and N330F with 1."
+          },
+          {
+            "evidence_id": "EV_C001_E03_02",
+            "source_file": "docs/0098/combined.md",
+            "section": "C001",
+            "quote_or_span": "The S19F mutation due to its position on the ACE2 N-terminal periphery (limited interactions with the RBD) and K31W due to tryptophan's potential solubility issues were discarded"
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "design",
+        "state_before": "FFWF decoy with 1.8 nM affinity but limited coverage and solubility issues.",
+        "gap_or_uncertainty": "Need to improve affinity and breadth while avoiding solubility problems.",
+        "hypothesis": "Retaining T27F and N330F and adding Q42L and L79I will enhance binding and breadth.",
+        "decision": "Design second-generation decoy FLIF using Rosetta Coupled Moves.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "Rosetta Coupled Moves",
+          "version": "",
+          "category": "computational_protein_design"
+        },
+        "parameters": {
+          "mutations": [
+            "T27F",
+            "Q42L",
+            "L79I",
+            "N330F"
+          ]
+        },
+        "observation": "FLIF designed with mutations T27F, Q42L, L79I, N330F.",
+        "result_status": "success",
+        "next_step_reason": "FLIF design enables computational binding prediction.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E03_01",
+            "source_file": "docs/0098/combined.md",
+            "section": "C001",
+            "quote_or_span": "We decided to include the T27F and N330F mutations in our second-generation ACE2 design"
+          },
+          {
+            "evidence_id": "EV_C001_E03_02",
+            "source_file": "docs/0098/combined.md",
+            "section": "C001",
+            "quote_or_span": "The S19F mutation due to its position on the ACE2 N-terminal periphery (limited interactions with the RBD) and K31W due to tryptophan's potential solubility issues were discarded"
+          },
+          {
+            "evidence_id": "EV_C001_E03_03",
+            "source_file": "docs/0098/combined.md",
+            "section": "C001",
+            "quote_or_span": "we chose mutation Q42L on ACE2 helix 1 due to its ability for leucine to form hydrophobic interactions with Y449-RBD"
+          },
+          {
+            "evidence_id": "EV_AUTO_008",
+            "source_file": "docs/0098/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "To create the second-generation ACE2 decoy, we chose mutation Q42L on ACE2 helix 1 due to its ability for leucine to form hydrophobic interactions with Y449-RBD and the mutation is spatially separated across the interface from mutations T27F and N330F (Fig."
+          },
+          {
+            "evidence_id": "EV_AUTO_006",
+            "source_file": "docs/0098/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The second-generation ACE2 decoy with 4 mutations (T27F, Q42L, L79I, and N330F) is referred to as FLIF throughout the manuscript."
+          },
+          {
+            "evidence_id": "EV_AUTO_005",
+            "source_file": "docs/0098/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Next, we analyzed the hydrogen bond network and native contacts for the four mutations (T27F, Q42L, L79I, N330F) important in our FLIF decoy within 3."
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "simulation",
+        "state_before": "FLIF designed with four mutations.",
+        "gap_or_uncertainty": "Need to predict binding affinity of FLIF to Wuhan RBD.",
+        "hypothesis": "CL-FEP can accurately predict absolute binding free energy.",
+        "decision": "Use CL-FEP to calculate FLIF-Wuhan RBD binding affinity.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "CL-FEP",
+          "version": "",
+          "category": "free_energy_calculation"
+        },
+        "parameters": {
+          "system": "FLIF:Wuhan RBD"
+        },
+        "observation": "Predicted binding affinity -12.4 kcal/mol (~0.77 nM KD).",
+        "result_status": "success",
+        "next_step_reason": "Strong predicted affinity supports experimental validation.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E05_01",
+            "source_file": "docs/0098/combined.md",
+            "section": "C001",
+            "quote_or_span": "FLIF-Wuhan RBD absolute binding affinity calculated using the CL-FEP approach"
+          },
+          {
+            "evidence_id": "EV_C001_E05_02",
+            "source_file": "docs/0098/combined.md",
+            "section": "C001",
+            "quote_or_span": "The reported values correspond to the mean and standard deviation among the 3 runs."
+          },
+          {
+            "evidence_id": "EV_C002_E01_01",
+            "source_file": "docs/0098/combined.md",
+            "section": "C002",
+            "quote_or_span": "The calculated ABFE for FLIF:Wuhan RBD was -12.4 kcal/mol ( $\\sim K_{D}$ 0.77 nM) (Table 1)."
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "analysis",
+        "state_before": "CL-FEP prediction of FLIF binding.",
+        "gap_or_uncertainty": "MM/GBSA overestimates binding energy due to neglect of entropy.",
+        "hypothesis": "CL-FEP provides more accurate absolute binding free energies.",
+        "decision": "Use CL-FEP instead of MM/GBSA for binding affinity predictions.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "CL-FEP",
+          "version": "",
+          "category": "free_energy_calculation"
+        },
+        "parameters": {},
+        "observation": "MM/GBSA overestimates binding energy; CL-FEP accounts for entropy and provides more accurate predictions.",
+        "result_status": "success",
+        "next_step_reason": "Accurate predictions guide experimental validation.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E07_01",
+            "source_file": "docs/0098/combined.md",
+            "section": "C001",
+            "quote_or_span": "the MM/GBSA method overestimates the binding energy due to the disregard of entropy which is a major source of error and computational expense in MM/GBSA calculations"
+          },
+          {
+            "evidence_id": "EV_C006_E05_01",
+            "source_file": "docs/0098/combined.md",
+            "section": "C006",
+            "quote_or_span": "The conformational entropy change is usually computed by normal-mode analysis on a set of conformational snapshots taken from MD simulations. In this case, contribution from entropy is neglected because of its large computational cost and low prediction accuracy."
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "experiment",
+        "state_before": "FLIF designed and computationally predicted to bind tightly.",
+        "gap_or_uncertainty": "Need to experimentally measure binding affinity.",
+        "hypothesis": "FLIF will bind delta RBD with high affinity.",
+        "decision": "Measure monovalent affinity of FLIF to delta RBD using BLI.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "biolayer interferometry",
+          "version": "",
+          "category": "binding_assay"
+        },
+        "parameters": {
+          "analyte": "FLIF",
+          "ligand": "delta RBD"
+        },
+        "observation": "FLIF bound delta RBD with KD 0.1 nM, ~80-fold tighter than WT ACE2 (8.2 nM).",
+        "result_status": "success",
+        "next_step_reason": "Strong binding supports pseudovirus neutralization testing.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E02_01",
+            "source_file": "docs/0098/combined.md",
+            "section": "C002",
+            "quote_or_span": "we measured the monovalent affinity for soluble RBD from delta to wild type ACE2 and measured a $K_{D}$ of 8.2 nM (Fig. 2b) which is about 2-fold tighter than the measured $K_{D}$ of 16 nM for wild type RBD"
+          },
+          {
+            "evidence_id": "EV_C002_E03_01",
+            "source_file": "docs/0098/combined.md",
+            "section": "C002",
+            "quote_or_span": "we used BLI to measure the monovalent affinity between our FLIF decoy and delta RBD (Fig. 2c). The measured $K_{D}$ was 0.1 nM which constitutes an \\~80-fold increase in binding compared with delta RBD:WT ACE2."
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "experiment",
+        "state_before": "FLIF shows picomolar binding to delta RBD.",
+        "gap_or_uncertainty": "Need to test neutralization against multiple SARS-CoV-2 variants.",
+        "hypothesis": "FLIF will neutralize D614G, delta, BA.1, BA.2, BA.4/5 pseudoviruses with greater potency than WT ACE2.",
+        "decision": "Test FLIF neutralization against pseudoviruses of D614G, delta, BA.1, BA.2, BA.4/5.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "pseudovirus neutralization assay",
+          "version": "",
+          "category": "neutralization_assay"
+        },
+        "parameters": {
+          "viruses": [
+            "D614G",
+            "delta",
+            "BA.1",
+            "BA.2",
+            "BA.4/5"
+          ]
+        },
+        "observation": "FLIF maintained potent neutralization against all tested variants, more efficacious than WT ACE2.",
+        "result_status": "success",
+        "next_step_reason": "Potent neutralization against variants leads to testing against sarbecoviruses.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E05_01",
+            "source_file": "docs/0098/combined.md",
+            "section": "C003",
+            "quote_or_span": "the FLIF decoy maintained potent neutralization efficacy against the three subvariants of omicron tested at concentrations more efficacious than wild type ACE2"
+          },
+          {
+            "evidence_id": "EV_AUTO_034",
+            "source_file": "docs/0098/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Therefore, we evaluated the efficacy of our FLIF decoy to neutralize SARS-CoV-2 S variants D614G, delta, omicron BA."
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "experiment",
+        "state_before": "FLIF neutralizes SARS-CoV-2 variants.",
+        "gap_or_uncertainty": "Need to test breadth against diverse sarbecoviruses.",
+        "hypothesis": "FLIF will broadly neutralize sarbecoviruses.",
+        "decision": "Test FLIF neutralization against SARS-CoV and sarbecoviruses WIV1, RsSHC014, GD-1, GX-P5L.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "pseudovirus neutralization assay",
+          "version": "",
+          "category": "neutralization_assay"
+        },
+        "parameters": {
+          "viruses": [
+            "SARS-CoV",
+            "WIV1",
+            "RsSHC014",
+            "GD-1",
+            "GX-P5L"
+          ]
+        },
+        "observation": "FLIF neutralized SARS-CoV, GX-P5L, WIV1 with greater efficacy than WT ACE2; GD-1 and RsSHC014 with similar efficacy.",
+        "result_status": "success",
+        "next_step_reason": "Broad neutralization validates FLIF is not over-engineered.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E06_01",
+            "source_file": "docs/0098/combined.md",
+            "section": "C003",
+            "quote_or_span": "FLIF neutralized SARS-CoV, GX-P5L (pangolin), and WIV1 (bat) with greater efficacy than wild type ACE2 and GD-1 (pangolin) and RsSHC014 (bat) with similar efficacy to wild type ACE2"
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "experiment",
+        "state_before": "FLIF shows broad in vitro neutralization.",
+        "gap_or_uncertainty": "Need to test in vivo efficacy against omicron BA.5.",
+        "hypothesis": "FLIF will suppress viral RNA in lungs of BA.5-infected hamsters.",
+        "decision": "Administer FLIF (20 mg/kg) 2h post-infection in hamsters infected with BA.5.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "hamster infection model",
+          "version": "",
+          "category": "in_vivo_efficacy"
+        },
+        "parameters": {
+          "dose": "20 mg/kg",
+          "time": "2 h post-infection",
+          "virus": "BA.5"
+        },
+        "observation": "FLIF suppressed viral RNA in lungs, while WT ACE2 did not.",
+        "result_status": "success",
+        "next_step_reason": "In vivo efficacy supports advantage over WT ACE2.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E02_01",
+            "source_file": "docs/0098/combined.md",
+            "section": "C004",
+            "quote_or_span": "viral RNA in the lungs of the hamsters was suppressed by treatment with FLIF but not by wild type ACE2"
+          },
+          {
+            "evidence_id": "EV_C005_E05_01",
+            "source_file": "docs/0098/combined.md",
+            "section": "C005",
+            "quote_or_span": "we verified the efficacy of our computationally designed ACE2 decoy, FLIF, against authentic omicron BA.5 in vitro and in vivo"
+          },
+          {
+            "evidence_id": "EV_C005_E05_02",
+            "source_file": "docs/0098/combined.md",
+            "section": "C005",
+            "quote_or_span": "to the best of our knowledge, no ACE2 decoy (computationally or experimentally engineered) has been tested in vivo against newer omicron subvariants such as BA.5"
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "validation",
+        "state_before": "FLIF shows broad neutralization in vitro and in vivo.",
+        "gap_or_uncertainty": "Need to confirm FLIF is not over-engineered and maintains breadth.",
+        "hypothesis": "FLIF maintains breadth of neutralization across diverse sarbecoviruses and variants.",
+        "decision": "Assess breadth of neutralization data.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "data_analysis",
+          "version": "",
+          "category": "analysis"
+        },
+        "parameters": {},
+        "observation": "FLIF neutralized all sarbecoviruses tested, indicating it is not over-engineered at the expense of breadth.",
+        "result_status": "success",
+        "next_step_reason": "Validates design strategy.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E07_01",
+            "source_file": "docs/0098/combined.md",
+            "section": "C003",
+            "quote_or_span": "these results indicate that FLIF is not over-engineered at the expense of breadth as FLIF is able to neutralize all sarbecoviruses tested"
+          },
+          {
+            "evidence_id": "EV_C005_E03_01",
+            "source_file": "docs/0098/combined.md",
+            "section": "C005",
+            "quote_or_span": "FLIF can potently neutralize previous SARS-CoV-2 variants as well as current circulating variants such as BA.5, providing evidence that FLIF is not over engineered at the expense of breadth."
+          },
+          {
+            "evidence_id": "EV_C005_E04_01",
+            "source_file": "docs/0098/combined.md",
+            "section": "C005",
+            "quote_or_span": "FLIF neutralized sarbecoviruses from both the SARS-CoV and SARS-CoV-2 clades showcasing its promise as a pan-coronavirus therapeutic"
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "validation",
+        "state_before": "FLIF shows in vivo efficacy against BA.5.",
+        "gap_or_uncertainty": "Need to demonstrate advantage of affinity-enhanced FLIF over WT ACE2.",
+        "hypothesis": "Affinity-enhanced FLIF has a marked advantage over WT ACE2 in neutralizing BA.5 in vitro and in vivo.",
+        "decision": "Compare FLIF and WT ACE2 neutralization of BA.5.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "comparative_analysis",
+          "version": "",
+          "category": "analysis"
+        },
+        "parameters": {},
+        "observation": "FLIF showed marked advantage over WT ACE2 in neutralizing BA.5 in vitro and in vivo.",
+        "result_status": "success",
+        "next_step_reason": "Confirms affinity-enhanced design is beneficial.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E07_01",
+            "source_file": "docs/0098/combined.md",
+            "section": "C004",
+            "quote_or_span": "These data indicate that FLIF is efficacious at neutralizing omicron BA.5 in vitro and in vivo and affinity enhanced ACE2 mutants such as FLIF hold a major advantage at neutralizing omicron subvariants over the non-affinity enhanced wild type ACE2."
+          },
+          {
+            "evidence_id": "EV_C005_E06_01",
+            "source_file": "docs/0098/combined.md",
+            "section": "C005",
+            "quote_or_span": "For the first time, we show that our computationally designed ACE2 decoy remains highly effective against the authentic SARS-CoV-2 omicron BA.5 strain in vitro and in vivo."
+          },
+          {
+            "evidence_id": "EV_C005_E06_02",
+            "source_file": "docs/0098/combined.md",
+            "section": "C005",
+            "quote_or_span": "when compared to the efficacy of wild type ACE2 (i.e., non-affinity enhanced sACE2) engineered ACE2 decoys such as FLIF provide a marked advantage at neutralizing omicron BA.5 in vitro and in vivo."
+          }
+        ]
+      },
+      {
+        "step_index": 12,
+        "phase": "analysis",
+        "state_before": "FLIF demonstrated in vivo efficacy against BA.5 in hamsters.",
+        "gap_or_uncertainty": "In vivo studies limited by attenuated disease in hamsters and early treatment time point (2h post-infection).",
+        "hypothesis": "The in vivo model may not fully recapitulate human infection, limiting generalizability.",
+        "decision": "Acknowledge limitations of the hamster model and treatment timing.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "limitation_analysis",
+          "version": "",
+          "category": "analysis"
+        },
+        "parameters": {},
+        "observation": "Omicron variants produce attenuated disease in hamsters, and FLIF was administered 2-h post-infection, which may not mimic human treatment.",
+        "result_status": "inconclusive",
+        "next_step_reason": "Limitations highlight need for future studies with more virulent variants and later treatment time points.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C005_E07_01",
+            "source_file": "docs/0098/combined.md",
+            "section": "C005",
+            "quote_or_span": "it is widely noted that omicron variants produce severely attenuated disease in mice and hamsters"
+          },
+          {
+            "evidence_id": "EV_C005_E07_02",
+            "source_file": "docs/0098/combined.md",
+            "section": "C005",
+            "quote_or_span": "we were not able to investigate whether FLIF improves the pathogenicity of hamsters infected with more virulent variants of SARS-CoV-2"
+          },
+          {
+            "evidence_id": "EV_C005_E08_01",
+            "source_file": "docs/0098/combined.md",
+            "section": "C005",
+            "quote_or_span": "FLIF was administered 2-h post-infection which may not mimic treatment of infection in humans."
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "Pseudovirus neutralization assays against multiple variants and sarbecoviruses",
+        "In vivo hamster model with BA.5",
+        "Comparative analysis with WT ACE2"
+      ],
+      "metrics": [
+        "Binding affinity (KD)",
+        "Neutralization potency",
+        "Viral RNA suppression in lungs"
+      ],
+      "final_conclusion": "FLIF is a broad-spectrum pan-coronavirus therapeutic with picomolar affinity and in vivo efficacy against omicron BA.5, showing marked advantage over WT ACE2.",
+      "limitations": [
+        "In vivo studies limited by attenuated disease in hamsters and early treatment time point (2h post-infection)."
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_specific_evidence_backfilled=3",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_specific_evidence_backfilled=2",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 99.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p5\\states\\0098.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p5\\events\\0098.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1
+        ],
+        "K02": [
+          1
+        ],
+        "K03": [
+          2,
+          3
+        ],
+        "K05": [
+          4
+        ],
+        "K06": [
+          4,
+          5
+        ],
+        "K07": [
+          6,
+          7
+        ],
+        "K08": [
+          6,
+          7,
+          8
+        ],
+        "K09": [
+          8
+        ],
+        "K10": [
+          9
+        ],
+        "K12": [
+          8,
+          10
+        ],
+        "K13": [
+          9,
+          11
+        ],
+        "K14": [
+          12
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K03",
+            "K04"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K03",
+            "K04",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K05",
+            "K06"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K06"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K07",
+            "K08"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K07",
+            "K08"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K08",
+            "K09",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K10",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K12"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K13"
+          ]
+        },
+        {
+          "step_index": 12,
+          "covered_event_ids": [
+            "K14"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 2,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "1.8nm"
+        ]
+      },
+      {
+        "step_index": 3,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "1.8nm"
+        ]
+      },
+      {
+        "step_index": 9,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "20",
+          "2h"
+        ]
+      },
+      {
+        "step_index": 12,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "2h"
+        ]
+      }
+    ],
+    "step_count": 12,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 99.0
+  },
+  "api_usage": {
+    "prompt_tokens": 130053,
+    "completion_tokens": 27853,
+    "total_tokens": 157906,
+    "prompt_cache_hit_tokens": 3456,
+    "prompt_cache_miss_tokens": 126597
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 2102,
+        "completion_tokens": 508,
+        "total_tokens": 2610,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 2102
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 7912,
+        "completion_tokens": 1932,
+        "total_tokens": 9844,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 7912
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 7166,
+        "completion_tokens": 1571,
+        "total_tokens": 8737,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6910
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 8541,
+        "completion_tokens": 1543,
+        "total_tokens": 10084,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8285
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 8041,
+        "completion_tokens": 1412,
+        "total_tokens": 9453,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7785
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 8475,
+        "completion_tokens": 1458,
+        "total_tokens": 9933,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8219
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C005",
+      "api_usage": {
+        "prompt_tokens": 6860,
+        "completion_tokens": 1408,
+        "total_tokens": 8268,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6604
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C006",
+      "api_usage": {
+        "prompt_tokens": 7593,
+        "completion_tokens": 1643,
+        "total_tokens": 9236,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7337
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C007",
+      "api_usage": {
+        "prompt_tokens": 5525,
+        "completion_tokens": 59,
+        "total_tokens": 5584,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 5269
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 13622,
+        "completion_tokens": 3101,
+        "total_tokens": 16723,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 13238
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 13968,
+        "completion_tokens": 5858,
+        "total_tokens": 19826,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 13328
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 18564,
+        "completion_tokens": 831,
+        "total_tokens": 19395,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 18564
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 21684,
+        "completion_tokens": 6529,
+        "total_tokens": 28213,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 21044
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

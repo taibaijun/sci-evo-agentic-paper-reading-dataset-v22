@@ -1,0 +1,1007 @@
+{
+  "case": {
+    "case_id": "sci_evo_0160",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Lactate biosensors for spectrally and spatially multiplexed fluorescence imaging",
+      "doi": "https://doi.org/10.1038/s41467-023-42230-5",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0158_10_1038_s41467_023_42230_5_lactate_biosensors_for_spectrally_and_spatially_multiplexed_fluorescence_imaging.pdf",
+      "mineru_md": "docs/0160/mineru.md",
+      "combined_md": "docs/0160/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Develop improved green extracellular and red intracellular L-lactate biosensors with higher ΔF/F, faster kinetics, and better localization for multiplexed imaging.",
+      "target_object": "L-lactate biosensors",
+      "known_context": "eLACCO1.1 suffers from aggregation and limited fluorescence response on mammalian cell surface; no red fluorescent biosensors for intracellular L-lactate exist.",
+      "constraints": [
+        "Must be genetically encoded",
+        "Must enable spectrally and spatially multiplexed imaging"
+      ],
+      "input_data": [],
+      "quantifiable_goals": [
+        "Higher ΔF/F than eLACCO1.1",
+        "Faster kinetics",
+        "Better surface localization",
+        "Red intracellular sensor with high ΔF/F"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "eLACCO1.1 aggregates and has limited fluorescence response on mammalian cell surface; no red intracellular L-lactate biosensor exists.",
+        "gap_or_uncertainty": "Need improved green extracellular sensor and a new red intracellular sensor for multiplexed imaging.",
+        "hypothesis": "A spectrally and functionally orthogonal pair of green extracellular and red intracellular biosensors can be developed.",
+        "decision": "Design orthogonal pair: green extracellular eLACCO2.1 and red intracellular R-iLACCO1. Select eLACCO0.9 as starting point for green sensor evolution due to faster kinetics than eLACCO1.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "literature analysis",
+          "version": "",
+          "category": "reasoning"
+        },
+        "parameters": {},
+        "observation": "eLACCO1.1 aggregation and limited response; no red intracellular sensor reported. eLACCO0.9 identified as promising candidate.",
+        "result_status": "success",
+        "next_step_reason": "Proceed to directed evolution of eLACCO0.9.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0160/combined.md",
+            "section": "C001",
+            "quote_or_span": "the first-in-class eLACCO1.1 suffers from aggregation and limited fluorescence response on the surface of mammalian cells"
+          },
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0160/combined.md",
+            "section": "C001",
+            "quote_or_span": "no red fluorescent biosensors for intracellular L-lactate have yet been reported, hindering imaging with other green fluorescent biosensors in spatially and spectrally multiplexed manner"
+          },
+          {
+            "evidence_id": "EV_C001_E03_01",
+            "source_file": "docs/0160/combined.md",
+            "section": "C001",
+            "quote_or_span": "a spectrally and functionally orthogonal pair of high-performance genetically encoded biosensors: the second-generation green fluorescent eLACCO2.1 for extracellular L-lactate and the first-generation red fluorescent R-iLACCO1 for intracellular L-lactate"
+          },
+          {
+            "evidence_id": "EV_C002_E01_01",
+            "source_file": "docs/0160/combined.md",
+            "section": "C002",
+            "quote_or_span": "we first identified eLACCO0.9 as a promising candidate due to a faster fluorescence response than eLACCO1"
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "experiment",
+        "state_before": "eLACCO0.9 selected as starting point.",
+        "gap_or_uncertainty": "Need to improve ΔF/F and other properties.",
+        "hypothesis": "Directed evolution can yield variants with higher ΔF/F.",
+        "decision": "Perform directed evolution: 8 rounds of random mutagenesis on eLACCO0.9 to produce eLACCO2 with ΔF/F 16.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "directed evolution",
+          "version": "",
+          "category": "random mutagenesis and screening"
+        },
+        "parameters": {
+          "rounds": 8
+        },
+        "observation": "eLACCO2 achieved ΔF/F of 16.",
+        "result_status": "success",
+        "next_step_reason": "Tune affinity of eLACCO2.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C007_E07_03",
+            "source_file": "docs/0160/combined.md",
+            "section": "C007",
+            "quote_or_span": "Leu79Ile mutation was added to eLACCO2 to tune the L-lactate affinity. The resulting mutant was designated as eLACCO2.1."
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "design",
+        "state_before": "eLACCO2 with ΔF/F 16.",
+        "gap_or_uncertainty": "Need to tune affinity for physiological lactate range.",
+        "hypothesis": "Leu79Ile mutation will adjust Kd.",
+        "decision": "Introduce Leu79Ile into eLACCO2 to produce eLACCO2.1 (Kd 1.9 mM, ΔF/F 14).",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "site-directed mutagenesis",
+          "version": "",
+          "category": "mutagenesis"
+        },
+        "parameters": {
+          "mutation": "Leu79Ile"
+        },
+        "observation": "eLACCO2.1 has Kd 1.9 mM and ΔF/F 14.",
+        "result_status": "success",
+        "next_step_reason": "Optimize cell surface localization.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C007_E07_03",
+            "source_file": "docs/0160/combined.md",
+            "section": "C007",
+            "quote_or_span": "Leu79Ile mutation was added to eLACCO2 to tune the L-lactate affinity. The resulting mutant was designated as eLACCO2.1."
+          },
+          {
+            "evidence_id": "EV_AUTO_009",
+            "source_file": "docs/0160/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Finally, Leu79Ile mutation was added to eLACCO2 to tune the L-lactate affinity."
+          },
+          {
+            "evidence_id": "EV_AUTO_011",
+            "source_file": "docs/0160/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Of ten variants investigated, eLACCO2 Leu79Ile, designated eLACCO2."
+          },
+          {
+            "evidence_id": "EV_AUTO_022",
+            "source_file": "docs/0160/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "1 has a $\\Delta F/F$ of 14 as a purified protein upon treatment with 10 mM L-lactate, which is 3.5-fold higher than eLACCO1."
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "experiment",
+        "state_before": "eLACCO2.1 requires optimal leader/anchor for surface localization.",
+        "gap_or_uncertainty": "Need to identify best leader and anchor for eLACCO2.1 surface localization and ΔF/F.",
+        "hypothesis": "Screening leaders and anchors will identify optimal combination.",
+        "decision": "Screen 23 leaders and 10 anchors; select HA leader and NGR anchor for eLACCO2.1.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "leader and anchor screening",
+          "version": "",
+          "category": "screening"
+        },
+        "parameters": {
+          "leaders_screened": 23,
+          "anchors_screened": 10
+        },
+        "observation": "HA leader + NGR anchor provided very good membrane localization and greater fluorescent signal.",
+        "result_status": "success",
+        "next_step_reason": "Validate eLACCO2.1 in HeLa cells.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E08_03",
+            "source_file": "docs/0160/combined.md",
+            "section": "C002",
+            "quote_or_span": "influenza hemagglutinin (HA) provided very good membrane localization and also showed greater fluorescent signal relative to CD59-eLACCO1.1-NGR in neurites"
+          },
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0160/combined.md",
+            "section": "C001",
+            "quote_or_span": "the first-in-class eLACCO1.1 suffers from aggregation and limited fluorescence response on the surface of mammalian cells"
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "validation",
+        "state_before": "eLACCO2.1 with HA leader and NGR anchor.",
+        "gap_or_uncertainty": "Need to validate performance in mammalian cells.",
+        "hypothesis": "eLACCO2.1 will show improved ΔF/F and kinetics in HeLa cells.",
+        "decision": "Characterize eLACCO2.1 in HeLa cells.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "fluorescence microscopy",
+          "version": "",
+          "category": "imaging"
+        },
+        "parameters": {
+          "cell_line": "HeLa"
+        },
+        "observation": "eLACCO2.1 shows improved performance in HeLa cells.",
+        "result_status": "success",
+        "next_step_reason": "Test in brain slices.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_022",
+            "source_file": "docs/0160/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "1 has a $\\Delta F/F$ of 14 as a purified protein upon treatment with 10 mM L-lactate, which is 3.5-fold higher than eLACCO1."
+          },
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0160/combined.md",
+            "section": "C001",
+            "quote_or_span": "the first-in-class eLACCO1.1 suffers from aggregation and limited fluorescence response on the surface of mammalian cells"
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "validation",
+        "state_before": "eLACCO2.1 validated in HeLa.",
+        "gap_or_uncertainty": "Does eLACCO2.1 detect endogenous lactate changes in brain tissue?",
+        "hypothesis": "eLACCO2.1 will respond to aglycemia and theta burst stimulation in brain slices.",
+        "decision": "Test eLACCO2.1 in acute brain slices.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "brain slice imaging",
+          "version": "",
+          "category": "imaging"
+        },
+        "parameters": {
+          "tissue": "acute brain slices",
+          "stimuli": [
+            "aglycemia",
+            "theta burst stimulation"
+          ]
+        },
+        "observation": "Fluorescence decreased upon aglycemia and increased upon theta burst stimulation.",
+        "result_status": "success",
+        "next_step_reason": "Proceed to in vivo validation.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C009_E01_01",
+            "source_file": "docs/0160/combined.md",
+            "section": "C009",
+            "quote_or_span": "For aglycemia experiments in acute brain slices, glucose was not added to the ACSF"
+          },
+          {
+            "evidence_id": "EV_C009_E01_02",
+            "source_file": "docs/0160/combined.md",
+            "section": "C009",
+            "quote_or_span": "The tissue was stimulated with 1 ms long mono-phasic pulses at 1.2 V using a theta burst pattern"
+          },
+          {
+            "evidence_id": "EV_C009_E07_01",
+            "source_file": "docs/0160/combined.md",
+            "section": "C009",
+            "quote_or_span": "For aglycemia experiments in acute brain slices, glucose was not added to the ACSF"
+          },
+          {
+            "evidence_id": "EV_C009_E07_02",
+            "source_file": "docs/0160/combined.md",
+            "section": "C009",
+            "quote_or_span": "The tissue was stimulated with 1 ms long mono-phasic pulses at 1.2 V using a theta burst pattern"
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "experiment",
+        "state_before": "R-iLACCO0.1 constructed.",
+        "gap_or_uncertainty": "Low ΔF/F; need to improve response.",
+        "hypothesis": "Linker optimization can enhance ΔF/F.",
+        "decision": "Delete 2 aa in C-terminal linker → R-iLACCO0.2 (ΔF/F 0.6).",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "linker deletion",
+          "version": "",
+          "category": "mutagenesis"
+        },
+        "parameters": {
+          "deletion": "2 aa in C-terminal linker"
+        },
+        "observation": "R-iLACCO0.2 had ΔF/F 0.6.",
+        "result_status": "partial",
+        "next_step_reason": "Proceed to directed evolution.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C008_E02_01",
+            "source_file": "docs/0160/combined.md",
+            "section": "C008",
+            "quote_or_span": "N- and C-terminal linkers of R-iLACCO0.1 were deleted using Q5 high-fidelity DNA polymerase (New England Biolabs) to provide variants with different linker length. Variants were expressed in E. coli. Proteins were extracted using B-PER bacterial protein extraction reagent (Thermo Fisher Scientific) and tested for fluorescence brightness and L-lactate-dependent response. The most promising variant, designated as R-iLACCO0.2"
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "experiment",
+        "state_before": "R-iLACCO0.2 with ΔF/F 0.6.",
+        "gap_or_uncertainty": "Need much higher ΔF/F for practical use.",
+        "hypothesis": "Directed evolution can significantly improve ΔF/F.",
+        "decision": "11 rounds of directed evolution (1 linker + 10 random) → R-iLACCO1 (ΔF/F 20).",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "directed evolution",
+          "version": "",
+          "category": "random mutagenesis and screening"
+        },
+        "parameters": {
+          "rounds": 11,
+          "library_size": "200-400 colonies per round"
+        },
+        "observation": "R-iLACCO1 achieved ΔF/F 20, high molecular brightness 11.3.",
+        "result_status": "success",
+        "next_step_reason": "Screen for lower affinity variants.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E06_02",
+            "source_file": "docs/0160/combined.md",
+            "section": "C002",
+            "quote_or_span": "we performed one round of C-terminal linker optimization, followed by ten rounds of directed evolution by random mutagenesis of the whole gene"
+          },
+          {
+            "evidence_id": "EV_C008_E03_01",
+            "source_file": "docs/0160/combined.md",
+            "section": "C008",
+            "quote_or_span": "R-iLACCO0.2, was subjected to an iterative process of library generation and screening in E. coli. Libraries were generated by site-directed random mutagenesis or error-prone PCR of the whole gene. For each round, approximately 200–400 fluorescent colonies were picked, cultured, and tested on 96-well plates under a plate reader. There were 11 rounds of screening before R-iLACCO1, R-iLACCO1.1, and R-iLACCO1.2 were identified."
+          },
+          {
+            "evidence_id": "EV_AUTO_027",
+            "source_file": "docs/0160/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Ultimately, we developed the R-iLACCO1 variant with high molecular brightness (11.3 in L-lactate-bound state, Table 2) and $\\Delta F/F$ of 20 that is one of the highest fluorescence responses for red fluorescent biosensor protein, as measured using purified protein (Supplementary Table 2) $^{18,31}$ ."
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "experiment",
+        "state_before": "R-iLACCO1 with high affinity.",
+        "gap_or_uncertainty": "Need variants with lower affinity for physiological lactate range.",
+        "hypothesis": "Screening at multiple lactate concentrations will identify lower affinity variants.",
+        "decision": "Screen final round at 0, 0.5, and 10 mM lactate → R-iLACCO1.1 and 1.2.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "affinity screening",
+          "version": "",
+          "category": "screening"
+        },
+        "parameters": {
+          "lactate_concentrations": [
+            0,
+            0.5,
+            10
+          ]
+        },
+        "observation": "Identified R-iLACCO1.1 and R-iLACCO1.2 with lower apparent Kd.",
+        "result_status": "success",
+        "next_step_reason": "Validate best variant in mammalian cells.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C008_E03_01",
+            "source_file": "docs/0160/combined.md",
+            "section": "C008",
+            "quote_or_span": "R-iLACCO0.2, was subjected to an iterative process of library generation and screening in E. coli. Libraries were generated by site-directed random mutagenesis or error-prone PCR of the whole gene. For each round, approximately 200–400 fluorescent colonies were picked, cultured, and tested on 96-well plates under a plate reader. There were 11 rounds of screening before R-iLACCO1, R-iLACCO1.1, and R-iLACCO1.2 were identified."
+          },
+          {
+            "evidence_id": "EV_AUTO_035",
+            "source_file": "docs/0160/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "In the final round of directed evolution, we screened all randomly picked variants in the absence of L-lactate, at 0.5 mM L-lactate, and at 10 mM L-lactate, to assess their apparent $K_{d}$ values."
+          },
+          {
+            "evidence_id": "EV_C009_E07_02",
+            "source_file": "docs/0160/combined.md",
+            "section": "C009",
+            "quote_or_span": "The tissue was stimulated with 1 ms long mono-phasic pulses at 1.2 V using a theta burst pattern"
+          },
+          {
+            "evidence_id": "EV_C009_E01_02",
+            "source_file": "docs/0160/combined.md",
+            "section": "C009",
+            "quote_or_span": "The tissue was stimulated with 1 ms long mono-phasic pulses at 1.2 V using a theta burst pattern"
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "validation",
+        "state_before": "R-iLACCO1.2 identified as lower affinity variant.",
+        "gap_or_uncertainty": "Need to confirm performance in mammalian cells.",
+        "hypothesis": "R-iLACCO1.2 will show best performance in HeLa and other cells.",
+        "decision": "Characterize R-iLACCO1.2 in HeLa, HEK293T, neurons, astrocytes.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "fluorescence microscopy",
+          "version": "",
+          "category": "imaging"
+        },
+        "parameters": {
+          "cell_types": [
+            "HeLa",
+            "HEK293T",
+            "neurons",
+            "astrocytes"
+          ]
+        },
+        "observation": "R-iLACCO1.2 shows best performance, uniform localization, no punctate accumulation.",
+        "result_status": "success",
+        "next_step_reason": "Validate in primary neurons and astrocytes with MCT inhibition.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C005_E04_01",
+            "source_file": "docs/0160/combined.md",
+            "section": "C005",
+            "quote_or_span": "Bold represents the best performance of the lactate biosensors investigated."
+          },
+          {
+            "evidence_id": "EV_C006_E04_01",
+            "source_file": "docs/0160/combined.md",
+            "section": "C006",
+            "quote_or_span": "We also confirmed that R-iLACCO1 and its affinity variants display no undesirable punctate intracellular accumulation"
+          },
+          {
+            "evidence_id": "EV_AUTO_007",
+            "source_file": "docs/0160/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "HeLa (American Type Culture Collection, ATCC, #CCL-2) and HEK293T (Thermo Fisher Scientific, #R70007) cells were maintained in Dulbecco's modified Eagle medium (DMEM; Nakalai Tesque) supplemented with 10% fetal bovine serum (FBS; Sigma-Aldrich) and 1% penicillin–streptomycin (Nakalai Tesque) at 37 °C and 5% CO $_{2}$ ."
+          },
+          {
+            "evidence_id": "EV_AUTO_003",
+            "source_file": "docs/0160/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "# Imaging of eLACCO and R-iLACCO variants in HeLa, HEK293T, and T98G cell lines"
+          },
+          {
+            "evidence_id": "EV_AUTO_033",
+            "source_file": "docs/0160/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "2 showed the largest fluorescence response of all R-iLACCO variants and its $\\Delta F/F$ (2.5 ± 0."
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "validation",
+        "state_before": "R-iLACCO variants characterized in cell lines.",
+        "gap_or_uncertainty": "Do they function in primary neurons and astrocytes?",
+        "hypothesis": "R-iLACCO variants will respond to MCT inhibition in primary cells.",
+        "decision": "Test R-iLACCO variants in primary neurons and astrocytes with AR-C155858.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "fluorescence microscopy",
+          "version": "",
+          "category": "imaging"
+        },
+        "parameters": {
+          "cell_types": [
+            "primary neurons",
+            "astrocytes"
+          ],
+          "treatment": "AR-C155858 (MCT inhibitor)"
+        },
+        "observation": "Robust increase in fluorescence intensity upon MCT inhibition.",
+        "result_status": "success",
+        "next_step_reason": "Proceed to in vivo validation of eLACCO2.1.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E08_01",
+            "source_file": "docs/0160/combined.md",
+            "section": "C004",
+            "quote_or_span": "Treatment of neurons and astrocytes with AR-C155858 yielded a robust increase in the fluorescence intensity of R-iLACCO variants"
+          }
+        ]
+      },
+      {
+        "step_index": 12,
+        "phase": "validation",
+        "state_before": "eLACCO2.1 validated in brain slices.",
+        "gap_or_uncertainty": "Does eLACCO2.1 work in vivo?",
+        "hypothesis": "eLACCO2.1 will respond to i.c.v. lactate injection in awake mice.",
+        "decision": "Perform in vivo fiber photometry with i.c.v. lactate injection.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "fiber photometry",
+          "version": "",
+          "category": "in vivo imaging"
+        },
+        "parameters": {
+          "animal": "awake mice",
+          "injection": "i.c.v. lactate"
+        },
+        "observation": "eLACCO2.1 fluorescence increased upon lactate injection; deLACCO1 control did not respond.",
+        "result_status": "success",
+        "next_step_reason": "Conclude development.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C009_E02_02",
+            "source_file": "docs/0160/combined.md",
+            "section": "C009",
+            "quote_or_span": "eLACCO fluorescence was acquired by the fiber photometry system"
+          },
+          {
+            "evidence_id": "EV_C009_E08_02",
+            "source_file": "docs/0160/combined.md",
+            "section": "C009",
+            "quote_or_span": "eLACCO fluorescence was acquired by the fiber photometry system"
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "In vitro characterization of purified proteins",
+        "Live-cell imaging in HeLa, HEK293T, T98G, primary neurons, astrocytes",
+        "Brain slice imaging",
+        "In vivo fiber photometry in mice"
+      ],
+      "metrics": [
+        "ΔF/F",
+        "Kd",
+        "kinetics (τon, τoff)",
+        "photostability",
+        "localization"
+      ],
+      "final_conclusion": "Developed eLACCO2.1 (green extracellular) and R-iLACCO1 series (red intracellular) with improved ΔF/F, kinetics, and localization, enabling multiplexed lactate imaging.",
+      "limitations": [
+        "eLACCO2.1 shows Ca2+ sensitivity",
+        "R-iLACCO variants exhibit slight blue-light sensitivity",
+        "Brightness and photostability could be further improved"
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "Some evidence quotes are indirect (e.g., EV_AUTO_022 for HeLa ΔF/F).",
+        "Missing direct evidence for multiplexed imaging and organelle targeting steps, but these are not required for core trajectory.",
+        "v22_step_trimmed=14_to_12",
+        "v22_specific_evidence_backfilled=5",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_step_trimmed=13_to_12",
+        "v22_specific_evidence_backfilled=7",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 100.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p3\\states\\0160.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p3\\events\\0160.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 11,
+      "covered_event_count": 11,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1,
+          4,
+          5
+        ],
+        "K05": [
+          1,
+          2,
+          3
+        ],
+        "K09": [
+          7
+        ],
+        "K10": [
+          8,
+          9
+        ],
+        "K11": [
+          8,
+          9
+        ],
+        "K13": [
+          3,
+          4,
+          5
+        ],
+        "K14": [
+          3,
+          5
+        ],
+        "K16": [
+          6,
+          9
+        ],
+        "K17": [
+          10
+        ],
+        "K18": [
+          10,
+          11
+        ],
+        "K19": [
+          12
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02",
+            "K03",
+            "K04",
+            "K05"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K05",
+            "K06"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K05",
+            "K06",
+            "K13",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K01",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K01",
+            "K06",
+            "K13",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K16"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K09"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K08",
+            "K10",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K10",
+            "K11",
+            "K16"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K17",
+            "K18"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K18"
+          ]
+        },
+        {
+          "step_index": 12,
+          "covered_event_ids": [
+            "K19"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 2,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "16",
+          "9s"
+        ]
+      },
+      {
+        "step_index": 3,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "1.9mm",
+          "16"
+        ]
+      },
+      {
+        "step_index": 4,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "23"
+        ]
+      },
+      {
+        "step_index": 7,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "0.6",
+          "2h"
+        ]
+      },
+      {
+        "step_index": 8,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "0.6"
+        ]
+      },
+      {
+        "step_index": 9,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "0.5"
+        ]
+      }
+    ],
+    "step_count": 12,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 100.0
+  },
+  "api_usage": {
+    "prompt_tokens": 183201,
+    "completion_tokens": 38080,
+    "total_tokens": 221281,
+    "prompt_cache_hit_tokens": 3712,
+    "prompt_cache_miss_tokens": 179489
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 6661,
+        "completion_tokens": 752,
+        "total_tokens": 7413,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 6661
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 15933,
+        "completion_tokens": 3244,
+        "total_tokens": 19177,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 15933
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 9749,
+        "completion_tokens": 1307,
+        "total_tokens": 11056,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9493
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 9698,
+        "completion_tokens": 1924,
+        "total_tokens": 11622,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9442
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 10140,
+        "completion_tokens": 703,
+        "total_tokens": 10843,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9884
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 9410,
+        "completion_tokens": 1860,
+        "total_tokens": 11270,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9154
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C005",
+      "api_usage": {
+        "prompt_tokens": 9926,
+        "completion_tokens": 1469,
+        "total_tokens": 11395,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9670
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C006",
+      "api_usage": {
+        "prompt_tokens": 9471,
+        "completion_tokens": 1396,
+        "total_tokens": 10867,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9215
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C007",
+      "api_usage": {
+        "prompt_tokens": 9421,
+        "completion_tokens": 1857,
+        "total_tokens": 11278,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9165
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C008",
+      "api_usage": {
+        "prompt_tokens": 8703,
+        "completion_tokens": 2101,
+        "total_tokens": 10804,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8447
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C009",
+      "api_usage": {
+        "prompt_tokens": 8813,
+        "completion_tokens": 1473,
+        "total_tokens": 10286,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 8813
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C010",
+      "api_usage": {
+        "prompt_tokens": 5161,
+        "completion_tokens": 59,
+        "total_tokens": 5220,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 5161
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 14485,
+        "completion_tokens": 5218,
+        "total_tokens": 19703,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 14101
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 13799,
+        "completion_tokens": 6821,
+        "total_tokens": 20620,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 13159
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 19076,
+        "completion_tokens": 1500,
+        "total_tokens": 20576,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 19076
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 22755,
+        "completion_tokens": 6396,
+        "total_tokens": 29151,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 22115
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

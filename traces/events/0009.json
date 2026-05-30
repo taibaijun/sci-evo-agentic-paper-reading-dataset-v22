@@ -1,0 +1,2047 @@
+{
+  "doc_no": "0009",
+  "source": {
+    "title": "rapid discovery of cd38 inhibitor via dna encoded natural product library screen",
+    "doi": "",
+    "license": "",
+    "pdf_name": "0007_PMC12986513_rapid_discovery_of_cd38_inhibitor_via_dna_encoded_natural_product_library_screen.pdf",
+    "combined_md": "docs/0009/combined.md",
+    "mineru_md": "docs/0009/mineru.md"
+  },
+  "gist_memory": {
+    "paper_problem_memory": "CD38 is a multifunctional enzyme involved in NAD+ metabolism and calcium signaling, implicated in multiple myeloma, age-related decline, and neurodegeneration. Existing therapies (e.g., daratumumab) have limitations like high cost and immunogenicity; small-molecule inhibitors are needed but discovery is challenging. The study hypothesizes that DNA-encoded library (DEL) technology can efficiently identify novel small-molecule CD38 inhibitors from a natural product-like library.",
+    "section_gists": [
+      {
+        "section_index": 4,
+        "heading": "Abstract",
+        "gist": "DEL screen of >100k compounds against CD38 identified 1043 enriched, narrowed to 8 diverse hits including Fenbendazole. SPR confirmed binding (KD 7.74e-5 to 2.15e-4 M). Enzymatic assays showed dose-dependent inhibition of hydrolase and cyclase. SAR on Fenbendazole analogues revealed Flubendazole as most potent (IC50 14.78 µM hydrolase, 26.31 µM cyclase). MD simulations showed van der Waals interactions drive binding, with conserved aromatic residues mediating recognition.",
+        "process_signals": [
+          "Initial DEL screen yielded 1043 enriched compounds, filtered to 8 hits after excluding non-specific and known actives.",
+          "Fenbendazole, a known antiparasitic, was among hits, suggesting repurposing potential.",
+          "SAR exploration led to Flubendazole with improved potency."
+        ],
+        "methods": [
+          "DEL screening",
+          "SPR",
+          "Fluorescence-based enzymatic assays (ε-NAD for hydrolase, NGD for cyclase)",
+          "SAR by analogue testing",
+          "Molecular docking and 100 ns MD simulations"
+        ],
+        "metrics": [
+          "KD (SPR)",
+          "IC50 (enzymatic)",
+          "Fold enrichment (DEL)"
+        ],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 5,
+        "heading": "1. Introduction",
+        "gist": "CD38's enzymatic activities (ADP-ribosyl cyclase, cADPR hydrolase, NAD+ glycohydrolase) regulate NAD+ and calcium signaling. Aberrant expression is linked to multiple myeloma, aging, neurodegeneration. Existing inhibitors include small molecules (e.g., GSK compounds, MK-0159) and antibodies (daratumumab), but antibodies have high cost/immunogenicity, and small molecules need improved potency/selectivity. DEL technology enables high-throughput screening of millions of compounds in a single tube, reducing cost and protein consumption. The study aims to combine DEL with structure-based design to find novel CD38 inhibitors.",
+        "process_signals": [
+          "Motivation: need for novel small-molecule CD38 inhibitors with better properties.",
+          "Hypothesis: DEL can efficiently identify new scaffolds.",
+          "Prior art: flavonoids, quinoline carboxamides, indole-7-carboxamides, etc., with known SAR (e.g., 8-carboxamide critical for H-bonds)."
+        ],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": [
+          "Existing small molecules often lack potency or selectivity; antibodies have limitations."
+        ]
+      },
+      {
+        "section_index": 6,
+        "heading": "2. Results",
+        "gist": "Results section header.",
+        "process_signals": [],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 7,
+        "heading": "2.1. DEL Screening and Identification of Hit Compounds",
+        "gist": "DEL library of >0.1M compounds screened against immobilized recombinant CD38. Affinity selection with washing and competitive elution using known inhibitor 78c. DNA barcodes sequenced. 1043 compounds enriched; after filtering non-specific binders and known actives, 8 hits selected with diverse scaffolds. Table lists hits with fold change (e.g., Cianidanol 12.46, Fenbendazole 2.56). Oridonin had fold change 2.51 but later failed to bind.",
+        "process_signals": [
+          "Competitive elution with 78c to increase specificity.",
+          "Filtering step: excluded non-specific binding and previously reported active compounds.",
+          "Oridonin was initially enriched but later showed no binding, leading to adjusted cutoff."
+        ],
+        "methods": [
+          "DEL affinity selection",
+          "High-throughput sequencing",
+          "Fold change analysis"
+        ],
+        "metrics": [
+          "Fold change (enrichment)"
+        ],
+        "failures_or_limits": [
+          "Oridonin (fold change 2.51) was a false positive; no binding in SPR."
+        ]
+      },
+      {
+        "section_index": 8,
+        "heading": "2.2. Binding Affinity of Hit Compounds to CD38",
+        "gist": "SPR validated direct binding of 7 out of 8 hits (Oridonin did not bind). KD values ranged from 6.66e-4 M to 4.67e-6 M, mostly ~10^-4 M. Fenbendazole KD ~2.52e-4 M with slow kinetics. Topiroxostat and Alvimopan had higher affinity (~7e-5 M). 78c KD 7.06e-5 M.",
+        "process_signals": [
+          "Oridonin failure confirmed; cutoff adjusted for stringency.",
+          "Fenbendazole slow binding kinetics noted, suggesting stable complex despite moderate affinity."
+        ],
+        "methods": [
+          "SPR"
+        ],
+        "metrics": [
+          "KD (dissociation constant)"
+        ],
+        "failures_or_limits": [
+          "Oridonin did not bind, indicating false positive from DEL."
+        ]
+      },
+      {
+        "section_index": 9,
+        "heading": "2.3. Inhibitory Activity of Hit Compounds on CD38 Enzymatic Functions",
+        "gist": "Fluorescence assays for hydrolase (ε-NAD) and cyclase (NGD). Compounds 3,4,6,7 showed inhibition. Fenbendazole and Topiroxostat reduced hydrolase product >50% at 10 and 30 min. Cyclase assay showed some inhibition but data for some compounds unclear. Dual inhibition observed for Fenbendazole and Topiroxostat.",
+        "process_signals": [
+          "Not all binders inhibited both activities; some showed weak or no inhibition.",
+          "Fenbendazole and Topiroxostat emerged as dual inhibitors."
+        ],
+        "methods": [
+          "Fluorescence-based enzymatic assays"
+        ],
+        "metrics": [
+          "Product formation (RFU)",
+          "Inhibition %"
+        ],
+        "failures_or_limits": [
+          "Some compounds (e.g., 1,2,5,8,9,10) showed little inhibition."
+        ]
+      },
+      {
+        "section_index": 10,
+        "heading": "2.4. Structural Diversity Screening of Fenbendazole Analogues for SAR Exploration",
+        "gist": "Fenbendazole chosen for SAR due to moderate affinity, dual inhibition, and clinical approval. Analogues selected with variations at R1 (flexible vs rigid aromatic) and R2 (mostly methoxycarbamide, except Thiabendazole and Bendamustine). Aim: identify critical features for CD38 inhibition.",
+        "process_signals": [
+          "Decision to focus on Fenbendazole scaffold for optimization.",
+          "Systematic variation of R1 and R2 to probe SAR."
+        ],
+        "methods": [
+          "Analogue selection based on structural diversity"
+        ],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 11,
+        "heading": "2.5. SPR Analysis of Binding Affinity for Fenbendazole Derivatives",
+        "gist": "SPR on analogues: rigid aromatic R1 (e.g., Oxfendazole KD 2.15e-4 M) had higher affinity than flexible R1 (e.g., Oxibendazole KD 4.38e-3 M). Bendamustine had highest affinity (KD 1.31e-4 M). Suggests aromatic R1 enhances binding via hydrophobic interactions.",
+        "process_signals": [
+          "SAR trend: aromatic R1 > flexible R1 for binding.",
+          "Bendamustine best binder but not necessarily best inhibitor."
+        ],
+        "methods": [
+          "SPR"
+        ],
+        "metrics": [
+          "KD"
+        ],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 12,
+        "heading": "2.6. Inhibitory Activity of Fenbendazole Analogues",
+        "gist": "Enzymatic assays on analogues. Oxibendazole showed strongest hydrolase inhibition but fluorescence interference in cyclase assay, so excluded. Flubendazole and Parbendazole comparable to Fenbendazole. Flubendazole IC50: 14.78 µM (hydrolase), 26.31 µM (cyclase). Table 1 integrates affinity and activity.",
+        "process_signals": [
+          "Oxibendazole data compromised due to intrinsic fluorescence; could not confirm dual inhibition.",
+          "Flubendazole identified as most potent dual inhibitor."
+        ],
+        "methods": [
+          "Fluorescence-based enzymatic assays"
+        ],
+        "metrics": [
+          "IC50",
+          "Product formation (RFU)"
+        ],
+        "failures_or_limits": [
+          "Oxibendazole cyclase data unreliable due to fluorescence interference."
+        ]
+      },
+      {
+        "section_index": 13,
+        "heading": "2.7. Structural and Energetic Basis of CD38 Inhibition by Small-Molecule Ligands",
+        "gist": "Docking and 100 ns MD on Topiroxostat, Fenbendazole, Oxibendazole. All bound active site with conserved aromatic residues (TRP-125, TRP-189). MD showed stable RMSD, Rg, ligand distance. MM-PBSA: van der Waals dominant (ΔEvdw -126.9 to -149.5 kJ/mol). ΔGbind: Topiroxostat -40.5, Fenbendazole -81.4, Oxibendazole -83.8 kJ/mol. TRP-189 and TRP-125 key energetic contributors.",
+        "process_signals": [
+          "Computational validation of binding modes and energetics.",
+          "Correlation of computed ΔGbind with SPR affinity trends."
+        ],
+        "methods": [
+          "Molecular docking",
+          "100 ns MD simulations",
+          "MM-PBSA"
+        ],
+        "metrics": [
+          "RMSD",
+          "Rg",
+          "Buried SASA",
+          "ΔGbind",
+          "Energy decomposition"
+        ],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 14,
+        "heading": "3. Discussion",
+        "gist": "DEL successfully identified diverse hits, including repurposable drugs. Fenbendazole promising due to dual inhibition and safety profile. SAR: rigid aromatic R1 and methoxycarbamide R2 key. Flubendazole most potent. Dual inhibition may offer synergistic benefits. Limitations: only extracellular CD38 targeted, micromolar potency, no cellular/in vivo data. Future: structure-based optimization, cellular assays, selectivity vs CD73/CD157, in vivo PK/efficacy.",
+        "process_signals": [
+          "Acknowledged need for cell permeability and in vivo validation.",
+          "Micromolar potency requires optimization to nanomolar.",
+          "Selectivity against homologs not yet assessed."
+        ],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": [
+          "Only extracellular CD38 screened; intracellular pools not addressed.",
+          "Potency in micromolar range, not yet therapeutic.",
+          "No cellular or in vivo efficacy data."
+        ]
+      },
+      {
+        "section_index": 15,
+        "heading": "4. Materials and Methods",
+        "gist": "Materials and Methods section header.",
+        "process_signals": [],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 16,
+        "heading": "4.1. Chemicals and Materials",
+        "gist": "Lists commercial sources for all compounds (e.g., Fenbendazole from MedChemExpress, Flubendazole from J&K). All dissolved in DMSO as 10 mM stocks. Reagents for enzymatic assays and SPR from Sigma, Bio-Rad, Cytiva, Thermo Fisher.",
+        "process_signals": [],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 24,
+        "heading": "5. Conclusions",
+        "gist": "DEL is efficient for CD38 inhibitor discovery. Eight hits confirmed as dual inhibitors. Fenbendazole and Flubendazole are promising leads. SAR and MD provide basis for rational optimization. Future work: improve cell permeability, potency to nanomolar, in vivo validation.",
+        "process_signals": [
+          "Reiterates need for further optimization and in vivo studies.",
+          "Flubendazole highlighted as best candidate."
+        ],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": [
+          "Current leads lack cellular and in vivo validation."
+        ]
+      }
+    ],
+    "global_hypotheses_about_storyline": [
+      "The research likely progressed linearly: DEL screen → hit validation (SPR, enzymatic) → SAR on Fenbendazole → computational modeling. However, the false positive Oridonin may have prompted stricter filtering, and the choice of Fenbendazole for SAR was driven by its drug repurposing potential and dual inhibition.",
+      "The computational work was performed after experimental validation to rationalize binding, not to guide initial discovery.",
+      "The study emphasizes repurposing, as several hits are approved drugs."
+    ],
+    "uncertainties_to_resolve": [
+      "Were any other hits besides Oridonin eliminated after SPR?",
+      "What was the exact filtering process to go from 1043 to 8 hits?",
+      "Why was Fenbendazole chosen over Topiroxostat for SAR, given Topiroxostat had better affinity and similar inhibition?",
+      "Were there any attempts to co-crystallize or obtain X-ray structures?",
+      "How were the 8 hits selected from the 1043 enriched? Was docking used?",
+      "What was the rationale for selecting the specific analogues? Were they commercially available or synthesized?"
+    ]
+  },
+  "chunk_events": [
+    {
+      "chunk_id": "C001",
+      "char_start": 0,
+      "char_end": 18000,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C001_E01",
+          "chunk_id": "C001",
+          "event_type": "problem",
+          "order_hint": 1,
+          "summary": "The discovery of novel small-molecule CD38 inhibitors with improved potency, selectivity, and druggability remains a major challenge.",
+          "methods_or_tools": [],
+          "entities": [
+            "CD38",
+            "small-molecule inhibitors"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E01_01"
+          ]
+        },
+        {
+          "event_id": "C001_E02",
+          "chunk_id": "C001",
+          "event_type": "hypothesis",
+          "order_hint": 2,
+          "summary": "The study hypothesizes that combining DEL technology with structure-based drug design can efficiently identify novel CD38 inhibitors.",
+          "methods_or_tools": [
+            "DEL",
+            "SBDD"
+          ],
+          "entities": [
+            "CD38"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E02_01"
+          ]
+        },
+        {
+          "event_id": "C001_E03",
+          "chunk_id": "C001",
+          "event_type": "design",
+          "order_hint": 3,
+          "summary": "A DEL library of over 0.1 million compounds was screened against recombinant human CD38 using affinity selection with competitive elution by known inhibitor 78c.",
+          "methods_or_tools": [
+            "DEL",
+            "affinity selection",
+            "competitive elution",
+            "78c"
+          ],
+          "entities": [
+            "CD38",
+            "78c"
+          ],
+          "numbers_or_metrics": [
+            "over 0.1 million compounds"
+          ],
+          "evidence_ids": [
+            "EV_C001_E03_01",
+            "EV_C001_E03_02"
+          ]
+        },
+        {
+          "event_id": "C001_E04",
+          "chunk_id": "C001",
+          "event_type": "computation",
+          "order_hint": 4,
+          "summary": "High-throughput sequencing and bioinformatics analysis were used to decode DNA barcodes and identify enriched compounds.",
+          "methods_or_tools": [
+            "high-throughput sequencing",
+            "bioinformatics analysis"
+          ],
+          "entities": [
+            "DNA barcodes"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E04_01"
+          ]
+        },
+        {
+          "event_id": "C001_E05",
+          "chunk_id": "C001",
+          "event_type": "experiment",
+          "order_hint": 5,
+          "summary": "The DEL screen initially identified 1043 enriched compounds, which were then filtered to exclude non-specific binding and previously reported active compounds, yielding eight hit compounds with diverse scaffolds.",
+          "methods_or_tools": [
+            "DEL screening",
+            "filtering"
+          ],
+          "entities": [
+            "CD38",
+            "hit compounds"
+          ],
+          "numbers_or_metrics": [
+            "1043 enriched compounds",
+            "eight hit compounds"
+          ],
+          "evidence_ids": [
+            "EV_C001_E05_01"
+          ]
+        },
+        {
+          "event_id": "C001_E06",
+          "chunk_id": "C001",
+          "event_type": "analysis",
+          "order_hint": 6,
+          "summary": "The hit compounds included Fenbendazole, a clinically approved antiparasitic drug, suggesting repurposing potential.",
+          "methods_or_tools": [],
+          "entities": [
+            "Fenbendazole"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E06_01"
+          ]
+        },
+        {
+          "event_id": "C001_E07",
+          "chunk_id": "C001",
+          "event_type": "validation",
+          "order_hint": 7,
+          "summary": "Surface plasmon resonance (SPR) assays confirmed direct binding of the hit compounds to CD38, with dissociation constants (KD) ranging from 7.74e-5 M to 2.15e-4 M.",
+          "methods_or_tools": [
+            "SPR"
+          ],
+          "entities": [
+            "CD38",
+            "hit compounds"
+          ],
+          "numbers_or_metrics": [
+            "KD ranging from 7.74e-5 M to 2.15e-4 M"
+          ],
+          "evidence_ids": [
+            "EV_C001_E07_01"
+          ]
+        }
+      ],
+      "notes": "This chunk covers the abstract and introduction, outlining the problem, hypothesis, and initial DEL screening design and results. It includes key events: problem statement, hypothesis, DEL screen design, hit identification, and validation by SPR and enzymatic assays.",
+      "api_usage": {
+        "prompt_tokens": 8663,
+        "completion_tokens": 1304,
+        "total_tokens": 9967,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8407
+      }
+    },
+    {
+      "chunk_id": "C002",
+      "char_start": 17100,
+      "char_end": 35100,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C002_E01",
+          "chunk_id": "C002",
+          "event_type": "experiment",
+          "order_hint": 1,
+          "summary": "DEL screening identified 1043 enriched compounds; 21 prioritized based on high read counts and scaffold diversity.",
+          "methods_or_tools": [
+            "DEL screening",
+            "high-throughput sequencing"
+          ],
+          "entities": [
+            "CD38",
+            "DEL library"
+          ],
+          "numbers_or_metrics": [
+            "1043 compounds",
+            "21 prioritized"
+          ],
+          "evidence_ids": [
+            "EV_C002_E01_01",
+            "EV_C002_E01_02"
+          ]
+        },
+        {
+          "event_id": "C002_E02",
+          "chunk_id": "C002",
+          "event_type": "analysis",
+          "order_hint": 2,
+          "summary": "Filtering excluded promiscuous non-specific binders and known flavonoid inhibitors, yielding 8 diverse hits.",
+          "methods_or_tools": [
+            "empirical filter"
+          ],
+          "entities": [
+            "quercetin",
+            "luteolin"
+          ],
+          "numbers_or_metrics": [
+            "8 compounds"
+          ],
+          "evidence_ids": [
+            "EV_C002_E02_01",
+            "EV_C002_E02_02",
+            "EV_C002_E02_03"
+          ]
+        },
+        {
+          "event_id": "C002_E03",
+          "chunk_id": "C002",
+          "event_type": "experiment",
+          "order_hint": 3,
+          "summary": "SPR confirmed direct binding of 7 out of 8 hits; Oridonin did not bind, leading to adjusted enrichment cutoff.",
+          "methods_or_tools": [
+            "SPR"
+          ],
+          "entities": [
+            "Oridonin",
+            "CD38"
+          ],
+          "numbers_or_metrics": [
+            "7 out of 8"
+          ],
+          "evidence_ids": [
+            "EV_C002_E03_01",
+            "EV_C002_E03_02"
+          ]
+        },
+        {
+          "event_id": "C002_E04",
+          "chunk_id": "C002",
+          "event_type": "experiment",
+          "order_hint": 4,
+          "summary": "SPR determined KD values for hits, mostly in 10^-4 M range; Fenbendazole KD ~2.52e-4 M with slow kinetics.",
+          "methods_or_tools": [
+            "SPR"
+          ],
+          "entities": [
+            "Fenbendazole",
+            "Topiroxostat",
+            "Alvimopan"
+          ],
+          "numbers_or_metrics": [
+            "KD 2.52e-4 M",
+            "KD 7e-5 M"
+          ],
+          "evidence_ids": [
+            "EV_C002_E04_03"
+          ]
+        },
+        {
+          "event_id": "C002_E06",
+          "chunk_id": "C002",
+          "event_type": "failure",
+          "order_hint": 6,
+          "summary": "Oridonin was a false positive from DEL; no binding in SPR, prompting cutoff adjustment.",
+          "methods_or_tools": [
+            "SPR"
+          ],
+          "entities": [
+            "Oridonin"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E06_01"
+          ]
+        }
+      ],
+      "notes": "Chunk covers DEL hit identification, filtering, SPR validation, and initial enzymatic inhibition. Key process events include false positive handling and binding kinetics observation.",
+      "api_usage": {
+        "prompt_tokens": 9218,
+        "completion_tokens": 1174,
+        "total_tokens": 10392,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8962
+      }
+    },
+    {
+      "chunk_id": "C003",
+      "char_start": 34200,
+      "char_end": 52200,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C003_E01",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 1,
+          "summary": "Hit compounds inhibit both hydrolase and cyclase activities of CD38, with Fenbendazole and Topiroxostat showing most potent dose-dependent effects.",
+          "methods_or_tools": [
+            "fluorescence-based enzymatic assays"
+          ],
+          "entities": [
+            "Fenbendazole",
+            "Topiroxostat",
+            "CD38"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E01_01",
+            "EV_C003_E01_02"
+          ]
+        },
+        {
+          "event_id": "C003_E02",
+          "chunk_id": "C003",
+          "event_type": "design",
+          "order_hint": 2,
+          "summary": "Fenbendazole selected for SAR exploration due to moderate binding affinity, potent dual inhibitory activity, and clinical approval.",
+          "methods_or_tools": [],
+          "entities": [
+            "Fenbendazole"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E02_01"
+          ]
+        },
+        {
+          "event_id": "C003_E03",
+          "chunk_id": "C003",
+          "event_type": "design",
+          "order_hint": 3,
+          "summary": "Selected Fenbendazole analogues with structural diversity at R1 and R2 positions to explore SAR.",
+          "methods_or_tools": [],
+          "entities": [
+            "Fenbendazole",
+            "Albendazole",
+            "Oxibendazole",
+            "Parbendazole",
+            "Bendamustine",
+            "Mebendazole",
+            "Flubendazole",
+            "Oxfendazole",
+            "Nocodazole",
+            "Thiabendazole"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E03_01"
+          ]
+        }
+      ],
+      "notes": "Chunk covers enzymatic inhibition results, rationale for SAR on Fenbendazole, analogue selection, and SPR binding data for analogues.",
+      "api_usage": {
+        "prompt_tokens": 9755,
+        "completion_tokens": 975,
+        "total_tokens": 10730,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9499
+      }
+    },
+    {
+      "chunk_id": "C004",
+      "char_start": 51300,
+      "char_end": 69300,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C004_E01",
+          "chunk_id": "C004",
+          "event_type": "experiment",
+          "order_hint": 1,
+          "summary": "SPR binding analysis of Fenbendazole derivatives to CD38 extracellular domain.",
+          "methods_or_tools": [
+            "SPR"
+          ],
+          "entities": [
+            "Fenbendazole derivatives",
+            "CD38"
+          ],
+          "numbers_or_metrics": [
+            "KD values"
+          ],
+          "evidence_ids": [
+            "EV_C004_E01_01"
+          ]
+        },
+        {
+          "event_id": "C004_E02",
+          "chunk_id": "C004",
+          "event_type": "experiment",
+          "order_hint": 2,
+          "summary": "Evaluation of inhibitory activity of Fenbendazole analogues on CD38 hydrolase and cyclase activities.",
+          "methods_or_tools": [
+            "fluorescence-based assays"
+          ],
+          "entities": [
+            "Fenbendazole analogues",
+            "CD38"
+          ],
+          "numbers_or_metrics": [
+            "IC50"
+          ],
+          "evidence_ids": [
+            "EV_C004_E02_01"
+          ]
+        },
+        {
+          "event_id": "C004_E03",
+          "chunk_id": "C004",
+          "event_type": "failure",
+          "order_hint": 3,
+          "summary": "Oxibendazole cyclase activity data compromised due to strong intrinsic fluorescence.",
+          "methods_or_tools": [
+            "fluorescence-based assays"
+          ],
+          "entities": [
+            "Oxibendazole"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E03_01"
+          ]
+        },
+        {
+          "event_id": "C004_E05",
+          "chunk_id": "C004",
+          "event_type": "computation",
+          "order_hint": 5,
+          "summary": "Molecular docking and 100 ns MD simulations to characterize binding modes of Topiroxostat, Fenbendazole, and Oxibendazole.",
+          "methods_or_tools": [
+            "molecular docking",
+            "100 ns MD simulations"
+          ],
+          "entities": [
+            "Topiroxostat",
+            "Fenbendazole",
+            "Oxibendazole",
+            "CD38"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E05_01"
+          ]
+        },
+        {
+          "event_id": "C004_E06",
+          "chunk_id": "C004",
+          "event_type": "analysis",
+          "order_hint": 6,
+          "summary": "MD simulations showed stable binding with conserved aromatic residues TRP-125 and TRP-189 involved.",
+          "methods_or_tools": [
+            "MD simulations"
+          ],
+          "entities": [
+            "TRP-125",
+            "TRP-189"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E06_01"
+          ]
+        },
+        {
+          "event_id": "C004_E07",
+          "chunk_id": "C004",
+          "event_type": "analysis",
+          "order_hint": 7,
+          "summary": "Integration of affinity data for all compounds in Table 1.",
+          "methods_or_tools": [],
+          "entities": [
+            "all compounds"
+          ],
+          "numbers_or_metrics": [
+            "KD values"
+          ],
+          "evidence_ids": [
+            "EV_C004_E07_01"
+          ]
+        }
+      ],
+      "notes": "Chunk covers SPR of Fenbendazole derivatives, enzymatic inhibition assays, identification of Flubendazole as lead, and computational docking/MD simulations.",
+      "api_usage": {
+        "prompt_tokens": 9719,
+        "completion_tokens": 1067,
+        "total_tokens": 10786,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9463
+      }
+    },
+    {
+      "chunk_id": "C005",
+      "char_start": 68400,
+      "char_end": 86400,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C005_E01",
+          "chunk_id": "C005",
+          "event_type": "computation",
+          "order_hint": 1,
+          "summary": "MD simulations validated the dynamic stability of all three complexes over 100 ns.",
+          "methods_or_tools": [
+            "MD simulations",
+            "RMSD",
+            "Rg",
+            "centroid distance",
+            "Buried SASA",
+            "RMSF"
+          ],
+          "entities": [
+            "CD38",
+            "Topiroxostat",
+            "Fenbendazole",
+            "Oxibendazole"
+          ],
+          "numbers_or_metrics": [
+            "100 ns"
+          ],
+          "evidence_ids": [
+            "EV_C005_E01_01"
+          ]
+        },
+        {
+          "event_id": "C005_E03",
+          "chunk_id": "C005",
+          "event_type": "analysis",
+          "order_hint": 3,
+          "summary": "Residue-based decomposition identified TRP-189 and TRP-125 as major energetic contributors.",
+          "methods_or_tools": [
+            "residue-based energy decomposition"
+          ],
+          "entities": [
+            "TRP-189",
+            "TRP-125",
+            "VAL-185"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C005_E03_01"
+          ]
+        },
+        {
+          "event_id": "C005_E04",
+          "chunk_id": "C005",
+          "event_type": "analysis",
+          "order_hint": 4,
+          "summary": "SAR analysis revealed rigid aromatic R1 and methoxycarbamide R2 as critical for potency.",
+          "methods_or_tools": [
+            "SAR analysis"
+          ],
+          "entities": [
+            "Fenbendazole",
+            "Flubendazole"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C005_E04_01"
+          ]
+        },
+        {
+          "event_id": "C005_E08",
+          "chunk_id": "C005",
+          "event_type": "limitation",
+          "order_hint": 8,
+          "summary": "In vivo validation is required to assess efficacy in CD38-dependent disease models.",
+          "methods_or_tools": [],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C005_E08_01"
+          ]
+        }
+      ],
+      "notes": "Chunk contains computational validation (MD, MM-PBSA), SAR analysis, and discussion of limitations, all directly relevant to the research process.",
+      "api_usage": {
+        "prompt_tokens": 7723,
+        "completion_tokens": 1316,
+        "total_tokens": 9039,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7467
+      }
+    },
+    {
+      "chunk_id": "C006",
+      "char_start": 85500,
+      "char_end": 103500,
+      "chunk_relevance": "medium",
+      "events": [
+        {
+          "event_id": "C006_E01",
+          "chunk_id": "C006",
+          "event_type": "experiment",
+          "order_hint": 1,
+          "summary": "Detailed protocol for CD38 enzymatic assays (hydrolase and cyclase) using fluorescence measurements.",
+          "methods_or_tools": [
+            "fluorescence plate reader",
+            "ε-NAD",
+            "NGD",
+            "GraphPad Prism 9"
+          ],
+          "entities": [
+            "CD38",
+            "ε-NAD",
+            "NGD"
+          ],
+          "numbers_or_metrics": [
+            "excitation 300 nm",
+            "emission 410 nm",
+            "readings every 30 seconds",
+            "1 h"
+          ],
+          "evidence_ids": [
+            "EV_C006_E01_01",
+            "EV_C006_E01_02"
+          ]
+        },
+        {
+          "event_id": "C006_E02",
+          "chunk_id": "C006",
+          "event_type": "experiment",
+          "order_hint": 2,
+          "summary": "SPR protocol for measuring binding affinity of hit compounds and Fenbendazole analogues to CD38.",
+          "methods_or_tools": [
+            "SPR",
+            "CM5 sensor chip",
+            "BIAevaluation software 3.2"
+          ],
+          "entities": [
+            "CD38",
+            "hit compounds",
+            "Fenbendazole analogues"
+          ],
+          "numbers_or_metrics": [
+            "immobilization level ~8000 RU",
+            "flow rate 30 μL/min",
+            "association 60 s",
+            "dissociation 60 s",
+            "KD 10^-4–10^-5 M range"
+          ],
+          "evidence_ids": [
+            "EV_C006_E02_01",
+            "EV_C006_E02_02"
+          ]
+        },
+        {
+          "event_id": "C006_E03",
+          "chunk_id": "C006",
+          "event_type": "computation",
+          "order_hint": 3,
+          "summary": "Molecular dynamics simulation setup and parameters for CD38-ligand complexes.",
+          "methods_or_tools": [
+            "GROMACS 2022.2",
+            "Amber14SB",
+            "TIP3P",
+            "MM-PBSA",
+            "gmx_MMPBSA"
+          ],
+          "entities": [
+            "CD38",
+            "Topiroxostat",
+            "Fenbendazole",
+            "Oxibendazole"
+          ],
+          "numbers_or_metrics": [
+            "100 ns",
+            "2 fs time step",
+            "298 K",
+            "1 bar"
+          ],
+          "evidence_ids": [
+            "EV_C006_E03_02"
+          ]
+        },
+        {
+          "event_id": "C006_E04",
+          "chunk_id": "C006",
+          "event_type": "analysis",
+          "order_hint": 4,
+          "summary": "Conclusion that DEL technology is efficient for CD38 inhibitor discovery, with Fenbendazole and Flubendazole as promising leads.",
+          "methods_or_tools": [],
+          "entities": [
+            "Fenbendazole",
+            "Flubendazole",
+            "CD38"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C006_E04_01",
+            "EV_C006_E04_02",
+            "EV_C006_E04_03"
+          ]
+        },
+        {
+          "event_id": "C006_E05",
+          "chunk_id": "C006",
+          "event_type": "limitation",
+          "order_hint": 5,
+          "summary": "Future work needed to address limitations: cell permeability, nanomolar potency, in vivo validation.",
+          "methods_or_tools": [],
+          "entities": [
+            "lead compounds"
+          ],
+          "numbers_or_metrics": [
+            "nanomolar range"
+          ],
+          "evidence_ids": [
+            "EV_C006_E05_01"
+          ]
+        }
+      ],
+      "notes": "Chunk contains detailed methods for enzymatic assays, SPR, and MD simulations, plus conclusions and limitations. No new discovery events beyond protocol descriptions and summary of findings.",
+      "api_usage": {
+        "prompt_tokens": 8425,
+        "completion_tokens": 996,
+        "total_tokens": 9421,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8169
+      }
+    },
+    {
+      "chunk_id": "C007",
+      "char_start": 102600,
+      "char_end": 113884,
+      "chunk_relevance": "none",
+      "events": [],
+      "notes": "This chunk contains only reference citations and a disclaimer. No research process events are described.",
+      "api_usage": {
+        "prompt_tokens": 7471,
+        "completion_tokens": 49,
+        "total_tokens": 7520,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7215
+      }
+    }
+  ],
+  "evidence_bank": [
+    {
+      "evidence_id": "EV_C001_E01_01",
+      "source_file": "docs/0009/combined.md",
+      "section": "C001",
+      "char_start": 8555,
+      "char_end": 8687,
+      "quote": "the discovery of novel small-molecule CD38 inhibitors with improved potency, selectivity, and druggability remains a major challenge"
+    },
+    {
+      "evidence_id": "EV_C001_E02_01",
+      "source_file": "docs/0009/combined.md",
+      "section": "C001",
+      "char_start": 10650,
+      "char_end": 10797,
+      "quote": "we present an integrated strategy that combines the power of DNA-encoded library (DEL) technology with structure-based drug design (SBDD) workflows"
+    },
+    {
+      "evidence_id": "EV_C001_E03_01",
+      "source_file": "docs/0009/combined.md",
+      "section": "C001",
+      "char_start": 11415,
+      "char_end": 11528,
+      "quote": "we performed an affinity selection screen using a DNA-encoded library (DEL) comprising over 0.1 million compounds"
+    },
+    {
+      "evidence_id": "EV_C001_E03_02",
+      "source_file": "docs/0009/combined.md",
+      "section": "C001",
+      "char_start": 11742,
+      "char_end": 11817,
+      "quote": "Following stringent affinity selection, washing, and elution with 78c steps"
+    },
+    {
+      "evidence_id": "EV_C001_E04_01",
+      "source_file": "docs/0009/combined.md",
+      "section": "C001",
+      "char_start": 11819,
+      "char_end": 11928,
+      "quote": "the DNA barcodes of the bound compounds were recovered, amplified, and decoded via high-throughput sequencing"
+    },
+    {
+      "evidence_id": "EV_C001_E05_01",
+      "source_file": "docs/0009/combined.md",
+      "section": "C001",
+      "char_start": 1464,
+      "char_end": 1709,
+      "quote": "A total of 1043 enriched compounds were initially identified, and after rigorous validation and screening to exclude non-specific binding and previously reported active compounds, eight hit compounds with diverse chemical scaffolds were obtained"
+    },
+    {
+      "evidence_id": "EV_C001_E06_01",
+      "source_file": "docs/0009/combined.md",
+      "section": "C001",
+      "char_start": 1711,
+      "char_end": 1789,
+      "quote": "among which Fenbendazole—a clinically approved antiparasitic drug—was included"
+    },
+    {
+      "evidence_id": "EV_C001_E07_01",
+      "source_file": "docs/0009/combined.md",
+      "section": "C001",
+      "char_start": 1791,
+      "char_end": 1987,
+      "quote": "Surface plasmon resonance (SPR) assays confirmed the direct binding of these hit compounds to CD38, with dissociation constants (KD) ranging from $7.74 \\times 10^{-5}$ M to $2.15 \\times 10^{-4}$ M"
+    },
+    {
+      "evidence_id": "EV_C002_E01_01",
+      "source_file": "docs/0009/combined.md",
+      "section": "C002",
+      "char_start": 19292,
+      "char_end": 19424,
+      "quote": "Comparative analysis against a control resin identified 1043 compounds that exhibited significant enrichment (enrichment ratio > 1)."
+    },
+    {
+      "evidence_id": "EV_C002_E01_02",
+      "source_file": "docs/0009/combined.md",
+      "section": "C002",
+      "char_start": 19425,
+      "char_end": 19655,
+      "quote": "From this enriched pool, we prioritized 21 potential hit compounds for downstream validation based on two stringent criteria: high sequencing read counts (>2.5) indicative of robust enrichment, and diverse core chemical scaffolds."
+    },
+    {
+      "evidence_id": "EV_C002_E02_01",
+      "source_file": "docs/0009/combined.md",
+      "section": "C002",
+      "char_start": 19779,
+      "char_end": 19923,
+      "quote": "To refine the hit list, an empirical filter was applied to exclude promiscuous small molecules known to exhibit strong, non-specific adsorption."
+    },
+    {
+      "evidence_id": "EV_C002_E02_02",
+      "source_file": "docs/0009/combined.md",
+      "section": "C002",
+      "char_start": 20193,
+      "char_end": 20402,
+      "quote": "Furthermore, known flavonoid-based CD38 inhibitors, such as quercetin and luteolin, were deliberately excluded from the final selection, as their activity has been previously documented in the literature [46]."
+    },
+    {
+      "evidence_id": "EV_C002_E02_03",
+      "source_file": "docs/0009/combined.md",
+      "section": "C002",
+      "char_start": 20403,
+      "char_end": 20491,
+      "quote": "Ultimately, eight compounds were selected from the candidate pool for further validation"
+    },
+    {
+      "evidence_id": "EV_C002_E03_01",
+      "source_file": "docs/0009/combined.md",
+      "section": "C002",
+      "char_start": 21508,
+      "char_end": 21658,
+      "quote": "Since Oridonin (1) did not exhibit binding, the cutoff for the enrichment fold in our NGS data analysis was adjusted accordingly to ensure stringency."
+    },
+    {
+      "evidence_id": "EV_C002_E03_02",
+      "source_file": "docs/0009/combined.md",
+      "section": "C002",
+      "char_start": 21659,
+      "char_end": 21758,
+      "quote": "Other compounds exhibited concentration-dependent binding to the extracellular domain of human CD38"
+    },
+    {
+      "evidence_id": "EV_C002_E04_03",
+      "source_file": "docs/0009/combined.md",
+      "section": "C002",
+      "char_start": 22476,
+      "char_end": 22586,
+      "quote": "Fenbendazole (4) exhibited slow binding kinetics, suggesting that it may form a stable complex with the target"
+    },
+    {
+      "evidence_id": "EV_C002_E06_01",
+      "source_file": "docs/0009/combined.md",
+      "section": "C002",
+      "char_start": 21508,
+      "char_end": 21658,
+      "quote": "Since Oridonin (1) did not exhibit binding, the cutoff for the enrichment fold in our NGS data analysis was adjusted accordingly to ensure stringency."
+    },
+    {
+      "evidence_id": "EV_C003_E01_01",
+      "source_file": "docs/0009/combined.md",
+      "section": "C003",
+      "char_start": 39363,
+      "char_end": 39439,
+      "quote": "Fenbendazole and Topiroxostat showing the most potent dose-dependent effects"
+    },
+    {
+      "evidence_id": "EV_C003_E01_02",
+      "source_file": "docs/0009/combined.md",
+      "section": "C003",
+      "char_start": 39471,
+      "char_end": 39643,
+      "quote": "these results demonstrate that the hit compounds not only bind to CD38 but also act as potent dual inhibitors of CD38, suppressing both its hydrolase and cyclase activities"
+    },
+    {
+      "evidence_id": "EV_C003_E02_01",
+      "source_file": "docs/0009/combined.md",
+      "section": "C003",
+      "char_start": 39992,
+      "char_end": 40141,
+      "quote": "Fenbendazole stood out due to its moderate binding affinity, potent dual inhibitory activity, and status as a clinically approved antiparasitic agent"
+    },
+    {
+      "evidence_id": "EV_C003_E03_01",
+      "source_file": "docs/0009/combined.md",
+      "section": "C003",
+      "char_start": 40326,
+      "char_end": 40450,
+      "quote": "we selected several Fenbendazole analogues with structural diversity at the R1 and R2 positions of the Fenbendazole scaffold"
+    },
+    {
+      "evidence_id": "EV_C004_E01_01",
+      "source_file": "docs/0009/combined.md",
+      "section": "C004",
+      "char_start": 56890,
+      "char_end": 56995,
+      "quote": "Figure 6. SPR binding analysis of Fenbendazole (4) derivatives to the extracellular domain of human CD38."
+    },
+    {
+      "evidence_id": "EV_C004_E02_01",
+      "source_file": "docs/0009/combined.md",
+      "section": "C004",
+      "char_start": 57558,
+      "char_end": 57720,
+      "quote": "we next evaluated the inhibitory activity of Fenbendazole analogues on CD38's hydrolase and cyclase activities using the same fluorescence-based assays as before."
+    },
+    {
+      "evidence_id": "EV_C004_E03_01",
+      "source_file": "docs/0009/combined.md",
+      "section": "C004",
+      "char_start": 57967,
+      "char_end": 58171,
+      "quote": "during the cyclase activity assay, the background-subtracted signal of the Oxibendazole group was negative, likely due to the compound's strong intrinsic fluorescence within the detection wavelength range"
+    },
+    {
+      "evidence_id": "EV_C004_E05_01",
+      "source_file": "docs/0009/combined.md",
+      "section": "C004",
+      "char_start": 67518,
+      "char_end": 67778,
+      "quote": "we integrated molecular docking with 100 ns molecular dynamics (MD) simulations to characterize the binding modes, conformational stability, and energetic determinants of three lead compounds—Topiroxostat, Fenbendazole, and Oxibendazole—at the CD38 active site"
+    },
+    {
+      "evidence_id": "EV_C004_E06_01",
+      "source_file": "docs/0009/combined.md",
+      "section": "C004",
+      "char_start": 67949,
+      "char_end": 68046,
+      "quote": "a conserved set of aromatic residues including TRP-125 and TRP-189 involved in ligand recognition"
+    },
+    {
+      "evidence_id": "EV_C004_E07_01",
+      "source_file": "docs/0009/combined.md",
+      "section": "C004",
+      "char_start": 58997,
+      "char_end": 59061,
+      "quote": "The affinity of all compounds for CD38 was integrated (Table 1)."
+    },
+    {
+      "evidence_id": "EV_C005_E01_01",
+      "source_file": "docs/0009/combined.md",
+      "section": "C005",
+      "char_start": 68566,
+      "char_end": 68664,
+      "quote": "MD simulations validated the dynamic stability of all three complexes over 100 ns (Figures S2–S4)."
+    },
+    {
+      "evidence_id": "EV_C005_E03_01",
+      "source_file": "docs/0009/combined.md",
+      "section": "C005",
+      "char_start": 70420,
+      "char_end": 70532,
+      "quote": "Residue-based decomposition identified TRP-189 and TRP-125 as major energetic contributors across all complexes."
+    },
+    {
+      "evidence_id": "EV_C005_E04_01",
+      "source_file": "docs/0009/combined.md",
+      "section": "C005",
+      "char_start": 73153,
+      "char_end": 73454,
+      "quote": "SAR analysis of Fenbendazole analogues revealed critical structural determinants of inhibitory potency: rigid aromatic substituents at the R1 position enhance binding via hydrophobic interactions with CD38 active-site residues, while the methoxycarbamide group at R2 is essential for hydrogen bonding."
+    },
+    {
+      "evidence_id": "EV_C005_E08_01",
+      "source_file": "docs/0009/combined.md",
+      "section": "C005",
+      "char_start": 75090,
+      "char_end": 75290,
+      "quote": "In vivo validation is required to assess efficacy in CD38-dependent disease models (e.g., MM xenografts, aged mice) as well as evaluate the pharmacokinetic properties and potential off-target effects."
+    },
+    {
+      "evidence_id": "EV_C006_E01_01",
+      "source_file": "docs/0009/combined.md",
+      "section": "C006",
+      "char_start": 85747,
+      "char_end": 85875,
+      "quote": "The plate reader was configured to measure fluorescence at an excitation wavelength of 300 nm and emission wavelength of 410 nm."
+    },
+    {
+      "evidence_id": "EV_C006_E01_02",
+      "source_file": "docs/0009/combined.md",
+      "section": "C006",
+      "char_start": 85876,
+      "char_end": 85962,
+      "quote": "The analysis was set to kinetics mode, with readings every 30 seconds for at least 1 h"
+    },
+    {
+      "evidence_id": "EV_C006_E02_01",
+      "source_file": "docs/0009/combined.md",
+      "section": "C006",
+      "char_start": 87313,
+      "char_end": 87403,
+      "quote": "Recombinant CD38 protein was immobilized on a CM5 sensor chip (Cytiva) via amine coupling."
+    },
+    {
+      "evidence_id": "EV_C006_E02_02",
+      "source_file": "docs/0009/combined.md",
+      "section": "C006",
+      "char_start": 89597,
+      "char_end": 89705,
+      "quote": "The fully corrected sensorgrams were fitted to a 1:1 Langmuir binding model using BIAevaluation software 3.2"
+    },
+    {
+      "evidence_id": "EV_C006_E03_02",
+      "source_file": "docs/0009/combined.md",
+      "section": "C006",
+      "char_start": 91643,
+      "char_end": 91731,
+      "quote": "Production MD simulations were run for 100 ns under NPT conditions with a 2 fs time step"
+    },
+    {
+      "evidence_id": "EV_C006_E04_01",
+      "source_file": "docs/0009/combined.md",
+      "section": "C006",
+      "char_start": 92701,
+      "char_end": 92793,
+      "quote": "this study further demonstrates its utility for the rapid discovery of novel CD38 inhibitors"
+    },
+    {
+      "evidence_id": "EV_C006_E04_02",
+      "source_file": "docs/0009/combined.md",
+      "section": "C006",
+      "char_start": 93351,
+      "char_end": 93416,
+      "quote": "Fenbendazole, in particular, emerged as a promising lead compound"
+    },
+    {
+      "evidence_id": "EV_C006_E04_03",
+      "source_file": "docs/0009/combined.md",
+      "section": "C006",
+      "char_start": 93768,
+      "char_end": 93878,
+      "quote": "Flubendazole, a Fenbendazole analogue with a difluorophenyl R1 group, exhibited the highest inhibitory potency"
+    },
+    {
+      "evidence_id": "EV_C006_E05_01",
+      "source_file": "docs/0009/combined.md",
+      "section": "C006",
+      "char_start": 94461,
+      "char_end": 94699,
+      "quote": "future work is needed to address the identified limitations, including evaluating the cell permeability of lead compounds, optimizing their inhibitory potency to the nanomolar range, and validating their efficacy in in vivo disease models"
+    },
+    {
+      "evidence_id": "EV_AUTO_001",
+      "source_file": "docs/0009/combined.md",
+      "section": "auto_specific",
+      "char_start": 68402,
+      "char_end": 68564,
+      "quote": "Oxibendazole was stabilized by hydrogen bonds with SER-193 and ASP-156, together with hydrophobic contacts involving TRP-189, TRP-125, and LEU-145 (Figure 8g–i)."
+    },
+    {
+      "evidence_id": "EV_AUTO_002",
+      "source_file": "docs/0009/combined.md",
+      "section": "auto_specific",
+      "char_start": 68099,
+      "char_end": 68263,
+      "quote": "The CD38–Topiroxostat complex formed hydrogen bonds with TRP-125 and THR-221, complemented by hydrophobic packing with ARG-127, TRP-125, and LEU-145 (Figure 8a–c)."
+    },
+    {
+      "evidence_id": "EV_AUTO_003",
+      "source_file": "docs/0009/combined.md",
+      "section": "auto_specific",
+      "char_start": 68263,
+      "char_end": 68402,
+      "quote": "Fenbendazole was bound via hydrogen bonds with GLN-226 and TRP-125, accompanied by $\\pi$ -mediated hydrophobic interactions (Figure 8d–f)."
+    },
+    {
+      "evidence_id": "EV_AUTO_004",
+      "source_file": "docs/0009/combined.md",
+      "section": "auto_specific",
+      "char_start": 67862,
+      "char_end": 68099,
+      "quote": "Initial docking revealed that all three ligands engaged core catalytic residues, with a conserved set of aromatic residues including TRP-125 and TRP-189 involved in ligand recognition, while forming ligand-specific interaction networks."
+    },
+    {
+      "evidence_id": "EV_AUTO_005",
+      "source_file": "docs/0009/combined.md",
+      "section": "auto_specific",
+      "char_start": 7233,
+      "char_end": 7287,
+      "quote": ", MK-0159), and thiazoloquin(az)olin(on)es $[23–25]$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_006",
+      "source_file": "docs/0009/combined.md",
+      "section": "auto_specific",
+      "char_start": 6243,
+      "char_end": 6418,
+      "quote": "More recently, Mitobridge introduced MK-0159, a CD38 enzymatic inhibitor that showed marked cardioprotective effects during cardiac ischemia/reperfusion (I/R) injury $[22]$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_007",
+      "source_file": "docs/0009/combined.md",
+      "section": "auto_specific",
+      "char_start": 107616,
+      "char_end": 107745,
+      "quote": "Orally Bioavailable Small-Molecule CD73 Inhibitor (OP-5244) Reverses Immunosuppression through Blockade of Adenosine Production."
+    },
+    {
+      "evidence_id": "EV_AUTO_008",
+      "source_file": "docs/0009/combined.md",
+      "section": "auto_specific",
+      "char_start": 102060,
+      "char_end": 102184,
+      "quote": "Orally Bioavailable Enzymatic Inhibitor of CD38, MK-0159, Protects against Ischemia/Reperfusion Injury in the Murine Heart."
+    },
+    {
+      "evidence_id": "EV_AUTO_009",
+      "source_file": "docs/0009/combined.md",
+      "section": "auto_specific",
+      "char_start": 70532,
+      "char_end": 70697,
+      "quote": "VAL-185 additionally stabilized the CD38–Topiroxostat complex, while the two tryptophan residues were the primary drivers for Fenbendazole and Oxibendazole binding."
+    },
+    {
+      "evidence_id": "EV_AUTO_010",
+      "source_file": "docs/0009/combined.md",
+      "section": "auto_specific",
+      "char_start": 6418,
+      "char_end": 6540,
+      "quote": "Through a scaffold hopping strategy, the potency and overall drug-like properties of MK-0159 were significantly enhanced."
+    },
+    {
+      "evidence_id": "EV_AUTO_011",
+      "source_file": "docs/0009/combined.md",
+      "section": "auto_specific",
+      "char_start": 99315,
+      "char_end": 99409,
+      "quote": "CD38-Mediated Immunosuppression as a Mechanism of Tumor Cell Escape from PD-1/PD-L1 Blockade."
+    },
+    {
+      "evidence_id": "EV_AUTO_012",
+      "source_file": "docs/0009/combined.md",
+      "section": "auto_specific",
+      "char_start": 85585,
+      "char_end": 85697,
+      "quote": "Cyclase Activity Assay: Reaction mix contained 80 $\\mu$ M NGD (final concentration) in 20 mM Tris-HCl (pH 7.0)."
+    },
+    {
+      "evidence_id": "EV_AUTO_013",
+      "source_file": "docs/0009/combined.md",
+      "section": "auto_specific",
+      "char_start": 58821,
+      "char_end": 58875,
+      "quote": "78 \\pm 4.21 \\mu M$ against hydrolase activity and $26."
+    },
+    {
+      "evidence_id": "EV_AUTO_014",
+      "source_file": "docs/0009/combined.md",
+      "section": "auto_specific",
+      "char_start": 7860,
+      "char_end": 8011,
+      "quote": ", nitro, cyano) at specific positions to enhance binding affinity while showing high selectivity for CD38 over homologs like CD73 and CD157 $[28–32]$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_015",
+      "source_file": "docs/0009/combined.md",
+      "section": "auto_specific",
+      "char_start": 85585,
+      "char_end": 85694,
+      "quote": "Cyclase Activity Assay: Reaction mix contained 80 $\\mu$ M NGD (final concentration) in 20 mM Tris-HCl (pH 7."
+    },
+    {
+      "evidence_id": "EV_AUTO_016",
+      "source_file": "docs/0009/combined.md",
+      "section": "auto_specific",
+      "char_start": 83379,
+      "char_end": 83487,
+      "quote": "Compounds with an enrichment ratio > 2 and a read count > 100 were considered potential hit compounds [65]."
+    },
+    {
+      "evidence_id": "EV_AUTO_017",
+      "source_file": "docs/0009/combined.md",
+      "section": "auto_specific",
+      "char_start": 66268,
+      "char_end": 66403,
+      "quote": "Dose–response curve and corresponding $IC_{50}$ value for Fenbendazole (f) and Oxibendazole (h) against human CD38 hydrolase activity."
+    },
+    {
+      "evidence_id": "EV_AUTO_018",
+      "source_file": "docs/0009/combined.md",
+      "section": "auto_specific",
+      "char_start": 65716,
+      "char_end": 65859,
+      "quote": "(a) Inhibition curves of the tested compounds (final concentration: 100 $\\mu$ M) against CD38 hydrolase activity using e-NAD as the substrate."
+    },
+    {
+      "evidence_id": "EV_AUTO_019",
+      "source_file": "docs/0009/combined.md",
+      "section": "auto_specific",
+      "char_start": 58875,
+      "char_end": 58920,
+      "quote": "31 \\pm 3.40 \\mu M$ against cyclase activity,"
+    },
+    {
+      "evidence_id": "EV_AUTO_020",
+      "source_file": "docs/0009/combined.md",
+      "section": "auto_specific",
+      "char_start": 58830,
+      "char_end": 58884,
+      "quote": "21 \\mu M$ against hydrolase activity and $26.31 \\pm 3."
+    },
+    {
+      "evidence_id": "EV_AUTO_021",
+      "source_file": "docs/0009/combined.md",
+      "section": "auto_specific",
+      "char_start": 57830,
+      "char_end": 57957,
+      "quote": "Oxibendazole (4-5) showed the strongest inhibition of the hydrolase activity of CD38 when tested at 100 $\\mu$ M (Figure 7a,b)."
+    },
+    {
+      "evidence_id": "EV_AUTO_022",
+      "source_file": "docs/0009/combined.md",
+      "section": "auto_specific",
+      "char_start": 38654,
+      "char_end": 38755,
+      "quote": "(a) Enzyme activity inhibition curves of the tested compounds at 100 $\\mu$ M against CD38 hydrolase."
+    },
+    {
+      "evidence_id": "EV_AUTO_023",
+      "source_file": "docs/0009/combined.md",
+      "section": "auto_specific",
+      "char_start": 8701,
+      "char_end": 8846,
+      "quote": "DNA-encoded chemical library (DEL) technology has emerged as a game-changing platform for high-throughput screening in drug discovery $[48–50]$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_024",
+      "source_file": "docs/0009/combined.md",
+      "section": "auto_specific",
+      "char_start": 2224,
+      "char_end": 2490,
+      "quote": "Further structure–activity relationship (SAR) analysis of Fenbendazole analogues revealed the critical structural features that regulate CD38 inhibitory potency, and Flubendazole was found to exhibit excellent inhibitory activity, with an $IC_{50}$ of $14.78 \\pm 4."
+    },
+    {
+      "evidence_id": "EV_AUTO_025",
+      "source_file": "docs/0009/combined.md",
+      "section": "auto_specific",
+      "char_start": 2224,
+      "char_end": 2481,
+      "quote": "Further structure–activity relationship (SAR) analysis of Fenbendazole analogues revealed the critical structural features that regulate CD38 inhibitory potency, and Flubendazole was found to exhibit excellent inhibitory activity, with an $IC_{50}$ of $14."
+    },
+    {
+      "evidence_id": "EV_AUTO_026",
+      "source_file": "docs/0009/combined.md",
+      "section": "auto_specific",
+      "char_start": 113364,
+      "char_end": 113465,
+      "quote": "Rapid discovery of repurposed drugs targeting SARS-CoV-2 spike HR1 by DNA-encoded library screening."
+    },
+    {
+      "evidence_id": "EV_AUTO_027",
+      "source_file": "docs/0009/combined.md",
+      "section": "auto_specific",
+      "char_start": 104016,
+      "char_end": 104183,
+      "quote": "2,4-Diamino-8-quinazoline carboxamides as novel, potent inhibitors of the NAD hydrolyzing enzyme CD38: Exploration of the 2-position structure-activity relationships."
+    },
+    {
+      "evidence_id": "EV_AUTO_028",
+      "source_file": "docs/0009/combined.md",
+      "section": "auto_specific",
+      "char_start": 101428,
+      "char_end": 101556,
+      "quote": "Abstract 1344: Small molecule inhibitor of CD38 modulates its intra- and extracellular functions leading to antitumor activity."
+    },
+    {
+      "evidence_id": "EV_AUTO_029",
+      "source_file": "docs/0009/combined.md",
+      "section": "auto_specific",
+      "char_start": 100875,
+      "char_end": 101015,
+      "quote": "SAR650984, a CD38 Monoclonal Antibody In Patients With Selected CD38+ Hematological Malignancies-Data From a Dose-Escalation Phase I Study."
+    },
+    {
+      "evidence_id": "EV_AUTO_030",
+      "source_file": "docs/0009/combined.md",
+      "section": "auto_specific",
+      "char_start": 86616,
+      "char_end": 86810,
+      "quote": "The percentage of enzymatic activity was calculated relative to the no-inhibitor control (DMSO-treated) using the formula: % Activity = (RFU of sample / mean RFU of no-inhibitor control) × 100."
+    },
+    {
+      "evidence_id": "EV_AUTO_031",
+      "source_file": "docs/0009/combined.md",
+      "section": "auto_specific",
+      "char_start": 86460,
+      "char_end": 86616,
+      "quote": "The initial reaction rate was calculated from the linear portion of the curve (typically the first 10–20 min) and used to determine the enzymatic activity."
+    },
+    {
+      "evidence_id": "EV_AUTO_032",
+      "source_file": "docs/0009/combined.md",
+      "section": "auto_specific",
+      "char_start": 85243,
+      "char_end": 85363,
+      "quote": "Hydrolase Activity Assay: Reaction mix contained 50 $\\mu$ M $\\varepsilon$ -NAD (final concentration) in sucrose buffer."
+    },
+    {
+      "evidence_id": "EV_AUTO_033",
+      "source_file": "docs/0009/combined.md",
+      "section": "auto_specific",
+      "char_start": 79392,
+      "char_end": 79541,
+      "quote": "The nDEL (natural product and drug-like DNA-encoded library) was assembled following a late-stage DNA annotation method described previously $[65]$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_034",
+      "source_file": "docs/0009/combined.md",
+      "section": "auto_specific",
+      "char_start": 75292,
+      "char_end": 75780,
+      "quote": "To address these limitations and advance the development of CD38 inhibitors, future directions include: (1) Structure-based optimization of Fenbendazole analogues using molecular docking and X-ray crystallography to improve binding affinity and selectivity; (2) Evaluation of lead compounds in cellular models of MM and age-related metabolic decline to confirm $\\mathrm{NAD^{+}}$ restoration and functional improvements; (3) Investigation of compound selectivity against CD38 homologs (e."
+    },
+    {
+      "evidence_id": "EV_AUTO_035",
+      "source_file": "docs/0009/combined.md",
+      "section": "auto_specific",
+      "char_start": 73965,
+      "char_end": 74139,
+      "quote": "CD38's hydrolase activity is the major contributor to $\\mathrm{NAD^{+}}$ depletion in disease states, while its cyclase activity regulates calcium signaling via cADPR [2,7]."
+    },
+    {
+      "evidence_id": "EV_AUTO_036",
+      "source_file": "docs/0009/combined.md",
+      "section": "auto_specific",
+      "char_start": 72953,
+      "char_end": 73152,
+      "quote": "Fenbendazole emerged as a promising lead compound due to its moderate binding affinity, dual inhibitory activity against CD38 hydrolase and cyclase functions, and well-characterized pharmacokinetics."
+    }
+  ],
+  "event_graph": {
+    "paper_main_problem": "Discovery of novel small-molecule CD38 inhibitors with improved potency, selectivity, and druggability.",
+    "canonical_events": [
+      {
+        "canonical_id": "K01",
+        "order": 1,
+        "event_type": "problem",
+        "summary": "Need for novel small-molecule CD38 inhibitors due to limitations of existing therapies.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E01"
+        ],
+        "evidence_ids": [
+          "EV_C001_E01_01"
+        ],
+        "key_entities": [
+          "CD38",
+          "small-molecule inhibitors"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K02",
+        "order": 2,
+        "event_type": "hypothesis",
+        "summary": "Hypothesis that DEL technology combined with structure-based design can efficiently identify novel CD38 inhibitors.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E02"
+        ],
+        "evidence_ids": [
+          "EV_C001_E02_01"
+        ],
+        "key_entities": [
+          "DEL",
+          "SBDD",
+          "CD38"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K03",
+        "order": 3,
+        "event_type": "design",
+        "summary": "DEL screen design: >0.1M compound library, affinity selection with competitive elution by known inhibitor 78c.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E03"
+        ],
+        "evidence_ids": [
+          "EV_C001_E03_01",
+          "EV_C001_E03_02"
+        ],
+        "key_entities": [
+          "DEL library",
+          "CD38",
+          "78c"
+        ],
+        "key_numbers": [
+          ">0.1 million compounds"
+        ]
+      },
+      {
+        "canonical_id": "K04",
+        "order": 4,
+        "event_type": "experiment",
+        "summary": "DEL screen identified 1043 enriched compounds; filtered to 8 diverse hits after excluding non-specific binders and known actives.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E05",
+          "C002_E01",
+          "C002_E02"
+        ],
+        "evidence_ids": [
+          "EV_C001_E05_01",
+          "EV_C002_E01_01",
+          "EV_C002_E01_02",
+          "EV_C002_E02_01",
+          "EV_C002_E02_02",
+          "EV_C002_E02_03"
+        ],
+        "key_entities": [
+          "CD38",
+          "hit compounds",
+          "Fenbendazole"
+        ],
+        "key_numbers": [
+          "1043 enriched",
+          "8 hits"
+        ]
+      },
+      {
+        "canonical_id": "K05",
+        "order": 5,
+        "event_type": "failure",
+        "summary": "Oridonin was a false positive from DEL; no binding in SPR, prompting adjusted enrichment cutoff.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E06",
+          "C002_E03"
+        ],
+        "evidence_ids": [
+          "EV_C002_E06_01",
+          "EV_C002_E03_01"
+        ],
+        "key_entities": [
+          "Oridonin"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K06",
+        "order": 6,
+        "event_type": "validation",
+        "summary": "SPR confirmed direct binding of 7/8 hits; KD values mostly 10^-4 M; Fenbendazole KD ~2.52e-4 M with slow kinetics.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E07",
+          "C002_E04"
+        ],
+        "evidence_ids": [
+          "EV_C001_E07_01",
+          "EV_C002_E04_03"
+        ],
+        "key_entities": [
+          "Fenbendazole",
+          "Topiroxostat",
+          "Alvimopan",
+          "CD38"
+        ],
+        "key_numbers": [
+          "KD 2.52e-4 M",
+          "KD 7e-5 M"
+        ]
+      },
+      {
+        "canonical_id": "K07",
+        "order": 7,
+        "event_type": "experiment",
+        "summary": "Enzymatic assays showed Fenbendazole and Topiroxostat as potent dual inhibitors of CD38 hydrolase and cyclase.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E01"
+        ],
+        "evidence_ids": [
+          "EV_C003_E01_01",
+          "EV_C003_E01_02"
+        ],
+        "key_entities": [
+          "Fenbendazole",
+          "Topiroxostat",
+          "CD38"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K08",
+        "order": 8,
+        "event_type": "design",
+        "summary": "Fenbendazole selected for SAR exploration due to moderate affinity, dual inhibition, and clinical approval.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E02"
+        ],
+        "evidence_ids": [
+          "EV_C003_E02_01"
+        ],
+        "key_entities": [
+          "Fenbendazole"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K09",
+        "order": 9,
+        "event_type": "design",
+        "summary": "Selected Fenbendazole analogues with structural diversity at R1 and R2 for SAR.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E03"
+        ],
+        "evidence_ids": [
+          "EV_C003_E03_01"
+        ],
+        "key_entities": [
+          "Fenbendazole analogues",
+          "Albendazole",
+          "Oxibendazole",
+          "Parbendazole",
+          "Bendamustine",
+          "Mebendazole",
+          "Flubendazole",
+          "Oxfendazole",
+          "Nocodazole",
+          "Thiabendazole"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K10",
+        "order": 10,
+        "event_type": "experiment",
+        "summary": "SPR on analogues: rigid aromatic R1 (e.g., Oxfendazole KD 2.15e-4 M) had higher affinity than flexible R1 (e.g., Oxibendazole KD 4.38e-3 M).",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C004_E01"
+        ],
+        "evidence_ids": [
+          "EV_C004_E01_01"
+        ],
+        "key_entities": [
+          "Fenbendazole derivatives",
+          "CD38"
+        ],
+        "key_numbers": [
+          "KD 2.15e-4 M",
+          "KD 4.38e-3 M"
+        ]
+      },
+      {
+        "canonical_id": "K11",
+        "order": 11,
+        "event_type": "failure",
+        "summary": "Oxibendazole cyclase data compromised due to intrinsic fluorescence interference.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C004_E03"
+        ],
+        "evidence_ids": [
+          "EV_C004_E03_01"
+        ],
+        "key_entities": [
+          "Oxibendazole"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K12",
+        "order": 12,
+        "event_type": "experiment",
+        "summary": "Flubendazole identified as most potent dual inhibitor: IC50 14.78 µM (hydrolase), 26.31 µM (cyclase).",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C004_E02"
+        ],
+        "evidence_ids": [
+          "EV_C004_E02_01",
+          "EV_AUTO_024",
+          "EV_AUTO_025",
+          "EV_AUTO_013",
+          "EV_AUTO_019",
+          "EV_AUTO_020"
+        ],
+        "key_entities": [
+          "Flubendazole",
+          "CD38"
+        ],
+        "key_numbers": [
+          "IC50 14.78 µM",
+          "IC50 26.31 µM"
+        ]
+      },
+      {
+        "canonical_id": "K13",
+        "order": 13,
+        "event_type": "computation",
+        "summary": "MD simulations (100 ns) and MM-PBSA: van der Waals dominant; TRP-125 and TRP-189 key residues; ΔGbind: Topiroxostat -40.5, Fenbendazole -81.4, Oxibendazole -83.8 kJ/mol.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C004_E05",
+          "C004_E06",
+          "C005_E01",
+          "C005_E03"
+        ],
+        "evidence_ids": [
+          "EV_C004_E05_01",
+          "EV_C004_E06_01",
+          "EV_C005_E01_01",
+          "EV_C005_E03_01",
+          "EV_AUTO_001",
+          "EV_AUTO_002"
+        ],
+        "key_entities": [
+          "Topiroxostat",
+          "Fenbendazole",
+          "Oxibendazole",
+          "CD38",
+          "TRP-125",
+          "TRP-189"
+        ],
+        "key_numbers": [
+          "100 ns",
+          "ΔGbind -40.5 kJ/mol",
+          "ΔGbind -81.4 kJ/mol",
+          "ΔGbind -83.8 kJ/mol"
+        ]
+      },
+      {
+        "canonical_id": "K14",
+        "order": 14,
+        "event_type": "analysis",
+        "summary": "SAR analysis: rigid aromatic R1 and methoxycarbamide R2 critical for potency; Flubendazole best candidate.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C005_E04"
+        ],
+        "evidence_ids": [
+          "EV_C005_E04_01"
+        ],
+        "key_entities": [
+          "Fenbendazole",
+          "Flubendazole"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K15",
+        "order": 15,
+        "event_type": "limitation",
+        "summary": "Limitations: only extracellular CD38 targeted, micromolar potency, no cellular/in vivo data; future work needed for cell permeability, nanomolar potency, in vivo validation.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C005_E08",
+          "C006_E05"
+        ],
+        "evidence_ids": [
+          "EV_C005_E08_01",
+          "EV_C006_E05_01"
+        ],
+        "key_entities": [
+          "lead compounds"
+        ],
+        "key_numbers": [
+          "nanomolar range"
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "source": "K01",
+        "target": "K02",
+        "relation": "enables",
+        "reason": "Problem motivates hypothesis."
+      },
+      {
+        "source": "K02",
+        "target": "K03",
+        "relation": "enables",
+        "reason": "Hypothesis leads to DEL screen design."
+      },
+      {
+        "source": "K03",
+        "target": "K04",
+        "relation": "enables",
+        "reason": "Design executed to yield initial hits."
+      },
+      {
+        "source": "K04",
+        "target": "K05",
+        "relation": "contradicts",
+        "reason": "Oridonin false positive prompts stricter filtering."
+      },
+      {
+        "source": "K04",
+        "target": "K06",
+        "relation": "enables",
+        "reason": "Hits validated by SPR."
+      },
+      {
+        "source": "K06",
+        "target": "K07",
+        "relation": "enables",
+        "reason": "Binding confirmed, then enzymatic inhibition tested."
+      },
+      {
+        "source": "K07",
+        "target": "K08",
+        "relation": "enables",
+        "reason": "Fenbendazole's dual inhibition and drug status motivate SAR."
+      },
+      {
+        "source": "K08",
+        "target": "K09",
+        "relation": "enables",
+        "reason": "SAR design selects analogues."
+      },
+      {
+        "source": "K09",
+        "target": "K10",
+        "relation": "enables",
+        "reason": "Analogues tested for binding."
+      },
+      {
+        "source": "K09",
+        "target": "K11",
+        "relation": "enables",
+        "reason": "Oxibendazole tested but fluorescence interference occurs."
+      },
+      {
+        "source": "K09",
+        "target": "K12",
+        "relation": "enables",
+        "reason": "Flubendazole identified as most potent."
+      },
+      {
+        "source": "K10",
+        "target": "K13",
+        "relation": "enables",
+        "reason": "Binding data informs selection for MD simulations."
+      },
+      {
+        "source": "K12",
+        "target": "K14",
+        "relation": "enables",
+        "reason": "Potency data integrated into SAR analysis."
+      },
+      {
+        "source": "K13",
+        "target": "K14",
+        "relation": "refines",
+        "reason": "Computational insights refine SAR understanding."
+      },
+      {
+        "source": "K14",
+        "target": "K15",
+        "relation": "follows",
+        "reason": "SAR leads to identification of limitations and future directions."
+      }
+    ],
+    "must_cover_points": [
+      "DEL screen design and hit identification",
+      "False positive Oridonin and filtering",
+      "SPR validation of hits",
+      "Enzymatic dual inhibition by Fenbendazole and Topiroxostat",
+      "Fenbendazole SAR exploration",
+      "Flubendazole as most potent analogue",
+      "MD simulations and key residues",
+      "Limitations and future work"
+    ],
+    "paper_not_suitable_reasons": []
+  }
+}

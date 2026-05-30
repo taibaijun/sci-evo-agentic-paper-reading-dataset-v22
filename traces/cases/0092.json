@@ -1,0 +1,838 @@
+{
+  "case": {
+    "case_id": "sci_evo_0092",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Scanning the active center of formolase to identify key residues for enhanced C1 to C3 bioconversion",
+      "doi": "https://doi.org/10.1186/s40643-024-00767-3",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0090_10_1186_s40643_024_00767_3_scanning_the_active_center_of_formolase_to_identify_key_residues_for_enhanced_c1_to_c3_bio.pdf",
+      "mineru_md": "docs/0092/mineru.md",
+      "combined_md": "docs/0092/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Formolase (FLS) has low catalytic activity and poor DHA selectivity, limiting its application in C1 to C3 bioconversion.",
+      "target_object": "Formolase (FLS)",
+      "known_context": "FLS is a computationally designed enzyme for converting formaldehyde to dihydroxyacetone (DHA), but its low activity and product promiscuity hinder practical use.",
+      "constraints": [
+        "Single-point mutations only",
+        "Residues within 8 Å of active center"
+      ],
+      "input_data": [
+        "FLS crystal structure",
+        "Sequence of FLS"
+      ],
+      "quantifiable_goals": [
+        "Improve DHA formation activity",
+        "Increase DHA selectivity over glycolaldehyde (GA)"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "FLS has low catalytic activity and poor DHA selectivity.",
+        "gap_or_uncertainty": "Which residues in the active center influence DHA formation?",
+        "hypothesis": "Residues within 8 Å of the active center affect DHA formation and can be optimized.",
+        "decision": "Screen 25 active-center residues by saturation mutagenesis.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "structural analysis",
+          "version": "",
+          "category": "computational"
+        },
+        "parameters": {
+          "distance_cutoff": "8 Å",
+          "number_of_residues": 25
+        },
+        "observation": "25 residues were identified within 8 Å of the active center.",
+        "result_status": "success",
+        "next_step_reason": "Design scanning saturation mutagenesis for these 25 residues.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E03_01",
+            "source_file": "docs/0092/combined.md",
+            "section": "C001",
+            "quote_or_span": "25 residues located within an 8 Å distance from the active center were screened using single-point saturation mutagenesis"
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "design",
+        "state_before": "Hypothesis that active-center residues affect DHA formation.",
+        "gap_or_uncertainty": "Need to systematically explore sequence-function relationships at these 25 sites.",
+        "hypothesis": "Scanning saturation mutagenesis will identify key residues for C1 to C3 conversion.",
+        "decision": "Use scanning saturation mutagenesis instead of directed evolution to ensure coverage.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "scanning saturation mutagenesis",
+          "version": "",
+          "category": "molecular biology"
+        },
+        "parameters": {
+          "number_of_residues": 25,
+          "mutation_type": "single-point saturation"
+        },
+        "observation": "Designed library covering all possible single amino acid substitutions at 25 active-center positions.",
+        "result_status": "success",
+        "next_step_reason": "Construct and screen the variant library.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E04_01",
+            "source_file": "docs/0092/combined.md",
+            "section": "C001",
+            "quote_or_span": "scanning saturation mutagenesis was used to investigate the sequence-function correlation and identify key residues essential for the C1 to C3 conversion by FLS"
+          },
+          {
+            "evidence_id": "EV_C001_E03_01",
+            "source_file": "docs/0092/combined.md",
+            "section": "C001",
+            "quote_or_span": "25 residues located within an 8 Å distance from the active center were screened using single-point saturation mutagenesis"
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "experiment",
+        "state_before": "Library of 25 saturation mutagenesis sites designed.",
+        "gap_or_uncertainty": "Which specific substitutions improve DHA formation?",
+        "hypothesis": "Screening ~5,000 variants will reveal beneficial mutations.",
+        "decision": "Screen ~5,000 transformants using a DHA-specific colorimetric assay.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "DHA-specific colorimetric assay",
+          "version": "",
+          "category": "biochemical assay"
+        },
+        "parameters": {
+          "number_of_transformants": "~5,000",
+          "transformants_per_site": "~200"
+        },
+        "observation": "Identified 10 beneficial substitutions at 6 sites (S26F, G109I, S236F, S236L, H281Y, C398M, C398A, G401L, G401H, G401Y) with 1.5- to 5.3-fold improvement in DHA formation.",
+        "result_status": "success",
+        "next_step_reason": "Validate top hits with biological replicates.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E05_01",
+            "source_file": "docs/0092/combined.md",
+            "section": "C001",
+            "quote_or_span": "After screening approximately 5,000 variants (approximately 200 transformants per site), several amino acid sites that were not identified by directed evolution were found to improve DHA formation"
+          },
+          {
+            "evidence_id": "EV_C001_E06_01",
+            "source_file": "docs/0092/combined.md",
+            "section": "C001",
+            "quote_or_span": "Seven amino acid substitutions beneficial for DHA formation were identified by screening of the FLS variants with single-point mutations"
+          },
+          {
+            "evidence_id": "EV_AUTO_001",
+            "source_file": "docs/0092/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "By screening \\~5,000 transformants, we identified 10 amino acid substitutions at six sites (S26F, G109I, S236F, S236L, H281Y, C398M, C398A, G401L, G401H, and G401Y), which improved the DHA formation activity of FLS by 1."
+          },
+          {
+            "evidence_id": "EV_AUTO_004",
+            "source_file": "docs/0092/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "By screening \\~5,000 transformants, we identified 10 amino acid substitutions at six sites (S26F, G109I, S236F, S236L, H281Y, C398M, C398A, G401L, G401H, and G401Y), which improved the DHA formation activity of FLS by 1.5- to 5."
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "validation",
+        "state_before": "Initial screening identified 10 beneficial substitutions.",
+        "gap_or_uncertainty": "Need to confirm activity with biological replicates.",
+        "hypothesis": "Variants with >2-fold improvement will show reproducible higher DHA formation.",
+        "decision": "Re-test seven variants (S26F, G109I, S236F, S236L, H281Y, C398M, C398A) with three biological replicates.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "whole-cell biocatalysis assay",
+          "version": "",
+          "category": "biochemical assay"
+        },
+        "parameters": {
+          "number_of_replicates": 3,
+          "variants_tested": [
+            "S26F",
+            "G109I",
+            "S236F",
+            "S236L",
+            "H281Y",
+            "C398M",
+            "C398A"
+          ]
+        },
+        "observation": "All seven variants exhibited higher DHA formation activity than wild-type FLS.",
+        "result_status": "success",
+        "next_step_reason": "Analyze new beneficial sites and perform kinetic characterization.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E02_01",
+            "source_file": "docs/0092/combined.md",
+            "section": "C002",
+            "quote_or_span": "the seven FLS variants demonstrating over a 2-fold improvement in DHA formation (S26F, G109I, S236F, S236L, H281Y, C398M, and C398A) were subjected to re-testing for whole-cell biocatalysis, with three biological replicates conducted. These seven FLS variants exhibited higher activity to the original enzyme in terms of DHA formation"
+          },
+          {
+            "evidence_id": "EV_AUTO_002",
+            "source_file": "docs/0092/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Given that no biological replicates were conducted for the initial round of screening of \\~5,000 transformants, the seven FLS variants demonstrating over a 2-fold improvement in DHA formation (S26F, G109I, S236F, S236L, H281Y, C398M, and C398A) were subjected to re-testing for whole-cell biocatalysis, with three biological replicates conducted."
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "analysis",
+        "state_before": "Seven variants validated for improved DHA formation.",
+        "gap_or_uncertainty": "Are these beneficial sites novel compared to previous directed evolution studies?",
+        "hypothesis": "Scanning saturation mutagenesis identifies new beneficial sites not found by directed evolution.",
+        "decision": "Compare identified sites with previous directed evolution results.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "literature comparison",
+          "version": "",
+          "category": "analysis"
+        },
+        "parameters": {},
+        "observation": "New beneficial sites G109I, S236F, S236L, C398M, C398A were not previously identified by directed evolution.",
+        "result_status": "success",
+        "next_step_reason": "Characterize kinetic properties of validated variants.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E03_01",
+            "source_file": "docs/0092/combined.md",
+            "section": "C002",
+            "quote_or_span": "several new beneficial sites and amino acid substitutions were identified, including G109I, S236F, S236L, C398M, and C398A, which were not previously identified by directed evolution."
+          },
+          {
+            "evidence_id": "EV_AUTO_007",
+            "source_file": "docs/0092/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Moreover, several new beneficial sites and amino acid substitutions were identified, including G109I, S236F, S236L, C398M, and C398A, which were not previously identified by directed evolution."
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "experiment",
+        "state_before": "Validated variants with novel beneficial sites.",
+        "gap_or_uncertainty": "How do these mutations affect kinetic parameters?",
+        "hypothesis": "Beneficial mutations increase substrate affinity (lower Km) for formaldehyde.",
+        "decision": "Purify seven variants and measure kinetic constants (Km, kcat) for formaldehyde.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "enzyme kinetics assay",
+          "version": "",
+          "category": "biochemical assay"
+        },
+        "parameters": {
+          "substrate": "formaldehyde",
+          "variants": [
+            "S26F",
+            "G109I",
+            "S236F",
+            "S236L",
+            "H281Y",
+            "C398M",
+            "C398A"
+          ]
+        },
+        "observation": "Most variants showed 1.4- to 2.4-fold increased affinity (Km 37.7-90.7 mM vs WT 88.7 mM), but kcat slightly decreased or similar (50.5-79.0 min^-1 vs WT 73.1 min^-1). kcat/Km improved to 0.87-1.34 min^-1 mM^-1 (WT 0.82).",
+        "result_status": "partial",
+        "next_step_reason": "Analyze product preference, especially for top variant S236F.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E04_01",
+            "source_file": "docs/0092/combined.md",
+            "section": "C002",
+            "quote_or_span": "Except for the C398A variant, the other variants displayed 1.4- to 2.4-fold increases in affinity for formaldehyde"
+          },
+          {
+            "evidence_id": "EV_AUTO_003",
+            "source_file": "docs/0092/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Seven FLS variants exhibiting over a 2-fold improvement in DHA formation (S26F, G109I, S236F, S236L, H281Y, C398M, and C398A) were overexpressed and purified to characterize their kinetic constants (Fig."
+          },
+          {
+            "evidence_id": "EV_AUTO_019",
+            "source_file": "docs/0092/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Except for the C398A variant, the other variants displayed 1."
+          },
+          {
+            "evidence_id": "EV_AUTO_036",
+            "source_file": "docs/0092/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Except for the C398A variant, the other variants displayed 1.4- to 2."
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "analysis",
+        "state_before": "Kinetic data available for seven variants.",
+        "gap_or_uncertainty": "Which variant has the best DHA formation and selectivity?",
+        "hypothesis": "S236F is the top variant due to its high DHA improvement and DHA/GA ratio.",
+        "decision": "Compare DHA formation and DHA/GA ratio across variants.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "product analysis",
+          "version": "",
+          "category": "analysis"
+        },
+        "parameters": {},
+        "observation": "S236F improved DHA formation by 7.6-fold and DHA/GA ratio by 2.6-fold, outperforming all other variants.",
+        "result_status": "success",
+        "next_step_reason": "Investigate structural mechanism of S236F using MD simulations.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E07_01",
+            "source_file": "docs/0092/combined.md",
+            "section": "C001",
+            "quote_or_span": "The serine-to-phenylalanine substitution at position 236 improved the activity towards DHA formation by 7.6-fold"
+          },
+          {
+            "evidence_id": "EV_AUTO_018",
+            "source_file": "docs/0092/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The FLS $^{S236F}$ variant outperformed the other variants and wild-type FLS in terms of both DHA formation activity and DHA preference against GA, which were 7."
+          },
+          {
+            "evidence_id": "EV_AUTO_035",
+            "source_file": "docs/0092/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The FLS $^{S236F}$ variant outperformed the other variants and wild-type FLS in terms of both DHA formation activity and DHA preference against GA, which were 7.6- and 2."
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "simulation",
+        "state_before": "S236F identified as top variant with 7.6-fold DHA improvement.",
+        "gap_or_uncertainty": "How does S236F enhance DHA formation at the molecular level?",
+        "hypothesis": "S236F increases local hydrophobicity, favoring nucleophilic attack by third formaldehyde.",
+        "decision": "Perform MD simulations of S236F variant with intermediate analog.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "molecular dynamics simulations",
+          "version": "",
+          "category": "computational"
+        },
+        "parameters": {
+          "mutation": "S236F",
+          "ligand": "intermediate analog"
+        },
+        "observation": "S236F mutation increased local hydrophobicity at the active site, predisposing the intermediate to nucleophilic attack by the third formaldehyde, favoring DHA generation.",
+        "result_status": "success",
+        "next_step_reason": "Note limitations and discrepancies.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E08_01",
+            "source_file": "docs/0092/combined.md",
+            "section": "C001",
+            "quote_or_span": "Molecular dynamics simulations suggested that the mutation increased local hydrophobicity at the active site, predisposing the cofactor-C2 intermediate to nucleophilic attack by the third formaldehyde molecule for subsequent DHA generation"
+          },
+          {
+            "evidence_id": "EV_C002_E06_01",
+            "source_file": "docs/0092/combined.md",
+            "section": "C002",
+            "quote_or_span": "The S236F mutation notably increased local hydrophobicity at the active site, predisposing the intermediate analog to nucleophilic attack by the third formaldehyde molecule"
+          },
+          {
+            "evidence_id": "EV_AUTO_014",
+            "source_file": "docs/0092/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The S236F mutation notably increased local hydrophobicity at the active site, predisposing the intermediate analog to nucleophilic attack by the third formaldehyde molecule (Fig."
+          },
+          {
+            "evidence_id": "EV_AUTO_017",
+            "source_file": "docs/0092/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "B Analysis of the effects of the S236F mutation on structure using MD simulations."
+          },
+          {
+            "evidence_id": "EV_AUTO_035",
+            "source_file": "docs/0092/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The FLS $^{S236F}$ variant outperformed the other variants and wild-type FLS in terms of both DHA formation activity and DHA preference against GA, which were 7.6- and 2."
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "analysis",
+        "state_before": "S26F was among validated variants.",
+        "gap_or_uncertainty": "Is S26F effective as a single mutation for DHA formation?",
+        "hypothesis": "S26F single mutation may not be effective, contrary to previous combination studies.",
+        "decision": "Evaluate DHA formation of S26F variant in whole-cell and purified enzyme assays.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "comparative analysis",
+          "version": "",
+          "category": "analysis"
+        },
+        "parameters": {},
+        "observation": "S26F single mutation was not effective for DHA formation; it produced lower DHA than wild-type in some assays.",
+        "result_status": "failure",
+        "next_step_reason": "Acknowledge discrepancy and limitations.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E07_01",
+            "source_file": "docs/0092/combined.md",
+            "section": "C002",
+            "quote_or_span": "our current research indicates that individual S26F mutations may not be as effective"
+          },
+          {
+            "evidence_id": "EV_AUTO_015",
+            "source_file": "docs/0092/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "2020), our current research indicates that individual S26F mutations may not be as effective (Fig."
+          },
+          {
+            "evidence_id": "EV_AUTO_020",
+            "source_file": "docs/0092/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "With the exception of S26F, the remaining six FLS variants produced higher concentrations of DHA compared to the wild-type FLS (Fig."
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "analysis",
+        "state_before": "Discrepancy observed between whole-cell and purified enzyme DHA activities.",
+        "gap_or_uncertainty": "Why do whole-cell and purified enzyme activities differ?",
+        "hypothesis": "Variations in expression levels or reaction conditions cause the discrepancy.",
+        "decision": "Note the discrepancy as a limitation.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "data comparison",
+          "version": "",
+          "category": "analysis"
+        },
+        "parameters": {},
+        "observation": "Discrepancies between whole-cell and purified enzyme DHA activities were observed, possibly due to expression variations or different in vivo/in vitro conditions.",
+        "result_status": "inconclusive",
+        "next_step_reason": "Conclude with overall findings and limitations.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E08_01",
+            "source_file": "docs/0092/combined.md",
+            "section": "C002",
+            "quote_or_span": "we observed discrepancies between the DHA formation activities determined via whole-cell biocatalysis and those determined by the purified enzyme reaction, which could be potentially attributed to the variations in the expression levels of FLS variants or the different conditions between in vivo and in vitro reactions."
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "revision",
+        "state_before": "Single-site mutations characterized; S236F is top variant.",
+        "gap_or_uncertainty": "What are the limitations of this study?",
+        "hypothesis": "Only single-site mutations were tested; combined effects and stability trade-offs are unknown.",
+        "decision": "Acknowledge that combinatorial approaches are needed for further improvement.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "limitation assessment",
+          "version": "",
+          "category": "analysis"
+        },
+        "parameters": {},
+        "observation": "Kinetic constants of S236F were not significantly higher than wild-type, and only single mutations were tested; combinatorial effects and stability trade-offs remain unaddressed.",
+        "result_status": "partial",
+        "next_step_reason": "Finalize conclusions.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_023",
+            "source_file": "docs/0092/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "However, the kinetic constants of FLS $^{S236F}$ were not significantly higher than those of the original enzyme (Table 1)."
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "Biological replicate re-testing of top variants",
+        "Kinetic characterization of purified enzymes",
+        "MD simulations to rationalize S236F mechanism"
+      ],
+      "metrics": [
+        "DHA formation activity (fold improvement)",
+        "DHA/GA ratio",
+        "Km for formaldehyde",
+        "kcat",
+        "kcat/Km"
+      ],
+      "final_conclusion": "Scanning saturation mutagenesis of 25 active-center residues identified S236F as the top variant with 7.6-fold improved DHA formation and 2.6-fold higher DHA/GA ratio. MD simulations revealed increased local hydrophobicity as the mechanism. However, S26F single mutation was ineffective, and discrepancies between whole-cell and purified enzyme activities were noted. Only single-site mutations were tested, and combinatorial effects remain unexplored.",
+      "limitations": [
+        "Only single-site mutations tested; combinatorial effects unknown",
+        "Discrepancy between whole-cell and purified enzyme DHA activities",
+        "Kinetic constants of S236F not significantly higher than wild-type",
+        "Potential trade-offs in enzyme stability or expression not addressed"
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_phase_action_fixed=1",
+        "v22_specific_evidence_backfilled=2",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_specific_evidence_backfilled=1",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 100.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_mainline_batch30_p1\\states\\0092.json",
+  "events_path": "outputs\\agentic_v22\\v22_mainline_batch30_p1\\events\\0092.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 11,
+      "covered_event_count": 11,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1
+        ],
+        "K03": [
+          1,
+          2,
+          8
+        ],
+        "K04": [
+          1,
+          2,
+          5
+        ],
+        "K05": [
+          3
+        ],
+        "K06": [
+          3,
+          4,
+          5,
+          7
+        ],
+        "K07": [
+          4,
+          5
+        ],
+        "K08": [
+          6
+        ],
+        "K09": [
+          2,
+          3,
+          4,
+          6,
+          7,
+          8,
+          9,
+          11
+        ],
+        "K10": [
+          8
+        ],
+        "K11": [
+          5,
+          9
+        ],
+        "K13": [
+          11
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02",
+            "K03",
+            "K04"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K03",
+            "K04",
+            "K09"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K05",
+            "K06",
+            "K09"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K06",
+            "K07",
+            "K09"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K04",
+            "K06",
+            "K07",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K08",
+            "K09"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K06",
+            "K09"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K03",
+            "K09",
+            "K10"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K09",
+            "K11",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K12"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K09",
+            "K13"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 2,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "25s"
+        ]
+      },
+      {
+        "step_index": 3,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "25s",
+          "5.3",
+          "6s"
+        ]
+      },
+      {
+        "step_index": 6,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "-1",
+          "-1.34min",
+          "-1mm",
+          "-79.0min",
+          "-90.7mm",
+          "0.82",
+          "0.87",
+          "37.7",
+          "50.5",
+          "73.1min",
+          "88.7mm"
+        ]
+      },
+      {
+        "step_index": 7,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "2.6"
+        ]
+      }
+    ],
+    "step_count": 11,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 100.0
+  },
+  "api_usage": {
+    "prompt_tokens": 87492,
+    "completion_tokens": 21776,
+    "total_tokens": 109268,
+    "prompt_cache_hit_tokens": 2432,
+    "prompt_cache_miss_tokens": 85060
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 3782,
+        "completion_tokens": 708,
+        "total_tokens": 4490,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 3782
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 7657,
+        "completion_tokens": 2445,
+        "total_tokens": 10102,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 7657
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 7631,
+        "completion_tokens": 1099,
+        "total_tokens": 8730,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7375
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 7719,
+        "completion_tokens": 1537,
+        "total_tokens": 9256,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7463
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 3732,
+        "completion_tokens": 50,
+        "total_tokens": 3782,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 3476
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 9082,
+        "completion_tokens": 2957,
+        "total_tokens": 12039,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 8698
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 11565,
+        "completion_tokens": 5769,
+        "total_tokens": 17334,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 10925
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 16705,
+        "completion_tokens": 1307,
+        "total_tokens": 18012,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 16705
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 19619,
+        "completion_tokens": 5904,
+        "total_tokens": 25523,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 18979
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

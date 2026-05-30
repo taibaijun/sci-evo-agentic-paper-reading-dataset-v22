@@ -1,0 +1,817 @@
+{
+  "case": {
+    "case_id": "sci_evo_0058",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Protein design and variant prediction using autoregressive generative models",
+      "doi": "https://doi.org/10.1038/s41467-021-22732-w",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "",
+      "mineru_md": "docs/0058/mineru.md",
+      "combined_md": "docs/0058/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Current computational methods rely on multiple sequence alignments, which are inadequate for antibodies, disordered proteins, and indels.",
+      "target_object": "nanobody sequences",
+      "known_context": "State-of-art computational methods rely on models that leverage evolutionary information but are inadequate for important applications where multiple sequence alignments are not robust.",
+      "constraints": [
+        "No reliance on multiple sequence alignments",
+        "Must handle variable length CDRs, insertions, deletions"
+      ],
+      "input_data": [
+        "Natural llama nanobody sequences (~1.2 million)",
+        "Deep mutational scan data (40 experiments, 690,257 sequences)"
+      ],
+      "quantifiable_goals": [
+        "Match or exceed alignment-based methods in mutation effect prediction",
+        "Design a nanobody library with higher expression and lower fraction of poorly expressed variants than a synthetic library"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "Alignment-based methods fail for antibodies, disordered proteins, and indels.",
+        "gap_or_uncertainty": "No alignment-free method exists that can predict mutation effects and design functional sequences for these challenging cases.",
+        "hypothesis": "An autoregressive generative model adapted from NLP can predict and design functional sequences without alignments.",
+        "decision": "Develop a deep generative model based on autoregressive factorization of sequence probability.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "autoregressive generative model",
+          "version": "N/A",
+          "category": "deep generative model"
+        },
+        "parameters": {},
+        "observation": "The model can learn from natural sequences to capture higher-order constraints.",
+        "result_status": "success",
+        "next_step_reason": "Proceed to design the model architecture.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0058/combined.md",
+            "section": "C001",
+            "quote_or_span": "State-of-art computational methods rely on models that leverage evolutionary information but are inadequate for important applications where multiple sequence alignments are not robust."
+          },
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0058/combined.md",
+            "section": "C001",
+            "quote_or_span": "We introduce a deep generative model adapted from natural language processing for prediction and design of diverse functional sequences without the need for alignments."
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "design",
+        "state_before": "Hypothesis formulated; need to implement model.",
+        "gap_or_uncertainty": "How to parameterize the autoregressive likelihood to capture long-range dependencies in protein sequences.",
+        "hypothesis": "Dilated convolutional neural networks can aggregate long-range dependencies without gradient issues.",
+        "decision": "Use dilated CNNs instead of LSTM/GRU.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "dilated convolutional neural networks",
+          "version": "N/A",
+          "category": "deep learning architecture"
+        },
+        "parameters": {},
+        "observation": "Dilated CNNs avoid exploding gradients and capture long-range dependencies.",
+        "result_status": "success",
+        "next_step_reason": "Validate model on mutation effect prediction.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E05_01",
+            "source_file": "docs/0058/combined.md",
+            "section": "C001",
+            "quote_or_span": "Instead, we parameterize this process with dilated convolutional neural networks (Supplementary Fig. 1), which are feed-forward deep neural networks that aggregate long-range dependencies in sequences over an exponentially large receptive field"
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "validation",
+        "state_before": "Model architecture chosen; need to test predictive performance.",
+        "gap_or_uncertainty": "Whether the alignment-free model can match alignment-based methods on mutation effect prediction.",
+        "hypothesis": "The autoregressive model can predict mutation effects as accurately as DeepSequence.",
+        "decision": "Evaluate on 40 deep mutational scan datasets.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "autoregressive model",
+          "version": "N/A",
+          "category": "mutation effect predictor"
+        },
+        "parameters": {
+          "datasets": "40 deep mutational scans",
+          "sequences": "690,257"
+        },
+        "observation": "The model matches state-of-the-art alignment-based method DeepSequence.",
+        "result_status": "success",
+        "next_step_reason": "Further validate on nanobody thermostability and indel fitness.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E06_01",
+            "source_file": "docs/0058/combined.md",
+            "section": "C001",
+            "quote_or_span": "We first test our method on the problem of prediction of mutation effects, which are typically analyzed using alignment-based statistical methods."
+          },
+          {
+            "evidence_id": "EV_C002_E01_01",
+            "source_file": "docs/0058/combined.md",
+            "section": "C002",
+            "quote_or_span": "Without using alignments, the autoregressive model matches alignment-dependent state-of-art missense mutation effect prediction (DeepSequence) for 40 different deep mutational scan experiments."
+          },
+          {
+            "evidence_id": "EV_C003_E03_01",
+            "source_file": "docs/0058/combined.md",
+            "section": "C003",
+            "quote_or_span": "we validated our model first on deep mutational scan data, with on-par performance with the best currently available model"
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "validation",
+        "state_before": "Model validated on missense mutations; need to test on antibody-related tasks.",
+        "gap_or_uncertainty": "Can the model predict nanobody thermostability better than HMMs?",
+        "hypothesis": "The autoregressive model can learn from natural nanobody repertoires to predict thermostability.",
+        "decision": "Train on ~1.2M llama nanobody sequences and test on thermostability data.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "autoregressive model",
+          "version": "N/A",
+          "category": "stability predictor"
+        },
+        "parameters": {
+          "training_data": "~1.2 million natural llama nanobody sequences"
+        },
+        "observation": "The model predicts thermostability with greater accuracy than HMMs.",
+        "result_status": "success",
+        "next_step_reason": "Test on indel fitness prediction.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E02_01",
+            "source_file": "docs/0058/combined.md",
+            "section": "C002",
+            "quote_or_span": "The autoregressive model (blue) can learn from natural sequence repertoires of llama nanobodies to predict the thermostability of llama nanobody sequences with variation in the framework and complementarity determining regions with greater accuracy than HMMs (orange)."
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "validation",
+        "state_before": "Model works for missense and stability; need to test on indels.",
+        "gap_or_uncertainty": "Can the model predict fitness effects of insertions and deletions?",
+        "hypothesis": "The autoregressive model can handle variable-length mutations.",
+        "decision": "Evaluate on IGP dehydratase dataset with indels and missense mutations.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "autoregressive model",
+          "version": "N/A",
+          "category": "fitness predictor"
+        },
+        "parameters": {
+          "dataset": "IGP dehydratase",
+          "N": 6102
+        },
+        "observation": "AUC = 0.90, outperforming HMM (AUC 0.88).",
+        "result_status": "success",
+        "next_step_reason": "Proceed to sequence generation for nanobody library design.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E04_01",
+            "source_file": "docs/0058/combined.md",
+            "section": "C002",
+            "quote_or_span": "Accurate prediction of binary fitness for IGP dehydratase with a range of insertions, deletions, and missense mutations of the autoregressive model (blue), higher than HMM (orange)."
+          },
+          {
+            "evidence_id": "EV_C002_E04_02",
+            "source_file": "docs/0058/combined.md",
+            "section": "C002",
+            "quote_or_span": "AUC = 0.90, N = 6102, HMM AUC = 0.88"
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "design",
+        "state_before": "Model validated; ready to design nanobody library.",
+        "gap_or_uncertainty": "How to generate a diverse set of functional CDR3 sequences?",
+        "hypothesis": "Ancestral sampling from the trained model can produce probable CDR3 sequences.",
+        "decision": "Generate 33M CDR3 sequences by ancestral sampling.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "ancestral sampling",
+          "version": "N/A",
+          "category": "sequence generation"
+        },
+        "parameters": {
+          "number_of_sequences": "33,047,639"
+        },
+        "observation": "33,047,639 CDR3 sequences generated.",
+        "result_status": "success",
+        "next_step_reason": "Filter and cluster sequences to select a diverse library.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E01_01",
+            "source_file": "docs/0058/combined.md",
+            "section": "C004",
+            "quote_or_span": "we generated 33,047,639 CDR3 sequences by ancestral sampling"
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "design",
+        "state_before": "33M sequences generated; need to remove undesirable ones.",
+        "gap_or_uncertainty": "How to filter out duplicates, training set matches, and sequences with problematic motifs?",
+        "hypothesis": "Applying filters for glycosylation sites, deamination motifs, and sulfur-containing amino acids will improve library quality.",
+        "decision": "Remove sequences with NxS/NxT, NG, C, M; also remove duplicates and training set matches.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "sequence filtering",
+          "version": "N/A",
+          "category": "bioinformatics"
+        },
+        "parameters": {
+          "motifs_removed": [
+            "NxS",
+            "NxT",
+            "NG",
+            "C",
+            "M"
+          ]
+        },
+        "observation": "3,690,554 sequences remain after filtering.",
+        "result_status": "success",
+        "next_step_reason": "Cluster sequences to select a diverse subset.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E02_01",
+            "source_file": "docs/0058/combined.md",
+            "section": "C004",
+            "quote_or_span": "CDR3 sequences were also removed if they contained glycosylation (NxS and NxT) sites, asparagine deamination (NG) motifs, or sulfur-containing amino acids (cysteine and methionine), resulting in 3,690,554 sequences."
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "design",
+        "state_before": "3.7M filtered sequences; need to select a manageable diverse set.",
+        "gap_or_uncertainty": "How to cluster sequences to maximize diversity within memory constraints?",
+        "hypothesis": "BIRCH clustering with chosen k-mer size and diameter threshold can select diverse sequences.",
+        "decision": "Use BIRCH clustering with parameters chosen under 70 GB memory constraint.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "BIRCH clustering",
+          "version": "N/A",
+          "category": "clustering"
+        },
+        "parameters": {
+          "memory_constraint": "70 GB"
+        },
+        "observation": "185,836 diverse CDR3 sequences selected for the designed library.",
+        "result_status": "success",
+        "next_step_reason": "Synthesize library and test expression in yeast.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E06_01",
+            "source_file": "docs/0058/combined.md",
+            "section": "C002",
+            "quote_or_span": "From these, we select 185,836 highly diverse CDR3 sequences for inclusion in our designed library."
+          },
+          {
+            "evidence_id": "EV_C004_E08_01",
+            "source_file": "docs/0058/combined.md",
+            "section": "C004",
+            "quote_or_span": "K-mer size and BIRCH diameter threshold were chosen to maximize the number of clusters within a memory constraint of 70 GB."
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "experiment",
+        "state_before": "Designed library of 185,836 sequences; need to compare with synthetic library.",
+        "gap_or_uncertainty": "Will the designed library show improved expression and lower fraction of poorly expressed nanobodies?",
+        "hypothesis": "The designed library will have higher mean expression and fewer poorly expressed variants.",
+        "decision": "Synthesize oligonucleotide library, clone into yeast display vector, and measure expression via flow cytometry.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "yeast display and flow cytometry",
+          "version": "N/A",
+          "category": "experimental"
+        },
+        "parameters": {
+          "comparison": "designed vs synthetic nanobody library"
+        },
+        "observation": "Designed library: mean expression 165,000 AU, poorly expressed fraction 0.16; Synthetic: 90,000 AU, 0.26.",
+        "result_status": "success",
+        "next_step_reason": "Test functionality by selecting binders against HSA.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E07_01",
+            "source_file": "docs/0058/combined.md",
+            "section": "C002",
+            "quote_or_span": "Upon induction, the designed nanobody library contained a 1.5 times higher proportion of cells expressing and displaying nanobodies on their cell surface than the synthetic nanobody library"
+          },
+          {
+            "evidence_id": "EV_C003_E01_01",
+            "source_file": "docs/0058/combined.md",
+            "section": "C003",
+            "quote_or_span": "the designed library had nearly half the fraction of poorly expressed nanobodies (cells with fluorescence below 10,000 AU) as compared to the synthetic library"
+          },
+          {
+            "evidence_id": "EV_C003_E01_02",
+            "source_file": "docs/0058/combined.md",
+            "section": "C003",
+            "quote_or_span": "the designed library has almost double the mean expression level (166,193 AU compared to 92,183 AU)"
+          },
+          {
+            "evidence_id": "EV_AUTO_021",
+            "source_file": "docs/0058/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "| Designed library | 165000 | 0.16 | 0."
+          },
+          {
+            "evidence_id": "EV_AUTO_020",
+            "source_file": "docs/0058/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "| Synthetic library | 90000 | 0.26 | 0."
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "validation",
+        "state_before": "Designed library shows improved expression; need to confirm functional binding.",
+        "gap_or_uncertainty": "Does the designed library contain nanobodies that can bind a target antigen?",
+        "hypothesis": "The library contains functional binders; one can be isolated against HSA.",
+        "decision": "Perform FACS against HSA, isolate clones, and characterize binding affinity.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "FACS and affinity measurement",
+          "version": "N/A",
+          "category": "experimental"
+        },
+        "parameters": {
+          "target": "human serum albumin (HSA)"
+        },
+        "observation": "Isolated nanobody Nb174684 binds HSA with Kd 9.8 μM.",
+        "result_status": "success",
+        "next_step_reason": "Acknowledge limitations and suggest future improvements.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E02_01",
+            "source_file": "docs/0058/combined.md",
+            "section": "C003",
+            "quote_or_span": "we selected nanobody sequences that bound to human serum albumin (HSA) using fluorescence-activated cell sorting (FACS)"
+          },
+          {
+            "evidence_id": "EV_C004_E07_01",
+            "source_file": "docs/0058/combined.md",
+            "section": "C004",
+            "quote_or_span": "Nanobody Nb174684 was isolated from a screen of 36 clones for binding to HSA using a flow cytometer and then sequenced."
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "analysis",
+        "state_before": "Functional binder obtained; but poly-reactivity remains a challenge.",
+        "gap_or_uncertainty": "How to reduce poly-reactivity in designed libraries?",
+        "hypothesis": "Training on mature B cell repertoires may improve library design by reducing poly-reactivity.",
+        "decision": "Note limitation and suggest future direction.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "N/A",
+          "version": "N/A",
+          "category": "N/A"
+        },
+        "parameters": {},
+        "observation": "Poly-reactivity is a challenge; training on mature B cell repertoires may help.",
+        "result_status": "partial",
+        "next_step_reason": "Conclude study.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E08_01",
+            "source_file": "docs/0058/combined.md",
+            "section": "C003",
+            "quote_or_span": "A challenge of using synthetic libraries is the poly-reactivity of many sequences"
+          },
+          {
+            "evidence_id": "EV_C003_E08_02",
+            "source_file": "docs/0058/combined.md",
+            "section": "C003",
+            "quote_or_span": "training a model on sequences from mature or memory B cell repertoires may provide information on how to improve library design"
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "Mutation effect prediction on 40 deep mutational scans",
+        "Nanobody thermostability prediction",
+        "IGP dehydratase indel fitness prediction",
+        "Yeast display expression comparison",
+        "HSA binding via FACS"
+      ],
+      "metrics": [
+        "Spearman correlation for mutation effects",
+        "AUC for binary fitness",
+        "Mean expression (AU)",
+        "Fraction poorly expressed",
+        "Binding affinity (Kd)"
+      ],
+      "final_conclusion": "The autoregressive model successfully predicts mutation effects and designs a nanobody library with improved expression and functional binders, though poly-reactivity remains a challenge.",
+      "limitations": [
+        "Poly-reactivity of designed sequences",
+        "Memory constraint limited clustering parameters"
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_specific_evidence_backfilled=2",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_specific_evidence_backfilled=1",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 100.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p3\\states\\0058.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p3\\events\\0058.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1
+        ],
+        "K04": [
+          2
+        ],
+        "K06": [
+          3
+        ],
+        "K07": [
+          3,
+          4,
+          5
+        ],
+        "K08": [
+          4,
+          5
+        ],
+        "K09": [
+          1,
+          4,
+          6
+        ],
+        "K10": [
+          7
+        ],
+        "K11": [
+          6,
+          7,
+          8
+        ],
+        "K12": [
+          9,
+          10
+        ],
+        "K13": [
+          10
+        ],
+        "K14": [
+          11
+        ],
+        "K15": [
+          8
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02",
+            "K03",
+            "K09"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K02",
+            "K04",
+            "K05"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K06",
+            "K07"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K02",
+            "K07",
+            "K08",
+            "K09"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K02",
+            "K07",
+            "K08"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K02",
+            "K03",
+            "K09",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K10",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K11",
+            "K15"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K12"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K12",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K14"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 4,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "1.2"
+        ]
+      },
+      {
+        "step_index": 6,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "33"
+        ]
+      },
+      {
+        "step_index": 7,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "33"
+        ]
+      },
+      {
+        "step_index": 8,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "185836",
+          "3.7"
+        ]
+      },
+      {
+        "step_index": 9,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "185836s"
+        ]
+      },
+      {
+        "step_index": 10,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "9.8"
+        ]
+      }
+    ],
+    "step_count": 11,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 100.0
+  },
+  "api_usage": {
+    "prompt_tokens": 94657,
+    "completion_tokens": 20964,
+    "total_tokens": 115621,
+    "prompt_cache_hit_tokens": 2944,
+    "prompt_cache_miss_tokens": 91713
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 2239,
+        "completion_tokens": 347,
+        "total_tokens": 2586,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 2239
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 7115,
+        "completion_tokens": 1547,
+        "total_tokens": 8662,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 7115
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 6111,
+        "completion_tokens": 1258,
+        "total_tokens": 7369,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 5855
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 6979,
+        "completion_tokens": 1350,
+        "total_tokens": 8329,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6723
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 5981,
+        "completion_tokens": 1240,
+        "total_tokens": 7221,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 5725
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 7178,
+        "completion_tokens": 1251,
+        "total_tokens": 8429,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6922
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C005",
+      "api_usage": {
+        "prompt_tokens": 4767,
+        "completion_tokens": 59,
+        "total_tokens": 4826,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 4511
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 9441,
+        "completion_tokens": 2766,
+        "total_tokens": 12207,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 9057
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 11343,
+        "completion_tokens": 4728,
+        "total_tokens": 16071,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 10703
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 15191,
+        "completion_tokens": 1457,
+        "total_tokens": 16648,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 15191
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 18312,
+        "completion_tokens": 4961,
+        "total_tokens": 23273,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 17672
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

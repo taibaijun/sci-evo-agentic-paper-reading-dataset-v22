@@ -1,0 +1,869 @@
+{
+  "case": {
+    "case_id": "sci_evo_0007",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "selection finder selfi a computational metabolic engineering tool to enable dire",
+      "doi": "",
+      "url": "",
+      "license": "",
+      "publication_date": "",
+      "raw_file": "0005_PMC5779715_selection_finder_selfi_a_computational_metabolic_engineering_tool_to_enable_dire.pdf",
+      "mineru_md": "docs/0007/mineru.md",
+      "combined_md": "docs/0007/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Directed enzyme evolution is bottlenecked by the lack of high-throughput selections to isolate desired variants.",
+      "target_object": "Selection pathways coupling enzymatic product to host survival",
+      "known_context": "Most directed evolution is limited by the inability to generically link any biochemical transformation to readouts like cell density or fluorescence.",
+      "constraints": [
+        "Maximum 3 knockouts to limit computational cost",
+        "Biomass flux >= 10% wild-type max",
+        "Oxygen uptake bounds -1000 to 1000",
+        "Engineered enzyme flux bounds 0 to 1000"
+      ],
+      "input_data": [
+        "E. coli iAF1260 genome-scale metabolic model",
+        "KEGG reaction database"
+      ],
+      "quantifiable_goals": [
+        "Guarantee minimum flux through consumption pathway",
+        "Rank pathways by flux, length, and number of knockouts"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "Directed enzyme evolution lacks generic high-throughput selections.",
+        "gap_or_uncertainty": "No computational framework exists to systematically construct selection pathways linking any enzymatic product to host survival.",
+        "hypothesis": "A computational metabolic engineering framework can construct selection pathways from a desired enzymatic product to a cellular host and couple the pathway with cell survival.",
+        "decision": "Develop SelFi, a four-step computational framework.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "SelFi",
+          "version": "1.0",
+          "category": "computational framework"
+        },
+        "parameters": {},
+        "observation": "SelFi is designed to identify selection pathways in four steps: construct consumption pathways, eliminate alternate carbon sources, identify knockout targets, rank pathways.",
+        "result_status": "success",
+        "next_step_reason": "Need to detail the four steps of SelFi.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0007/combined.md",
+            "section": "C001",
+            "quote_or_span": "The biggest challenge in directed enzyme evolution is identifying high-throughput screens or selections to isolate the variant(s) with the desired property."
+          },
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0007/combined.md",
+            "section": "C001",
+            "quote_or_span": "most directed evolution of enzymes are still largely limited by the inability to identify and implement selections or screens."
+          },
+          {
+            "evidence_id": "EV_C001_E03_01",
+            "source_file": "docs/0007/combined.md",
+            "section": "C001",
+            "quote_or_span": "We present in this paper a computational metabolic engineering framework, Selection Finder (SelFi), to construct a selection pathway from a desired enzymatic product to a cellular host and to couple the pathway with cell survival."
+          },
+          {
+            "evidence_id": "EV_C001_E04_01",
+            "source_file": "docs/0007/combined.md",
+            "section": "C001",
+            "quote_or_span": "SelFi identifies a selection pathway in four steps. In the first step, SelFi constructs traversal pathways to consume the desired enzymatic reaction product and convert it to a native metabolite within the cellular host."
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "design",
+        "state_before": "SelFi framework outlined with four steps.",
+        "gap_or_uncertainty": "Need to construct consumption pathways from product to host metabolite.",
+        "hypothesis": "Reversing ProPath algorithm (retroProPath) can identify pathways from desired product to endogenous metabolite.",
+        "decision": "Implement Step 1: use retroProPath to construct consumption pathways.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "retroProPath",
+          "version": "1.0",
+          "category": "pathway search algorithm"
+        },
+        "parameters": {
+          "iterations": 1000
+        },
+        "observation": "retroProPath constructs traversal pathways from desired product to native metabolite.",
+        "result_status": "success",
+        "next_step_reason": "Need to couple pathway with survival by eliminating alternate carbon sources.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E05_01",
+            "source_file": "docs/0007/combined.md",
+            "section": "C001",
+            "quote_or_span": "We reverse ProPath's search direction to identify a pathway starting from a compound of interest to an endogenous metabolite within the host. We refer to the use of the algorithm in this reversed manner as retroProPath."
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "design",
+        "state_before": "Consumption pathways constructed.",
+        "gap_or_uncertainty": "Pathway not yet coupled to survival; host can use other carbon sources.",
+        "hypothesis": "Eliminating all organic carbon uptakes except the consumption pathway and CO2 will couple pathway to survival.",
+        "decision": "Implement Step 2: eliminate alternate carbon sources.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "FBA",
+          "version": "iAF1260",
+          "category": "constraint-based modeling"
+        },
+        "parameters": {},
+        "observation": "Carbon sources eliminated except consumption pathway and CO2.",
+        "result_status": "partial",
+        "next_step_reason": "Limitation: when reactant is native, eliminating carbon sources does not couple pathway to survival; need knockouts.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E01_01",
+            "source_file": "docs/0007/combined.md",
+            "section": "C002",
+            "quote_or_span": "SelFi therefore eliminates all organic carbon uptakes except for the uptake provided through the consumption pathway, and inorganic $CO_{2}$ , an essential waste product."
+          },
+          {
+            "evidence_id": "EV_C002_E02_01",
+            "source_file": "docs/0007/combined.md",
+            "section": "C002",
+            "quote_or_span": "In some cases, the reactant of the specified enzymatic reaction is native to the host, and limiting carbon uptake to be only through the consumption pathway is not possible."
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "design",
+        "state_before": "Carbon source elimination insufficient when reactant is native.",
+        "gap_or_uncertainty": "Need to guarantee minimum flux through consumption pathway via knockouts.",
+        "hypothesis": "A sequential greedy knockout strategy can identify minimal set of knockouts to guarantee minimum flux.",
+        "decision": "Implement Step 3: sequential greedy knockout strategy with max 3 knockouts.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "sequential greedy knockout",
+          "version": "1.0",
+          "category": "knockout identification algorithm"
+        },
+        "parameters": {
+          "max_knockouts": 3
+        },
+        "observation": "Knockout targets identified to guarantee minimum flux.",
+        "result_status": "success",
+        "next_step_reason": "Need to rank resulting pathways.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E07_01",
+            "source_file": "docs/0007/combined.md",
+            "section": "C001",
+            "quote_or_span": "In the second and third steps, SelFi identifies the minimal set of carbon sources and knockout targets required to link cell survival with the consumption pathway and to guarantee a minimum flux."
+          },
+          {
+            "evidence_id": "EV_C002_E05_01",
+            "source_file": "docs/0007/combined.md",
+            "section": "C002",
+            "quote_or_span": "To identify possible knockout targets, SelFi utilizes a sequential greedy strategy."
+          },
+          {
+            "evidence_id": "EV_C002_E05_02",
+            "source_file": "docs/0007/combined.md",
+            "section": "C002",
+            "quote_or_span": "SelFi explores knocking out one reaction at a time using FBA to calculate the minimum flux through the consumption pathway."
+          },
+          {
+            "evidence_id": "EV_C002_E05_03",
+            "source_file": "docs/0007/combined.md",
+            "section": "C002",
+            "quote_or_span": "SelFi continues to find an additional knockout target that improves the flux, repeating this process until the maximum allowed number of knockouts, as specified by the user, is reached. In this work, we set the number of knockouts to three to limit the computational cost associated with evaluating each consumption pathway."
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "design",
+        "state_before": "Knockout targets identified.",
+        "gap_or_uncertainty": "Multiple pathways possible; need to select best ones.",
+        "hypothesis": "Ranking pathways by minimum consumption flux, pathway length, and number of knockouts will identify optimal selection pathways.",
+        "decision": "Implement Step 4: rank pathways based on flux, length, and knockouts.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "pathway ranking",
+          "version": "1.0",
+          "category": "ranking algorithm"
+        },
+        "parameters": {},
+        "observation": "Pathways ranked; shorter, higher-flux pathways with fewer knockouts preferred.",
+        "result_status": "success",
+        "next_step_reason": "Apply SelFi to test cases.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E08_01",
+            "source_file": "docs/0007/combined.md",
+            "section": "C001",
+            "quote_or_span": "In the last step, SelFi ranks the resulting pathways based on flux, pathway length, and number of required knockouts."
+          },
+          {
+            "evidence_id": "EV_C002_E06_01",
+            "source_file": "docs/0007/combined.md",
+            "section": "C002",
+            "quote_or_span": "Ideally, candidate pathways are chosen based on the guaranteed minimum consumption flux, pathway length, and number of required knockouts. Shorter, higher-consumption flux pathways with the smallest number of knockouts are preferable over others."
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "experiment",
+        "state_before": "SelFi framework fully designed.",
+        "gap_or_uncertainty": "Need to validate SelFi on real test cases.",
+        "hypothesis": "SelFi can identify effective selection pathways for diverse enzymatic products.",
+        "decision": "Apply SelFi to four test cases: xylitol, D-ribulose-1,5-bisphosphate, methanol, aniline using E. coli iAF1260 model.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "SelFi",
+          "version": "1.0",
+          "category": "computational framework"
+        },
+        "parameters": {
+          "model": "iAF1260",
+          "biomass_constraint": ">=10% wild-type max",
+          "oxygen_bounds": "[-1000, 1000]",
+          "enzyme_flux_bounds": "[0, 1000]"
+        },
+        "observation": "SelFi applied to four test cases; retroProPath executed for 1000 iterations; all cofactors native; many pathways have zero minimum flux before knockouts.",
+        "result_status": "partial",
+        "next_step_reason": "Analyze effect of knockouts on flux.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E07_01",
+            "source_file": "docs/0007/combined.md",
+            "section": "C002",
+            "quote_or_span": "we applied SelFi to several test cases including desired products xylitol, D-ribulose-1,5-bisphosphate, methanol, and aniline that can be potentially synthesized through the action of engineered enzymes Xylose Reductase (XR), Phosphoribulokinase (PRK), Methane Monooxygenase (MMO), and Aromatic Amino acid Decarboxylase (AAD), respectively. We utilized the genome-scale model of E. coli metabol"
+          },
+          {
+            "evidence_id": "EV_C003_E01_01",
+            "source_file": "docs/0007/combined.md",
+            "section": "C003",
+            "quote_or_span": "we applied SelFi to several test cases including desired products xylitol, D-ribulose-1,5-bisphosphate, methanol, and aniline"
+          },
+          {
+            "evidence_id": "EV_C003_E01_02",
+            "source_file": "docs/0007/combined.md",
+            "section": "C003",
+            "quote_or_span": "We utilized the genome-scale model of E. coli metabolism (iAF1260)"
+          },
+          {
+            "evidence_id": "EV_C003_E01_03",
+            "source_file": "docs/0007/combined.md",
+            "section": "C003",
+            "quote_or_span": "A constraint is added to ensure that the biomass flux is equal to or greater than 10% of the maximum biomass flux rate of the wild type."
+          },
+          {
+            "evidence_id": "EV_C003_E02_01",
+            "source_file": "docs/0007/combined.md",
+            "section": "C003",
+            "quote_or_span": "We executed retroProPath for 1000 iterations."
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "analysis",
+        "state_before": "Test cases run; many pathways have zero minimum flux before knockouts.",
+        "gap_or_uncertainty": "Need to understand effect of knockouts on flux distribution.",
+        "hypothesis": "Knockouts will increase minimum flux but decrease maximum flux, setting a threshold on enzymatic activity.",
+        "decision": "Analyze flux changes after knockouts.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "FBA",
+          "version": "iAF1260",
+          "category": "constraint-based modeling"
+        },
+        "parameters": {},
+        "observation": "After knockouts, minimum consumption flux increases while maximum decreases; knockout process sets threshold on desired enzymatic activity.",
+        "result_status": "success",
+        "next_step_reason": "Analyze consumption demand of terminating metabolites.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E04_01",
+            "source_file": "docs/0007/combined.md",
+            "section": "C003",
+            "quote_or_span": "after knockouts, the minimum consumption flux increases whereas the maximum consumption flux decreases."
+          },
+          {
+            "evidence_id": "EV_C003_E04_02",
+            "source_file": "docs/0007/combined.md",
+            "section": "C003",
+            "quote_or_span": "the knockout process provides a mechanism to place a threshold on minimum desired enzymatic activity."
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "analysis",
+        "state_before": "Knockout effects analyzed.",
+        "gap_or_uncertainty": "Maximum flux depends on demand of terminal metabolite; need to quantify demand.",
+        "hypothesis": "Consumption demand of terminating metabolites explains maximum flux potential.",
+        "decision": "Compute consumption demand for terminating metabolites.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "demand analysis",
+          "version": "1.0",
+          "category": "metabolic analysis"
+        },
+        "parameters": {},
+        "observation": "All consumption demands relatively high except 3-dehydro-L-gulonate (zero) and 4-aminobenzoate (low, 0.05 mmol/gDCW/h).",
+        "result_status": "success",
+        "next_step_reason": "Examine specific test case results.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E05_01",
+            "source_file": "docs/0007/combined.md",
+            "section": "C003",
+            "quote_or_span": "All consumption demands are relatively high except for two end metabolites."
+          },
+          {
+            "evidence_id": "EV_C003_E05_02",
+            "source_file": "docs/0007/combined.md",
+            "section": "C003",
+            "quote_or_span": "The consumption demand for 3-dehydro-L-gulonate is thus zero."
+          },
+          {
+            "evidence_id": "EV_C003_E05_03",
+            "source_file": "docs/0007/combined.md",
+            "section": "C003",
+            "quote_or_span": "metabolite 4-aminobenzoate has low demand"
+          },
+          {
+            "evidence_id": "EV_C005_E04_02",
+            "source_file": "docs/0007/combined.md",
+            "section": "C005",
+            "quote_or_span": "the limited demand of end metabolite 4-aminobenzoate for biomass production (0.05 mmol/gDCW/h) explains the low flux rate for the aniline consumption pathway."
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "experiment",
+        "state_before": "Demand analysis completed.",
+        "gap_or_uncertainty": "Need to validate SelFi predictions against known experimental results.",
+        "hypothesis": "SelFi can identify selection pathways that match previously validated experimental pathways.",
+        "decision": "Analyze xylitol/Xylose Reductase case in detail.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "SelFi",
+          "version": "1.0",
+          "category": "computational framework"
+        },
+        "parameters": {},
+        "observation": "SelFi identified 7 pathways for xylitol; same 3 knockouts (R01432, R00086, R01518) increased minimum flux from 0 to ~111 mmol/gDCW/h. Pathway SP_X1 matches previously used selection pathway; SelFi identified two additional knockouts beyond the one used experimentally.",
+        "result_status": "success",
+        "next_step_reason": "Validate D-ribulose-1,5-bisphosphate case.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E06_01",
+            "source_file": "docs/0007/combined.md",
+            "section": "C003",
+            "quote_or_span": "SelFi identified seven consumption pathways for xylitol"
+          },
+          {
+            "evidence_id": "EV_C003_E06_03",
+            "source_file": "docs/0007/combined.md",
+            "section": "C003",
+            "quote_or_span": "the minimum flux through the consumption pathways, which is zero mmol/gDCW/h prior to applying any knockouts, is 110.27 mmol/gDCW/h or higher after knockouts."
+          },
+          {
+            "evidence_id": "EV_C003_E07_02",
+            "source_file": "docs/0007/combined.md",
+            "section": "C003",
+            "quote_or_span": "SelFi identified two additional knockout targets to improve the selection and more strongly link growth rate to engineered XR activity."
+          },
+          {
+            "evidence_id": "EV_C004_E03_01",
+            "source_file": "docs/0007/combined.md",
+            "section": "C004",
+            "quote_or_span": "the pathway from D-ribulose-1,5-bisphosphate to 3-phospho-D-glycerate was previously experimentally validated and confirmed in literature by Cai et al. (2014), but used for selection of a different enzyme – RuBisCO."
+          },
+          {
+            "evidence_id": "EV_AUTO_007",
+            "source_file": "docs/0007/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Among the identified pathways, the pathway from D-ribulose-1,5-bisphosphate to 3-phospho-D-glycerate was previously experimentally validated and confirmed in literature by Cai et al."
+          },
+          {
+            "evidence_id": "EV_C002_E07_01",
+            "source_file": "docs/0007/combined.md",
+            "section": "C002",
+            "quote_or_span": "we applied SelFi to several test cases including desired products xylitol, D-ribulose-1,5-bisphosphate, methanol, and aniline that can be potentially synthesized through the action of engineered enzymes Xylose Reductase (XR), Phosphoribulokinase (PRK), Methane Monooxygenase (MMO), and Aromatic Amino acid Decarboxylase (AAD), respectively. We utilized the genome-scale model of E. coli metabol"
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "validation",
+        "state_before": "Xylitol case validated.",
+        "gap_or_uncertainty": "Need to validate another test case.",
+        "hypothesis": "SelFi can identify pathways for D-ribulose-1,5-bisphosphate that match experimental validation.",
+        "decision": "Analyze D-ribulose-1,5-bisphosphate/Phosphoribulokinase case.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "SelFi",
+          "version": "1.0",
+          "category": "computational framework"
+        },
+        "parameters": {},
+        "observation": "SelFi identified three consumption pathways; knockout targets: two for SP_D1, one for SP_D2 and SP_D3; additional knockouts did not improve flux. Pathway to 3-phospho-D-glycerate was previously experimentally validated for RuBisCO selection.",
+        "result_status": "success",
+        "next_step_reason": "Examine failure case (aniline).",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E01_01",
+            "source_file": "docs/0007/combined.md",
+            "section": "C004",
+            "quote_or_span": "SelFi identified three consumption pathways as shown in Tables 1 and 2 for D-ribulose-1,5-bisphosphate. The consumption pathways end at D-ribose 1,5-bisphosphate, 3-phospho-D-glycerate, or 2-phosphoglycolate."
+          },
+          {
+            "evidence_id": "EV_C004_E02_01",
+            "source_file": "docs/0007/combined.md",
+            "section": "C004",
+            "quote_or_span": "For selection pathway $SP_{D1}$ , SelFi identified two knockout targets, while only one knockout target was identified for pathways $SP_{D2}$ and $SP_{D3}$ . Additional knockouts did not further improve the flux through the consumption pathways."
+          },
+          {
+            "evidence_id": "EV_C004_E03_01",
+            "source_file": "docs/0007/combined.md",
+            "section": "C004",
+            "quote_or_span": "the pathway from D-ribulose-1,5-bisphosphate to 3-phospho-D-glycerate was previously experimentally validated and confirmed in literature by Cai et al. (2014), but used for selection of a different enzyme – RuBisCO."
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "analysis",
+        "state_before": "Two test cases validated.",
+        "gap_or_uncertainty": "Aniline case may fail due to low demand for terminating metabolite.",
+        "hypothesis": "Low demand for 4-aminobenzoate limits maximum flux for aniline pathway.",
+        "decision": "Analyze aniline/Aromatic Amino acid Decarboxylase case.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "SelFi",
+          "version": "1.0",
+          "category": "computational framework"
+        },
+        "parameters": {},
+        "observation": "After knockout, minimum flux only slightly improved to 0.001 mmol/gDCW/h, and maximum remained 0.01, due to low demand for 4-aminobenzoate (0.05 mmol/gDCW/h).",
+        "result_status": "failure",
+        "next_step_reason": "Conclude with limitations.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E07_01",
+            "source_file": "docs/0007/combined.md",
+            "section": "C004",
+            "quote_or_span": "The amount of guaranteed minimum consumption flux after applying the knockout is slightly improved (0.001 mmol/gDCW/h), while the maximum consumption remains the same (0.01 mmol/gDCW/h)."
+          },
+          {
+            "evidence_id": "EV_C004_E07_02",
+            "source_file": "docs/0007/combined.md",
+            "section": "C004",
+            "quote_or_span": "The low maximum demand for 4-aminobenzoate illustrates the minimal need for this compound for growth."
+          },
+          {
+            "evidence_id": "EV_C005_E04_02",
+            "source_file": "docs/0007/combined.md",
+            "section": "C005",
+            "quote_or_span": "the limited demand of end metabolite 4-aminobenzoate for biomass production (0.05 mmol/gDCW/h) explains the low flux rate for the aniline consumption pathway."
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "Comparison with experimentally validated selection pathways from literature"
+      ],
+      "metrics": [
+        "Minimum consumption flux (mmol/gDCW/h)",
+        "Maximum consumption flux (mmol/gDCW/h)",
+        "Pathway length",
+        "Number of knockouts"
+      ],
+      "final_conclusion": "SelFi successfully identified selection pathways for xylitol and D-ribulose-1,5-bisphosphate that match previously validated experimental pathways, but failed for aniline due to low demand for the terminating metabolite 4-aminobenzoate.",
+      "limitations": [
+        "KEGG database restricts pathways; no reactions for more effective aniline pathway",
+        "Low demand for terminating metabolite limits maximum flux",
+        "Model inconsistencies (dead-end metabolites) can affect results",
+        "Maximum 3 knockouts may limit optimization"
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "All coverage requirements met with exact evidence quotes.",
+        "v22_specific_evidence_backfilled=5",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_specific_evidence_backfilled=4",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 97.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p4\\states\\0007.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p4\\events\\0007.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 11,
+      "covered_event_count": 11,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1
+        ],
+        "K08": [
+          4,
+          5
+        ],
+        "K10": [
+          6,
+          9
+        ],
+        "K11": [
+          6,
+          7
+        ],
+        "K12": [
+          7
+        ],
+        "K13": [
+          8
+        ],
+        "K14": [
+          6,
+          9,
+          10
+        ],
+        "K15": [
+          9,
+          10
+        ],
+        "K16": [
+          5,
+          9,
+          10
+        ],
+        "K17": [
+          9,
+          10
+        ],
+        "K18": [
+          8,
+          11
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02",
+            "K03",
+            "K04",
+            "K05",
+            "K06",
+            "K07"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K03",
+            "K04",
+            "K05",
+            "K06",
+            "K07"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K04",
+            "K06",
+            "K07",
+            "K09"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K04",
+            "K07",
+            "K08",
+            "K09"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K04",
+            "K08",
+            "K09",
+            "K16"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K10",
+            "K11",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K09",
+            "K11",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K13",
+            "K18"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K09",
+            "K10",
+            "K14",
+            "K15",
+            "K16",
+            "K17"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K04",
+            "K09",
+            "K14",
+            "K15",
+            "K16",
+            "K17"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K18"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 9,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "0086",
+          "111",
+          "1432",
+          "1518"
+        ]
+      }
+    ],
+    "step_count": 11,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 97.0
+  },
+  "api_usage": {
+    "prompt_tokens": 120214,
+    "completion_tokens": 29332,
+    "total_tokens": 149546,
+    "prompt_cache_hit_tokens": 2944,
+    "prompt_cache_miss_tokens": 117270
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 3785,
+        "completion_tokens": 1107,
+        "total_tokens": 4892,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 3785
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 14475,
+        "completion_tokens": 2872,
+        "total_tokens": 17347,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 14475
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 7113,
+        "completion_tokens": 1150,
+        "total_tokens": 8263,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6857
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 9129,
+        "completion_tokens": 1233,
+        "total_tokens": 10362,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8873
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 9182,
+        "completion_tokens": 1674,
+        "total_tokens": 10856,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8926
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 8115,
+        "completion_tokens": 1588,
+        "total_tokens": 9703,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7859
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C005",
+      "api_usage": {
+        "prompt_tokens": 7468,
+        "completion_tokens": 1220,
+        "total_tokens": 8688,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7212
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 11891,
+        "completion_tokens": 5377,
+        "total_tokens": 17268,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 11507
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 11987,
+        "completion_tokens": 5979,
+        "total_tokens": 17966,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 11347
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 17174,
+        "completion_tokens": 921,
+        "total_tokens": 18095,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 17174
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 19895,
+        "completion_tokens": 6211,
+        "total_tokens": 26106,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 19255
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

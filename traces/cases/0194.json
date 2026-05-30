@@ -1,0 +1,908 @@
+{
+  "case": {
+    "case_id": "sci_evo_0194",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Metabolic engineering of Methylobacterium extorquens AM1 for the production of butadiene precursor",
+      "doi": "https://doi.org/10.1186/s12934-018-1042-4",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0193_10_1186_s12934_018_1042_4_metabolic_engineering_of_methylobacterium_extorquens_am1_for_the_production_of_butadiene_p.pdf",
+      "mineru_md": "docs/0194/mineru.md",
+      "combined_md": "docs/0194/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Engineering Methylobacterium extorquens AM1 to produce crotyl diphosphate, a butadiene precursor, from crotonyl-CoA via a three-enzyme pathway (ADHE2, THK, IPK).",
+      "target_object": "crotyl diphosphate",
+      "known_context": "No known enzymes for converting crotonyl-CoA to butadiene.",
+      "constraints": [],
+      "input_data": [],
+      "quantifiable_goals": []
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "No known enzymes for converting crotonyl-CoA to butadiene.",
+        "gap_or_uncertainty": "Lack of reports on enzymes catalyzing the biochemical reactions from crotonyl-CoA to butadiene.",
+        "hypothesis": "An in vitro one-pot strategy can identify promiscuous enzymes for sequentially converting crotonol into crotyl diphosphate.",
+        "decision": "Apply an in vitro one-pot strategy to identify promiscuous enzymes contributing to butadiene synthesis.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "in vitro one-pot strategy",
+          "version": "",
+          "category": "experimental design"
+        },
+        "parameters": {},
+        "observation": "Strategy designed to efficiently identify promiscuous enzymes for butadiene synthesis.",
+        "result_status": "success",
+        "next_step_reason": "Need to test candidate kinases for crotonol phosphorylation.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0194/combined.md",
+            "section": "C001",
+            "quote_or_span": "One of the major challenges in this work is the lack of reports on enzymes catalyzing the biochemical reactions from crotonyl-CoA to butadiene."
+          },
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0194/combined.md",
+            "section": "C001",
+            "quote_or_span": "Herein, an in vitro one-pot strategy was applied for sequentially converting crotonol into crotyl diphosphate."
+          },
+          {
+            "evidence_id": "EV_C001_E02_02",
+            "source_file": "docs/0194/combined.md",
+            "section": "C001",
+            "quote_or_span": "this strategy is able to efficiently identify promiscuous enzymes contributing to butadiene synthesis"
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "experiment",
+        "state_before": "No kinase identified for crotonol phosphorylation.",
+        "gap_or_uncertainty": "Which kinase can efficiently phosphorylate crotonol to crotyl monophosphate?",
+        "hypothesis": "THK is the most suitable kinase among MK, THK, TK for crotonol phosphorylation.",
+        "decision": "Test three kinase candidates (MK, THK, TK) for crotonol phosphorylation in M. extorquens AM1.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "kinase activity assay",
+          "version": "",
+          "category": "enzyme screening"
+        },
+        "parameters": {
+          "substrate": "crotonol",
+          "candidates": [
+            "MK",
+            "THK",
+            "TK"
+          ]
+        },
+        "observation": "THK produced the highest crotyl monophosphate among candidates; background activity from native glycerate kinase detected (0.06 U/mg using 0.5 mM crotonol).",
+        "result_status": "success",
+        "next_step_reason": "Characterize THK kinetics to assess its efficiency.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E01_01",
+            "source_file": "docs/0194/combined.md",
+            "section": "C002",
+            "quote_or_span": "THK was the most suitable kinase among three candidates for phosphorylating crotonol to crotyl monophosphate in M. extorquens AM1."
+          },
+          {
+            "evidence_id": "EV_C002_E02_01",
+            "source_file": "docs/0194/combined.md",
+            "section": "C002",
+            "quote_or_span": "crotyl monophosphate was also detected in the control, suggesting wild-type M. extorquens AM1 may contain one or more native enzymes capable of phosphorylating crotonol."
+          },
+          {
+            "evidence_id": "EV_C002_E03_01",
+            "source_file": "docs/0194/combined.md",
+            "section": "C002",
+            "quote_or_span": "glycerate kinase in M. extorquens AM1 was able to phosphorylate crotonol with an activity of 0.06 U/mg using 0.5 mM crotonol as substrate"
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "analysis",
+        "state_before": "THK selected as best kinase but activity unknown.",
+        "gap_or_uncertainty": "What are the kinetic parameters of THK for crotonol?",
+        "hypothesis": "THK has low activity towards crotonol compared to its native substrate.",
+        "decision": "Determine Km and kcat of THK for crotonol.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "kinetic assay",
+          "version": "",
+          "category": "enzyme kinetics"
+        },
+        "parameters": {
+          "substrate": "crotonol"
+        },
+        "observation": "Km=8.35 mM, kcat=1.24 s^-1; specific activity 0.1 U/mg, 300-fold lower than native substrate.",
+        "result_status": "partial",
+        "next_step_reason": "Low activity motivates protein engineering; also need second phosphorylation step.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E05_01",
+            "source_file": "docs/0194/combined.md",
+            "section": "C002",
+            "quote_or_span": "The values of $K_{m}$ and $k_{cat}$ were determined to be 8.35 mM and 1.24 s $^{-1}$"
+          },
+          {
+            "evidence_id": "EV_C002_E06_01",
+            "source_file": "docs/0194/combined.md",
+            "section": "C002",
+            "quote_or_span": "The specific activity of THK for 0.5 mM crotonol was 0.1 U/mg, which was 300-fold lower than that for the native substrate"
+          },
+          {
+            "evidence_id": "EV_C003_E01_02",
+            "source_file": "docs/0194/combined.md",
+            "section": "C003",
+            "quote_or_span": "The specific activity of THK for 0.5 mM crotonol was 0.1 U/mg, which was 300-fold lower than that for the native substrate"
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "design",
+        "state_before": "Need enzyme for second phosphorylation step (crotyl monophosphate to crotyl diphosphate).",
+        "gap_or_uncertainty": "Which enzyme can phosphorylate crotyl monophosphate?",
+        "hypothesis": "IPK from M. thermautotrophicus can phosphorylate crotyl monophosphate due to substrate similarity with its native substrate BEP.",
+        "decision": "Select IPK based on structural similarity of BEP and crotyl diphosphate.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "substrate similarity analysis",
+          "version": "",
+          "category": "enzyme selection"
+        },
+        "parameters": {},
+        "observation": "IPK selected for crotyl monophosphate phosphorylation.",
+        "result_status": "success",
+        "next_step_reason": "Combine with improved THK for in vitro one-pot reaction.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E02_02",
+            "source_file": "docs/0194/combined.md",
+            "section": "C003",
+            "quote_or_span": "The structures of BEP and crotyl diphosphate are quite similar"
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "revision",
+        "state_before": "THK has low activity (300-fold lower than native).",
+        "gap_or_uncertainty": "How to improve THK activity towards crotonol?",
+        "hypothesis": "Random mutagenesis and colorimetric screening can yield THK variants with higher activity.",
+        "decision": "Perform directed evolution of THK via random mutagenesis and high-throughput screening.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "random mutagenesis and colorimetric screening",
+          "version": "",
+          "category": "directed evolution"
+        },
+        "parameters": {
+          "screening_size": "over 3000 colonies"
+        },
+        "observation": "Variant THK M82V isolated with 8.6-fold higher activity than wild-type.",
+        "result_status": "success",
+        "next_step_reason": "Characterize kinetic improvement and structural basis.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E05_01",
+            "source_file": "docs/0194/combined.md",
+            "section": "C001",
+            "quote_or_span": "the activity of one of rate-limiting enzymes, THK, was optimized by random mutagenesis coupled with a developed high-throughput screening colorimetric assay."
+          },
+          {
+            "evidence_id": "EV_C001_E05_02",
+            "source_file": "docs/0194/combined.md",
+            "section": "C001",
+            "quote_or_span": "The resulting variant (THK $^{M82V}$ ) isolated from over 3000 colonies showed 8.6-fold higher activity than wild-type"
+          },
+          {
+            "evidence_id": "EV_AUTO_010",
+            "source_file": "docs/0194/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The resulting variant (THK $^{M82V}$ ) isolated from over 3000 colonies showed 8."
+          },
+          {
+            "evidence_id": "EV_C003_E01_02",
+            "source_file": "docs/0194/combined.md",
+            "section": "C003",
+            "quote_or_span": "The specific activity of THK for 0.5 mM crotonol was 0.1 U/mg, which was 300-fold lower than that for the native substrate"
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "analysis",
+        "state_before": "THK M82V variant obtained but kinetic parameters unknown.",
+        "gap_or_uncertainty": "How does M82V mutation affect THK kinetics and structure?",
+        "hypothesis": "M82V relieves steric hindrance in substrate-binding pocket, improving kcat/Km.",
+        "decision": "Determine kinetic parameters of THK M82V and perform homology modeling.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "kinetic assay and homology modeling",
+          "version": "",
+          "category": "enzyme characterization"
+        },
+        "parameters": {},
+        "observation": "Km value of THK M82V was determined to be 4.35 mM (from EV_AUTO_030), kcat/Km 12-fold higher than wild-type; M82 adjacent to loop 28–33, mutation relieves hindrance.",
+        "result_status": "success",
+        "next_step_reason": "Use improved THK M82V in one-pot reaction with IPK.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E07_01",
+            "source_file": "docs/0194/combined.md",
+            "section": "C003",
+            "quote_or_span": "M82 is adjacent to the significant loop 28–33 (distance<5 Å) which is part of the substrate-binding pocket"
+          },
+          {
+            "evidence_id": "EV_C003_E07_02",
+            "source_file": "docs/0194/combined.md",
+            "section": "C003",
+            "quote_or_span": "When M82 was mutated to V82, the above-mentioned hindrance around M82 was relieved, likely improving the catalytic activity to the smaller molecule substrate such as crotonol"
+          },
+          {
+            "evidence_id": "EV_AUTO_006",
+            "source_file": "docs/0194/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Directed evolution of the rate-limiting THK resulted in a variant (M82V) with the $k_{cat}/K_{m}$ value 12-fold higher than that of wild-type THK."
+          },
+          {
+            "evidence_id": "EV_AUTO_008",
+            "source_file": "docs/0194/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "As a consequence, the $k_{cat}/K_{m}$ value of THK $^{M82V}$ was 12-fold higher than that of wild-type THK."
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "experiment",
+        "state_before": "THK M82V and IPK available but not tested together.",
+        "gap_or_uncertainty": "Can THK M82V and IPK convert crotonol to crotyl diphosphate in a one-pot reaction?",
+        "hypothesis": "One-pot reaction with THK M82V and IPK will produce crotyl diphosphate, but THK may still be rate-limiting.",
+        "decision": "Perform in vitro one-pot reaction with THK M82V and IPK, with enzyme replenishment.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "in vitro one-pot reaction",
+          "version": "",
+          "category": "biocatalysis"
+        },
+        "parameters": {
+          "enzymes": [
+            "THK M82V",
+            "IPK"
+          ],
+          "substrate": "crotonol",
+          "replenishment": "at 2 h and 4 h"
+        },
+        "observation": "Achieved 0.76 mM crotyl diphosphate (7.6% conversion); crotyl monophosphate barely detected, indicating THK still rate-limiting; 3.45-fold increase with enzyme replenishment.",
+        "result_status": "partial",
+        "next_step_reason": "Need to address crotonyl-CoA reduction step for full pathway.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E06_01",
+            "source_file": "docs/0194/combined.md",
+            "section": "C001",
+            "quote_or_span": "which helped increase the titer of crotyl diphosphate to 0.76 mM, corresponding to a 7.6% conversion from crotonol in the one-pot in vitro reaction."
+          },
+          {
+            "evidence_id": "EV_C003_E08_01",
+            "source_file": "docs/0194/combined.md",
+            "section": "C003",
+            "quote_or_span": "the titer of crotyl diphosphate was increased to 0.76 mM at 6 h, corresponding to a 7.6% conversion"
+          },
+          {
+            "evidence_id": "EV_C004_E01_01",
+            "source_file": "docs/0194/combined.md",
+            "section": "C004",
+            "quote_or_span": "the titer of crotyl diphosphate was increased to 0.76 mM at 6 h, corresponding to a 7.6% conversion"
+          },
+          {
+            "evidence_id": "EV_C004_E02_01",
+            "source_file": "docs/0194/combined.md",
+            "section": "C004",
+            "quote_or_span": "crotyl monophosphate was barely detected in the whole time course (Fig. 6), suggesting THK was still a rate-limiting step"
+          },
+          {
+            "evidence_id": "EV_AUTO_035",
+            "source_file": "docs/0194/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "In our case, a similar phenomenon was observed by replenishing THK $^{M82V}$ and IPK at 2 h and 4 h, which increased the conversion rate by 3.45-fold."
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "experiment",
+        "state_before": "Need enzyme for crotonyl-CoA reduction to crotonol.",
+        "gap_or_uncertainty": "Which enzyme can efficiently reduce crotonyl-CoA to crotonol?",
+        "hypothesis": "ADHE2 from C. acetobutylicum can reduce crotonyl-CoA more efficiently than FAR candidates.",
+        "decision": "Test ADHE2 and FAR enzymes for crotonyl-CoA reduction; determine kinetics.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "enzyme activity assay",
+          "version": "",
+          "category": "enzyme screening"
+        },
+        "parameters": {
+          "substrate": "crotonyl-CoA",
+          "candidates": [
+            "ADHE2",
+            "FAR from H. chejuensis",
+            "FAR from M. manganoxydans"
+          ]
+        },
+        "observation": "ADHE2 selected; Km=2.34 mM, kcat=1.15 s^-1, kcat/Km=0.49 mM^-1 s^-1, lower than towards butanyl-CoA.",
+        "result_status": "success",
+        "next_step_reason": "Combine all three enzymes in vivo in M. extorquens AM1.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E03_01",
+            "source_file": "docs/0194/combined.md",
+            "section": "C004",
+            "quote_or_span": "purified ADHE2 from C. acetobutylicum could reduce crotonyl-CoA to crotonol more efficiently compared with FAR from H. chejuensis and M. manganoxydans"
+          },
+          {
+            "evidence_id": "EV_C004_E04_02",
+            "source_file": "docs/0194/combined.md",
+            "section": "C004",
+            "quote_or_span": "This catalytic efficiency towards crotonyl-CoA $(k_{cat}/K_{\\mathrm{m}}=0.49\\ \\mathrm{mM}^{-1}\\ \\mathrm{s}^{-1})$ was lower than that of ADHE2 towards butanyl-CoA"
+          },
+          {
+            "evidence_id": "EV_C001_E04_01",
+            "source_file": "docs/0194/combined.md",
+            "section": "C001",
+            "quote_or_span": "The $K_{m}$ and $k_{cat}$ of THK, IPK and ADHE2 were determined as 8.35 mM and 1.24 s $^{-1}$ , 1.28 mM and 153.14 s $^{-1}$ , and 2.34 mM and 1.15 s $^{-1}$ towards crotonol, crotyl monophosphate and crotonyl-CoA, respectively."
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "experiment",
+        "state_before": "All three enzymes (ADHE2, THK M82V, IPK) available but not tested in vivo.",
+        "gap_or_uncertainty": "Can overexpression of ADHE2, THK M82V, IPK in M. extorquens AM1 produce crotyl diphosphate from crotonyl-CoA or methanol?",
+        "hypothesis": "Overexpression of the three enzymes will produce crotyl diphosphate from crotonyl-CoA or methanol.",
+        "decision": "Construct strain YCB3 overexpressing ADHE2, THK M82V, IPK under mxaF promoter; test production from crotonyl-CoA and methanol.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "in vivo production assay",
+          "version": "",
+          "category": "metabolic engineering"
+        },
+        "parameters": {
+          "strain": "YCB3",
+          "substrates": [
+            "crotonyl-CoA",
+            "methanol"
+          ]
+        },
+        "observation": "No crotyl diphosphate produced from crotonyl-CoA or methanol; no crotonol detected.",
+        "result_status": "failure",
+        "next_step_reason": "Test if pathway can function from exogenous crotonol; identify bottleneck.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E07_01",
+            "source_file": "docs/0194/combined.md",
+            "section": "C001",
+            "quote_or_span": "Overexpression of native ADHE2, IPK with THK $^{M82V}$ under a strong promoter mxaF in M. extorquens AM1 did not produce crotyl diphosphate from crotonyl-CoA"
+          },
+          {
+            "evidence_id": "EV_C004_E06_01",
+            "source_file": "docs/0194/combined.md",
+            "section": "C004",
+            "quote_or_span": "no crotyl diphosphate was produced by YCB3 during growth on methanol"
+          },
+          {
+            "evidence_id": "EV_C004_E06_02",
+            "source_file": "docs/0194/combined.md",
+            "section": "C004",
+            "quote_or_span": "No crotonol was detected either"
+          },
+          {
+            "evidence_id": "EV_AUTO_032",
+            "source_file": "docs/0194/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Overexpression of native ADHE2, IPK with THK $^{M82V}$ under a strong promoter mxaF in M."
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "experiment",
+        "state_before": "In vivo pathway fails from crotonyl-CoA, but phosphorylation steps may work if crotonol is supplied.",
+        "gap_or_uncertainty": "Can the engineered strain produce crotyl diphosphate from exogenously supplied crotonol?",
+        "hypothesis": "Supplying crotonol exogenously will bypass the reduction bottleneck and produce crotyl diphosphate.",
+        "decision": "Feed crotonol to YCB3 strain and measure intracellular crotyl diphosphate.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "exogenous feeding assay",
+          "version": "",
+          "category": "metabolic engineering"
+        },
+        "parameters": {
+          "substrate": "crotonol",
+          "strain": "YCB3"
+        },
+        "observation": "Produced 0.60 µg/mL (2.59 µM) intracellular crotyl diphosphate at mid-exponential phase.",
+        "result_status": "success",
+        "next_step_reason": "Identify why crotonyl-CoA reduction fails in vivo.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E08_01",
+            "source_file": "docs/0194/combined.md",
+            "section": "C001",
+            "quote_or_span": "the engineered strain did generate 0.60 $\\mu$ g/mL of intracellular crotyl diphosphate from exogenously supplied crotonol at mid-exponential phase."
+          },
+          {
+            "evidence_id": "EV_C004_E05_01",
+            "source_file": "docs/0194/combined.md",
+            "section": "C004",
+            "quote_or_span": "About 0.60 $\\mu$ g/mL (2.59 $\\mu$ M) of intracellular crotyl diphosphate was accumulated at mid-exponential phase"
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "analysis",
+        "state_before": "In vivo pathway fails from crotonyl-CoA but works from crotonol.",
+        "gap_or_uncertainty": "What is the bottleneck preventing crotonyl-CoA reduction in vivo?",
+        "hypothesis": "Low ADHE2 activity is the major bottleneck for crotonyl-CoA reduction.",
+        "decision": "Perform crude lysate assay of ADHE2 activity in YCB3.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "crude lysate activity assay",
+          "version": "",
+          "category": "enzyme activity"
+        },
+        "parameters": {
+          "substrate": "crotonyl-CoA"
+        },
+        "observation": "Only 0.51 µg/mL crotonol (7.0 µM) produced at 4 h, confirming low ADHE2 activity.",
+        "result_status": "failure",
+        "next_step_reason": "Conclude limitations and future directions.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E07_01",
+            "source_file": "docs/0194/combined.md",
+            "section": "C004",
+            "quote_or_span": "low activity of ADHE2 was one major bottleneck resulting in the lack of reduction of crotonyl-CoA into crotyl alcohol"
+          },
+          {
+            "evidence_id": "EV_C004_E07_02",
+            "source_file": "docs/0194/combined.md",
+            "section": "C004",
+            "quote_or_span": "0.51 $\\mu$ g/mL of crotonol (7.0 $\\mu$ M) was produced at 4 h"
+          }
+        ]
+      },
+      {
+        "step_index": 12,
+        "phase": "validation",
+        "state_before": "Pathway partially functional but cannot produce from methanol.",
+        "gap_or_uncertainty": "Can the engineered strain produce crotyl diphosphate from methanol?",
+        "hypothesis": "The strain cannot produce from methanol due to low ADHE2 activity and insufficient EMC pathway flux.",
+        "decision": "Summarize limitations and propose future work.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "limitation analysis",
+          "version": "",
+          "category": "pathway analysis"
+        },
+        "parameters": {},
+        "observation": "Engineered M. extorquens AM1 cannot produce crotyl diphosphate from methanol; future work needed on ADHE2 and EMC pathway flux.",
+        "result_status": "inconclusive",
+        "next_step_reason": "End of trajectory.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E08_01",
+            "source_file": "docs/0194/combined.md",
+            "section": "C004",
+            "quote_or_span": "The engineered M. extorquens AM1, however, cannot produce crotyl diphosphate from methanol yet. This was likely because of low activity of ADHE2 towards crotonyl-CoA reduction."
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "in vitro one-pot reaction",
+        "in vivo production assay with exogenous crotonol",
+        "crude lysate activity assay"
+      ],
+      "metrics": [
+        "crotyl diphosphate titer (0.76 mM in vitro, 0.60 µg/mL in vivo)",
+        "conversion rate (7.6% in vitro)",
+        "enzyme kinetics (Km, kcat, kcat/Km)"
+      ],
+      "final_conclusion": "A three-enzyme pathway (ADHE2, THK M82V, IPK) was established for crotyl diphosphate production from crotonol, but production from methanol was not achieved due to low ADHE2 activity.",
+      "limitations": [
+        "THK remains rate-limiting despite improvement",
+        "Low ADHE2 activity prevents crotonyl-CoA reduction in vivo",
+        "Cannot produce from methanol; requires further engineering of ADHE2 and EMC pathway flux"
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_specific_evidence_backfilled=3",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_specific_evidence_backfilled=2",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 99.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p2\\states\\0194.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p2\\events\\0194.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1
+        ],
+        "K03": [
+          2,
+          3,
+          4
+        ],
+        "K04": [
+          3,
+          5,
+          6,
+          8
+        ],
+        "K05": [
+          2,
+          4
+        ],
+        "K06": [
+          5,
+          6
+        ],
+        "K07": [
+          5,
+          6
+        ],
+        "K08": [
+          4,
+          6,
+          7,
+          9
+        ],
+        "K09": [
+          3,
+          8,
+          11
+        ],
+        "K10": [
+          7,
+          9,
+          12
+        ],
+        "K11": [
+          9,
+          10,
+          12
+        ],
+        "K12": [
+          11
+        ],
+        "K13": [
+          9,
+          10,
+          12
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K03",
+            "K05"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K03",
+            "K04",
+            "K09"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K03",
+            "K05",
+            "K08"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K04",
+            "K06",
+            "K07"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K04",
+            "K06",
+            "K07",
+            "K08"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K08",
+            "K10"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K04",
+            "K09"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K08",
+            "K10",
+            "K11",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K11",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K09",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 12,
+          "covered_event_ids": [
+            "K10",
+            "K11",
+            "K13"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 6,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "030",
+          "4.35mm"
+        ]
+      },
+      {
+        "step_index": 8,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "-1s",
+          "0.49mm"
+        ]
+      }
+    ],
+    "step_count": 12,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 99.0
+  },
+  "api_usage": {
+    "prompt_tokens": 109533,
+    "completion_tokens": 26048,
+    "total_tokens": 135581,
+    "prompt_cache_hit_tokens": 17664,
+    "prompt_cache_miss_tokens": 91869
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 6505,
+        "completion_tokens": 439,
+        "total_tokens": 6944,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 6505
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 3256,
+        "completion_tokens": 1796,
+        "total_tokens": 5052,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 3256
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 7557,
+        "completion_tokens": 1629,
+        "total_tokens": 9186,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7301
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 7473,
+        "completion_tokens": 1249,
+        "total_tokens": 8722,
+        "prompt_tokens_details": {
+          "cached_tokens": 7424
+        },
+        "prompt_cache_hit_tokens": 7424,
+        "prompt_cache_miss_tokens": 49
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 7809,
+        "completion_tokens": 1699,
+        "total_tokens": 9508,
+        "prompt_tokens_details": {
+          "cached_tokens": 7808
+        },
+        "prompt_cache_hit_tokens": 7808,
+        "prompt_cache_miss_tokens": 1
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 7537,
+        "completion_tokens": 1585,
+        "total_tokens": 9122,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7281
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C005",
+      "api_usage": {
+        "prompt_tokens": 5388,
+        "completion_tokens": 51,
+        "total_tokens": 5439,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 5132
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 11259,
+        "completion_tokens": 3478,
+        "total_tokens": 14737,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 10875
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 12990,
+        "completion_tokens": 6582,
+        "total_tokens": 19572,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 12350
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 18525,
+        "completion_tokens": 684,
+        "total_tokens": 19209,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 18525
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 21234,
+        "completion_tokens": 6856,
+        "total_tokens": 28090,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 20594
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

@@ -1,0 +1,984 @@
+{
+  "case": {
+    "case_id": "sci_evo_0149",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Unveiling molecular moieties through hierarchical Grad-CAM graph explainability",
+      "doi": "https://doi.org/10.1186/s12859-025-06208-y",
+      "url": "",
+      "license": "cc-by-nc-nd",
+      "publication_date": "",
+      "raw_file": "0147_10_1186_s12859_025_06208_y_unveiling_molecular_moieties_through_hierarchical_grad_cam_graph_explainability.pdf",
+      "mineru_md": "docs/0149/mineru.md",
+      "combined_md": "docs/0149/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Explaining GNN predictions in virtual screening for drug discovery by identifying molecular substructures (moieties) driving bioactivity, to guide medicinal chemists.",
+      "target_object": "GNN predictions for molecular bioactivity",
+      "known_context": "GNN predictions for molecular bioactivity are not self-explainable; existing XAI methods (SHAP, GNNExplainer) fail to provide pharmacophoric-level explanations.",
+      "constraints": [],
+      "input_data": [],
+      "quantifiable_goals": []
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "GNN predictions for molecular bioactivity are not self-explainable; existing XAI methods (SHAP, GNNExplainer) fail to provide pharmacophoric-level explanations.",
+        "gap_or_uncertainty": "Existing XAI methods do not provide pharmacophoric-level explanations for GNN predictions.",
+        "hypothesis": "Hierarchical Grad-CAM at multiple graph depths (atom, ring, whole-molecule) can capture multi-scale moieties for complete explanation.",
+        "decision": "Propose Hierarchical Grad-CAM (HGE) to obtain local explanations at atom, ring, and entire molecule level.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "Hierarchical Grad-CAM (HGE)",
+          "version": "",
+          "category": "explainability"
+        },
+        "parameters": {},
+        "observation": "HGE leverages Grad-CAM to obtain local explanations at atom, ring, and the entire molecule level.",
+        "result_status": "success",
+        "next_step_reason": "Need to design a GNN architecture to apply Grad-CAM.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0149/combined.md",
+            "section": "C001",
+            "quote_or_span": "the integration of explainable methods to elucidate the specific contributions of molecular substructures to biological activity remains a significant challenge"
+          },
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0149/combined.md",
+            "section": "C001",
+            "quote_or_span": "Even if the graph representation of a molecule is self-explainable, the precise relation between the relevant molecular properties and the network prediction is not, and it suffers from the same issues observed in classical Convolutional Neural Networks (CNN) devoted to images."
+          },
+          {
+            "evidence_id": "EV_C001_E03_01",
+            "source_file": "docs/0149/combined.md",
+            "section": "C001",
+            "quote_or_span": "SHAP was used to determine the significance of individual features; however, it did not provide insight into their pharmacophoric characteristics."
+          },
+          {
+            "evidence_id": "EV_C001_E04_02",
+            "source_file": "docs/0149/combined.md",
+            "section": "C001",
+            "quote_or_span": "HGE leverages Grad-CAM to obtain local explanations at atom, ring, and the entire molecule level"
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "design",
+        "state_before": "Hypothesis of hierarchical Grad-CAM requires a GNN architecture.",
+        "gap_or_uncertainty": "Need a GNN architecture optimized for high sensitivity in virtual screening.",
+        "hypothesis": "A GCNN with U-Net-like channel expansion and 1-WL kernel can achieve high sensitivity.",
+        "decision": "Design GCNN architecture with 7 GC blocks, channel sequence 32,64,128,256,128,64,32, optimized for high sensitivity.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "GCNN",
+          "version": "",
+          "category": "graph neural network"
+        },
+        "parameters": {
+          "num_blocks": 7,
+          "channel_sequence": [
+            32,
+            64,
+            128,
+            256,
+            128,
+            64,
+            32
+          ],
+          "kernel": "1-WL"
+        },
+        "observation": "Architecture designed with U-Net-like channel expansion to balance complexity and performance.",
+        "result_status": "success",
+        "next_step_reason": "Need datasets to train the GCNN classifiers.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E04_02",
+            "source_file": "docs/0149/combined.md",
+            "section": "C002",
+            "quote_or_span": "The architecture consists of seven GC blocks, with the number of channels in each GC layer following this sequence: 32, 64, 128, 256, 128, 64, and again 32."
+          },
+          {
+            "evidence_id": "EV_C002_E05_01",
+            "source_file": "docs/0149/combined.md",
+            "section": "C002",
+            "quote_or_span": "the main aim of the network is to provide a very high sensitivity across all the protein targets analyzed in this study"
+          },
+          {
+            "evidence_id": "EV_C002_E05_02",
+            "source_file": "docs/0149/combined.md",
+            "section": "C002",
+            "quote_or_span": "To achieve this, we carefully optimized the network architecture, tailoring its structure to effectively balance complexity and performance."
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "design",
+        "state_before": "GCNN architecture designed; need training data.",
+        "gap_or_uncertainty": "Need datasets with appropriate imbalance for training and stress testing.",
+        "hypothesis": "EMBER (1:100 imbalance) and ChEMBL_over (oversampled to 1:15) will serve as training and stress test sets.",
+        "decision": "Prepare EMBER dataset (89373 molecules, 1:100 ratio) and ChEMBL_over (oversampled inactives to 1:15 ratio).",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "EMBER and ChEMBL_over datasets",
+          "version": "",
+          "category": "dataset"
+        },
+        "parameters": {
+          "EMBER_ratio": "1:100",
+          "ChEMBL_over_ratio": "1:15",
+          "EMBER_size": 89373
+        },
+        "observation": "Datasets prepared with specified imbalance ratios.",
+        "result_status": "success",
+        "next_step_reason": "Train 20 single-target GCNN classifiers on these datasets.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E06_02",
+            "source_file": "docs/0149/combined.md",
+            "section": "C001",
+            "quote_or_span": "The final data set consists of 89373 small molecules and has a 1:100 active/inactive ratio for the smallest class"
+          },
+          {
+            "evidence_id": "EV_C002_E01_02",
+            "source_file": "docs/0149/combined.md",
+            "section": "C002",
+            "quote_or_span": "Overampling was applied on inactive molecules, until an active/inactive ratio of 1:15 was obtained"
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "experiment",
+        "state_before": "Datasets prepared; GCNN architecture designed.",
+        "gap_or_uncertainty": "Need to train classifiers for 20 kinase targets.",
+        "hypothesis": "Training with weighted BCE loss and soft F-score will yield high sensitivity.",
+        "decision": "Train 20 single-target GCNN classifiers on EMBER and ChEMBL_over with hyperparameter grid search, using weighted BCE loss and soft F-score.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "GCNN training",
+          "version": "",
+          "category": "machine learning"
+        },
+        "parameters": {
+          "num_targets": 20,
+          "loss": "weighted BCE",
+          "metric": "soft F-score",
+          "hardware": "NVIDIA RTX 3090 (10,496 CUDA cores)"
+        },
+        "observation": "20 classifiers trained; hyperparameters selected via grid search.",
+        "result_status": "success",
+        "next_step_reason": "Adapt Grad-CAM for hierarchical explanation.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E05_01",
+            "source_file": "docs/0149/combined.md",
+            "section": "C001",
+            "quote_or_span": "we built twenty GCNN classifiers, each dedicated to a specific protein target. These models were trained to optimize classification performance on a single target."
+          },
+          {
+            "evidence_id": "EV_C002_E06_01",
+            "source_file": "docs/0149/combined.md",
+            "section": "C002",
+            "quote_or_span": "A separate GCNN binary classifier was trained to assess compounds activity for each target."
+          },
+          {
+            "evidence_id": "EV_C002_E06_02",
+            "source_file": "docs/0149/combined.md",
+            "section": "C002",
+            "quote_or_span": "A grid search was performed to select the hyperparameters properly."
+          },
+          {
+            "evidence_id": "EV_C002_E06_03",
+            "source_file": "docs/0149/combined.md",
+            "section": "C002",
+            "quote_or_span": "The training process was conducted on an NVIDIA GeForce RTX 3090 with 10,496 CUDA cores"
+          },
+          {
+            "evidence_id": "EV_C004_E01_01",
+            "source_file": "docs/0149/combined.md",
+            "section": "C004",
+            "quote_or_span": "our architecture outperforms in terms of sensitivity the two architectures used as a comparison on all 20 protein targets for the EMBER dataset"
+          },
+          {
+            "evidence_id": "EV_C003_E06_01",
+            "source_file": "docs/0149/combined.md",
+            "section": "C003",
+            "quote_or_span": "our architecture outperforms in terms of sensitivity the two architectures used as a comparison on all 20 protein targets for the EMBER dataset."
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "revision",
+        "state_before": "Trained GCNNs available; need explainability method.",
+        "gap_or_uncertainty": "GNNExplainer is too fine-grained; need to capture negative contributions and multi-scale moieties.",
+        "hypothesis": "Adapting Grad-CAM by removing ReLU and placing at layers 1,3,7 will capture both positive and negative contributions at multiple scales.",
+        "decision": "Reject GNNExplainer; adapt Grad-CAM by removing ReLU and placing explainers at GC layers 1, 3, and 7.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Grad-CAM adaptation",
+          "version": "",
+          "category": "explainability"
+        },
+        "parameters": {
+          "ReLU_removed": true,
+          "layers": [
+            1,
+            3,
+            7
+          ]
+        },
+        "observation": "Grad-CAM chosen as best technique; ReLU removed to capture negative contributions; explainers placed at layers 1,3,7 for atom, ring, and whole-molecule levels.",
+        "result_status": "success",
+        "next_step_reason": "Merge Grad-CAM outputs and threshold to identify relevant moieties.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E07_02",
+            "source_file": "docs/0149/combined.md",
+            "section": "C002",
+            "quote_or_span": "We chose Grad-CAM as the best performing technique for labeling pointwise contributions to positive predictions"
+          },
+          {
+            "evidence_id": "EV_C003_E01_01",
+            "source_file": "docs/0149/combined.md",
+            "section": "C003",
+            "quote_or_span": "the ReLU activation function has been removed to capture not only positive contributions to the prediction, but also negative ones."
+          },
+          {
+            "evidence_id": "EV_C003_E02_01",
+            "source_file": "docs/0149/combined.md",
+            "section": "C003",
+            "quote_or_span": "we placed also a Grad-CAM explainer at the very first GC layer to consider the atoms' impact in a 1-neighborhood that is at a bond level. Another explainer was placed after the third layer to catch information related to 3-neighborhoods."
+          },
+          {
+            "evidence_id": "EV_C004_E08_01",
+            "source_file": "docs/0149/combined.md",
+            "section": "C004",
+            "quote_or_span": "GNNExplainer detects as relevant the two arcs connecting C-5/C-6/O-16 and the arc connecting C-12/C-13"
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "design",
+        "state_before": "Grad-CAM outputs from multiple layers need to be combined.",
+        "gap_or_uncertainty": "Need to merge multi-scale Grad-CAM outputs into a single relevance map.",
+        "hypothesis": "Summing, min-max scaling, and thresholding at 0.7 will identify relevant moieties.",
+        "decision": "Merge Grad-CAM outputs by summing, min-max scaling, and thresholding at 0.7.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "HGE merging",
+          "version": "",
+          "category": "explainability"
+        },
+        "parameters": {
+          "merge_method": "sum",
+          "scaling": "min-max",
+          "threshold": 0.7
+        },
+        "observation": "Relevant moieties identified as contributions above 0.7 after min-max scaling.",
+        "result_status": "success",
+        "next_step_reason": "Evaluate GCNN performance against baselines on EMBER.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E03_01",
+            "source_file": "docs/0149/combined.md",
+            "section": "C003",
+            "quote_or_span": "The resulting $L_{Grad-CAM}$ distribution has been min-max scaled, and only contributions higher than 0.7 have been regarded as relevant."
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "analysis",
+        "state_before": "HGE method defined; need to evaluate GCNN performance.",
+        "gap_or_uncertainty": "Need to compare GCNN sensitivity against Chemprop and Attentive FP on EMBER.",
+        "hypothesis": "GCNN will outperform baselines in sensitivity due to architecture optimization.",
+        "decision": "Evaluate GCNN, Chemprop, and Attentive FP on EMBER dataset.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Performance evaluation",
+          "version": "",
+          "category": "benchmarking"
+        },
+        "parameters": {
+          "dataset": "EMBER",
+          "metrics": [
+            "sensitivity",
+            "AUC",
+            "F1"
+          ]
+        },
+        "observation": "GCNN outperforms Chemprop and Attentive FP in sensitivity on all 20 targets (mean 0.899 vs 0.704 vs 0.395), with AUC 0.982 and F1 0.960.",
+        "result_status": "success",
+        "next_step_reason": "Stress test on ChEMBL_over to assess robustness.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E06_01",
+            "source_file": "docs/0149/combined.md",
+            "section": "C003",
+            "quote_or_span": "our architecture outperforms in terms of sensitivity the two architectures used as a comparison on all 20 protein targets for the EMBER dataset."
+          },
+          {
+            "evidence_id": "EV_C004_E01_01",
+            "source_file": "docs/0149/combined.md",
+            "section": "C004",
+            "quote_or_span": "our architecture outperforms in terms of sensitivity the two architectures used as a comparison on all 20 protein targets for the EMBER dataset"
+          },
+          {
+            "evidence_id": "EV_C004_E02_01",
+            "source_file": "docs/0149/combined.md",
+            "section": "C004",
+            "quote_or_span": "it also has an very good ability to prioritise True Positives in terms of TP/P and EF"
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "analysis",
+        "state_before": "GCNN shows superior sensitivity on EMBER.",
+        "gap_or_uncertainty": "Need to test on oversampled dataset to check robustness.",
+        "hypothesis": "GCNN will maintain high sensitivity but may trade off F1 due to oversampling.",
+        "decision": "Evaluate on ChEMBL_over dataset.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Performance evaluation",
+          "version": "",
+          "category": "benchmarking"
+        },
+        "parameters": {
+          "dataset": "ChEMBL_over",
+          "metrics": [
+            "sensitivity",
+            "F1"
+          ]
+        },
+        "observation": "GCNN has higher sensitivity (0.946 vs 0.897) but Chemprop has higher F1 (0.945 vs 0.920); GCNN better prioritizes true positives.",
+        "result_status": "partial",
+        "next_step_reason": "Validate on known DrugBank drugs.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E03_01",
+            "source_file": "docs/0149/combined.md",
+            "section": "C004",
+            "quote_or_span": "Our architectures outperform Chemprop on 18 out of 20 targets in terms of sensitivity"
+          },
+          {
+            "evidence_id": "EV_C004_E03_02",
+            "source_file": "docs/0149/combined.md",
+            "section": "C004",
+            "quote_or_span": "Chemprop's average F1-score is higher than our architectures"
+          },
+          {
+            "evidence_id": "EV_C004_E04_01",
+            "source_file": "docs/0149/combined.md",
+            "section": "C004",
+            "quote_or_span": "our networks outperform Chemprop at prioritising True Positive"
+          },
+          {
+            "evidence_id": "EV_C004_E04_02",
+            "source_file": "docs/0149/combined.md",
+            "section": "C004",
+            "quote_or_span": "This result may suggest a vulnerability in the Chemprop net, which appears more prone than our GCNNs to be misled in determining True Positives by the presence of over-sampled chemicals"
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "validation",
+        "state_before": "Performance characterized on benchmark datasets.",
+        "gap_or_uncertainty": "Need to validate HGE's ability to assign drugs to known targets.",
+        "hypothesis": "HGE will correctly assign most DrugBank kinase inhibitors to their known targets.",
+        "decision": "Validate on 143 known drugs from DrugBank for 20 kinases.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "DrugBank validation",
+          "version": "",
+          "category": "validation"
+        },
+        "parameters": {
+          "num_drugs": 143,
+          "num_targets": 20
+        },
+        "observation": "116/143 (81%) drugs correctly assigned; consistent moiety identification (e.g., Apigenin on CDK6/CK2A1).",
+        "result_status": "success",
+        "next_step_reason": "Analyze failure cases on multi-target drugs.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E05_01",
+            "source_file": "docs/0149/combined.md",
+            "section": "C004",
+            "quote_or_span": "116 drugs out of 143 were correctly assigned to the target known in the literature"
+          },
+          {
+            "evidence_id": "EV_C004_E07_01",
+            "source_file": "docs/0149/combined.md",
+            "section": "C004",
+            "quote_or_span": "the prediction of the molecular moieties of Apigenin, a drug that is bioactive on CDK6 and CK2A1, remains congruous"
+          },
+          {
+            "evidence_id": "EV_AUTO_004",
+            "source_file": "docs/0149/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "To evaluate the explainability power of HGE, we selected a test set made by 143 known drugs from DrugBank $^{5}$ for the 20 kinases considered in this work to compare the predictions with experimental and clinical results."
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "analysis",
+        "state_before": "Overall validation accuracy 81%.",
+        "gap_or_uncertainty": "Multi-target drugs may be harder to classify.",
+        "hypothesis": "Multi-target drugs will have lower classification accuracy due to scaffold similarity and limited training data.",
+        "decision": "Analyze classification accuracy on multi-target drugs.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Multi-target analysis",
+          "version": "",
+          "category": "analysis"
+        },
+        "parameters": {
+          "subset": "multi-target drugs"
+        },
+        "observation": "Only 30/44 (68%) multi-target drugs correctly classified; reasons include scaffold similarity and limited training data.",
+        "result_status": "failure",
+        "next_step_reason": "Compare HGE qualitatively with GNNExplainer.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E06_01",
+            "source_file": "docs/0149/combined.md",
+            "section": "C004",
+            "quote_or_span": "only 30/44 (0.6818) drugs with multi-target activity are correctly classified"
+          },
+          {
+            "evidence_id": "EV_C004_E06_02",
+            "source_file": "docs/0149/combined.md",
+            "section": "C004",
+            "quote_or_span": "the misclassification on the 14 multi-target drug molecules can be traced back to different reasons"
+          },
+          {
+            "evidence_id": "EV_C004_E06_04",
+            "source_file": "docs/0149/combined.md",
+            "section": "C004",
+            "quote_or_span": "for some targets, training datasets contain fewer known molecules"
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "analysis",
+        "state_before": "HGE validated; GNNExplainer available as baseline.",
+        "gap_or_uncertainty": "Need to demonstrate HGE's superiority in providing richer moiety descriptions.",
+        "hypothesis": "HGE provides more complete and chemically meaningful explanations than GNNExplainer.",
+        "decision": "Qualitatively compare HGE and GNNExplainer on Apigenin and other molecules.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Qualitative comparison",
+          "version": "",
+          "category": "explainability"
+        },
+        "parameters": {},
+        "observation": "HGE combines layers for complete interpretation, consistently identifies aromatic regions and H-bond acceptors, while GNNExplainer only detects arcs.",
+        "result_status": "success",
+        "next_step_reason": "Acknowledge limitations.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E08_01",
+            "source_file": "docs/0149/combined.md",
+            "section": "C004",
+            "quote_or_span": "GNNExplainer detects as relevant the two arcs connecting C-5/C-6/O-16 and the arc connecting C-12/C-13"
+          },
+          {
+            "evidence_id": "EV_C005_E01_01",
+            "source_file": "docs/0149/combined.md",
+            "section": "C005",
+            "quote_or_span": "Fig. 6 Results obtained with GNNExplainer compared with HGE on the Apigenin molecule"
+          },
+          {
+            "evidence_id": "EV_C005_E01_02",
+            "source_file": "docs/0149/combined.md",
+            "section": "C005",
+            "quote_or_span": "the predictive comparison with GNNExplainer in Fig. 6 shows the different ability of our explainer in labelling information in purely chemical terms."
+          },
+          {
+            "evidence_id": "EV_C005_E02_01",
+            "source_file": "docs/0149/combined.md",
+            "section": "C005",
+            "quote_or_span": "The main strength of the presented approach is the combination of different explanation layers (from single atoms to complex structures)."
+          }
+        ]
+      },
+      {
+        "step_index": 12,
+        "phase": "analysis",
+        "state_before": "HGE shown to be effective but has limitations.",
+        "gap_or_uncertainty": "HGE does not account for pharmacological effect or potency magnitude; single-target focus limits multi-target applicability.",
+        "hypothesis": "HGE identifies binding-relevant structures but not pharmacological effect.",
+        "decision": "Note limitations: HGE identifies binding-relevant structures but does not account for pharmacological effect or potency magnitude; single-target focus limits multi-target applicability.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Limitation analysis",
+          "version": "",
+          "category": "analysis"
+        },
+        "parameters": {},
+        "observation": "HGE identifies chemical structures compatible with protein binding process, without considering pharmacological effect or drug potency.",
+        "result_status": "inconclusive",
+        "next_step_reason": "Propose future work.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C005_E05_01",
+            "source_file": "docs/0149/combined.md",
+            "section": "C005",
+            "quote_or_span": "HGE identifies chemical structures compatible with protein binding process, without considering pharmacological effect or drug potency."
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "DrugBank validation (143 drugs, 20 kinases)",
+        "Qualitative comparison with GNNExplainer"
+      ],
+      "metrics": [
+        "Sensitivity",
+        "AUC",
+        "F1",
+        "Classification accuracy (81% overall, 68% multi-target)"
+      ],
+      "final_conclusion": "HGE successfully provides hierarchical explanations of GNN predictions, identifying relevant molecular moieties. GCNN outperforms baselines in sensitivity, and HGE offers richer explanations than GNNExplainer. However, multi-target classification remains challenging, and pharmacological effect is not captured.",
+      "limitations": [
+        "HGE identifies binding-relevant structures but does not account for pharmacological effect or potency magnitude.",
+        "Single-target focus limits multi-target applicability."
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_specific_evidence_backfilled=7",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_specific_evidence_backfilled=3",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 100.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p6\\states\\0149.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p6\\events\\0149.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1
+        ],
+        "K02": [
+          1,
+          5
+        ],
+        "K03": [
+          2,
+          4
+        ],
+        "K05": [
+          3,
+          4
+        ],
+        "K06": [
+          5
+        ],
+        "K08": [
+          2,
+          4,
+          7,
+          8
+        ],
+        "K09": [
+          8
+        ],
+        "K10": [
+          9
+        ],
+        "K11": [
+          10
+        ],
+        "K12": [
+          5,
+          11
+        ],
+        "K13": [
+          12
+        ],
+        "K14": [
+          12
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K03",
+            "K08"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K04",
+            "K05"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K03",
+            "K04",
+            "K05",
+            "K08"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K02",
+            "K06",
+            "K07",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K07"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K08"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K08",
+            "K09"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K10"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K11"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K12"
+          ]
+        },
+        {
+          "step_index": 12,
+          "covered_event_ids": [
+            "K13",
+            "K14"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 2,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "128256",
+          "12864",
+          "3264"
+        ]
+      },
+      {
+        "step_index": 3,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "20s",
+          "89373"
+        ]
+      },
+      {
+        "step_index": 4,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "20s"
+        ]
+      },
+      {
+        "step_index": 6,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "0.7"
+        ]
+      },
+      {
+        "step_index": 7,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "0.395",
+          "0.704",
+          "0.899",
+          "0.960",
+          "0.982"
+        ]
+      },
+      {
+        "step_index": 8,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "0.897",
+          "0.920",
+          "0.945",
+          "0.946"
+        ]
+      },
+      {
+        "step_index": 9,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "81%"
+        ]
+      },
+      {
+        "step_index": 10,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "68%",
+          "81%"
+        ]
+      }
+    ],
+    "step_count": 12,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 100.0
+  },
+  "api_usage": {
+    "prompt_tokens": 129102,
+    "completion_tokens": 26512,
+    "total_tokens": 155614,
+    "prompt_cache_hit_tokens": 3200,
+    "prompt_cache_miss_tokens": 125902
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 4374,
+        "completion_tokens": 773,
+        "total_tokens": 5147,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 4374
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 18081,
+        "completion_tokens": 2915,
+        "total_tokens": 20996,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 18081
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 7158,
+        "completion_tokens": 1078,
+        "total_tokens": 8236,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6902
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 8543,
+        "completion_tokens": 1363,
+        "total_tokens": 9906,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8287
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 9859,
+        "completion_tokens": 1154,
+        "total_tokens": 11013,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9603
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 9110,
+        "completion_tokens": 1299,
+        "total_tokens": 10409,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8854
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C005",
+      "api_usage": {
+        "prompt_tokens": 8469,
+        "completion_tokens": 1179,
+        "total_tokens": 9648,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8213
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C006",
+      "api_usage": {
+        "prompt_tokens": 3776,
+        "completion_tokens": 50,
+        "total_tokens": 3826,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 3520
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 11170,
+        "completion_tokens": 3132,
+        "total_tokens": 14302,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 10786
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 11265,
+        "completion_tokens": 6147,
+        "total_tokens": 17412,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 10625
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 17257,
+        "completion_tokens": 1068,
+        "total_tokens": 18325,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 17257
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 20040,
+        "completion_tokens": 6354,
+        "total_tokens": 26394,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 19400
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

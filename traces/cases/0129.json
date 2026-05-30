@@ -1,0 +1,879 @@
+{
+  "case": {
+    "case_id": "sci_evo_0129",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Rationally reduced libraries for combinatorial pathway optimization minimizing experimental effort",
+      "doi": "https://doi.org/10.1038/ncomms11163",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0127_10_1038_ncomms11163_rationally_reduced_libraries_for_combinatorial_pathway_optimization_minimizing_experimenta.pdf",
+      "mineru_md": "docs/0129/mineru.md",
+      "combined_md": "docs/0129/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Combinatorial pathway optimization requires exploring a large expression space, but random RBS libraries suffer from combinatorial explosion and skewed distributions, making experimental screening intractable.",
+      "target_object": "RBS-mediated translation initiation rates (TIRs) for pathway enzymes",
+      "known_context": "Random RBS libraries (e.g., N6, N8) lead to 6.9×10^10 and 2.8×10^14 combinations, heavily skewed toward weak TIRs, limiting coverage of intermediate/strong expression levels.",
+      "constraints": [
+        "Library size must be amenable to screening (e.g., 96-well plates).",
+        "Libraries must be implementable via one-pot cloning with degenerate oligonucleotides."
+      ],
+      "input_data": [
+        "TIR distributions predicted by RBS Library Calculator for fully degenerate N6 and N8 libraries."
+      ],
+      "quantifiable_goals": [
+        "Achieve uniform coverage of TIR space.",
+        "Reduce library size to <1000 combinations while maintaining coverage.",
+        "Improve violacein selectivity beyond 81%."
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "Random RBS libraries suffer from combinatorial explosion and skewed TIR distributions, making screening intractable.",
+        "gap_or_uncertainty": "How to design RBS libraries that uniformly cover expression space with a screenable size?",
+        "hypothesis": "Smart libraries can be designed to cover a broad range of expression levels uniformly with a size amenable to screening, encoded by single degenerate sequences for one-pot cloning.",
+        "decision": "Develop an algorithm to identify globally optimal degenerate RBS sequences that match a uniform target TIR distribution.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "RedLibs concept",
+          "version": "N/A",
+          "category": "algorithm_design"
+        },
+        "parameters": {},
+        "observation": "Requirements defined: broad coverage, uniform distribution, screenable size, one-pot cloning via degenerate sequences.",
+        "result_status": "success",
+        "next_step_reason": "Need to implement algorithm to search for optimal degenerate sequences.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_02",
+            "source_file": "docs/0129/combined.md",
+            "section": "C001",
+            "quote_or_span": "this pool would be highly redundant for weak RBSs whereas potentially more productive combinations including intermediate or strong RBSs would remain scarce."
+          },
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0129/combined.md",
+            "section": "C001",
+            "quote_or_span": "smart libraries need to be generated that (i) cover a broad range of expression levels; (ii) are uniformly distributed; (iii) have a size that is amenable to screening; and (iv) are encoded by single degenerate sequences, which allow for experimental implementation by easy one-pot cloning procedures."
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "design",
+        "state_before": "Hypothesis formulated for smart libraries; no algorithm exists to design them.",
+        "gap_or_uncertainty": "How to algorithmically identify degenerate RBS sequences that yield a uniform TIR distribution?",
+        "hypothesis": "An algorithm (RedLibs) can compare TIR distributions of all possible degenerate RBSs to a target distribution using Kolmogorov-Smirnov distance (d_KS) to find globally optimal sequences.",
+        "decision": "Design RedLibs algorithm to exhaustively search degenerate RBS space and select sequences minimizing d_KS to a uniform target.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "RedLibs algorithm",
+          "version": "initial",
+          "category": "computational_design"
+        },
+        "parameters": {
+          "target_distribution": "uniform",
+          "distance_metric": "Kolmogorov-Smirnov (d_KS)"
+        },
+        "observation": "RedLibs algorithm designed to evaluate all partially degenerate sequences and compare TIR distributions to target.",
+        "result_status": "success",
+        "next_step_reason": "Implement computational search to find optimal degenerate sequences for given library sizes.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E03_01",
+            "source_file": "docs/0129/combined.md",
+            "section": "C001",
+            "quote_or_span": "Here we introduce the algorithm RedLibs (Reduced Libraries) that identifies globally optimal degenerate RBSs that uniformly span the entire TIR space in a linear manner."
+          },
+          {
+            "evidence_id": "EV_C001_E03_02",
+            "source_file": "docs/0129/combined.md",
+            "section": "C001",
+            "quote_or_span": "RedLibs compares the TIR distributions of all possible degenerate RBSs to a desired target distribution, leading to truly uniform predicted distributions that can be implemented by simple one-pot cloning protocols."
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "simulation",
+        "state_before": "RedLibs algorithm designed; need to computationally search for optimal degenerate sequences.",
+        "gap_or_uncertainty": "Which degenerate sequences yield TIR distributions closest to uniform for given library sizes?",
+        "hypothesis": "Exhaustive search over all possible partially degenerate sequences will identify sub-libraries with minimal d_KS to uniform target.",
+        "decision": "Run RedLibs to evaluate sub-libraries for sizes 4, 12, 24, using RBS Library Calculator predictions.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "RedLibs",
+          "version": "initial",
+          "category": "computational_search"
+        },
+        "parameters": {
+          "library_sizes": [
+            4,
+            12,
+            24
+          ],
+          "target_distribution": "uniform",
+          "input_data": "RBS Library Calculator predictions"
+        },
+        "observation": "Optimal degenerate sequences identified for sizes 4, 12, 24; sub-libraries evaluated exhaustively.",
+        "result_status": "success",
+        "next_step_reason": "Validate in silico that reduced libraries improve TIR space coverage compared to fully degenerate libraries.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E04_01",
+            "source_file": "docs/0129/combined.md",
+            "section": "C001",
+            "quote_or_span": "These sub-libraries are generated by computing the TIR distributions of all possible partially degenerate sequences with a given target size (these sequences are obtained from a database which is part of RedLibs) and subsequently comparing them to the target distribution one by one."
+          },
+          {
+            "evidence_id": "EV_AUTO_025",
+            "source_file": "docs/0129/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "We applied two different RBS diversification strategies: an unstructured randomization in which six or eight nucleotides were fully randomized ( $N_{6}$ or $N_{8}$ ) as well as diversification using smart RBS libraries with target sizes of 4, 12 and 24 members produced by RedLibs to resemble a uniform distribution."
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "experiment",
+        "state_before": "Reduced libraries designed computationally; need to test coverage in silico.",
+        "gap_or_uncertainty": "Do reduced libraries provide better coverage of TIR space than fully degenerate libraries?",
+        "hypothesis": "In silico picking of 252 random TIR pairs from reduced libraries will show improved uniformity and coverage compared to fully degenerate N6/N8 libraries.",
+        "decision": "Perform in silico screening by randomly picking 252 TIR pairs for sfGFP and mCherry from each library type.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "R (version 2.14)",
+          "version": "2.14",
+          "category": "statistical_sampling"
+        },
+        "parameters": {
+          "number_of_picks": 252,
+          "proteins": [
+            "sfGFP",
+            "mCherry"
+          ],
+          "library_types": [
+            "fully degenerate N6",
+            "fully degenerate N8",
+            "RedLibs 4x4",
+            "RedLibs 12x12",
+            "RedLibs 24x24"
+          ]
+        },
+        "observation": "Fully degenerate libraries only yield low TIR combinations; RedLibs libraries show improved coverage of intermediate/high TIRs.",
+        "result_status": "success",
+        "next_step_reason": "Validate in vivo that reduced libraries perform as predicted.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E05_01",
+            "source_file": "docs/0129/combined.md",
+            "section": "C001",
+            "quote_or_span": "We initially performed an in silico screening approach to mimic an actual screen with low throughput by randomly picking 252 TIR pairs for the two fluorescent proteins from the respective libraries"
+          },
+          {
+            "evidence_id": "EV_C001_E05_02",
+            "source_file": "docs/0129/combined.md",
+            "section": "C001",
+            "quote_or_span": "the fully degenerate libraries deliver only combinations of low TIR levels for both proteins, representing unsatisfactory coverage of the translation level space"
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "experiment",
+        "state_before": "In silico results promising; need in vivo confirmation.",
+        "gap_or_uncertainty": "Do in vivo measurements match in silico predictions of improved coverage?",
+        "hypothesis": "In vivo screening of 252 clones per library will confirm improved uniformity and coverage of expression space for RedLibs libraries.",
+        "decision": "Construct and screen 252 clones for each library (N6, N8, 4x4, 12x12, 24x24) in E. coli, measuring sfGFP and mCherry fluorescence.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "fluorescence measurement",
+          "version": "N/A",
+          "category": "in_vivo_assay"
+        },
+        "parameters": {
+          "clones_screened": 252,
+          "proteins": [
+            "sfGFP",
+            "mCherry"
+          ],
+          "host": "E. coli"
+        },
+        "observation": "Qualitative resemblance to in silico: RedLibs libraries span expression space; fully degenerate libraries do not. However, very high expression combinations not observed.",
+        "result_status": "partial",
+        "next_step_reason": "Investigate missing high-expression combinations; apply approach to violacein pathway.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E06_01",
+            "source_file": "docs/0129/combined.md",
+            "section": "C001",
+            "quote_or_span": "we implemented the same system in vivo and measured the cell-specific green and red fluorescence of 252 clones (three microtiter plates) for each library"
+          },
+          {
+            "evidence_id": "EV_C001_E06_02",
+            "source_file": "docs/0129/combined.md",
+            "section": "C001",
+            "quote_or_span": "The experimental results showed a great qualitative resemblance between the in silico predicted and the in vivo observed behaviour for all libraries: whereas candidates picked from the fully degenerate RBS libraries failed to span the whole two-dimensional expression space, the"
+          },
+          {
+            "evidence_id": "EV_AUTO_021",
+            "source_file": "docs/0129/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "coli for each library ( $N_{6}$ , $N_{8}$ , 4, 12 and 24)."
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "analysis",
+        "state_before": "In vivo screening showed missing high-expression combinations.",
+        "gap_or_uncertainty": "Why are very high expression combinations absent in vivo despite predicted presence?",
+        "hypothesis": "Cellular capacity limits prevent simultaneous high expression of both proteins; deep-sequencing will confirm presence of corresponding sequences.",
+        "decision": "Perform deep-sequencing on libraries to check for sequences predicted to yield high TIRs.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "deep-sequencing (MiSeq PE-250)",
+          "version": "N/A",
+          "category": "sequencing"
+        },
+        "parameters": {},
+        "observation": "Deep-sequencing confirmed presence of sequences predicted for high TIRs, indicating cellular capacity limitation.",
+        "result_status": "success",
+        "next_step_reason": "Acknowledge limitation; proceed to apply RedLibs to violacein pathway where fine-tuning is needed.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E01_02",
+            "source_file": "docs/0129/combined.md",
+            "section": "C002",
+            "quote_or_span": "Only for combinations of very high expression levels for both proteins no clones were found in the anticipated region"
+          },
+          {
+            "evidence_id": "EV_C002_E01_03",
+            "source_file": "docs/0129/combined.md",
+            "section": "C002",
+            "quote_or_span": "Deep-sequencing analysis confirmed the presence of sequences that were predicted to lead to combinations of two high TIR values within the libraries which suggested that very high synthesis levels of both proteins are incompatible with the synthesis capacity of the cell."
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "hypothesis",
+        "state_before": "RedLibs validated for fluorescent proteins; violacein pathway requires fine-tuned enzyme levels.",
+        "gap_or_uncertainty": "Can RedLibs-designed libraries improve violacein selectivity by balancing VioC, VioD, VioE expression?",
+        "hypothesis": "A rationally reduced RBS library for vioC, vioD, vioE will enable screening for clones with improved violacein selectivity.",
+        "decision": "Design first violacein library using RedLibs with uniform target distribution for all three genes (size 24 each, 13,824 combinations).",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "RedLibs",
+          "version": "initial",
+          "category": "library_design"
+        },
+        "parameters": {
+          "target_size": 24,
+          "genes": [
+            "vioC",
+            "vioD",
+            "vioE"
+          ],
+          "target_distribution": "uniform"
+        },
+        "observation": "First library designed; ready for construction and screening.",
+        "result_status": "success",
+        "next_step_reason": "Construct and screen library to assess variability in pigment selectivity.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E02_01",
+            "source_file": "docs/0129/combined.md",
+            "section": "C002",
+            "quote_or_span": "a fine-tuned orchestration of VioC and VioD needs to be established to improve the purity of violacein without sacrificing too big a portion of its absolute production level"
+          },
+          {
+            "evidence_id": "EV_C002_E02_02",
+            "source_file": "docs/0129/combined.md",
+            "section": "C002",
+            "quote_or_span": "VioE is a crucial player in determining product spectrum and amount since it directly affects the abundance of protodeoxyviolaceinic acid."
+          },
+          {
+            "evidence_id": "EV_AUTO_022",
+            "source_file": "docs/0129/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Out of the three initial prediction data sets (one for the RBS of each gene) derived from a full randomization of the SD sequence $(N_{8})$ , RedLibs produced three rationally reduced libraries (target size: 24, maximum number of different combinations in the library: $24^{3}=13,824$ ) which exhibited a good uniform distribution of predicted TIRs over the whole range of possible TIR levels (Fig."
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "experiment",
+        "state_before": "First violacein library designed; need to screen for selectivity.",
+        "gap_or_uncertainty": "What range of violacein/deoxyviolacein selectivity can be achieved with the first library?",
+        "hypothesis": "Screening 372 clones will reveal broad variability in pigment selectivity, with some clones showing improved violacein production.",
+        "decision": "Screen 372 clones from first library in microtiter plates, quantifying violacein and deoxyviolacein.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "pigment extraction and HPLC",
+          "version": "N/A",
+          "category": "metabolite_analysis"
+        },
+        "parameters": {
+          "clones_screened": 372,
+          "host": "E. coli"
+        },
+        "observation": "Wide variability: violacein 0-77%, deoxyviolacein 23-99%. Some clones significantly improved selectivity.",
+        "result_status": "success",
+        "next_step_reason": "Analyze TIR patterns of top clones to infer design principles for second library.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E04_02",
+            "source_file": "docs/0129/combined.md",
+            "section": "C002",
+            "quote_or_span": "a wide variability of product selectivity was observed, with violacein making up between 0 and 77% and deoxyviolacein making up between 23 and 99% of total pigments"
+          },
+          {
+            "evidence_id": "EV_AUTO_020",
+            "source_file": "docs/0129/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "With a limited screening effort (372 clones in 96-well microtiter plates) mutants with significantly altered selectivity for the production of VIO and DVIO could be obtained."
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "analysis",
+        "state_before": "First library screening results obtained; need to identify key TIR patterns.",
+        "gap_or_uncertainty": "Which TIR ratios correlate with high violacein selectivity?",
+        "hypothesis": "High violacein selectivity is associated with low VioC/VioD TIR ratio (excess VioD), while VioE TIR is not crucial.",
+        "decision": "Sequence top violacein-selective clones and predict TIRs using RBS Calculator; analyze ratios.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "RBS Library Calculator",
+          "version": "N/A",
+          "category": "TIR_prediction"
+        },
+        "parameters": {},
+        "observation": "Top clones show low VioC/VioD TIR ratios (VioD in excess); VioE TIR varies widely, suggesting it is not a key determinant.",
+        "result_status": "success",
+        "next_step_reason": "Design second library with tailored target distributions for VioC and VioD based on this insight.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E05_01",
+            "source_file": "docs/0129/combined.md",
+            "section": "C002",
+            "quote_or_span": "the ratios between the TIRs for VioC and VioD seemed to be exclusively in the lower range within this group and clearly pointed to an excess of VioD over VioC in four of the five cases"
+          },
+          {
+            "evidence_id": "EV_C002_E05_02",
+            "source_file": "docs/0129/combined.md",
+            "section": "C002",
+            "quote_or_span": "the TIR for VioE did not seem to be a crucial determinant for high violacein selectivity since it varied significantly among the five analysed clones"
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "revision",
+        "state_before": "Analysis suggests low VioC/VioD TIR ratio beneficial; need to refine library design.",
+        "gap_or_uncertainty": "How to design a second library that enriches for low VioC/VioD TIR ratios?",
+        "hypothesis": "Using RedLibs with tailored target distributions (uniform in lower range for VioC, upper range for VioD) will yield clones with further improved violacein selectivity.",
+        "decision": "Design second library using RedLibs: target size 8 for VioC and VioD (64 combinations), uniform target in lower TIR range for VioC, upper range for VioD; VioE fixed at moderate level.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "RedLibs",
+          "version": "initial",
+          "category": "library_design"
+        },
+        "parameters": {
+          "target_size": 8,
+          "genes": [
+            "vioC",
+            "vioD"
+          ],
+          "target_distribution": "uniform in lower range for VioC, upper range for VioD"
+        },
+        "observation": "Second library designed with tailored distributions; ready for screening.",
+        "result_status": "success",
+        "next_step_reason": "Screen second library to test if selectivity improves beyond first library.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E06_01",
+            "source_file": "docs/0129/combined.md",
+            "section": "C002",
+            "quote_or_span": "Graphical representation of the rationale behind the second library design by RedLibs. TIRs for VioD are uniformly distributed in the upper range of the accessible TIR space whereas"
+          },
+          {
+            "evidence_id": "EV_C003_E02_02",
+            "source_file": "docs/0129/combined.md",
+            "section": "C003",
+            "quote_or_span": "the algorithm was set to a uniform target distribution within the lower part of the entire TIR range for VioC and the upper part of TIRs for VioD"
+          },
+          {
+            "evidence_id": "EV_AUTO_036",
+            "source_file": "docs/0129/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The target size for the library was set to eight resulting in $8 \\times 8 = 64$ potential combinations of expression levels for VioC and VioD."
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "experiment",
+        "state_before": "Second library designed; need to screen for improved selectivity.",
+        "gap_or_uncertainty": "Does the second library yield clones with higher violacein selectivity than the first library?",
+        "hypothesis": "Screening 279 clones from the second library will identify clones with violacein selectivity exceeding 81% (best from first library).",
+        "decision": "Screen 279 clones from second library, quantify violacein and deoxyviolacein, sequence top clones.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "pigment extraction and HPLC",
+          "version": "N/A",
+          "category": "metabolite_analysis"
+        },
+        "parameters": {
+          "clones_screened": 279,
+          "host": "E. coli"
+        },
+        "observation": "Best clone achieves 91% violacein selectivity, surpassing 81% from first library. Sequencing confirms repeated isolation of same high-selectivity combination.",
+        "result_status": "success",
+        "next_step_reason": "Validate that iterative two-step optimization scheme is effective.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_017",
+            "source_file": "docs/0129/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "5d) as compared with the producer with the highest selectivity isolated from the first library ( $\\%Vio_{1}$ ): 91% versus 81%."
+          },
+          {
+            "evidence_id": "EV_AUTO_019",
+            "source_file": "docs/0129/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The resulting fine-tuned library could be nearly exhaustively screened (analysis of 279 clones (three 96-well plates), statistical coverage"
+          },
+          {
+            "evidence_id": "EV_C003_E06_02",
+            "source_file": "docs/0129/combined.md",
+            "section": "C003",
+            "quote_or_span": "we sequenced both a pool of the initial library as well as other individual clones which confirmed that we had isolated the same combination repeatedly because of the high selectivity value"
+          }
+        ]
+      },
+      {
+        "step_index": 12,
+        "phase": "validation",
+        "state_before": "Second library screening successful; need to generalize approach.",
+        "gap_or_uncertainty": "Can the two-step RedLibs optimization scheme be formalized as a general strategy?",
+        "hypothesis": "An iterative two-step optimization using RedLibs—initial library to identify patterns, second library to refine—enables efficient pathway optimization.",
+        "decision": "Propose iterative design-build-test cycle: first library explores space uniformly, analysis reveals key parameters, second library targets refined distributions.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "conceptual framework",
+          "version": "N/A",
+          "category": "method_development"
+        },
+        "parameters": {},
+        "observation": "Two-step scheme successfully demonstrated for violacein pathway; applicable to other systems.",
+        "result_status": "success",
+        "next_step_reason": "Conclude study.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E08_01",
+            "source_file": "docs/0129/combined.md",
+            "section": "C003",
+            "quote_or_span": "RedLibs allowed for the design of a smart two-step optimization scheme which led to efficient improvement of the targeted pathway and can be applied to the iterative synthetic biology design-build-test cycle."
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "In silico picking of 252 TIR pairs to compare library coverage.",
+        "In vivo fluorescence measurement of 252 clones per library for sfGFP/mCherry.",
+        "Deep-sequencing to confirm presence of high-TIR sequences.",
+        "Screening of 372 clones from first violacein library, 279 from second.",
+        "Sequencing of top clones to verify RBS combinations."
+      ],
+      "metrics": [
+        "Kolmogorov-Smirnov distance (d_KS) to uniform target.",
+        "Violacein selectivity (% of total pigments).",
+        "Coverage of TIR space (visual assessment)."
+      ],
+      "final_conclusion": "RedLibs enables design of rationally reduced RBS libraries that uniformly cover expression space with screenable sizes. A two-step iterative optimization scheme, demonstrated on the violacein pathway, improved violacein selectivity from 81% to 91% by first identifying key TIR patterns and then refining library design.",
+      "limitations": [
+        "Very high expression combinations not observed in vivo due to cellular capacity limits.",
+        "Screening throughput limited to a few hundred clones; may miss rare optimal combinations.",
+        "TIR predictions rely on biophysical model accuracy; context effects may vary."
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_specific_evidence_backfilled=8",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 99.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p6\\states\\0129.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p6\\events\\0129.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 11,
+      "covered_event_count": 11,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1
+        ],
+        "K02": [
+          1,
+          7
+        ],
+        "K04": [
+          2,
+          3
+        ],
+        "K05": [
+          1,
+          3,
+          4,
+          5
+        ],
+        "K06": [
+          1,
+          4,
+          5,
+          7,
+          11
+        ],
+        "K07": [
+          6
+        ],
+        "K09": [
+          7,
+          8,
+          10,
+          11
+        ],
+        "K10": [
+          9,
+          10
+        ],
+        "K11": [
+          1,
+          2,
+          3,
+          7,
+          8,
+          9,
+          10
+        ],
+        "K12": [
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "K13": [
+          12
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02",
+            "K03",
+            "K05",
+            "K06",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K03",
+            "K04",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K03",
+            "K04",
+            "K05",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K05",
+            "K06"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K05",
+            "K06"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K07"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K02",
+            "K06",
+            "K08",
+            "K09",
+            "K11",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K09",
+            "K11",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K10",
+            "K11",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K09",
+            "K10",
+            "K11",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K06",
+            "K09",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 12,
+          "covered_event_ids": [
+            "K13"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 5,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "12x",
+          "24x",
+          "4x"
+        ]
+      },
+      {
+        "step_index": 8,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "-77%",
+          "-99%"
+        ]
+      }
+    ],
+    "step_count": 12,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 99.0
+  },
+  "api_usage": {
+    "prompt_tokens": 91018,
+    "completion_tokens": 23581,
+    "total_tokens": 114599,
+    "prompt_cache_hit_tokens": 4224,
+    "prompt_cache_miss_tokens": 86794
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 1639,
+        "completion_tokens": 491,
+        "total_tokens": 2130,
+        "prompt_tokens_details": {
+          "cached_tokens": 1536
+        },
+        "prompt_cache_hit_tokens": 1536,
+        "prompt_cache_miss_tokens": 103
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 6215,
+        "completion_tokens": 1518,
+        "total_tokens": 7733,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 6215
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 5742,
+        "completion_tokens": 1389,
+        "total_tokens": 7131,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 5486
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 6586,
+        "completion_tokens": 1383,
+        "total_tokens": 7969,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6330
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 6144,
+        "completion_tokens": 1457,
+        "total_tokens": 7601,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 5888
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 6080,
+        "completion_tokens": 842,
+        "total_tokens": 6922,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 5824
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 8836,
+        "completion_tokens": 2971,
+        "total_tokens": 11807,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 8452
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 11692,
+        "completion_tokens": 6063,
+        "total_tokens": 17755,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 11052
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 17784,
+        "completion_tokens": 733,
+        "total_tokens": 18517,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 17784
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 20300,
+        "completion_tokens": 6734,
+        "total_tokens": 27034,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 19660
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

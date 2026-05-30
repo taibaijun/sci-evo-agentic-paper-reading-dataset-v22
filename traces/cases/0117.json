@@ -1,0 +1,893 @@
+{
+  "case": {
+    "case_id": "sci_evo_0117",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Generation of an E. coli platform strain for improved sucrose utilization using adaptive laboratory evolution",
+      "doi": "https://doi.org/10.1186/s12934-019-1165-2",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0115_10_1186_s12934_019_1165_2_generation_of_an_e_coli_platform_strain_for_improved_sucrose_utilization_using_adaptive_la.pdf",
+      "mineru_md": "docs/0117/mineru.md",
+      "combined_md": "docs/0117/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Engineered E. coli K-12 strains grow slowly on sucrose, limiting industrial use. ALE was applied to improve growth rate and sucrose uptake, aiming to generate platform strains comparable to E. coli W.",
+      "target_object": "E. coli K-12 MG1655 engineered with csc genes (MGcscBKA, MGcscBKAp) and E. coli W",
+      "known_context": "Only a few E. coli strains metabolize sucrose, and those that can are typically slow growing or pathogenic. Previous engineered strains had slow growth and instability.",
+      "constraints": [
+        "Use of M9 minimal medium with 20 g/L sucrose",
+        "Serial transfer during exponential phase",
+        "~40 days of evolution"
+      ],
+      "input_data": [
+        "Starting strains: MGcscBKA, MGcscBKAp, E. coli W"
+      ],
+      "quantifiable_goals": [
+        "Increase growth rate on sucrose",
+        "Improve sucrose uptake rate",
+        "Achieve growth comparable to E. coli W"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "Only a few E. coli strains metabolize sucrose, and those that can are typically slow growing or pathogenic. Previous engineered strains had slow growth and instability.",
+        "gap_or_uncertainty": "Can adaptive laboratory evolution improve the growth rate and sucrose uptake of engineered E. coli K-12 strains to levels comparable to E. coli W?",
+        "hypothesis": "Serial passage under sucrose selection will enrich for mutations that enhance sucrose utilization and growth rate.",
+        "decision": "Perform ALE on engineered K-12 strains and E. coli W in sucrose minimal medium.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "Literature review",
+          "version": "",
+          "category": "reasoning"
+        },
+        "parameters": {},
+        "observation": "Only a few characterized Escherichia coli strains are able to metabolize sucrose, and those that can are typically slow growing or pathogenic strains. Most of the previous approaches to engineer E. coli to use sucrose as a carbon source were hampered by slow growth rates and phenotypic instability.",
+        "result_status": "success",
+        "next_step_reason": "Design strains with integrated csc genes for ALE.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0117/combined.md",
+            "section": "C001",
+            "quote_or_span": "only a few characterized Escherichia coli strains are able to metabolize sucrose, and those that can are typically slow growing or pathogenic strains"
+          },
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0117/combined.md",
+            "section": "C001",
+            "quote_or_span": "Most of the previous approaches to engineer E. coli to use sucrose as a carbon source were hampered by slow growth rates and phenotypic instability"
+          },
+          {
+            "evidence_id": "EV_AUTO_007",
+            "source_file": "docs/0117/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Moreover, the developed platform strains are suitable as fermentation chassis with an extended capability to also rapidly utilize glucose to the same level as strains evolved to grow solely on glucose $[22]$ ; (2) this study establishes a transferable sucrose utilization cassette for use in K-12 strains where sucrose utilization is not native; and (3) the identification of key reproducibly-occurring mutations using multiple parallel replicate ALE experiments."
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "design",
+        "state_before": "E. coli K-12 MG1655 cannot utilize sucrose.",
+        "gap_or_uncertainty": "Need to introduce sucrose utilization genes into K-12.",
+        "hypothesis": "Chromosomal integration of the csc gene cluster from E. coli W will enable sucrose metabolism.",
+        "decision": "Integrate cscB, cscK, cscA at the 186 attB site using pOSIP-KO, creating MGcscBKA and MGcscBKAp (with cscB Q353H SNP).",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "pOSIP-KO integration",
+          "version": "",
+          "category": "genetic engineering"
+        },
+        "parameters": {
+          "integration_site": "186 attB",
+          "genes": [
+            "cscB",
+            "cscK",
+            "cscA"
+          ],
+          "source": "E. coli W"
+        },
+        "observation": "Two constructs inserted into the K-12 MG1655 host genome differed by a SNP mutation in the cscB gene, resulting in the residue change Q353H, and were labeled as MGcscBKA and MGcscBKAp.",
+        "result_status": "success",
+        "next_step_reason": "Proceed to ALE with these strains.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E03_01",
+            "source_file": "docs/0117/combined.md",
+            "section": "C001",
+            "quote_or_span": "the integration site of csc DNA sequence was into E. coli 186 attB site using pOSIP-KO integration module"
+          },
+          {
+            "evidence_id": "EV_AUTO_001",
+            "source_file": "docs/0117/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The two constructs inserted into the K-12 MG1655 host genome differed by a SNP mutation in the cscB gene, resulting in the residue change Q353H, and were labeled as MGcscBKA and MGcscBKAp (see Additional file 2: Text S1 for a detailed description)."
+          },
+          {
+            "evidence_id": "EV_AUTO_011",
+            "source_file": "docs/0117/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "MGcscBKA derivative with a variant SNP in cscB Q353H was abbreviated MGcscB-KAp [16]."
+          },
+          {
+            "evidence_id": "EV_AUTO_030",
+            "source_file": "docs/0117/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "coli strains; two genetic constructs of K-12 MG1655 with csc gene cassette MGcscBKA and MGcscBKAp and E."
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "experiment",
+        "state_before": "Engineered strains MGcscBKA, MGcscBKAp, and E. coli W are available.",
+        "gap_or_uncertainty": "Will these strains adapt to faster growth on sucrose?",
+        "hypothesis": "Serial passage in sucrose minimal medium will select for faster-growing mutants.",
+        "decision": "Evolve three independent populations of each strain in M9 + 20 g/L sucrose, with serial transfers during exponential phase, for ~40 days.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Adaptive laboratory evolution (ALE)",
+          "version": "",
+          "category": "evolution"
+        },
+        "parameters": {
+          "medium": "M9 minimal medium",
+          "carbon_source": "20 g/L sucrose",
+          "duration": "~40 days",
+          "replicates": 3
+        },
+        "observation": "Bacterial cells were serially passaged during exponential growth phase for approximately 40 days using an automated liquid-handler platform. Three independent populations of each starting strain were evolved in batch and in parallel under the strict selection pressure of continuous exponential growth for approximately 40 days.",
+        "result_status": "success",
+        "next_step_reason": "Analyze growth rate improvements.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E05_02",
+            "source_file": "docs/0117/combined.md",
+            "section": "C001",
+            "quote_or_span": "Bacterial cells were serially passaged during exponential growth phase for approximately 40 days using an automated liquid-handler platform"
+          },
+          {
+            "evidence_id": "EV_C002_E01_01",
+            "source_file": "docs/0117/combined.md",
+            "section": "C002",
+            "quote_or_span": "Three independent populations of each starting strain were evolved in batch and in parallel under the strict selection pressure of continuous exponential growth for approximately 40 days"
+          },
+          {
+            "evidence_id": "EV_AUTO_020",
+            "source_file": "docs/0117/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "coli strains: a K-12 MG1655cscBKA, b K-12 MG1655cscBKAp, and c W were evolved on 20 g/L sucrose minimal medium."
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "analysis",
+        "state_before": "ALE completed for all populations.",
+        "gap_or_uncertainty": "Did growth rates increase?",
+        "hypothesis": "Evolved populations will show higher growth rates on sucrose.",
+        "decision": "Measure growth rates of endpoint clones on sucrose M9.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Growth rate measurement",
+          "version": "",
+          "category": "phenotyping"
+        },
+        "parameters": {
+          "medium": "M9 + sucrose"
+        },
+        "observation": "There was one observed fitness jump (i.e., increase in growth rate) for all the populations across all independent ALE replicates. The increases in growth rates on sucrose M9 were between 1.17 and 1.57-fold for MGcscBKA clones, 1.25–1.38-fold for MGcscBKAp, and 1.06–1.22-fold for E. coli W.",
+        "result_status": "success",
+        "next_step_reason": "Note one clone without improvement; test growth on glucose.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E03_01",
+            "source_file": "docs/0117/combined.md",
+            "section": "C002",
+            "quote_or_span": "There was one observed fitness jump (i.e., increase in growth rate) for all the populations across all independent ALE replicates."
+          },
+          {
+            "evidence_id": "EV_C002_E04_01",
+            "source_file": "docs/0117/combined.md",
+            "section": "C002",
+            "quote_or_span": "The increases in growth rates on sucrose M9 were between 1.17 and 1.57-fold for MGcscBKA clones, 1.25–1.38-fold for MGcscBKAp, and 1.06–1.22-fold for E. coli W"
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "analysis",
+        "state_before": "Most clones improved, but one MGcscBKA clone (#2) did not.",
+        "gap_or_uncertainty": "Why did clone #2 not improve?",
+        "hypothesis": "Clone #2 may have acquired no beneficial mutations or a detrimental mutation.",
+        "decision": "Report the outlier.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Growth rate comparison",
+          "version": "",
+          "category": "phenotyping"
+        },
+        "parameters": {},
+        "observation": "There was one isolated clone that had the same fitness, i.e. growth rate, as the starting strain from MGcscBKA (the ‘#2’ clone).",
+        "result_status": "failure",
+        "next_step_reason": "Proceed to test growth on glucose.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E05_01",
+            "source_file": "docs/0117/combined.md",
+            "section": "C002",
+            "quote_or_span": "there was one isolated clone that had the same fitness, i.e. growth rate, as the starting strain from MGcscBKA (the ‘#2’ clone)"
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "analysis",
+        "state_before": "Growth improvements observed on sucrose.",
+        "gap_or_uncertainty": "Are the mutations sucrose-specific or generally beneficial?",
+        "hypothesis": "If mutations are generally beneficial, evolved clones will also grow faster on glucose.",
+        "decision": "Measure growth rates of evolved clones on glucose M9.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Growth rate measurement",
+          "version": "",
+          "category": "phenotyping"
+        },
+        "parameters": {
+          "medium": "M9 + glucose"
+        },
+        "observation": "All clones demonstrated an increased growth rate over the start strains without any significant changes to the final cellular density (gCDW/L). The vast majority of the sucrose-evolved strains also displayed a fast growth phenotype on glucose is an indication that most mutations acquired during the sucrose ALE experiment were beneficial for growth on both sugars.",
+        "result_status": "success",
+        "next_step_reason": "Sequence genomes to identify mutations.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E06_01",
+            "source_file": "docs/0117/combined.md",
+            "section": "C002",
+            "quote_or_span": "all clones demonstrated an increased growth rate over the start strains without any significant changes to the final cellular density (gCDW/L)"
+          },
+          {
+            "evidence_id": "EV_C002_E06_02",
+            "source_file": "docs/0117/combined.md",
+            "section": "C002",
+            "quote_or_span": "the vast majority of the sucrose-evolved strains also displayed a fast growth phenotype on glucose is an indication that most mutations acquired during the sucrose ALE experiment were beneficial for growth on both sugars"
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "experiment",
+        "state_before": "Evolved clones show improved growth.",
+        "gap_or_uncertainty": "What mutations are responsible?",
+        "hypothesis": "Whole genome sequencing will reveal causal mutations.",
+        "decision": "Sequence endpoint clones and populations.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Whole genome resequencing",
+          "version": "",
+          "category": "sequencing"
+        },
+        "parameters": {},
+        "observation": "Endpoint population samples were streaked on agar plates to select single clones for whole genome resequencing. Whole genome sequencing was used to determine the genetic basis of the improved fitness phenotypes. The most predominantly mutated genes or intergenic regions identified across multiple independent replicates in the evolved K-12 strains were related to the RNA polymerase subunits rpoB and rpoC, as well as orotate phosphoribosyltransferase, pyrE. Strain-specific adaptive mutations in E. coli W clones were predominantly affecting a metabolic regulation pathway targeting the csc operon and cell wall biosynthesis through rod shape determining proteins.",
+        "result_status": "success",
+        "next_step_reason": "Compare mutations between K-12 and W.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E06_01",
+            "source_file": "docs/0117/combined.md",
+            "section": "C001",
+            "quote_or_span": "Endpoint population samples were streaked on agar plates to select single clones for whole genome resequencing"
+          },
+          {
+            "evidence_id": "EV_C002_E07_01",
+            "source_file": "docs/0117/combined.md",
+            "section": "C002",
+            "quote_or_span": "Whole genome sequencing was used to determine the genetic basis of the improved fitness phenotypes"
+          },
+          {
+            "evidence_id": "EV_C003_E01_01",
+            "source_file": "docs/0117/combined.md",
+            "section": "C003",
+            "quote_or_span": "The most predominantly mutated genes or intergenic regions identified across multiple independent replicates in the evolved K-12 strains were related to the RNA polymerase subunits rpoB and rpoC, as well as orotate phosphoribosyltransferase, pyrE."
+          },
+          {
+            "evidence_id": "EV_C003_E04_01",
+            "source_file": "docs/0117/combined.md",
+            "section": "C003",
+            "quote_or_span": "Strain-specific adaptive mutations in E. coli W clones were predominantly affecting a metabolic regulation pathway targeting the csc operon and cell wall biosynthesis through rod shape determining proteins."
+          },
+          {
+            "evidence_id": "EV_AUTO_033",
+            "source_file": "docs/0117/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Whole genome sequencing of evolved clones and populations revealed that two genetic regions were frequently mutated in the K-12 strains; the global transcription regulatory genes rpoB and rpoC, and the metabolic region related to a pyrimidine biosynthetic deficiency in K-12 attributed to pyrE expression."
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "analysis",
+        "state_before": "Mutations identified in K-12 and W.",
+        "gap_or_uncertainty": "Do K-12 and W share adaptive strategies?",
+        "hypothesis": "Different genetic backgrounds may lead to distinct mutational paths.",
+        "decision": "Compare mutation sets.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Comparative genomics",
+          "version": "",
+          "category": "bioinformatics"
+        },
+        "parameters": {},
+        "observation": "There were no shared key mutations found between the K-12 and E. coli W experiments.",
+        "result_status": "success",
+        "next_step_reason": "Analyze K-12 mutations for parallel evolution and known effects.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E08_01",
+            "source_file": "docs/0117/combined.md",
+            "section": "C002",
+            "quote_or_span": "there were no shared key mutations found between the K-12 and E. coli W experiments"
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "analysis",
+        "state_before": "K-12 mutations in rpoB, rpoC, pyrE-rph identified.",
+        "gap_or_uncertainty": "Are these mutations known to be beneficial in other contexts?",
+        "hypothesis": "rpoB/rpoC mutations are common in K-12 ALE; pyrE-rph mutations alleviate pyrimidine starvation.",
+        "decision": "Review literature and analyze mutation patterns.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Literature and sequence analysis",
+          "version": "",
+          "category": "bioinformatics"
+        },
+        "parameters": {},
+        "observation": "Mutations in rpoB and rpoC genes have previously been found repeatedly across all different K-12 ALE experiments, indicating a very high level of parallel evolution. K-12 strains are known to possess a frame shift in rph which leads to pyrimidine starvation on minimal media and can be alleviated by mutations.",
+        "result_status": "success",
+        "next_step_reason": "Validate causality via reverse engineering.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E02_01",
+            "source_file": "docs/0117/combined.md",
+            "section": "C003",
+            "quote_or_span": "mutations in rpoB and rpoC genes have previously been found repeatedly across all different K-12 ALE experiments, indicating a very high level of parallel evolution"
+          },
+          {
+            "evidence_id": "EV_C003_E03_01",
+            "source_file": "docs/0117/combined.md",
+            "section": "C003",
+            "quote_or_span": "K-12 strains are known to possess a frame shift in rph which leads to pyrimidine starvation on minimal media and can be alleviated by mutations"
+          },
+          {
+            "evidence_id": "EV_AUTO_003",
+            "source_file": "docs/0117/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Interestingly, mutations in rpoB and rpoC genes have previously been found repeatedly across all different K-12 ALE experiments, indicating a very high level of parallel evolution [22, 32, 33]."
+          },
+          {
+            "evidence_id": "EV_AUTO_004",
+            "source_file": "docs/0117/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The Escherichia coli K-12 \"wild types\" W3110 and MG1655 have an rph frameshift mutation that leads to pyrimidine starvation due to low pyrE expression levels."
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "validation",
+        "state_before": "Candidate mutations identified.",
+        "gap_or_uncertainty": "Do these mutations directly cause fitness improvement?",
+        "hypothesis": "Introducing these mutations into the parental strain will recapitulate the fitness advantage.",
+        "decision": "Construct single and double mutants (pyrE-rph deletion, rpoB E672K, rpoB S621F, rpoC T1045P) and measure growth.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Reverse engineering (knock-in)",
+          "version": "",
+          "category": "genetic engineering"
+        },
+        "parameters": {
+          "mutations": [
+            "pyrE-rph Δ82bp",
+            "rpoB E672K",
+            "rpoB S621F",
+            "rpoC T1045P"
+          ]
+        },
+        "observation": "The comparative analysis of reverse engineered strains showed that mutated genes identified in this ALE study conferred a fitness advantage over the starting strain. When multiple mutations were present in a strain, such double mutant strains conferred a higher fitness advantage over single mutants with the identical mutations. Specifically, a strain with a mutation in the intragenic region between pyrE/rph genes and in rpoB (E672K) had higher fitness than strains with either single mutations.",
+        "result_status": "success",
+        "next_step_reason": "Test if fitness advantage is general across carbon sources.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E05_01",
+            "source_file": "docs/0117/combined.md",
+            "section": "C003",
+            "quote_or_span": "The comparative analysis of reverse engineered strains showed that mutated genes identified in this ALE study conferred a fitness advantage over the starting strain"
+          },
+          {
+            "evidence_id": "EV_C004_E01_01",
+            "source_file": "docs/0117/combined.md",
+            "section": "C004",
+            "quote_or_span": "when multiple mutations were present in a strain, such double mutant strains conferred a higher fitness advantage over single mutants with the identical mutations"
+          },
+          {
+            "evidence_id": "EV_AUTO_013",
+            "source_file": "docs/0117/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Specifically, a strain with a mutation in the intragenic region between pyrE/rph genes and in rpoB (E672K) had higher fitness than strains with either single mutations."
+          },
+          {
+            "evidence_id": "EV_AUTO_014",
+            "source_file": "docs/0117/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "All rpoC mutations originated from this study, as well as the rpoB S621F with the pyrE-rph deletion mutation (i."
+          },
+          {
+            "evidence_id": "EV_AUTO_002",
+            "source_file": "docs/0117/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "There was one co-occurrence of a rpoC mutation, T1045P (ACC→CCC), which was observed in experiments starting from both K-12 strains."
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "analysis",
+        "state_before": "Reverse engineered mutants show fitness advantage on sucrose.",
+        "gap_or_uncertainty": "Is the advantage specific to sucrose?",
+        "hypothesis": "Mutations are generally beneficial, so advantage should also be seen on glucose.",
+        "decision": "Measure growth of reverse engineered strains on glucose.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Growth rate measurement",
+          "version": "",
+          "category": "phenotyping"
+        },
+        "parameters": {
+          "medium": "M9 + glucose"
+        },
+        "observation": "The fitness advantage of all tested mutations over the starting strain was observed when grown on M9 with either sucrose or glucose as carbon sources, and the fitness level increases for a given mutated strain were roughly similar when grown on sucrose or glucose.",
+        "result_status": "success",
+        "next_step_reason": "Test evolved clones on industrially relevant sugarcane juice.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E08_01",
+            "source_file": "docs/0117/combined.md",
+            "section": "C003",
+            "quote_or_span": "the fitness advantage of all tested mutations over the starting strain was observed when grown on M9 with either sucrose or glucose as carbon sources, and the fitness level increases for a given mutated strain were roughly similar when grown on sucrose or glucose"
+          }
+        ]
+      },
+      {
+        "step_index": 12,
+        "phase": "experiment",
+        "state_before": "Evolved clones validated in defined medium.",
+        "gap_or_uncertainty": "Will the improved phenotypes translate to a complex feedstock?",
+        "hypothesis": "Evolved clones will show improved growth and sucrose uptake on sugarcane juice.",
+        "decision": "Characterize endpoint clones on sugarcane juice (SCJ) medium.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Growth and uptake assay",
+          "version": "",
+          "category": "phenotyping"
+        },
+        "parameters": {
+          "medium": "sugarcane juice (SCJ)"
+        },
+        "observation": "Each endpoint clone was characterized on a raw feedstock, sugarcane juice (SCJ) medium. Overall, there was an increase in the SUR for the K-12 MG1655 and E. coli W clones. Best K-12 clone had 1.72-fold growth increase and 1.40-fold uptake increase. E. coli W clones had 1.4-fold uptake increase but no significant growth increase.",
+        "result_status": "partial",
+        "next_step_reason": "Note limitations: E. coli W growth not improved, acetate production, single batch.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E08_02",
+            "source_file": "docs/0117/combined.md",
+            "section": "C001",
+            "quote_or_span": "Extracellular metabolites and physiological properties"
+          },
+          {
+            "evidence_id": "EV_C004_E02_01",
+            "source_file": "docs/0117/combined.md",
+            "section": "C004",
+            "quote_or_span": "each endpoint clone was characterized on a raw feedstock, sugarcane juice (SCJ) medium"
+          },
+          {
+            "evidence_id": "EV_AUTO_025",
+            "source_file": "docs/0117/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Overall, there was an increase in the SUR for the K-12 MG1655 and E."
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "Reverse engineering of key mutations",
+        "Growth assays on sucrose, glucose, and sugarcane juice"
+      ],
+      "metrics": [
+        "Growth rate (h⁻¹)",
+        "Sucrose uptake rate (SUR)",
+        "Fold increase over starting strain"
+      ],
+      "final_conclusion": "ALE successfully improved sucrose utilization in engineered K-12 strains, with key mutations in rpoB, rpoC, and pyrE-rph validated as causal. Evolved K-12 clones showed improved growth and uptake on sugarcane juice, while E. coli W clones improved uptake but not growth rate.",
+      "limitations": [
+        "E. coli W did not show significant growth rate increase on SCJ.",
+        "Some clones had high acetate production.",
+        "Only one batch of SCJ tested.",
+        "One MGcscBKA clone (#2) showed no improvement."
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_specific_evidence_backfilled=6",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_specific_evidence_backfilled=4",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 99.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p1\\states\\0117.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p1\\events\\0117.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 11,
+      "covered_event_count": 11,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1
+        ],
+        "K04": [
+          1,
+          3
+        ],
+        "K05": [
+          4
+        ],
+        "K06": [
+          4,
+          5
+        ],
+        "K07": [
+          6,
+          11
+        ],
+        "K08": [
+          7,
+          10
+        ],
+        "K09": [
+          1,
+          2,
+          7,
+          8,
+          9
+        ],
+        "K10": [
+          8,
+          9
+        ],
+        "K11": [
+          10,
+          11
+        ],
+        "K13": [
+          1,
+          4,
+          12
+        ],
+        "K14": [
+          4,
+          12
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02",
+            "K04",
+            "K09",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K02",
+            "K03",
+            "K09"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K02",
+            "K04"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K02",
+            "K05",
+            "K06",
+            "K12",
+            "K13",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K06"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K02",
+            "K07"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K02",
+            "K08",
+            "K09"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K09",
+            "K10"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K09",
+            "K10"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K02",
+            "K08",
+            "K11",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K02",
+            "K07",
+            "K11",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 12,
+          "covered_event_ids": [
+            "K02",
+            "K13",
+            "K14"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 12,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "1.4",
+          "1.40",
+          "1.72"
+        ]
+      }
+    ],
+    "step_count": 12,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 99.0
+  },
+  "api_usage": {
+    "prompt_tokens": 126529,
+    "completion_tokens": 27329,
+    "total_tokens": 153858,
+    "prompt_cache_hit_tokens": 2944,
+    "prompt_cache_miss_tokens": 123585
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 4833,
+        "completion_tokens": 914,
+        "total_tokens": 5747,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 4833
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 15011,
+        "completion_tokens": 3615,
+        "total_tokens": 18626,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 15011
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 8526,
+        "completion_tokens": 1427,
+        "total_tokens": 9953,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8270
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 9585,
+        "completion_tokens": 1304,
+        "total_tokens": 10889,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9329
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 9913,
+        "completion_tokens": 1179,
+        "total_tokens": 11092,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9657
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 8582,
+        "completion_tokens": 1217,
+        "total_tokens": 9799,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8326
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C005",
+      "api_usage": {
+        "prompt_tokens": 8266,
+        "completion_tokens": 715,
+        "total_tokens": 8981,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8010
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 11969,
+        "completion_tokens": 3049,
+        "total_tokens": 15018,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 11585
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 11849,
+        "completion_tokens": 6372,
+        "total_tokens": 18221,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 11209
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 17580,
+        "completion_tokens": 898,
+        "total_tokens": 18478,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 17580
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 20415,
+        "completion_tokens": 6639,
+        "total_tokens": 27054,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 19775
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

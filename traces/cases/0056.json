@@ -1,0 +1,931 @@
+{
+  "case": {
+    "case_id": "sci_evo_0056",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Directed evolution of phosphite dehydrogenase to cycle noncanonical redox cofactors via universal growth selection platform",
+      "doi": "https://doi.org/10.1038/s41467-022-32727-w",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0054_10_1038_s41467_022_32727_w_directed_evolution_of_phosphite_dehydrogenase_to_cycle_noncanonical_redox_cofactors_via_un.pdf",
+      "mineru_md": "docs/0056/mineru.md",
+      "combined_md": "docs/0056/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Engineering enzymes to recycle noncanonical redox cofactors like NMN+ for orthogonal biocatalysis, hindered by lack of high-throughput selection methods.",
+      "target_object": "Phosphite dehydrogenase (PTDH) and glutathione reductase (Gor)",
+      "known_context": "Noncanonical cofactors enable orthogonal redox reactions but enzymes lack efficient activity. Growth-coupled selection could enable directed evolution if a suitable selection strain is engineered.",
+      "constraints": [
+        "Must use SHuffle strain (Δgor ΔtrxB) for oxidative stress selection",
+        "Must engineer Gor to be NMNH-specific to couple growth to NMN+ reduction"
+      ],
+      "input_data": [
+        "Crystal structures of Gor and PTDH",
+        "Known mutations R198M-R204L in Gor that abolish NADPH activity"
+      ],
+      "quantifiable_goals": [
+        "Increase catalytic efficiency (kcat/KM) of PTDH for NMN+",
+        "Achieve >99% conversion in biocatalytic cycling with NMN+"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "No high-throughput selection method for NMN+-reducing enzymes.",
+        "gap_or_uncertainty": "Can E. coli SHuffle strain be engineered to require NMNH-dependent Gor for survival under oxidative stress?",
+        "hypothesis": "E. coli SHuffle strain (Δgor ΔtrxB) requires functional Gor to survive oxidative stress from diamide, enabling growth-coupled selection for NMN+-reducing enzymes if Gor is engineered to use NMNH.",
+        "decision": "Proceed to engineer Gor for NMNH specificity.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "Literature-based hypothesis generation",
+          "version": "",
+          "category": "reasoning"
+        },
+        "parameters": {},
+        "observation": "Hypothesis formulated based on known SHuffle strain properties.",
+        "result_status": "success",
+        "next_step_reason": "Need to design mutations in Gor to accept NMNH.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0056/combined.md",
+            "section": "C001",
+            "quote_or_span": "our hypothesis is that it cannot combat the oxidative stress effectively, and requires a functional Gor to survive exposure to oxidants such as diamide"
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "hypothesis",
+        "state_before": "Gor naturally uses NADPH; NMNH lacks AMP moiety.",
+        "gap_or_uncertainty": "How to engineer Gor to recognize NMNH instead of NADPH?",
+        "hypothesis": "Ribose and phosphate groups of NMN(H) can accept new polar interactions to replace missing AMP interactions in Gor.",
+        "decision": "Target residues near NMNH phosphate for mutagenesis.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "Structural analysis",
+          "version": "",
+          "category": "reasoning"
+        },
+        "parameters": {},
+        "observation": "Hypothesis that new interactions can compensate for lost AMP contacts.",
+        "result_status": "success",
+        "next_step_reason": "Design specific mutations at G174, G176, I178.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E04_01",
+            "source_file": "docs/0056/combined.md",
+            "section": "C001",
+            "quote_or_span": "We hypothesized that the ribose and phosphate groups of NMN(H) have the potential to accept new polar interactions to supplant the missing interactions from the AMP recognition handle."
+          },
+          {
+            "evidence_id": "EV_C001_E05_01",
+            "source_file": "docs/0056/combined.md",
+            "section": "C001",
+            "quote_or_span": "Three residue sites G174, G176, and I178 were targeted based on their proximity to the ribose-phosphate group of NMN(H)"
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "design",
+        "state_before": "No Gor mutants with NMNH activity.",
+        "gap_or_uncertainty": "Which residues to mutate to create NMNH interactions?",
+        "hypothesis": "Mutations at G174, G176, I178 near NMNH phosphate will enhance NMNH binding.",
+        "decision": "Create and test single mutants at these positions.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "Rational design based on crystal structure",
+          "version": "",
+          "category": "computational"
+        },
+        "parameters": {
+          "target_residues": [
+            "G174",
+            "G176",
+            "I178"
+          ]
+        },
+        "observation": "I178T predicted to form favorable interaction with NMNH phosphate.",
+        "result_status": "success",
+        "next_step_reason": "Test I178T experimentally.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E05_01",
+            "source_file": "docs/0056/combined.md",
+            "section": "C001",
+            "quote_or_span": "Three residue sites G174, G176, and I178 were targeted based on their proximity to the ribose-phosphate group of NMN(H)"
+          },
+          {
+            "evidence_id": "EV_C001_E07_01",
+            "source_file": "docs/0056/combined.md",
+            "section": "C001",
+            "quote_or_span": "Combining the R198M-R204L double mutations on top of Ec Gor I178T caused only a modest decrease in NMNH-dependent activity"
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "experiment",
+        "state_before": "Wild-type Gor has negligible NMNH activity.",
+        "gap_or_uncertainty": "Does I178T improve NMNH-dependent activity?",
+        "hypothesis": "I178T will enhance NMNH-dependent activity.",
+        "decision": "Measure NMNH-dependent activity of I178T mutant.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Enzyme activity assay",
+          "version": "",
+          "category": "biochemical"
+        },
+        "parameters": {
+          "substrate": "NMNH",
+          "oxidant": "diamide"
+        },
+        "observation": "I178T showed 4-fold enhanced NMNH-dependent activity compared to wild-type Gor.",
+        "result_status": "success",
+        "next_step_reason": "Combine I178T with NADPH-abolishing mutations to create NMNH-specific Gor.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E06_01",
+            "source_file": "docs/0056/combined.md",
+            "section": "C001",
+            "quote_or_span": "I178T had 4-fold enhanced NMNH-dependent activity compared to the wild type"
+          },
+          {
+            "evidence_id": "EV_AUTO_035",
+            "source_file": "docs/0056/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Indeed, I178T had 4-fold enhanced NMNH-dependent activity compared to the wild type."
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "design",
+        "state_before": "I178T has improved NMNH activity but still uses NADPH.",
+        "gap_or_uncertainty": "How to eliminate NADPH activity while retaining NMNH activity?",
+        "hypothesis": "Combining I178T with R198M-R204L will drastically reduce NADPH activity while maintaining NMNH activity.",
+        "decision": "Create triple mutant I178T-R198M-R204L (Gor Ortho).",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Site-directed mutagenesis",
+          "version": "",
+          "category": "molecular biology"
+        },
+        "parameters": {
+          "mutations": [
+            "I178T",
+            "R198M",
+            "R204L"
+          ]
+        },
+        "observation": "Gor Ortho had ~15,000-fold reduction in NADPH catalytic efficiency and ~9,000-fold reduction vs I178T, with modest decrease in NMNH activity.",
+        "result_status": "success",
+        "next_step_reason": "Validate growth selection platform using Gor Ortho.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E07_01",
+            "source_file": "docs/0056/combined.md",
+            "section": "C001",
+            "quote_or_span": "Combining the R198M-R204L double mutations on top of Ec Gor I178T caused only a modest decrease in NMNH-dependent activity"
+          },
+          {
+            "evidence_id": "EV_AUTO_005",
+            "source_file": "docs/0056/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Importantly, the triple mutant Ec Gor I178T-R198M-R204L (named Gor Ortho) has drastically reduced catalytic efficiency for NADPH, by \\~15,000-fold and \\~9000-fold, respectively, compared to Ec Gor wild type and I178T single mutant (Fig."
+          },
+          {
+            "evidence_id": "EV_AUTO_007",
+            "source_file": "docs/0056/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Combining the R198M-R204L double mutations on top of Ec Gor I178T caused only a modest decrease in NMNH-dependent activity (Fig."
+          },
+          {
+            "evidence_id": "EV_AUTO_014",
+            "source_file": "docs/0056/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Furthermore, a previously identified variant with R198M-R204L double mutations had almost completely abolished NADPH-dependent activity, possibly due to ablation of interactions with the 2'-phosphate group on NADPH $^{38}$ (Fig."
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "experiment",
+        "state_before": "Wild-type TS-PTDH has low NMN+ activity.",
+        "gap_or_uncertainty": "Can rational design improve PTDH activity toward NMN+?",
+        "hypothesis": "Mutations near the adenine pocket will enhance NMN+ binding.",
+        "decision": "Test A155N and T101K-A155G variants.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Site-directed mutagenesis and kinetic assay",
+          "version": "",
+          "category": "biochemical"
+        },
+        "parameters": {
+          "variants": [
+            "A155N",
+            "T101K-A155G"
+          ]
+        },
+        "observation": "A155N showed ~3-fold increase in specific activity and catalytic efficiency for NMN+; T101K-A155G showed ~2-fold increase.",
+        "result_status": "success",
+        "next_step_reason": "Use A155N as template for directed evolution.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_008",
+            "source_file": "docs/0056/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Through specific activity assay we identified two variants of interest displaying enhanced NMN $^{+}$ -dependent activity, A155N and T101K-A155G."
+          },
+          {
+            "evidence_id": "EV_AUTO_009",
+            "source_file": "docs/0056/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "A155N showed \\~3-fold increase and T101K-A155G showed a \\~2-fold increase compared to the wild type."
+          },
+          {
+            "evidence_id": "EV_AUTO_021",
+            "source_file": "docs/0056/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "4$ nmol min $^{-1}$ mg $^{-1}$ , while T101K-A155G showed roughly twofold, and A155N around threefold increase (Fig."
+          },
+          {
+            "evidence_id": "EV_AUTO_032",
+            "source_file": "docs/0056/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Further kinetic analysis of A155N indicated a \\~3-fold increase in catalytic efficiency for NMN $^{+}$ compared to TS-PTDH (Table 1)."
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "design",
+        "state_before": "A155N identified as improved variant.",
+        "gap_or_uncertainty": "Which additional residues to target for further improvement?",
+        "hypothesis": "Residues E175, A176, L208 in the adenine cleft can be mutated to enhance NMN+ binding.",
+        "decision": "Construct site-saturation mutagenesis library on A155N targeting E175, A176, L208.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Site-saturation mutagenesis",
+          "version": "",
+          "category": "molecular biology"
+        },
+        "parameters": {
+          "template": "TS-PTDH A155N",
+          "target_residues": [
+            "E175",
+            "A176",
+            "L208"
+          ],
+          "library_size": "4.7×10^7 transformants"
+        },
+        "observation": "Library constructed with 4.7×10^7 transformants.",
+        "result_status": "success",
+        "next_step_reason": "Subject library to growth selection.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E05_01",
+            "source_file": "docs/0056/combined.md",
+            "section": "C004",
+            "quote_or_span": "The PTDH combinatorial site-saturation mutagenesis library pLZ316 was constructed with degenerate codon-containing primers."
+          },
+          {
+            "evidence_id": "EV_C004_E05_02",
+            "source_file": "docs/0056/combined.md",
+            "section": "C004",
+            "quote_or_span": "The library size of pLZ316 was counted as $4.7 \\times 10^{7}$ transformants."
+          },
+          {
+            "evidence_id": "EV_AUTO_020",
+            "source_file": "docs/0056/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "We next constructed a site-saturated mutagenesis library on top of TS-PTDH A155N targeting E175, A176, and L208."
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "experiment",
+        "state_before": "Library constructed but not selected.",
+        "gap_or_uncertainty": "Can growth selection enrich variants with improved NMN+ activity?",
+        "hypothesis": "Growth under diamide stress with NMN+ will select for PTDH variants with higher NMN+ reduction activity.",
+        "decision": "Perform first round growth selection with 0.5 mM diamide, 5 g/L yeast extract, 5 mM NMN+.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Growth-coupled selection",
+          "version": "",
+          "category": "microbiology"
+        },
+        "parameters": {
+          "diamide": "0.5 mM",
+          "yeast_extract": "5 g/L",
+          "NMN+": "5 mM"
+        },
+        "observation": "8 colonies obtained; LY-6 (A155N-E175Q-A176S) and LY-7 (A155N-E175W-A176G-L208V) showed 17-fold and 11-fold increased catalytic efficiency for NMN+ vs A155N.",
+        "result_status": "success",
+        "next_step_reason": "Increase selection stringency to further improve activity.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E06_01",
+            "source_file": "docs/0056/combined.md",
+            "section": "C004",
+            "quote_or_span": "A total of 50 $\\mu$ L pre-made SHuffle/pLZ311 or SHuffle/pLZ312 electrocompetent cells were transformed with 2 $\\mu$ L TS-PTDH A155N-E175-A176-L208 NNK library DNA (pLZ316) via electroporation."
+          },
+          {
+            "evidence_id": "EV_C004_E06_02",
+            "source_file": "docs/0056/combined.md",
+            "section": "C004",
+            "quote_or_span": "The independent transformants sampled was calculated as 2.4 × 10⁶ and 2.5 × 10⁶ colonies when plated on 5 and 1 g/L yeast extract, respectively."
+          },
+          {
+            "evidence_id": "EV_AUTO_001",
+            "source_file": "docs/0056/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Among them, TS-PTDH A155N-E175Q-A176S (LY-6) and TS-PTDH A155N-E175W-A176G-L208V (LY-7) exhibited the greatest improvement, with \\~17-fold and \\~11-fold increased catalytic efficiency ( $k_{cat}/K_{M}$ ) for NMN $^{+}$ compared to the parent enzyme TS-PTDH A155N, respectively (Table 1)."
+          },
+          {
+            "evidence_id": "EV_AUTO_030",
+            "source_file": "docs/0056/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "From the 8 colonies, four PTDH variants were isolated that showed enhanced NMN $^{+}$ -dependent activity compared to the template TS-PTDH A155N (data not shown)."
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "experiment",
+        "state_before": "LY-6 and LY-7 isolated with improved activity.",
+        "gap_or_uncertainty": "Can further stringency yield even better variants?",
+        "hypothesis": "Reducing yeast extract to 1 g/L will increase selection pressure for higher NMN+ activity.",
+        "decision": "Perform second round growth selection with 1 g/L yeast extract.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Growth-coupled selection",
+          "version": "",
+          "category": "microbiology"
+        },
+        "parameters": {
+          "yeast_extract": "1 g/L"
+        },
+        "observation": "LY-13 (A155N-E175A-A176F) isolated with 110-fold improvement over TS-PTDH and 44-fold over A155N in catalytic efficiency (0.44 mM⁻¹ s⁻¹).",
+        "result_status": "success",
+        "next_step_reason": "Characterize structural basis of improvements.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_003",
+            "source_file": "docs/0056/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Using the same growth selection process, we successfully isolated TS-PTDH A155N-E175A-A176F (LY-13) which has a catalytic efficiency for $NMN^{+}$ \\~110-fold and \\~44-fold higher than that of TS-PTDH and TS-PTDH A155N, respectively, reaching $0."
+          },
+          {
+            "evidence_id": "EV_AUTO_017",
+            "source_file": "docs/0056/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Using the same growth selection process, we successfully isolated TS-PTDH A155N-E175A-A176F (LY-13) which has a catalytic efficiency for $NMN^{+}$ \\~110-fold and \\~44-fold higher than that of TS-PTDH and TS-PTDH A155N, respectively, reaching $0.44\\ mM^{-1}\\ s^{-1}$ (Table 1)."
+          },
+          {
+            "evidence_id": "EV_AUTO_001",
+            "source_file": "docs/0056/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Among them, TS-PTDH A155N-E175Q-A176S (LY-6) and TS-PTDH A155N-E175W-A176G-L208V (LY-7) exhibited the greatest improvement, with \\~17-fold and \\~11-fold increased catalytic efficiency ( $k_{cat}/K_{M}$ ) for NMN $^{+}$ compared to the parent enzyme TS-PTDH A155N, respectively (Table 1)."
+          },
+          {
+            "evidence_id": "EV_AUTO_028",
+            "source_file": "docs/0056/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "In particular, LY-6 utilized a hydrogen bond network to brace the AMP binding pocket, which is in stark contrast with the hydrophobic packing mode utilized by LY-7 and LY-13 (Fig."
+          },
+          {
+            "evidence_id": "EV_AUTO_036",
+            "source_file": "docs/0056/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "When BNA $^{+}$ was reduced with wild type TS-PTDH, LY-7, and LY-13, a cofactor dose-dependent response in biotransformation efficiency was observed, and at 20 mM BNA $^{+}$ supplementation, LY-7 and LY-13 showed improved utilization of the BNA $^{+}$ relative to the wild type protein (Fig."
+          },
+          {
+            "evidence_id": "EV_C003_E01_03",
+            "source_file": "docs/0056/combined.md",
+            "section": "C003",
+            "quote_or_span": "LY-13 (A155N-E175A-A176F) displays similar hydrophobic packing in the adenine cleft as LY-7 with E175A shrinking and A176F settling against L208 and P209 in the adenine cleft."
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "simulation",
+        "state_before": "LY-6, LY-7, LY-13 isolated with unknown structural mechanisms.",
+        "gap_or_uncertainty": "How do mutations in evolved variants enhance NMN+ activity?",
+        "hypothesis": "Mutations recapitulate AMP binding via hydrophobic packing or hydrogen bond networks, inducing closed conformation.",
+        "decision": "Perform structural modeling of LY-6, LY-7, LY-13.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "Rosetta structural modeling",
+          "version": "",
+          "category": "computational"
+        },
+        "parameters": {},
+        "observation": "LY-6 uses hydrogen bond network; LY-7 and LY-13 use hydrophobic packing to bridge adenine cleft, mimicking AMP interactions.",
+        "result_status": "success",
+        "next_step_reason": "Apply best variant in biocatalysis.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E01_01",
+            "source_file": "docs/0056/combined.md",
+            "section": "C003",
+            "quote_or_span": "In LY-6 (A155N-E175Q-A176S), E175Q maintains similar steric properties of the original glutamate, but the change from the carboxylic acid to amide enables E175Q to act as a hydrogen bond donor that bridges separate loops in the adenine binding cleft for improved stability."
+          },
+          {
+            "evidence_id": "EV_C003_E01_02",
+            "source_file": "docs/0056/combined.md",
+            "section": "C003",
+            "quote_or_span": "LY-7 (A155N-E175W-A176G-L208V) is characterized by dense hydrophobic packing in the adenine cleft."
+          },
+          {
+            "evidence_id": "EV_C003_E01_03",
+            "source_file": "docs/0056/combined.md",
+            "section": "C003",
+            "quote_or_span": "LY-13 (A155N-E175A-A176F) displays similar hydrophobic packing in the adenine cleft as LY-7 with E175A shrinking and A176F settling against L208 and P209 in the adenine cleft."
+          },
+          {
+            "evidence_id": "EV_AUTO_002",
+            "source_file": "docs/0056/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Both LY-7 (A155N-E175W-A176G-L208V) and LY-13 (A155N-E175A-A176F) display tight hydrophobic packing that bridges the gap between the loop emerging from the second Rossman beta strand and the loop below the bound cofactor."
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "validation",
+        "state_before": "LY-13 has high catalytic efficiency but not tested in biocatalytic cycling.",
+        "gap_or_uncertainty": "Can LY-13 efficiently recycle NMN+ in a coupled reaction?",
+        "hypothesis": "LY-13 will enable high conversion in NMN+ cycling with XenA for ketoisophorone reduction.",
+        "decision": "Test LY-13 in NMN+ cycling with XenA and also with BNA+ for levodione production.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Biocatalytic cycling assay",
+          "version": "",
+          "category": "biochemical"
+        },
+        "parameters": {
+          "enzyme": "LY-13",
+          "cofactor": "NMN+ (0.5 mM) or BNA+ (20 mM)",
+          "substrate": "ketoisophorone or levodione precursor"
+        },
+        "observation": ">99% conversion at 0.5 mM NMN+; LY-13 also recycles BNA+ for levodione production.",
+        "result_status": "success",
+        "next_step_reason": "Evaluate limitations of the approach.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E07_01",
+            "source_file": "docs/0056/combined.md",
+            "section": "C004",
+            "quote_or_span": "TTN was calculated by the moles of levodione produced divided by the moles of LY-13 supplied to the reaction system."
+          },
+          {
+            "evidence_id": "EV_AUTO_036",
+            "source_file": "docs/0056/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "When BNA $^{+}$ was reduced with wild type TS-PTDH, LY-7, and LY-13, a cofactor dose-dependent response in biotransformation efficiency was observed, and at 20 mM BNA $^{+}$ supplementation, LY-7 and LY-13 showed improved utilization of the BNA $^{+}$ relative to the wild type protein (Fig."
+          }
+        ]
+      },
+      {
+        "step_index": 12,
+        "phase": "analysis",
+        "state_before": "Growth selection platform and evolved PTDH variants demonstrated.",
+        "gap_or_uncertainty": "What are the limitations of the growth-based selection approach?",
+        "hypothesis": "Growth-based selection requires case-by-case metabolic tailoring and fine-tuning catalytic parameters for non-canonical cofactors remains difficult.",
+        "decision": "Acknowledge limitations of the approach.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Critical evaluation",
+          "version": "",
+          "category": "reasoning"
+        },
+        "parameters": {},
+        "observation": "Growth-based selection requires case-by-case metabolic tailoring; fine-tuning catalytic parameters for non-canonical cofactors remains difficult.",
+        "result_status": "success",
+        "next_step_reason": "Conclude study.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E06_01",
+            "source_file": "docs/0056/combined.md",
+            "section": "C003",
+            "quote_or_span": "The main bottleneck in developing growth-based selections is that cell metabolism must be tailored case-by-case to make the desired enzymatic activity essential for cell survival."
+          },
+          {
+            "evidence_id": "EV_C004_E03_01",
+            "source_file": "docs/0056/combined.md",
+            "section": "C004",
+            "quote_or_span": "fine tuning these specific parameters has largely proven difficult, especially when engineering for novel activity with non-canonical cofactors"
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "Growth-coupled selection in SHuffle strain",
+        "Kinetic assays for NMN+ and NADPH activity",
+        "Biocatalytic cycling with XenA and BNA+"
+      ],
+      "metrics": [
+        "Catalytic efficiency (kcat/KM)",
+        "Fold improvement over wild-type",
+        "Conversion percentage"
+      ],
+      "final_conclusion": "Directed evolution using a growth selection platform yielded PTDH variant LY-13 with 110-fold improved catalytic efficiency for NMN+, enabling >99% conversion in biocatalytic cycling.",
+      "limitations": [
+        "Growth-based selection requires case-by-case metabolic tailoring",
+        "Fine-tuning catalytic parameters for non-canonical cofactors remains difficult"
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_phase_action_fixed=1",
+        "v22_specific_evidence_backfilled=6",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_step_trimmed=13_to_12",
+        "v22_specific_evidence_backfilled=6",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 92.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p5\\states\\0056.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p5\\events\\0056.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1
+        ],
+        "K02": [
+          2
+        ],
+        "K04": [
+          4,
+          5
+        ],
+        "K05": [
+          3,
+          4,
+          5
+        ],
+        "K06": [
+          5
+        ],
+        "K08": [
+          6,
+          8,
+          9
+        ],
+        "K10": [
+          7
+        ],
+        "K11": [
+          8,
+          9
+        ],
+        "K12": [
+          8,
+          9
+        ],
+        "K13": [
+          9,
+          10
+        ],
+        "K14": [
+          9,
+          11
+        ],
+        "K15": [
+          12
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K02",
+            "K03"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K03",
+            "K05"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K04",
+            "K05"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K04",
+            "K05",
+            "K06"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K08"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K10"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K08",
+            "K11",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K08",
+            "K11",
+            "K12",
+            "K13",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K09",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K14"
+          ]
+        },
+        {
+          "step_index": 12,
+          "covered_event_ids": [
+            "K15"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 8,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "0.5mm",
+          "5mm"
+        ]
+      },
+      {
+        "step_index": 9,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "0.44mm"
+        ]
+      },
+      {
+        "step_index": 11,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "0.5mm",
+          "13h",
+          "99%"
+        ]
+      }
+    ],
+    "step_count": 12,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 92.0
+  },
+  "api_usage": {
+    "prompt_tokens": 126410,
+    "completion_tokens": 27320,
+    "total_tokens": 153730,
+    "prompt_cache_hit_tokens": 3200,
+    "prompt_cache_miss_tokens": 123210
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 5274,
+        "completion_tokens": 739,
+        "total_tokens": 6013,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 5274
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 12574,
+        "completion_tokens": 3119,
+        "total_tokens": 15693,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 12574
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 8345,
+        "completion_tokens": 1283,
+        "total_tokens": 9628,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8089
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 8912,
+        "completion_tokens": 1919,
+        "total_tokens": 10831,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8656
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 8325,
+        "completion_tokens": 1562,
+        "total_tokens": 9887,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8069
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 8143,
+        "completion_tokens": 1206,
+        "total_tokens": 9349,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7887
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C005",
+      "api_usage": {
+        "prompt_tokens": 8895,
+        "completion_tokens": 80,
+        "total_tokens": 8975,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8639
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C006",
+      "api_usage": {
+        "prompt_tokens": 4908,
+        "completion_tokens": 59,
+        "total_tokens": 4967,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 4652
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 9604,
+        "completion_tokens": 3551,
+        "total_tokens": 13155,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 9220
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 12234,
+        "completion_tokens": 6402,
+        "total_tokens": 18636,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 11594
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 18493,
+        "completion_tokens": 493,
+        "total_tokens": 18986,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 18493
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 20703,
+        "completion_tokens": 6907,
+        "total_tokens": 27610,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 20063
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

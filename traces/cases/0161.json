@@ -1,0 +1,948 @@
+{
+  "case": {
+    "case_id": "sci_evo_0161",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Metabolic engineering of Corynebacterium glutamicum for fatty alcohol production from glucose and wheat straw hydrolysate",
+      "doi": "https://doi.org/10.1186/s13068-023-02367-3",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0159_10_1186_s13068_023_02367_3_metabolic_engineering_of_corynebacterium_glutamicum_for_fatty_alcohol_production_from_gluc.pdf",
+      "mineru_md": "docs/0161/mineru.md",
+      "combined_md": "docs/0161/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Engineering Corynebacterium glutamicum for de novo fatty alcohol production from glucose and wheat straw hydrolysate by deregulating fatty acid biosynthesis, introducing fatty acyl-CoA reductase, attenuating thioesterase, enabling xylose utilization, and optimizing NADPH supply.",
+      "target_object": "Corynebacterium glutamicum",
+      "known_context": "C. glutamicum has not been engineered for fatty alcohol production, and its native fatty acid biosynthesis is tightly regulated by FasR.",
+      "constraints": [],
+      "input_data": [],
+      "quantifiable_goals": []
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "C. glutamicum has not been engineered for fatty alcohol production, and its native fatty acid biosynthesis is tightly regulated by FasR.",
+        "gap_or_uncertainty": "Tight regulation of fatty acid biosynthesis by FasR limits precursor supply for fatty alcohol production.",
+        "hypothesis": "Deleting fasR will derepress fatty acid biosynthesis and increase precursor supply for FAL production.",
+        "decision": "Delete fasR to increase fatty acid precursor supply.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "gene deletion",
+          "version": "",
+          "category": "genetic engineering"
+        },
+        "parameters": {},
+        "observation": "FA efflux observed only for ΔfasR mutant, secreting 72±42 mg FA/L under nitrogen-limiting conditions.",
+        "result_status": "success",
+        "next_step_reason": "Increased precursor supply from fasR deletion enables FAL production when FAR is expressed.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0161/combined.md",
+            "section": "C001",
+            "quote_or_span": "the production of fatty alcohols (FAL) and derivates thereof with C. glutamicum has not been described so far"
+          },
+          {
+            "evidence_id": "EV_C001_E01_02",
+            "source_file": "docs/0161/combined.md",
+            "section": "C001",
+            "quote_or_span": "FA biosynthesis is tightly regulated by FasR"
+          },
+          {
+            "evidence_id": "EV_AUTO_015",
+            "source_file": "docs/0161/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "45 g urea L $^{-1}$ as the sole nitrogen source, FA efflux was observed only for the $\\Delta fasR$ mutant which secreted $72 \\pm 42$ mg $_{FA}$ L $^{-1}$ into the culture broth."
+          },
+          {
+            "evidence_id": "EV_AUTO_016",
+            "source_file": "docs/0161/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Upon cultivation in nitrogen-limiting NL-CgXII medium containing 1.45 g urea L $^{-1}$ as the sole nitrogen source, FA efflux was observed only for the $\\Delta fasR$ mutant which secreted $72 \\pm 42$ mg $_{FA}$ L $^{-1}$ into the culture broth."
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "experiment",
+        "state_before": "ΔfasR mutant secretes fatty acids, providing precursor pool.",
+        "gap_or_uncertainty": "Need to convert fatty acyl-CoAs to fatty alcohols using a suitable fatty acyl-CoA reductase.",
+        "hypothesis": "Heterologous expression of fatty acyl-CoA reductases (Maqu_2220 or Maqu_2507) in ΔfasR strain will produce FAL.",
+        "decision": "Clone maqu_2220 and maqu_2507 into pEKEx2 and express in ΔfasR mutant.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "plasmid expression",
+          "version": "pEKEx2",
+          "category": "molecular cloning"
+        },
+        "parameters": {
+          "genes": [
+            "Maqu_2220",
+            "Maqu_2507"
+          ],
+          "plasmid": "pEKEx2"
+        },
+        "observation": "Maqu_2220 yields 482 mg/L FAL, outperforming Maqu_2507 (356 mg/L).",
+        "result_status": "success",
+        "next_step_reason": "Genomic integration of maqu2220 drastically reduces FAL titer, motivating thioesterase attenuation.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_035",
+            "source_file": "docs/0161/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "For that purpose, the genes encoding the reductases Maqu\\_2220 and Maqu\\_2507 were cloned into the plasmid pEKEx2 and expressed in the FA-producing $\\Delta$ fasR mutant."
+          },
+          {
+            "evidence_id": "EV_AUTO_034",
+            "source_file": "docs/0161/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "A Extra- and intracellular FAL concentrations obtained by $\\Delta$ fasR mutants harboring pEKEx2-maqu2220 or pEKEx2-maqu2507; B distribution of 1-hexadecanol (C16:0), octadecanol (C18:0) and oleyl alcohol (C18:1) of the total FAL; C total FA produced by the FAR-expressing strains in comparison to WT and $\\Delta$ fasR empty plasmid controls."
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "design",
+        "state_before": "Genomic integration of maqu2220 drastically reduces FAL titer.",
+        "gap_or_uncertainty": "Thioesterase cg2692 may compete for acyl-CoA substrates, reducing FAL production.",
+        "hypothesis": "Attenuating thioesterase cg2692 by start codon exchange will reduce competition and increase FAL production.",
+        "decision": "Exchange native ATG start codon of cg2692 to GTG or TTG.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "start codon exchange",
+          "version": "",
+          "category": "genetic engineering"
+        },
+        "parameters": {
+          "gene": "cg2692",
+          "codons": [
+            "GTG",
+            "TTG"
+          ]
+        },
+        "observation": "Start codon exchange designed.",
+        "result_status": "success",
+        "next_step_reason": "Thioesterase attenuation is tested experimentally.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E03_01",
+            "source_file": "docs/0161/combined.md",
+            "section": "C002",
+            "quote_or_span": "the native start codon ATG of cg2692 was exchanged for the less-preferred GTG and TTG codons"
+          },
+          {
+            "evidence_id": "EV_AUTO_011",
+            "source_file": "docs/0161/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "glutamicum $\\Delta fasR$ cg2692 $_{TTG}$ (pEKEx2-maqu2220) reached a titer of 681 ± 27 mg $_{FAL}$ L $^{-1}$ (Additional file 1: Figure S5) with a product yield and a volumetric productivity of 0."
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "revision",
+        "state_before": "FAL production in ΔfasR cg2692_TTG (pEKEx2-maqu2220) under nitrogen-limited conditions.",
+        "gap_or_uncertainty": "Nitrogen-limited medium may not be optimal for growth-coupled production.",
+        "hypothesis": "Switching to standard CgXII medium with PCA will improve FAL titer, yield, and productivity under growth-coupled conditions.",
+        "decision": "Optimize medium to CgXII with PCA.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "medium optimization",
+          "version": "CgXII with PCA",
+          "category": "fermentation"
+        },
+        "parameters": {
+          "medium": "CgXII",
+          "supplement": "PCA"
+        },
+        "observation": "FAL titer improved to 544 mg/L, yield 0.054 Cmol/Cmol, productivity 0.109 g/L/h.",
+        "result_status": "success",
+        "next_step_reason": "To use wheat straw hydrolysate, xylose utilization must be enabled.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_008",
+            "source_file": "docs/0161/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "glutamicum $\\Delta fasR$ cg2692 $_{TTG}$ (pEKEx2-maqu2220) produced within 15 h 544±20 mg $_{FAL}$ L $^{-1}$ in CgXII medium supplemented with PCA which corresponds to a 33% increase of the total FAL titer, a 35% higher product yield (i."
+          },
+          {
+            "evidence_id": "EV_AUTO_017",
+            "source_file": "docs/0161/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "02$ g $_{FAL}$ L $^{-1}$ from 20 g glucose L $^{-1}$ with a product yield of $0.054 \\pm 0."
+          },
+          {
+            "evidence_id": "EV_AUTO_018",
+            "source_file": "docs/0161/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "54 \\pm 0.02$ g $_{FAL}$ L $^{-1}$ from 20 g glucose L $^{-1}$ with a product yield of $0."
+          },
+          {
+            "evidence_id": "EV_AUTO_022",
+            "source_file": "docs/0161/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "09$ g $_{FAL}$ L $^{-1}$ with a product yield of $0.054 \\pm 0."
+          },
+          {
+            "evidence_id": "EV_C004_E01_01",
+            "source_file": "docs/0161/combined.md",
+            "section": "C004",
+            "quote_or_span": "final FAL titers of $2.45 \\pm 0.09$ g $_{FAL}$ L $^{-1}$ and a volumetric productivity of $0.109 \\pm 0.005$ g $_{FAL}$ L $^{-1}$ h $^{-1}$"
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "experiment",
+        "state_before": "Xylose utilization module integrated.",
+        "gap_or_uncertainty": "Growth on xylose may be poor due to low expression or activity.",
+        "hypothesis": "Initial xylose growth rate will be low.",
+        "decision": "Measure growth rate on xylose.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "growth assay",
+          "version": "",
+          "category": "phenotyping"
+        },
+        "parameters": {
+          "substrate": "xylose"
+        },
+        "observation": "Initial xylose growth is very poor (μmax 0.03 h⁻¹).",
+        "result_status": "failure",
+        "next_step_reason": "ALE improves xylose growth rate.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E05_01",
+            "source_file": "docs/0161/combined.md",
+            "section": "C004",
+            "quote_or_span": "ALE improved the growth rate by 200% from 0.03 to 0.11 h $^{-1}$"
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "experiment",
+        "state_before": "Poor xylose growth (μmax 0.03 h⁻¹).",
+        "gap_or_uncertainty": "Growth rate on xylose needs improvement for efficient utilization.",
+        "hypothesis": "Adaptive laboratory evolution (ALE) will select for mutations that improve xylose growth.",
+        "decision": "Perform ALE on xylose minimal medium.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "adaptive laboratory evolution",
+          "version": "",
+          "category": "strain improvement"
+        },
+        "parameters": {
+          "medium": "xylose minimal medium"
+        },
+        "observation": "ALE improves xylose growth rate to 0.11 h⁻¹; genome sequencing reveals a 53 bp duplication creating an additional RBS upstream of xylA, increasing mRNA 80-fold and enzyme activity 4-fold.",
+        "result_status": "success",
+        "next_step_reason": "The evolved xylose module is transferred to the FAL production strain, but yield decreases.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E05_01",
+            "source_file": "docs/0161/combined.md",
+            "section": "C004",
+            "quote_or_span": "ALE improved the growth rate by 200% from 0.03 to 0.11 h $^{-1}$"
+          },
+          {
+            "evidence_id": "EV_C004_E05_02",
+            "source_file": "docs/0161/combined.md",
+            "section": "C004",
+            "quote_or_span": "the duplicated region in gX includes the RBS of the originally encoded gene actA and resulted in the occurrence of two RBS at a distance of 53 bp, suggesting boosted translation"
+          },
+          {
+            "evidence_id": "EV_AUTO_002",
+            "source_file": "docs/0161/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "This rearrangement duplicated a region spanning 21 bp of the UTR sequence and the first 32 bp of the xylA open reading frame and resulted in two occurrences of a predicted RBS (AGGAG) at 6 and 59 bp upstream of the start codon of xylA (Additional file 1: Figure S4B)."
+          },
+          {
+            "evidence_id": "EV_AUTO_032",
+            "source_file": "docs/0161/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "glutamicum gX were about 80-fold and 28-fold higher than in the parental strain C."
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "experiment",
+        "state_before": "Evolved gX strain grows well on xylose.",
+        "gap_or_uncertainty": "Transferring gX module to FAL production strain may not improve yield on hydrolysate due to metabolic imbalances.",
+        "hypothesis": "Enabling xylose utilization will improve FAL production on wheat straw hydrolysate.",
+        "decision": "Transfer gX module to FAL production strain and test on hydrolysate.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "shake flask cultivation",
+          "version": "",
+          "category": "fermentation"
+        },
+        "parameters": {
+          "strain": "ΔfasR cg2692_TTG gX (pEKEx2-maqu2220)",
+          "substrate": "wheat straw hydrolysate"
+        },
+        "observation": "Yield decreases by 18% to 0.058 Cmol/Cmol, likely due to NADPH limitation.",
+        "result_status": "failure",
+        "next_step_reason": "NADPH limitation hypothesis leads to pntAB overexpression design.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E03_01",
+            "source_file": "docs/0161/combined.md",
+            "section": "C003",
+            "quote_or_span": "neither product yield nor volumetric productivity were improved by enabling xylose utilization"
+          },
+          {
+            "evidence_id": "EV_C003_E04_01",
+            "source_file": "docs/0161/combined.md",
+            "section": "C003",
+            "quote_or_span": "Buschke et al. [12] reported insufficient NADPH supply through the oxidative pentose phosphate pathway (PPP) of a modified C. glutamicum strain cultivated on xylose"
+          },
+          {
+            "evidence_id": "EV_AUTO_014",
+            "source_file": "docs/0161/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "While the titer of 705 ± 77 mg $_{FAL}$ L $^{-1}$ remained comparable to the control strain, the product yield decreased by 18% to"
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "design",
+        "state_before": "Yield decrease on hydrolysate attributed to NADPH limitation.",
+        "gap_or_uncertainty": "NADPH supply may be insufficient for FAL production from xylose.",
+        "hypothesis": "Overexpressing E. coli transhydrogenase pntAB will improve NADPH supply in xylose-utilizing strain.",
+        "decision": "Integrate pntAB into CgL12 locus.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "genomic integration",
+          "version": "CgL12",
+          "category": "genetic engineering"
+        },
+        "parameters": {
+          "gene": "pntAB",
+          "source": "E. coli",
+          "locus": "CgL12"
+        },
+        "observation": "pntAB overexpression designed.",
+        "result_status": "success",
+        "next_step_reason": "pntAB overexpression is tested and improves yield and productivity.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E05_01",
+            "source_file": "docs/0161/combined.md",
+            "section": "C003",
+            "quote_or_span": "the E. coli membrane-bound transhydrogenase-encoding genes pntAB were genomically integrated into the landing pad CgL12"
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "experiment",
+        "state_before": "pntAB integrated into gX strain.",
+        "gap_or_uncertainty": "Effect of pntAB overexpression on FAL production from hydrolysate needs validation.",
+        "hypothesis": "pntAB overexpression will increase yield and productivity in gX strain on hydrolysate.",
+        "decision": "Test FAL production in gX strain with pntAB on wheat straw hydrolysate.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "shake flask cultivation",
+          "version": "",
+          "category": "fermentation"
+        },
+        "parameters": {
+          "strain": "ΔfasR cg2692_TTG CgL12::pntAB gX (pEKEx2-maqu2220)",
+          "substrate": "wheat straw hydrolysate"
+        },
+        "observation": "pntAB overexpression increases yield by 29% to 0.075 Cmol/Cmol and productivity by 32% to 62 mg/L/h in gX strain on hydrolysate; no effect in control strain.",
+        "result_status": "success",
+        "next_step_reason": "Improved strain is used in fed-batch cultivation to achieve high titer.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_010",
+            "source_file": "docs/0161/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The genomic integration of the transhydrogenase increased the volumetric productivity by 32% to 62±1 mg $_{FAL}$ L $^{-1}$ h $^{-1}$ with the gX strain background and increased the product yield by 29% to 0.075±0."
+          },
+          {
+            "evidence_id": "EV_AUTO_013",
+            "source_file": "docs/0161/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The genomic integration of the transhydrogenase increased the volumetric productivity by 32% to 62±1 mg $_{FAL}$ L $^{-1}$ h $^{-1}$ with the gX strain background and increased the product yield by 29% to 0."
+          },
+          {
+            "evidence_id": "EV_C004_E07_02",
+            "source_file": "docs/0161/combined.md",
+            "section": "C004",
+            "quote_or_span": "When expressing the NADPH-regenerating E. coli transhydrogenase PntAB titers, yields, and volumetric productivities were improved in xylose-utilizing strains."
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "experiment",
+        "state_before": "Shake flask production with pntAB improved yield and productivity.",
+        "gap_or_uncertainty": "Fed-batch cultivation may further increase titer and productivity.",
+        "hypothesis": "Fed-batch cultivation with wheat straw hydrolysate will achieve higher FAL titer and productivity.",
+        "decision": "Perform fed-batch cultivation with wheat straw hydrolysate.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "fed-batch bioreactor",
+          "version": "",
+          "category": "fermentation"
+        },
+        "parameters": {
+          "strain": "ΔfasR cg2692_TTG CgL12::pntAB gX (pEKEx2-maqu2220)",
+          "substrate": "wheat straw hydrolysate"
+        },
+        "observation": "Fed-batch cultivation achieves 2.45 g/L FAL and 0.109 g/L/h productivity, a threefold increase over shake flasks.",
+        "result_status": "success",
+        "next_step_reason": "Fed-batch reveals limitations like sequential sugar use and foaming.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E08_02",
+            "source_file": "docs/0161/combined.md",
+            "section": "C003",
+            "quote_or_span": "represent a more than threefold and 1.8-fold increase compared to the shaking flask experiments"
+          },
+          {
+            "evidence_id": "EV_C004_E01_01",
+            "source_file": "docs/0161/combined.md",
+            "section": "C004",
+            "quote_or_span": "final FAL titers of $2.45 \\pm 0.09$ g $_{FAL}$ L $^{-1}$ and a volumetric productivity of $0.109 \\pm 0.005$ g $_{FAL}$ L $^{-1}$ h $^{-1}$"
+          },
+          {
+            "evidence_id": "EV_AUTO_021",
+            "source_file": "docs/0161/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "005$ g $_{FAL}$ L $^{-1}$ h $^{-1}$ (Table 3), which represent a more than threefold and 1.8-fold increase compared to the shaking flask experiments, respectively (Table 2)."
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "analysis",
+        "state_before": "Fed-batch achieved 2.45 g/L FAL.",
+        "gap_or_uncertainty": "Process limitations observed during fed-batch.",
+        "hypothesis": "Sequential sugar utilization and foaming limit productivity.",
+        "decision": "Analyze sugar consumption and process issues.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "HPLC analysis",
+          "version": "",
+          "category": "analytical chemistry"
+        },
+        "parameters": {},
+        "observation": "Sequential sugar utilization observed: xylose consumed only after glucose depletion, limiting productivity; foaming issue during fed-batch.",
+        "result_status": "partial",
+        "next_step_reason": "Sequential sugar use indicates xylose utilization is still limiting.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E08_01",
+            "source_file": "docs/0161/combined.md",
+            "section": "C004",
+            "quote_or_span": "HPLC data still suggested that product formation was primarily based on carbon provided by glucose, indicating that the precursor supply for FAL synthesis might be limiting when growing on xylose."
+          },
+          {
+            "evidence_id": "EV_C005_E08_02",
+            "source_file": "docs/0161/combined.md",
+            "section": "C005",
+            "quote_or_span": "Manual addition of the antifoaming agent was done aseptically when required."
+          },
+          {
+            "evidence_id": "EV_C004_E01_01",
+            "source_file": "docs/0161/combined.md",
+            "section": "C004",
+            "quote_or_span": "final FAL titers of $2.45 \\pm 0.09$ g $_{FAL}$ L $^{-1}$ and a volumetric productivity of $0.109 \\pm 0.005$ g $_{FAL}$ L $^{-1}$ h $^{-1}$"
+          }
+        ]
+      },
+      {
+        "step_index": 12,
+        "phase": "analysis",
+        "state_before": "Sequential sugar utilization observed.",
+        "gap_or_uncertainty": "Xylose utilization still limited despite ALE and pntAB overexpression.",
+        "hypothesis": "Xylose uptake is a limiting factor for efficient utilization.",
+        "decision": "Identify xylose uptake as a target for further improvement.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "literature analysis",
+          "version": "",
+          "category": "data analysis"
+        },
+        "parameters": {},
+        "observation": "Xylose utilization still limited; further improvements possible via transporter engineering or additional ALE.",
+        "result_status": "partial",
+        "next_step_reason": "End of trajectory.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E06_01",
+            "source_file": "docs/0161/combined.md",
+            "section": "C004",
+            "quote_or_span": "Xylose uptake is known as a limiting factor for the efficient utilization of this sugar"
+          },
+          {
+            "evidence_id": "EV_C004_E06_02",
+            "source_file": "docs/0161/combined.md",
+            "section": "C004",
+            "quote_or_span": "improving xylose uptake in C. glutamicum gX seems to be a straightforward approach to advance the growth properties further"
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "HPLC analysis of FAL and sugars",
+        "qRT-PCR for gene expression",
+        "genome sequencing for ALE mutations",
+        "enzyme activity assays"
+      ],
+      "metrics": [
+        "FAL titer (mg/L or g/L)",
+        "product yield (Cmol/Cmol)",
+        "volumetric productivity (g/L/h)",
+        "growth rate (h⁻¹)"
+      ],
+      "final_conclusion": "Engineered C. glutamicum strain achieved 2.45 g/L FAL from wheat straw hydrolysate in fed-batch, with growth-coupled production and improved NADPH supply, though xylose utilization remains limiting.",
+      "limitations": [
+        "Sequential sugar utilization (xylose consumed only after glucose depletion)",
+        "Foaming during fed-batch",
+        "Xylose uptake still limiting"
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_step_trimmed=15_to_12",
+        "v22_specific_evidence_backfilled=3",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_specific_evidence_backfilled=3",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 100.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p5\\states\\0161.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p5\\events\\0161.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1
+        ],
+        "K03": [
+          2
+        ],
+        "K04": [
+          2,
+          3
+        ],
+        "K06": [
+          3
+        ],
+        "K07": [
+          4,
+          9
+        ],
+        "K09": [
+          5,
+          6
+        ],
+        "K10": [
+          5,
+          6
+        ],
+        "K11": [
+          4,
+          6,
+          7,
+          8
+        ],
+        "K13": [
+          4,
+          7,
+          8,
+          9,
+          10
+        ],
+        "K14": [
+          4,
+          9,
+          10,
+          11
+        ],
+        "K15": [
+          11
+        ],
+        "K16": [
+          12
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K02",
+            "K03",
+            "K04"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K02",
+            "K04",
+            "K05",
+            "K06"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K02",
+            "K07",
+            "K11",
+            "K13",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K09",
+            "K10"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K09",
+            "K10",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K11",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K02",
+            "K11",
+            "K12",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K07",
+            "K13",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K13",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K14",
+            "K15"
+          ]
+        },
+        {
+          "step_index": 12,
+          "covered_event_ids": [
+            "K16"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 2,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "356",
+          "482"
+        ]
+      },
+      {
+        "step_index": 4,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "0.054c"
+        ]
+      },
+      {
+        "step_index": 5,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "0.03h"
+        ]
+      },
+      {
+        "step_index": 6,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "0.03h"
+        ]
+      },
+      {
+        "step_index": 7,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "0.058c"
+        ]
+      },
+      {
+        "step_index": 9,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "0.075c"
+        ]
+      }
+    ],
+    "step_count": 12,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 100.0
+  },
+  "api_usage": {
+    "prompt_tokens": 154474,
+    "completion_tokens": 31854,
+    "total_tokens": 186328,
+    "prompt_cache_hit_tokens": 3456,
+    "prompt_cache_miss_tokens": 151018
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 6143,
+        "completion_tokens": 829,
+        "total_tokens": 6972,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 6143
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 17414,
+        "completion_tokens": 4091,
+        "total_tokens": 21505,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 17414
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 10034,
+        "completion_tokens": 1473,
+        "total_tokens": 11507,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9778
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 9932,
+        "completion_tokens": 1708,
+        "total_tokens": 11640,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9676
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 10795,
+        "completion_tokens": 1801,
+        "total_tokens": 12596,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 10539
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 8935,
+        "completion_tokens": 1387,
+        "total_tokens": 10322,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8679
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C005",
+      "api_usage": {
+        "prompt_tokens": 9316,
+        "completion_tokens": 1724,
+        "total_tokens": 11040,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9060
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C006",
+      "api_usage": {
+        "prompt_tokens": 10183,
+        "completion_tokens": 66,
+        "total_tokens": 10249,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9927
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C007",
+      "api_usage": {
+        "prompt_tokens": 7652,
+        "completion_tokens": 48,
+        "total_tokens": 7700,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7396
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 11364,
+        "completion_tokens": 3613,
+        "total_tokens": 14977,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 10980
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 12703,
+        "completion_tokens": 7478,
+        "total_tokens": 20181,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 12063
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 18522,
+        "completion_tokens": 1176,
+        "total_tokens": 19698,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 18522
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 21481,
+        "completion_tokens": 6460,
+        "total_tokens": 27941,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 20841
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

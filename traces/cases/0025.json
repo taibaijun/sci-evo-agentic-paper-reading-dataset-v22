@@ -1,0 +1,827 @@
+{
+  "case": {
+    "case_id": "sci_evo_0025",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Designed active-site library reveals thousands of functional GFP variants",
+      "doi": "https://doi.org/10.1038/s41467-023-38099-z",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0023_10_1038_s41467_023_38099_z_designed_active_site_library_reveals_thousands_of_functional_gfp_variants.pdf",
+      "mineru_md": "docs/0025/mineru.md",
+      "combined_md": "docs/0025/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Active sites are sensitive to mutations due to high density of molecular interactions, making functional multipoint mutants exceptionally rare. Epistasis severely restricts the chances of finding functional multipoint mutants.",
+      "target_object": "GFP chromophore-binding pocket",
+      "known_context": "Epistatic interactions between mutations can severely restrict the chances of finding functional multipoint mutants.",
+      "constraints": [
+        "Must overcome epistatic constraints",
+        "Must enrich for stable, folded, and potentially active designs"
+      ],
+      "input_data": [
+        "PROSS-eGFP as starting point",
+        "27 active-site positions selected"
+      ],
+      "quantifiable_goals": [
+        "Generate thousands of functional active-site mutants",
+        "Achieve high enrichment of low-energy mutants"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "Epistatic interactions severely restrict functional multipoint mutants.",
+        "gap_or_uncertainty": "Molecular sources of epistasis are not fully understood.",
+        "hypothesis": "Epistatic interactions most frequently arise from direct molecular interactions, indirect backbone changes, and stability-mediated interactions.",
+        "decision": "Adopt this hypothesis to guide library design.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "literature_reasoning",
+          "version": "",
+          "category": "reasoning"
+        },
+        "parameters": {},
+        "observation": "Hypothesis formulated based on known molecular interactions.",
+        "result_status": "success",
+        "next_step_reason": "Hypothesis informs design of htFuncLib to search for compatible mutations.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0025/combined.md",
+            "section": "C001",
+            "quote_or_span": "epistatic interactions between mutations can severely restrict the chances of finding functional multipoint mutants"
+          },
+          {
+            "evidence_id": "EV_C001_E03_01",
+            "source_file": "docs/0025/combined.md",
+            "section": "C001",
+            "quote_or_span": "Our working hypothesis is that epistatic interactions most frequently arise from three molecular sources (Supplementary Fig. 1): (1) direct molecular interactions between proximal mutated amino acids; (2) indirect interactions between amino acid positions due to backbone conformational changes; and (3) stability-mediated interactions"
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "design",
+        "state_before": "Hypothesis on epistasis sources established.",
+        "gap_or_uncertainty": "Need a method to design libraries enriched for functional multipoint mutants.",
+        "hypothesis": "htFuncLib can search for point mutations that yield low-energy multipoint mutants when freely combined.",
+        "decision": "Develop and apply htFuncLib to GFP active-site positions.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "htFuncLib",
+          "version": "",
+          "category": "computational_design"
+        },
+        "parameters": {
+          "target": "GFP chromophore-binding pocket",
+          "starting_point": "PROSS-eGFP",
+          "positions_selected": 27
+        },
+        "observation": "htFuncLib generates libraries preselected computationally to enrich for stable, folded, and potentially active designs.",
+        "result_status": "success",
+        "next_step_reason": "Validate enrichment computationally using EpiNNet.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E05_01",
+            "source_file": "docs/0025/combined.md",
+            "section": "C001",
+            "quote_or_span": "htFuncLib searches for a set of active-site point mutations that, when freely combined, yield low-energy multipoint mutants"
+          },
+          {
+            "evidence_id": "EV_C001_E06_01",
+            "source_file": "docs/0025/combined.md",
+            "section": "C001",
+            "quote_or_span": "we started by manually selecting 27 active-site positions likely to impact functional properties based on previous studies of GFP or proximity of these positions to the chromophore"
+          },
+          {
+            "evidence_id": "EV_C001_E07_01",
+            "source_file": "docs/0025/combined.md",
+            "section": "C001",
+            "quote_or_span": "we chose as a starting point a previously designed version of enhanced GFP, PROSS-eGFP, that exhibited elevated resistance to thermal denaturation"
+          },
+          {
+            "evidence_id": "EV_C001_E08_01",
+            "source_file": "docs/0025/combined.md",
+            "section": "C001",
+            "quote_or_span": "htFuncLib generates libraries that are preselected computationally to enrich for stable, folded, and potentially active designs"
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "analysis",
+        "state_before": "htFuncLib libraries designed.",
+        "gap_or_uncertainty": "Need to confirm that EpiNNet enrichment increases fraction of stable designs.",
+        "hypothesis": "EpiNNet-enriched sequence space will show lower computed energies than filtered space.",
+        "decision": "Compare computed energies of mutants from EpiNNet-enriched vs filtered sequence spaces.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "EpiNNet",
+          "version": "",
+          "category": "computational_analysis"
+        },
+        "parameters": {},
+        "observation": "Multipoint mutants from EpiNNet-enriched space exhibit dramatically lower computed energies, suggesting increased fraction of folded and stable designs.",
+        "result_status": "success",
+        "next_step_reason": "Proceed to design two specific libraries (nohbonds and hbonds).",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E01_01",
+            "source_file": "docs/0025/combined.md",
+            "section": "C002",
+            "quote_or_span": "Multipoint mutants from the EpiNNet-enriched sequence space exhibit, on average, dramatically lower computed energies than those in the original filtered sequence space (Fig. 2A), suggesting that EpiNNet increases the fraction of folded and stable designs."
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "design",
+        "state_before": "EpiNNet enrichment validated.",
+        "gap_or_uncertainty": "Need to design libraries with and without chromophore H-bond positions.",
+        "hypothesis": "Excluding H-bond positions may yield more stable designs.",
+        "decision": "Design two libraries: nohbonds (excluding H-bond positions) and hbonds (including them).",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "htFuncLib",
+          "version": "",
+          "category": "computational_design"
+        },
+        "parameters": {
+          "nohbonds_positions": 24,
+          "hbonds_positions": 27,
+          "nohbonds_designs": 11000000,
+          "hbonds_designs": 930000
+        },
+        "observation": "Generated 11 million nohbonds designs and 930,000 hbonds designs.",
+        "result_status": "success",
+        "next_step_reason": "Analyze energy enrichment of the designed libraries.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E03_01",
+            "source_file": "docs/0025/combined.md",
+            "section": "C002",
+            "quote_or_span": "we designed two libraries: nohbonds, which excluded positions that directly hydrogen bond to the chromophore, and hbonds, which included such positions. We manually selected 27 and 24 positions for design in each library, respectively, applied htFuncLib to these positions, and generated 11 million and 930,000 designs for each library, respectively."
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "analysis",
+        "state_before": "Libraries designed.",
+        "gap_or_uncertainty": "Need to quantify enrichment of low-energy mutants.",
+        "hypothesis": "Both libraries will be highly enriched for low-energy mutants relative to PROSS-eGFP.",
+        "decision": "Compute Rosetta energies of designs and compare to PROSS-eGFP.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Rosetta",
+          "version": "",
+          "category": "computational_analysis"
+        },
+        "parameters": {},
+        "observation": "99% of nohbonds and 67% of hbonds designs have lower Rosetta energies than PROSS-eGFP.",
+        "result_status": "success",
+        "next_step_reason": "Experimentally validate libraries via cloning, FACS, and deep sequencing.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E04_01",
+            "source_file": "docs/0025/combined.md",
+            "section": "C002",
+            "quote_or_span": "nearly 99% and more than 67% of the nohbonds and hbonds designs, respectively, exhibit lower Rosetta energies than the progenitor PROSS-eGFP"
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "experiment",
+        "state_before": "Computational enrichment confirmed.",
+        "gap_or_uncertainty": "Need to experimentally identify functional designs.",
+        "hypothesis": "FACS sorting with AmCyan and GFP gates will isolate functional fluorescent variants.",
+        "decision": "Clone libraries, perform FACS, and deep-sequence sorted populations.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Golden-Gate assembly, FACS, deep sequencing",
+          "version": "",
+          "category": "experimental"
+        },
+        "parameters": {
+          "host": "E. coli",
+          "gates": [
+            "AmCyan 405/525",
+            "GFP 488/530"
+          ],
+          "transformation_efficiency": ">5x10^7"
+        },
+        "observation": "Identified 14,242 unique functional designs in nohbonds and 1,926 in hbonds libraries.",
+        "result_status": "success",
+        "next_step_reason": "Train random forest model on deep-sequencing data to predict functionality.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E06_01",
+            "source_file": "docs/0025/combined.md",
+            "section": "C002",
+            "quote_or_span": "we identified 14,242 and 1926 unique designs in the sorted nohbonds and hbonds libraries, respectively"
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "analysis",
+        "state_before": "Functional designs identified.",
+        "gap_or_uncertainty": "Need to predict functionality of unseen designs.",
+        "hypothesis": "A random forest model can accurately predict functional vs non-functional designs.",
+        "decision": "Train random forest on deep-sequencing data.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "random forest",
+          "version": "",
+          "category": "machine_learning"
+        },
+        "parameters": {},
+        "observation": "Best model achieves 84% accuracy in predicting functional vs non-functional designs.",
+        "result_status": "success",
+        "next_step_reason": "Visualize fitness landscape and analyze epistatic interactions.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E01_01",
+            "source_file": "docs/0025/combined.md",
+            "section": "C003",
+            "quote_or_span": "The best-performing model exhibits 84% accuracy in predicting functional versus non-functional designs in a balanced test"
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "analysis",
+        "state_before": "Random forest model trained.",
+        "gap_or_uncertainty": "Need to understand connectivity of functional sequences.",
+        "hypothesis": "Functional sequences are highly connected rather than isolated peaks.",
+        "decision": "Visualize fitness landscape using random forest predictions.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "fitness landscape visualization",
+          "version": "",
+          "category": "computational_analysis"
+        },
+        "parameters": {},
+        "observation": "Functional sequences are highly connected and localized in sequence space.",
+        "result_status": "success",
+        "next_step_reason": "Identify specific incompatible mutations.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E03_01",
+            "source_file": "docs/0025/combined.md",
+            "section": "C003",
+            "quote_or_span": "the functional sequences are highly connected with each other and localized in sequence space rather than consisting of isolated fitness peaks separated by valleys"
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "experiment",
+        "state_before": "Epistatic interactions identified.",
+        "gap_or_uncertainty": "Need to experimentally validate functionality of designs.",
+        "hypothesis": "Purified designs will show high activity, but maximal mutation designs may fail.",
+        "decision": "Express, purify, and characterize 88 unique designs.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "protein purification and characterization",
+          "version": "",
+          "category": "experimental"
+        },
+        "parameters": {
+          "number_of_designs": 88,
+          "max_mutations": "12–14"
+        },
+        "observation": "71% of cluster representatives active; designs with 12–14 mutations non-functional.",
+        "result_status": "partial",
+        "next_step_reason": "Use random forest to recover false negatives from deep sequencing.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E07_01",
+            "source_file": "docs/0025/combined.md",
+            "section": "C003",
+            "quote_or_span": "we expressed, purified, and characterized a total of 88 unique designs"
+          },
+          {
+            "evidence_id": "EV_C003_E07_02",
+            "source_file": "docs/0025/combined.md",
+            "section": "C003",
+            "quote_or_span": "17 of which (71%) were active"
+          },
+          {
+            "evidence_id": "EV_C003_E07_03",
+            "source_file": "docs/0025/combined.md",
+            "section": "C003",
+            "quote_or_span": "we selected six designs with the maximal number of mutations (12–14), but none of these was functional"
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "validation",
+        "state_before": "Purification results show high activity but failure of maximal mutants.",
+        "gap_or_uncertainty": "Deep sequencing may miss functional designs (false negatives).",
+        "hypothesis": "Random forest can recover false negatives.",
+        "decision": "Test 19 designs predicted functional but not observed in deep sequencing.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "random forest prediction and experimental validation",
+          "version": "",
+          "category": "experimental"
+        },
+        "parameters": {
+          "number_tested": 19
+        },
+        "observation": "15 of 19 (79%) were active, confirming random forest recovers false negatives.",
+        "result_status": "success",
+        "next_step_reason": "Analyze structural basis for stability and quantum yield differences.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E08_01",
+            "source_file": "docs/0025/combined.md",
+            "section": "C003",
+            "quote_or_span": "we selected 19 designs that were predicted to be functional by the random forest analysis but were not observed among the positive hits in the deep-sequencing analysis. Surprisingly, 15 (79%) were active, confirming that a random forest analysis based on deep-sequencing data of htFuncLib designs can be used to recover false negatives"
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "analysis",
+        "state_before": "False negatives recovered.",
+        "gap_or_uncertainty": "Need to explain differences in stability and quantum yield.",
+        "hypothesis": "Key mutations like Tyr145Phe, Thr203His, and Ser205Thr contribute to stability and quantum yield.",
+        "decision": "Examine design models for molecular explanations.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "structural analysis",
+          "version": "",
+          "category": "analysis"
+        },
+        "parameters": {},
+        "observation": "Ser205Thr enriched in high thermostability and quantum yield designs; Tyr145Phe and Thr203His also key.",
+        "result_status": "success",
+        "next_step_reason": "Assess photostability variability among designs.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E01_01",
+            "source_file": "docs/0025/combined.md",
+            "section": "C004",
+            "quote_or_span": "We examined the design models for a molecular explanation of the large observed differences in stability and quantum yield."
+          },
+          {
+            "evidence_id": "EV_C004_E01_04",
+            "source_file": "docs/0025/combined.md",
+            "section": "C004",
+            "quote_or_span": "Ser205Thr is enriched in designs with high thermostability and quantum yield though we are unaware of previous studies that pointed to its significance."
+          },
+          {
+            "evidence_id": "EV_AUTO_003",
+            "source_file": "docs/0025/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Many of the active designs exhibit radical mutations, including Thr203His (13%), Gln69Met (9%), Ser205Asp (9%), Gln94Leu (8%), and Tyr145Met (8%) (Supplementary Dataset 6)."
+          },
+          {
+            "evidence_id": "EV_AUTO_006",
+            "source_file": "docs/0025/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "For instance, Tyr145Phe, seen previously to enhance stability and quantum yield $^{47}$ , appeared in all five high stability/brightness designs but only in one of the bottom 26 designs."
+          }
+        ]
+      },
+      {
+        "step_index": 12,
+        "phase": "experiment",
+        "state_before": "Stability and quantum yield differences analyzed.",
+        "gap_or_uncertainty": "Need to assess photostability variability among designs.",
+        "hypothesis": "Photostability varies widely among designs, with some more photostable than GFP and others less.",
+        "decision": "Measure photostability of selected designs.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "photostability assay",
+          "version": "",
+          "category": "experimental"
+        },
+        "parameters": {},
+        "observation": "Large variability in photostability observed; isolated photostable.1 and photostable.2 (more photostable than GFP) and fast.4 (tenfold faster bleaching), with photostable.1 requiring 122% of GFP photostability time.",
+        "result_status": "success",
+        "next_step_reason": "Conclude on functional diversity and epistasis verification.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E02_01",
+            "source_file": "docs/0025/combined.md",
+            "section": "C004",
+            "quote_or_span": "We also observed large variability in photostability, which is the resistance of the chromophore to bleaching by bright light."
+          },
+          {
+            "evidence_id": "EV_C004_E02_02",
+            "source_file": "docs/0025/combined.md",
+            "section": "C004",
+            "quote_or_span": "We isolated two designs that exhibited higher photostability than GFP (photostable.1 & photostable.2, with seven mutations each from PROSS-eGFP) and many significantly less photostable designs"
+          },
+          {
+            "evidence_id": "EV_C004_E02_03",
+            "source_file": "docs/0025/combined.md",
+            "section": "C004",
+            "quote_or_span": "At the extremes, design fast.4 (6 mutations) photobleaches tenfold faster than GFP, while the design photostable.1 requires 122% of that time."
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "FACS sorting with AmCyan and GFP gates",
+        "Deep sequencing of sorted populations",
+        "Random forest prediction and experimental validation",
+        "Protein purification and characterization",
+        "Photostability assay"
+      ],
+      "metrics": [
+        "Number of unique functional designs (14,242 nohbonds, 1,926 hbonds)",
+        "Random forest accuracy (84%)",
+        "False negative recovery rate (79%)",
+        "Activity rate of purified designs (71%)",
+        "Photostability variability (tenfold faster bleaching for fast.4, 122% of GFP time for photostable.1)"
+      ],
+      "final_conclusion": "htFuncLib successfully generated thousands of functional GFP active-site mutants, overcoming epistatic constraints. The approach verified that energetically incompatible mutations are a significant source of epistasis.",
+      "limitations": [
+        "Designs with 12–14 mutations were non-functional",
+        "Deep sequencing missed some functional designs (false negatives)",
+        "Photostability varied widely among designs"
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_specific_evidence_backfilled=2",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_step_trimmed=13_to_12",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 100.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p3\\states\\0025.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p3\\events\\0025.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1
+        ],
+        "K03": [
+          1,
+          2
+        ],
+        "K06": [
+          2,
+          3
+        ],
+        "K07": [
+          3
+        ],
+        "K08": [
+          3,
+          4,
+          5
+        ],
+        "K09": [
+          2,
+          3,
+          5
+        ],
+        "K10": [
+          6
+        ],
+        "K11": [
+          6,
+          7,
+          8
+        ],
+        "K15": [
+          9
+        ],
+        "K16": [
+          9,
+          10
+        ],
+        "K17": [
+          10,
+          11,
+          12
+        ],
+        "K18": [
+          12
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02",
+            "K03"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K03",
+            "K04",
+            "K05",
+            "K06",
+            "K09"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K06",
+            "K07",
+            "K08",
+            "K09"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K08"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K08",
+            "K09"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K10",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K11"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K11",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K15",
+            "K16"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K16",
+            "K17"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K17"
+          ]
+        },
+        {
+          "step_index": 12,
+          "covered_event_ids": [
+            "K17",
+            "K18"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 4,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "930000h"
+        ]
+      }
+    ],
+    "step_count": 12,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 100.0
+  },
+  "api_usage": {
+    "prompt_tokens": 129113,
+    "completion_tokens": 27161,
+    "total_tokens": 156274,
+    "prompt_cache_hit_tokens": 3200,
+    "prompt_cache_miss_tokens": 125913
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 2849,
+        "completion_tokens": 570,
+        "total_tokens": 3419,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 2849
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 13170,
+        "completion_tokens": 3237,
+        "total_tokens": 16407,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 13170
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 8556,
+        "completion_tokens": 1136,
+        "total_tokens": 9692,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8300
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 8492,
+        "completion_tokens": 1822,
+        "total_tokens": 10314,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8236
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 8118,
+        "completion_tokens": 1361,
+        "total_tokens": 9479,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7862
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 8877,
+        "completion_tokens": 1485,
+        "total_tokens": 10362,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8621
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C005",
+      "api_usage": {
+        "prompt_tokens": 8127,
+        "completion_tokens": 1455,
+        "total_tokens": 9582,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7871
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C006",
+      "api_usage": {
+        "prompt_tokens": 8188,
+        "completion_tokens": 56,
+        "total_tokens": 8244,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7932
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 12973,
+        "completion_tokens": 4781,
+        "total_tokens": 17754,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 12589
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 13064,
+        "completion_tokens": 4840,
+        "total_tokens": 17904,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 12424
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 16942,
+        "completion_tokens": 746,
+        "total_tokens": 17688,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 16942
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 19757,
+        "completion_tokens": 5672,
+        "total_tokens": 25429,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 19117
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

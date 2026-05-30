@@ -1,0 +1,1776 @@
+{
+  "doc_no": "0048",
+  "source": {
+    "title": "Selection of chromosomal DNA libraries using a multiplex CRISPR system",
+    "doi": "https://doi.org/10.7554/elife.03703",
+    "license": "cc-by",
+    "pdf_name": "0046_10_7554_elife_03703_selection_of_chromosomal_dna_libraries_using_a_multiplex_crispr_system.pdf",
+    "combined_md": "docs/0048/combined.md",
+    "mineru_md": "docs/0048/mineru.md"
+  },
+  "gist_memory": {
+    "paper_problem_memory": "Directed evolution in yeast suffers from copy number variation when using extrachromosomal plasmid libraries, leading to variable expression and confounding selection. The goal is to develop a multiplex CRISPR-Cas9 system (CRISPRm) for efficient, markerless integration of DNA libraries into the yeast genome, enabling homogeneous expression and improved selections. Key constraints include Cas9 toxicity, sgRNA expression levels, and the need for high-efficiency homology-directed repair (HDR) at multiple loci simultaneously.",
+    "section_gists": [
+      {
+        "section_index": 4,
+        "heading": "Introduction",
+        "gist": "Identifies the problem of copy number variation in plasmid-based directed evolution, causing variable expression (Figure 1). Proposes using CRISPR-Cas9 to create double-strand breaks and enhance HDR for chromosomal integration of DNA libraries, potentially enabling high-throughput selections in industrial yeast strains with limited genetic tools.",
+        "process_signals": [
+          "Problem: extrachromosomal libraries have high copy number variation, confounding selection.",
+          "Constraint: standard homologous recombination is too inefficient for library integration without markers or specialized strains.",
+          "Hypothesis: CRISPR-Cas9 can increase HDR efficiency by several 1000-fold, enabling chromosomal library integration.",
+          "Goal: develop a multiplex CRISPR system for selection experiments in yeast, including industrial strains."
+        ],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": [
+          "Plasmid-based libraries suffer from copy number variation.",
+          "Current integration methods are inefficient or require selectable markers."
+        ]
+      },
+      {
+        "section_index": 5,
+        "heading": "Results",
+        "gist": "Optimized Cas9 expression using P_RNR2 promoter to avoid toxicity (Figure 2C). Designed sgRNA with 5' HDV ribozyme to improve stability and processing (Figure 2D). Demonstrated efficient HDR-mediated integration of barcoded linear DNA at targeted genomic loci using a single plasmid expressing Cas9 and sgRNA (Figure 2E).",
+        "process_signals": [
+          "Design choice: used intermediate strength P_RNR2 promoter for Cas9 to balance expression and fitness.",
+          "Observation: strong promoters (e.g., P_TDH3) reduced yeast fitness.",
+          "Hypothesis: HDV ribozyme fusion protects sgRNA from exonucleases and allows flexible promoter use.",
+          "Validation: co-transformation of Cas9/sgRNA plasmid with linear repair DNA resulted in targeted integration."
+        ],
+        "methods": [
+          "Cas9-NLS expression from P_RNR2 promoter.",
+          "sgRNA design with 5' HDV ribozyme and tRNA promoter.",
+          "Co-transformation of pCAS plasmid and linear dsDNA repair template with 50 bp homology arms."
+        ],
+        "metrics": [
+          "Yeast fitness (growth curves) for Cas9 toxicity.",
+          "HDR efficiency measured by phenotype screening (e.g., URA3, LYP1 mutants)."
+        ],
+        "failures_or_limits": [
+          "Cas9 expression from strong promoters (P_TDH3) caused toxicity.",
+          "sgRNA expression and stability in yeast were previously unexplored."
+        ]
+      },
+      {
+        "section_index": 6,
+        "heading": "Discussion",
+        "gist": "CRISPRm enables markerless allele generation and protein engineering via in vivo selection. Selected CDT-1 variants showed improved fermentation. System can be scaled to library sizes of 10^7 and adapted for multiple selection rounds. Limitations include potential off-target effects and need for strain-specific promoter optimization. Future applications include pathway engineering and use in non-model organisms.",
+        "process_signals": [
+          "Achievement: demonstrated improved CDT-1 transporter function after one round of selection.",
+          "Interpretation: mutations may affect protein function, mRNA stability, or translation.",
+          "Scalability: library size limited by transformation efficiency (~10^7).",
+          "Generalizability: requires testing multiple Pol III promoters per strain; ribozyme design is universal.",
+          "Future: multiple selection cycles, FACS-based screens, mammalian cells."
+        ],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": [
+          "Off-target mutations possible, though not observed in sequenced strains.",
+          "Selection may enrich for non-coding mutations (mRNA stability/translation).",
+          "Efficiency depends on strain background and promoter choice."
+        ]
+      },
+      {
+        "section_index": 7,
+        "heading": "Materials and methods",
+        "gist": "Section header only; no process details.",
+        "process_signals": [],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 8,
+        "heading": "Cloning the pCAS plasmid backbone",
+        "gist": "Constructed pCAS backbone by fusing KANMX cassette to pUC origin and adding yeast 2μ origin via restriction-free cloning. Functionality confirmed by propagation in yeast.",
+        "process_signals": [
+          "Design: modular plasmid with bacterial and yeast origins, selectable marker (G418).",
+          "Validation: tested in yeast for replication."
+        ],
+        "methods": [
+          "Gibson assembly for KANMX-pUC fusion.",
+          "Restriction-free cloning for 2μ origin addition."
+        ],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 9,
+        "heading": "Cas9 expression constructs",
+        "gist": "Cloned S. pyogenes Cas9 with yeast NLS into pCAS. Tested multiple promoters (TDH3, TEF1, RNR2, REV1) and tags (GFP, His8). Removed GFP for editing experiments.",
+        "process_signals": [
+          "Iterative design: tested different promoters to balance expression and toxicity.",
+          "Decision: used His8 tag instead of GFP for genome editing to avoid interference.",
+          "Constraint: codon-optimized NLS for yeast."
+        ],
+        "methods": [
+          "RF cloning for Cas9, NLS, promoters, terminators.",
+          "Promoters: TDH3, TEF1, RNR2, REV1."
+        ],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 10,
+        "heading": "Engineering of sgRNA constructs",
+        "gist": "Cloned sgRNA and HDV ribozyme sequentially into pCAS. Added SNR52 terminator. Tested multiple Pol III promoters (tRNA genes) for sgRNA expression. Multiplex sgRNAs cloned via restriction sites.",
+        "process_signals": [
+          "Design iteration: ribozyme-sgRNA fusion to improve processing.",
+          "Flexibility: tested various tRNA promoters for optimal expression.",
+          "Multiplexing: used unique restriction sites (SalI, SpeI, SacII) for cloning multiple sgRNAs."
+        ],
+        "methods": [
+          "RF cloning for ribozyme-sgRNA and terminator.",
+          "PCR amplification of tRNA promoters from genomic DNA.",
+          "Ligation-dependent cloning for multiplex sgRNAs."
+        ],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 13,
+        "heading": "Fitness analysis of Cas9 expressed by different promoters",
+        "gist": "Measured growth of yeast expressing Cas9-His8 from various promoters. P_RNR2 showed near wild-type fitness, while strong promoters reduced fitness. Used Bioscreen C for growth curves.",
+        "process_signals": [
+          "Key constraint: Cas9 toxicity when overexpressed.",
+          "Decision: selected P_RNR2 as optimal promoter for balance.",
+          "Validation: growth curves in YPD+G418 over 48h."
+        ],
+        "methods": [
+          "Bioscreen C growth curve analysis.",
+          "Cas9-His8 expression from TDH3, TEF1, RNR2, REV1 promoters.",
+          "Wild-type control with empty vector."
+        ],
+        "metrics": [
+          "Optical density at 600 nm over time.",
+          "Mean and standard deviation of replicates."
+        ],
+        "failures_or_limits": [
+          "Strong promoters (TDH3) caused significant fitness defect."
+        ]
+      },
+      {
+        "section_index": 14,
+        "heading": "CRISPR-Cas9 screening protocol",
+        "gist": "Describes transformation and selection workflow: co-transform pCAS and linear repair DNA, select on G418, replica plate to phenotype-selective media. Confirm integration by PCR and sequencing.",
+        "process_signals": [
+          "Protocol: heat shock transformation, recovery, G418 selection.",
+          "Controls: plasmid lacking Cas9/sgRNA to measure background integration.",
+          "Phenotype screens: URA3 (5-FOA), LYP1 (thialysine), CAN1 (canavanine), auxotrophies, glycerol (petites).",
+          "Validation: PCR and Sanger sequencing of barcode."
+        ],
+        "methods": [
+          "LiAc/PEG transformation.",
+          "Selection on YPD+G418, then replica plating.",
+          "Genomic DNA extraction and PCR confirmation."
+        ],
+        "metrics": [
+          "Colony counts on selective media.",
+          "Integration efficiency relative to G418-resistant colonies."
+        ],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 16,
+        "heading": "Multiplex genome targeting by Cas9",
+        "gist": "Performed multiplex targeting using pCAS with multiple sgRNAs. Compared single vs double mutant efficiency by colony counts on selective media. Confirmed integration by PCR.",
+        "process_signals": [
+          "Multiplexing: cloned multiple sgRNA cassettes into pCAS.",
+          "Efficiency metric: ratio of mutant colonies to total G418-resistant colonies.",
+          "Observation: multiplexing efficiency may be lower than single targeting."
+        ],
+        "methods": [
+          "Ligation-dependent cloning of multiple sgRNAs.",
+          "Co-transformation with repair templates.",
+          "Phenotype screening and PCR confirmation."
+        ],
+        "metrics": [
+          "Single vs double mutant efficiency."
+        ],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 18,
+        "heading": "Selection of improved variants of cellodextrin transporter CDT1",
+        "gist": "Generated error-prone PCR library of cdt-1 alleles. Co-transformed with promoter and terminator fragments and pCAS targeting URA3. Selected ~1600 G418-resistant colonies, pooled, and grew in cellobiose medium. Isolated large colonies after 3 days; combined mutations for superior transporter.",
+        "process_signals": [
+          "Application: used CRISPRm for directed evolution of CDT-1.",
+          "Library construction: error-prone PCR of cdt-1 ORF.",
+          "Integration: three-fragment assembly (promoter, ORF, terminator) with 50 bp homology.",
+          "Selection: growth on cellobiose as sole carbon source.",
+          "Result: isolated variants with improved fermentation; combined mutations for additive effect."
+        ],
+        "methods": [
+          "GeneMorph II random mutagenesis.",
+          "Co-transformation of three linear fragments with pCAS.",
+          "Pooled selection in liquid SCel medium, then plating.",
+          "Colony picking and growth analysis."
+        ],
+        "metrics": [
+          "Colony size on cellobiose plates.",
+          "Fermentation performance."
+        ],
+        "failures_or_limits": [
+          "Library size limited to ~1600 colonies in this experiment."
+        ]
+      },
+      {
+        "section_index": 23,
+        "heading": "Illumina sequencing to identify potential off-target mutations",
+        "gist": "Whole-genome sequencing of URA3 and LYP1 targeted strains. Identified 21 variants; none matched guide sequences with >10 nt, indicating no off-target Cas9 activity. Used local alignment and random sampling to confirm low probability of off-target mutations.",
+        "process_signals": [
+          "Validation: addressed off-target concerns.",
+          "Method: searched for INDELs/SNPs near PAM sites.",
+          "Result: no evidence of Cas9 off-target mutations; variants likely natural.",
+          "Statistical analysis: guide sequences have better matches to many random genomic sites than to variant-flanking regions."
+        ],
+        "methods": [
+          "Illumina MiSeq 150bp paired-end sequencing.",
+          "BWA mapping, GATK variant calling.",
+          "Custom scripts for PAM site extraction and alignment.",
+          "Needleman-Wunsch global alignment and random sampling."
+        ],
+        "metrics": [
+          "Number of variants (21).",
+          "Nucleotide matches between guide and protospacer (≤10).",
+          "Probability of better random match (≥13%)."
+        ],
+        "failures_or_limits": [
+          "Off-target analysis limited to two targeted loci.",
+          "Low sample size (9 strains)."
+        ]
+      }
+    ],
+    "global_hypotheses_about_storyline": [
+      "The paper hypothesizes that CRISPR-Cas9 can be adapted for efficient, multiplexed chromosomal integration of DNA libraries in yeast, overcoming copy number variation and enabling improved directed evolution selections.",
+      "The development involved iterative optimization of Cas9 expression (promoter choice) and sgRNA design (ribozyme fusion) to balance toxicity and editing efficiency.",
+      "The system was validated through targeted gene disruption, multiplex targeting, and a proof-of-concept directed evolution of a cellodextrin transporter, with off-target analysis confirming specificity."
+    ],
+    "uncertainties_to_resolve": [
+      "What were the exact efficiencies of single vs multiplex targeting, and how did they compare?",
+      "Were there any failed attempts at using other promoters or sgRNA designs before settling on P_RNR2 and HDV ribozyme?",
+      "What was the transformation efficiency and library coverage in the CDT-1 selection?",
+      "How generalizable is the system to other yeast strains or organisms, given the need for strain-specific promoter optimization?",
+      "What are the limits of multiplexing (e.g., maximum number of simultaneous integrations)?"
+    ]
+  },
+  "chunk_events": [
+    {
+      "chunk_id": "C001",
+      "char_start": 0,
+      "char_end": 18000,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C001_E01",
+          "chunk_id": "C001",
+          "event_type": "problem",
+          "order_hint": 1,
+          "summary": "Extrachromosomal gene libraries in yeast suffer from high copy number variation, leading to variable expression and confounding selection.",
+          "methods_or_tools": [],
+          "entities": [
+            "Saccharomyces cerevisiae",
+            "CEN plasmids"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E01_01",
+            "EV_C001_E01_02"
+          ]
+        },
+        {
+          "event_id": "C001_E02",
+          "chunk_id": "C001",
+          "event_type": "problem",
+          "order_hint": 2,
+          "summary": "Standard homologous recombination is too inefficient for markerless integration of DNA libraries into the yeast genome.",
+          "methods_or_tools": [],
+          "entities": [
+            "Saccharomyces cerevisiae"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E02_01"
+          ]
+        },
+        {
+          "event_id": "C001_E03",
+          "chunk_id": "C001",
+          "event_type": "hypothesis",
+          "order_hint": 3,
+          "summary": "CRISPR-Cas9 can increase homology-directed repair efficiency by several 1000-fold, enabling high-throughput chromosomal integration.",
+          "methods_or_tools": [
+            "CRISPR-Cas9"
+          ],
+          "entities": [
+            "Saccharomyces cerevisiae"
+          ],
+          "numbers_or_metrics": [
+            "several 1000-fold"
+          ],
+          "evidence_ids": [
+            "EV_C001_E03_01"
+          ]
+        },
+        {
+          "event_id": "C001_E05",
+          "chunk_id": "C001",
+          "event_type": "design",
+          "order_hint": 5,
+          "summary": "A new sgRNA architecture was designed by fusing the sgRNA to the 3' end of the self-cleaving HDV ribozyme to protect the 5' end and allow flexible promoter use.",
+          "methods_or_tools": [
+            "HDV ribozyme",
+            "sgRNA"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E05_02"
+          ]
+        },
+        {
+          "event_id": "C001_E06",
+          "chunk_id": "C001",
+          "event_type": "experiment",
+          "order_hint": 6,
+          "summary": "Phenotype screens were performed by co-transforming a plasmid expressing Cas9 and HDV ribozyme-sgRNA with linear barcoded repair DNA to quantify HDR efficiency.",
+          "methods_or_tools": [
+            "co-transformation",
+            "linear double-stranded DNA",
+            "barcode"
+          ],
+          "entities": [
+            "Cas9",
+            "sgRNA"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E06_01"
+          ]
+        },
+        {
+          "event_id": "C001_E07",
+          "chunk_id": "C001",
+          "event_type": "validation",
+          "order_hint": 7,
+          "summary": "Cas9-GFP expressed from TDH3 promoter localized to the nucleus, confirming nuclear localization signal function.",
+          "methods_or_tools": [
+            "fluorescence microscopy",
+            "GFP"
+          ],
+          "entities": [
+            "Cas9-GFP"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E07_01"
+          ]
+        }
+      ],
+      "notes": "This chunk covers the introduction and early results, establishing the problem of copy number variation, the hypothesis that CRISPR-Cas9 can enable efficient chromosomal integration, and initial design choices for Cas9 expression and sgRNA architecture.",
+      "api_usage": {
+        "prompt_tokens": 8342,
+        "completion_tokens": 1391,
+        "total_tokens": 9733,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8086
+      }
+    },
+    {
+      "chunk_id": "C002",
+      "char_start": 17100,
+      "char_end": 35100,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C002_E01",
+          "chunk_id": "C002",
+          "event_type": "experiment",
+          "order_hint": 1,
+          "summary": "Tested various RNA polymerase III promoters for sgRNA expression; tRNA promoters achieved nearly 100% barcode insertion at URA3 locus, while non-tRNA promoters were mostly ineffective.",
+          "methods_or_tools": [
+            "tRNA promoters",
+            "non-tRNA promoters",
+            "barcode insertion assay",
+            "5-fluoroorotic acid resistance"
+          ],
+          "entities": [
+            "URA3 locus",
+            "diploid yeast",
+            "tRNA sequences",
+            "RNA polymerase III promoters"
+          ],
+          "numbers_or_metrics": [
+            "nearly 100% efficient barcode insertion"
+          ],
+          "evidence_ids": [
+            "EV_C002_E01_01"
+          ]
+        },
+        {
+          "event_id": "C002_E02",
+          "chunk_id": "C002",
+          "event_type": "experiment",
+          "order_hint": 2,
+          "summary": "Assessed target sequence bias by targeting 11 unlinked yeast genes in diploid S288C cells using tRNA^Tyr promoter; targeting was highly efficient for every genomic target except LEU2, which was restored by selecting a different guide sequence.",
+          "methods_or_tools": [
+            "tRNA^Tyr promoter",
+            "sgRNA targeting",
+            "genomic targets"
+          ],
+          "entities": [
+            "diploid S288C yeast cells",
+            "11 unlinked yeast genes",
+            "LEU2",
+            "LEU2-2"
+          ],
+          "numbers_or_metrics": [
+            "100% efficiency for LEU2-2"
+          ],
+          "evidence_ids": [
+            "EV_C002_E02_01",
+            "EV_C002_E02_02"
+          ]
+        },
+        {
+          "event_id": "C002_E04",
+          "chunk_id": "C002",
+          "event_type": "experiment",
+          "order_hint": 4,
+          "summary": "Tested trans-multiplexed CRISPR-Cas9 genome editing by simultaneously targeting two and three unlinked genomic loci in diploid cells; efficiency was 43% for duplex and 19% for triplex, dependent on HDV ribozyme.",
+          "methods_or_tools": [
+            "trans-multiplexed CRISPR-Cas9",
+            "HDV ribozyme",
+            "sgRNAs",
+            "barcoded DNA molecules"
+          ],
+          "entities": [
+            "diploid cells",
+            "URA3",
+            "LYP1",
+            "COX10"
+          ],
+          "numbers_or_metrics": [
+            "43% efficiency for duplex targeting",
+            "19% efficiency for triplex targeting",
+            "3.5% duplex targeting without HDV ribozyme"
+          ],
+          "evidence_ids": [
+            "EV_C002_E04_01",
+            "EV_C002_E04_02"
+          ]
+        },
+        {
+          "event_id": "C002_E05",
+          "chunk_id": "C002",
+          "event_type": "analysis",
+          "order_hint": 5,
+          "summary": "Measured relative cellular abundance of sgRNAs by RT-qPCR; presence of HDV ribozyme increased intracellular sgRNA abundance by sixfold, consistent with sgRNA abundance being rate limiting.",
+          "methods_or_tools": [
+            "RT-qPCR",
+            "P_SNR52",
+            "HDV ribozyme"
+          ],
+          "entities": [
+            "sgRNAs"
+          ],
+          "numbers_or_metrics": [
+            "sixfold increase in sgRNA abundance"
+          ],
+          "evidence_ids": [
+            "EV_C002_E05_01"
+          ]
+        },
+        {
+          "event_id": "C002_E06",
+          "chunk_id": "C002",
+          "event_type": "experiment",
+          "order_hint": 6,
+          "summary": "Tested in vivo assembly of a functional nourseothricin-resistance gene from three overlapping PCR products at a single locus using cis-multiplexing; achieved 85% efficiency in diploid S288C and 70% in polyploid ATCC4124.",
+          "methods_or_tools": [
+            "cis-multiplexing",
+            "in vivo assembly",
+            "overlapping PCR products",
+            "5-FOA resistance",
+            "Nat resistance"
+          ],
+          "entities": [
+            "nourseothricin-resistance gene",
+            "URA3 locus",
+            "diploid S288C",
+            "polyploid ATCC4124",
+            "tRNA^Pro promoter"
+          ],
+          "numbers_or_metrics": [
+            "85% efficiency in diploid S288C",
+            "70% efficiency in polyploid ATCC4124"
+          ],
+          "evidence_ids": [
+            "EV_C002_E06_01",
+            "EV_C002_E06_02"
+          ]
+        },
+        {
+          "event_id": "C002_E07",
+          "chunk_id": "C002",
+          "event_type": "experiment",
+          "order_hint": 7,
+          "summary": "Performed in vivo selection for improved cellobiose utilization by error-prone PCR library of cdt-1 alleles integrated into URA3 locus; identified strains with 2.6-fold and 1.7-fold increased cellobiose utilization over wild type.",
+          "methods_or_tools": [
+            "error-prone PCR",
+            "CRISPRm",
+            "in vivo selection",
+            "cellobiose medium"
+          ],
+          "entities": [
+            "cdt-1",
+            "cellodextrin transporter",
+            "URA3 locus",
+            "diploid S. cerevisiae",
+            "gh1-1"
+          ],
+          "numbers_or_metrics": [
+            "2.6-fold increased cellobiose utilization",
+            "1.7-fold increased cellobiose utilization"
+          ],
+          "evidence_ids": [
+            "EV_C002_E07_01",
+            "EV_C002_E07_02"
+          ]
+        },
+        {
+          "event_id": "C002_E08",
+          "chunk_id": "C002",
+          "event_type": "limitation",
+          "order_hint": 8,
+          "summary": "Choice of tRNA promoter impacts multiplexing in a strain-dependent manner; tRNA^Tyr was inefficient in ATCC4124 though effective in S288C diploid.",
+          "methods_or_tools": [],
+          "entities": [
+            "tRNA^Tyr",
+            "ATCC4124",
+            "S288C diploid"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E08_01"
+          ]
+        }
+      ],
+      "notes": "Chunk contains key experimental results on promoter testing, multiplex targeting efficiencies, ribozyme effect on sgRNA abundance, in vivo gene assembly, and directed evolution application.",
+      "api_usage": {
+        "prompt_tokens": 8963,
+        "completion_tokens": 2459,
+        "total_tokens": 11422,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8707
+      }
+    },
+    {
+      "chunk_id": "C003",
+      "char_start": 34200,
+      "char_end": 52200,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C003_E01",
+          "chunk_id": "C003",
+          "event_type": "experiment",
+          "order_hint": 1,
+          "summary": "CRISPRm was used to introduce the N209S mutation into a cdt-1 mutant background, creating a quadruple mutant with synergistic cellobiose utilization.",
+          "methods_or_tools": [
+            "CRISPRm"
+          ],
+          "entities": [
+            "cdt-1",
+            "N209S",
+            "Q45H/F262Y/F533Y"
+          ],
+          "numbers_or_metrics": [
+            "3.9-fold increased growth"
+          ],
+          "evidence_ids": [
+            "EV_C003_E01_02"
+          ]
+        },
+        {
+          "event_id": "C003_E02",
+          "chunk_id": "C003",
+          "event_type": "experiment",
+          "order_hint": 2,
+          "summary": "Selected cdt-1 alleles were tested in anaerobic fermentations using cellobiose as the sole carbon source, comparing wild-type and mutant strains.",
+          "methods_or_tools": [
+            "CRISPRm",
+            "anaerobic fermentation"
+          ],
+          "entities": [
+            "cdt-1",
+            "cellobiose"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E02_01"
+          ]
+        },
+        {
+          "event_id": "C003_E03",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 3,
+          "summary": "Wild-type cdt-1 integrated into the chromosome barely supported cellobiose fermentation, while mutants enabled complete fermentation.",
+          "methods_or_tools": [],
+          "entities": [
+            "cdt-1",
+            "cellobiose"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E03_01"
+          ]
+        },
+        {
+          "event_id": "C003_E04",
+          "chunk_id": "C003",
+          "event_type": "limitation",
+          "order_hint": 4,
+          "summary": "Selection may have enriched for sequences that improve mRNA stability or translation efficiency, not just protein function.",
+          "methods_or_tools": [],
+          "entities": [
+            "mRNA stability",
+            "translation efficiency"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E04_01"
+          ]
+        },
+        {
+          "event_id": "C003_E05",
+          "chunk_id": "C003",
+          "event_type": "design",
+          "order_hint": 5,
+          "summary": "CRISPRm enables near quantitative integration of DNA libraries, which can be single fragments or complex assemblies of multiple fragments.",
+          "methods_or_tools": [
+            "CRISPRm"
+          ],
+          "entities": [
+            "DNA libraries"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E05_01"
+          ]
+        },
+        {
+          "event_id": "C003_E06",
+          "chunk_id": "C003",
+          "event_type": "validation",
+          "order_hint": 6,
+          "summary": "Chromosomally-integrated DNA libraries eliminate expression variation due to variable plasmid copy numbers, a key limitation in in vivo selection.",
+          "methods_or_tools": [],
+          "entities": [
+            "plasmid copy number variation"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E06_01"
+          ]
+        },
+        {
+          "event_id": "C003_E08",
+          "chunk_id": "C003",
+          "event_type": "design",
+          "order_hint": 8,
+          "summary": "CRISPRm should enable multiple rounds of selection for directed evolution, with each cycle involving error-prone PCR and CRISPRm-mediated integration.",
+          "methods_or_tools": [
+            "CRISPRm",
+            "error-prone PCR"
+          ],
+          "entities": [
+            "directed evolution"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E08_01"
+          ]
+        }
+      ],
+      "notes": "This chunk contains key experimental results (CDT-1 mutant construction and fermentation testing), discussion of limitations, and design considerations for future applications of CRISPRm.",
+      "api_usage": {
+        "prompt_tokens": 7929,
+        "completion_tokens": 1412,
+        "total_tokens": 9341,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7673
+      }
+    },
+    {
+      "chunk_id": "C004",
+      "char_start": 51300,
+      "char_end": 69300,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C004_E01",
+          "chunk_id": "C004",
+          "event_type": "experiment",
+          "order_hint": 1,
+          "summary": "Multiplex in vivo assembly of DNA using Cas9 was performed by co-transforming three linear dsDNA fragments (promoter, ORF, terminator) with pCAS plasmid targeting a genomic locus, and efficiency was scored by drug resistance colonies.",
+          "methods_or_tools": [
+            "PCR amplification",
+            "co-transformation",
+            "replica plating"
+          ],
+          "entities": [
+            "Ashbya gossypii TEF1 promoter",
+            "nourseothricin ORF",
+            "A. gossypii TEF1 terminator",
+            "pCAS plasmid"
+          ],
+          "numbers_or_metrics": [
+            "50 bp homology",
+            "nourseothricin 100 mg/l"
+          ],
+          "evidence_ids": [
+            "EV_C004_E01_02"
+          ]
+        },
+        {
+          "event_id": "C004_E02",
+          "chunk_id": "C004",
+          "event_type": "experiment",
+          "order_hint": 2,
+          "summary": "A library of cdt-1 mutant alleles was generated by error-prone PCR and co-transformed with promoter and terminator fragments and pCAS targeting URA3, then selected on cellobiose medium to isolate improved transporter variants.",
+          "methods_or_tools": [
+            "GeneMorph II Random Mutagenesis Kit",
+            "co-transformation",
+            "cellobiose selection"
+          ],
+          "entities": [
+            "cdt-1",
+            "URA3",
+            "pCAS",
+            "gh1-1"
+          ],
+          "numbers_or_metrics": [
+            "5 μg of each PCR product",
+            "~1600 G418-resistant colonies",
+            "50 bp homology"
+          ],
+          "evidence_ids": [
+            "EV_C004_E02_03"
+          ]
+        },
+        {
+          "event_id": "C004_E04",
+          "chunk_id": "C004",
+          "event_type": "experiment",
+          "order_hint": 4,
+          "summary": "Specific mutations (N209S, F262Y) were introduced into cdt-1 alleles using repair oligonucleotides and CRISPR-Cas9 targeting, and confirmed by Sanger sequencing.",
+          "methods_or_tools": [
+            "CRISPR-Cas9",
+            "repair oligonucleotide",
+            "Sanger sequencing"
+          ],
+          "entities": [
+            "cdt-1",
+            "pCAS",
+            "sgRNA"
+          ],
+          "numbers_or_metrics": [
+            "50 base pairs of homology"
+          ],
+          "evidence_ids": [
+            "EV_C004_E04_02",
+            "EV_C004_E04_03"
+          ]
+        },
+        {
+          "event_id": "C004_E07",
+          "chunk_id": "C004",
+          "event_type": "experiment",
+          "order_hint": 7,
+          "summary": "Anaerobic fermentations were performed with engineered yeast strains to evaluate cellobiose utilization and ethanol production, using HPLC to measure metabolites.",
+          "methods_or_tools": [
+            "anaerobic fermentation",
+            "HPLC"
+          ],
+          "entities": [
+            "oMM",
+            "cellobiose",
+            "glucose",
+            "ethanol"
+          ],
+          "numbers_or_metrics": [
+            "OD600 of 20",
+            "1% glucose",
+            "8% cellobiose",
+            "30°C",
+            "220 rpm"
+          ],
+          "evidence_ids": [
+            "EV_C004_E07_01"
+          ]
+        }
+      ],
+      "notes": "This chunk contains detailed experimental procedures for multiplex assembly, CDT-1 library selection, fitness analysis, mutation introduction, off-target validation, and fermentation testing, all directly supporting the paper's core narrative of developing and applying CRISPRm for directed evolution.",
+      "api_usage": {
+        "prompt_tokens": 8477,
+        "completion_tokens": 1969,
+        "total_tokens": 10446,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8221
+      }
+    },
+    {
+      "chunk_id": "C005",
+      "char_start": 68400,
+      "char_end": 75428,
+      "chunk_relevance": "none",
+      "events": [],
+      "notes": "This chunk contains only a reference list with no research process events.",
+      "api_usage": {
+        "prompt_tokens": 5805,
+        "completion_tokens": 45,
+        "total_tokens": 5850,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 5549
+      }
+    }
+  ],
+  "evidence_bank": [
+    {
+      "evidence_id": "EV_C001_E01_01",
+      "source_file": "docs/0048/combined.md",
+      "section": "C001",
+      "char_start": 3161,
+      "char_end": 3339,
+      "quote": "present directed evolution systems require the use of extrachromosomal gene libraries encoded in bacteriophage or plasmids, which suffer from high levels of copy number variation"
+    },
+    {
+      "evidence_id": "EV_C001_E01_02",
+      "source_file": "docs/0048/combined.md",
+      "section": "C001",
+      "char_start": 3455,
+      "char_end": 3605,
+      "quote": "common yeast centromere containing (CEN) plasmids vary widely in copy number per cell resulting in highly variable expression levels from cell to cell"
+    },
+    {
+      "evidence_id": "EV_C001_E02_01",
+      "source_file": "docs/0048/combined.md",
+      "section": "C001",
+      "char_start": 3858,
+      "char_end": 4060,
+      "quote": "the standard genetic tool of integrating linear DNA into the genome by homologous recombination is too inefficient to insert DNA libraries without multiple steps that rely on dominant selectable markers"
+    },
+    {
+      "evidence_id": "EV_C001_E03_01",
+      "source_file": "docs/0048/combined.md",
+      "section": "C001",
+      "char_start": 7583,
+      "char_end": 7745,
+      "quote": "The presence of the Cas9-produced DSB in genomic DNA can increase the rate of homology-directed repair (HDR) with linear DNA at the DSB locus by several 1000-fold"
+    },
+    {
+      "evidence_id": "EV_C001_E05_02",
+      "source_file": "docs/0048/combined.md",
+      "section": "C001",
+      "char_start": 10806,
+      "char_end": 10905,
+      "quote": "We reasoned that the structured ribozyme would protect the 5' end of the sgRNA from 5' exonucleases"
+    },
+    {
+      "evidence_id": "EV_C001_E06_01",
+      "source_file": "docs/0048/combined.md",
+      "section": "C001",
+      "char_start": 11534,
+      "char_end": 11812,
+      "quote": "phenotype screens were performed by the co-transformation of a single plasmid that expresses the Cas9 protein and one or more HDV ribozyme-sgRNAs, containing a 20-nucleotide guide sequence that matches a specific site in the yeast genome, along with a linear double-stranded DNA"
+    },
+    {
+      "evidence_id": "EV_C001_E07_01",
+      "source_file": "docs/0048/combined.md",
+      "section": "C001",
+      "char_start": 16387,
+      "char_end": 16544,
+      "quote": "Cellular localization of Cas9-GFP in exponentially growing S. cerevisiae cells. The Cas9-GFP protein was expressed from the TDH3 promoter in this experiment."
+    },
+    {
+      "evidence_id": "EV_C002_E01_01",
+      "source_file": "docs/0048/combined.md",
+      "section": "C002",
+      "char_start": 17958,
+      "char_end": 18282,
+      "quote": "With a single sgRNA, we found tRNA sequences used as RNA polymerase III promoters resulted in nearly 100% efficient barcode insertion in diploid yeast at the URA3 locus, resulting in 5-fluororotic acid resistance (Boeke et al., 1984) whereas the non-tRNA promoters were mostly ineffective (Figure 3A; Supplementary file 1A)."
+    },
+    {
+      "evidence_id": "EV_C002_E02_01",
+      "source_file": "docs/0048/combined.md",
+      "section": "C002",
+      "char_start": 18283,
+      "char_end": 18442,
+      "quote": "We also assessed target sequence bias by targeting 11 unlinked yeast genes in diploid S288C yeast cells using tRNA $^{Tyr}$ as the RNA polymerase III promoter."
+    },
+    {
+      "evidence_id": "EV_C002_E02_02",
+      "source_file": "docs/0048/combined.md",
+      "section": "C002",
+      "char_start": 23665,
+      "char_end": 23871,
+      "quote": "We found that targeting was highly efficient for every genomic target except LEU2, which at first was weak but was restored to 100% by selecting a different guide sequence (LEU2-2) as the sgRNA (Figure 3B)."
+    },
+    {
+      "evidence_id": "EV_C002_E04_01",
+      "source_file": "docs/0048/combined.md",
+      "section": "C002",
+      "char_start": 25298,
+      "char_end": 25784,
+      "quote": "We simultaneously targeted two and three unlinked genomic loci in diploid cells for loss-of-function mutagenesis by introducing a single plasmid expressing Cas9 and two or three sgRNAs with two or three gene-specific barcoded DNA molecules, respectively. The efficiency of duplex and triplex targeting (requiring four and six chromosome cuts, respectively) with two sgRNAs (URA3 and LYP1) or three (URA3, LYP1 and COX10) was 43% and 19%, respectively (Figure 3D; Supplementary file 1A)."
+    },
+    {
+      "evidence_id": "EV_C002_E04_02",
+      "source_file": "docs/0048/combined.md",
+      "section": "C002",
+      "char_start": 25785,
+      "char_end": 26007,
+      "quote": "This multiplexed efficiency was dependent on the presence of the HDV ribozyme 5' of the guide sequence as duplex targeting dropped to 3.5% in cells with sgRNA lacking the 5' HDV ribozyme (Figure 3D; Supplementary file 1A)."
+    },
+    {
+      "evidence_id": "EV_C002_E05_01",
+      "source_file": "docs/0048/combined.md",
+      "section": "C002",
+      "char_start": 26008,
+      "char_end": 26429,
+      "quote": "We measured the relative cellular abundance of sgRNAs expressed by $P_{SNR52}$ , with and without the 5' HDV ribozyme, by reverse transcription quantitative polymerase chain reaction (RT-qPCR) and found that the presence of the ribozyme increases the intracellular abundance of the sgRNAs by sixfold (Figure 3E), consistent with the model that sgRNA abundance is rate limiting for CRISPR/Cas targeting (Hsu et al., 2013)."
+    },
+    {
+      "evidence_id": "EV_C002_E06_01",
+      "source_file": "docs/0048/combined.md",
+      "section": "C002",
+      "char_start": 27156,
+      "char_end": 27464,
+      "quote": "We tested the efficiency of in vivo assembly of a functional nourseothricin-resistance (Nat $^{R}$ ) gene from three overlapping PCR products encoding a transcription promoter, protein open reading frame (ORF) and transcription terminator at a single locus using cis-multiplexing in the diploid S288C strain."
+    },
+    {
+      "evidence_id": "EV_C002_E06_02",
+      "source_file": "docs/0048/combined.md",
+      "section": "C002",
+      "char_start": 27676,
+      "char_end": 27911,
+      "quote": "We found 85% efficiency of targeting and assembly in both copies of the URA3 locus in diploid yeast S288C cells, and 70% in polyploid ATCC4124 by using the tRNA $^{Pro}$ sequence as the sgRNA promoter (Figure 3C; Supplementary file 1A)"
+    },
+    {
+      "evidence_id": "EV_C002_E07_01",
+      "source_file": "docs/0048/combined.md",
+      "section": "C002",
+      "char_start": 28786,
+      "char_end": 29248,
+      "quote": "To select for improved cellobiose utilizing strains we used error-prone PCR to amplify the cdt-1 gene. We co-transformed the library of mutated cdt-1 alleles, along with overlapping dsDNA fragments for the promoter and terminator, for assembly and integration into the URA3 locus (ura3:: $P_{PGK1}$ -cdt-1- $T_{ADH1}$ library) of a diploid strain with a previously integrated $\\beta$ -glucosidase gh1-1 gene (lyp1:: $P_{TDH3}$ -gh1-1- $T_{CYC1}$ ) using CRISPRm."
+    },
+    {
+      "evidence_id": "EV_C002_E07_02",
+      "source_file": "docs/0048/combined.md",
+      "section": "C002",
+      "char_start": 29249,
+      "char_end": 29620,
+      "quote": "We then grew the transformants in medium containing cellobiose as the sole carbon source to select for functional cdt-1 alleles and identified one strain with 2.6-fold (homozygous cdt-1 N209S/I354N/S360P/T406S/W531L allele) and one strain with 1.7-fold (homozygous cdt-1 Q45H/F262Y/F533Y allele) increased cellobiose utilization capacity over wild type cdt-1 (Figure 4A)."
+    },
+    {
+      "evidence_id": "EV_C002_E08_01",
+      "source_file": "docs/0048/combined.md",
+      "section": "C002",
+      "char_start": 24713,
+      "char_end": 24969,
+      "quote": "Notably, tRNA $^{Tyr}$ was inefficient at targeting in ATCC4124 though it was effective in S288C diploid (Supplementary file 1A), indicating that the choice of tRNA used for the expression of the HDV-sgRNA impacts multiplexing in a strain-dependent manner."
+    },
+    {
+      "evidence_id": "EV_C003_E01_02",
+      "source_file": "docs/0048/combined.md",
+      "section": "C003",
+      "char_start": 38046,
+      "char_end": 38210,
+      "quote": "The quadruple mutant cdt-1 allele resulted in synergistic cellobiose utilization with 3.9-fold increased growth over strains expressing wild-type cdt-1 (Figure 4A)."
+    },
+    {
+      "evidence_id": "EV_C003_E02_01",
+      "source_file": "docs/0048/combined.md",
+      "section": "C003",
+      "char_start": 38211,
+      "char_end": 38323,
+      "quote": "We next tested the selected cdt-1 alleles in anaerobic fermentations using cellobiose as the sole carbon source."
+    },
+    {
+      "evidence_id": "EV_C003_E03_01",
+      "source_file": "docs/0048/combined.md",
+      "section": "C003",
+      "char_start": 38505,
+      "char_end": 38629,
+      "quote": "We found that wild-type cdt-1 integrated into the chromosome was barely able to support cellobiose fermentation (Figure 4C)."
+    },
+    {
+      "evidence_id": "EV_C003_E04_01",
+      "source_file": "docs/0048/combined.md",
+      "section": "C003",
+      "char_start": 39301,
+      "char_end": 39481,
+      "quote": "it is also possible that selection enriched for sequences that confer improved mRNA stability or translation efficiency, due to the fact that the selection was carried out in vivo."
+    },
+    {
+      "evidence_id": "EV_C003_E05_01",
+      "source_file": "docs/0048/combined.md",
+      "section": "C003",
+      "char_start": 39763,
+      "char_end": 39951,
+      "quote": "CRISPRm enables these types of experiments because it allows for near quantitative integration of DNA libraries, which can be a single fragment or complex assemblies of multiple fragments."
+    },
+    {
+      "evidence_id": "EV_C003_E06_01",
+      "source_file": "docs/0048/combined.md",
+      "section": "C003",
+      "char_start": 40115,
+      "char_end": 40316,
+      "quote": "The ability to use chromosomally-integrated DNA libraries removes a key limitation in in vivo selection experiments by eliminating biomolecule expression variation due to variable plasmid copy numbers."
+    },
+    {
+      "evidence_id": "EV_C003_E08_01",
+      "source_file": "docs/0048/combined.md",
+      "section": "C003",
+      "char_start": 40858,
+      "char_end": 41187,
+      "quote": "CRISPRm should also enable multiple rounds of selection for directed evolution experiments. We envision that each cycle would involve error-prone PCR of the gene of interest, either from a starting sequence or an enriched and improved cell population, followed by CRISPRm-mediated integration of the amplified gene and selection."
+    },
+    {
+      "evidence_id": "EV_C004_E01_02",
+      "source_file": "docs/0048/combined.md",
+      "section": "C004",
+      "char_start": 51999,
+      "char_end": 52208,
+      "quote": "Colonies exhibiting drug resistance (nourseothricin 100 mg/l) (N-500-1; Goldbio) following replica plating were compared to the number of colonies on the YPD+G418 to determine efficiency of multiplex assembly."
+    },
+    {
+      "evidence_id": "EV_C004_E02_03",
+      "source_file": "docs/0048/combined.md",
+      "section": "C004",
+      "char_start": 53703,
+      "char_end": 53861,
+      "quote": "Cells were harvested after 3 days and spread onto SCel plates. Cells were grown at 30°C for 4 days, and the largest colonies were chosen for further analysis."
+    },
+    {
+      "evidence_id": "EV_C004_E04_02",
+      "source_file": "docs/0048/combined.md",
+      "section": "C004",
+      "char_start": 54939,
+      "char_end": 55171,
+      "quote": "The repair oligonucleotide used to make the A626G (i.e., N209S) mutation was 5'-CGGCCGCTGCACTGGCTTCTACAGCTGCGGTTGGTTCGGAGGTTCATTCCTGCCGCCTG-3' with 50 more base pairs of homology to cdt-1, on both sides of the above oligonucleotide."
+    },
+    {
+      "evidence_id": "EV_C004_E04_03",
+      "source_file": "docs/0048/combined.md",
+      "section": "C004",
+      "char_start": 55172,
+      "char_end": 55283,
+      "quote": "Genomic DNA was extracted as described and Sanger sequencing confirmed the incorporation of the A626G mutation."
+    },
+    {
+      "evidence_id": "EV_C004_E07_01",
+      "source_file": "docs/0048/combined.md",
+      "section": "C004",
+      "char_start": 63749,
+      "char_end": 63872,
+      "quote": "The washed cells were then inoculated at OD600 of 20 in 50 ml oMM with 1% glucose and 8% cellobiose in 125 ml serum flasks."
+    },
+    {
+      "evidence_id": "EV_AUTO_001",
+      "source_file": "docs/0048/combined.md",
+      "section": "auto_specific",
+      "char_start": 35704,
+      "char_end": 36030,
+      "quote": "S288C wild type cdt-1 $^{-}$ (black), cdt-1 (blue), cdt-1 $^{Q45H/F262Y/F533Y}$ (indicated as cdt-1 $^{F262Y*}$ on the figure, gray), cdt-1 $^{N209S/I354N/S360P/T406S/W531L}$ (indicated as cdt-1 $^{N209S*}$ on the figure, green) and cdt-1 $^{N209S+Q45H/F262Y/F533Y}$ (indicated as cdt-1 $^{N209S+F262Y*}$ on the figure, red)."
+    },
+    {
+      "evidence_id": "EV_AUTO_002",
+      "source_file": "docs/0048/combined.md",
+      "section": "auto_specific",
+      "char_start": 29410,
+      "char_end": 29620,
+      "quote": "6-fold (homozygous cdt-1 N209S/I354N/S360P/T406S/W531L allele) and one strain with 1.7-fold (homozygous cdt-1 Q45H/F262Y/F533Y allele) increased cellobiose utilization capacity over wild type cdt-1 (Figure 4A)."
+    },
+    {
+      "evidence_id": "EV_AUTO_003",
+      "source_file": "docs/0048/combined.md",
+      "section": "auto_specific",
+      "char_start": 29410,
+      "char_end": 29495,
+      "quote": "6-fold (homozygous cdt-1 N209S/I354N/S360P/T406S/W531L allele) and one strain with 1."
+    },
+    {
+      "evidence_id": "EV_AUTO_004",
+      "source_file": "docs/0048/combined.md",
+      "section": "auto_specific",
+      "char_start": 37912,
+      "char_end": 38045,
+      "quote": "We then used CRISPRm to introduce the N209S mutation (nucleotide G626A) in the cdt-1 $^{Q45H/F262Y/F533Y}$ diploid yeast background."
+    },
+    {
+      "evidence_id": "EV_AUTO_005",
+      "source_file": "docs/0048/combined.md",
+      "section": "auto_specific",
+      "char_start": 38629,
+      "char_end": 38915,
+      "quote": "By contrast, the cdt-1 $^{Q45H/N209S/F262Y/F533Y}$ quadruple mutant or the cdt-1 $^{N209S/F262Y}$ double-mutant expressed from the chromosome resulted in complete fermentation of cellobiose, comparable to wild-type cdt-1 expressed from a high-copy 2 $\\mu$ plasmid (Figure 4C; Ha et al."
+    },
+    {
+      "evidence_id": "EV_AUTO_006",
+      "source_file": "docs/0048/combined.md",
+      "section": "auto_specific",
+      "char_start": 38323,
+      "char_end": 38504,
+      "quote": "We constructed a cdt-1 $^{N209S/F262Y}$ double-mutant in diploid yeast using CRISPRm, and compared it to wild-type cdt-1 and the cdt-1 $^{Q45H/N209S/F262Y/F533Y}$ quadruple mutant."
+    },
+    {
+      "evidence_id": "EV_AUTO_007",
+      "source_file": "docs/0048/combined.md",
+      "section": "auto_specific",
+      "char_start": 55283,
+      "char_end": 55545,
+      "quote": "Similarly, the T785A mutation (F262Y) was incorporated into the cdt-1 $^{N209S}$ allele using an sgRNA with guide sequence 5'-CCTCGCTTCCTATTTGCCAA-3', and a repair oligonucleotide with sequence 5'-AGAATCCCCTCGCTACCTATTTGCCAACGGCCGCGACGCTGAGGCTGTTGCCTTTCTTGT-3'."
+    },
+    {
+      "evidence_id": "EV_AUTO_008",
+      "source_file": "docs/0048/combined.md",
+      "section": "auto_specific",
+      "char_start": 29495,
+      "char_end": 29620,
+      "quote": "7-fold (homozygous cdt-1 Q45H/F262Y/F533Y allele) increased cellobiose utilization capacity over wild type cdt-1 (Figure 4A)."
+    },
+    {
+      "evidence_id": "EV_AUTO_009",
+      "source_file": "docs/0048/combined.md",
+      "section": "auto_specific",
+      "char_start": 55659,
+      "char_end": 55718,
+      "quote": "# Structural analysis of cdt-1 $^{N209S/Q45H/F262Y/F533Y}$"
+    },
+    {
+      "evidence_id": "EV_AUTO_010",
+      "source_file": "docs/0048/combined.md",
+      "section": "auto_specific",
+      "char_start": 29248,
+      "char_end": 29495,
+      "quote": "We then grew the transformants in medium containing cellobiose as the sole carbon source to select for functional cdt-1 alleles and identified one strain with 2.6-fold (homozygous cdt-1 N209S/I354N/S360P/T406S/W531L allele) and one strain with 1."
+    },
+    {
+      "evidence_id": "EV_AUTO_011",
+      "source_file": "docs/0048/combined.md",
+      "section": "auto_specific",
+      "char_start": 48450,
+      "char_end": 48599,
+      "quote": "0 g/l CSM (4500-012; MP Biosciences), 20 g/l Glucose, 20 g/l Agar + 5-fluoroorotic acid (1 g/l) (F-230-25; Goldbio); LYP1 mutants were selected on 2."
+    },
+    {
+      "evidence_id": "EV_AUTO_012",
+      "source_file": "docs/0048/combined.md",
+      "section": "auto_specific",
+      "char_start": 37443,
+      "char_end": 37555,
+      "quote": "Whereas two mutations in the second allele (Q45H, F533Y) map to non-conserved regions of the transporters, one"
+    },
+    {
+      "evidence_id": "EV_AUTO_013",
+      "source_file": "docs/0048/combined.md",
+      "section": "auto_specific",
+      "char_start": 54994,
+      "char_end": 55171,
+      "quote": ", N209S) mutation was 5'-CGGCCGCTGCACTGGCTTCTACAGCTGCGGTTGGTTCGGAGGTTCATTCCTGCCGCCTG-3' with 50 more base pairs of homology to cdt-1, on both sides of the above oligonucleotide."
+    },
+    {
+      "evidence_id": "EV_AUTO_014",
+      "source_file": "docs/0048/combined.md",
+      "section": "auto_specific",
+      "char_start": 54624,
+      "char_end": 54795,
+      "quote": "Integration of the repair oligonucleotide into the chromosomal wild-type cdt-1 gene or cdt-1 $^{Q45H/F262Y/F533Y}$ was performed as described for integrating barcoded DNA."
+    },
+    {
+      "evidence_id": "EV_AUTO_015",
+      "source_file": "docs/0048/combined.md",
+      "section": "auto_specific",
+      "char_start": 55545,
+      "char_end": 55657,
+      "quote": "Genomic DNA was extracted as described and Sanger sequencing confirmed the incorporation of the T785A mutation."
+    },
+    {
+      "evidence_id": "EV_AUTO_016",
+      "source_file": "docs/0048/combined.md",
+      "section": "auto_specific",
+      "char_start": 39180,
+      "char_end": 39481,
+      "quote": "Although we selected for improved protein function, as suggested by the location of the mutations in CDT-1 (Figure 4B), it is also possible that selection enriched for sequences that confer improved mRNA stability or translation efficiency, due to the fact that the selection was carried out in vivo."
+    },
+    {
+      "evidence_id": "EV_AUTO_017",
+      "source_file": "docs/0048/combined.md",
+      "section": "auto_specific",
+      "char_start": 36030,
+      "char_end": 36119,
+      "quote": "(B) Location of mutations at conserved sites in the evolved CDT-1 transporter structure."
+    },
+    {
+      "evidence_id": "EV_AUTO_018",
+      "source_file": "docs/0048/combined.md",
+      "section": "auto_specific",
+      "char_start": 29620,
+      "char_end": 29690,
+      "quote": "The mutations were mapped in CDT-1 onto structures of the homologous"
+    },
+    {
+      "evidence_id": "EV_AUTO_019",
+      "source_file": "docs/0048/combined.md",
+      "section": "auto_specific",
+      "char_start": 6794,
+      "char_end": 6969,
+      "quote": "successfully isolated a form of the CDT-1 protein that increased the rate of fermentation over 10-fold; hence this CDT-1 variant could be used to increase biofuel production."
+    },
+    {
+      "evidence_id": "EV_AUTO_020",
+      "source_file": "docs/0048/combined.md",
+      "section": "auto_specific",
+      "char_start": 27675,
+      "char_end": 28050,
+      "quote": "We found 85% efficiency of targeting and assembly in both copies of the URA3 locus in diploid yeast S288C cells, and 70% in polyploid ATCC4124 by using the tRNA $^{Pro}$ sequence as the sgRNA promoter (Figure 3C; Supplementary file 1A), whereas $P_{SNR52}$ -dependent targeting was weaker in S288C cells and non-existent in ATCC4124 cells (Figure 3C; Supplementary file 1A)."
+    },
+    {
+      "evidence_id": "EV_AUTO_021",
+      "source_file": "docs/0048/combined.md",
+      "section": "auto_specific",
+      "char_start": 24282,
+      "char_end": 24712,
+      "quote": ", 2013b), $P_{SNR52}$ , functioned in diploid S288C yeast but failed to result in targeting in the polyploid industrial yeast ATCC4124; in contrast, the tRNA $^{Pro}$ promoter enabled highly-efficient barcode insertion into all copies of the URA3 locus in ATCC4124, which we term cis-multiplexing, that is introducing a double-stranded DNA break at a single genomic locus across all chromosomes (Figure 3C; Supplementary file 1A)."
+    },
+    {
+      "evidence_id": "EV_AUTO_022",
+      "source_file": "docs/0048/combined.md",
+      "section": "auto_specific",
+      "char_start": 22689,
+      "char_end": 22856,
+      "quote": "(C) Single fragment barcode integration (blue) and three-fragment Nat $^{R}$ cassette integration (yellow) efficiency in S288C diploid and ATCC4124 polyploid strains."
+    },
+    {
+      "evidence_id": "EV_AUTO_023",
+      "source_file": "docs/0048/combined.md",
+      "section": "auto_specific",
+      "char_start": 22554,
+      "char_end": 22689,
+      "quote": "(B) Targeting efficiency measured across 11 loci in 10 genes in diploid cells of yeast strain S288C, using the tRNA $^{Tyr}$ promoter."
+    },
+    {
+      "evidence_id": "EV_AUTO_024",
+      "source_file": "docs/0048/combined.md",
+      "section": "auto_specific",
+      "char_start": 66500,
+      "char_end": 66567,
+      "quote": "Custom perl script for Cas9 target identification in S288C genome."
+    },
+    {
+      "evidence_id": "EV_AUTO_025",
+      "source_file": "docs/0048/combined.md",
+      "section": "auto_specific",
+      "char_start": 59695,
+      "char_end": 59863,
+      "quote": "A custom Perl script (Supplementary file 3) was written to identify all GG dinucleotide sequences in the S288C reference genome, extract every Cas9 target sequence (i."
+    },
+    {
+      "evidence_id": "EV_AUTO_026",
+      "source_file": "docs/0048/combined.md",
+      "section": "auto_specific",
+      "char_start": 58945,
+      "char_end": 59070,
+      "quote": "Processed reads were mapped to the S288C reference genome using bwa mem with the—M option for picard and GATK compatibility."
+    },
+    {
+      "evidence_id": "EV_AUTO_027",
+      "source_file": "docs/0048/combined.md",
+      "section": "auto_specific",
+      "char_start": 58551,
+      "char_end": 58582,
+      "quote": "The S288C reference genome (v."
+    },
+    {
+      "evidence_id": "EV_AUTO_028",
+      "source_file": "docs/0048/combined.md",
+      "section": "auto_specific",
+      "char_start": 55738,
+      "char_end": 55778,
+      "quote": "crassa CDT-1 (accession XP\\_963801), E."
+    },
+    {
+      "evidence_id": "EV_AUTO_029",
+      "source_file": "docs/0048/combined.md",
+      "section": "auto_specific",
+      "char_start": 54938,
+      "char_end": 54992,
+      "quote": "The repair oligonucleotide used to make the A626G (i."
+    },
+    {
+      "evidence_id": "EV_AUTO_030",
+      "source_file": "docs/0048/combined.md",
+      "section": "auto_specific",
+      "char_start": 48409,
+      "char_end": 48599,
+      "quote": "0 g/l Ammonium sulfate (A4418; Sigma), 1.0 g/l CSM (4500-012; MP Biosciences), 20 g/l Glucose, 20 g/l Agar + 5-fluoroorotic acid (1 g/l) (F-230-25; Goldbio); LYP1 mutants were selected on 2."
+    },
+    {
+      "evidence_id": "EV_AUTO_031",
+      "source_file": "docs/0048/combined.md",
+      "section": "auto_specific",
+      "char_start": 43374,
+      "char_end": 43458,
+      "quote": "Gibson Assembly Mastermix (E2611L) (New England Biolabs, Ipswich, MA) (Gibson et al."
+    },
+    {
+      "evidence_id": "EV_AUTO_032",
+      "source_file": "docs/0048/combined.md",
+      "section": "auto_specific",
+      "char_start": 37556,
+      "char_end": 37723,
+      "quote": "(F262Y) maps to a site immediately adjacent to the nearly universally-conserved PESPR motif in hexose transporters that is involved in transporter dynamics (Sun et al."
+    },
+    {
+      "evidence_id": "EV_AUTO_033",
+      "source_file": "docs/0048/combined.md",
+      "section": "auto_specific",
+      "char_start": 37333,
+      "char_end": 37443,
+      "quote": "Notably, one site maps to a site that likely interacts directly with the sugar substrate (N209S) (Figure 4B)."
+    },
+    {
+      "evidence_id": "EV_AUTO_034",
+      "source_file": "docs/0048/combined.md",
+      "section": "auto_specific",
+      "char_start": 36501,
+      "char_end": 36622,
+      "quote": "(C) Fermentation of cellobiose by wild-type cdt-1 expressed from a chromosomally-integrated copy in diploid S288C yeast."
+    },
+    {
+      "evidence_id": "EV_AUTO_035",
+      "source_file": "docs/0048/combined.md",
+      "section": "auto_specific",
+      "char_start": 23428,
+      "char_end": 23548,
+      "quote": "(F) Efficiency of targeting one (URA3), two (URA3, LYP1) and three (URA3, LYP1 and COX10) in haploid S288C yeast cells."
+    },
+    {
+      "evidence_id": "EV_AUTO_036",
+      "source_file": "docs/0048/combined.md",
+      "section": "auto_specific",
+      "char_start": 22406,
+      "char_end": 22554,
+      "quote": "(A) Targeting efficiency at the URA3 locus in diploid S288C yeast using RNA polymerase III promoters (x axis) to drive the expression of the sgRNA."
+    }
+  ],
+  "event_graph": {
+    "paper_main_problem": "Extrachromosomal gene libraries in yeast suffer from high copy number variation, leading to variable expression and confounding selection. The goal is to develop a multiplex CRISPR-Cas9 system (CRISPRm) for efficient, markerless integration of DNA libraries into the yeast genome, enabling homogeneous expression and improved selections.",
+    "canonical_events": [
+      {
+        "canonical_id": "K01",
+        "order": 1,
+        "event_type": "problem",
+        "summary": "Extrachromosomal gene libraries in yeast suffer from high copy number variation, leading to variable expression and confounding selection.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E01"
+        ],
+        "evidence_ids": [
+          "EV_C001_E01_01",
+          "EV_C001_E01_02"
+        ],
+        "key_entities": [
+          "Saccharomyces cerevisiae",
+          "CEN plasmids"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K02",
+        "order": 2,
+        "event_type": "problem",
+        "summary": "Standard homologous recombination is too inefficient for markerless integration of DNA libraries into the yeast genome.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E02"
+        ],
+        "evidence_ids": [
+          "EV_C001_E02_01"
+        ],
+        "key_entities": [
+          "Saccharomyces cerevisiae"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K03",
+        "order": 3,
+        "event_type": "hypothesis",
+        "summary": "CRISPR-Cas9 can increase homology-directed repair efficiency by several 1000-fold, enabling high-throughput chromosomal integration.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E03"
+        ],
+        "evidence_ids": [
+          "EV_C001_E03_01"
+        ],
+        "key_entities": [
+          "Saccharomyces cerevisiae"
+        ],
+        "key_numbers": [
+          "several 1000-fold"
+        ]
+      },
+      {
+        "canonical_id": "K04",
+        "order": 4,
+        "event_type": "design",
+        "summary": "A new sgRNA architecture was designed by fusing the sgRNA to the 3' end of the self-cleaving HDV ribozyme to protect the 5' end and allow flexible promoter use.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E05"
+        ],
+        "evidence_ids": [
+          "EV_C001_E05_02"
+        ],
+        "key_entities": [
+          "HDV ribozyme",
+          "sgRNA"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K05",
+        "order": 5,
+        "event_type": "experiment",
+        "summary": "Tested various RNA polymerase III promoters for sgRNA expression; tRNA promoters achieved nearly 100% barcode insertion at URA3 locus, while non-tRNA promoters were mostly ineffective.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E01"
+        ],
+        "evidence_ids": [
+          "EV_C002_E01_01"
+        ],
+        "key_entities": [
+          "tRNA promoters",
+          "non-tRNA promoters",
+          "URA3 locus",
+          "diploid yeast"
+        ],
+        "key_numbers": [
+          "nearly 100% efficient barcode insertion"
+        ]
+      },
+      {
+        "canonical_id": "K06",
+        "order": 6,
+        "event_type": "experiment",
+        "summary": "Assessed target sequence bias by targeting 11 unlinked yeast genes in diploid S288C cells using tRNA^Tyr promoter; targeting was highly efficient for every genomic target except LEU2, which was restored by selecting a different guide sequence.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E02"
+        ],
+        "evidence_ids": [
+          "EV_C002_E02_01",
+          "EV_C002_E02_02"
+        ],
+        "key_entities": [
+          "diploid S288C yeast cells",
+          "11 unlinked yeast genes",
+          "LEU2",
+          "LEU2-2"
+        ],
+        "key_numbers": [
+          "100% efficiency for LEU2-2"
+        ]
+      },
+      {
+        "canonical_id": "K07",
+        "order": 7,
+        "event_type": "experiment",
+        "summary": "Tested trans-multiplexed CRISPR-Cas9 genome editing by simultaneously targeting two and three unlinked genomic loci in diploid cells; efficiency was 43% for duplex and 19% for triplex, dependent on HDV ribozyme.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E04"
+        ],
+        "evidence_ids": [
+          "EV_C002_E04_01",
+          "EV_C002_E04_02"
+        ],
+        "key_entities": [
+          "diploid cells",
+          "URA3",
+          "LYP1",
+          "COX10"
+        ],
+        "key_numbers": [
+          "43% efficiency for duplex targeting",
+          "19% efficiency for triplex targeting",
+          "3.5% duplex targeting without HDV ribozyme"
+        ]
+      },
+      {
+        "canonical_id": "K08",
+        "order": 8,
+        "event_type": "analysis",
+        "summary": "Measured relative cellular abundance of sgRNAs by RT-qPCR; presence of HDV ribozyme increased intracellular sgRNA abundance by sixfold, consistent with sgRNA abundance being rate limiting.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E05"
+        ],
+        "evidence_ids": [
+          "EV_C002_E05_01"
+        ],
+        "key_entities": [
+          "sgRNAs"
+        ],
+        "key_numbers": [
+          "sixfold increase in sgRNA abundance"
+        ]
+      },
+      {
+        "canonical_id": "K09",
+        "order": 9,
+        "event_type": "experiment",
+        "summary": "Tested in vivo assembly of a functional nourseothricin-resistance gene from three overlapping PCR products at a single locus using cis-multiplexing; achieved 85% efficiency in diploid S288C and 70% in polyploid ATCC4124.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E06"
+        ],
+        "evidence_ids": [
+          "EV_C002_E06_01",
+          "EV_C002_E06_02"
+        ],
+        "key_entities": [
+          "nourseothricin-resistance gene",
+          "URA3 locus",
+          "diploid S288C",
+          "polyploid ATCC4124",
+          "tRNA^Pro promoter"
+        ],
+        "key_numbers": [
+          "85% efficiency in diploid S288C",
+          "70% efficiency in polyploid ATCC4124"
+        ]
+      },
+      {
+        "canonical_id": "K10",
+        "order": 10,
+        "event_type": "experiment",
+        "summary": "Performed in vivo selection for improved cellobiose utilization by error-prone PCR library of cdt-1 alleles integrated into URA3 locus; identified strains with 2.6-fold and 1.7-fold increased cellobiose utilization over wild type.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E07"
+        ],
+        "evidence_ids": [
+          "EV_C002_E07_01",
+          "EV_C002_E07_02"
+        ],
+        "key_entities": [
+          "cdt-1",
+          "cellodextrin transporter",
+          "URA3 locus",
+          "diploid S. cerevisiae",
+          "gh1-1"
+        ],
+        "key_numbers": [
+          "2.6-fold increased cellobiose utilization",
+          "1.7-fold increased cellobiose utilization"
+        ]
+      },
+      {
+        "canonical_id": "K11",
+        "order": 11,
+        "event_type": "experiment",
+        "summary": "CRISPRm was used to introduce the N209S mutation into a cdt-1 mutant background, creating a quadruple mutant with synergistic cellobiose utilization (3.9-fold increased growth).",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E01"
+        ],
+        "evidence_ids": [
+          "EV_C003_E01_02"
+        ],
+        "key_entities": [
+          "cdt-1",
+          "N209S",
+          "Q45H/F262Y/F533Y"
+        ],
+        "key_numbers": [
+          "3.9-fold increased growth"
+        ]
+      },
+      {
+        "canonical_id": "K12",
+        "order": 12,
+        "event_type": "experiment",
+        "summary": "Selected cdt-1 alleles were tested in anaerobic fermentations using cellobiose as the sole carbon source; wild-type cdt-1 integrated into the chromosome barely supported fermentation, while mutants enabled complete fermentation.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E02",
+          "C003_E03"
+        ],
+        "evidence_ids": [
+          "EV_C003_E02_01",
+          "EV_C003_E03_01"
+        ],
+        "key_entities": [
+          "cdt-1",
+          "cellobiose"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K13",
+        "order": 13,
+        "event_type": "limitation",
+        "summary": "Selection may have enriched for sequences that improve mRNA stability or translation efficiency, not just protein function.",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C003_E04"
+        ],
+        "evidence_ids": [
+          "EV_C003_E04_01"
+        ],
+        "key_entities": [
+          "mRNA stability",
+          "translation efficiency"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K14",
+        "order": 14,
+        "event_type": "limitation",
+        "summary": "Choice of tRNA promoter impacts multiplexing in a strain-dependent manner; tRNA^Tyr was inefficient in ATCC4124 though effective in S288C diploid.",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C002_E08"
+        ],
+        "evidence_ids": [
+          "EV_C002_E08_01"
+        ],
+        "key_entities": [
+          "tRNA^Tyr",
+          "ATCC4124",
+          "S288C diploid"
+        ],
+        "key_numbers": []
+      }
+    ],
+    "edges": [
+      {
+        "source": "K01",
+        "target": "K02",
+        "relation": "follows",
+        "reason": "Identifies the core problem of copy number variation and the inefficiency of current integration methods."
+      },
+      {
+        "source": "K02",
+        "target": "K03",
+        "relation": "enables",
+        "reason": "The inefficiency of homologous recombination motivates the hypothesis that CRISPR-Cas9 can enhance HDR."
+      },
+      {
+        "source": "K03",
+        "target": "K04",
+        "relation": "enables",
+        "reason": "The hypothesis leads to the design of a new sgRNA architecture with HDV ribozyme to improve expression and stability."
+      },
+      {
+        "source": "K04",
+        "target": "K05",
+        "relation": "enables",
+        "reason": "The ribozyme design is tested with various promoters to find optimal sgRNA expression."
+      },
+      {
+        "source": "K05",
+        "target": "K06",
+        "relation": "follows",
+        "reason": "After identifying effective tRNA promoters, target sequence bias is assessed across multiple loci."
+      },
+      {
+        "source": "K06",
+        "target": "K07",
+        "relation": "follows",
+        "reason": "Single-locus targeting efficiency is extended to multiplex targeting of multiple loci."
+      },
+      {
+        "source": "K07",
+        "target": "K08",
+        "relation": "validates",
+        "reason": "RT-qPCR analysis confirms that the ribozyme increases sgRNA abundance, explaining the improved multiplexing efficiency."
+      },
+      {
+        "source": "K08",
+        "target": "K09",
+        "relation": "enables",
+        "reason": "Understanding sgRNA abundance as rate-limiting supports the design of cis-multiplexing for in vivo assembly."
+      },
+      {
+        "source": "K09",
+        "target": "K10",
+        "relation": "enables",
+        "reason": "Efficient in vivo assembly enables the directed evolution experiment with cdt-1 library integration."
+      },
+      {
+        "source": "K10",
+        "target": "K11",
+        "relation": "refines",
+        "reason": "Identified mutations are combined using CRISPRm to create a synergistic quadruple mutant."
+      },
+      {
+        "source": "K11",
+        "target": "K12",
+        "relation": "validates",
+        "reason": "The improved mutants are validated in anaerobic fermentations, demonstrating practical utility."
+      },
+      {
+        "source": "K12",
+        "target": "K13",
+        "relation": "follows",
+        "reason": "The fermentation results are discussed with a limitation that selection may enrich for non-coding mutations."
+      },
+      {
+        "source": "K09",
+        "target": "K14",
+        "relation": "follows",
+        "reason": "The strain-dependent efficiency of tRNA promoters is noted as a limitation for generalizability."
+      }
+    ],
+    "must_cover_points": [
+      "Problem of copy number variation in plasmid-based libraries.",
+      "Hypothesis that CRISPR-Cas9 can enhance HDR for chromosomal integration.",
+      "Design of HDV ribozyme-sgRNA fusion to improve sgRNA stability.",
+      "Optimization of sgRNA expression using tRNA promoters.",
+      "Demonstration of high-efficiency single-locus targeting.",
+      "Multiplex targeting efficiency (duplex and triplex).",
+      "RT-qPCR validation of increased sgRNA abundance with ribozyme.",
+      "In vivo assembly of functional gene from multiple fragments.",
+      "Directed evolution of cdt-1 transporter with improved cellobiose utilization.",
+      "Combination of mutations for synergistic effect.",
+      "Validation in anaerobic fermentations.",
+      "Limitations: potential enrichment for non-coding mutations and strain-dependent promoter efficiency."
+    ],
+    "paper_not_suitable_reasons": []
+  }
+}

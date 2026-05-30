@@ -1,0 +1,2208 @@
+{
+  "doc_no": "0012",
+  "source": {
+    "title": "Bayesian optimization with evolutionary and structure-based regularization for directed protein evolution",
+    "doi": "https://doi.org/10.1186/s13015-021-00195-4",
+    "license": "cc-by",
+    "pdf_name": "0010_10_1186_s13015_021_00195_4_bayesian_optimization_with_evolutionary_and_structure_based_regularization_for_directed_pr.pdf",
+    "combined_md": "docs/0012/combined.md",
+    "mineru_md": "docs/0012/mineru.md"
+  },
+  "gist_memory": {
+    "paper_problem_memory": "Directed evolution (DE) optimizes a target property but may degrade unmeasured properties (e.g., solubility, thermostability). ML-assisted DE uses models myopically focused on the target, exacerbating this trade-off. The paper addresses this by formulating DE as regularized Bayesian optimization, where regularization terms based on evolutionary or structure-based constraints bias designs toward native-like properties.",
+    "section_gists": [
+      {
+        "section_index": 6,
+        "heading": "Abstract",
+        "gist": "Proposes regularized Bayesian optimization for DE to balance target optimization with unmeasured properties. Structure-based regularization usually improves designs and never hurts; evolutionary-based regularization is least effective. Regularization focuses search, reducing experimental burden.",
+        "process_signals": [
+          "Problem: DE optimization is under-determined; mutations for target property may harm unmeasured properties.",
+          "Solution: Regularized Bayesian optimization with evolutionary or structure-based constraints.",
+          "Key finding: Structure-based regularization usually helps, evolutionary-based is less effective.",
+          "Impact: Reduces experimental burden compared to model-free methods."
+        ],
+        "methods": [
+          "Bayesian optimization",
+          "Regularized acquisition functions (evolutionary and structure-based)"
+        ],
+        "metrics": [
+          "Design quality (implied by better designs)",
+          "Experimental budget efficiency"
+        ],
+        "failures_or_limits": [
+          "Evolutionary-based regularization tends to be least effective."
+        ]
+      },
+      {
+        "section_index": 7,
+        "heading": "Introduction",
+        "gist": "ML-assisted DE improves efficiency but models are myopic, ignoring unmeasured traits. The paper introduces regularized Bayesian optimization using evolutionary (generative models) or structure-based (FoldX) terms to bias toward native-like designs. Evaluated on GB1, BRCA1, Spike. Structure-based regularization usually helps; evolutionary results are mixed. Bayesian approach outperforms prior non-Bayesian ML-assisted DE.",
+        "process_signals": [
+          "Gap: ML-assisted DE models are myopic, only consider target property.",
+          "Hypothesis: Regularization with evolutionary or structure-based terms yields better overall designs.",
+          "Approach: Bayesian optimization with regularized acquisition functions.",
+          "Preliminary results: Structure-based regularization usually better, evolutionary mixed; Bayesian approach reduces wet-lab burden by 67% on GB1 vs. prior work."
+        ],
+        "methods": [
+          "Bayesian optimization",
+          "Regularization via generative models (TPLM, MRF, HMM) or FoldX",
+          "Comparison to traditional DE and unregularized BO"
+        ],
+        "metrics": [
+          "Binding affinity (GB1)",
+          "Activity (BRCA1)",
+          "Binding affinity (Spike)",
+          "Wet-lab burden reduction"
+        ],
+        "failures_or_limits": [
+          "Evolutionary regularization leads to worse designs for BRCA1."
+        ]
+      },
+      {
+        "section_index": 8,
+        "heading": "Background",
+        "gist": "Section header only; no content.",
+        "process_signals": [],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 9,
+        "heading": "Directed protein evolution",
+        "gist": "Traditional DE involves iterative mutagenesis, screening, and amplification. It explores design space via parallel search but is expensive and time-consuming. Variants include single mutation walk and recombination.",
+        "process_signals": [
+          "Baseline: Traditional DE is model-free, expensive, and may not account for unmeasured properties.",
+          "Motivation: Need for more efficient methods that consider broader constraints."
+        ],
+        "methods": [
+          "Single mutation walk",
+          "Recombination-based DE"
+        ],
+        "metrics": [],
+        "failures_or_limits": [
+          "Expensive and time-consuming wet-lab steps."
+        ]
+      },
+      {
+        "section_index": 10,
+        "heading": "Machine learning-assisted directed protein evolution",
+        "gist": "ML-assisted DE uses screening data to train a surrogate model for in silico screening, reducing experimental burden. However, models are myopic (focus on target property and limited residues). The paper aims to combine strengths of ML-assisted DE (adaptivity) and rational design (whole-sequence consideration) via regularization.",
+        "process_signals": [
+          "Prior work: ML-assisted DE reduces rounds but models are myopic.",
+          "Gap: Myopic models ignore unmeasured properties; rational design considers whole sequence but is fixed.",
+          "Proposed integration: Adaptive fitness model with whole-sequence regularization."
+        ],
+        "methods": [
+          "ML-assisted DE with surrogate model (classifier/regression)",
+          "In silico screening"
+        ],
+        "metrics": [],
+        "failures_or_limits": [
+          "Myopic models may improve target at expense of unmeasured traits."
+        ]
+      },
+      {
+        "section_index": 11,
+        "heading": "Bayesian optimization",
+        "gist": "Bayesian optimization (BO) models unknown objective with a prior (e.g., GP) and uses acquisition functions to balance exploration/exploitation. Proposed approach adds regularization to acquisition functions to favor native-like sequences.",
+        "process_signals": [
+          "Core methodology: BO with GP prior and acquisition functions (EI, PI, UCB).",
+          "Innovation: Custom acquisition functions with regularization terms (evolutionary or structure-based)."
+        ],
+        "methods": [
+          "Gaussian process regression",
+          "Acquisition functions: EI, PI, UCB",
+          "Regularization via evolutionary or structure-based factors"
+        ],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 12,
+        "heading": "Generative modeling of protein sequences",
+        "gist": "Evolutionary regularization uses generative models to penalize designs deviating from natural sequences. Primary model: ESM-1b transformer protein language model (TPLM). Also evaluated: profile HMMs and MRFs (GREMLIN). High probability/log-odds under model indicates native-likeness.",
+        "process_signals": [
+          "Hypothesis: Natural sequences have optimized properties; penalizing deviations enforces native-like traits.",
+          "Model choice: TPLM captures long-range dependencies; HMM/MRF are fold-family specific."
+        ],
+        "methods": [
+          "TPLM (ESM-1b)",
+          "Profile HMM",
+          "MRF (GREMLIN)"
+        ],
+        "metrics": [
+          "Log-odds score"
+        ],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 13,
+        "heading": "Methods",
+        "gist": "Section header only; no content.",
+        "process_signals": [],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 19,
+        "heading": "Evolutionary-based regularization factors",
+        "gist": "Uses pre-trained ESM-1b TPLM to compute log-odds scores for variants. Model trained on UniParc with masked language modeling. Also used MRF and HMM for fold-family specific regularization (details in Additional file 1).",
+        "process_signals": [
+          "Implementation: TPLM log-odds as regularization factor.",
+          "Alternative models: MRF and HMM explored."
+        ],
+        "methods": [
+          "ESM-1b TPLM",
+          "MRF",
+          "HMM"
+        ],
+        "metrics": [
+          "Log-odds score"
+        ],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 20,
+        "heading": "Structure-based regularization factors",
+        "gist": "Uses FoldX to compute ΔΔG of mutations relative to wild-type. Protocol: repair PDB, run BuildModel three times, average energy. Negative ΔΔG indicates favorable mutation.",
+        "process_signals": [
+          "Implementation: FoldX ΔΔG as regularization factor.",
+          "Structures used: GB1 (2GB1), BRCA1 (1JM7), Spike (6M0J)."
+        ],
+        "methods": [
+          "FoldX energy calculation (RepairPDB, BuildModel)"
+        ],
+        "metrics": [
+          "ΔΔG (change in Gibbs free energy)"
+        ],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 21,
+        "heading": "Bayesian optimization for directed protein evolution",
+        "gist": "BO uses GP regression with squared exponential kernel on one-hot encoded sequences. Hyperparameter (length scale) optimized via log marginal likelihood. GP provides posterior mean and variance for acquisition.",
+        "process_signals": [
+          "Design: GP with RBF kernel, one-hot encoding.",
+          "Hyperparameter optimization: maximize log marginal likelihood."
+        ],
+        "methods": [
+          "Gaussian process regression",
+          "Squared exponential kernel",
+          "One-hot encoding"
+        ],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 22,
+        "heading": "Regularized acquisition functions",
+        "gist": "Standard acquisition functions (EI, PI, UCB) are multiplied by a design-specific scaling factor F (log-odds or ΔΔG) to form regularized versions. This shifts selection toward native-like designs.",
+        "process_signals": [
+          "Core innovation: Regularized acquisition functions = standard acquisition × regularization factor.",
+          "Expected effect: Shift toward native-like designs."
+        ],
+        "methods": [
+          "Regularized EI, PI, UCB (Eqs. 10-12)"
+        ],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 23,
+        "heading": "Directed evolution with machine learning and in silico traditional approaches",
+        "gist": "Experiments compare standard ML-assisted DE, regularized BO, and simulated traditional DE (single mutation walk, recombination). GB1 data used for traditional DE simulation due to exhaustive variants. Single mutation walk is deterministic; recombination uses top 3 sequences to create recombinant library.",
+        "process_signals": [
+          "Baselines: Traditional DE (single mutation walk, recombination), unregularized BO.",
+          "Simulation details: 191 total variants screened, 20 initial random, 9 batches of 19.",
+          "Traditional DE simulation: single mutation walk deterministic; recombination uses Cartesian product of top variants."
+        ],
+        "methods": [
+          "Simulated single mutation walk",
+          "Simulated recombination DE",
+          "Bayesian optimization with/without regularization"
+        ],
+        "metrics": [
+          "Fitness (GB1)",
+          "Activity (BRCA1)",
+          "Binding affinity (Spike)"
+        ],
+        "failures_or_limits": [
+          "BRCA1 and Spike data only include single-site mutations, limiting traditional DE simulation to GB1."
+        ]
+      },
+      {
+        "section_index": 24,
+        "heading": "Results",
+        "gist": "Reports results of five DE approaches: single mutation walk, recombination, unregularized BO (GP+EI/PI/UCB), evolutionary regularized BO (GP+EI/PI/UCB+TPLM), and structure-based regularized BO (GP+EI/PI/UCB+FoldX). Each method screened 191 variants over 100 trials with different initializations. 20% data held out.",
+        "process_signals": [
+          "Experimental setup: 191 variants, 20 initial, 9 batches of 19, 100 trials.",
+          "Methods compared: traditional DE, unregularized BO, regularized BO (evolutionary and structure-based).",
+          "Focus on subset of experiments; additional results in Additional file 1."
+        ],
+        "methods": [
+          "Single mutation walk",
+          "Recombination",
+          "GP + EI/PI/UCB",
+          "GP + EI/PI/UCB + TPLM",
+          "GP + EI/PI/UCB + FoldX"
+        ],
+        "metrics": [],
+        "failures_or_limits": []
+      }
+    ],
+    "global_hypotheses_about_storyline": [
+      "Regularization with evolutionary or structure-based terms in BO acquisition functions will yield better overall protein designs by maintaining unmeasured native-like properties.",
+      "Structure-based regularization (FoldX) is more reliable than evolutionary-based (TPLM) because it directly models thermodynamic stability.",
+      "Bayesian optimization with regularization can outperform both traditional DE and unregularized ML-assisted DE in terms of design quality and experimental efficiency."
+    ],
+    "uncertainties_to_resolve": [
+      "Why does evolutionary regularization fail on BRCA1 and Spike? Is it due to model limitations or data characteristics?",
+      "How does the choice of acquisition function (EI, PI, UCB) interact with regularization type?",
+      "Are there cases where structure-based regularization with UCB is not beneficial?",
+      "How sensitive are results to the scaling factor β in UCB?",
+      "What are the specific performance metrics (e.g., fitness values, statistical significance) for each method?",
+      "Does the method generalize to multi-site mutations beyond the GB1 dataset?",
+      "What are the limitations of using FoldX (e.g., accuracy, need for structure) and TPLM (e.g., training data bias)?"
+    ]
+  },
+  "chunk_events": [
+    {
+      "chunk_id": "C001",
+      "char_start": 0,
+      "char_end": 18000,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C001_E01",
+          "chunk_id": "C001",
+          "event_type": "problem",
+          "order_hint": 1,
+          "summary": "Directed evolution optimization is under-determined; mutations for target property may harm unmeasured properties.",
+          "methods_or_tools": [],
+          "entities": [
+            "directed evolution",
+            "unmeasured properties"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E01_01"
+          ]
+        },
+        {
+          "event_id": "C001_E02",
+          "chunk_id": "C001",
+          "event_type": "hypothesis",
+          "order_hint": 2,
+          "summary": "Regularizing Bayesian optimization with evolutionary or structure-based constraints will yield better designs.",
+          "methods_or_tools": [
+            "Bayesian optimization",
+            "regularization"
+          ],
+          "entities": [
+            "evolutionary constraints",
+            "structure-based constraints"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E02_01"
+          ]
+        },
+        {
+          "event_id": "C001_E03",
+          "chunk_id": "C001",
+          "event_type": "experiment",
+          "order_hint": 3,
+          "summary": "Applied approach to three proteins: GB1, BRCA1, SARS-CoV-2 Spike, evaluating both regularization types.",
+          "methods_or_tools": [
+            "regularized Bayesian optimization"
+          ],
+          "entities": [
+            "GB1",
+            "BRCA1",
+            "SARS-CoV-2 Spike"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E03_01"
+          ]
+        },
+        {
+          "event_id": "C001_E04",
+          "chunk_id": "C001",
+          "event_type": "analysis",
+          "order_hint": 4,
+          "summary": "Structure-based regularization usually leads to better designs and never hurts; evolutionary-based is least effective.",
+          "methods_or_tools": [],
+          "entities": [
+            "structure-based regularization",
+            "evolutionary-based regularization"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E04_01"
+          ]
+        },
+        {
+          "event_id": "C001_E05",
+          "chunk_id": "C001",
+          "event_type": "analysis",
+          "order_hint": 5,
+          "summary": "Regularization focuses search, making better use of experimental budget.",
+          "methods_or_tools": [],
+          "entities": [
+            "regularization"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E05_01"
+          ]
+        },
+        {
+          "event_id": "C001_E06",
+          "chunk_id": "C001",
+          "event_type": "validation",
+          "order_hint": 6,
+          "summary": "Bayesian approach reduces wet-lab burden by 67% on GB1 vs. prior non-Bayesian ML-assisted DE.",
+          "methods_or_tools": [
+            "Bayesian optimization"
+          ],
+          "entities": [
+            "GB1"
+          ],
+          "numbers_or_metrics": [
+            "67% reduction"
+          ],
+          "evidence_ids": [
+            "EV_C001_E06_01"
+          ]
+        },
+        {
+          "event_id": "C001_E07",
+          "chunk_id": "C001",
+          "event_type": "limitation",
+          "order_hint": 7,
+          "summary": "Evolutionary regularization leads to worse designs for BRCA1.",
+          "methods_or_tools": [],
+          "entities": [
+            "BRCA1",
+            "evolutionary regularization"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E07_01"
+          ]
+        }
+      ],
+      "notes": "Chunk contains abstract and introduction, clearly stating problem, hypothesis, key results, and method overview.",
+      "api_usage": {
+        "prompt_tokens": 7127,
+        "completion_tokens": 1171,
+        "total_tokens": 8298,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 6743
+      }
+    },
+    {
+      "chunk_id": "C002",
+      "char_start": 17100,
+      "char_end": 35100,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C002_E01",
+          "chunk_id": "C002",
+          "event_type": "design",
+          "order_hint": 1,
+          "summary": "Transformer protein language model (TPLM) ESM-1b used for evolutionary regularization, trained on 250M sequences.",
+          "methods_or_tools": [
+            "ESM-1b",
+            "Transformer",
+            "UniParc"
+          ],
+          "entities": [
+            "TPLM",
+            "ESM-1b"
+          ],
+          "numbers_or_metrics": [
+            "250 million protein sequences"
+          ],
+          "evidence_ids": [
+            "EV_C002_E01_01"
+          ]
+        },
+        {
+          "event_id": "C002_E02",
+          "chunk_id": "C002",
+          "event_type": "design",
+          "order_hint": 2,
+          "summary": "Fold-family specific models (profile HMMs and MRF via GREMLIN) also evaluated for regularization.",
+          "methods_or_tools": [
+            "profile HMM",
+            "MRF",
+            "GREMLIN"
+          ],
+          "entities": [
+            "HMM",
+            "MRF",
+            "GREMLIN"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E02_01"
+          ]
+        },
+        {
+          "event_id": "C002_E03",
+          "chunk_id": "C002",
+          "event_type": "design",
+          "order_hint": 3,
+          "summary": "GB1 dataset: saturation mutagenesis at four sites (V39, D40, G41, V54), fitness measured by mRNA display.",
+          "methods_or_tools": [
+            "mRNA display",
+            "Illumina sequencing"
+          ],
+          "entities": [
+            "GB1",
+            "V39",
+            "D40",
+            "G41",
+            "V54"
+          ],
+          "numbers_or_metrics": [
+            "149,361 variants",
+            "160,000 possible",
+            "fitness range 0 to 8.76"
+          ],
+          "evidence_ids": [
+            "EV_C002_E03_01",
+            "EV_C002_E03_02"
+          ]
+        },
+        {
+          "event_id": "C002_E04",
+          "chunk_id": "C002",
+          "event_type": "design",
+          "order_hint": 4,
+          "summary": "BRCA1 dataset: single-site mutations in RING domain, E3 ubiquitin ligase activity measured by phage display.",
+          "methods_or_tools": [
+            "phage display"
+          ],
+          "entities": [
+            "BRCA1",
+            "RING domain"
+          ],
+          "numbers_or_metrics": [
+            "1388 variant sequences",
+            "activity scores 0 to 2.8"
+          ],
+          "evidence_ids": [
+            "EV_C002_E04_01"
+          ]
+        },
+        {
+          "event_id": "C002_E05",
+          "chunk_id": "C002",
+          "event_type": "design",
+          "order_hint": 5,
+          "summary": "Spike dataset: deep mutational scan of receptor binding domain, ACE2 binding affinity measured by yeast display.",
+          "methods_or_tools": [
+            "yeast display"
+          ],
+          "entities": [
+            "Spike",
+            "ACE2"
+          ],
+          "numbers_or_metrics": [
+            "4020 variant sequences",
+            "affinities -4.84 to 0.3"
+          ],
+          "evidence_ids": [
+            "EV_C002_E05_01"
+          ]
+        },
+        {
+          "event_id": "C002_E06",
+          "chunk_id": "C002",
+          "event_type": "computation",
+          "order_hint": 6,
+          "summary": "TPLM log-odds score computed by summing final layer logits for each variant sequence.",
+          "methods_or_tools": [
+            "ESM-1b",
+            "log-odds"
+          ],
+          "entities": [
+            "TPLM"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E06_01"
+          ]
+        },
+        {
+          "event_id": "C002_E07",
+          "chunk_id": "C002",
+          "event_type": "computation",
+          "order_hint": 7,
+          "summary": "FoldX used to compute ΔΔG for mutations: repair PDB, run BuildModel three times, average energy.",
+          "methods_or_tools": [
+            "FoldX",
+            "RepairPDB",
+            "BuildModel"
+          ],
+          "entities": [
+            "FoldX"
+          ],
+          "numbers_or_metrics": [
+            "three runs"
+          ],
+          "evidence_ids": [
+            "EV_C002_E07_01"
+          ]
+        },
+        {
+          "event_id": "C002_E08",
+          "chunk_id": "C002",
+          "event_type": "design",
+          "order_hint": 8,
+          "summary": "Bayesian optimization uses GP with squared exponential kernel on one-hot encoded sequences.",
+          "methods_or_tools": [
+            "Gaussian process",
+            "squared exponential kernel",
+            "one-hot encoding"
+          ],
+          "entities": [
+            "GP"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E08_01",
+            "EV_C002_E08_02"
+          ]
+        }
+      ],
+      "notes": "Chunk provides detailed data descriptions and modeling steps for evolutionary and structure-based regularization, as well as Bayesian optimization setup.",
+      "api_usage": {
+        "prompt_tokens": 8036,
+        "completion_tokens": 1280,
+        "total_tokens": 9316,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 7652
+      }
+    },
+    {
+      "chunk_id": "C003",
+      "char_start": 34200,
+      "char_end": 52200,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C003_E01",
+          "chunk_id": "C003",
+          "event_type": "experiment",
+          "order_hint": 1,
+          "summary": "ML-assisted DE outperforms traditional DE on GB1 fitness optimization.",
+          "methods_or_tools": [
+            "GP+EI",
+            "GP+PI",
+            "GP+UCB",
+            "single mutation walk",
+            "recombination"
+          ],
+          "entities": [
+            "GB1"
+          ],
+          "numbers_or_metrics": [
+            "fitness 7.22 (EI), 7.27 (PI), 7.08 (UCB) vs 4.97 traditional",
+            "45% improvement"
+          ],
+          "evidence_ids": [
+            "EV_C003_E01_01",
+            "EV_C003_E01_02"
+          ]
+        },
+        {
+          "event_id": "C003_E02",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 2,
+          "summary": "Structure-based regularization usually leads to better designs and almost never hurts.",
+          "methods_or_tools": [
+            "FoldX",
+            "GP+EI+FoldX",
+            "GP+PI+FoldX",
+            "GP+UCB+FoldX"
+          ],
+          "entities": [
+            "GB1",
+            "BRCA1",
+            "Spike"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E02_01",
+            "EV_C003_E02_02"
+          ]
+        },
+        {
+          "event_id": "C003_E03",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 3,
+          "summary": "Benefits of structure-based regularization vary with experimental budget.",
+          "methods_or_tools": [],
+          "entities": [
+            "BRCA1"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E03_01",
+            "EV_C003_E03_02"
+          ]
+        },
+        {
+          "event_id": "C003_E04",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 4,
+          "summary": "Evolutionary-based regularization via TPLM is unreliable.",
+          "methods_or_tools": [
+            "TPLM",
+            "ESM-1b"
+          ],
+          "entities": [
+            "GB1",
+            "BRCA1",
+            "Spike"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E04_01",
+            "EV_C003_E04_02"
+          ]
+        },
+        {
+          "event_id": "C003_E05",
+          "chunk_id": "C003",
+          "event_type": "experiment",
+          "order_hint": 5,
+          "summary": "GP+UCB+TPLM selected GB1 variant with highest average fitness 7.76.",
+          "methods_or_tools": [
+            "GP+UCB+TPLM"
+          ],
+          "entities": [
+            "GB1"
+          ],
+          "numbers_or_metrics": [
+            "fitness 7.76"
+          ],
+          "evidence_ids": [
+            "EV_C003_E05_01"
+          ]
+        },
+        {
+          "event_id": "C003_E06",
+          "chunk_id": "C003",
+          "event_type": "experiment",
+          "order_hint": 6,
+          "summary": "GP+EI+FoldX selected BRCA1 variant with highest average E3 ubiquitin ligase activity 2.65.",
+          "methods_or_tools": [
+            "GP+EI+FoldX"
+          ],
+          "entities": [
+            "BRCA1"
+          ],
+          "numbers_or_metrics": [
+            "activity 2.65"
+          ],
+          "evidence_ids": [
+            "EV_C003_E06_01"
+          ]
+        },
+        {
+          "event_id": "C003_E07",
+          "chunk_id": "C003",
+          "event_type": "experiment",
+          "order_hint": 7,
+          "summary": "GP+UCB+FoldX selected Spike variant with highest average ACE2 binding affinity 0.98.",
+          "methods_or_tools": [
+            "GP+UCB+FoldX"
+          ],
+          "entities": [
+            "Spike"
+          ],
+          "numbers_or_metrics": [
+            "binding affinity 0.98"
+          ],
+          "evidence_ids": [
+            "EV_C003_E07_01"
+          ]
+        }
+      ],
+      "notes": "Chunk reports key experimental results comparing ML-assisted DE with traditional DE, and effects of structure-based and evolutionary-based regularization.",
+      "api_usage": {
+        "prompt_tokens": 8190,
+        "completion_tokens": 1133,
+        "total_tokens": 9323,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 7806
+      }
+    },
+    {
+      "chunk_id": "C004",
+      "char_start": 51300,
+      "char_end": 69300,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C004_E01",
+          "chunk_id": "C004",
+          "event_type": "analysis",
+          "order_hint": 1,
+          "summary": "Evolutionary-based regularization via ESM-1b TPLM is unreliable; it outperforms for GB1 but underperforms for BRCA1 and Spike.",
+          "methods_or_tools": [
+            "ESM-1b TPLM",
+            "GREMLIN",
+            "HMM"
+          ],
+          "entities": [
+            "GB1",
+            "BRCA1",
+            "Spike"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E01_01",
+            "EV_C004_E01_02"
+          ]
+        },
+        {
+          "event_id": "C004_E02",
+          "chunk_id": "C004",
+          "event_type": "analysis",
+          "order_hint": 2,
+          "summary": "GREMLIN and HMM regularized methods performed similarly to unregularized methods.",
+          "methods_or_tools": [
+            "GREMLIN",
+            "HMM"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E02_01"
+          ]
+        },
+        {
+          "event_id": "C004_E03",
+          "chunk_id": "C004",
+          "event_type": "analysis",
+          "order_hint": 3,
+          "summary": "Regularization biases variant selection towards favorable regularization scores, and objective and regularization values carry information about unmeasured traits.",
+          "methods_or_tools": [],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E03_01",
+            "EV_C004_E03_02"
+          ]
+        },
+        {
+          "event_id": "C004_E04",
+          "chunk_id": "C004",
+          "event_type": "analysis",
+          "order_hint": 4,
+          "summary": "Regularized methods explore more variant types at specific positions, as shown by higher residue-specific entropy.",
+          "methods_or_tools": [],
+          "entities": [
+            "GB1",
+            "BRCA1",
+            "Spike"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E04_01"
+          ]
+        },
+        {
+          "event_id": "C004_E05",
+          "chunk_id": "C004",
+          "event_type": "analysis",
+          "order_hint": 5,
+          "summary": "For GB1, unregularized method has least entropy at position 41, while regularized method has highest certainty at position 54.",
+          "methods_or_tools": [],
+          "entities": [
+            "GB1"
+          ],
+          "numbers_or_metrics": [
+            "position 41",
+            "position 54"
+          ],
+          "evidence_ids": [
+            "EV_C004_E05_01"
+          ]
+        },
+        {
+          "event_id": "C004_E06",
+          "chunk_id": "C004",
+          "event_type": "analysis",
+          "order_hint": 6,
+          "summary": "For BRCA1 and Spike, regularized methods show regions of darker shading, indicating greater site-specific exploration driven by regularization.",
+          "methods_or_tools": [],
+          "entities": [
+            "BRCA1",
+            "Spike"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E06_01",
+            "EV_C004_E06_02"
+          ]
+        }
+      ],
+      "notes": "Chunk contains analysis of regularization effects, including reliability of evolutionary-based methods, correlation among traits, and exploration behavior.",
+      "api_usage": {
+        "prompt_tokens": 8133,
+        "completion_tokens": 926,
+        "total_tokens": 9059,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 7749
+      }
+    },
+    {
+      "chunk_id": "C005",
+      "char_start": 68400,
+      "char_end": 86400,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C005_E01",
+          "chunk_id": "C005",
+          "event_type": "analysis",
+          "order_hint": 1,
+          "summary": "Regularized methods show greater site-specific exploration compared to unregularized methods, as indicated by darker shading in entropy plots.",
+          "methods_or_tools": [],
+          "entities": [
+            "regularized methods",
+            "unregularized methods"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C005_E01_01"
+          ]
+        },
+        {
+          "event_id": "C005_E02",
+          "chunk_id": "C005",
+          "event_type": "analysis",
+          "order_hint": 2,
+          "summary": "For GB1, regularized method selected consensus sequence {V39F, D40W, G41A, V54A} which is the highest fitness variant (8.76), while unregularized selected {V39F, D40W, G41L, V54A} ranking 443rd (3.66).",
+          "methods_or_tools": [],
+          "entities": [
+            "GB1",
+            "regularized method",
+            "unregularized method"
+          ],
+          "numbers_or_metrics": [
+            "fitness 8.76",
+            "rank 443rd",
+            "fitness 3.66"
+          ],
+          "evidence_ids": [
+            "EV_C005_E02_01",
+            "EV_C005_E02_02"
+          ]
+        },
+        {
+          "event_id": "C005_E03",
+          "chunk_id": "C005",
+          "event_type": "analysis",
+          "order_hint": 3,
+          "summary": "For BRCA1, regularized method selected I21E, the highest scoring variant; unregularized selected wildtype.",
+          "methods_or_tools": [],
+          "entities": [
+            "BRCA1",
+            "regularized method",
+            "unregularized method"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C005_E03_01"
+          ]
+        },
+        {
+          "event_id": "C005_E04",
+          "chunk_id": "C005",
+          "event_type": "analysis",
+          "order_hint": 4,
+          "summary": "For Spike, FoldX regularized method selected Q120M with ACE2 binding affinity 0.18, the sixth highest scoring variant.",
+          "methods_or_tools": [
+            "FoldX"
+          ],
+          "entities": [
+            "Spike",
+            "FoldX regularized method"
+          ],
+          "numbers_or_metrics": [
+            "ACE2 binding affinity 0.18",
+            "sixth highest scoring variant"
+          ],
+          "evidence_ids": [
+            "EV_C005_E04_01"
+          ]
+        },
+        {
+          "event_id": "C005_E05",
+          "chunk_id": "C005",
+          "event_type": "analysis",
+          "order_hint": 5,
+          "summary": "Structure-based regularization usually produces better designs, and only did harm in one configuration (GP + UCB + FoldX on GB1). Evolutionary-based regularization is unreliable, helping only in two configurations on GB1.",
+          "methods_or_tools": [
+            "GP + UCB + FoldX",
+            "GP + PI + TPLM",
+            "GP + UCB + TPLM"
+          ],
+          "entities": [
+            "GB1",
+            "BRCA1",
+            "Spike"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C005_E05_01",
+            "EV_C005_E05_02"
+          ]
+        },
+        {
+          "event_id": "C005_E06",
+          "chunk_id": "C005",
+          "event_type": "analysis",
+          "order_hint": 6,
+          "summary": "GB1 structure did not include binding partner, so FoldX predictions were less helpful. BRCA1 and Spike structures included binding partner, making FoldX more informative.",
+          "methods_or_tools": [
+            "FoldX"
+          ],
+          "entities": [
+            "GB1",
+            "BRCA1",
+            "Spike"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C005_E06_01",
+            "EV_C005_E06_02"
+          ]
+        },
+        {
+          "event_id": "C005_E07",
+          "chunk_id": "C005",
+          "event_type": "analysis",
+          "order_hint": 7,
+          "summary": "Bayesian approach required only 191 fitness value acquisitions to identify high-fitness designs on GB1, a 67% reduction compared to 470 initial observations plus 100 in prior work.",
+          "methods_or_tools": [
+            "Bayesian optimization"
+          ],
+          "entities": [
+            "GB1"
+          ],
+          "numbers_or_metrics": [
+            "191 acquisitions",
+            "470 initial observations",
+            "67% reduction"
+          ],
+          "evidence_ids": [
+            "EV_C005_E07_01",
+            "EV_C005_E07_02",
+            "EV_C005_E07_03"
+          ]
+        },
+        {
+          "event_id": "C005_E08",
+          "chunk_id": "C005",
+          "event_type": "analysis",
+          "order_hint": 8,
+          "summary": "Regularization concentrates exploration at select residues, while unregularized methods select positions more uniformly. This trend is apparent in all regularized methods and acquisition function types.",
+          "methods_or_tools": [],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C005_E08_01",
+            "EV_C005_E08_02"
+          ]
+        }
+      ],
+      "notes": "Chunk contains detailed analysis of results, including specific variant selections, performance comparisons, and explanations for regularization effects.",
+      "api_usage": {
+        "prompt_tokens": 7503,
+        "completion_tokens": 1572,
+        "total_tokens": 9075,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 7119
+      }
+    },
+    {
+      "chunk_id": "C006",
+      "char_start": 85500,
+      "char_end": 91561,
+      "chunk_relevance": "none",
+      "events": [],
+      "notes": "This chunk contains only references and publisher information, with no research evolution events.",
+      "api_usage": {
+        "prompt_tokens": 5272,
+        "completion_tokens": 47,
+        "total_tokens": 5319,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 4888
+      }
+    }
+  ],
+  "evidence_bank": [
+    {
+      "evidence_id": "EV_C001_E01_01",
+      "source_file": "docs/0012/combined.md",
+      "section": "C001",
+      "char_start": 1000,
+      "char_end": 1234,
+      "quote": "the underlying optimization problem is under-determined, and so mutations introduced to improve the specified property may come at the expense of unmeasured, but nevertheless important properties (ex. solubility, thermostability, etc)"
+    },
+    {
+      "evidence_id": "EV_C001_E02_01",
+      "source_file": "docs/0012/combined.md",
+      "section": "C001",
+      "char_start": 1236,
+      "char_end": 1406,
+      "quote": "We address this issue by formulating DE as a regularized Bayesian optimization problem where the regularization term reflects evolutionary or structure-based constraints."
+    },
+    {
+      "evidence_id": "EV_C001_E03_01",
+      "source_file": "docs/0012/combined.md",
+      "section": "C001",
+      "char_start": 1417,
+      "char_end": 1588,
+      "quote": "We applied our approach to DE to three representative proteins, GB1, BRCA1, and SARS-CoV-2 Spike, and evaluated both evolutionary and structure-based regularization terms."
+    },
+    {
+      "evidence_id": "EV_C001_E04_01",
+      "source_file": "docs/0012/combined.md",
+      "section": "C001",
+      "char_start": 1644,
+      "char_end": 1831,
+      "quote": "structure-based regularization usually leads to better designs (and never hurts), compared to the unregularized setting; (ii) evolutionary-based regularization tends to be least effective"
+    },
+    {
+      "evidence_id": "EV_C001_E05_01",
+      "source_file": "docs/0012/combined.md",
+      "section": "C001",
+      "char_start": 1843,
+      "char_end": 2005,
+      "quote": "regularization leads to better designs because it effectively focuses the search in certain areas of sequence space, making better use of the experimental budget."
+    },
+    {
+      "evidence_id": "EV_C001_E06_01",
+      "source_file": "docs/0012/combined.md",
+      "section": "C001",
+      "char_start": 7206,
+      "char_end": 7357,
+      "quote": "we show that our approach reduces the wet-lab burden to identify optimal GB1 designs by 67%, relative to the results presented in [4] on the same data."
+    },
+    {
+      "evidence_id": "EV_C001_E07_01",
+      "source_file": "docs/0012/combined.md",
+      "section": "C001",
+      "char_start": 6939,
+      "char_end": 7069,
+      "quote": "The results using an evolutionary-based regularization are mixed; it leads to better designs for GB1, but worse designs for BRCA1."
+    },
+    {
+      "evidence_id": "EV_C002_E01_01",
+      "source_file": "docs/0012/combined.md",
+      "section": "C002",
+      "char_start": 17627,
+      "char_end": 17717,
+      "quote": "The transformer model used in this paper was trained on over 250 million protein sequences"
+    },
+    {
+      "evidence_id": "EV_C002_E02_01",
+      "source_file": "docs/0012/combined.md",
+      "section": "C002",
+      "char_start": 17919,
+      "char_end": 18051,
+      "quote": "we also evaluate two fold family-specific options—profile HMMs and Markov Random Fields (MRF), as generated by the GREMLIN algorithm"
+    },
+    {
+      "evidence_id": "EV_C002_E03_01",
+      "source_file": "docs/0012/combined.md",
+      "section": "C002",
+      "char_start": 19522,
+      "char_end": 19661,
+      "quote": "Experimental measurements were obtained for 149,361 out of 160,000 (i.e. $20^{4}$ ) possible variants at these four loci using mRNA display"
+    },
+    {
+      "evidence_id": "EV_C002_E03_02",
+      "source_file": "docs/0012/combined.md",
+      "section": "C002",
+      "char_start": 20435,
+      "char_end": 20496,
+      "quote": "The range of fitness scores is from 0 to 8.76, with mean 0.08"
+    },
+    {
+      "evidence_id": "EV_C002_E04_01",
+      "source_file": "docs/0012/combined.md",
+      "section": "C002",
+      "char_start": 21923,
+      "char_end": 22114,
+      "quote": "Our experiments were limited to the mutations in residues 2-103 that passed the quality filter, which correspond to the RING domain coordinates. In total, this gave us 1388 variant sequences."
+    },
+    {
+      "evidence_id": "EV_C002_E05_01",
+      "source_file": "docs/0012/combined.md",
+      "section": "C002",
+      "char_start": 24162,
+      "char_end": 24360,
+      "quote": "Starr et al. [31] performed a deep mutational scan of the Spike glycoprotein using a yeast display platform to assess the effect of mutations in the receptor binding domain on ACE2 binding affinity."
+    },
+    {
+      "evidence_id": "EV_C002_E06_01",
+      "source_file": "docs/0012/combined.md",
+      "section": "C002",
+      "char_start": 26413,
+      "char_end": 26512,
+      "quote": "By summing over these logits for a given variant sequence, we obtain a TPLM-derived log-odds score."
+    },
+    {
+      "evidence_id": "EV_C002_E07_01",
+      "source_file": "docs/0012/combined.md",
+      "section": "C002",
+      "char_start": 28012,
+      "char_end": 28188,
+      "quote": "Calculate the energy associated with introducing each mutation into the structure using FoldX's BuildModel command. Calculations for each mutated sequence are done three times."
+    },
+    {
+      "evidence_id": "EV_C002_E08_01",
+      "source_file": "docs/0012/combined.md",
+      "section": "C002",
+      "char_start": 29326,
+      "char_end": 29363,
+      "quote": "we use the squared exponential kernel"
+    },
+    {
+      "evidence_id": "EV_C002_E08_02",
+      "source_file": "docs/0012/combined.md",
+      "section": "C002",
+      "char_start": 29614,
+      "char_end": 29657,
+      "quote": "We used a one-hot encoding of the variants."
+    },
+    {
+      "evidence_id": "EV_C003_E01_01",
+      "source_file": "docs/0012/combined.md",
+      "section": "C003",
+      "char_start": 37578,
+      "char_end": 37727,
+      "quote": "ML-assisted DE outperforms simulated traditional approaches (i.e., single-mutant walk and recombination) when optimizing GB1 with respect to fitness."
+    },
+    {
+      "evidence_id": "EV_C003_E01_02",
+      "source_file": "docs/0012/combined.md",
+      "section": "C003",
+      "char_start": 38202,
+      "char_end": 38324,
+      "quote": "ML-assisted DE thus thus improves upon traditional approaches in designing high fitness GB1 variants by an average of 45%."
+    },
+    {
+      "evidence_id": "EV_C003_E02_01",
+      "source_file": "docs/0012/combined.md",
+      "section": "C003",
+      "char_start": 38912,
+      "char_end": 38999,
+      "quote": "structure-based regularization usually leads to better designs, and almost never hurts."
+    },
+    {
+      "evidence_id": "EV_C003_E02_02",
+      "source_file": "docs/0012/combined.md",
+      "section": "C003",
+      "char_start": 39000,
+      "char_end": 39190,
+      "quote": "The exceptions involve GB1. We note that the GB1 structure used in our experiments does not include the antibody, and so FoldX does not have a complete picture of the system being optimized."
+    },
+    {
+      "evidence_id": "EV_C003_E03_01",
+      "source_file": "docs/0012/combined.md",
+      "section": "C003",
+      "char_start": 39217,
+      "char_end": 39306,
+      "quote": "the benefits of structure-based regularization vary according to the experimental budget."
+    },
+    {
+      "evidence_id": "EV_C003_E03_02",
+      "source_file": "docs/0012/combined.md",
+      "section": "C003",
+      "char_start": 39320,
+      "char_end": 39460,
+      "quote": "if one were only able to perform four rounds, then the unregularized acquisition works better for BRCA1, but not for the other two proteins."
+    },
+    {
+      "evidence_id": "EV_C003_E04_01",
+      "source_file": "docs/0012/combined.md",
+      "section": "C003",
+      "char_start": 51931,
+      "char_end": 52005,
+      "quote": "evolutionary-based regularization via the as-is ESM-1b TPLM is unreliable."
+    },
+    {
+      "evidence_id": "EV_C003_E04_02",
+      "source_file": "docs/0012/combined.md",
+      "section": "C003",
+      "char_start": 52025,
+      "char_end": 52158,
+      "quote": "it does very well for GB1—outperforming both structure-based and the unregularized methods, but it underperforms for BRCA1 and Spike."
+    },
+    {
+      "evidence_id": "EV_C003_E05_01",
+      "source_file": "docs/0012/combined.md",
+      "section": "C003",
+      "char_start": 51397,
+      "char_end": 51473,
+      "quote": "GP + UCB + TPLM selected the GB1 variant with highest average fitness (7.76)"
+    },
+    {
+      "evidence_id": "EV_C003_E06_01",
+      "source_file": "docs/0012/combined.md",
+      "section": "C003",
+      "char_start": 51483,
+      "char_end": 51582,
+      "quote": "GP + EI + FoldX selected the BRCA1 variant with highest average E3 ubiquitin ligase activity (2.65)"
+    },
+    {
+      "evidence_id": "EV_C003_E07_01",
+      "source_file": "docs/0012/combined.md",
+      "section": "C003",
+      "char_start": 51595,
+      "char_end": 51688,
+      "quote": "GP + UCB + FoldX selected the Spike variant with highest average ACE2 binding affinity (0.98)"
+    },
+    {
+      "evidence_id": "EV_C004_E01_01",
+      "source_file": "docs/0012/combined.md",
+      "section": "C004",
+      "char_start": 51918,
+      "char_end": 52005,
+      "quote": "we find that evolutionary-based regularization via the as-is ESM-1b TPLM is unreliable."
+    },
+    {
+      "evidence_id": "EV_C004_E01_02",
+      "source_file": "docs/0012/combined.md",
+      "section": "C004",
+      "char_start": 52025,
+      "char_end": 52158,
+      "quote": "it does very well for GB1—outperforming both structure-based and the unregularized methods, but it underperforms for BRCA1 and Spike."
+    },
+    {
+      "evidence_id": "EV_C004_E02_01",
+      "source_file": "docs/0012/combined.md",
+      "section": "C004",
+      "char_start": 52390,
+      "char_end": 52540,
+      "quote": "We also ran experiments that used GREMLIN and HMM regularized methods, but found that they did not perform much differently than unregularized methods"
+    },
+    {
+      "evidence_id": "EV_C004_E03_01",
+      "source_file": "docs/0012/combined.md",
+      "section": "C004",
+      "char_start": 52846,
+      "char_end": 52990,
+      "quote": "the inclusion of a regularization term will bias variant selection towards designs that score favorably according to the regularization criteria"
+    },
+    {
+      "evidence_id": "EV_C004_E03_02",
+      "source_file": "docs/0012/combined.md",
+      "section": "C004",
+      "char_start": 53720,
+      "char_end": 53806,
+      "quote": "the objective and regularization values carry some information about unmeasured traits"
+    },
+    {
+      "evidence_id": "EV_C004_E04_01",
+      "source_file": "docs/0012/combined.md",
+      "section": "C004",
+      "char_start": 54846,
+      "char_end": 55046,
+      "quote": "regularized methods for each protein have darker shading than their unregularized counterpart. This indicates that regularized methods explore more variant types at specific positions in each protein."
+    },
+    {
+      "evidence_id": "EV_C004_E05_01",
+      "source_file": "docs/0012/combined.md",
+      "section": "C004",
+      "char_start": 68114,
+      "char_end": 68304,
+      "quote": "The unregularized method has the least entropy at position 41, indicating that it has highest certainty at this position, whereas the regularized method has highest certainty at position 54."
+    },
+    {
+      "evidence_id": "EV_C004_E06_01",
+      "source_file": "docs/0012/combined.md",
+      "section": "C004",
+      "char_start": 68777,
+      "char_end": 68892,
+      "quote": "the regularized methods contain regions of darker shading, indicating a greater level of site-specific exploration."
+    },
+    {
+      "evidence_id": "EV_C004_E06_02",
+      "source_file": "docs/0012/combined.md",
+      "section": "C004",
+      "char_start": 69013,
+      "char_end": 69132,
+      "quote": "it is the evolution or structure-based regularization that must drive this increased exploration at targeted positions."
+    },
+    {
+      "evidence_id": "EV_C005_E01_01",
+      "source_file": "docs/0012/combined.md",
+      "section": "C005",
+      "char_start": 68777,
+      "char_end": 68891,
+      "quote": "the regularized methods contain regions of darker shading, indicating a greater level of site-specific exploration"
+    },
+    {
+      "evidence_id": "EV_C005_E02_01",
+      "source_file": "docs/0012/combined.md",
+      "section": "C005",
+      "char_start": 70311,
+      "char_end": 70454,
+      "quote": "the regularized method selected consensus sequence {V39F, D40W, G41A, V54A}, whereas the unregularized method selected {V39F, D40W, G41L, V54A}"
+    },
+    {
+      "evidence_id": "EV_C005_E02_02",
+      "source_file": "docs/0012/combined.md",
+      "section": "C005",
+      "char_start": 70608,
+      "char_end": 70735,
+      "quote": "{V39F, D40W, G41A, V54A} is the highest fitness variant in the data (8.76), whereas {V39F, D40W, G41L, V54A} ranks 443rd (3.66)"
+    },
+    {
+      "evidence_id": "EV_C005_E03_01",
+      "source_file": "docs/0012/combined.md",
+      "section": "C005",
+      "char_start": 71157,
+      "char_end": 71249,
+      "quote": "With BRCA1, this corresponds to I21E, which is the highest scoring variant in the BRCA1 data"
+    },
+    {
+      "evidence_id": "EV_C005_E04_01",
+      "source_file": "docs/0012/combined.md",
+      "section": "C005",
+      "char_start": 71265,
+      "char_end": 71418,
+      "quote": "the Spike variant Q120M selected by a FoldX regularized method has ACE2 binding affinity 0.18, which is the sixth highest scoring variant in the data set"
+    },
+    {
+      "evidence_id": "EV_C005_E05_01",
+      "source_file": "docs/0012/combined.md",
+      "section": "C005",
+      "char_start": 72723,
+      "char_end": 72851,
+      "quote": "structure-based regularization usually produces better designs, and only did harm in one configuration (GP + UCB + FoldX on GB1)"
+    },
+    {
+      "evidence_id": "EV_C005_E05_02",
+      "source_file": "docs/0012/combined.md",
+      "section": "C005",
+      "char_start": 72866,
+      "char_end": 73088,
+      "quote": "evolutionary-based regularization terms were seen to be unreliable; it only helped in two configurations (GP + PI + TPLM and GP + UCB + TPLM on GB1), but did poorly on BRCA1 and one configuration of Spike (GP + UCB + TPLM)"
+    },
+    {
+      "evidence_id": "EV_C005_E06_01",
+      "source_file": "docs/0012/combined.md",
+      "section": "C005",
+      "char_start": 73394,
+      "char_end": 73473,
+      "quote": "GB1 was the one protein where the structure did not include the binding partner"
+    },
+    {
+      "evidence_id": "EV_C005_E06_02",
+      "source_file": "docs/0012/combined.md",
+      "section": "C005",
+      "char_start": 73612,
+      "char_end": 73712,
+      "quote": "The structures used for the experiments on BRCA1 and Spike, in contrast, include the binding partner"
+    },
+    {
+      "evidence_id": "EV_C005_E07_01",
+      "source_file": "docs/0012/combined.md",
+      "section": "C005",
+      "char_start": 76065,
+      "char_end": 76221,
+      "quote": "a Bayesian approach only required 191 fitness value acquisitions (20 initial observations plus 9 batches of 19) to identify designs with high fitness values"
+    },
+    {
+      "evidence_id": "EV_C005_E07_02",
+      "source_file": "docs/0012/combined.md",
+      "section": "C005",
+      "char_start": 76236,
+      "char_end": 76348,
+      "quote": "the experiment in [4] required 470 initial observations plus a single batch of 100 to find similarly fit designs"
+    },
+    {
+      "evidence_id": "EV_C005_E07_03",
+      "source_file": "docs/0012/combined.md",
+      "section": "C005",
+      "char_start": 76350,
+      "char_end": 76407,
+      "quote": "This is a 67% reduction in the number of sequences tested"
+    },
+    {
+      "evidence_id": "EV_C005_E08_01",
+      "source_file": "docs/0012/combined.md",
+      "section": "C005",
+      "char_start": 77277,
+      "char_end": 77415,
+      "quote": "The regularized version tends to concentrate exploration at select residues, whereas unregularized methods select positions more uniformly"
+    },
+    {
+      "evidence_id": "EV_C005_E08_02",
+      "source_file": "docs/0012/combined.md",
+      "section": "C005",
+      "char_start": 77426,
+      "char_end": 77510,
+      "quote": "this trend is apparent in all regularized methods and all acquisition function types"
+    },
+    {
+      "evidence_id": "EV_AUTO_001",
+      "source_file": "docs/0012/combined.md",
+      "section": "auto_specific",
+      "char_start": 70301,
+      "char_end": 70455,
+      "quote": "7-left), the regularized method selected consensus sequence {V39F, D40W, G41A, V54A}, whereas the unregularized method selected {V39F, D40W, G41L, V54A}."
+    },
+    {
+      "evidence_id": "EV_AUTO_002",
+      "source_file": "docs/0012/combined.md",
+      "section": "auto_specific",
+      "char_start": 70455,
+      "char_end": 70679,
+      "quote": "While these sequences are similar, the single different amino acid selected at position 41 is meaningful in terms of the overall fitness of the design— {V39F, D40W, G41A, V54A} is the highest fitness variant in the data (8."
+    },
+    {
+      "evidence_id": "EV_AUTO_003",
+      "source_file": "docs/0012/combined.md",
+      "section": "auto_specific",
+      "char_start": 70679,
+      "char_end": 70732,
+      "quote": "76), whereas {V39F, D40W, G41L, V54A} ranks 443rd (3."
+    },
+    {
+      "evidence_id": "EV_AUTO_004",
+      "source_file": "docs/0012/combined.md",
+      "section": "auto_specific",
+      "char_start": 70455,
+      "char_end": 70732,
+      "quote": "While these sequences are similar, the single different amino acid selected at position 41 is meaningful in terms of the overall fitness of the design— {V39F, D40W, G41A, V54A} is the highest fitness variant in the data (8.76), whereas {V39F, D40W, G41L, V54A} ranks 443rd (3."
+    },
+    {
+      "evidence_id": "EV_AUTO_005",
+      "source_file": "docs/0012/combined.md",
+      "section": "auto_specific",
+      "char_start": 71419,
+      "char_end": 71660,
+      "quote": "Additionally, while Y is the consensus selection at position 120 for both models shown, we see that more trials that were regularized by FoldX selected variant Y120F, the third highest scoring variant, compared to the unregularized methods."
+    },
+    {
+      "evidence_id": "EV_AUTO_006",
+      "source_file": "docs/0012/combined.md",
+      "section": "auto_specific",
+      "char_start": 71250,
+      "char_end": 71356,
+      "quote": "Additionally, the Spike variant Q120M selected by a FoldX regularized method has ACE2 binding affinity 0."
+    },
+    {
+      "evidence_id": "EV_AUTO_007",
+      "source_file": "docs/0012/combined.md",
+      "section": "auto_specific",
+      "char_start": 71156,
+      "char_end": 71250,
+      "quote": "With BRCA1, this corresponds to I21E, which is the highest scoring variant in the BRCA1 data."
+    },
+    {
+      "evidence_id": "EV_AUTO_008",
+      "source_file": "docs/0012/combined.md",
+      "section": "auto_specific",
+      "char_start": 23761,
+      "char_end": 23848,
+      "quote": "The $\\beta$ -coronavirus SARS-CoV-2 is the virus responsible for the COVID-19 pandemic."
+    },
+    {
+      "evidence_id": "EV_AUTO_009",
+      "source_file": "docs/0012/combined.md",
+      "section": "auto_specific",
+      "char_start": 70679,
+      "char_end": 70736,
+      "quote": "76), whereas {V39F, D40W, G41L, V54A} ranks 443rd (3.66)."
+    },
+    {
+      "evidence_id": "EV_AUTO_010",
+      "source_file": "docs/0012/combined.md",
+      "section": "auto_specific",
+      "char_start": 71250,
+      "char_end": 71419,
+      "quote": "Additionally, the Spike variant Q120M selected by a FoldX regularized method has ACE2 binding affinity 0.18, which is the sixth highest scoring variant in the data set."
+    },
+    {
+      "evidence_id": "EV_AUTO_011",
+      "source_file": "docs/0012/combined.md",
+      "section": "auto_specific",
+      "char_start": 7477,
+      "char_end": 7792,
+      "quote": "It has been used to create proteins with increased stability $[11]$ , improved binding affinity $[12]$ , to design new protein folds $[13]$ , to change an enzyme's substrate specificity $[14]$ or ability to selectively synthesize enantiomeric products $[4]$ , and to study fitness landscapes $[15]$ , among others."
+    },
+    {
+      "evidence_id": "EV_AUTO_012",
+      "source_file": "docs/0012/combined.md",
+      "section": "auto_specific",
+      "char_start": 34901,
+      "char_end": 35180,
+      "quote": "A recombinant library is simulated in silico by computing the Cartesian product $S_{39} \\times S_{40} \\times S_{41} \\times S_{54}$ , where the set $S_{m}$ refers to the variant residues found at position m among the three highest fitness sequences in the initial random library."
+    },
+    {
+      "evidence_id": "EV_AUTO_013",
+      "source_file": "docs/0012/combined.md",
+      "section": "auto_specific",
+      "char_start": 34065,
+      "char_end": 34205,
+      "quote": "At each of positions 39, 40, 41, and 54, we observe the experimentally determined fitness values for all possible single-residue mutations."
+    },
+    {
+      "evidence_id": "EV_AUTO_014",
+      "source_file": "docs/0012/combined.md",
+      "section": "auto_specific",
+      "char_start": 75958,
+      "char_end": 76222,
+      "quote": "When using the GB1 data (the only data set for which a head-to-head comparison is possible), we find that a Bayesian approach only required 191 fitness value acquisitions (20 initial observations plus 9 batches of 19) to identify designs with high fitness values."
+    },
+    {
+      "evidence_id": "EV_AUTO_015",
+      "source_file": "docs/0012/combined.md",
+      "section": "auto_specific",
+      "char_start": 37045,
+      "char_end": 37158,
+      "quote": "20 initial sequences plus 9 batches of 19 designs per batch, giving $20 + 19 \\times 9 = 191$ variants selected)."
+    },
+    {
+      "evidence_id": "EV_AUTO_016",
+      "source_file": "docs/0012/combined.md",
+      "section": "auto_specific",
+      "char_start": 19153,
+      "char_end": 19450,
+      "quote": "The four chosen residues (V39, D40, G41, and V54) are collectively present in 12 of the protein's top 20 pairwise epistatic interactions, meaning these sites are not just expected to contain evolutionarily favorable variants [26], but also those that are involved in interactions with each other."
+    },
+    {
+      "evidence_id": "EV_AUTO_017",
+      "source_file": "docs/0012/combined.md",
+      "section": "auto_specific",
+      "char_start": 51579,
+      "char_end": 51689,
+      "quote": "65), and Right: GP + UCB + FoldX selected the Spike variant with highest average ACE2 binding affinity (0.98)"
+    },
+    {
+      "evidence_id": "EV_AUTO_018",
+      "source_file": "docs/0012/combined.md",
+      "section": "auto_specific",
+      "char_start": 51470,
+      "char_end": 51685,
+      "quote": "76), Middle: GP + EI + FoldX selected the BRCA1 variant with highest average E3 ubiquitin ligase activity (2.65), and Right: GP + UCB + FoldX selected the Spike variant with highest average ACE2 binding affinity (0."
+    },
+    {
+      "evidence_id": "EV_AUTO_019",
+      "source_file": "docs/0012/combined.md",
+      "section": "auto_specific",
+      "char_start": 51278,
+      "char_end": 51390,
+      "quote": "GP models were initialized with 20 randomly chosen sequences, and each batch consisted of 19 selected variants."
+    },
+    {
+      "evidence_id": "EV_AUTO_020",
+      "source_file": "docs/0012/combined.md",
+      "section": "auto_specific",
+      "char_start": 38110,
+      "char_end": 38179,
+      "quote": "22, whereas recombination yields a variant with maximum fitness 4.71."
+    },
+    {
+      "evidence_id": "EV_AUTO_021",
+      "source_file": "docs/0012/combined.md",
+      "section": "auto_specific",
+      "char_start": 37949,
+      "char_end": 38037,
+      "quote": "08 (UCB), whereas simulated traditional approaches identify a variant with fitness 4.97."
+    },
+    {
+      "evidence_id": "EV_AUTO_022",
+      "source_file": "docs/0012/combined.md",
+      "section": "auto_specific",
+      "char_start": 37934,
+      "char_end": 38034,
+      "quote": "27 (PI), and 7.08 (UCB), whereas simulated traditional approaches identify a variant with fitness 4."
+    },
+    {
+      "evidence_id": "EV_AUTO_023",
+      "source_file": "docs/0012/combined.md",
+      "section": "auto_specific",
+      "char_start": 24467,
+      "char_end": 24571,
+      "quote": "In total, they tested 4020 variant sequences, and found binding affinities that ranged from -4.84 to 0."
+    },
+    {
+      "evidence_id": "EV_AUTO_024",
+      "source_file": "docs/0012/combined.md",
+      "section": "auto_specific",
+      "char_start": 24467,
+      "char_end": 24563,
+      "quote": "In total, they tested 4020 variant sequences, and found binding affinities that ranged from -4."
+    },
+    {
+      "evidence_id": "EV_AUTO_025",
+      "source_file": "docs/0012/combined.md",
+      "section": "auto_specific",
+      "char_start": 22230,
+      "char_end": 22302,
+      "quote": "Only 227 sequences ( $\\approx$ 15%) had activity scores greater than 1."
+    },
+    {
+      "evidence_id": "EV_AUTO_026",
+      "source_file": "docs/0012/combined.md",
+      "section": "auto_specific",
+      "char_start": 21261,
+      "char_end": 21383,
+      "quote": "Using a phage display assay [30], they determined an E3 ubiquitin ligase activity score for 5154 total variant sequences."
+    },
+    {
+      "evidence_id": "EV_AUTO_027",
+      "source_file": "docs/0012/combined.md",
+      "section": "auto_specific",
+      "char_start": 21119,
+      "char_end": 21261,
+      "quote": "[29] investigated the functional effect of single site point mutations and deletions at BRCA1 residues 2-304 on E3 ubiquitin ligase activity."
+    },
+    {
+      "evidence_id": "EV_AUTO_028",
+      "source_file": "docs/0012/combined.md",
+      "section": "auto_specific",
+      "char_start": 20511,
+      "char_end": 20578,
+      "quote": "Only 3643 sequences ( $\\approx$ 2.4%) have fitness greater than 1."
+    },
+    {
+      "evidence_id": "EV_AUTO_029",
+      "source_file": "docs/0012/combined.md",
+      "section": "auto_specific",
+      "char_start": 19594,
+      "char_end": 19716,
+      "quote": "$20^{4}$ ) possible variants at these four loci using mRNA display [27], followed by high-throughput Illumina sequencing."
+    },
+    {
+      "evidence_id": "EV_AUTO_030",
+      "source_file": "docs/0012/combined.md",
+      "section": "auto_specific",
+      "char_start": 81915,
+      "char_end": 81969,
+      "quote": "The GB1 fold family data is given by Pfam ID PF01378."
+    },
+    {
+      "evidence_id": "EV_AUTO_031",
+      "source_file": "docs/0012/combined.md",
+      "section": "auto_specific",
+      "char_start": 81860,
+      "char_end": 81915,
+      "quote": "The GB1 variant fitness data is available through [25]."
+    },
+    {
+      "evidence_id": "EV_AUTO_032",
+      "source_file": "docs/0012/combined.md",
+      "section": "auto_specific",
+      "char_start": 75297,
+      "char_end": 75518,
+      "quote": "Others have recently shown that a TPLM can be fine-tuned for a given fold family, and that a fine-tuned model can perform better compared to the general model on predictive tasks related to the tuned protein family [35]."
+    },
+    {
+      "evidence_id": "EV_AUTO_033",
+      "source_file": "docs/0012/combined.md",
+      "section": "auto_specific",
+      "char_start": 68475,
+      "char_end": 68769,
+      "quote": "This is to be expected due simply to the larger number of positions that could be mutated using these protein data (recall that while the GB1 data includes all pairwise variants across four positions, these data include all single-site mutations across regions larger than 100 sequences each)."
+    },
+    {
+      "evidence_id": "EV_AUTO_034",
+      "source_file": "docs/0012/combined.md",
+      "section": "auto_specific",
+      "char_start": 54290,
+      "char_end": 54401,
+      "quote": "Figure 6 shows residue-specific entropy of variant selections with the best performing model for each protein."
+    },
+    {
+      "evidence_id": "EV_AUTO_035",
+      "source_file": "docs/0012/combined.md",
+      "section": "auto_specific",
+      "char_start": 51390,
+      "char_end": 51579,
+      "quote": "Left: GP + UCB + TPLM selected the GB1 variant with highest average fitness (7.76), Middle: GP + EI + FoldX selected the BRCA1 variant with highest average E3 ubiquitin ligase activity (2."
+    },
+    {
+      "evidence_id": "EV_AUTO_036",
+      "source_file": "docs/0012/combined.md",
+      "section": "auto_specific",
+      "char_start": 44046,
+      "char_end": 44189,
+      "quote": "(All): The traditional single step and recombination approaches select variants with cumulative-weighted average fitness values of 5.22 and 4."
+    }
+  ],
+  "event_graph": {
+    "paper_main_problem": "Directed evolution optimizes a target property but may degrade unmeasured properties (e.g., solubility, thermostability). ML-assisted DE models are myopic, exacerbating this trade-off. The paper addresses this by formulating DE as regularized Bayesian optimization, where regularization terms based on evolutionary or structure-based constraints bias designs toward native-like properties.",
+    "canonical_events": [
+      {
+        "canonical_id": "K01",
+        "order": 1,
+        "event_type": "problem",
+        "summary": "Directed evolution optimization is under-determined; mutations for target property may harm unmeasured properties.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E01"
+        ],
+        "evidence_ids": [
+          "EV_C001_E01_01"
+        ],
+        "key_entities": [
+          "directed evolution",
+          "unmeasured properties"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K02",
+        "order": 2,
+        "event_type": "hypothesis",
+        "summary": "Regularizing Bayesian optimization with evolutionary or structure-based constraints will yield better designs by maintaining unmeasured native-like properties.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E02"
+        ],
+        "evidence_ids": [
+          "EV_C001_E02_01"
+        ],
+        "key_entities": [
+          "Bayesian optimization",
+          "evolutionary constraints",
+          "structure-based constraints"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K03",
+        "order": 3,
+        "event_type": "design",
+        "summary": "Design regularized acquisition functions by multiplying standard acquisition (EI, PI, UCB) with a regularization factor (evolutionary log-odds or structure-based ΔΔG).",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E06",
+          "C002_E07",
+          "C002_E08"
+        ],
+        "evidence_ids": [
+          "EV_C002_E06_01",
+          "EV_C002_E07_01",
+          "EV_C002_E08_01",
+          "EV_C002_E08_02"
+        ],
+        "key_entities": [
+          "regularized acquisition functions",
+          "EI",
+          "PI",
+          "UCB",
+          "log-odds",
+          "ΔΔG"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K04",
+        "order": 4,
+        "event_type": "design",
+        "summary": "Select three protein datasets for evaluation: GB1 (binding fitness, 4-site saturation), BRCA1 (E3 ligase activity, single-site mutations), Spike (ACE2 binding affinity, single-site mutations).",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E03",
+          "C002_E04",
+          "C002_E05"
+        ],
+        "evidence_ids": [
+          "EV_C002_E03_01",
+          "EV_C002_E03_02",
+          "EV_C002_E04_01",
+          "EV_C002_E05_01"
+        ],
+        "key_entities": [
+          "GB1",
+          "BRCA1",
+          "Spike"
+        ],
+        "key_numbers": [
+          "149,361 variants (GB1)",
+          "1388 variants (BRCA1)",
+          "4020 variants (Spike)"
+        ]
+      },
+      {
+        "canonical_id": "K05",
+        "order": 5,
+        "event_type": "design",
+        "summary": "Implement evolutionary regularization using ESM-1b TPLM log-odds; also evaluate fold-family specific models (HMM, MRF via GREMLIN).",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E01",
+          "C002_E02"
+        ],
+        "evidence_ids": [
+          "EV_C002_E01_01",
+          "EV_C002_E02_01"
+        ],
+        "key_entities": [
+          "ESM-1b TPLM",
+          "HMM",
+          "MRF",
+          "GREMLIN"
+        ],
+        "key_numbers": [
+          "250 million training sequences"
+        ]
+      },
+      {
+        "canonical_id": "K06",
+        "order": 6,
+        "event_type": "design",
+        "summary": "Implement structure-based regularization using FoldX ΔΔG calculations (repair PDB, BuildModel 3x, average energy).",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E07"
+        ],
+        "evidence_ids": [
+          "EV_C002_E07_01"
+        ],
+        "key_entities": [
+          "FoldX",
+          "ΔΔG"
+        ],
+        "key_numbers": [
+          "3 runs"
+        ]
+      },
+      {
+        "canonical_id": "K07",
+        "order": 7,
+        "event_type": "experiment",
+        "summary": "Compare ML-assisted DE (unregularized BO) against simulated traditional DE (single mutation walk, recombination) on GB1. ML-assisted DE achieves 45% higher fitness.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E01"
+        ],
+        "evidence_ids": [
+          "EV_C003_E01_01",
+          "EV_C003_E01_02"
+        ],
+        "key_entities": [
+          "GB1",
+          "ML-assisted DE",
+          "traditional DE"
+        ],
+        "key_numbers": [
+          "fitness 7.22-7.27 vs 4.97",
+          "45% improvement"
+        ]
+      },
+      {
+        "canonical_id": "K08",
+        "order": 8,
+        "event_type": "experiment",
+        "summary": "Evaluate regularized BO methods on all three proteins. Structure-based regularization usually improves designs and almost never hurts; evolutionary-based regularization is unreliable.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E02",
+          "C003_E04",
+          "C004_E01",
+          "C005_E05"
+        ],
+        "evidence_ids": [
+          "EV_C003_E02_01",
+          "EV_C003_E04_01",
+          "EV_C004_E01_01",
+          "EV_C005_E05_01",
+          "EV_C005_E05_02"
+        ],
+        "key_entities": [
+          "structure-based regularization",
+          "evolutionary-based regularization",
+          "GB1",
+          "BRCA1",
+          "Spike"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K09",
+        "order": 9,
+        "event_type": "failure",
+        "summary": "Evolutionary regularization via TPLM fails on BRCA1 and Spike, performing worse than unregularized methods.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E07",
+          "C003_E04",
+          "C004_E01"
+        ],
+        "evidence_ids": [
+          "EV_C001_E07_01",
+          "EV_C003_E04_01",
+          "EV_C004_E01_01",
+          "EV_C004_E01_02"
+        ],
+        "key_entities": [
+          "BRCA1",
+          "Spike",
+          "TPLM"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K10",
+        "order": 10,
+        "event_type": "analysis",
+        "summary": "Structure-based regularization with FoldX is less helpful for GB1 because the structure lacks the binding partner; BRCA1 and Spike structures include binding partners, making FoldX more informative.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C005_E06"
+        ],
+        "evidence_ids": [
+          "EV_C005_E06_01",
+          "EV_C005_E06_02"
+        ],
+        "key_entities": [
+          "GB1",
+          "BRCA1",
+          "Spike",
+          "FoldX",
+          "binding partner"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K11",
+        "order": 11,
+        "event_type": "analysis",
+        "summary": "Regularization biases variant selection toward favorable regularization scores and concentrates exploration at select residues, as shown by higher residue-specific entropy.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C004_E03",
+          "C004_E04",
+          "C005_E08"
+        ],
+        "evidence_ids": [
+          "EV_C004_E03_01",
+          "EV_C004_E03_02",
+          "EV_C004_E04_01",
+          "EV_C005_E08_01",
+          "EV_C005_E08_02"
+        ],
+        "key_entities": [
+          "regularization",
+          "entropy",
+          "exploration"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K12",
+        "order": 12,
+        "event_type": "validation",
+        "summary": "Bayesian approach reduces wet-lab burden by 67% on GB1 compared to prior non-Bayesian ML-assisted DE (191 vs 570 acquisitions).",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E06",
+          "C005_E07"
+        ],
+        "evidence_ids": [
+          "EV_C001_E06_01",
+          "EV_C005_E07_01",
+          "EV_C005_E07_02",
+          "EV_C005_E07_03"
+        ],
+        "key_entities": [
+          "GB1",
+          "Bayesian optimization"
+        ],
+        "key_numbers": [
+          "191 acquisitions",
+          "67% reduction"
+        ]
+      },
+      {
+        "canonical_id": "K13",
+        "order": 13,
+        "event_type": "limitation",
+        "summary": "BRCA1 and Spike datasets only include single-site mutations, limiting traditional DE simulation to GB1 and restricting generalization of multi-site mutation results.",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C002_E04",
+          "C002_E05"
+        ],
+        "evidence_ids": [
+          "EV_C002_E04_01",
+          "EV_C002_E05_01"
+        ],
+        "key_entities": [
+          "BRCA1",
+          "Spike",
+          "single-site mutations"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K14",
+        "order": 14,
+        "event_type": "limitation",
+        "summary": "FoldX predictions may be less accurate without complete structural context (e.g., missing binding partner for GB1).",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C005_E06"
+        ],
+        "evidence_ids": [
+          "EV_C005_E06_01"
+        ],
+        "key_entities": [
+          "FoldX",
+          "GB1",
+          "binding partner"
+        ],
+        "key_numbers": []
+      }
+    ],
+    "edges": [
+      {
+        "source": "K01",
+        "target": "K02",
+        "relation": "enables",
+        "reason": "The problem of under-determined optimization motivates the hypothesis that regularization can help."
+      },
+      {
+        "source": "K02",
+        "target": "K03",
+        "relation": "enables",
+        "reason": "The hypothesis leads to the design of regularized acquisition functions."
+      },
+      {
+        "source": "K03",
+        "target": "K04",
+        "relation": "follows",
+        "reason": "After designing the method, datasets are selected for evaluation."
+      },
+      {
+        "source": "K03",
+        "target": "K05",
+        "relation": "enables",
+        "reason": "The design requires implementing evolutionary regularization."
+      },
+      {
+        "source": "K03",
+        "target": "K06",
+        "relation": "enables",
+        "reason": "The design requires implementing structure-based regularization."
+      },
+      {
+        "source": "K04",
+        "target": "K07",
+        "relation": "enables",
+        "reason": "Datasets enable the baseline comparison of ML-assisted DE vs traditional DE on GB1."
+      },
+      {
+        "source": "K05",
+        "target": "K08",
+        "relation": "enables",
+        "reason": "Evolutionary regularization is evaluated in the main experiment."
+      },
+      {
+        "source": "K06",
+        "target": "K08",
+        "relation": "enables",
+        "reason": "Structure-based regularization is evaluated in the main experiment."
+      },
+      {
+        "source": "K07",
+        "target": "K08",
+        "relation": "follows",
+        "reason": "Baseline comparison is followed by evaluation of regularized methods."
+      },
+      {
+        "source": "K08",
+        "target": "K09",
+        "relation": "contradicts",
+        "reason": "The main experiment reveals that evolutionary regularization fails on BRCA1 and Spike."
+      },
+      {
+        "source": "K08",
+        "target": "K10",
+        "relation": "refines",
+        "reason": "Analysis explains why structure-based regularization is less effective for GB1."
+      },
+      {
+        "source": "K08",
+        "target": "K11",
+        "relation": "refines",
+        "reason": "Analysis shows how regularization affects exploration patterns."
+      },
+      {
+        "source": "K08",
+        "target": "K12",
+        "relation": "validates",
+        "reason": "The Bayesian approach demonstrates significant reduction in experimental burden."
+      },
+      {
+        "source": "K04",
+        "target": "K13",
+        "relation": "enables",
+        "reason": "Dataset limitations restrict the scope of traditional DE simulation."
+      },
+      {
+        "source": "K06",
+        "target": "K14",
+        "relation": "enables",
+        "reason": "FoldX limitations are revealed due to missing structural context."
+      }
+    ],
+    "must_cover_points": [
+      "Problem of under-determined optimization in DE",
+      "Hypothesis of regularized BO",
+      "Design of regularized acquisition functions",
+      "Implementation of evolutionary and structure-based regularization",
+      "Baseline comparison: ML-assisted DE vs traditional DE on GB1",
+      "Main result: structure-based regularization usually helps, evolutionary is unreliable",
+      "Failure of evolutionary regularization on BRCA1 and Spike",
+      "Analysis of FoldX effectiveness depending on structural context",
+      "Validation: 67% reduction in wet-lab burden on GB1",
+      "Limitations: single-site mutation datasets, FoldX accuracy"
+    ],
+    "paper_not_suitable_reasons": []
+  }
+}

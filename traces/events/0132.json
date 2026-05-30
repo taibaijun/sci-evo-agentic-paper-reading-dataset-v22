@@ -1,0 +1,1866 @@
+{
+  "doc_no": "0132",
+  "source": {
+    "title": "Structural Rigidity and Protein Thermostability in Variants of Lipase A from Bacillus subtilis",
+    "doi": "https://doi.org/10.1371/journal.pone.0130289",
+    "license": "cc-by",
+    "pdf_name": "0130_10_1371_journal_pone_0130289_structural_rigidity_and_protein_thermostability_in_variants_of_lipase_a_from_bacillus_subt.pdf",
+    "combined_md": "docs/0132/combined.md",
+    "mineru_md": "docs/0132/mineru.md"
+  },
+  "gist_memory": {
+    "paper_problem_memory": "The study investigates the relationship between structural rigidity and thermodynamic thermostability in 16 variants of lipase A from Bacillus subtilis (BsLipA). Conflicting views exist: some studies suggest increased rigidity leads to higher thermostability, while others indicate thermophilic proteins can be as flexible or more flexible than mesophilic ones. The authors aim to resolve this by applying Constraint Network Analysis (CNA), a time-independent rigidity theory-based method, to directly analyze static properties. They hypothesize that structural rigidity correlates with thermostability and seek to develop robust computational predictors. Initial attempts using a global index (H_type2) to identify phase transition points (Tp) showed correlation but had outliers (wild type and mutant 6B). Investigation revealed these outliers had distinct unfolding pathways. This led to the development of a new local measure, median stability of rigid contacts between residue neighbors (rc_ij,neighbor), which improved prediction and eliminated outliers. The study validates against experimental Tm values and discusses implications for rational protein design.",
+    "section_gists": [
+      {
+        "section_index": 5,
+        "heading": "Abstract",
+        "gist": "The paper finds a significant (p=0.004) and fair (R^2=0.46) correlation between structural rigidity and thermodynamic thermostability for 16 BsLipA mutants using CNA. They introduce a robust local stability measure for prediction. Results complement previous work on homologous proteins and suggest CNA can be used prospectively in rational protein design.",
+        "process_signals": [
+          "Significant correlation found between rigidity and thermostability",
+          "New local stability measure introduced",
+          "CNA validated on macroscopic and microscopic observables",
+          "Suggests applicability in rational protein design"
+        ],
+        "methods": [
+          "Constraint Network Analysis (CNA)",
+          "Rigidity theory-based approach",
+          "Time-independent analysis of statics"
+        ],
+        "metrics": [
+          "p-value = 0.004",
+          "R^2 = 0.46"
+        ],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 6,
+        "heading": "Introduction",
+        "gist": "The introduction frames the conflicting hypotheses on rigidity and thermostability: increased rigidity vs. flexibility. It notes that temporal resolution of methods can affect conclusions. The study uses CNA to analyze static properties of 16 BsLipA mutants, avoiding temporal resolution issues. BsLipA is well-characterized, with mutants from Reetz et al. (kinetically stabilized) and Rao et al. (thermodynamically stabilized). CNA models proteins as constraint networks and simulates thermal unfolding by removing noncovalent constraints. The main outcome is a significant correlation between rigidity and thermostability, with a new local measure complementing the global phase transition point.",
+        "process_signals": [
+          "Conflicting views on rigidity-thermostability relationship motivate study",
+          "CNA chosen to avoid temporal resolution dependence",
+          "Two types of thermostability: thermodynamic (Tm) and kinetic (T50)",
+          "Previous work: Reetz et al. mutants kinetically stabilized, Rao et al. mutants thermodynamically stabilized",
+          "CNA simulates thermal unfolding via temperature-dependent removal of noncovalent constraints",
+          "Phase transition point Tp related to thermostability",
+          "ENT^FNC approach used for robustness"
+        ],
+        "methods": [
+          "Constraint Network Analysis (CNA)",
+          "Thermal unfolding simulation",
+          "ENT^FNC for ensemble of network topologies"
+        ],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 7,
+        "heading": "Materials and Methods",
+        "gist": "This section is a heading only; no content provided.",
+        "process_signals": [],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 8,
+        "heading": "Data set",
+        "gist": "The data set includes wild type BsLipA (PDB: 1ISP, 1.3 Å) and 16 mutants: 13 from Rao et al. with Tm values, 3 from Reetz et al. with Ti and T50 values. Mutant structures not in PDB were modeled with SCWRL using the closest template. Hydrogen atoms added with REDUCE, water removed, and structures minimized with Amber11 (ff99SB force field, GB^OBC model). Mutations are on the protein surface.",
+        "process_signals": [
+          "Selection of mutants based on available experimental thermostability data",
+          "Use of SCWRL for modeling mutants without crystal structures",
+          "Structure preparation: hydrogen addition, water removal, energy minimization",
+          "Mutations located on protein surface"
+        ],
+        "methods": [
+          "SCWRL for side chain modeling",
+          "REDUCE for hydrogen addition",
+          "Amber11 minimization (ff99SB, GB^OBC)"
+        ],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 9,
+        "heading": "Construction of the constraint network and rigidity analysis",
+        "gist": "Only protein atoms considered; water excluded based on previous findings. Proteins modeled as body-and-bar constraint networks using CNA software, which interfaces with FIRST. Rigidity analysis performed via pebble game algorithm to identify rigid clusters and flexible links.",
+        "process_signals": [
+          "Water excluded based on prior evidence of negligible impact",
+          "Body-and-bar representation used",
+          "Rigidity analysis via pebble game algorithm"
+        ],
+        "methods": [
+          "CNA software",
+          "FIRST program",
+          "Pebble game algorithm"
+        ],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 10,
+        "heading": "Thermal unfolding simulation",
+        "gist": "Thermal unfolding simulated by sequentially removing hydrogen bonds in order of increasing strength (weaker bonds break at lower temperatures). Hydrophobic tethers kept constant. 60 network states generated by decreasing E_cut from -0.1 to -6.0 kcal/mol (step 0.1), equivalent to 302–420 K via linear relationship (Eq 1). Rigidity analysis performed on each state. CNA software used.",
+        "process_signals": [
+          "Hydrogen bond removal order based on energy strength",
+          "Hydrophobic interactions kept constant (strengthen with temperature)",
+          "Linear temperature-energy relationship from previous work on orthologs",
+          "60 states simulated"
+        ],
+        "methods": [
+          "Sequential hydrogen bond removal",
+          "Energy cutoff E_cut",
+          "Linear T-E_cut conversion (Eq 1)"
+        ],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 11,
+        "heading": "Ensemble of networks generated by using fuzzy noncovalent constraints",
+        "gist": "To improve robustness without MD, ENT^FNC approach generates an ensemble of 2000 network topologies from a single structure by randomly modulating noncovalent constraints within ranges. Average local indices and phase transition temperatures (from H_type2) are computed. H_type2 measures disorder in rigid cluster configurations; low when large cluster dominates, increases upon breakdown.",
+        "process_signals": [
+          "ENT^FNC introduced to overcome MD efficiency drawback",
+          "Ensemble of 2000 networks per variant",
+          "H_type2 used to identify phase transition"
+        ],
+        "methods": [
+          "ENT^FNC (fuzzy noncovalent constraints)",
+          "Ensemble averaging",
+          "Global index H_type2"
+        ],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 12,
+        "heading": "Clustering of unfolding pathways",
+        "gist": "Unfolding pathways compared via percolation index p_i profiles (residue-wise). Manhattan distances between p_i profiles used for clustering into 10 clusters via Partitioning Around Medoids. Cluster distributions (frequencies of 2000 topologies in each cluster) computed per variant. Pairwise correlations of cluster distributions indicate similarity of unfolding pathways.",
+        "process_signals": [
+          "p_i profiles capture hierarchical breakdown of largest rigid cluster",
+          "Clustering to identify pathway similarities/differences",
+          "10 clusters chosen based on objective function and visual inspection"
+        ],
+        "methods": [
+          "Percolation index p_i",
+          "Manhattan distance",
+          "Partitioning Around Medoids clustering",
+          "Cluster distribution correlation"
+        ],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 13,
+        "heading": "Results",
+        "gist": "This section is a heading only; no content provided.",
+        "process_signals": [],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 14,
+        "heading": "Data set",
+        "gist": "BsLipA has 181 residues, α/β hydrolase fold, no lid. Data set: wild type, 13 Rao mutants (Tm 334.35–351.35 K), 3 Reetz mutants (Ti lower than wild type, but higher T50). Mutants differ by 3–12 mutations (>93% identity). Modeled structures have low RMSD (<0.38 Å) to wild type. Mutations on surface. Reetz mutants are kinetically stabilized, Rao mutants thermodynamically stabilized.",
+        "process_signals": [
+          "High structural similarity allows direct comparison of rigidity analyses",
+          "Reetz mutants: lower Ti but higher T50, indicating kinetic stabilization",
+          "Rao mutants: higher Tm, thermodynamic stabilization"
+        ],
+        "methods": [],
+        "metrics": [
+          "Tm range: 329.15 K (WT) to 351.35 K (6B)",
+          "Ti range: 318.75–324.95 K",
+          "T50 range: 321.15–366.15 K"
+        ],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 15,
+        "heading": "Thermal unfolding pathway of BsLipA",
+        "gist": "Wild type unfolding: giant rigid cluster at 302 K breaks down. Loops segregate first, then α-helices D/E at 314 K, A/F at 318 K. Central β-sheet and αB/αC remain. β-sheet becomes flexible sequentially (β4,β8 at 320 K; β3,β7,β5-6 by 332 K). Phase transition at separation of αB and αC. Structure fully flexible at 374 K. Helices persist as independent rigid clusters due to backbone hydrogen bonds; may be overstabilized. Unfolding pathway agrees with experimental α/β hydrolase unfolding.",
+        "process_signals": [
+          "Phase transition identified as most prominent rigidity loss",
+          "Helix overstabilization noted as potential artifact",
+          "Agreement with experimental unfolding supports noncovalent constraint definitions"
+        ],
+        "methods": [
+          "Thermal unfolding simulation",
+          "Rigidity percolation monitoring"
+        ],
+        "metrics": [],
+        "failures_or_limits": [
+          "Helix overstabilization due to uniform backbone hydrogen bond strengths"
+        ]
+      },
+      {
+        "section_index": 16,
+        "heading": "Prediction of thermodynamic thermostability of BsLipA variants based on the global index H_type2",
+        "gist": "Initial prediction using single network topologies gave poor correlation (R^2=0.22). Using ENT^FNC improved to R^2=0.58 (p=0.002) but only when excluding wild type and mutant 6B as outliers. Reetz mutants predicted slightly less thermostable than wild type, consistent with experiments. False predictions for WT and 6B were dissatisfying.",
+        "process_signals": [
+          "Single topology prediction failed (R^2=0.22)",
+          "ENT^FNC improved correlation but required outlier removal",
+          "Outliers: wild type (lowest Tm) and 6B (highest Tm)",
+          "Reetz mutants correctly predicted as less thermostable"
+        ],
+        "methods": [
+          "Phase transition temperature Tp from H_type2",
+          "Linear regression Tp vs Tm"
+        ],
+        "metrics": [
+          "Single topology: R^2=0.22",
+          "ENT^FNC with outliers removed: R^2=0.58, p=0.002",
+          "Standard error in mean <0.38 K"
+        ],
+        "failures_or_limits": [
+          "Wild type and 6B are outliers in Tp-based prediction"
+        ]
+      },
+      {
+        "section_index": 17,
+        "heading": "Difference in unfolding pathways explains outliers",
+        "gist": "Investigated why WT and 6B were outliers. Compared unfolding pathways via clustering of p_i profiles into 10 clusters. WT had very distinct cluster distribution from other Rao mutants (average r = -0.69 to 0.54). 6B also distinct but less so. Other mutants had similar pathways (r > 0.8). Thus, false predictions attributed to different unfolding pathways. Tp-based method sensitive to pathway differences.",
+        "process_signals": [
+          "WT unfolding pathway distinct from all other Rao mutants",
+          "6B pathway also distinct but less extreme",
+          "Other mutants have similar pathways (high correlation)",
+          "Tp method fails when pathways differ"
+        ],
+        "methods": [
+          "Clustering of p_i profiles",
+          "Correlation of cluster distributions"
+        ],
+        "metrics": [
+          "WT average r with others: -0.69 to 0.54",
+          "Other mutants pairwise r > 0.8"
+        ],
+        "failures_or_limits": [
+          "Tp-based prediction sensitive to unfolding pathway differences"
+        ]
+      },
+      {
+        "section_index": 18,
+        "heading": "Median stability of rigid contacts between residue neighbors as a new measure for predicting thermodynamic thermostability",
+        "gist": "To overcome pathway sensitivity, developed new local measure: median stability of rigid contacts between residue neighbors (rc_ij,neighbor). Derived from stability maps rc_ij, which record when a rigid contact is lost. Sum of rc_ij approximates unfolding energy. Modifications: focus on neighbor residues (within 5 Å), use median to suppress extremes, average over ENT^FNC ensemble. Converted to temperature via Eq 1. Correlation with Tm: R^2=0.46, p=0.004, no outliers. Better for X-ray structures (R^2=0.87) than modeled (R^2=0.33). Reetz mutants again lower than WT. New measure less sensitive to pathway differences; recommended when pathways differ, else Tp better.",
+        "process_signals": [
+          "New measure motivated by pathway sensitivity of Tp",
+          "rc_ij,neighbor approximates local unfolding energy",
+          "Median used to reduce extreme value influence",
+          "Improved correlation without outliers",
+          "Quality of input structures affects prediction",
+          "Recommendation: use Tp for similar pathways, rc_ij,neighbor for dissimilar"
+        ],
+        "methods": [
+          "Stability maps rc_ij",
+          "Median stability of rigid contacts between neighbors (rc_ij,neighbor)",
+          "ENT^FNC averaging",
+          "Linear regression"
+        ],
+        "metrics": [
+          "R^2=0.46, p=0.004 (all Rao mutants)",
+          "R^2=0.87 (X-ray structures only)",
+          "R^2=0.33 (modeled structures only)"
+        ],
+        "failures_or_limits": [
+          "Slope of correlation line deviates from unity, suggesting need for reparameterization of T-E_cut relationship",
+          "Prediction weaker for modeled structures"
+        ]
+      }
+    ],
+    "global_hypotheses_about_storyline": [
+      "The authors initially hypothesized that structural rigidity correlates with thermodynamic thermostability and that CNA can capture this via a global phase transition point (Tp).",
+      "After encountering outliers (WT and 6B) in Tp-based prediction, they hypothesized that differences in unfolding pathways cause the failure, leading to pathway clustering analysis.",
+      "They then hypothesized that a local measure of rigidity (median stability of rigid contacts) would be less sensitive to pathway differences and provide a more robust predictor, which was confirmed.",
+      "Overall, the study supports the view that increased structural rigidity is associated with higher thermodynamic thermostability in this protein system."
+    ],
+    "uncertainties_to_resolve": [
+      "Why exactly do WT and 6B have distinct unfolding pathways? Is it due to specific mutations or structural features?",
+      "Can the new measure be generalized to other proteins or is it specific to BsLipA?",
+      "How to reparameterize the T-E_cut relationship for the new measure to improve absolute temperature prediction?",
+      "What is the impact of using modeled vs. crystal structures on the predictions, and can the method be improved for modeled structures?",
+      "Are there other local measures that could further improve correlation?",
+      "How does the method perform on a larger set of mutants or other protein families?"
+    ]
+  },
+  "chunk_events": [
+    {
+      "chunk_id": "C001",
+      "char_start": 0,
+      "char_end": 18000,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C001_E01",
+          "chunk_id": "C001",
+          "event_type": "problem",
+          "order_hint": 1,
+          "summary": "Opposing views exist on whether increased or decreased structural rigidity leads to higher protein thermostability, related to differences in temporal resolution of methods.",
+          "methods_or_tools": [],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E01_01",
+            "EV_C001_E01_02"
+          ]
+        },
+        {
+          "event_id": "C001_E02",
+          "chunk_id": "C001",
+          "event_type": "hypothesis",
+          "order_hint": 2,
+          "summary": "The authors hypothesize that analyzing static properties directly with CNA will reveal a correlation between structural rigidity and thermodynamic thermostability.",
+          "methods_or_tools": [
+            "Constraint Network Analysis (CNA)"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E02_01"
+          ]
+        },
+        {
+          "event_id": "C001_E03",
+          "chunk_id": "C001",
+          "event_type": "design",
+          "order_hint": 3,
+          "summary": "The study design includes 16 BsLipA mutants with known thermodynamic (Tm) and kinetic (T50) thermostability data, modeled structures, and CNA-based rigidity analysis.",
+          "methods_or_tools": [
+            "SCWRL",
+            "REDUCE",
+            "Amber11",
+            "CNA",
+            "FIRST"
+          ],
+          "entities": [
+            "BsLipA",
+            "wild type",
+            "Rao et al. mutants",
+            "Reetz et al. mutants"
+          ],
+          "numbers_or_metrics": [
+            "16 mutants"
+          ],
+          "evidence_ids": [
+            "EV_C001_E03_02",
+            "EV_C001_E03_03"
+          ]
+        },
+        {
+          "event_id": "C001_E05",
+          "chunk_id": "C001",
+          "event_type": "computation",
+          "order_hint": 5,
+          "summary": "ENT^FNC approach generates an ensemble of 2000 network topologies per variant to improve robustness without molecular dynamics.",
+          "methods_or_tools": [
+            "ENT^FNC",
+            "fuzzy noncovalent constraints"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [
+            "2000 network topologies"
+          ],
+          "evidence_ids": [
+            "EV_C001_E05_02"
+          ]
+        },
+        {
+          "event_id": "C001_E07",
+          "chunk_id": "C001",
+          "event_type": "validation",
+          "order_hint": 7,
+          "summary": "The main outcome is a significant correlation (p=0.004, R^2=0.46) between structural rigidity and thermodynamic thermostability for all BsLipA variants.",
+          "methods_or_tools": [],
+          "entities": [
+            "BsLipA variants"
+          ],
+          "numbers_or_metrics": [
+            "p=0.004",
+            "R^2=0.46"
+          ],
+          "evidence_ids": [
+            "EV_C001_E07_01"
+          ]
+        }
+      ],
+      "notes": "This chunk covers the abstract, introduction, and materials and methods sections, providing the problem statement, hypothesis, experimental design, and computational methods. It includes key events such as the motivation, study design, thermal unfolding simulation, and introduction of new measures.",
+      "api_usage": {
+        "prompt_tokens": 9223,
+        "completion_tokens": 1639,
+        "total_tokens": 10862,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8967
+      }
+    },
+    {
+      "chunk_id": "C002",
+      "char_start": 17100,
+      "char_end": 35100,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C002_E01",
+          "chunk_id": "C002",
+          "event_type": "design",
+          "order_hint": 1,
+          "summary": "Thermal unfolding simulation designed by decreasing E_cut from -0.1 to -6.0 kcal/mol with step 0.1, equivalent to 302–420 K via linear relationship.",
+          "methods_or_tools": [
+            "thermal unfolding simulation",
+            "E_cut",
+            "linear T-E_cut relationship"
+          ],
+          "entities": [
+            "BsLipA"
+          ],
+          "numbers_or_metrics": [
+            "E_cut range: -0.1 to -6.0 kcal/mol",
+            "step: 0.1 kcal/mol",
+            "temperature range: 302–420 K",
+            "step: 2 K"
+          ],
+          "evidence_ids": [
+            "EV_C002_E01_01",
+            "EV_C002_E01_02"
+          ]
+        },
+        {
+          "event_id": "C002_E02",
+          "chunk_id": "C002",
+          "event_type": "design",
+          "order_hint": 2,
+          "summary": "ENT^FNC approach used to generate ensemble of 2000 network topologies from single structure by modulating noncovalent constraints, improving robustness without MD.",
+          "methods_or_tools": [
+            "ENT^FNC",
+            "fuzzy noncovalent constraints"
+          ],
+          "entities": [
+            "BsLipA variants"
+          ],
+          "numbers_or_metrics": [
+            "ensemble size: 2000"
+          ],
+          "evidence_ids": [
+            "EV_C002_E02_02"
+          ]
+        },
+        {
+          "event_id": "C002_E03",
+          "chunk_id": "C002",
+          "event_type": "design",
+          "order_hint": 3,
+          "summary": "Clustering of unfolding pathways designed using Manhattan distances between p_i profiles and Partitioning Around Medoids into 10 clusters.",
+          "methods_or_tools": [
+            "Manhattan distance",
+            "Partitioning Around Medoids",
+            "p_i profiles"
+          ],
+          "entities": [
+            "BsLipA variants"
+          ],
+          "numbers_or_metrics": [
+            "10 clusters"
+          ],
+          "evidence_ids": [
+            "EV_C002_E03_01",
+            "EV_C002_E03_02"
+          ]
+        }
+      ],
+      "notes": "Chunk covers thermal unfolding simulation design, ENT^FNC, clustering, initial failure, outlier analysis, and new measure development.",
+      "api_usage": {
+        "prompt_tokens": 8637,
+        "completion_tokens": 1778,
+        "total_tokens": 10415,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8381
+      }
+    },
+    {
+      "chunk_id": "C003",
+      "char_start": 34200,
+      "char_end": 52200,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C003_E03",
+          "chunk_id": "C003",
+          "event_type": "failure",
+          "order_hint": 3,
+          "summary": "False predictions for wild type and mutant 6B were dissatisfying, indicating a limitation of the T_p-based method.",
+          "methods_or_tools": [],
+          "entities": [
+            "wild type BsLipA",
+            "mutant 6B"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E03_01"
+          ]
+        },
+        {
+          "event_id": "C003_E04",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 4,
+          "summary": "Investigation revealed that wild type and 6B have distinct unfolding pathways compared to other mutants, explaining their outlier status.",
+          "methods_or_tools": [
+            "clustering of p_i profiles",
+            "correlation of cluster distributions"
+          ],
+          "entities": [
+            "wild type",
+            "mutant 6B",
+            "Rao et al. mutants"
+          ],
+          "numbers_or_metrics": [
+            "r ranging from -0.69 to 0.54 for wild type"
+          ],
+          "evidence_ids": [
+            "EV_C003_E04_01"
+          ]
+        }
+      ],
+      "notes": "This chunk covers the initial failure of T_p-based prediction, the discovery of pathway differences explaining outliers, and the development and validation of a new local measure.",
+      "api_usage": {
+        "prompt_tokens": 8608,
+        "completion_tokens": 1291,
+        "total_tokens": 9899,
+        "prompt_tokens_details": {
+          "cached_tokens": 8576
+        },
+        "prompt_cache_hit_tokens": 8576,
+        "prompt_cache_miss_tokens": 32
+      }
+    },
+    {
+      "chunk_id": "C004",
+      "char_start": 51300,
+      "char_end": 69300,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C004_E01",
+          "chunk_id": "C004",
+          "event_type": "analysis",
+          "order_hint": 1,
+          "summary": "Correlation of new local measure rc_ij,neighbor with Tm yields R^2=0.46, p=0.004, no outliers.",
+          "methods_or_tools": [
+            "rc_ij,neighbor",
+            "linear regression"
+          ],
+          "entities": [
+            "rc_ij,neighbor",
+            "Tm"
+          ],
+          "numbers_or_metrics": [
+            "R^2=0.46",
+            "p=0.004"
+          ],
+          "evidence_ids": [
+            "EV_C004_E01_01"
+          ]
+        },
+        {
+          "event_id": "C004_E03",
+          "chunk_id": "C004",
+          "event_type": "analysis",
+          "order_hint": 3,
+          "summary": "Correlation improves to R^2=0.87 for X-ray structures only, but weaker (R^2=0.33) for modeled structures.",
+          "methods_or_tools": [
+            "rc_ij,neighbor",
+            "linear regression"
+          ],
+          "entities": [
+            "X-ray structures",
+            "modeled structures"
+          ],
+          "numbers_or_metrics": [
+            "R^2=0.87",
+            "p=0.007",
+            "R^2=0.33",
+            "p=0.07"
+          ],
+          "evidence_ids": [
+            "EV_C004_E03_01",
+            "EV_C004_E03_02"
+          ]
+        },
+        {
+          "event_id": "C004_E04",
+          "chunk_id": "C004",
+          "event_type": "validation",
+          "order_hint": 4,
+          "summary": "Reetz mutants predicted to have lower thermodynamic thermostability than wild type, agreeing with experiments.",
+          "methods_or_tools": [
+            "rc_ij,neighbor"
+          ],
+          "entities": [
+            "Reetz mutants",
+            "wild type"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E04_01"
+          ]
+        },
+        {
+          "event_id": "C004_E05",
+          "chunk_id": "C004",
+          "event_type": "analysis",
+          "order_hint": 5,
+          "summary": "rc_ij,neighbor less sensitive to unfolding pathway differences; H_type2 better for similar pathways.",
+          "methods_or_tools": [
+            "rc_ij,neighbor",
+            "H_type2"
+          ],
+          "entities": [
+            "unfolding pathway"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E05_01",
+            "EV_C004_E05_02"
+          ]
+        },
+        {
+          "event_id": "C004_E06",
+          "chunk_id": "C004",
+          "event_type": "validation",
+          "order_hint": 6,
+          "summary": "Using multiple crystal structures with ENT^FNC improves correlation to R^2=0.55, p=0.001.",
+          "methods_or_tools": [
+            "ENT^FNC",
+            "rc_ij,neighbor"
+          ],
+          "entities": [
+            "multiple crystal structures"
+          ],
+          "numbers_or_metrics": [
+            "R^2=0.55",
+            "p=0.001"
+          ],
+          "evidence_ids": [
+            "EV_C004_E06_01"
+          ]
+        },
+        {
+          "event_id": "C004_E07",
+          "chunk_id": "C004",
+          "event_type": "analysis",
+          "order_hint": 7,
+          "summary": "Mutations in thermostable variants strengthen rigid contacts, especially between peripheral helices and central β-sheet.",
+          "methods_or_tools": [
+            "stability maps",
+            "difference stability maps"
+          ],
+          "entities": [
+            "mutations",
+            "rigid contacts",
+            "α-helices",
+            "β-sheet"
+          ],
+          "numbers_or_metrics": [
+            "~-0.1 kcal/mol",
+            "~2 K",
+            "~-0.4 kcal/mol",
+            "~8 K"
+          ],
+          "evidence_ids": [
+            "EV_C004_E07_01",
+            "EV_C004_E07_02"
+          ]
+        },
+        {
+          "event_id": "C004_E08",
+          "chunk_id": "C004",
+          "event_type": "analysis",
+          "order_hint": 8,
+          "summary": "Reetz mutant X shows destabilization of rigid contacts, consistent with lower thermodynamic stability.",
+          "methods_or_tools": [
+            "stability maps"
+          ],
+          "entities": [
+            "mutant X",
+            "rigid contacts"
+          ],
+          "numbers_or_metrics": [
+            "~0.06 kcal/mol",
+            "~1.2 K"
+          ],
+          "evidence_ids": [
+            "EV_C004_E08_01"
+          ]
+        }
+      ],
+      "notes": "Chunk contains validation of new measure, comparison of methods, and detailed analysis of mutation effects on local rigidity.",
+      "api_usage": {
+        "prompt_tokens": 9162,
+        "completion_tokens": 1614,
+        "total_tokens": 10776,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8906
+      }
+    },
+    {
+      "chunk_id": "C005",
+      "char_start": 68400,
+      "char_end": 86400,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C005_E01",
+          "chunk_id": "C005",
+          "event_type": "analysis",
+          "order_hint": 1,
+          "summary": "Analysis of per-residue hydrogen bonds and hydrophobic tethers reveals subtle side-chain conformational changes due to mutations, suggesting complexity in relating local rigidity changes to thermostability.",
+          "methods_or_tools": [],
+          "entities": [
+            "BsLipA variants",
+            "wild type"
+          ],
+          "numbers_or_metrics": [
+            "~10 to ~35% of residues show differences of 1"
+          ],
+          "evidence_ids": [
+            "EV_C005_E01_02",
+            "EV_C005_E01_03"
+          ]
+        },
+        {
+          "event_id": "C005_E02",
+          "chunk_id": "C005",
+          "event_type": "validation",
+          "order_hint": 2,
+          "summary": "Main outcome: good correlation found between structural rigidity and thermodynamic thermostability for all BsLipA variants, complementing previous homologous protein studies.",
+          "methods_or_tools": [
+            "CNA"
+          ],
+          "entities": [
+            "BsLipA variants"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C005_E02_01",
+            "EV_C005_E02_02"
+          ]
+        },
+        {
+          "event_id": "C005_E03",
+          "chunk_id": "C005",
+          "event_type": "analysis",
+          "order_hint": 3,
+          "summary": "CNA approach avoids time-dependence issues of mobility-based methods, directly characterizing rigidity and flexibility.",
+          "methods_or_tools": [
+            "CNA",
+            "rigidity theory"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C005_E03_01"
+          ]
+        },
+        {
+          "event_id": "C005_E04",
+          "chunk_id": "C005",
+          "event_type": "analysis",
+          "order_hint": 4,
+          "summary": "Observation that increased rigidity in Rao mutants is accompanied by weakened inter-helical contacts, possibly increasing entropy and contributing to stability.",
+          "methods_or_tools": [],
+          "entities": [
+            "Rao et al. mutants",
+            "wild type"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C005_E04_01",
+            "EV_C005_E04_02"
+          ]
+        },
+        {
+          "event_id": "C005_E05",
+          "chunk_id": "C005",
+          "event_type": "validation",
+          "order_hint": 5,
+          "summary": "Validation of CNA accuracy: good correlations with Tm using two independent measures, correct prediction that Reetz mutants are less thermostable than wild type.",
+          "methods_or_tools": [
+            "H_type2",
+            "rc_ij,neighbor"
+          ],
+          "entities": [
+            "Reetz et al. mutants",
+            "Rao et al. mutants"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C005_E05_02"
+          ]
+        },
+        {
+          "event_id": "C005_E07",
+          "chunk_id": "C005",
+          "event_type": "revision",
+          "order_hint": 7,
+          "summary": "Introduction of a measure for similarity/dissimilarity of unfolding pathways to explain false predictions and judge reliability of CNA thermostability predictions.",
+          "methods_or_tools": [],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C005_E07_01",
+            "EV_C005_E07_02"
+          ]
+        },
+        {
+          "event_id": "C005_E08",
+          "chunk_id": "C005",
+          "event_type": "revision",
+          "order_hint": 8,
+          "summary": "Introduction of median stability of rigid contacts as a new local measure less sensitive to unfolding pathway details, recommended for dissimilar pathways.",
+          "methods_or_tools": [
+            "median stability of rigid contacts"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C005_E08_01",
+            "EV_C005_E08_02"
+          ]
+        }
+      ],
+      "notes": "This chunk contains discussion and conclusions, summarizing key findings and methodological advances.",
+      "api_usage": {
+        "prompt_tokens": 8982,
+        "completion_tokens": 1394,
+        "total_tokens": 10376,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8726
+      }
+    },
+    {
+      "chunk_id": "C006",
+      "char_start": 85500,
+      "char_end": 98843,
+      "chunk_relevance": "none",
+      "events": [],
+      "notes": "This chunk contains only the reference list of the paper. No research evolution events are described.",
+      "api_usage": {
+        "prompt_tokens": 8666,
+        "completion_tokens": 50,
+        "total_tokens": 8716,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8410
+      }
+    }
+  ],
+  "evidence_bank": [
+    {
+      "evidence_id": "EV_C001_E01_01",
+      "source_file": "docs/0132/combined.md",
+      "section": "C001",
+      "char_start": 2418,
+      "char_end": 2537,
+      "quote": "Opposing views on increased or decreased structural rigidity of the folded state have been put forward in this context."
+    },
+    {
+      "evidence_id": "EV_C001_E01_02",
+      "source_file": "docs/0132/combined.md",
+      "section": "C001",
+      "char_start": 2538,
+      "char_end": 2662,
+      "quote": "They have been related to differences in the temporal resolution of experiments and computations that probe atomic mobility."
+    },
+    {
+      "evidence_id": "EV_C001_E02_01",
+      "source_file": "docs/0132/combined.md",
+      "section": "C001",
+      "char_start": 5487,
+      "char_end": 5719,
+      "quote": "Here, we address the question of the relation between protein thermostability and structural rigidity by analyzing directly the static properties of a well-characterized set of 16 mutants of lipase A from Bacillus subtilis (BsLipA)."
+    },
+    {
+      "evidence_id": "EV_C001_E03_02",
+      "source_file": "docs/0132/combined.md",
+      "section": "C001",
+      "char_start": 10131,
+      "char_end": 10260,
+      "quote": "Models of mutant structures for which crystal structures were not available in the PDB were generated with the SCWRL program [58]"
+    },
+    {
+      "evidence_id": "EV_C001_E03_03",
+      "source_file": "docs/0132/combined.md",
+      "section": "C001",
+      "char_start": 10678,
+      "char_end": 10741,
+      "quote": "For all structures, hydrogen atoms were added using REDUCE [59]"
+    },
+    {
+      "evidence_id": "EV_C001_E05_02",
+      "source_file": "docs/0132/combined.md",
+      "section": "C001",
+      "char_start": 8406,
+      "char_end": 8505,
+      "quote": "That way, thermal fluctuations of a protein are considered without actually sampling conformations."
+    },
+    {
+      "evidence_id": "EV_C001_E07_01",
+      "source_file": "docs/0132/combined.md",
+      "section": "C001",
+      "char_start": 8507,
+      "char_end": 8685,
+      "quote": "The main outcome of this work is the finding of a significant and good correlation between the structural rigidity of all BsLipA variants and their thermodynamic thermostability."
+    },
+    {
+      "evidence_id": "EV_C002_E01_01",
+      "source_file": "docs/0132/combined.md",
+      "section": "C002",
+      "char_start": 17094,
+      "char_end": 17297,
+      "quote": "thermal unfolding trajectory of 60 network states was generated for each input network by decreasing $E_{cut}$ from -0.1 kcal mol $^{-1}$ to -6.0 kcal mol $^{-1}$ with a step size of 0.1 kcal mol $^{-1}$"
+    },
+    {
+      "evidence_id": "EV_C002_E01_02",
+      "source_file": "docs/0132/combined.md",
+      "section": "C002",
+      "char_start": 17514,
+      "char_end": 17657,
+      "quote": "the range of $E_{cut}$ used in this study is equivalent to increasing the temperature of the system from 302 K to 420 K with a step size of 2 K"
+    },
+    {
+      "evidence_id": "EV_C002_E02_02",
+      "source_file": "docs/0132/combined.md",
+      "section": "C002",
+      "char_start": 19386,
+      "char_end": 19523,
+      "quote": "An ensemble of 2000 network configurations was generated using these definitions of fuzzy noncovalent constraints for all BsLipA variants"
+    },
+    {
+      "evidence_id": "EV_C002_E03_01",
+      "source_file": "docs/0132/combined.md",
+      "section": "C002",
+      "char_start": 21345,
+      "char_end": 21509,
+      "quote": "We thus reasoned that the (dis)similarity of unfolding pathways of BsLipA variants can be measured by Manhattan distances between their respective $p_{i}$ profiles."
+    },
+    {
+      "evidence_id": "EV_C002_E03_02",
+      "source_file": "docs/0132/combined.md",
+      "section": "C002",
+      "char_start": 21510,
+      "char_end": 21665,
+      "quote": "We used this distance measure for clustering the network topologies of all BsLipA variants into 10 clusters using the Partitioning Around Medoids algorithm"
+    },
+    {
+      "evidence_id": "EV_C003_E03_01",
+      "source_file": "docs/0132/combined.md",
+      "section": "C003",
+      "char_start": 36744,
+      "char_end": 36818,
+      "quote": "the false predictions for wild type BsLipA and mutant 6B are dissatisfying"
+    },
+    {
+      "evidence_id": "EV_C003_E04_01",
+      "source_file": "docs/0132/combined.md",
+      "section": "C003",
+      "char_start": 40511,
+      "char_end": 40687,
+      "quote": "the wild type enzyme shows an unfolding pathway distribution very distinct from other BsLipA variants from Rao et al. with correlation coefficients r ranging from -0.69 to 0.54"
+    },
+    {
+      "evidence_id": "EV_C004_E01_01",
+      "source_file": "docs/0132/combined.md",
+      "section": "C004",
+      "char_start": 51300,
+      "char_end": 51462,
+      "quote": "ith $T_{\\mathrm{m}}$ values of the thermodynamically stable mutants from Rao et al. is obtained ( $R^2 = 0.46$ , $p = 0.004$ ; Fig 4B). No outlier is observed now"
+    },
+    {
+      "evidence_id": "EV_C004_E03_01",
+      "source_file": "docs/0132/combined.md",
+      "section": "C004",
+      "char_start": 52526,
+      "char_end": 52737,
+      "quote": "When only considering the six X-ray structures in the dataset of Rao et al., a good correlation of $\\widetilde{r}\\widetilde{c}_{ij,neighbor}$ with $T_{\\mathrm{m}}$ values of $R^2 = 0.87$ ( $p = 0.007$ ) is found"
+    },
+    {
+      "evidence_id": "EV_C004_E03_02",
+      "source_file": "docs/0132/combined.md",
+      "section": "C004",
+      "char_start": 52762,
+      "char_end": 52877,
+      "quote": "a weaker correlation ( $R^2 = 0.33$ , $p = 0.07$ ) is obtained for the eight variants that were modeled using SCWRL"
+    },
+    {
+      "evidence_id": "EV_C004_E04_01",
+      "source_file": "docs/0132/combined.md",
+      "section": "C004",
+      "char_start": 53020,
+      "char_end": 53175,
+      "quote": "the mutants from Reetz et al. are found to have a lower thermodynamic thermostability than the wild type, in very good agreement with experimental findings"
+    },
+    {
+      "evidence_id": "EV_C004_E05_01",
+      "source_file": "docs/0132/combined.md",
+      "section": "C004",
+      "char_start": 53207,
+      "char_end": 53325,
+      "quote": "The $\\widetilde{rc}_{ij,neighbor}$ -based measure is apparently less sensitive to differences in the unfolding pathway"
+    },
+    {
+      "evidence_id": "EV_C004_E05_02",
+      "source_file": "docs/0132/combined.md",
+      "section": "C004",
+      "char_start": 53647,
+      "char_end": 53902,
+      "quote": "we thus recommend using $H_{\\mathrm{type2}}$ -derived $T_{\\mathrm{p}}$ values for comparing thermostabilities of variants of a protein unless the underlying unfolding pathways are dissimilar; in that case, we recommend using $\\widetilde{rc}_{ij,neighbor}$"
+    },
+    {
+      "evidence_id": "EV_C004_E06_01",
+      "source_file": "docs/0132/combined.md",
+      "section": "C004",
+      "char_start": 54655,
+      "char_end": 54942,
+      "quote": "if the average $\\widetilde{rc}_{ij,neighbor}$ over all six crystal structures (315.9 K; see horizontal line in Fig 4B; Table 1) is considered for the $\\widetilde{rc}_{ij,neighbor}$ versus $T_{m}$ correlation, the quality of the correlation improves considerably to $R^{2}=0.55$ (p=0.001)"
+    },
+    {
+      "evidence_id": "EV_C004_E07_01",
+      "source_file": "docs/0132/combined.md",
+      "section": "C004",
+      "char_start": 56053,
+      "char_end": 56168,
+      "quote": "mutations in general improve the strength of rigid contacts to and in between neighboring residues of the mutations"
+    },
+    {
+      "evidence_id": "EV_C004_E07_02",
+      "source_file": "docs/0132/combined.md",
+      "section": "C004",
+      "char_start": 65220,
+      "char_end": 65327,
+      "quote": "contacts between peripheral helices and the central $\\beta$ -sheet region are stronger in 6B than in 1-14F5"
+    },
+    {
+      "evidence_id": "EV_C004_E08_01",
+      "source_file": "docs/0132/combined.md",
+      "section": "C004",
+      "char_start": 66696,
+      "char_end": 66776,
+      "quote": "this mutant showed a destabilization of rigid contacts both locally and globally"
+    },
+    {
+      "evidence_id": "EV_C005_E01_02",
+      "source_file": "docs/0132/combined.md",
+      "section": "C005",
+      "char_start": 69323,
+      "char_end": 69427,
+      "quote": "these differences arise from subtle changes in the conformations of the side chains due to the mutations"
+    },
+    {
+      "evidence_id": "EV_C005_E01_03",
+      "source_file": "docs/0132/combined.md",
+      "section": "C005",
+      "char_start": 69461,
+      "char_end": 69689,
+      "quote": "an interpretation of the relationship between increased or decreased local rigidity due to changes in specific interactions of a mutated residue and a change in thermostability of a mutant may fall short of the actual complexity"
+    },
+    {
+      "evidence_id": "EV_C005_E02_01",
+      "source_file": "docs/0132/combined.md",
+      "section": "C005",
+      "char_start": 70013,
+      "char_end": 70175,
+      "quote": "The main outcome of this work is the finding of a good correlation between the structural rigidity of all BsLipA variants and their thermodynamic thermostability."
+    },
+    {
+      "evidence_id": "EV_C005_E02_02",
+      "source_file": "docs/0132/combined.md",
+      "section": "C005",
+      "char_start": 70176,
+      "char_end": 70358,
+      "quote": "This finding of a quantitative relation between structural rigidity and thermodynamic thermostability within a series of closely related protein variants complements a previous study"
+    },
+    {
+      "evidence_id": "EV_C005_E03_01",
+      "source_file": "docs/0132/combined.md",
+      "section": "C005",
+      "char_start": 71069,
+      "char_end": 71287,
+      "quote": "the rigidity theory-based CNA approach applied characterizes rigidity and flexibility of proteins directly, i.e., without the requirement of information on atomic movements, it does not suffer from such time dependence"
+    },
+    {
+      "evidence_id": "EV_C005_E04_01",
+      "source_file": "docs/0132/combined.md",
+      "section": "C005",
+      "char_start": 71588,
+      "char_end": 71736,
+      "quote": "the general increase in rigidity in the mutants of Rao et al. is accompanied by certain inter-helical contacts becoming weaker than in the wild type"
+    },
+    {
+      "evidence_id": "EV_C005_E04_02",
+      "source_file": "docs/0132/combined.md",
+      "section": "C005",
+      "char_start": 71738,
+      "char_end": 71891,
+      "quote": "these weakened contacts between the “modular” helices may increase the entropy of the folded state and so may further contribute to the overall stability"
+    },
+    {
+      "evidence_id": "EV_C005_E05_02",
+      "source_file": "docs/0132/combined.md",
+      "section": "C005",
+      "char_start": 72605,
+      "char_end": 72734,
+      "quote": "was correctly predicted that the thermodynamic thermostability of the mutants of Reetz et al. is lower than that of the wild type"
+    },
+    {
+      "evidence_id": "EV_C005_E07_01",
+      "source_file": "docs/0132/combined.md",
+      "section": "C005",
+      "char_start": 74166,
+      "char_end": 74316,
+      "quote": "we introduced a measure for the similarity/dissimilarity of unfolding pathways of mutants and used it for explaining false thermostability predictions"
+    },
+    {
+      "evidence_id": "EV_C005_E07_02",
+      "source_file": "docs/0132/combined.md",
+      "section": "C005",
+      "char_start": 74318,
+      "char_end": 74458,
+      "quote": "We suggest to use the measure in future studies as a significance criterion to judge the reliability of thermostability predictions from CNA"
+    },
+    {
+      "evidence_id": "EV_C005_E08_01",
+      "source_file": "docs/0132/combined.md",
+      "section": "C005",
+      "char_start": 74467,
+      "char_end": 74670,
+      "quote": "we introduced the median stability of rigid contacts as a new local measure for predicting thermodynamic thermostability and showed that this measure is less sensitive to details of the unfolding pathway"
+    },
+    {
+      "evidence_id": "EV_C005_E08_02",
+      "source_file": "docs/0132/combined.md",
+      "section": "C005",
+      "char_start": 74672,
+      "char_end": 74804,
+      "quote": "The measure is thus recommended for comparing thermostabilities of mutants the underlying unfolding pathways of which are dissimilar"
+    },
+    {
+      "evidence_id": "EV_AUTO_001",
+      "source_file": "docs/0132/combined.md",
+      "section": "auto_specific",
+      "char_start": 1986,
+      "char_end": 2277,
+      "quote": "1 Institute of Pharmaceutical and Medical Chemistry, Heinrich-Heine-University, Düsseldorf, Germany, 2 Institute of Molecular Enzyme Technology, Heinrich-Heine-University, Düsseldorf, Germany, 3 Institute of Bio- and Geosciences IBG-1: Biotechnology, Research Centre Jülich, Jülich, Germany"
+    },
+    {
+      "evidence_id": "EV_AUTO_002",
+      "source_file": "docs/0132/combined.md",
+      "section": "auto_specific",
+      "char_start": 6274,
+      "char_end": 6623,
+      "quote": "applied iterative saturation mutagenesis on the most flexible amino acids as identified by crystallographic B-factors, which resulted in BsLipA mutants that were more thermostable than the wild type showing an increase in $T_{50}^{60}$ (the temperature required to reduce the initial enzymatic activity by 50% within 60 min) of $\\leq 45$ K $[42]$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_003",
+      "source_file": "docs/0132/combined.md",
+      "section": "auto_specific",
+      "char_start": 67295,
+      "char_end": 67642,
+      "quote": "Our findings are also in good agreement with results obtained by comparative crystal structure analysis of wild type and variant X [49]: Loop region 14–21, for which lower B-factors in X than in the wild type structure were observed, shows increased contact stabilities with its neighboring residues in X (Fig 6C and 6F; Figure H in the S1 File)."
+    },
+    {
+      "evidence_id": "EV_AUTO_004",
+      "source_file": "docs/0132/combined.md",
+      "section": "auto_specific",
+      "char_start": 65512,
+      "char_end": 65694,
+      "quote": "Remarkably, many of these stabilizations must arise from the long-range aspect of rigidity percolation $[52, 64, 82, 83]$ , because almost all mutations in 6B are on the surface, i."
+    },
+    {
+      "evidence_id": "EV_AUTO_005",
+      "source_file": "docs/0132/combined.md",
+      "section": "auto_specific",
+      "char_start": 47355,
+      "char_end": 47631,
+      "quote": "Considering that intrinsic and extrinsic modifications in other systems that led to thermostabilization have been shown to influence not just the folded state but the entire (un)folding free energy landscape [77, 78], this possibility also exists for BsLipA mutants [45, 47]."
+    },
+    {
+      "evidence_id": "EV_AUTO_006",
+      "source_file": "docs/0132/combined.md",
+      "section": "auto_specific",
+      "char_start": 43375,
+      "char_end": 43699,
+      "quote": "The lower triangle shows 68% data ellipses (depicting the bivariate mean ± 1 standard deviation) $[90]$ and scatterplots of the respective cluster distributions (frequencies of network topologies in each of the 10 clusters) of the two BsLipA variants as red lines smoothed by locally-weighted polynomial regression $[91]$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_007",
+      "source_file": "docs/0132/combined.md",
+      "section": "auto_specific",
+      "char_start": 7040,
+      "char_end": 7269,
+      "quote": "These mutants were shown to be more thermostable than the wild type due to predominantly thermodynamic reasons $[44–48, 50]$ ; the most thermostable mutant displayed an increase in the melting temperature $T_{m}$ of $\\sim 22$ K."
+    },
+    {
+      "evidence_id": "EV_AUTO_008",
+      "source_file": "docs/0132/combined.md",
+      "section": "auto_specific",
+      "char_start": 73716,
+      "char_end": 74157,
+      "quote": "Compared to previous applications of CNA on either pairs of mesophilic and thermophilic homologues $[12, 13]$ or a series of homologous proteins from different organisms living at varying temperatures $[11]$ , this finding considerably broadens the application domain of CNA towards data-driven protein engineering: There, related series of mutants with only a small number of respective mutations will be the major focus of investigations."
+    },
+    {
+      "evidence_id": "EV_AUTO_009",
+      "source_file": "docs/0132/combined.md",
+      "section": "auto_specific",
+      "char_start": 2698,
+      "char_end": 2897,
+      "quote": "004$ and fair $R^{2} = 0.46$ correlation between the structural rigidity of a well-characterized set of 16 mutants of lipase A from Bacillus subtilis (BsLipA) and their thermodynamic thermostability."
+    },
+    {
+      "evidence_id": "EV_AUTO_010",
+      "source_file": "docs/0132/combined.md",
+      "section": "auto_specific",
+      "char_start": 70175,
+      "char_end": 70572,
+      "quote": "This finding of a quantitative relation between structural rigidity and thermodynamic thermostability within a series of closely related protein variants complements a previous study that showed for pairs of homologous proteins from thermophilic and mesophilic organisms that raising the structural stability is the most common way (\\~77% of all cases) to obtain a higher thermostability $[85]$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_011",
+      "source_file": "docs/0132/combined.md",
+      "section": "auto_specific",
+      "char_start": 52794,
+      "char_end": 52881,
+      "quote": "33$ , $p = 0.07$ ) is obtained for the eight variants that were modeled using SCWRL ()."
+    },
+    {
+      "evidence_id": "EV_AUTO_012",
+      "source_file": "docs/0132/combined.md",
+      "section": "auto_specific",
+      "char_start": 44389,
+      "char_end": 44494,
+      "quote": "12 \\pm 0.16$ when comparing its unfolding pathway distribution to those of other variants from Rao et al."
+    },
+    {
+      "evidence_id": "EV_AUTO_013",
+      "source_file": "docs/0132/combined.md",
+      "section": "auto_specific",
+      "char_start": 44190,
+      "char_end": 44328,
+      "quote": "14$ (mean $\\pm$ SEM), which is lower than that of the other variants ( $\\geq^{\\circ}0.16$ except for the outlier 6B) (Table A in S1 File)."
+    },
+    {
+      "evidence_id": "EV_AUTO_014",
+      "source_file": "docs/0132/combined.md",
+      "section": "auto_specific",
+      "char_start": 44181,
+      "char_end": 44276,
+      "quote": "06 \\pm 0.14$ (mean $\\pm$ SEM), which is lower than that of the other variants ( $\\geq^{\\circ}0."
+    },
+    {
+      "evidence_id": "EV_AUTO_015",
+      "source_file": "docs/0132/combined.md",
+      "section": "auto_specific",
+      "char_start": 35906,
+      "char_end": 36215,
+      "quote": "58$ only if the two structures with the lowest (wild type) and highest (mutant 6B) $T_{m}$ were considered outliers (Fig 4A; see below for an explanation regarding the outliers; note that removing the two outliers in the case of using single network topologies only marginally improved $R^{2}$ from 0.22 to 0."
+    },
+    {
+      "evidence_id": "EV_AUTO_016",
+      "source_file": "docs/0132/combined.md",
+      "section": "auto_specific",
+      "char_start": 35845,
+      "char_end": 36207,
+      "quote": "002) correlation between $T_{p}$ and $T_{m}$ with $R^{2} = 0.58$ only if the two structures with the lowest (wild type) and highest (mutant 6B) $T_{m}$ were considered outliers (Fig 4A; see below for an explanation regarding the outliers; note that removing the two outliers in the case of using single network topologies only marginally improved $R^{2}$ from 0."
+    },
+    {
+      "evidence_id": "EV_AUTO_017",
+      "source_file": "docs/0132/combined.md",
+      "section": "auto_specific",
+      "char_start": 31826,
+      "char_end": 32095,
+      "quote": "Considering this behavior, the unfolding pathway identified for the wild type BsLipA is in good agreement with respect to the early segregation of $\\alpha$ -helices with experimental findings on the unfolding of proteins with an $\\alpha/\\beta$ hydrolase fold [75, 76]."
+    },
+    {
+      "evidence_id": "EV_AUTO_018",
+      "source_file": "docs/0132/combined.md",
+      "section": "auto_specific",
+      "char_start": 27410,
+      "char_end": 27471,
+      "quote": "[42, 49]: orange; mutations common in both data sets: cyan)."
+    },
+    {
+      "evidence_id": "EV_AUTO_019",
+      "source_file": "docs/0132/combined.md",
+      "section": "auto_specific",
+      "char_start": 24631,
+      "char_end": 24676,
+      "quote": "[44–48], and three mutants from Reetz et al."
+    },
+    {
+      "evidence_id": "EV_AUTO_020",
+      "source_file": "docs/0132/combined.md",
+      "section": "auto_specific",
+      "char_start": 16651,
+      "char_end": 16740,
+      "quote": ", the temperature required to reduce the initial enzymatic activity by 50% within 15 min."
+    },
+    {
+      "evidence_id": "EV_AUTO_021",
+      "source_file": "docs/0132/combined.md",
+      "section": "auto_specific",
+      "char_start": 16528,
+      "char_end": 16617,
+      "quote": ", the temperature required to reduce the initial enzymatic activity by 50% within 60 min."
+    },
+    {
+      "evidence_id": "EV_AUTO_022",
+      "source_file": "docs/0132/combined.md",
+      "section": "auto_specific",
+      "char_start": 5719,
+      "char_end": 5989,
+      "quote": "We do so by applying the rigidity theory-based Constraint Network Analysis (CNA) approach developed by us $[33–35]$ , thereby considering the BsLipA variants to be in static equilibrium, hence avoiding that the results depend on the temporal resolution of the approach."
+    },
+    {
+      "evidence_id": "EV_AUTO_023",
+      "source_file": "docs/0132/combined.md",
+      "section": "auto_specific",
+      "char_start": 2723,
+      "char_end": 2897,
+      "quote": "46$ correlation between the structural rigidity of a well-characterized set of 16 mutants of lipase A from Bacillus subtilis (BsLipA) and their thermodynamic thermostability."
+    },
+    {
+      "evidence_id": "EV_AUTO_024",
+      "source_file": "docs/0132/combined.md",
+      "section": "auto_specific",
+      "char_start": 74863,
+      "char_end": 75149,
+      "quote": ", we find a decreased local rigidity compared to wild type, in line with findings of lower unfolding initiation temperatures, yet the mutants are more “thermostable” than the wild type in that they preserve enzymatic activity better after subjecting them to higher temperatures $[42]$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_025",
+      "source_file": "docs/0132/combined.md",
+      "section": "auto_specific",
+      "char_start": 69832,
+      "char_end": 70012,
+      "quote": "Here, we have probed the relation between protein thermostability and structural rigidity by directly analyzing static properties of a well-characterized set of 16 BsLipA mutants."
+    },
+    {
+      "evidence_id": "EV_AUTO_026",
+      "source_file": "docs/0132/combined.md",
+      "section": "auto_specific",
+      "char_start": 68737,
+      "char_end": 68931,
+      "quote": "Nevertheless, we analyzed differences in the per-residue number of hydrogen bonds and hydrophobic tethers of the variants 1\\_14F5, 6B, and X with respect to the wild type (Figure I in S1 File)."
+    },
+    {
+      "evidence_id": "EV_AUTO_027",
+      "source_file": "docs/0132/combined.md",
+      "section": "auto_specific",
+      "char_start": 67131,
+      "char_end": 67295,
+      "quote": "Furthermore, the results are in line with experimental findings which suggest that the mutants are thermodynamically less stable than the wild type (Table 1) [49]."
+    },
+    {
+      "evidence_id": "EV_AUTO_028",
+      "source_file": "docs/0132/combined.md",
+      "section": "auto_specific",
+      "char_start": 66603,
+      "char_end": 66882,
+      "quote": "In strict contrast to what was observed for the thermodynamically thermostabilized mutants, this mutant showed a destabilization of rigid contacts both locally and globally (Fig 6C and 6F; see also Figure G in S1 File, where a similar finding is depicted for mutants IX and XI)."
+    },
+    {
+      "evidence_id": "EV_AUTO_029",
+      "source_file": "docs/0132/combined.md",
+      "section": "auto_specific",
+      "char_start": 66497,
+      "char_end": 66603,
+      "quote": "Regarding mutant X, seven residues have been mutated (indicated by arrows in Fig 6C and shown in Fig 6G)."
+    },
+    {
+      "evidence_id": "EV_AUTO_030",
+      "source_file": "docs/0132/combined.md",
+      "section": "auto_specific",
+      "char_start": 64380,
+      "char_end": 64642,
+      "quote": "The differences in the stability of rigid contacts for residue neighbors is also displayed on the structures of the mutants by sticks connecting $C_{\\alpha}$ atoms of residue pairs colored according to the color scale of the maps for D: 1-14F5, E: 6B, and F: X."
+    },
+    {
+      "evidence_id": "EV_AUTO_031",
+      "source_file": "docs/0132/combined.md",
+      "section": "auto_specific",
+      "char_start": 64145,
+      "char_end": 64380,
+      "quote": "Arrows represent the mutation positions with respect to the wild type sequence: Common mutations in 1-14F5 (A) and 6B (B) are shown in magenta, unique mutations in 6B (B) are shown in green, and mutations in X (C) are shown in orange."
+    },
+    {
+      "evidence_id": "EV_AUTO_032",
+      "source_file": "docs/0132/combined.md",
+      "section": "auto_specific",
+      "char_start": 63318,
+      "char_end": 63541,
+      "quote": "Maps depict differences between stability maps of the respective mutants and an average stability map of the six wild type structures (see the main text for explanation) for A: mutant 1-14F5, B: mutant 6B, and C: mutant X."
+    },
+    {
+      "evidence_id": "EV_AUTO_033",
+      "source_file": "docs/0132/combined.md",
+      "section": "auto_specific",
+      "char_start": 57210,
+      "char_end": 57331,
+      "quote": "Residues mutated in 6B (indicated by arrows in Fig 6B and shown in Fig 6E) include the mutations already found in 1-14F5."
+    },
+    {
+      "evidence_id": "EV_AUTO_034",
+      "source_file": "docs/0132/combined.md",
+      "section": "auto_specific",
+      "char_start": 56370,
+      "char_end": 56597,
+      "quote": "In more detail, the four mutations (indicated by arrows in Fig 6A and shown in Fig 6D) on 1-14F5 stabilize contacts of $\\alpha$ D with its neighboring helix $\\alpha$ C and contacts of $\\alpha$ A with $\\alpha$ F (Fig 6A and 6D)."
+    },
+    {
+      "evidence_id": "EV_AUTO_035",
+      "source_file": "docs/0132/combined.md",
+      "section": "auto_specific",
+      "char_start": 55947,
+      "char_end": 56297,
+      "quote": "Difference stability maps for 1-14F5/wild type (Fig 6A) and 6B/wild type (Fig 6B) pairs demonstrate that mutations in general improve the strength of rigid contacts to and in between neighboring residues of the mutations (lower triangles in Fig 6A and 6B) but also in between residue pairs not in contact distance (upper triangles in Fig 6A and 6B)."
+    },
+    {
+      "evidence_id": "EV_AUTO_036",
+      "source_file": "docs/0132/combined.md",
+      "section": "auto_specific",
+      "char_start": 55666,
+      "char_end": 55783,
+      "quote": "In particular, we compared the wild type to a more thermostable variant 1-14F5 and the most thermostable variant 6B."
+    }
+  ],
+  "event_graph": {
+    "paper_main_problem": "Resolve conflicting views on whether increased structural rigidity correlates with higher protein thermostability by analyzing static properties of 16 BsLipA mutants using Constraint Network Analysis (CNA).",
+    "canonical_events": [
+      {
+        "canonical_id": "K01",
+        "order": 1,
+        "event_type": "problem",
+        "summary": "Opposing views exist on whether increased or decreased structural rigidity leads to higher protein thermostability, related to differences in temporal resolution of methods.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E01"
+        ],
+        "evidence_ids": [
+          "EV_C001_E01_01",
+          "EV_C001_E01_02"
+        ],
+        "key_entities": [],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K02",
+        "order": 2,
+        "event_type": "hypothesis",
+        "summary": "Hypothesize that analyzing static properties directly with CNA will reveal a correlation between structural rigidity and thermodynamic thermostability.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E02"
+        ],
+        "evidence_ids": [
+          "EV_C001_E02_01"
+        ],
+        "key_entities": [
+          "Constraint Network Analysis (CNA)"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K03",
+        "order": 3,
+        "event_type": "design",
+        "summary": "Design study with 16 BsLipA mutants (13 Rao et al. with Tm, 3 Reetz et al. with Ti/T50), modeled structures, and CNA-based rigidity analysis including thermal unfolding simulation and ENT^FNC ensemble.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E03",
+          "C002_E01",
+          "C002_E02"
+        ],
+        "evidence_ids": [
+          "EV_C001_E03_02",
+          "EV_C001_E03_03",
+          "EV_C002_E01_01",
+          "EV_C002_E01_02",
+          "EV_C002_E02_02"
+        ],
+        "key_entities": [
+          "BsLipA",
+          "wild type",
+          "Rao et al. mutants",
+          "Reetz et al. mutants",
+          "SCWRL",
+          "REDUCE",
+          "Amber11",
+          "CNA",
+          "FIRST",
+          "ENT^FNC"
+        ],
+        "key_numbers": [
+          "16 mutants",
+          "E_cut range: -0.1 to -6.0 kcal/mol",
+          "temperature range: 302–420 K",
+          "ensemble size: 2000"
+        ]
+      },
+      {
+        "canonical_id": "K04",
+        "order": 4,
+        "event_type": "computation",
+        "summary": "Compute phase transition temperatures Tp from global index H_type2 using ENT^FNC ensemble, and correlate with experimental Tm.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E05"
+        ],
+        "evidence_ids": [
+          "EV_C001_E05_02"
+        ],
+        "key_entities": [
+          "H_type2",
+          "Tp"
+        ],
+        "key_numbers": [
+          "2000 network topologies"
+        ]
+      },
+      {
+        "canonical_id": "K05",
+        "order": 5,
+        "event_type": "failure",
+        "summary": "Initial Tp-based prediction fails: single topology R^2=0.22; ENT^FNC improves to R^2=0.58 but only after removing wild type and mutant 6B as outliers.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E03"
+        ],
+        "evidence_ids": [
+          "EV_C003_E03_01",
+          "EV_AUTO_015",
+          "EV_AUTO_016"
+        ],
+        "key_entities": [
+          "wild type BsLipA",
+          "mutant 6B"
+        ],
+        "key_numbers": [
+          "R^2=0.22 (single topology)",
+          "R^2=0.58 (ENT^FNC, outliers removed)",
+          "p=0.002"
+        ]
+      },
+      {
+        "canonical_id": "K06",
+        "order": 6,
+        "event_type": "analysis",
+        "summary": "Investigate outliers by clustering unfolding pathways using p_i profiles; find wild type and 6B have distinct pathway distributions, explaining false predictions.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E04",
+          "C002_E03"
+        ],
+        "evidence_ids": [
+          "EV_C003_E04_01",
+          "EV_C002_E03_01",
+          "EV_C002_E03_02"
+        ],
+        "key_entities": [
+          "wild type",
+          "mutant 6B",
+          "p_i profiles",
+          "Manhattan distance",
+          "Partitioning Around Medoids"
+        ],
+        "key_numbers": [
+          "10 clusters",
+          "r ranging from -0.69 to 0.54 for wild type"
+        ]
+      },
+      {
+        "canonical_id": "K07",
+        "order": 7,
+        "event_type": "revision",
+        "summary": "Develop new local measure: median stability of rigid contacts between residue neighbors (rc_ij,neighbor) to overcome pathway sensitivity.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C005_E08"
+        ],
+        "evidence_ids": [
+          "EV_C005_E08_01",
+          "EV_C005_E08_02"
+        ],
+        "key_entities": [
+          "rc_ij,neighbor"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K08",
+        "order": 8,
+        "event_type": "validation",
+        "summary": "New measure rc_ij,neighbor correlates with Tm: R^2=0.46, p=0.004, no outliers; correctly predicts Reetz mutants less thermostable than wild type.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C004_E01",
+          "C004_E04"
+        ],
+        "evidence_ids": [
+          "EV_C004_E01_01",
+          "EV_C004_E04_01"
+        ],
+        "key_entities": [
+          "rc_ij,neighbor",
+          "Reetz mutants",
+          "wild type"
+        ],
+        "key_numbers": [
+          "R^2=0.46",
+          "p=0.004"
+        ]
+      },
+      {
+        "canonical_id": "K09",
+        "order": 9,
+        "event_type": "analysis",
+        "summary": "Correlation improves to R^2=0.87 for X-ray structures only, but weaker (R^2=0.33) for modeled structures, indicating input structure quality matters.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C004_E03"
+        ],
+        "evidence_ids": [
+          "EV_C004_E03_01",
+          "EV_C004_E03_02"
+        ],
+        "key_entities": [
+          "X-ray structures",
+          "modeled structures"
+        ],
+        "key_numbers": [
+          "R^2=0.87 (X-ray)",
+          "p=0.007",
+          "R^2=0.33 (modeled)",
+          "p=0.07"
+        ]
+      },
+      {
+        "canonical_id": "K10",
+        "order": 10,
+        "event_type": "analysis",
+        "summary": "rc_ij,neighbor less sensitive to unfolding pathway differences; recommend H_type2 for similar pathways, rc_ij,neighbor for dissimilar pathways.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C004_E05"
+        ],
+        "evidence_ids": [
+          "EV_C004_E05_01",
+          "EV_C004_E05_02"
+        ],
+        "key_entities": [
+          "rc_ij,neighbor",
+          "H_type2"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K11",
+        "order": 11,
+        "event_type": "validation",
+        "summary": "Using multiple crystal structures with ENT^FNC improves correlation to R^2=0.55, p=0.001, further validating the approach.",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C004_E06"
+        ],
+        "evidence_ids": [
+          "EV_C004_E06_01"
+        ],
+        "key_entities": [
+          "multiple crystal structures",
+          "ENT^FNC"
+        ],
+        "key_numbers": [
+          "R^2=0.55",
+          "p=0.001"
+        ]
+      },
+      {
+        "canonical_id": "K12",
+        "order": 12,
+        "event_type": "analysis",
+        "summary": "Mutations in thermostable variants strengthen rigid contacts, especially between peripheral helices and central β-sheet; Reetz mutant X shows destabilization.",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C004_E07",
+          "C004_E08"
+        ],
+        "evidence_ids": [
+          "EV_C004_E07_01",
+          "EV_C004_E07_02",
+          "EV_C004_E08_01"
+        ],
+        "key_entities": [
+          "mutations",
+          "rigid contacts",
+          "α-helices",
+          "β-sheet",
+          "mutant X"
+        ],
+        "key_numbers": [
+          "~-0.1 kcal/mol",
+          "~2 K",
+          "~-0.4 kcal/mol",
+          "~8 K",
+          "~0.06 kcal/mol",
+          "~1.2 K"
+        ]
+      },
+      {
+        "canonical_id": "K13",
+        "order": 13,
+        "event_type": "limitation",
+        "summary": "Slope of correlation line deviates from unity, suggesting need for reparameterization of T-E_cut relationship; prediction weaker for modeled structures.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C004_E03"
+        ],
+        "evidence_ids": [
+          "EV_C004_E03_02"
+        ],
+        "key_entities": [
+          "T-E_cut relationship"
+        ],
+        "key_numbers": [
+          "R^2=0.33 (modeled)"
+        ]
+      },
+      {
+        "canonical_id": "K14",
+        "order": 14,
+        "event_type": "validation",
+        "summary": "Main outcome: significant correlation (p=0.004, R^2=0.46) between structural rigidity and thermodynamic thermostability for all BsLipA variants, complementing previous studies.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E07",
+          "C005_E02"
+        ],
+        "evidence_ids": [
+          "EV_C001_E07_01",
+          "EV_C005_E02_01",
+          "EV_C005_E02_02"
+        ],
+        "key_entities": [
+          "BsLipA variants"
+        ],
+        "key_numbers": [
+          "p=0.004",
+          "R^2=0.46"
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "source": "K01",
+        "target": "K02",
+        "relation": "enables",
+        "reason": "The conflicting views motivate the hypothesis that static CNA analysis can resolve the rigidity-thermostability relationship."
+      },
+      {
+        "source": "K02",
+        "target": "K03",
+        "relation": "enables",
+        "reason": "The hypothesis drives the design of the study with 16 mutants and CNA methods."
+      },
+      {
+        "source": "K03",
+        "target": "K04",
+        "relation": "enables",
+        "reason": "The design includes computing Tp from H_type2 using ENT^FNC ensemble."
+      },
+      {
+        "source": "K04",
+        "target": "K05",
+        "relation": "follows",
+        "reason": "The Tp-based prediction yields poor correlation and outliers, revealing a failure."
+      },
+      {
+        "source": "K05",
+        "target": "K06",
+        "relation": "enables",
+        "reason": "The failure prompts investigation into unfolding pathway differences to explain outliers."
+      },
+      {
+        "source": "K06",
+        "target": "K07",
+        "relation": "enables",
+        "reason": "Pathway sensitivity of Tp motivates development of a new local measure."
+      },
+      {
+        "source": "K07",
+        "target": "K08",
+        "relation": "enables",
+        "reason": "The new measure is validated by correlation with Tm and correct prediction for Reetz mutants."
+      },
+      {
+        "source": "K08",
+        "target": "K09",
+        "relation": "refines",
+        "reason": "Further analysis reveals dependence on input structure quality."
+      },
+      {
+        "source": "K09",
+        "target": "K10",
+        "relation": "enables",
+        "reason": "The differential performance leads to recommendations for measure selection based on pathway similarity."
+      },
+      {
+        "source": "K10",
+        "target": "K11",
+        "relation": "validates",
+        "reason": "Using multiple crystal structures further validates the approach."
+      },
+      {
+        "source": "K11",
+        "target": "K12",
+        "relation": "follows",
+        "reason": "Detailed analysis of mutation effects on rigid contacts provides mechanistic insight."
+      },
+      {
+        "source": "K12",
+        "target": "K13",
+        "relation": "follows",
+        "reason": "Limitations in the method are noted, including need for reparameterization."
+      },
+      {
+        "source": "K13",
+        "target": "K14",
+        "relation": "follows",
+        "reason": "Despite limitations, the main outcome confirms the overall correlation."
+      }
+    ],
+    "must_cover_points": [
+      "Conflicting views on rigidity-thermostability relationship",
+      "Hypothesis that static CNA can reveal correlation",
+      "Design with 16 BsLipA mutants and CNA methods",
+      "Initial Tp-based prediction failure with outliers",
+      "Pathway clustering to explain outliers",
+      "Development of new local measure rc_ij,neighbor",
+      "Validation of new measure with improved correlation",
+      "Impact of structure quality on prediction",
+      "Recommendations for measure selection",
+      "Main outcome confirming correlation"
+    ],
+    "paper_not_suitable_reasons": []
+  }
+}

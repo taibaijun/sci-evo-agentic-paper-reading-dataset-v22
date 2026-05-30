@@ -1,0 +1,922 @@
+{
+  "case": {
+    "case_id": "sci_evo_0103",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "A high-throughput multiparameter screen for accelerated development and optimization of soluble genetically encoded fluorescent biosensors",
+      "doi": "https://doi.org/10.1038/s41467-022-30685-x",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0101_10_1038_s41467_022_30685_x_a_high_throughput_multiparameter_screen_for_accelerated_development_and_optimization_of_so.pdf",
+      "mineru_md": "docs/0103/mineru.md",
+      "combined_md": "docs/0103/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Developing and optimizing soluble genetically encoded fluorescent biosensors is challenging due to low-throughput, single-parameter screening methods.",
+      "target_object": "High-performance lactate biosensor (LiLac)",
+      "known_context": "Existing biosensor screens are limited in the number of conditions that can be tested, hindering multiparameter optimization.",
+      "constraints": [
+        "Soluble biosensors only",
+        "Cannot evaluate kinetics within GSBs"
+      ],
+      "input_data": [],
+      "quantifiable_goals": [
+        "Increase screening throughput and content by orders of magnitude",
+        "Develop a lactate biosensor with large response and low pH sensitivity"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "Existing biosensor screens are limited in the number of conditions that can be tested, hindering multiparameter optimization.",
+        "gap_or_uncertainty": "How to increase screening throughput and enable multiparameter optimization for biosensor engineering.",
+        "hypothesis": "Combining droplet microfluidics and automated two-photon fluorescence lifetime imaging (2p-FLIM) will increase screening content and throughput by orders of magnitude.",
+        "decision": "Design the BeadScan platform.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "BeadScan",
+          "version": "initial design",
+          "category": "high-throughput screening platform"
+        },
+        "parameters": {},
+        "observation": "The BeadScan platform was designed to combine droplet microfluidics and automated 2p-FLIM.",
+        "result_status": "success",
+        "next_step_reason": "Need to address low protein expression in initial GSB method.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0103/combined.md",
+            "section": "C001",
+            "quote_or_span": "existing screens are still limited in the number of conditions that can be tested against the biosensor"
+          },
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0103/combined.md",
+            "section": "C001",
+            "quote_or_span": "we have surmounted these limitations, increasing screening content and throughput by orders of magnitude, by combining droplet microfluidics and automated two-photon fluorescence lifetime imaging (2p-FLIM)"
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "experiment",
+        "state_before": "Initial GSB method yields nanomolar protein expression, insufficient for direct fluorescence detection.",
+        "gap_or_uncertainty": "Protein expression levels are too low for biosensor detection without enzymatic amplification.",
+        "hypothesis": "Increasing DNA copy number per bead will boost protein expression to detectable levels.",
+        "decision": "Attempt existing bead PCR methods to achieve high copy numbers of full-length amplicons.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "bead PCR",
+          "version": "existing methods",
+          "category": "molecular biology"
+        },
+        "parameters": {},
+        "observation": "Existing bead PCR methods failed to reliably produce beads loaded with high copy numbers of full-length amplicons; only 0.1–1% of the resulting DNA beads were capable of driving strong expression of target sensors in IVTT droplets.",
+        "result_status": "failure",
+        "next_step_reason": "Develop a new bead PCR method to overcome these limitations.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E04_01",
+            "source_file": "docs/0103/combined.md",
+            "section": "C001",
+            "quote_or_span": "The enzymes are at nanomolar levels in the GSBs and their activity is visualized with fluorogenic substrates; but without the advantage of enzymatic amplification in the assay, fluorescent biosensors are difficult to detect at these low concentrations."
+          },
+          {
+            "evidence_id": "EV_C002_E02_01",
+            "source_file": "docs/0103/combined.md",
+            "section": "C002",
+            "quote_or_span": "In our hands, these methods failed to reliably produce beads loaded with high copy numbers of full-length amplicons; only 0.1–1% of the resulting DNA beads were capable of driving strong expression of our target sensors in IVTT droplets."
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "revision",
+        "state_before": "Existing bead PCR methods failed to produce high-copy DNA beads.",
+        "gap_or_uncertainty": "Need a reliable method to generate beads with high copy numbers of full-length amplicons.",
+        "hypothesis": "Amplifying DNA free in solution in droplets and then immobilizing on streptavidin beads will yield high copy numbers.",
+        "decision": "Develop a new bead PCR method: amplify DNA free in solution in droplets with biotinylated 3' primer, then immobilize on streptavidin beads via microfluidic merging.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "bead PCR",
+          "version": "new method",
+          "category": "molecular biology"
+        },
+        "parameters": {
+          "DNA copies per bead": ">200,000"
+        },
+        "observation": "New method achieved >200,000 copies per bead.",
+        "result_status": "success",
+        "next_step_reason": "Optimize DNA loading to prevent protein aggregates.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E03_01",
+            "source_file": "docs/0103/combined.md",
+            "section": "C002",
+            "quote_or_span": "To overcome these limitations, we instead allowed template DNA to be amplified free in solution in droplets containing a biotinylated 3' primer, and then subsequently immobilized the PCR products on streptavidin beads."
+          },
+          {
+            "evidence_id": "EV_C001_E05_02",
+            "source_file": "docs/0103/combined.md",
+            "section": "C001",
+            "quote_or_span": "we chose to immobilize the amplified DNA on beads, purify the DNA beads and then use a minimal volume to deliver them into IVTT droplets"
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "revision",
+        "state_before": "High-copy DNA beads achieved, but risk of protein aggregates.",
+        "gap_or_uncertainty": "Uncontrolled DNA loading may cause protein aggregation.",
+        "hypothesis": "Limiting DNA loading to ~100,000 copies by pre-blocking streptavidin sites and using limiting biotinylated 3' primer will prevent aggregates.",
+        "decision": "Optimize DNA loading on beads.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "streptavidin bead loading",
+          "version": "optimized",
+          "category": "biochemistry"
+        },
+        "parameters": {
+          "DNA copies per bead": "~100,000"
+        },
+        "observation": "DNA loading limited to ~100,000 copies by pre-blocking streptavidin sites; limiting biotinylated 3' primer ensures only fully extended amplicons are captured.",
+        "result_status": "success",
+        "next_step_reason": "Select a scaffold for lactate biosensor.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E04_02",
+            "source_file": "docs/0103/combined.md",
+            "section": "C002",
+            "quote_or_span": "we used a limiting concentration of the 3' primer to ensure the complete extension of all biotinylated primer molecules, so that only fully extended amplicons are captured on the streptavidin beads."
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "design",
+        "state_before": "High-copy DNA beads ready for library screening.",
+        "gap_or_uncertainty": "Need a suitable scaffold for a lactate biosensor.",
+        "hypothesis": "TlpC dCACHE domain may undergo large conformational change upon lactate binding, making it a good scaffold.",
+        "decision": "Select TlpC as scaffold and fuse with T-Sapphire (TS) to create TlpC-TS.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "TlpC scaffold selection",
+          "version": "initial",
+          "category": "protein design"
+        },
+        "parameters": {},
+        "observation": "TlpC selected as an untested scaffold; reasoning that lactate binding may generate a large conformational change between N- and C-termini.",
+        "result_status": "success",
+        "next_step_reason": "Generate and screen linker library.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E06_01",
+            "source_file": "docs/0103/combined.md",
+            "section": "C002",
+            "quote_or_span": "we selected an untested scaffold for our biosensor: the extracellular dCACHE domain of the bacterial chemotaxis protein, TlpC from H. pylori."
+          },
+          {
+            "evidence_id": "EV_C002_E06_02",
+            "source_file": "docs/0103/combined.md",
+            "section": "C002",
+            "quote_or_span": "we reasoned that lactate binding may generate a large conformational change between the N- and C- termini, which are in close proximity"
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "experiment",
+        "state_before": "TlpC-TS scaffold designed.",
+        "gap_or_uncertainty": "Optimal linker composition and length unknown.",
+        "hypothesis": "Screening a large linker library will identify variants with large lactate-induced lifetime changes.",
+        "decision": "Generate a library of 49,152 TlpC-TS linker variants and screen using BeadScan.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "BeadScan",
+          "version": "initial screen",
+          "category": "high-throughput screening"
+        },
+        "parameters": {
+          "library size": "49,152 variants"
+        },
+        "observation": "Two high-contrast biosensors isolated (TlpC-TS #1537 and #1059) with inverted lifetime changes (ΔLT = 0.2 ns and 0.3 ns) and physiological affinities (Kapp = 0.19 ± 0.13 mM and 0.66 ± 0.11 mM).",
+        "result_status": "success",
+        "next_step_reason": "Characterize pH sensitivity of TlpC-TS variants.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E07_01",
+            "source_file": "docs/0103/combined.md",
+            "section": "C002",
+            "quote_or_span": "we generated a library of TlpC-TS biosensor variants that sampled 49,152 different linkers, varying both length and composition"
+          },
+          {
+            "evidence_id": "EV_C003_E01_01",
+            "source_file": "docs/0103/combined.md",
+            "section": "C003",
+            "quote_or_span": "Initial screen of the TlpC-TS lactate biosensor library, showing data from individual biosensor variants captured in GSBs."
+          },
+          {
+            "evidence_id": "EV_C003_E01_02",
+            "source_file": "docs/0103/combined.md",
+            "section": "C003",
+            "quote_or_span": "Average photon counts within each ROI are plotted against the maximum change in lifetime between 0 and 10 mM lactate; each data point represents a single GSB."
+          },
+          {
+            "evidence_id": "EV_C003_E02_01",
+            "source_file": "docs/0103/combined.md",
+            "section": "C003",
+            "quote_or_span": "Two GSBs with large lifetime changes were selected (dotted boxes)."
+          },
+          {
+            "evidence_id": "EV_AUTO_020",
+            "source_file": "docs/0103/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "5, 90 mM KCl, 10 mM NaCl and combined with Ni-NTA nanospheres (Kisker-biotech, PPS-0.2NI-NTA) and sterile 50% glycerol to final concentrations of 1."
+          },
+          {
+            "evidence_id": "EV_C003_E04_01",
+            "source_file": "docs/0103/combined.md",
+            "section": "C003",
+            "quote_or_span": "Performance of TlpC-TS #1059 at four different pH values. Dose-response curves were collected on a uniform sample of GSBs expressing TlpC-TS #1059 (n = 96 GSBs, mean ± SD)."
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "analysis",
+        "state_before": "Initial TlpC-TS variants isolated.",
+        "gap_or_uncertainty": "TlpC-TS variants may be sensitive to pH, limiting quantitative measurements.",
+        "hypothesis": "TlpC-TS is pH-sensitive within physiological ranges.",
+        "decision": "Test pH sensitivity of TlpC-TS #1059.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "pH sensitivity assay",
+          "version": "in vitro",
+          "category": "biochemical characterization"
+        },
+        "parameters": {
+          "pH values": "four different pH values"
+        },
+        "observation": "TlpC-TS #1059 showed sensitivity to pH changes within physiologically relevant ranges, a limitation for quantitative lactate measurements.",
+        "result_status": "failure",
+        "next_step_reason": "Switch fluorophore to reduce pH sensitivity.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E08_01",
+            "source_file": "docs/0103/combined.md",
+            "section": "C002",
+            "quote_or_span": "we found that TlpC-TS was highly specific for its cognate ligand over other chemically similar ligands, but was also sensitive to pH changes within physiologically relevant ranges"
+          },
+          {
+            "evidence_id": "EV_C003_E04_01",
+            "source_file": "docs/0103/combined.md",
+            "section": "C003",
+            "quote_or_span": "Performance of TlpC-TS #1059 at four different pH values. Dose-response curves were collected on a uniform sample of GSBs expressing TlpC-TS #1059 (n = 96 GSBs, mean ± SD)."
+          },
+          {
+            "evidence_id": "EV_C003_E05_01",
+            "source_file": "docs/0103/combined.md",
+            "section": "C003",
+            "quote_or_span": "We therefore set out to reduce the pH responses of our prototype lactate biosensor to enable more accurate quantitation of intracellular lactate concentrations."
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "revision",
+        "state_before": "TlpC-TS variants are pH-sensitive.",
+        "gap_or_uncertainty": "Need a pH-resistant fluorophore to reduce pH sensitivity.",
+        "hypothesis": "Replacing T-Sapphire with mTurquoise2, a pH-resistant cyan fluorescent protein, will reduce pH sensitivity.",
+        "decision": "Switch fluorophore to mTurquoise2 and re-screen linker library.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "mTurquoise2 replacement",
+          "version": "TlpC-TQ",
+          "category": "protein engineering"
+        },
+        "parameters": {
+          "library size": "1411 variants"
+        },
+        "observation": "TlpC-TQ linker library generated with mTurquoise2; multiparameter screening comparing lactate and pH responses for 1411 variants.",
+        "result_status": "success",
+        "next_step_reason": "Isolate variant with large lactate response and low pH sensitivity.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E07_01",
+            "source_file": "docs/0103/combined.md",
+            "section": "C003",
+            "quote_or_span": "Multiparameter screening of a linker library of TlpC-TQ, comparing lifetime changes in response to lactate versus pH for each of 1411 individual GSBs."
+          },
+          {
+            "evidence_id": "EV_AUTO_018",
+            "source_file": "docs/0103/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "response may arise from the T-Sapphire fluorescent protein $^{46}$ , and we repeated our linker library using mTurquoise2, a highly pH-resistant fluorophore recently used to develop a fluorescent lifetime sensor for calcium levels $^{7}$ , which is also brighter and more photostable than T-Sapphire $^{7,14,46}$ ."
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "experiment",
+        "state_before": "TlpC-TQ library generated.",
+        "gap_or_uncertainty": "Need to identify a variant with large lactate response and greatly diminished pH sensitivity.",
+        "hypothesis": "Multiparameter screening will isolate rare variants that resist the correlation between lactate and pH responses.",
+        "decision": "Screen TlpC-TQ library and select variant #1083.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "BeadScan multiparameter screen",
+          "version": "TlpC-TQ",
+          "category": "high-throughput screening"
+        },
+        "parameters": {
+          "library size": "1411 variants"
+        },
+        "observation": "Variant TlpC-TQ #1083 (renamed LiLac) isolated with large lactate response and greatly diminished pH sensitivity.",
+        "result_status": "success",
+        "next_step_reason": "Validate LiLac in mammalian cells and brain slices.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E07_01",
+            "source_file": "docs/0103/combined.md",
+            "section": "C003",
+            "quote_or_span": "Multiparameter screening of a linker library of TlpC-TQ, comparing lifetime changes in response to lactate versus pH for each of 1411 individual GSBs."
+          },
+          {
+            "evidence_id": "EV_AUTO_016",
+            "source_file": "docs/0103/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Nevertheless, out of 1,411 variants we successfully isolated a rare variant, TlpC-TQ #1083, that displayed large lactate responses and greatly diminished pH sensitivity (Fig."
+          },
+          {
+            "evidence_id": "EV_AUTO_029",
+            "source_file": "docs/0103/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The pH-resistant variant (#1083, top) was renamed LiLac."
+          },
+          {
+            "evidence_id": "EV_AUTO_030",
+            "source_file": "docs/0103/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Despite a general correlation between lactate- and pH-induced responses, rare variants that resisted this trend could be isolated (#1083)."
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "validation",
+        "state_before": "LiLac isolated from TlpC-TQ library.",
+        "gap_or_uncertainty": "Need to validate LiLac performance in cellular environments.",
+        "hypothesis": "LiLac will show high uniformity, sensitivity, and outperform Laconic in mammalian cells and brain slices.",
+        "decision": "Validate LiLac in HEK293T cells and acute hippocampal brain slices.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "2p-FLIM in cells",
+          "version": "validation",
+          "category": "fluorescence imaging"
+        },
+        "parameters": {
+          "cell types": "HEK293T, neurons"
+        },
+        "observation": "LiLac showed high uniformity, sensitivity, and outperformed Laconic with 6-fold larger response and SNR ~25; also >40% intensity change.",
+        "result_status": "success",
+        "next_step_reason": "Confirm specificity and note limitations.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E01_01",
+            "source_file": "docs/0103/combined.md",
+            "section": "C004",
+            "quote_or_span": "Lifetime values are highly uniform across a population of cells exposed to a single concentration of lactate and are responsive to changes in lactate concentration in the external bath solution"
+          },
+          {
+            "evidence_id": "EV_C004_E01_02",
+            "source_file": "docs/0103/combined.md",
+            "section": "C004",
+            "quote_or_span": "LiLac yields highly reproducible measurements of intracellular lactate concentrations across a population of cells and is sensitive to even modest manipulations of extracellular lactate (1 to 2 mM)"
+          },
+          {
+            "evidence_id": "EV_C004_E02_01",
+            "source_file": "docs/0103/combined.md",
+            "section": "C004",
+            "quote_or_span": "the lifetime of the Laconic donor species varies widely across cells bathed in lactate"
+          },
+          {
+            "evidence_id": "EV_C004_E02_02",
+            "source_file": "docs/0103/combined.md",
+            "section": "C004",
+            "quote_or_span": "the high precision of the LiLac readout suggests that the cell-to-cell variability observed with Laconic may be an artifact of the biosensor"
+          },
+          {
+            "evidence_id": "EV_AUTO_024",
+            "source_file": "docs/0103/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "In mammalian cells, the lifetime response from LiLac outperforms that of Laconic, the first and most widely used genetically encoded lactate biosensor, exhibiting a 6-fold larger response size and high sensitivity (SNR \\~25)."
+          },
+          {
+            "evidence_id": "EV_AUTO_026",
+            "source_file": "docs/0103/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "In cells, LiLac displays a \\~6-fold larger response size, >5-fold reduced variability, and substantially higher signal to noise ratio (LiLac $_{SNR}$ \\~ 25, Laconic $_{donor\\ lifetime,SNR}$ < 1; Suppl."
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "analysis",
+        "state_before": "LiLac validated in cells.",
+        "gap_or_uncertainty": "Confirm that LiLac's in vitro performance matches cellular performance, indicating high specificity.",
+        "hypothesis": "LiLac's in vitro and cellular performance similarity suggests high specificity for lactate.",
+        "decision": "Compare calibration in permeabilized cells with IVTT-produced GSBs.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "calibration comparison",
+          "version": "in vitro vs cellular",
+          "category": "biochemical characterization"
+        },
+        "parameters": {},
+        "observation": "Calibration of LiLac in permeabilized HEK293T cells was remarkably similar to that in IVTT-produced GSBs, suggesting high specificity for lactate.",
+        "result_status": "success",
+        "next_step_reason": "Note limitations of BeadScan platform.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E07_01",
+            "source_file": "docs/0103/combined.md",
+            "section": "C004",
+            "quote_or_span": "calibration of the LiLac response in permeabilized HEK293T cells was remarkably similar to that in IVTT-produced GSBs"
+          },
+          {
+            "evidence_id": "EV_C004_E07_02",
+            "source_file": "docs/0103/combined.md",
+            "section": "C004",
+            "quote_or_span": "the similarity of LiLac's performance in vitro and in cells suggests that the LiLac response is indeed highly specific for lactate in the context of the cellular environment"
+          }
+        ]
+      },
+      {
+        "step_index": 12,
+        "phase": "analysis",
+        "state_before": "LiLac successfully developed and validated.",
+        "gap_or_uncertainty": "BeadScan has limitations: cannot evaluate kinetics within GSBs, and is most appropriate for soluble biosensors.",
+        "hypothesis": "These limitations do not detract from the demonstrated utility of BeadScan for soluble biosensor development.",
+        "decision": "Acknowledge limitations.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "limitation assessment",
+          "version": "N/A",
+          "category": "platform evaluation"
+        },
+        "parameters": {},
+        "observation": "BeadScan cannot evaluate biosensor kinetics within GSBs due to unknown ligand diffusion rates; most appropriate for soluble biosensors, not membrane-associated or GPCR-based biosensors.",
+        "result_status": "partial",
+        "next_step_reason": "Case complete.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E05_01",
+            "source_file": "docs/0103/combined.md",
+            "section": "C004",
+            "quote_or_span": "We are currently unable to evaluate biosensor kinetics within the GSB environment, which would require a precise understanding of ligand diffusion rates across the polyelectrolyte shell."
+          },
+          {
+            "evidence_id": "EV_C004_E06_01",
+            "source_file": "docs/0103/combined.md",
+            "section": "C004",
+            "quote_or_span": "BeadScan is also most appropriate for screening soluble biosensors, not membrane-associated or GPCR-based biosensors"
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "2p-FLIM in HEK293T cells",
+        "2p-FLIM in acute hippocampal brain slices",
+        "Comparison with Laconic biosensor"
+      ],
+      "metrics": [
+        "Lifetime change (ΔLT)",
+        "Signal-to-noise ratio (SNR)",
+        "Intensity change",
+        "Apparent affinity (Kapp)"
+      ],
+      "final_conclusion": "LiLac is a high-performance lactate biosensor with large response, low pH sensitivity, and high uniformity in cells, outperforming Laconic. BeadScan enables rapid multiparameter optimization of soluble biosensors.",
+      "limitations": [
+        "Cannot evaluate biosensor kinetics within GSBs",
+        "Most appropriate for soluble biosensors, not membrane-associated or GPCR-based"
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_specific_evidence_backfilled=4",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_specific_evidence_backfilled=4",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 100.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p2\\states\\0103.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p2\\events\\0103.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 11,
+      "covered_event_count": 11,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1
+        ],
+        "K02": [
+          1
+        ],
+        "K04": [
+          2,
+          3
+        ],
+        "K07": [
+          5
+        ],
+        "K08": [
+          6
+        ],
+        "K09": [
+          6,
+          7
+        ],
+        "K10": [
+          8,
+          9
+        ],
+        "K11": [
+          5,
+          6,
+          8,
+          9,
+          10
+        ],
+        "K12": [
+          9,
+          10
+        ],
+        "K13": [
+          10,
+          11
+        ],
+        "K14": [
+          12
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02",
+            "K03"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K03",
+            "K04",
+            "K05"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K04",
+            "K05",
+            "K06"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K06"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K07",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K08",
+            "K09",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K09"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K10",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K10",
+            "K11",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K11",
+            "K12",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K13"
+          ]
+        },
+        {
+          "step_index": 12,
+          "covered_event_ids": [
+            "K14"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 3,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "200000"
+        ]
+      },
+      {
+        "step_index": 4,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "100000"
+        ]
+      },
+      {
+        "step_index": 6,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "0.11mm",
+          "0.13mm",
+          "0.19",
+          "0.3",
+          "0.66",
+          "1537"
+        ]
+      },
+      {
+        "step_index": 7,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "1059s"
+        ]
+      },
+      {
+        "step_index": 10,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "40%",
+          "93"
+        ]
+      }
+    ],
+    "step_count": 12,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 100.0
+  },
+  "api_usage": {
+    "prompt_tokens": 132305,
+    "completion_tokens": 28575,
+    "total_tokens": 160880,
+    "prompt_cache_hit_tokens": 3456,
+    "prompt_cache_miss_tokens": 128849
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 2244,
+        "completion_tokens": 457,
+        "total_tokens": 2701,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 2244
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 6867,
+        "completion_tokens": 2220,
+        "total_tokens": 9087,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 6867
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 7392,
+        "completion_tokens": 1327,
+        "total_tokens": 8719,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7136
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 7753,
+        "completion_tokens": 1922,
+        "total_tokens": 9675,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7497
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 8437,
+        "completion_tokens": 1239,
+        "total_tokens": 9676,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8181
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 6742,
+        "completion_tokens": 1444,
+        "total_tokens": 8186,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6486
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C005",
+      "api_usage": {
+        "prompt_tokens": 7542,
+        "completion_tokens": 1546,
+        "total_tokens": 9088,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7286
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C006",
+      "api_usage": {
+        "prompt_tokens": 7837,
+        "completion_tokens": 1476,
+        "total_tokens": 9313,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7581
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C007",
+      "api_usage": {
+        "prompt_tokens": 5103,
+        "completion_tokens": 59,
+        "total_tokens": 5162,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 4847
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 15519,
+        "completion_tokens": 3419,
+        "total_tokens": 18938,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 15135
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 14692,
+        "completion_tokens": 5902,
+        "total_tokens": 20594,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 14052
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 19146,
+        "completion_tokens": 1310,
+        "total_tokens": 20456,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 19146
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 23031,
+        "completion_tokens": 6254,
+        "total_tokens": 29285,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 22391
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

@@ -1,0 +1,2202 @@
+{
+  "doc_no": "0064",
+  "source": {
+    "title": "COMPASS for rapid combinatorial optimization of biochemical pathways based on artificial transcription factors",
+    "doi": "https://doi.org/10.1038/s41467-019-10224-x",
+    "license": "cc-by",
+    "pdf_name": "0062_10_1038_s41467_019_10224_x_compass_for_rapid_combinatorial_optimization_of_biochemical_pathways_based_on_artificial_t.pdf",
+    "combined_md": "docs/0064/combined.md",
+    "mineru_md": "docs/0064/mineru.md"
+  },
+  "gist_memory": {
+    "paper_problem_memory": "The paper addresses the challenge of achieving balanced expression of multiple genes in synthetic pathways in S. cerevisiae, where optimal expression levels are unknown a priori. Existing combinatorial assembly methods (e.g., Golden Gate) are limited by sequence dependency and E. coli-based assembly difficulties. The authors hypothesize that orthogonal, plant-derived artificial transcription factors (ATFs) with varying strengths can be used to tune expression, and they develop COMPASS, a high-throughput cloning method that uses these ATFs and homologous recombination to generate thousands of constructs in parallel, with positive selection for correct assemblies.",
+    "section_gists": [
+      {
+        "section_index": 3,
+        "heading": "COMPASS for rapid combinatorial optimization of biochemical pathways based on artificial transcription factors",
+        "gist": "Introduces the need for balanced expression of multiple genes in synthetic biology. Highlights limitations of existing methods: metabolic burden from high expression, sequence dependency of Golden Gate cloning, and instability of plasmid-based systems. Proposes COMPASS, which uses orthogonal plant-derived ATFs (from a library of 106) and homologous recombination for combinatorial assembly of up to ten genes, with positive selection and CRISPR/Cas9 integration. Mentions testing with β-carotene, β-ionone, and naringenin biosensor.",
+        "process_signals": [
+          "Problem: balanced expression of multiple genes is central but difficult due to unknown optimal levels.",
+          "Constraint: existing methods (Golden Gate) require DNA domestication and are E. coli-based, limiting large assemblies.",
+          "Hypothesis: plant-derived ATFs with varying strengths can be used to tune expression.",
+          "Design choice: use inducible ATFs to decouple growth and production, reducing metabolic burden.",
+          "Validation plan: demonstrate with colored (β-carotene) and non-colored (naringenin via biosensor) products."
+        ],
+        "methods": [
+          "COMPASS: three-level cloning (Level 0: parts, Level 1: ATF/BS-CDS modules, Level 2: multi-module assembly)",
+          "Use of nine ATF/BS units from plant-derived library covering weak, medium, strong expression",
+          "Positive selection via auxotrophic markers",
+          "CRISPR/Cas9-mediated multi-locus genomic integration"
+        ],
+        "metrics": [
+          "Expression strength in arbitrary units (AU) relative to TDH3 promoter",
+          "Product titers (mg/g cdw)"
+        ],
+        "failures_or_limits": [
+          "Golden Gate methods: sequence dependency, E. coli assembly issues for large plasmids",
+          "Plasmid-based systems: segregational and structural instability",
+          "Constitutive expression: metabolic burden"
+        ]
+      },
+      {
+        "section_index": 4,
+        "heading": "Results",
+        "gist": "Describes the COMPASS workflow: three levels of assembly. Level 0 constructs ATF/BS units and CDS units. Level 1 combinatorially assembles nine ATF/BS units with up to ten CDS units into Acceptor/Destination vectors. Level 2 assembles up to five modules into a single vector. Positive selection ensures correct assemblies. ATF/BS units were tested in two genomic loci (ura3-52 and XII-5) and showed preserved relative strengths despite position effects (0.05- to 4.3-fold of TDH3). Vectors designed for plasmid or genomic integration. The text cuts off during description of Level 2 and library generation.",
+        "process_signals": [
+          "Design: three-level cloning to manage complexity.",
+          "Observation: genomic position affects ATF output but relative strengths are preserved.",
+          "Positive selection reduces need for screening individual constructs.",
+          "Integration options: plasmid or genome (via CRISPR/Cas9)."
+        ],
+        "methods": [
+          "Level 0: Entry vector X for ATF/BS and CDS units",
+          "Level 1: Acceptor vectors A-D (Set 1) and E-H (Set 2) with Destination vectors I and II",
+          "Level 2: assembly of modules into Destination vectors",
+          "NEBuilder HiFi for overlap-based cloning",
+          "CRISPR/Cas9 for multi-locus integration"
+        ],
+        "metrics": [
+          "ATF expression range: ~0.05- to ~4.3-fold of TDH3 promoter",
+          "Library complexity: theoretically 3,486,784,401 members (9^10)"
+        ],
+        "failures_or_limits": [
+          "Genomic position affects transcriptional output (but relative order preserved)",
+          "Text incomplete; full results on pathway yields not in this excerpt"
+        ]
+      },
+      {
+        "section_index": 5,
+        "heading": "Discussion",
+        "gist": "Summarizes the need for high-throughput assembly and screening. COMPASS uses only 11 core vectors to generate libraries of millions. Demonstrated with β-carotene (0.81 mg/g cdw) and co-production of naringenin and β-ionone (0.18 mg/g cdw, 4.2-fold improvement). Highlights that ~30% of library members showed no/low production, emphasizing need for combinatorial optimization. Notes that inducible ATFs allow decoupling growth and production, with growth rates decreasing 7-16% after induction. Discusses three technical settings: genomic integration of decoupled modules, plasmid-based systems, and single-locus integration. Suggests future improvements: other inducers, dynamic regulation, wider host range.",
+        "process_signals": [
+          "Success: COMPASS generated high β-carotene and β-ionone producers.",
+          "Observation: ~30% of library non-productive, validating need for combinatorial approach.",
+          "Design advantage: inducible system reduces metabolic burden during growth.",
+          "Limitation: growth rate reduction upon induction (7-16%).",
+          "Future: extend to other inducers, dynamic regulation, other hosts."
+        ],
+        "methods": [
+          "Three approaches: (1) decoupled genomic integration, (2) plasmid-based, (3) single-locus integration",
+          "Screening: colored products, HPLC, biosensors"
+        ],
+        "metrics": [
+          "β-carotene: 0.81 ± 0.025 mg/g cdw",
+          "β-ionone: 0.18 ± 0.015 mg/g cdw (4.2-fold over RiCCD1)",
+          "Growth rate reduction: 7-16% after induction"
+        ],
+        "failures_or_limits": [
+          "~30% of library members non-productive",
+          "Growth impairment upon induction",
+          "Current version limited to 10 genes (extendable with additional plasmids)",
+          "Host-specific (S. cerevisiae)"
+        ]
+      },
+      {
+        "section_index": 6,
+        "heading": "Methods",
+        "gist": "Details construction of pCOM plasmids for strain generation (pCOM001-pCOM009) using NEBuilder HiFi and SLiCE cloning. Describes yeast strain construction starting from SCIGS22a (FPP overaccumulator, ura3 auxotroph). COMPASS uses positive selection with five auxotrophic markers. Methods include PCR, gel purification, transformation, and sequencing. Lists bacterial and yeast strains, media, and selection markers.",
+        "process_signals": [
+          "Design: positive selection scheme using five auxotrophic markers.",
+          "Starting strain: SCIGS22a with FPP overaccumulation and ura3 auxotrophy.",
+          "Cloning methods: NEBuilder HiFi, SLiCE, Gibson assembly.",
+          "Plasmid construction: stepwise assembly of donor sequences, Cas9, markers."
+        ],
+        "methods": [
+          "NEBuilder HiFi DNA assembly, SLiCE cloning",
+          "PCR with high-fidelity polymerases (Phusion, Q5, PrimeSTAR)",
+          "Gel purification (except multiplex PCR)",
+          "E. coli strains: NEB 5α, NEB 10β, ElectroSHOX",
+          "Yeast transformation: LiAc/SS carrier DNA/PEG or Frozen-EZ Yeast Transformation II Kit",
+          "Positive selection: auxotrophic markers (LEU2, HIS3, LYS2, TRP1, etc.)",
+          "CRISPR/Cas9 plasmids: pCOM001-pCOM009"
+        ],
+        "metrics": [],
+        "failures_or_limits": [
+          "Text incomplete; full methods not provided in excerpt"
+        ]
+      }
+    ],
+    "global_hypotheses_about_storyline": [
+      "The researchers hypothesized that a set of orthogonal, inducible ATFs with graded strengths could be used to combinatorially tune expression of multiple pathway genes, enabling rapid optimization without prior knowledge of optimal levels.",
+      "They designed COMPASS to overcome limitations of existing assembly methods by using overlap-based cloning and positive selection, reducing screening effort.",
+      "They expected that decoupling growth and production via inducible ATFs would mitigate metabolic burden.",
+      "They validated the approach by constructing libraries for β-carotene and naringenin/β-ionone pathways, expecting to find high producers through combinatorial diversity."
+    ],
+    "uncertainties_to_resolve": [
+      "What were the specific failures or non-functional ATF/BS units encountered during library construction?",
+      "How were the nine ATF/BS units selected from the 106-member library, and were any discarded due to poor performance?",
+      "What were the exact yields and distributions for the naringenin/β-ionone library, and how did they compare to controls?",
+      "Were there any assembly failures or bottlenecks at Level 2 due to large construct sizes?",
+      "How did the plasmid-based approach compare to genomic integration in terms of stability and productivity?",
+      "What were the limitations in scaling to more than 10 genes, and how were the additional plasmids (pCOM001, pCOM009) used?"
+    ]
+  },
+  "chunk_events": [
+    {
+      "chunk_id": "C001",
+      "char_start": 0,
+      "char_end": 18000,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C001_E01",
+          "chunk_id": "C001",
+          "event_type": "problem",
+          "order_hint": 1,
+          "summary": "Balanced expression of multiple genes is central but difficult due to unknown optimal levels.",
+          "methods_or_tools": [],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E01_01"
+          ]
+        },
+        {
+          "event_id": "C001_E02",
+          "chunk_id": "C001",
+          "event_type": "problem",
+          "order_hint": 2,
+          "summary": "High-level expression of pathway genes often increases metabolic burden.",
+          "methods_or_tools": [],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E02_01"
+          ]
+        },
+        {
+          "event_id": "C001_E03",
+          "chunk_id": "C001",
+          "event_type": "problem",
+          "order_hint": 3,
+          "summary": "Golden Gate cloning is limited by sequence dependency and E. coli assembly difficulties.",
+          "methods_or_tools": [
+            "Golden Gate cloning"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E03_01",
+            "EV_C001_E03_02"
+          ]
+        },
+        {
+          "event_id": "C001_E05",
+          "chunk_id": "C001",
+          "event_type": "hypothesis",
+          "order_hint": 5,
+          "summary": "Inducible ATFs allow conditional expression to decouple growth and production, reducing metabolic burden.",
+          "methods_or_tools": [],
+          "entities": [
+            "ATFs"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E05_01"
+          ]
+        },
+        {
+          "event_id": "C001_E06",
+          "chunk_id": "C001",
+          "event_type": "design",
+          "order_hint": 6,
+          "summary": "COMPASS uses three-level cloning with positive selection and CRISPR/Cas9 integration.",
+          "methods_or_tools": [
+            "COMPASS",
+            "CRISPR/Cas9"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E06_01",
+            "EV_C001_E06_02",
+            "EV_C001_E06_03"
+          ]
+        },
+        {
+          "event_id": "C001_E07",
+          "chunk_id": "C001",
+          "event_type": "experiment",
+          "order_hint": 7,
+          "summary": "Tested genomic position effect on ATF activity by integrating regulators into XII-5 locus.",
+          "methods_or_tools": [],
+          "entities": [
+            "XII-5 locus",
+            "TDH3 promoter"
+          ],
+          "numbers_or_metrics": [
+            "~0.05- to ~4.3-fold of TDH3"
+          ],
+          "evidence_ids": [
+            "EV_C001_E07_01"
+          ]
+        },
+        {
+          "event_id": "C001_E08",
+          "chunk_id": "C001",
+          "event_type": "analysis",
+          "order_hint": 8,
+          "summary": "Genomic position affects ATF output but relative strengths are preserved.",
+          "methods_or_tools": [],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E08_01"
+          ]
+        }
+      ],
+      "notes": "Chunk introduces the problem of balanced expression, limitations of existing methods, and the design of COMPASS. It includes experimental validation of ATF position effects.",
+      "api_usage": {
+        "prompt_tokens": 6910,
+        "completion_tokens": 1188,
+        "total_tokens": 8098,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6654
+      }
+    },
+    {
+      "chunk_id": "C002",
+      "char_start": 17100,
+      "char_end": 35100,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C002_E01",
+          "chunk_id": "C002",
+          "event_type": "design",
+          "order_hint": 1,
+          "summary": "Design of single-locus integration to eliminate position effects on ATF/BS transcriptional outputs.",
+          "methods_or_tools": [
+            "BamHI/NotI digestion",
+            "CRISPR/Cas9-mediated integration",
+            "Destination vector I.1 and II"
+          ],
+          "entities": [
+            "LYS2",
+            "URA3",
+            "LYP1.x",
+            "ADE2.a"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E01_01"
+          ]
+        }
+      ],
+      "notes": "Chunk describes design improvements (single-locus integration, HI-CRISPR) and the start of β-carotene library construction and testing approaches.",
+      "api_usage": {
+        "prompt_tokens": 8715,
+        "completion_tokens": 829,
+        "total_tokens": 9544,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8459
+      }
+    },
+    {
+      "chunk_id": "C003",
+      "char_start": 34200,
+      "char_end": 52200,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C003_E01",
+          "chunk_id": "C003",
+          "event_type": "design",
+          "order_hint": 1,
+          "summary": "Combinatorial assembly of ATF/BS units upstream of CDS units using PCR and overlap-based cloning.",
+          "methods_or_tools": [
+            "PCR",
+            "overlap-based cloning"
+          ],
+          "entities": [
+            "ATF/BS units",
+            "CDS units",
+            "Entry vectors X"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E01_01",
+            "EV_C003_E01_02"
+          ]
+        },
+        {
+          "event_id": "C003_E05",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 5,
+          "summary": "Sequencing revealed ATF/BS combinations in top colonies: weak/medium, medium/strong, medium/strong for BTS1, McrtI, McrtYB in Gen 0.1; weak/medium, strong, medium in IMX672.1.",
+          "methods_or_tools": [
+            "sequencing"
+          ],
+          "entities": [
+            "BTS1",
+            "McrtI",
+            "McrtYB",
+            "Gen 0.1",
+            "IMX672.1"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E05_01",
+            "EV_C003_E05_02"
+          ]
+        },
+        {
+          "event_id": "C003_E06",
+          "chunk_id": "C003",
+          "event_type": "experiment",
+          "order_hint": 6,
+          "summary": "In approach 1, a wide spectrum of colors from light yellow to deep orange was observed in colonies.",
+          "methods_or_tools": [],
+          "entities": [
+            "approach 1",
+            "Gen 0.1",
+            "IMX672.1"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E06_01"
+          ]
+        }
+      ],
+      "notes": "Chunk describes the combinatorial assembly design and initial β-carotene pathway testing results, including strain backgrounds, positive control, and sequencing of top colonies.",
+      "api_usage": {
+        "prompt_tokens": 9287,
+        "completion_tokens": 1398,
+        "total_tokens": 10685,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9031
+      }
+    },
+    {
+      "chunk_id": "C004",
+      "char_start": 51300,
+      "char_end": 69300,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C004_E01",
+          "chunk_id": "C004",
+          "event_type": "experiment",
+          "order_hint": 1,
+          "summary": "Combinatorial cloning of pathway modules into Destination vector I using four rounds of assembly with positive selection.",
+          "methods_or_tools": [
+            "TAR",
+            "PCR",
+            "positive selection",
+            "auxotrophic markers"
+          ],
+          "entities": [
+            "Destination vector I",
+            "ATF/BS-CDS modules",
+            "SC-Ura/-His medium",
+            "SC-Ura/-His/-Leu medium"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E01_02",
+            "EV_C004_E01_03"
+          ]
+        }
+      ],
+      "notes": "Chunk contains experimental results for β-carotene pathway optimization, including cloning workflow, visual screening, HPLC quantification, and growth rate measurements.",
+      "api_usage": {
+        "prompt_tokens": 8925,
+        "completion_tokens": 1232,
+        "total_tokens": 10157,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8669
+      }
+    },
+    {
+      "chunk_id": "C005",
+      "char_start": 68400,
+      "char_end": 86400,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C005_E04",
+          "chunk_id": "C005",
+          "event_type": "experiment",
+          "order_hint": 4,
+          "summary": "Measured growth defect: strain MXintpDI 1 showed 5.5% reduction in growth rate in inducing medium.",
+          "methods_or_tools": [],
+          "entities": [
+            "MXintpDI 1",
+            "IMX672.1"
+          ],
+          "numbers_or_metrics": [
+            "5.5% reduction"
+          ],
+          "evidence_ids": [
+            "EV_C005_E04_01"
+          ]
+        },
+        {
+          "event_id": "C005_E05",
+          "chunk_id": "C005",
+          "event_type": "experiment",
+          "order_hint": 5,
+          "summary": "Demonstrated that combined expression of two fluorescent reporters from the same regulator reduces output compared to separate expression.",
+          "methods_or_tools": [
+            "AcGFP1",
+            "DsRED"
+          ],
+          "entities": [
+            "NLS-JUB1-EDLLAD-EDLLAD/4×",
+            "AcGFP1",
+            "DsRED"
+          ],
+          "numbers_or_metrics": [
+            "AcGFP1: 66%",
+            "DsRED: 79%"
+          ],
+          "evidence_ids": [
+            "EV_C005_E05_01"
+          ]
+        },
+        {
+          "event_id": "C005_E07",
+          "chunk_id": "C005",
+          "event_type": "experiment",
+          "order_hint": 7,
+          "summary": "Co-engineered β-ionone and naringenin pathways; screened 20 colonies and found ~30% show no/low naringenin production.",
+          "methods_or_tools": [
+            "flow cytometry",
+            "HPLC",
+            "FdeR biosensor"
+          ],
+          "entities": [
+            "naringenin",
+            "β-ionone",
+            "Narion library"
+          ],
+          "numbers_or_metrics": [
+            "approximately 30% of the library members show no- or low-NG production"
+          ],
+          "evidence_ids": [
+            "EV_C005_E07_01"
+          ]
+        },
+        {
+          "event_id": "C005_E08",
+          "chunk_id": "C005",
+          "event_type": "analysis",
+          "order_hint": 8,
+          "summary": "Observed that better naringenin producers harbor mostly medium ATF/BS units upstream of NG genes.",
+          "methods_or_tools": [],
+          "entities": [
+            "naringenin",
+            "ATF/BS",
+            "Narion 16–20"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C005_E08_01"
+          ]
+        }
+      ],
+      "notes": "Chunk contains detailed experimental results for β-carotene, β-ionone, and naringenin production, including growth defects, ATF/BS combination effects, and library screening outcomes.",
+      "api_usage": {
+        "prompt_tokens": 7771,
+        "completion_tokens": 1661,
+        "total_tokens": 9432,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7515
+      }
+    },
+    {
+      "chunk_id": "C006",
+      "char_start": 85500,
+      "char_end": 103500,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C006_E01",
+          "chunk_id": "C006",
+          "event_type": "experiment",
+          "order_hint": 1,
+          "summary": "Randomly selected colonies from the naringenin/β-ionone library were analyzed for ATF/CDS combinations and production levels.",
+          "methods_or_tools": [
+            "flow cytometry",
+            "HPLC"
+          ],
+          "entities": [
+            "Narion isolates",
+            "ATF/BS sequences",
+            "CDS sequences"
+          ],
+          "numbers_or_metrics": [
+            "~30% no/low NG production",
+            "40% <0.01 mg/g cdw β-ionone",
+            "15% 0.1–0.2 mg/g cdw β-ionone"
+          ],
+          "evidence_ids": [
+            "EV_C006_E01_01"
+          ]
+        },
+        {
+          "event_id": "C006_E06",
+          "chunk_id": "C006",
+          "event_type": "design",
+          "order_hint": 6,
+          "summary": "COMPASS uses inducible ATFs to decouple growth and production phases, reducing metabolic burden.",
+          "methods_or_tools": [
+            "inducible ATFs"
+          ],
+          "entities": [
+            "ATFs",
+            "growth phase",
+            "production phase"
+          ],
+          "numbers_or_metrics": [
+            "growth rates decrease by 7–16% after induction"
+          ],
+          "evidence_ids": [
+            "EV_C006_E06_01"
+          ]
+        },
+        {
+          "event_id": "C006_E07",
+          "chunk_id": "C006",
+          "event_type": "limitation",
+          "order_hint": 7,
+          "summary": "Current COMPASS version limited to 10 genes; additional plasmids pCOM001 and pCOM009 extend capacity.",
+          "methods_or_tools": [
+            "pCOM001",
+            "pCOM009"
+          ],
+          "entities": [
+            "COMPASS",
+            "pCOM001",
+            "pCOM009"
+          ],
+          "numbers_or_metrics": [
+            "10 genes"
+          ],
+          "evidence_ids": [
+            "EV_C006_E07_01"
+          ]
+        },
+        {
+          "event_id": "C006_E08",
+          "chunk_id": "C006",
+          "event_type": "design",
+          "order_hint": 8,
+          "summary": "COMPASS requires only 11 core vectors to generate libraries of millions of constructs for ten-gene pathways.",
+          "methods_or_tools": [
+            "11 core vectors"
+          ],
+          "entities": [
+            "COMPASS",
+            "Entry vector",
+            "Acceptor vectors",
+            "Destination vectors"
+          ],
+          "numbers_or_metrics": [
+            "11 core vectors",
+            "3,486,784,401 members"
+          ],
+          "evidence_ids": [
+            "EV_C006_E08_01"
+          ]
+        }
+      ],
+      "notes": "Chunk contains experimental results from naringenin/β-ionone library screening, validation of COMPASS, design rationale for decoupling growth/production, and limitations on gene capacity.",
+      "api_usage": {
+        "prompt_tokens": 7185,
+        "completion_tokens": 1693,
+        "total_tokens": 8878,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6929
+      }
+    },
+    {
+      "chunk_id": "C007",
+      "char_start": 102600,
+      "char_end": 120600,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C007_E01",
+          "chunk_id": "C007",
+          "event_type": "design",
+          "order_hint": 1,
+          "summary": "Strain MXFde 0.1 was constructed by disrupting URA3, HIS3, LYS2, and HphMX using HI-CRISPR and Cre recombinase to create auxotrophies for COMPASS positive selection.",
+          "methods_or_tools": [
+            "HI-CRISPR",
+            "Cre recombinase",
+            "pCOM002",
+            "pCOM003"
+          ],
+          "entities": [
+            "TSINO93",
+            "MXFde 0.1",
+            "MXFde 0.2",
+            "URA3",
+            "HIS3",
+            "LYS2",
+            "HphMX"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C007_E01_01",
+            "EV_C007_E01_02",
+            "EV_C007_E01_03"
+          ]
+        },
+        {
+          "event_id": "C007_E03",
+          "chunk_id": "C007",
+          "event_type": "design",
+          "order_hint": 3,
+          "summary": "Acceptor vectors A–D (Set 1) were constructed with auxotrophic markers HIS3, LEU2, TRP1, LYS2 and corresponding antibiotic resistance genes for positive selection.",
+          "methods_or_tools": [
+            "overlap-based cloning",
+            "PCR",
+            "Gibson assembly"
+          ],
+          "entities": [
+            "Acceptor vector A",
+            "Acceptor vector B",
+            "Acceptor vector C",
+            "Acceptor vector D",
+            "HIS3",
+            "LEU2",
+            "TRP1",
+            "LYS2"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C007_E03_01"
+          ]
+        },
+        {
+          "event_id": "C007_E05",
+          "chunk_id": "C007",
+          "event_type": "design",
+          "order_hint": 5,
+          "summary": "Acceptor vectors E–H (Set 2) were constructed with dominant resistance markers Nat1, Ble, Neo, Hph and corresponding promoters/terminators, with URA3 deletions to prevent background.",
+          "methods_or_tools": [
+            "overlap-based cloning",
+            "PCR",
+            "Gibson assembly"
+          ],
+          "entities": [
+            "Acceptor vector E",
+            "Acceptor vector F",
+            "Acceptor vector G",
+            "Acceptor vector H",
+            "Nat1",
+            "Ble",
+            "Neo",
+            "Hph"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C007_E05_01"
+          ]
+        },
+        {
+          "event_id": "C007_E07",
+          "chunk_id": "C007",
+          "event_type": "design",
+          "order_hint": 7,
+          "summary": "The ATF/BS library was constructed by cloning nine selected ATF/BS combinations into Entry vector X, using both standard and combinatorial overlap-based cloning to generate desired constructs.",
+          "methods_or_tools": [
+            "overlap-based cloning",
+            "PCR",
+            "colony PCR",
+            "sequencing"
+          ],
+          "entities": [
+            "ATF/BS library",
+            "Entry vector X",
+            "JUB1",
+            "ANAC102",
+            "ATAF1",
+            "RAV1",
+            "GRF7"
+          ],
+          "numbers_or_metrics": [
+            "nine different Entry vectors X derivatives"
+          ],
+          "evidence_ids": [
+            "EV_C007_E07_01",
+            "EV_C007_E07_04"
+          ]
+        },
+        {
+          "event_id": "C007_E08",
+          "chunk_id": "C007",
+          "event_type": "design",
+          "order_hint": 8,
+          "summary": "Pathway genes for β-carotene, β-ionone, and naringenin were assembled into Entry vector X by overlap-based cloning with rare restriction enzyme sites for downstream Acceptor vector compatibility.",
+          "methods_or_tools": [
+            "overlap-based cloning",
+            "PCR"
+          ],
+          "entities": [
+            "β-carotene",
+            "β-ionone",
+            "naringenin",
+            "Entry vector X",
+            "BTS1",
+            "GGPPSbc",
+            "McrtI",
+            "McrtYB",
+            "RiCCD1"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C007_E08_02",
+            "EV_C007_E08_03"
+          ]
+        }
+      ],
+      "notes": "This chunk details the construction of COMPASS plasmids (Entry, Acceptor, Destination vectors) and the ATF/BS library, which are core design events for the method. It also describes strain engineering for positive selection. All events are design-type, as they describe the step-by-step assembly of genetic parts.",
+      "api_usage": {
+        "prompt_tokens": 8138,
+        "completion_tokens": 2711,
+        "total_tokens": 10849,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7882
+      }
+    },
+    {
+      "chunk_id": "C008",
+      "char_start": 119700,
+      "char_end": 137700,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C008_E01",
+          "chunk_id": "C008",
+          "event_type": "design",
+          "order_hint": 1,
+          "summary": "Design of assembly strategy for β-carotene and β-ionone pathway genes using NEBuilder HiFi and positive selection markers.",
+          "methods_or_tools": [
+            "NEBuilder HiFi",
+            "PCR",
+            "restriction enzymes (FseI, AscI, SalI, EcoRI)",
+            "positive selection (spectinomycin, ampicillin, chloramphenicol, triclosan)"
+          ],
+          "entities": [
+            "β-carotene pathway genes (BTS1, GGPPSbc, McrtI, McrtYB)",
+            "β-ionone pathway gene (RiCCD1)",
+            "Entry vector X",
+            "Acceptor vectors A–C",
+            "Destination vector I"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C008_E01_01",
+            "EV_C008_E01_02"
+          ]
+        },
+        {
+          "event_id": "C008_E03",
+          "chunk_id": "C008",
+          "event_type": "design",
+          "order_hint": 3,
+          "summary": "Design of combinatorial cloning for β-ionone pathway by adding RiCCD1 module to β-carotene library using TAR.",
+          "methods_or_tools": [
+            "TAR",
+            "PCR",
+            "restriction enzyme (PI-PspI)",
+            "positive selection (SC-Ura/-His/-Leu/-Trp)"
+          ],
+          "entities": [
+            "Acceptor vector C-RiCCD1",
+            "Destination vector I-McrtI-BTS1-McrtYB",
+            "β-ionone pathway"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C008_E03_01",
+            "EV_C008_E03_02"
+          ]
+        },
+        {
+          "event_id": "C008_E04",
+          "chunk_id": "C008",
+          "event_type": "design",
+          "order_hint": 4,
+          "summary": "Design of positive control plasmids for β-carotene and β-ionone production using TDH3 promoter.",
+          "methods_or_tools": [
+            "PCR",
+            "restriction enzymes (EcoRI, SalI, PciI, ClaI, NotI, FseI, AscI, I-CeuI, FseI, I-SceI, PI-PspI)",
+            "assembly reactions"
+          ],
+          "entities": [
+            "pCAROTENE-PTDH3",
+            "pIONONE-PTDH3",
+            "TDH3 promoter",
+            "β-carotene pathway",
+            "β-ionone pathway"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C008_E04_02",
+            "EV_C008_E04_03"
+          ]
+        },
+        {
+          "event_id": "C008_E06",
+          "chunk_id": "C008",
+          "event_type": "experiment",
+          "order_hint": 6,
+          "summary": "Multilocus integration of β-carotene and β-ionone pathway genes using CRISPR/Cas9 and sgRNA plasmids.",
+          "methods_or_tools": [
+            "CRISPR/Cas9",
+            "sgRNA plasmids (pTAJAK-92, pCOM005, pCOM006)",
+            "cotransformation",
+            "donor fragments",
+            "multiplex PCR"
+          ],
+          "entities": [
+            "McrtI",
+            "BTS1",
+            "McrtYB",
+            "RiCCD1",
+            "X-3, XI-3, XII-5, ura3-52 loci",
+            "IMX672.1",
+            "Gen 0.1"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C008_E06_02"
+          ]
+        },
+        {
+          "event_id": "C008_E08",
+          "chunk_id": "C008",
+          "event_type": "experiment",
+          "order_hint": 8,
+          "summary": "Recovery of assembled plasmids from yeast for transformation into E. coli.",
+          "methods_or_tools": [
+            "plasmid recovery protocol",
+            "Zymolyase 20T",
+            "phenol:chloroform:isoamyl alcohol",
+            "Qiagen Large-Construct Kit",
+            "E. coli transformation"
+          ],
+          "entities": [
+            "β-carotene pathway plasmids",
+            "β-ionone pathway plasmids",
+            "E. coli"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C008_E08_02"
+          ]
+        }
+      ],
+      "notes": "This chunk contains detailed experimental methods for assembly, combinatorial cloning, and integration of pathway genes, which are core to the COMPASS workflow.",
+      "api_usage": {
+        "prompt_tokens": 7517,
+        "completion_tokens": 2164,
+        "total_tokens": 9681,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7261
+      }
+    },
+    {
+      "chunk_id": "C009",
+      "char_start": 136800,
+      "char_end": 154800,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C009_E01",
+          "chunk_id": "C009",
+          "event_type": "experiment",
+          "order_hint": 1,
+          "summary": "Integration of nine ATF/BS-yEGFP modules into locus XII-5 to test expression variability.",
+          "methods_or_tools": [
+            "I-CeuI digestion",
+            "PCR",
+            "sequencing",
+            "yeast transformation",
+            "sgRNA plasmids pTAJAK-92 and pCOM005"
+          ],
+          "entities": [
+            "ATF/BS-yEGFP modules",
+            "locus XII-5",
+            "yeast strain IMX672.1"
+          ],
+          "numbers_or_metrics": [
+            "nine ATF/BS-yEGFP modules"
+          ],
+          "evidence_ids": [
+            "EV_C009_E01_01"
+          ]
+        },
+        {
+          "event_id": "C009_E02",
+          "chunk_id": "C009",
+          "event_type": "experiment",
+          "order_hint": 2,
+          "summary": "Construction of AGREEN, BRED, and AB-GREEN-RED strains to validate ATF/BS functionality with fluorescent reporters.",
+          "methods_or_tools": [
+            "I-CeuI and I-SceI digestion",
+            "PCR",
+            "sequencing",
+            "yeast transformation",
+            "sgRNA plasmid pCOM005"
+          ],
+          "entities": [
+            "AcGFP1",
+            "DsRED",
+            "AVA-GREEN",
+            "AVB-RED",
+            "yeast strain IMX672.1"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C009_E02_01"
+          ]
+        },
+        {
+          "event_id": "C009_E03",
+          "chunk_id": "C009",
+          "event_type": "experiment",
+          "order_hint": 3,
+          "summary": "Construction of strains for growth rate measurements using GFP and RFP reporters to assess metabolic burden.",
+          "methods_or_tools": [
+            "PCR",
+            "XbaI/PstI digestion",
+            "XhoI digestion",
+            "integration into lys2.a site"
+          ],
+          "entities": [
+            "pGREEN",
+            "pRED",
+            "Gen 0.1",
+            "IMX672.1",
+            "PCB",
+            "CB1",
+            "MXintpDI 1",
+            "RC1"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C009_E03_01"
+          ]
+        },
+        {
+          "event_id": "C009_E04",
+          "chunk_id": "C009",
+          "event_type": "experiment",
+          "order_hint": 4,
+          "summary": "Growth competition experiments to measure fitness cost of ATF expression under inducing vs non-inducing conditions.",
+          "methods_or_tools": [
+            "flow cytometry",
+            "co-culture at 8:2 ratio",
+            "OD600 measurement"
+          ],
+          "entities": [
+            "DsRED-labeled cells",
+            "AcGFP1-labeled cells"
+          ],
+          "numbers_or_metrics": [
+            "ratio of 8:2",
+            "OD600 of ~0.1",
+            "time points 6, 24, and 48 h"
+          ],
+          "evidence_ids": [
+            "EV_C009_E04_01"
+          ]
+        },
+        {
+          "event_id": "C009_E05",
+          "chunk_id": "C009",
+          "event_type": "experiment",
+          "order_hint": 5,
+          "summary": "Induction experiments to test pathway gene expression under ATF control, with sequencing verification.",
+          "methods_or_tools": [
+            "SC medium with IPTG and galactose",
+            "colony PCR",
+            "sequencing",
+            "HPLC"
+          ],
+          "entities": [
+            "β-carotene",
+            "β-ionone",
+            "Gen 0.1",
+            "IMX672"
+          ],
+          "numbers_or_metrics": [
+            "three independent colonies"
+          ],
+          "evidence_ids": [
+            "EV_C009_E05_02"
+          ]
+        },
+        {
+          "event_id": "C009_E06",
+          "chunk_id": "C009",
+          "event_type": "experiment",
+          "order_hint": 6,
+          "summary": "HPLC analysis of β-carotene and β-ionone production after 3-day induction.",
+          "methods_or_tools": [
+            "acetone extraction",
+            "RP-HPLC",
+            "Shimadzu 450 nm and Kontron 300 nm detectors"
+          ],
+          "entities": [
+            "β-carotene",
+            "β-ionone"
+          ],
+          "numbers_or_metrics": [
+            "50 ml subcultures",
+            "initial OD600 of 0.1",
+            "3 days growth"
+          ],
+          "evidence_ids": [
+            "EV_C009_E06_01",
+            "EV_C009_E06_02"
+          ]
+        },
+        {
+          "event_id": "C009_E08",
+          "chunk_id": "C009",
+          "event_type": "experiment",
+          "order_hint": 8,
+          "summary": "Flow cytometry analysis of naringenin-producing cells using yEGFP reporter to quantify fluorescence output.",
+          "methods_or_tools": [
+            "BD FACSCalibur flow cytometer",
+            "cycloheximide treatment",
+            "Flowing Software"
+          ],
+          "entities": [
+            "yEGFP",
+            "FdeR-based reporter strains"
+          ],
+          "numbers_or_metrics": [
+            "minimum of 10,000 cells per sample",
+            "16 h growth"
+          ],
+          "evidence_ids": [
+            "EV_C009_E08_01"
+          ]
+        }
+      ],
+      "notes": "This chunk contains detailed experimental methods for integration, strain construction, growth competition, induction, HPLC, absorbance quantification, and flow cytometry, all directly supporting the validation of COMPASS.",
+      "api_usage": {
+        "prompt_tokens": 7616,
+        "completion_tokens": 1943,
+        "total_tokens": 9559,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7360
+      }
+    },
+    {
+      "chunk_id": "C010",
+      "char_start": 153900,
+      "char_end": 161810,
+      "chunk_relevance": "none",
+      "events": [],
+      "notes": "This chunk contains only references, acknowledgements, author contributions, and license information. No research evolution events are described.",
+      "api_usage": {
+        "prompt_tokens": 4766,
+        "completion_tokens": 56,
+        "total_tokens": 4822,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 4510
+      }
+    }
+  ],
+  "evidence_bank": [
+    {
+      "evidence_id": "EV_C001_E01_01",
+      "source_file": "docs/0064/combined.md",
+      "section": "C001",
+      "char_start": 323,
+      "char_end": 450,
+      "quote": "Balanced expression of multiple genes is central for establishing new biosynthetic pathways or multiprotein cellular complexes."
+    },
+    {
+      "evidence_id": "EV_C001_E02_01",
+      "source_file": "docs/0064/combined.md",
+      "section": "C001",
+      "char_start": 2211,
+      "char_end": 2282,
+      "quote": "high-level expression of pathway genes often increases metabolic burden"
+    },
+    {
+      "evidence_id": "EV_C001_E03_01",
+      "source_file": "docs/0064/combined.md",
+      "section": "C001",
+      "char_start": 3021,
+      "char_end": 3220,
+      "quote": "The most significant limitation of RE-based assembly methods is their sequence dependency, as RE IIs recognition sites must be eliminated from all DNA sequences to be assembled (“DNA domestication”)."
+    },
+    {
+      "evidence_id": "EV_C001_E03_02",
+      "source_file": "docs/0064/combined.md",
+      "section": "C001",
+      "char_start": 3231,
+      "char_end": 3464,
+      "quote": "GG-based methods are entirely based on construction steps performed in E. coli, which often is not straightforward, in particular for assemblies of genes of long pathways; amplification of large plasmids is not easily done in E. coli"
+    },
+    {
+      "evidence_id": "EV_C001_E05_01",
+      "source_file": "docs/0064/combined.md",
+      "section": "C001",
+      "char_start": 2704,
+      "char_end": 2758,
+      "quote": "inducible ATFs allow a conditional expression of genes"
+    },
+    {
+      "evidence_id": "EV_C001_E06_01",
+      "source_file": "docs/0064/combined.md",
+      "section": "C001",
+      "char_start": 5387,
+      "char_end": 5542,
+      "quote": "COMPASS allows the rapid combinatorial assembly of up to ten pathway genes, each transcriptionally controlled by nine inducible ATF/binding site (BS) units"
+    },
+    {
+      "evidence_id": "EV_C001_E06_02",
+      "source_file": "docs/0064/combined.md",
+      "section": "C001",
+      "char_start": 3967,
+      "char_end": 4084,
+      "quote": "COMPASS makes use of positive selection protocols, which severely reduces the need for checking individual constructs"
+    },
+    {
+      "evidence_id": "EV_C001_E06_03",
+      "source_file": "docs/0064/combined.md",
+      "section": "C001",
+      "char_start": 1155,
+      "char_end": 1234,
+      "quote": "COMPASS is equipped with multi-locus CRISPR/Cas9-mediated modification capacity"
+    },
+    {
+      "evidence_id": "EV_C001_E07_01",
+      "source_file": "docs/0064/combined.md",
+      "section": "C001",
+      "char_start": 7525,
+      "char_end": 7761,
+      "quote": "we tested whether the genomic locus into which the nine regulators are integrated affects their transcriptional activity. To this end, we placed them into a second locus, XII-5, and quantified the transcriptional output and noise level."
+    },
+    {
+      "evidence_id": "EV_C001_E08_01",
+      "source_file": "docs/0064/combined.md",
+      "section": "C001",
+      "char_start": 8010,
+      "char_end": 8331,
+      "quote": "the genomic position affected the transcriptional output of the plant regulators. However, the expressional effect exerted by the different regulators was well preserved. The strongest regulators always led to the highest expression mean of the reporter protein, regardless of where the regulator was placed in the genome"
+    },
+    {
+      "evidence_id": "EV_C002_E01_01",
+      "source_file": "docs/0064/combined.md",
+      "section": "C002",
+      "char_start": 18485,
+      "char_end": 18780,
+      "quote": "COMPASS allows integrating completely assembled pathways (from a Level 2 Destination vector) into a single, defined locus of the yeast genome. Thereby, the position effect observed for transcriptional outputs of ATF/BS regulators positioned at multiple loci (Supplementary Note 1) is eliminated."
+    },
+    {
+      "evidence_id": "EV_C003_E01_01",
+      "source_file": "docs/0064/combined.md",
+      "section": "C003",
+      "char_start": 37962,
+      "char_end": 38037,
+      "quote": "Nine ATF/BS units and CDS units from the Entry vectors X are PCR-amplified."
+    },
+    {
+      "evidence_id": "EV_C003_E01_02",
+      "source_file": "docs/0064/combined.md",
+      "section": "C003",
+      "char_start": 38038,
+      "char_end": 38281,
+      "quote": "The 5' regions of ATF/BS units overlap with the X0 sequence of the vector backbone, while their 3' regions are identical to the 30 bp of the 3' end of the minimal CYC1 promoter (Z0) and overlap with the forward primer amplifying the CDS units."
+    },
+    {
+      "evidence_id": "EV_C003_E05_01",
+      "source_file": "docs/0064/combined.md",
+      "section": "C003",
+      "char_start": 40649,
+      "char_end": 40861,
+      "quote": "Sequencing ATF/BS fragments (Fig. 5h) revealed that weak/medium, medium/strong, and medium/strong ATF/BS units, respectively, were assembled in BTS1, McrtI, and McrtYB modules in the Gen 0.1 background (CB1–CB3)."
+    },
+    {
+      "evidence_id": "EV_C003_E05_02",
+      "source_file": "docs/0064/combined.md",
+      "section": "C003",
+      "char_start": 40862,
+      "char_end": 41002,
+      "quote": "In strain IMX672.1, weak/medium, strong, and medium ATF/BS units, respectively, were assembled in BTS1, McrtI, and McrtYB modules (CC1–CC3)."
+    },
+    {
+      "evidence_id": "EV_C003_E06_01",
+      "source_file": "docs/0064/combined.md",
+      "section": "C003",
+      "char_start": 40447,
+      "char_end": 40648,
+      "quote": "In approach 1 (Fig. 5a, Methods), a wide spectrum of colors ranging from light yellow to deep orange was observed in the colonies obtained (Gen 0.1, Fig. 5d, left plate; IMX672.1, Fig. 5e, left plate)."
+    },
+    {
+      "evidence_id": "EV_C004_E01_02",
+      "source_file": "docs/0064/combined.md",
+      "section": "C004",
+      "char_start": 54682,
+      "char_end": 54748,
+      "quote": "Yeast cells with successful constructs grow on SC-Ura/-His medium."
+    },
+    {
+      "evidence_id": "EV_C004_E01_03",
+      "source_file": "docs/0064/combined.md",
+      "section": "C004",
+      "char_start": 126583,
+      "char_end": 126654,
+      "quote": "Yeast cells with successful constructs grow on SC-Ura/-His/-Leu medium."
+    },
+    {
+      "evidence_id": "EV_C005_E04_01",
+      "source_file": "docs/0064/combined.md",
+      "section": "C005",
+      "char_start": 72566,
+      "char_end": 72718,
+      "quote": "Compared to WT, strain MXintpDI 1 did not show a growth defect in noninducing medium, while it showed a 5.5% reduction in growth rate in inducing medium"
+    },
+    {
+      "evidence_id": "EV_C005_E05_01",
+      "source_file": "docs/0064/combined.md",
+      "section": "C005",
+      "char_start": 73904,
+      "char_end": 74229,
+      "quote": "a combined expression of two fluorescent reporter proteins, AcGFP1 and DsRED, each controlled by the same regulator (NLS-JUB1-EDLLAD-EDLLAD/4×), leads to a lower output compared to strains individually expressing the reporters from the same regulator (AcGFP1: 66%, DsRED: 79% of the levels achieved upon separate expression)."
+    },
+    {
+      "evidence_id": "EV_C005_E07_01",
+      "source_file": "docs/0064/combined.md",
+      "section": "C005",
+      "char_start": 85772,
+      "char_end": 85917,
+      "quote": "Flow cytometry revealed that approximately 30% of the library members show no- or low-NG production (Narion 1–6; Fig. 6c, Supplementary Data 13)."
+    },
+    {
+      "evidence_id": "EV_C005_E08_01",
+      "source_file": "docs/0064/combined.md",
+      "section": "C005",
+      "char_start": 86062,
+      "char_end": 86239,
+      "quote": "The better producers (Narion 16–20) harbor mostly medium ATF/BS units upstream of NG genes (except Narion 17 and 20, which both contain strong ATF/BS units upstream of AtPAL-2)."
+    },
+    {
+      "evidence_id": "EV_C006_E01_01",
+      "source_file": "docs/0064/combined.md",
+      "section": "C006",
+      "char_start": 85772,
+      "char_end": 85871,
+      "quote": "Flow cytometry revealed that approximately 30% of the library members show no- or low-NG production"
+    },
+    {
+      "evidence_id": "EV_C006_E06_01",
+      "source_file": "docs/0064/combined.md",
+      "section": "C006",
+      "char_start": 91059,
+      "char_end": 91187,
+      "quote": "COMPASS employs modular and inducible transcription factor-based controllers that allow decoupling growth and production phases."
+    },
+    {
+      "evidence_id": "EV_C006_E07_01",
+      "source_file": "docs/0064/combined.md",
+      "section": "C006",
+      "char_start": 89056,
+      "char_end": 89214,
+      "quote": "To extend the capacity of COMPASS even further—for pathways with more than ten genes—we included two additional plasmids (pCOM001 and pCOM009) in the toolkit."
+    },
+    {
+      "evidence_id": "EV_C006_E08_01",
+      "source_file": "docs/0064/combined.md",
+      "section": "C006",
+      "char_start": 88828,
+      "char_end": 89055,
+      "quote": "An important aspect of COMPASS is that it only requires 11 core vectors (one Entry, eight Acceptor, and two Destination vectors) to establish combinatorial libraries of thousands to millions of constructs for ten-gene pathways."
+    },
+    {
+      "evidence_id": "EV_C007_E01_01",
+      "source_file": "docs/0064/combined.md",
+      "section": "C007",
+      "char_start": 102600,
+      "char_end": 102860,
+      "quote": "ASS employs a positive-selection scheme that involves auxotrophic and dominant marker genes. Therefore, TSINO93 needed to be auxotrophic for HIS3, URA3, and LYS2, in addition to LEU2 and TRP1, and the HphMX dominant marker needed to be deleted from the strain."
+    },
+    {
+      "evidence_id": "EV_C007_E01_02",
+      "source_file": "docs/0064/combined.md",
+      "section": "C007",
+      "char_start": 102861,
+      "char_end": 102928,
+      "quote": "We employed the HI-CRISPR method for one-step multi-gene disruption"
+    },
+    {
+      "evidence_id": "EV_C007_E01_03",
+      "source_file": "docs/0064/combined.md",
+      "section": "C007",
+      "char_start": 103886,
+      "char_end": 103921,
+      "quote": "The new strain was named MXFde 0.1."
+    },
+    {
+      "evidence_id": "EV_C007_E03_01",
+      "source_file": "docs/0064/combined.md",
+      "section": "C007",
+      "char_start": 106307,
+      "char_end": 106519,
+      "quote": "Acceptor vectors A–D: To construct the first set (Set 1) of Acceptor vectors containing auxotrophic selection markers, BamHI/NotI-digested pCOMPASS04 was used in an assembly reaction using PCR-amplified DNA parts"
+    },
+    {
+      "evidence_id": "EV_C007_E05_01",
+      "source_file": "docs/0064/combined.md",
+      "section": "C007",
+      "char_start": 111546,
+      "char_end": 111737,
+      "quote": "Acceptor vectors E–H: To construct the second set (Set 2) of Acceptor vectors, containing dominant resistance markers, BamHI/NotI-digested pCOMPASS04 was used in a three-way assembly reaction"
+    },
+    {
+      "evidence_id": "EV_C007_E07_01",
+      "source_file": "docs/0064/combined.md",
+      "section": "C007",
+      "char_start": 117529,
+      "char_end": 117617,
+      "quote": "We selected three JUB1-, two ANAC102-, two ATAF1-, one RAV1-, and one GRF7-derived ATFs."
+    },
+    {
+      "evidence_id": "EV_C007_E07_04",
+      "source_file": "docs/0064/combined.md",
+      "section": "C007",
+      "char_start": 119366,
+      "char_end": 119486,
+      "quote": "In this way, nine different Entry vectors X derivatives harboring the different ATF/BS regulator modules were generated."
+    },
+    {
+      "evidence_id": "EV_C007_E08_02",
+      "source_file": "docs/0064/combined.md",
+      "section": "C007",
+      "char_start": 120083,
+      "char_end": 120277,
+      "quote": "Entry vector X was digested with FseI and AscI and three fragments including the CDS of the gene of interest, the yeast terminator and the promoter of the E. coli selection marker were inserted."
+    },
+    {
+      "evidence_id": "EV_C007_E08_03",
+      "source_file": "docs/0064/combined.md",
+      "section": "C007",
+      "char_start": 120278,
+      "char_end": 120436,
+      "quote": "The primers used for amplification included overhangs with rare RE recognition sites compatible to the appropriate Acceptor vector for the next cloning steps."
+    },
+    {
+      "evidence_id": "EV_C008_E01_01",
+      "source_file": "docs/0064/combined.md",
+      "section": "C008",
+      "char_start": 122161,
+      "char_end": 122361,
+      "quote": "The combined ATF/BS fragments, the fragments containing the CDSs, and the digested plasmids were mixed in a single tube in a ratio recommend by the manufacturer to perform the NEBuilder HiFi reaction."
+    },
+    {
+      "evidence_id": "EV_C008_E01_02",
+      "source_file": "docs/0064/combined.md",
+      "section": "C008",
+      "char_start": 122362,
+      "char_end": 122554,
+      "quote": "We plated the transformed cells onto four different LB agar medium containing either spectinomycin, ampicillin, chloramphenicol, or triclosan as selection markers for the transformed plasmids."
+    },
+    {
+      "evidence_id": "EV_C008_E03_01",
+      "source_file": "docs/0064/combined.md",
+      "section": "C008",
+      "char_start": 127789,
+      "char_end": 127890,
+      "quote": "Using TAR, the PCR-amplified fragments were inserted into the Destination vector I-McrtI-BTS1-McrtYB."
+    },
+    {
+      "evidence_id": "EV_C008_E03_02",
+      "source_file": "docs/0064/combined.md",
+      "section": "C008",
+      "char_start": 127891,
+      "char_end": 127976,
+      "quote": "Yeast cells with correctly assembled constructs grow on SC-Ura/-His/-Leu/-Trp medium."
+    },
+    {
+      "evidence_id": "EV_C008_E04_02",
+      "source_file": "docs/0064/combined.md",
+      "section": "C008",
+      "char_start": 130330,
+      "char_end": 130379,
+      "quote": "The resulting plasmid was called pCAROTENE-PTDH3."
+    },
+    {
+      "evidence_id": "EV_C008_E04_03",
+      "source_file": "docs/0064/combined.md",
+      "section": "C008",
+      "char_start": 130564,
+      "char_end": 130611,
+      "quote": "The resulting plasmid was called pIONONE-PTDH3."
+    },
+    {
+      "evidence_id": "EV_C008_E06_02",
+      "source_file": "docs/0064/combined.md",
+      "section": "C008",
+      "char_start": 132721,
+      "char_end": 132832,
+      "quote": "Multiplex PCR was performed on single colonies; primers amplified ATF/BS regulatory units upstream of each CDS."
+    },
+    {
+      "evidence_id": "EV_C008_E08_02",
+      "source_file": "docs/0064/combined.md",
+      "section": "C008",
+      "char_start": 137016,
+      "char_end": 137138,
+      "quote": "Recovered plasmids were transformed into E. coli cells and plated on LB plates with appropriate E. coli selection markers."
+    },
+    {
+      "evidence_id": "EV_C009_E01_01",
+      "source_file": "docs/0064/combined.md",
+      "section": "C009",
+      "char_start": 137140,
+      "char_end": 137198,
+      "quote": "Integration of nine ATF/BS-yEGFP modules into locus XII-5."
+    },
+    {
+      "evidence_id": "EV_C009_E02_01",
+      "source_file": "docs/0064/combined.md",
+      "section": "C009",
+      "char_start": 139061,
+      "char_end": 139116,
+      "quote": "Construction of AGREEN, BRED, and AB-GREEN-RED strains."
+    },
+    {
+      "evidence_id": "EV_C009_E03_01",
+      "source_file": "docs/0064/combined.md",
+      "section": "C009",
+      "char_start": 140692,
+      "char_end": 140745,
+      "quote": "Construction of strains for growth rate measurements."
+    },
+    {
+      "evidence_id": "EV_C009_E04_01",
+      "source_file": "docs/0064/combined.md",
+      "section": "C009",
+      "char_start": 142217,
+      "char_end": 142518,
+      "quote": "Growth competition experiments in single vessels were prepared by mixing (i) DsRED-labeled cells, when the ATF is not expressed (non-inducing medium), and corresponding AcGFP1-labeled cells; (ii) DsRED-labeled cells, when the ATF is expressed (inducing medium), and corresponding AcGFP1-labeled cells."
+    },
+    {
+      "evidence_id": "EV_C009_E05_02",
+      "source_file": "docs/0064/combined.md",
+      "section": "C009",
+      "char_start": 143917,
+      "char_end": 144106,
+      "quote": "Three independent colonies from either integrated or episomal constructs introduced into the Gen 0.1 or IMX672 backgrounds were chosen for product (β-carotene or β-ionone) analysis by HPLC."
+    },
+    {
+      "evidence_id": "EV_C009_E06_01",
+      "source_file": "docs/0064/combined.md",
+      "section": "C009",
+      "char_start": 144383,
+      "char_end": 144422,
+      "quote": "High-performance liquid chromatography."
+    },
+    {
+      "evidence_id": "EV_C009_E06_02",
+      "source_file": "docs/0064/combined.md",
+      "section": "C009",
+      "char_start": 144897,
+      "char_end": 145046,
+      "quote": "Cells were grown in 500-ml flask at 30 °C for 3 days in a rotary shaker at 230 rpm to saturation and then harvested for HPLC analysis of metabolites."
+    },
+    {
+      "evidence_id": "EV_C009_E08_01",
+      "source_file": "docs/0064/combined.md",
+      "section": "C009",
+      "char_start": 148031,
+      "char_end": 148085,
+      "quote": "Flow cytometry analysis of naringenin producing cells."
+    },
+    {
+      "evidence_id": "EV_AUTO_001",
+      "source_file": "docs/0064/combined.md",
+      "section": "auto_specific",
+      "char_start": 133444,
+      "char_end": 133964,
+      "quote": "ingenin production, the library of $\\beta$ -ionone producing stains was cotransformed with 1 $\\mu$ g of sgRNA plasmid pCOM004 (to integrate PhCHI and HaCHS into the X-3 and XI-2 locus, respectively), pCOM007 (to integrate AtC4H::L5::AtATR2 into XII-2), pCOM008 (to integrate At4CL-2 and AtPAL-2 into the X-2 and XI-5 locus, respectively), plus 1 $\\mu$ g of each donor fragment: PhCHI (primers ACCPTE-X3\\_for and ACCPTE-X3\\_rev on Acceptor vector E-CHI), HaCHS (primers ACCEPTF-XI2\\_for and ACCEPTF-XI2\\_rev on Acceptor v"
+    },
+    {
+      "evidence_id": "EV_AUTO_002",
+      "source_file": "docs/0064/combined.md",
+      "section": "auto_specific",
+      "char_start": 133436,
+      "char_end": 133956,
+      "quote": "for naringenin production, the library of $\\beta$ -ionone producing stains was cotransformed with 1 $\\mu$ g of sgRNA plasmid pCOM004 (to integrate PhCHI and HaCHS into the X-3 and XI-2 locus, respectively), pCOM007 (to integrate AtC4H::L5::AtATR2 into XII-2), pCOM008 (to integrate At4CL-2 and AtPAL-2 into the X-2 and XI-5 locus, respectively), plus 1 $\\mu$ g of each donor fragment: PhCHI (primers ACCPTE-X3\\_for and ACCPTE-X3\\_rev on Acceptor vector E-CHI), HaCHS (primers ACCEPTF-XI2\\_for and ACCEPTF-XI2\\_rev on Ac"
+    },
+    {
+      "evidence_id": "EV_AUTO_003",
+      "source_file": "docs/0064/combined.md",
+      "section": "auto_specific",
+      "char_start": 138307,
+      "char_end": 138827,
+      "quote": "I3\\_rev, on Acceptor vector B-McrtYB) donors and 1 $\\mu$ g of triple sgRNA plasmids pTAJAK-92 $^{45}$ and pCOM005 (to integrate McrtI, McrtYB, yEGFP into the X-3, XI-3, and XII-5 sites, respectively) were transformed into yeast strain IMX672.1. Cells were plated on media to select for the presence of the sgRNA plasmids. Colonies were washed off the plate(s) and subsequently cells were plated on selective medium (SC-Leu/-Ura/-His) to screen for successful integration of donors with integrated selection markers. Subs"
+    },
+    {
+      "evidence_id": "EV_AUTO_004",
+      "source_file": "docs/0064/combined.md",
+      "section": "auto_specific",
+      "char_start": 138297,
+      "char_end": 138817,
+      "quote": "ACCEPTB-XI3\\_rev, on Acceptor vector B-McrtYB) donors and 1 $\\mu$ g of triple sgRNA plasmids pTAJAK-92 $^{45}$ and pCOM005 (to integrate McrtI, McrtYB, yEGFP into the X-3, XI-3, and XII-5 sites, respectively) were transformed into yeast strain IMX672.1. Cells were plated on media to select for the presence of the sgRNA plasmids. Colonies were washed off the plate(s) and subsequently cells were plated on selective medium (SC-Leu/-Ura/-His) to screen for successful integration of donors with integrated selection mar"
+    },
+    {
+      "evidence_id": "EV_AUTO_005",
+      "source_file": "docs/0064/combined.md",
+      "section": "auto_specific",
+      "char_start": 138292,
+      "char_end": 138812,
+      "quote": "r and ACCEPTB-XI3\\_rev, on Acceptor vector B-McrtYB) donors and 1 $\\mu$ g of triple sgRNA plasmids pTAJAK-92 $^{45}$ and pCOM005 (to integrate McrtI, McrtYB, yEGFP into the X-3, XI-3, and XII-5 sites, respectively) were transformed into yeast strain IMX672.1. Cells were plated on media to select for the presence of the sgRNA plasmids. Colonies were washed off the plate(s) and subsequently cells were plated on selective medium (SC-Leu/-Ura/-His) to screen for successful integration of donors with integrated selectio"
+    },
+    {
+      "evidence_id": "EV_AUTO_006",
+      "source_file": "docs/0064/combined.md",
+      "section": "auto_specific",
+      "char_start": 133583,
+      "char_end": 134103,
+      "quote": "PhCHI and HaCHS into the X-3 and XI-2 locus, respectively), pCOM007 (to integrate AtC4H::L5::AtATR2 into XII-2), pCOM008 (to integrate At4CL-2 and AtPAL-2 into the X-2 and XI-5 locus, respectively), plus 1 $\\mu$ g of each donor fragment: PhCHI (primers ACCPTE-X3\\_for and ACCPTE-X3\\_rev on Acceptor vector E-CHI), HaCHS (primers ACCEPTF-XI2\\_for and ACCEPTF-XI2\\_rev on Acceptor vector F-CHS), AtC4H::AtATR2 (primers DESII-XII2\\_for and DESII-XII2\\_rev on Destination vector II-C4H::ATR2), At4CL-2 (primers ACCEPTG-X2\\_"
+    },
+    {
+      "evidence_id": "EV_AUTO_007",
+      "source_file": "docs/0064/combined.md",
+      "section": "auto_specific",
+      "char_start": 133575,
+      "char_end": 134095,
+      "quote": "ntegrate PhCHI and HaCHS into the X-3 and XI-2 locus, respectively), pCOM007 (to integrate AtC4H::L5::AtATR2 into XII-2), pCOM008 (to integrate At4CL-2 and AtPAL-2 into the X-2 and XI-5 locus, respectively), plus 1 $\\mu$ g of each donor fragment: PhCHI (primers ACCPTE-X3\\_for and ACCPTE-X3\\_rev on Acceptor vector E-CHI), HaCHS (primers ACCEPTF-XI2\\_for and ACCEPTF-XI2\\_rev on Acceptor vector F-CHS), AtC4H::AtATR2 (primers DESII-XII2\\_for and DESII-XII2\\_rev on Destination vector II-C4H::ATR2), At4CL-2 (primers ACCE"
+    },
+    {
+      "evidence_id": "EV_AUTO_008",
+      "source_file": "docs/0064/combined.md",
+      "section": "auto_specific",
+      "char_start": 133516,
+      "char_end": 134036,
+      "quote": "cotransformed with 1 $\\mu$ g of sgRNA plasmid pCOM004 (to integrate PhCHI and HaCHS into the X-3 and XI-2 locus, respectively), pCOM007 (to integrate AtC4H::L5::AtATR2 into XII-2), pCOM008 (to integrate At4CL-2 and AtPAL-2 into the X-2 and XI-5 locus, respectively), plus 1 $\\mu$ g of each donor fragment: PhCHI (primers ACCPTE-X3\\_for and ACCPTE-X3\\_rev on Acceptor vector E-CHI), HaCHS (primers ACCEPTF-XI2\\_for and ACCEPTF-XI2\\_rev on Acceptor vector F-CHS), AtC4H::AtATR2 (primers DESII-XII2\\_for and DESII-XII2\\_rev"
+    },
+    {
+      "evidence_id": "EV_AUTO_009",
+      "source_file": "docs/0064/combined.md",
+      "section": "auto_specific",
+      "char_start": 134812,
+      "char_end": 135332,
+      "quote": "the library of naringenin strains was co-transformed with 1 $\\mu$ g of triple-sgRNA plasmid pCOM005 (to integrate McrtI, McrtYB, and BTS1 or GGPPSbc into the X-4, XI-3, and XII-5, loci, respectively), plus 1 $\\mu$ g of the McrtI, McrtYB, and BTS1 donor fragments: McrtI (primers DES1-X4\\_for and DES1-X4\\_rev on Destination vector I-McrtI), McrtYB (primers ACCEPTB-XI3\\_for and ACCEPTB-XI3\\_rev on Acceptor vector B-McrtYB), and BTS1 (primers ACCEPTA-XII5\\_for and ACCEPTA-XII5\\_rev on Acceptor vector A-BTS1). Moreover,"
+    },
+    {
+      "evidence_id": "EV_AUTO_010",
+      "source_file": "docs/0064/combined.md",
+      "section": "auto_specific",
+      "char_start": 134802,
+      "char_end": 135322,
+      "quote": "in yeast, the library of naringenin strains was co-transformed with 1 $\\mu$ g of triple-sgRNA plasmid pCOM005 (to integrate McrtI, McrtYB, and BTS1 or GGPPSbc into the X-4, XI-3, and XII-5, loci, respectively), plus 1 $\\mu$ g of the McrtI, McrtYB, and BTS1 donor fragments: McrtI (primers DES1-X4\\_for and DES1-X4\\_rev on Destination vector I-McrtI), McrtYB (primers ACCEPTB-XI3\\_for and ACCEPTB-XI3\\_rev on Acceptor vector B-McrtYB), and BTS1 (primers ACCEPTA-XII5\\_for and ACCEPTA-XII5\\_rev on Acceptor vector A-BTS1)."
+    },
+    {
+      "evidence_id": "EV_AUTO_011",
+      "source_file": "docs/0064/combined.md",
+      "section": "auto_specific",
+      "char_start": 134797,
+      "char_end": 135317,
+      "quote": "tion in yeast, the library of naringenin strains was co-transformed with 1 $\\mu$ g of triple-sgRNA plasmid pCOM005 (to integrate McrtI, McrtYB, and BTS1 or GGPPSbc into the X-4, XI-3, and XII-5, loci, respectively), plus 1 $\\mu$ g of the McrtI, McrtYB, and BTS1 donor fragments: McrtI (primers DES1-X4\\_for and DES1-X4\\_rev on Destination vector I-McrtI), McrtYB (primers ACCEPTB-XI3\\_for and ACCEPTB-XI3\\_rev on Acceptor vector B-McrtYB), and BTS1 (primers ACCEPTA-XII5\\_for and ACCEPTA-XII5\\_rev on Acceptor vector A-B"
+    },
+    {
+      "evidence_id": "EV_AUTO_012",
+      "source_file": "docs/0064/combined.md",
+      "section": "auto_specific",
+      "char_start": 131173,
+      "char_end": 131693,
+      "quote": "0.1 and IMX672.1 were cotransformed with either 1 $\\mu$ g of sgRNA plasmids pTAJAK-92 $^{45}$ and pCOM005 (to integrate McrtI, McrtYB and BTS1, and into the X-3, XI-3, and XII-5 locus, respectively) or pCOM006 (to integrate the RiCCD1 containing module into the ura3-52 locus), plus 1 $\\mu$ g of each donor fragment: McrtI (primers DES1-X3\\_for and DES1-X3\\_rev on Destination vector I-McrtI), BTS1 (primers ACCEPTA-XII5\\_for and ACCEPTA-XII5\\_rev on Acceptor vector A-BTS1), McrtYB (primers ACCEPTB-XI3\\_for and ACCEPT"
+    },
+    {
+      "evidence_id": "EV_AUTO_013",
+      "source_file": "docs/0064/combined.md",
+      "section": "auto_specific",
+      "char_start": 131163,
+      "char_end": 131683,
+      "quote": "trains Gen 0.1 and IMX672.1 were cotransformed with either 1 $\\mu$ g of sgRNA plasmids pTAJAK-92 $^{45}$ and pCOM005 (to integrate McrtI, McrtYB and BTS1, and into the X-3, XI-3, and XII-5 locus, respectively) or pCOM006 (to integrate the RiCCD1 containing module into the ura3-52 locus), plus 1 $\\mu$ g of each donor fragment: McrtI (primers DES1-X3\\_for and DES1-X3\\_rev on Destination vector I-McrtI), BTS1 (primers ACCEPTA-XII5\\_for and ACCEPTA-XII5\\_rev on Acceptor vector A-BTS1), McrtYB (primers ACCEPTB-XI3\\_for"
+    },
+    {
+      "evidence_id": "EV_AUTO_014",
+      "source_file": "docs/0064/combined.md",
+      "section": "auto_specific",
+      "char_start": 131158,
+      "char_end": 131678,
+      "quote": "on, strains Gen 0.1 and IMX672.1 were cotransformed with either 1 $\\mu$ g of sgRNA plasmids pTAJAK-92 $^{45}$ and pCOM005 (to integrate McrtI, McrtYB and BTS1, and into the X-3, XI-3, and XII-5 locus, respectively) or pCOM006 (to integrate the RiCCD1 containing module into the ura3-52 locus), plus 1 $\\mu$ g of each donor fragment: McrtI (primers DES1-X3\\_for and DES1-X3\\_rev on Destination vector I-McrtI), BTS1 (primers ACCEPTA-XII5\\_for and ACCEPTA-XII5\\_rev on Acceptor vector A-BTS1), McrtYB (primers ACCEPTB-XI3\\"
+    },
+    {
+      "evidence_id": "EV_AUTO_015",
+      "source_file": "docs/0064/combined.md",
+      "section": "auto_specific",
+      "char_start": 82615,
+      "char_end": 82661,
+      "quote": "a, X-3, XI-2, X-2, XI-5, XII-2 loci of MXFde0."
+    },
+    {
+      "evidence_id": "EV_AUTO_016",
+      "source_file": "docs/0064/combined.md",
+      "section": "auto_specific",
+      "char_start": 68323,
+      "char_end": 68604,
+      "quote": "a Overview of the three-gene β-carotene pathway library with integration of the genes into the X-3 (McrtI), XI-3 (McrtYB), and XII-5 (BTS1) loci (approach 1), b assembled in Destination vector I (pDI) (approach 2), or c assembled in pDI followed by integration into the LYS2/lys2."
+    },
+    {
+      "evidence_id": "EV_AUTO_017",
+      "source_file": "docs/0064/combined.md",
+      "section": "auto_specific",
+      "char_start": 133447,
+      "char_end": 133967,
+      "quote": "enin production, the library of $\\beta$ -ionone producing stains was cotransformed with 1 $\\mu$ g of sgRNA plasmid pCOM004 (to integrate PhCHI and HaCHS into the X-3 and XI-2 locus, respectively), pCOM007 (to integrate AtC4H::L5::AtATR2 into XII-2), pCOM008 (to integrate At4CL-2 and AtPAL-2 into the X-2 and XI-5 locus, respectively), plus 1 $\\mu$ g of each donor fragment: PhCHI (primers ACCPTE-X3\\_for and ACCPTE-X3\\_rev on Acceptor vector E-CHI), HaCHS (primers ACCEPTF-XI2\\_for and ACCEPTF-XI2\\_rev on Acceptor vect"
+    },
+    {
+      "evidence_id": "EV_AUTO_018",
+      "source_file": "docs/0064/combined.md",
+      "section": "auto_specific",
+      "char_start": 133438,
+      "char_end": 133958,
+      "quote": "or naringenin production, the library of $\\beta$ -ionone producing stains was cotransformed with 1 $\\mu$ g of sgRNA plasmid pCOM004 (to integrate PhCHI and HaCHS into the X-3 and XI-2 locus, respectively), pCOM007 (to integrate AtC4H::L5::AtATR2 into XII-2), pCOM008 (to integrate At4CL-2 and AtPAL-2 into the X-2 and XI-5 locus, respectively), plus 1 $\\mu$ g of each donor fragment: PhCHI (primers ACCPTE-X3\\_for and ACCPTE-X3\\_rev on Acceptor vector E-CHI), HaCHS (primers ACCEPTF-XI2\\_for and ACCEPTF-XI2\\_rev on Acce"
+    },
+    {
+      "evidence_id": "EV_AUTO_019",
+      "source_file": "docs/0064/combined.md",
+      "section": "auto_specific",
+      "char_start": 133394,
+      "char_end": 133914,
+      "quote": "es. Next, to integrate five genes required for naringenin production, the library of $\\beta$ -ionone producing stains was cotransformed with 1 $\\mu$ g of sgRNA plasmid pCOM004 (to integrate PhCHI and HaCHS into the X-3 and XI-2 locus, respectively), pCOM007 (to integrate AtC4H::L5::AtATR2 into XII-2), pCOM008 (to integrate At4CL-2 and AtPAL-2 into the X-2 and XI-5 locus, respectively), plus 1 $\\mu$ g of each donor fragment: PhCHI (primers ACCPTE-X3\\_for and ACCPTE-X3\\_rev on Acceptor vector E-CHI), HaCHS (primers A"
+    },
+    {
+      "evidence_id": "EV_AUTO_020",
+      "source_file": "docs/0064/combined.md",
+      "section": "auto_specific",
+      "char_start": 133362,
+      "char_end": 133882,
+      "quote": "d on nonselective induction plates. Next, to integrate five genes required for naringenin production, the library of $\\beta$ -ionone producing stains was cotransformed with 1 $\\mu$ g of sgRNA plasmid pCOM004 (to integrate PhCHI and HaCHS into the X-3 and XI-2 locus, respectively), pCOM007 (to integrate AtC4H::L5::AtATR2 into XII-2), pCOM008 (to integrate At4CL-2 and AtPAL-2 into the X-2 and XI-5 locus, respectively), plus 1 $\\mu$ g of each donor fragment: PhCHI (primers ACCPTE-X3\\_for and ACCPTE-X3\\_rev on Acceptor"
+    },
+    {
+      "evidence_id": "EV_AUTO_021",
+      "source_file": "docs/0064/combined.md",
+      "section": "auto_specific",
+      "char_start": 133889,
+      "char_end": 134409,
+      "quote": "E-CHI), HaCHS (primers ACCEPTF-XI2\\_for and ACCEPTF-XI2\\_rev on Acceptor vector F-CHS), AtC4H::AtATR2 (primers DESII-XII2\\_for and DESII-XII2\\_rev on Destination vector II-C4H::ATR2), At4CL-2 (primers ACCEPTG-X2\\_for and ACCEPTG-X2\\_rev on Acceptor vector G-4CL-2), and AtPAL-2 (primers ACCEPTH-XI5\\_for and ACCEPTH-XI5\\_rev on Acceptor vector H-PAL2). Cells were inoculated in 1 ml liquid culture medium for 3 days, followed by plating 1 ml of $10^{2}$ -diluted cells on media that selected for the presence of the sgR"
+    },
+    {
+      "evidence_id": "EV_AUTO_022",
+      "source_file": "docs/0064/combined.md",
+      "section": "auto_specific",
+      "char_start": 133564,
+      "char_end": 134084,
+      "quote": "OM004 (to integrate PhCHI and HaCHS into the X-3 and XI-2 locus, respectively), pCOM007 (to integrate AtC4H::L5::AtATR2 into XII-2), pCOM008 (to integrate At4CL-2 and AtPAL-2 into the X-2 and XI-5 locus, respectively), plus 1 $\\mu$ g of each donor fragment: PhCHI (primers ACCPTE-X3\\_for and ACCPTE-X3\\_rev on Acceptor vector E-CHI), HaCHS (primers ACCEPTF-XI2\\_for and ACCEPTF-XI2\\_rev on Acceptor vector F-CHS), AtC4H::AtATR2 (primers DESII-XII2\\_for and DESII-XII2\\_rev on Destination vector II-C4H::ATR2), At4CL-2 (p"
+    },
+    {
+      "evidence_id": "EV_AUTO_023",
+      "source_file": "docs/0064/combined.md",
+      "section": "auto_specific",
+      "char_start": 133552,
+      "char_end": 134072,
+      "quote": "A plasmid pCOM004 (to integrate PhCHI and HaCHS into the X-3 and XI-2 locus, respectively), pCOM007 (to integrate AtC4H::L5::AtATR2 into XII-2), pCOM008 (to integrate At4CL-2 and AtPAL-2 into the X-2 and XI-5 locus, respectively), plus 1 $\\mu$ g of each donor fragment: PhCHI (primers ACCPTE-X3\\_for and ACCPTE-X3\\_rev on Acceptor vector E-CHI), HaCHS (primers ACCEPTF-XI2\\_for and ACCEPTF-XI2\\_rev on Acceptor vector F-CHS), AtC4H::AtATR2 (primers DESII-XII2\\_for and DESII-XII2\\_rev on Destination vector II-C4H::ATR2)"
+    },
+    {
+      "evidence_id": "EV_AUTO_024",
+      "source_file": "docs/0064/combined.md",
+      "section": "auto_specific",
+      "char_start": 82467,
+      "char_end": 82615,
+      "quote": "The McrtI-, CrtE-, McrtYB-, RiCCD1-, PhCHI-, HaCHS-, At4CL-2-, AtPAL-2-, and AtC4H-ATR2-CDS donors were integrated into the X-4, XII-5, XI-3, ura3."
+    },
+    {
+      "evidence_id": "EV_AUTO_025",
+      "source_file": "docs/0064/combined.md",
+      "section": "auto_specific",
+      "char_start": 140049,
+      "char_end": 140283,
+      "quote": "One $\\mu$ g of sgRNA plasmid pCOM005 (to integrate AcGFP1 and DsRED donors into the XII-5 and XI-3 locus, respectively) together with (i) AcGFP1, (ii) DsRED, or (iii) AcGFP1 and DsRED donors were transformed into yeast strain IMX672."
+    },
+    {
+      "evidence_id": "EV_AUTO_026",
+      "source_file": "docs/0064/combined.md",
+      "section": "auto_specific",
+      "char_start": 138373,
+      "char_end": 138893,
+      "quote": "le sgRNA plasmids pTAJAK-92 $^{45}$ and pCOM005 (to integrate McrtI, McrtYB, yEGFP into the X-3, XI-3, and XII-5 sites, respectively) were transformed into yeast strain IMX672.1. Cells were plated on media to select for the presence of the sgRNA plasmids. Colonies were washed off the plate(s) and subsequently cells were plated on selective medium (SC-Leu/-Ura/-His) to screen for successful integration of donors with integrated selection markers. Subsequently, when colonies appeared, the transformation plates were r"
+    },
+    {
+      "evidence_id": "EV_AUTO_027",
+      "source_file": "docs/0064/combined.md",
+      "section": "auto_specific",
+      "char_start": 138311,
+      "char_end": 138831,
+      "quote": "rev, on Acceptor vector B-McrtYB) donors and 1 $\\mu$ g of triple sgRNA plasmids pTAJAK-92 $^{45}$ and pCOM005 (to integrate McrtI, McrtYB, yEGFP into the X-3, XI-3, and XII-5 sites, respectively) were transformed into yeast strain IMX672.1. Cells were plated on media to select for the presence of the sgRNA plasmids. Colonies were washed off the plate(s) and subsequently cells were plated on selective medium (SC-Leu/-Ura/-His) to screen for successful integration of donors with integrated selection markers. Subseque"
+    },
+    {
+      "evidence_id": "EV_AUTO_028",
+      "source_file": "docs/0064/combined.md",
+      "section": "auto_specific",
+      "char_start": 138300,
+      "char_end": 138820,
+      "quote": "CEPTB-XI3\\_rev, on Acceptor vector B-McrtYB) donors and 1 $\\mu$ g of triple sgRNA plasmids pTAJAK-92 $^{45}$ and pCOM005 (to integrate McrtI, McrtYB, yEGFP into the X-3, XI-3, and XII-5 sites, respectively) were transformed into yeast strain IMX672.1. Cells were plated on media to select for the presence of the sgRNA plasmids. Colonies were washed off the plate(s) and subsequently cells were plated on selective medium (SC-Leu/-Ura/-His) to screen for successful integration of donors with integrated selection marker"
+    },
+    {
+      "evidence_id": "EV_AUTO_029",
+      "source_file": "docs/0064/combined.md",
+      "section": "auto_specific",
+      "char_start": 138294,
+      "char_end": 138814,
+      "quote": "and ACCEPTB-XI3\\_rev, on Acceptor vector B-McrtYB) donors and 1 $\\mu$ g of triple sgRNA plasmids pTAJAK-92 $^{45}$ and pCOM005 (to integrate McrtI, McrtYB, yEGFP into the X-3, XI-3, and XII-5 sites, respectively) were transformed into yeast strain IMX672.1. Cells were plated on media to select for the presence of the sgRNA plasmids. Colonies were washed off the plate(s) and subsequently cells were plated on selective medium (SC-Leu/-Ura/-His) to screen for successful integration of donors with integrated selection"
+    },
+    {
+      "evidence_id": "EV_AUTO_030",
+      "source_file": "docs/0064/combined.md",
+      "section": "auto_specific",
+      "char_start": 138245,
+      "char_end": 138765,
+      "quote": "or I-Mcrtl) and McrtYB (primers ACCEPTB-XI3\\_for and ACCEPTB-XI3\\_rev, on Acceptor vector B-McrtYB) donors and 1 $\\mu$ g of triple sgRNA plasmids pTAJAK-92 $^{45}$ and pCOM005 (to integrate McrtI, McrtYB, yEGFP into the X-3, XI-3, and XII-5 sites, respectively) were transformed into yeast strain IMX672.1. Cells were plated on media to select for the presence of the sgRNA plasmids. Colonies were washed off the plate(s) and subsequently cells were plated on selective medium (SC-Leu/-Ura/-His) to screen for successful"
+    },
+    {
+      "evidence_id": "EV_AUTO_031",
+      "source_file": "docs/0064/combined.md",
+      "section": "auto_specific",
+      "char_start": 138231,
+      "char_end": 138751,
+      "quote": "stination vector I-Mcrtl) and McrtYB (primers ACCEPTB-XI3\\_for and ACCEPTB-XI3\\_rev, on Acceptor vector B-McrtYB) donors and 1 $\\mu$ g of triple sgRNA plasmids pTAJAK-92 $^{45}$ and pCOM005 (to integrate McrtI, McrtYB, yEGFP into the X-3, XI-3, and XII-5 sites, respectively) were transformed into yeast strain IMX672.1. Cells were plated on media to select for the presence of the sgRNA plasmids. Colonies were washed off the plate(s) and subsequently cells were plated on selective medium (SC-Leu/-Ura/-His) to screen"
+    },
+    {
+      "evidence_id": "EV_AUTO_032",
+      "source_file": "docs/0064/combined.md",
+      "section": "auto_specific",
+      "char_start": 133586,
+      "char_end": 134106,
+      "quote": "CHI and HaCHS into the X-3 and XI-2 locus, respectively), pCOM007 (to integrate AtC4H::L5::AtATR2 into XII-2), pCOM008 (to integrate At4CL-2 and AtPAL-2 into the X-2 and XI-5 locus, respectively), plus 1 $\\mu$ g of each donor fragment: PhCHI (primers ACCPTE-X3\\_for and ACCPTE-X3\\_rev on Acceptor vector E-CHI), HaCHS (primers ACCEPTF-XI2\\_for and ACCEPTF-XI2\\_rev on Acceptor vector F-CHS), AtC4H::AtATR2 (primers DESII-XII2\\_for and DESII-XII2\\_rev on Destination vector II-C4H::ATR2), At4CL-2 (primers ACCEPTG-X2\\_for"
+    },
+    {
+      "evidence_id": "EV_AUTO_033",
+      "source_file": "docs/0064/combined.md",
+      "section": "auto_specific",
+      "char_start": 133577,
+      "char_end": 134097,
+      "quote": "egrate PhCHI and HaCHS into the X-3 and XI-2 locus, respectively), pCOM007 (to integrate AtC4H::L5::AtATR2 into XII-2), pCOM008 (to integrate At4CL-2 and AtPAL-2 into the X-2 and XI-5 locus, respectively), plus 1 $\\mu$ g of each donor fragment: PhCHI (primers ACCPTE-X3\\_for and ACCPTE-X3\\_rev on Acceptor vector E-CHI), HaCHS (primers ACCEPTF-XI2\\_for and ACCEPTF-XI2\\_rev on Acceptor vector F-CHS), AtC4H::AtATR2 (primers DESII-XII2\\_for and DESII-XII2\\_rev on Destination vector II-C4H::ATR2), At4CL-2 (primers ACCEPT"
+    },
+    {
+      "evidence_id": "EV_AUTO_034",
+      "source_file": "docs/0064/combined.md",
+      "section": "auto_specific",
+      "char_start": 133529,
+      "char_end": 134049,
+      "quote": "with 1 $\\mu$ g of sgRNA plasmid pCOM004 (to integrate PhCHI and HaCHS into the X-3 and XI-2 locus, respectively), pCOM007 (to integrate AtC4H::L5::AtATR2 into XII-2), pCOM008 (to integrate At4CL-2 and AtPAL-2 into the X-2 and XI-5 locus, respectively), plus 1 $\\mu$ g of each donor fragment: PhCHI (primers ACCPTE-X3\\_for and ACCPTE-X3\\_rev on Acceptor vector E-CHI), HaCHS (primers ACCEPTF-XI2\\_for and ACCEPTF-XI2\\_rev on Acceptor vector F-CHS), AtC4H::AtATR2 (primers DESII-XII2\\_for and DESII-XII2\\_rev on Destinati"
+    },
+    {
+      "evidence_id": "EV_AUTO_035",
+      "source_file": "docs/0064/combined.md",
+      "section": "auto_specific",
+      "char_start": 133520,
+      "char_end": 134040,
+      "quote": "ansformed with 1 $\\mu$ g of sgRNA plasmid pCOM004 (to integrate PhCHI and HaCHS into the X-3 and XI-2 locus, respectively), pCOM007 (to integrate AtC4H::L5::AtATR2 into XII-2), pCOM008 (to integrate At4CL-2 and AtPAL-2 into the X-2 and XI-5 locus, respectively), plus 1 $\\mu$ g of each donor fragment: PhCHI (primers ACCPTE-X3\\_for and ACCPTE-X3\\_rev on Acceptor vector E-CHI), HaCHS (primers ACCEPTF-XI2\\_for and ACCEPTF-XI2\\_rev on Acceptor vector F-CHS), AtC4H::AtATR2 (primers DESII-XII2\\_for and DESII-XII2\\_rev on"
+    },
+    {
+      "evidence_id": "EV_AUTO_036",
+      "source_file": "docs/0064/combined.md",
+      "section": "auto_specific",
+      "char_start": 133476,
+      "char_end": 133996,
+      "quote": "of $\\beta$ -ionone producing stains was cotransformed with 1 $\\mu$ g of sgRNA plasmid pCOM004 (to integrate PhCHI and HaCHS into the X-3 and XI-2 locus, respectively), pCOM007 (to integrate AtC4H::L5::AtATR2 into XII-2), pCOM008 (to integrate At4CL-2 and AtPAL-2 into the X-2 and XI-5 locus, respectively), plus 1 $\\mu$ g of each donor fragment: PhCHI (primers ACCPTE-X3\\_for and ACCPTE-X3\\_rev on Acceptor vector E-CHI), HaCHS (primers ACCEPTF-XI2\\_for and ACCEPTF-XI2\\_rev on Acceptor vector F-CHS), AtC4H::AtATR2 (pri"
+    }
+  ],
+  "event_graph": {
+    "paper_main_problem": "Achieving balanced expression of multiple genes in synthetic pathways in S. cerevisiae, where optimal expression levels are unknown a priori, and existing combinatorial assembly methods are limited by sequence dependency and E. coli-based assembly difficulties.",
+    "canonical_events": [
+      {
+        "canonical_id": "K01",
+        "order": 1,
+        "event_type": "problem",
+        "summary": "Balanced expression of multiple genes is central but difficult due to unknown optimal levels.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E01"
+        ],
+        "evidence_ids": [
+          "EV_C001_E01_01"
+        ],
+        "key_entities": [],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K02",
+        "order": 2,
+        "event_type": "problem",
+        "summary": "High-level expression of pathway genes often increases metabolic burden.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E02"
+        ],
+        "evidence_ids": [
+          "EV_C001_E02_01"
+        ],
+        "key_entities": [],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K03",
+        "order": 3,
+        "event_type": "problem",
+        "summary": "Golden Gate cloning is limited by sequence dependency and E. coli assembly difficulties.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E03"
+        ],
+        "evidence_ids": [
+          "EV_C001_E03_01",
+          "EV_C001_E03_02"
+        ],
+        "key_entities": [
+          "Golden Gate cloning"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K04",
+        "order": 4,
+        "event_type": "hypothesis",
+        "summary": "Inducible ATFs allow conditional expression to decouple growth and production, reducing metabolic burden.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E05"
+        ],
+        "evidence_ids": [
+          "EV_C001_E05_01"
+        ],
+        "key_entities": [
+          "ATFs"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K05",
+        "order": 5,
+        "event_type": "design",
+        "summary": "COMPASS uses three-level cloning with positive selection and CRISPR/Cas9 integration.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E06"
+        ],
+        "evidence_ids": [
+          "EV_C001_E06_01",
+          "EV_C001_E06_02",
+          "EV_C001_E06_03"
+        ],
+        "key_entities": [
+          "COMPASS",
+          "CRISPR/Cas9"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K06",
+        "order": 6,
+        "event_type": "design",
+        "summary": "COMPASS requires only 11 core vectors to generate libraries of millions of constructs for ten-gene pathways.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C006_E08"
+        ],
+        "evidence_ids": [
+          "EV_C006_E08_01"
+        ],
+        "key_entities": [
+          "COMPASS",
+          "Entry vector",
+          "Acceptor vectors",
+          "Destination vectors"
+        ],
+        "key_numbers": [
+          "11 core vectors",
+          "3,486,784,401 members"
+        ]
+      },
+      {
+        "canonical_id": "K07",
+        "order": 7,
+        "event_type": "experiment",
+        "summary": "Tested genomic position effect on ATF activity by integrating regulators into XII-5 locus.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E07"
+        ],
+        "evidence_ids": [
+          "EV_C001_E07_01"
+        ],
+        "key_entities": [
+          "XII-5 locus",
+          "TDH3 promoter"
+        ],
+        "key_numbers": [
+          "~0.05- to ~4.3-fold of TDH3"
+        ]
+      },
+      {
+        "canonical_id": "K08",
+        "order": 8,
+        "event_type": "analysis",
+        "summary": "Genomic position affects ATF output but relative strengths are preserved.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E08"
+        ],
+        "evidence_ids": [
+          "EV_C001_E08_01"
+        ],
+        "key_entities": [],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K09",
+        "order": 9,
+        "event_type": "experiment",
+        "summary": "Combinatorial cloning of pathway modules into Destination vector I using four rounds of assembly with positive selection.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C004_E01"
+        ],
+        "evidence_ids": [
+          "EV_C004_E01_02",
+          "EV_C004_E01_03"
+        ],
+        "key_entities": [
+          "Destination vector I",
+          "ATF/BS-CDS modules",
+          "SC-Ura/-His medium",
+          "SC-Ura/-His/-Leu medium"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K10",
+        "order": 10,
+        "event_type": "experiment",
+        "summary": "Measured growth defect: strain MXintpDI 1 showed 5.5% reduction in growth rate in inducing medium.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C005_E04"
+        ],
+        "evidence_ids": [
+          "EV_C005_E04_01"
+        ],
+        "key_entities": [
+          "MXintpDI 1",
+          "IMX672.1"
+        ],
+        "key_numbers": [
+          "5.5% reduction"
+        ]
+      },
+      {
+        "canonical_id": "K11",
+        "order": 11,
+        "event_type": "experiment",
+        "summary": "Co-engineered β-ionone and naringenin pathways; screened 20 colonies and found ~30% show no/low naringenin production.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C005_E07"
+        ],
+        "evidence_ids": [
+          "EV_C005_E07_01"
+        ],
+        "key_entities": [
+          "naringenin",
+          "β-ionone",
+          "Narion library"
+        ],
+        "key_numbers": [
+          "approximately 30% of the library members show no- or low-NG production"
+        ]
+      },
+      {
+        "canonical_id": "K12",
+        "order": 12,
+        "event_type": "analysis",
+        "summary": "Observed that better naringenin producers harbor mostly medium ATF/BS units upstream of NG genes.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C005_E08"
+        ],
+        "evidence_ids": [
+          "EV_C005_E08_01"
+        ],
+        "key_entities": [
+          "naringenin",
+          "ATF/BS",
+          "Narion 16–20"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K13",
+        "order": 13,
+        "event_type": "limitation",
+        "summary": "Current COMPASS version limited to 10 genes; additional plasmids pCOM001 and pCOM009 extend capacity.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C006_E07"
+        ],
+        "evidence_ids": [
+          "EV_C006_E07_01"
+        ],
+        "key_entities": [
+          "COMPASS",
+          "pCOM001",
+          "pCOM009"
+        ],
+        "key_numbers": [
+          "10 genes"
+        ]
+      },
+      {
+        "canonical_id": "K14",
+        "order": 14,
+        "event_type": "design",
+        "summary": "COMPASS uses inducible ATFs to decouple growth and production phases, reducing metabolic burden.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C006_E06"
+        ],
+        "evidence_ids": [
+          "EV_C006_E06_01"
+        ],
+        "key_entities": [
+          "ATFs",
+          "growth phase",
+          "production phase"
+        ],
+        "key_numbers": [
+          "growth rates decrease by 7–16% after induction"
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "source": "K01",
+        "target": "K02",
+        "relation": "follows",
+        "reason": "Both are problems motivating the need for COMPASS."
+      },
+      {
+        "source": "K02",
+        "target": "K03",
+        "relation": "follows",
+        "reason": "Additional problem with existing methods."
+      },
+      {
+        "source": "K03",
+        "target": "K04",
+        "relation": "enables",
+        "reason": "Hypothesis to overcome limitations."
+      },
+      {
+        "source": "K04",
+        "target": "K05",
+        "relation": "enables",
+        "reason": "Design of COMPASS based on hypothesis."
+      },
+      {
+        "source": "K05",
+        "target": "K06",
+        "relation": "refines",
+        "reason": "Details the vector requirements."
+      },
+      {
+        "source": "K06",
+        "target": "K07",
+        "relation": "enables",
+        "reason": "Testing ATF activity in genomic context."
+      },
+      {
+        "source": "K07",
+        "target": "K08",
+        "relation": "validates",
+        "reason": "Analysis of position effect."
+      },
+      {
+        "source": "K08",
+        "target": "K09",
+        "relation": "enables",
+        "reason": "Proceed to pathway assembly."
+      },
+      {
+        "source": "K09",
+        "target": "K10",
+        "relation": "follows",
+        "reason": "Growth defect measurement after assembly."
+      },
+      {
+        "source": "K10",
+        "target": "K11",
+        "relation": "follows",
+        "reason": "Co-engineering pathways and screening."
+      },
+      {
+        "source": "K11",
+        "target": "K12",
+        "relation": "validates",
+        "reason": "Analysis of producer genotypes."
+      },
+      {
+        "source": "K12",
+        "target": "K13",
+        "relation": "follows",
+        "reason": "Limitation of current version."
+      },
+      {
+        "source": "K13",
+        "target": "K14",
+        "relation": "refines",
+        "reason": "Design advantage despite limitation."
+      }
+    ],
+    "must_cover_points": [
+      "Problem of balanced expression and metabolic burden",
+      "Limitations of Golden Gate cloning",
+      "Hypothesis of inducible ATFs for decoupling growth and production",
+      "Design of COMPASS with three-level cloning and positive selection",
+      "Genomic position effect on ATF activity but preserved relative strengths",
+      "Combinatorial assembly and screening of β-carotene and naringenin/β-ionone libraries",
+      "Growth defect measurement upon induction",
+      "~30% non-productive library members",
+      "Better producers harbor medium ATF/BS units",
+      "Limitation to 10 genes and extension plasmids"
+    ],
+    "paper_not_suitable_reasons": []
+  }
+}

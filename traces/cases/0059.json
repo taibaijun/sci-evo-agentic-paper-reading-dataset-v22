@@ -1,0 +1,829 @@
+{
+  "case": {
+    "case_id": "sci_evo_0059",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Drug design and repurposing with DockThor-VS web server focusing on SARS-CoV-2 therapeutic targets and their non-synonym variants",
+      "doi": "https://doi.org/10.1038/s41598-021-84700-0",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "",
+      "mineru_md": "docs/0059/mineru.md",
+      "combined_md": "docs/0059/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "The COVID-19 pandemic created an urgent need for effective treatments. Virtual screening success depends on accurate target structures, receptor flexibility, and genetic variations. The study aims to develop DockThor-VS, a web server providing curated 3D structures of SARS-CoV-2 therapeutic targets (wild type and non-synonymous variants) and drug libraries, to facilitate repurposing virtual screening and assess the impact of mutations on drug binding.",
+      "target_object": "SARS-CoV-2 therapeutic targets (Nsp3 PLpro, Nsp5 Mpro, Nsp12 RdRp, Nsp15 NendoU, N protein, Spike) and their non-synonymous variants",
+      "known_context": "Virtual screening success depends on target structure preparation, compound library preparation, receptor flexibility, and genomic variations. Non-specialist researchers often struggle with these factors.",
+      "constraints": [
+        "Use only FDA-approved drugs from e-Drug3D library",
+        "Docking results must not be used for clinical guidance"
+      ],
+      "input_data": [
+        "Curated 3D structures of SARS-CoV-2 targets (wild type and selected mutations)",
+        "e-Drug3D library of FDA-approved drugs"
+      ],
+      "quantifiable_goals": [
+        "Identify promising drugs under clinical trials against COVID-19",
+        "Assess impact of non-synonymous variations on drug binding"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "No dedicated web server providing curated SARS-CoV-2 target structures and drug libraries for virtual screening, incorporating receptor flexibility and genetic variations.",
+        "gap_or_uncertainty": "Virtual screening success depends on factors like target structure preparation, compound library preparation, receptor flexibility, and genomic variations, which are challenging for non-specialists.",
+        "hypothesis": "A web server providing curated structures of SARS-CoV-2 therapeutic targets (wild type and non-synonymous variants) and drug libraries will facilitate repurposing virtual screening and help assess the impact of mutations on drug binding.",
+        "decision": "Develop DockThor-VS web server.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "Literature review",
+          "version": "",
+          "category": "literature_reasoning"
+        },
+        "parameters": {},
+        "observation": "The success of virtual screening experiments depends on factors that are often not trivial to be addressed by non-specialist researchers. Possible genomic variations in the active/binding site region of molecular targets can drastically affect the binding mode and affinity of ligands.",
+        "result_status": "success",
+        "next_step_reason": "The identified need motivates the design of the DockThor-VS web server.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0059/combined.md",
+            "section": "C001",
+            "quote_or_span": "the success of virtual screening experiments depends on factors that are often not trivial to be addressed by non-specialist researchers"
+          },
+          {
+            "evidence_id": "EV_C001_E01_02",
+            "source_file": "docs/0059/combined.md",
+            "section": "C001",
+            "quote_or_span": "possible genomic variations in the active/binding site region of molecular targets can drastically affect the binding mode and affinity of ligands"
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "design",
+        "state_before": "No web server with curated SARS-CoV-2 target structures and drug libraries.",
+        "gap_or_uncertainty": "Need to provide ready-for-docking 3D structures for wild type and selected mutations of key SARS-CoV-2 targets.",
+        "hypothesis": "Providing curated structures of Nsp3 PLpro, Nsp5 Mpro, Nsp12 RdRp, Nsp15 NendoU, N protein, and Spike will enable effective virtual screening.",
+        "decision": "Develop DockThor-VS web server with curated structures for six SARS-CoV-2 targets and their non-synonymous variants.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "DockThor-VS web server",
+          "version": "",
+          "category": "web_server"
+        },
+        "parameters": {
+          "targets": [
+            "Nsp3 PLpro",
+            "Nsp5 Mpro",
+            "Nsp12 RdRp",
+            "Nsp15 NendoU",
+            "N protein",
+            "Spike"
+          ]
+        },
+        "observation": "DockThor-VS provides ready-for-docking 3D structures for wild type and selected mutations for Nsp3 (papain-like, PLpro domain), Nsp5 (Mpro, 3CLpro), Nsp12 (RdRp), Nsp15 (NendoU), N protein, and Spike.",
+        "result_status": "success",
+        "next_step_reason": "To account for receptor flexibility, multiple conformations of each target need to be selected.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0059/combined.md",
+            "section": "C001",
+            "quote_or_span": "we present the developments implemented in the DockThor-VS web server to provide a virtual screening (VS) platform with curated structures of potential therapeutic targets from SARS-CoV-2 incorporating genetic information regarding relevant non-synonymous variations"
+          },
+          {
+            "evidence_id": "EV_C001_E02_02",
+            "source_file": "docs/0059/combined.md",
+            "section": "C001",
+            "quote_or_span": "DockThor-VS provides ready-for-docking 3D structures for wild type and selected mutations for Nsp3 (papain-like, PLpro domain), Nsp5 (Mpro, 3CLpro), Nsp12 (RdRp), Nsp15 (NendoU), N protein, and Spike"
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "design",
+        "state_before": "Single static structures of targets may not capture receptor flexibility.",
+        "gap_or_uncertainty": "Receptor flexibility can significantly affect ligand binding; using a single conformation may lead to false negatives.",
+        "hypothesis": "Using an ensemble of structures representing different relevant conformations will better account for receptor flexibility.",
+        "decision": "For each protein target, select a set of structures representing different conformations (e.g., with varying ligand types, side chain conformations).",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "Structure selection and preparation",
+          "version": "",
+          "category": "structure_preparation"
+        },
+        "parameters": {
+          "criteria": "different relevant conformations complexed with varying types of ligand"
+        },
+        "observation": "For each protein target, we chose a set of structures representing different relevant conformations complexed with varying types of ligand (e.g., ligands covalently bound or not, side chains conformations closing or opening the binding site), thus providing an ensemble of representative structures of the flexibility of the receptor.",
+        "result_status": "success",
+        "next_step_reason": "The importance of multiple conformations is reinforced by analysis of Mpro structures.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E03_01",
+            "source_file": "docs/0059/combined.md",
+            "section": "C001",
+            "quote_or_span": "For each protein target, we chose a set of structures representing different relevant conformations complexed with varying types of ligand (e.g., ligands covalently bound or not, side chains conformations closing or opening the binding site), thus providing an ensemble of representative structures of the flexibility of the receptor."
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "analysis",
+        "state_before": "Multiple Mpro structures available (e.g., 6LU7, 6W63).",
+        "gap_or_uncertainty": "Need to confirm that different conformations significantly affect the binding site.",
+        "hypothesis": "Superposition of Mpro structures will reveal significant conformational changes in key binding site residues.",
+        "decision": "Superpose Mpro structures and analyze conformational changes.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Structural superposition",
+          "version": "",
+          "category": "structural_analysis"
+        },
+        "parameters": {
+          "structures": [
+            "6LU7",
+            "6W63"
+          ]
+        },
+        "observation": "The structures' superposition highlights some significant conformational changes within the ligand-binding site, mainly the residues Met49, Asn142 and Gln189. That reinforces the importance of considering multiple protein conformations in virtual screening experiments to accommodate distinct compounds.",
+        "result_status": "success",
+        "next_step_reason": "The observed flexibility supports the need for multiple conformations and careful preparation of protonation states for Mpro.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E01_01",
+            "source_file": "docs/0059/combined.md",
+            "section": "C002",
+            "quote_or_span": "The structures' superposition highlights some significant conformational changes within the ligand-binding site, mainly the residues Met49, Asn142 and Gln189. That reinforces the importance of considering multiple protein conformations in virtual screening experiments to accommodate distinct compounds"
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "design",
+        "state_before": "Mpro structures need proper protonation state assignment.",
+        "gap_or_uncertainty": "Incorrect protonation states can affect docking accuracy.",
+        "hypothesis": "Manually adjusting protonation states of key residues (His41, Cys145, His163, His164) based on literature will improve docking accuracy.",
+        "decision": "Manually adjust protonation states: neutral His41 at ND1, catalytic Cys145 protonated, neutral His163 at NE2, neutral His164 at NE2.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "Manual protonation state adjustment",
+          "version": "",
+          "category": "structure_preparation"
+        },
+        "parameters": {
+          "His41": "neutral at ND1",
+          "Cys145": "protonated (neutral)",
+          "His163": "neutral at NE2",
+          "His164": "neutral at NE2"
+        },
+        "observation": "In the preparation process, the protonation states and flips of key residues were manually adjusted to provide the Mpro structures with neutral His41 at ND1, the catalytic Cys145 protonated (i.e., neutral), neutral His163 at NE2 and neutral His164 at NE2.",
+        "result_status": "success",
+        "next_step_reason": "Similar careful preparation is needed for other targets, such as Nsp15.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E02_01",
+            "source_file": "docs/0059/combined.md",
+            "section": "C002",
+            "quote_or_span": "In the preparation process, the protonation states and flips of key residues were manually adjusted to provide the Mpro structures with neutral His41 at ND1, the catalytic Cys145 protonated (i.e., neutral), neutral His163 at NE2 and neutral His164 at NE2."
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "design",
+        "state_before": "Nsp15 structure needs preparation.",
+        "gap_or_uncertainty": "Protonation states of catalytic residues (His235, His250, Lys290) must be correctly assigned for pH 6.2.",
+        "hypothesis": "Preparing Nsp15 based on the tipiracil-bound conformation (PDB 6WXC) with specific protonation states will yield a suitable structure for docking.",
+        "decision": "Prepare Nsp15 structure based on PDB 6WXC, with His235 neutral at NE2, His250 neutral at ND1, Lys290 positively charged.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "Structure preparation",
+          "version": "",
+          "category": "structure_preparation"
+        },
+        "parameters": {
+          "pH": 6.2,
+          "His235": "neutral at NE2",
+          "His250": "neutral at ND1",
+          "Lys290": "positively charged"
+        },
+        "observation": "The prepared Nsp15 structure is based on the conformation of the protein complexed with tipiracil (PDB code 6WXC) prepared considering the pH of 6.2 and consists of His235 and His250 neutral at NE2 and ND1, respectively, and Lys290 positively charged.",
+        "result_status": "success",
+        "next_step_reason": "For highly flexible targets like N-NTD, multiple conformations from NMR are needed.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E04_01",
+            "source_file": "docs/0059/combined.md",
+            "section": "C002",
+            "quote_or_span": "The prepared Nsp15 structure is based on the conformation of the protein complexed with tipiracil (PDB code 6WXC) prepared considering the pH of 6.2 and consists of His235 and His250 neutral at NE2 and ND1, respectively, and Lys290 positively charged"
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "design",
+        "state_before": "N-NTD has 31 NMR conformations; a subset is needed for docking.",
+        "gap_or_uncertainty": "Using all 31 conformations is computationally expensive; a representative subset must capture flexibility.",
+        "hypothesis": "Clustering the 31 conformations based on Arg102 and Tyr109 flexibility and selecting five representative structures will adequately represent N-NTD flexibility.",
+        "decision": "Cluster 31 NMR conformations of N-NTD (PDB 6YI3) with Glu174 in open conformation, select five representatives based on Arg102 and Tyr109 flexibility.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Clustering",
+          "version": "",
+          "category": "conformational_sampling"
+        },
+        "parameters": {
+          "total_conformations": 31,
+          "selected_conformations": 5,
+          "clustering_criteria": "flexibility of Arg102 and Tyr109"
+        },
+        "observation": "we provide to the users five distinct conformations of the N-NTD solved with NMR after clustering the 31 conformations containing the Glu174 on an opened conformation and selecting representative structures according to the flexibility of the residues Arg102 and Tyr109",
+        "result_status": "success",
+        "next_step_reason": "A binding site for docking on N-NTD needs to be defined.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E05_01",
+            "source_file": "docs/0059/combined.md",
+            "section": "C002",
+            "quote_or_span": "we provide to the users five distinct conformations of the N-NTD solved with NMR after clustering the 31 conformations containing the Glu174 on an opened conformation and selecting representative structures according to the flexibility of the residues Arg102 and Tyr109"
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "design",
+        "state_before": "Non-synonymous variations (NSVs) in SARS-CoV-2 targets may affect drug binding.",
+        "gap_or_uncertainty": "Which NSVs to include for each target?",
+        "hypothesis": "Selecting NSVs based on impact on catalytic region, ligand interaction, amino acid properties, and literature evidence will capture relevant mutations.",
+        "decision": "Assess parameters: residue occurrence in catalytic region, possible interaction with ligand, amino acid properties (hydropathy, charge, side chain). Select 19 NSVs across targets.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Mutation selection criteria",
+          "version": "",
+          "category": "mutation_analysis"
+        },
+        "parameters": {
+          "criteria": [
+            "impact on catalytic region",
+            "possible interaction with ligand",
+            "amino acid properties (hydropathy, charge, side chain)"
+          ],
+          "selected_NSVs": 19
+        },
+        "observation": "We assessed some parameters for the mutation's choice, such as the impact of the residue's occurrence in the catalytic region and its possible interaction with a ligand and the amino acid properties (hydropathy, charge and side chain).",
+        "result_status": "success",
+        "next_step_reason": "With targets and mutations prepared, virtual screening can be performed.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E02_01",
+            "source_file": "docs/0059/combined.md",
+            "section": "C003",
+            "quote_or_span": "We assessed some parameters for the mutation's choice, such as the impact of the residue's occurrence in the catalytic region and its possible interaction with a ligand and the amino acid properties (hydropathy, charge and side chain)."
+          },
+          {
+            "evidence_id": "EV_AUTO_016",
+            "source_file": "docs/0059/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "We believe that the DockThor-VS web server is an excellent alternative for the development of drug repositioning research against COVID-19, not only for constructing drug libraries and therapeutic target structures available through the web server, but also for allowing studies involving new targets structures provided by the users and virtual screening experiments involving in-house ligand libraries."
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "experiment",
+        "state_before": "Curated target structures and drug library ready.",
+        "gap_or_uncertainty": "Which FDA-approved drugs show promising binding to SARS-CoV-2 targets?",
+        "hypothesis": "Virtual screening of e-Drug3D against all six targets using wild type structures and ensemble docking will identify potential repurposing candidates.",
+        "decision": "Perform virtual screening with DockThor-VS for e-Drug3D at reference pH (6.6 to 7.4) against PLpro, Mpro, RdRp, NendoU, Spike, N protein using wild type.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "DockThor-VS",
+          "version": "",
+          "category": "virtual_screening"
+        },
+        "parameters": {
+          "library": "e-Drug3D",
+          "pH_range": "6.6 to 7.4",
+          "targets": [
+            "PLpro",
+            "Mpro",
+            "RdRp",
+            "NendoU",
+            "Spike",
+            "N protein"
+          ],
+          "variant": "wild type"
+        },
+        "observation": "We performed virtual screening experiments with DockThor-VS for the e-Drug3D dataset at the reference pH (6.6 to 7.4) for all SARS-CoV-2 targets available at the platform so far (e.g., PLpro, Mpro, RdRp, NendoU, Spike and N protein) using the wild type genomic variant.",
+        "result_status": "success",
+        "next_step_reason": "Results need to be analyzed, focusing on drugs under clinical trials.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E03_01",
+            "source_file": "docs/0059/combined.md",
+            "section": "C003",
+            "quote_or_span": "We performed virtual screening experiments with DockThor-VS for the e-Drug3D dataset at the reference pH (6.6 to 7.4) for all SARS-CoV-2 targets available at the platform so far (e.g., PLpro, Mpro, RdRp, NendoU, Spike and N protein) using the wild type genomic variant."
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "analysis",
+        "state_before": "Virtual screening completed.",
+        "gap_or_uncertainty": "Which drugs under clinical trials show promising docking scores?",
+        "hypothesis": "Docking scores will reveal drugs with high predicted affinity across multiple targets.",
+        "decision": "Analyze docking scores of drugs under clinical trials against COVID-19, presented in Table 1.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Docking score analysis",
+          "version": "",
+          "category": "data_analysis"
+        },
+        "parameters": {},
+        "observation": "The virtual screening results of some drugs currently under clinical trials against COVID-19 are presented in Table 1.",
+        "result_status": "success",
+        "next_step_reason": "Results must be interpreted with caution; docking scores are not for clinical guidance.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E04_01",
+            "source_file": "docs/0059/combined.md",
+            "section": "C003",
+            "quote_or_span": "The virtual screening results of some drugs currently under clinical trials against COVID-19 are presented in Table 1."
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "hypothesis",
+        "state_before": "Docking scores available for drugs under clinical trials.",
+        "gap_or_uncertainty": "Some drugs may have mechanisms of action that allow inhibition of multiple SARS-CoV-2 targets.",
+        "hypothesis": "Some drugs may inhibit multiple SARS-CoV-2 targets, exhibiting multiple antiviral mechanisms.",
+        "decision": "Propose that drugs with known mechanisms of action may also inhibit one or more SARS-CoV-2 targets, leading to multiple antiviral effects.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "Hypothesis generation",
+          "version": "",
+          "category": "literature_reasoning"
+        },
+        "parameters": {},
+        "observation": "However, it is also possible that some drugs with known mechanisms of action, related to the interaction with host proteins or even with the virus entry pathway, can also inhibit one or more targets of the pathogen, thus exhibiting multiple mechanisms for the antiviral effect.",
+        "result_status": "success",
+        "next_step_reason": "This hypothesis motivates further analysis of multi-target inhibition profiles.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E06_01",
+            "source_file": "docs/0059/combined.md",
+            "section": "C003",
+            "quote_or_span": "However, it is also possible that some drugs with known mechanisms of action, related to the interaction with host proteins or even with the virus entry pathway, can also inhibit one or more targets of the pathogen, thus exhibiting multiple mechanisms for the antiviral effect."
+          }
+        ]
+      },
+      {
+        "step_index": 12,
+        "phase": "analysis",
+        "state_before": "Docking scores available.",
+        "gap_or_uncertainty": "Are the predicted affinities consistent with experimental data?",
+        "hypothesis": "Most predicted binding affinities will be moderate, consistent with experimental studies showing modest inhibitory effects.",
+        "decision": "Compare predicted affinities with literature experimental data.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Comparative analysis",
+          "version": "",
+          "category": "data_analysis"
+        },
+        "parameters": {},
+        "observation": "we found that the majority of the predicted binding affinities are moderate in the range of high to low micromolar affinity units. This result is expected since many drugs under clinical trials exhibited no activity or only modest inhibitory effects against SARS-CoV-2 in some experimental studies reported in the literature.",
+        "result_status": "success",
+        "next_step_reason": "Despite moderate affinities, some drugs show promising multi-target profiles.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E01_01",
+            "source_file": "docs/0059/combined.md",
+            "section": "C004",
+            "quote_or_span": "we found that the majority of the predicted binding affinities are moderate in the range of high to low micromolar affinity units"
+          },
+          {
+            "evidence_id": "EV_C004_E01_02",
+            "source_file": "docs/0059/combined.md",
+            "section": "C004",
+            "quote_or_span": "This result is expected since many drugs under clinical trials exhibited no activity or only modest inhibitory effects against SARS-CoV-2 in some experimental studies reported in the literature"
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "Comparison with experimental studies from literature"
+      ],
+      "metrics": [
+        "Docking scores (kcal/mol)"
+      ],
+      "final_conclusion": "DockThor-VS provides a platform for virtual screening against SARS-CoV-2 targets, incorporating receptor flexibility and genetic variations. Ledipasvir, imatinib, lopinavir, and daclatasvir were identified as promising multi-target drugs. Multiple conformations reduce false negatives; mutations may confer resistance. Docking results are not for clinical guidance.",
+      "limitations": [
+        "Docking results must not be used for clinical guidance; top hits need experimental validation.",
+        "Protein dynamic effects caused by mutations are not taken into account by the docking protocol.",
+        "Platform currently covers only six targets; continuous updates planned."
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "Added step 12 to cover K17 hypothesis on multi-target inhibition.",
+        "Corrected residue numbering in step 7 from Arg92 to Arg102.",
+        "Ensured step 10 observation includes pH range 6.6 to 7.4.",
+        "Reframed step 12 (now step 13) as comparative analysis decision.",
+        "v22_step_trimmed=13_to_12",
+        "v22_specific_evidence_backfilled=1",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 86.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p1\\states\\0059.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p1\\events\\0059.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1
+        ],
+        "K02": [
+          1,
+          2,
+          8,
+          9
+        ],
+        "K03": [
+          2,
+          3,
+          4
+        ],
+        "K08": [
+          4
+        ],
+        "K10": [
+          5,
+          6
+        ],
+        "K11": [
+          2,
+          6,
+          7
+        ],
+        "K13": [
+          1,
+          8
+        ],
+        "K14": [
+          1,
+          2,
+          9
+        ],
+        "K15": [
+          9,
+          10,
+          11,
+          12
+        ],
+        "K16": [
+          9,
+          10
+        ],
+        "K17": [
+          11
+        ],
+        "K18": [
+          12
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02",
+            "K13",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K02",
+            "K03",
+            "K11",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K03"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K03",
+            "K04",
+            "K05",
+            "K08"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K04",
+            "K09",
+            "K10"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K04",
+            "K05",
+            "K09",
+            "K10",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K07",
+            "K11",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K02",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K02",
+            "K14",
+            "K15",
+            "K16"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K15",
+            "K16"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K15",
+            "K17"
+          ]
+        },
+        {
+          "step_index": 12,
+          "covered_event_ids": [
+            "K15",
+            "K18"
+          ]
+        }
+      ]
+    },
+    "warnings": [],
+    "step_count": 12,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 86.0
+  },
+  "api_usage": {
+    "prompt_tokens": 122425,
+    "completion_tokens": 29738,
+    "total_tokens": 152163,
+    "prompt_cache_hit_tokens": 3456,
+    "prompt_cache_miss_tokens": 118969
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 2237,
+        "completion_tokens": 408,
+        "total_tokens": 2645,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 2237
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 7042,
+        "completion_tokens": 1306,
+        "total_tokens": 8348,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 7042
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 6073,
+        "completion_tokens": 1360,
+        "total_tokens": 7433,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 5817
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 6363,
+        "completion_tokens": 1385,
+        "total_tokens": 7748,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6107
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 7249,
+        "completion_tokens": 1000,
+        "total_tokens": 8249,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6993
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 6867,
+        "completion_tokens": 1508,
+        "total_tokens": 8375,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6611
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C005",
+      "api_usage": {
+        "prompt_tokens": 6524,
+        "completion_tokens": 1396,
+        "total_tokens": 7920,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6268
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C006",
+      "api_usage": {
+        "prompt_tokens": 6777,
+        "completion_tokens": 1261,
+        "total_tokens": 8038,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6521
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C007",
+      "api_usage": {
+        "prompt_tokens": 5825,
+        "completion_tokens": 61,
+        "total_tokens": 5886,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 5569
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 13139,
+        "completion_tokens": 6919,
+        "total_tokens": 20058,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 12755
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 14041,
+        "completion_tokens": 6089,
+        "total_tokens": 20130,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 13401
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 18678,
+        "completion_tokens": 621,
+        "total_tokens": 19299,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 18678
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 21610,
+        "completion_tokens": 6424,
+        "total_tokens": 28034,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 20970
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

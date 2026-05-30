@@ -1,0 +1,948 @@
+{
+  "case": {
+    "case_id": "sci_evo_0043",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "A seamless and iterative DNA assembly method named PS-Brick and its assisted metabolic engineering for threonine and 1-propanol production",
+      "doi": "https://doi.org/10.1186/s13068-019-1520-x",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0041_10_1186_s13068_019_1520_x_a_seamless_and_iterative_dna_assembly_method_named_ps_brick_and_its_assisted_metabolic_eng.pdf",
+      "mineru_md": "docs/0043/mineru.md",
+      "combined_md": "docs/0043/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Lack of a simple DNA assembly method that is simultaneously iterative, seamless, and capable of handling repetitive sequences for efficient DBTL cycles in metabolic engineering.",
+      "target_object": "DNA assembly method",
+      "known_context": "Current methods (BioBrick, Golden Gate, MoClo/Golden Braid) each lack one or more of the desired properties: iterative, seamless, repetitive sequence assembly.",
+      "constraints": [
+        "Must be simple and convenient",
+        "Must handle repetitive sequences",
+        "Must be iterative",
+        "Must be seamless"
+      ],
+      "input_data": [],
+      "quantifiable_goals": [
+        "Achieve high assembly efficiency (10^4-10^5 CFU/μg DNA)",
+        "Achieve high accuracy (~90%)",
+        "Demonstrate iterative DBTL cycles for threonine overproduction",
+        "Achieve high threonine titer (target >40 g/L)"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "Existing DNA assembly methods (BioBrick, Golden Gate, MoClo/Golden Braid) lack a simple technique that is simultaneously iterative, seamless, and capable of handling repetitive sequences.",
+        "gap_or_uncertainty": "No single method combines iterative, seamless, and repetitive sequence assembly in a simple format.",
+        "hypothesis": "Combining Type IIP and IIS restriction endonucleases in a single assembly method (PS-Brick) can achieve iterative, seamless, and repetitive sequence assembly.",
+        "decision": "Develop PS-Brick method using Type IIP and IIS REs.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "PS-Brick concept",
+          "version": "initial",
+          "category": "DNA assembly"
+        },
+        "parameters": {},
+        "observation": "Hypothesis formulated based on limitations of existing methods.",
+        "result_status": "success",
+        "next_step_reason": "Design PS-Brick vectors and test the concept.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0043/combined.md",
+            "section": "C001",
+            "quote_or_span": "DNA assembly scenarios encountered in metabolic engineering for the construction of amino acid and related compound producers, such as design-build-test-learn cycles, construction of precise genetic circuits and repetitive DNA molecules, usually require for iterative, scarless and repetitive sequence assembly methods, respectively."
+          },
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0043/combined.md",
+            "section": "C001",
+            "quote_or_span": "Here, we developed a Type IIP and IIS RE-assisted method named PS-Brick that comprehensively takes advantage of the properties of PCR fragments and REs for iterative, seamless and repetitive sequence assembly."
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "design",
+        "state_before": "Hypothesis formulated; no PS-Brick vectors exist.",
+        "gap_or_uncertainty": "Need to design vectors with appropriate restriction sites for iterative assembly.",
+        "hypothesis": "Vectors pOB and pOM with entrance sites SphI/MlyI and SphI/BmrI can enable iterative assembly.",
+        "decision": "Construct pOB and pOM from pUC19 by removing internal BmrI and MlyI sites and inserting entrance sites.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "overlap extension PCR",
+          "version": "",
+          "category": "molecular cloning"
+        },
+        "parameters": {
+          "vector_backbone": "pUC19",
+          "entrance_sites": "SphI/MlyI (pOB), SphI/BmrI (pOM)"
+        },
+        "observation": "Vectors pOB and pOM constructed successfully.",
+        "result_status": "success",
+        "next_step_reason": "Optimize digestion conditions for PS-Brick assembly.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C006_E01_01",
+            "source_file": "docs/0043/combined.md",
+            "section": "C006",
+            "quote_or_span": "One BmrI site and three MlyI sites located in the pUC19 vector backbones are removed through overlap extension PCR"
+          },
+          {
+            "evidence_id": "EV_C006_E01_03",
+            "source_file": "docs/0043/combined.md",
+            "section": "C006",
+            "quote_or_span": "the newly obtained vectors pOB and pOM from pUC19, containing the entrance sites SphI/MlyI and SphI/BmrI, respectively, were taken as the original PS-Brick vectors"
+          },
+          {
+            "evidence_id": "EV_C001_E03_01",
+            "source_file": "docs/0043/combined.md",
+            "section": "C001",
+            "quote_or_span": "BmrI (generating 1 nt cohesive end) and MlyI (generating blunt end) are used as Type IIS REs for the proof-of-concept of the PS-Brick assembly strategy (Fig. 1bc)."
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "experiment",
+        "state_before": "PS-Brick vectors designed but digestion conditions not optimized.",
+        "gap_or_uncertainty": "Optimal digestion time for Type IIS REs and effect of SphI digestion time on assembly efficiency and accuracy unknown.",
+        "hypothesis": "30 min digestion for BmrI and MlyI is sufficient; SphI digestion time does not significantly affect assembly.",
+        "decision": "Test cutting efficiency of BmrI and MlyI over 15-180 min; test SphI digestion time effect on assembly efficiency and accuracy.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "gel electrophoresis, colony counting, DNA sequencing",
+          "version": "",
+          "category": "molecular biology"
+        },
+        "parameters": {
+          "digestion_time": "15-180 min",
+          "enzymes": "BmrI, MlyI, SphI"
+        },
+        "observation": "30 min digestion chosen; SphI digestion time (15-180 min) did not affect assembly efficiency or accuracy (88.2-95.1%).",
+        "result_status": "success",
+        "next_step_reason": "Identify cause of incorrect clones and compare with traditional cloning.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E04_01",
+            "source_file": "docs/0043/combined.md",
+            "section": "C002",
+            "quote_or_span": "The transform efficiency of Bmrl digested pOB vector and Mlyl digested pOM vector"
+          },
+          {
+            "evidence_id": "EV_C002_E05_01",
+            "source_file": "docs/0043/combined.md",
+            "section": "C002",
+            "quote_or_span": "The second cutting efficiency of Sphl was investigated through the assembly efficiency and correct ligation rate"
+          },
+          {
+            "evidence_id": "EV_C003_E07_01",
+            "source_file": "docs/0043/combined.md",
+            "section": "C003",
+            "quote_or_span": "The cutting efficiencies of the Type IIS REs BmrI and MlyI presented in vectors pOB and pOM were tested through gel electrophoresis with a cutting time ranging from 15 to 180 min."
+          },
+          {
+            "evidence_id": "EV_C003_E08_02",
+            "source_file": "docs/0043/combined.md",
+            "section": "C003",
+            "quote_or_span": "The accuracy of PS-Brick assembly was measured by DNA sequencing of 20 clones and ranged from 88.2 to 95.1%"
+          },
+          {
+            "evidence_id": "EV_C006_E03_02",
+            "source_file": "docs/0043/combined.md",
+            "section": "C006",
+            "quote_or_span": "The original PS-Brick vector pOM containing the SphI/MlyI entrance site was cleaved by SphI and MlyI for 30 min in the same buffer."
+          },
+          {
+            "evidence_id": "EV_C006_E03_01",
+            "source_file": "docs/0043/combined.md",
+            "section": "C006",
+            "quote_or_span": "The purified PCR products were digested with SphI only for 30 min, heat-inactivated at 60 °C for 20 min and then column-purified for ligation."
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "analysis",
+        "state_before": "Optimization revealed some incorrect clones.",
+        "gap_or_uncertainty": "Cause of incorrect clones unknown.",
+        "hypothesis": "Self-ligation of vector due to incomplete SphI digestion causes incorrect clones.",
+        "decision": "Investigate effect of 5'-phosphorylation of non-cut PCR end; suggest dephosphorylation to prevent self-ligation.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "colony PCR, sequencing",
+          "version": "",
+          "category": "molecular biology"
+        },
+        "parameters": {},
+        "observation": "Self-ligation identified as cause; dephosphorylation suggested.",
+        "result_status": "failure",
+        "next_step_reason": "Compare PS-Brick performance with traditional cloning.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E07_01",
+            "source_file": "docs/0043/combined.md",
+            "section": "C002",
+            "quote_or_span": "The effect 5'-phosphorylation of the non-cut PCR end on the efficiency and accuracy of PS-Brick"
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "analysis",
+        "state_before": "PS-Brick optimized; traditional cloning performance known.",
+        "gap_or_uncertainty": "How does PS-Brick compare to traditional Type IIP RE-based cloning?",
+        "hypothesis": "PS-Brick has similar efficiency and accuracy to traditional cloning but offers additional benefits.",
+        "decision": "Compare efficiency and accuracy of PS-Brick (BmrI and MlyI) with XbaI/SphI cloning.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "colony counting, sequencing",
+          "version": "",
+          "category": "molecular biology"
+        },
+        "parameters": {},
+        "observation": "Similar efficiency and accuracy observed. Blunt end/MlyI-based PS-Brick is completely seamless and sequence-independent; TA clone/BmrI-based PS-Brick offers more RE options.",
+        "result_status": "success",
+        "next_step_reason": "Apply PS-Brick to first DBTL cycle for threonine production.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E06_01",
+            "source_file": "docs/0043/combined.md",
+            "section": "C002",
+            "quote_or_span": "Comparison of the efficiency and accuracy between PS-Brick and the traditional Type IIP RE-based clone method with XbaI and Sphl"
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "experiment",
+        "state_before": "PS-Brick validated for basic assembly; threonine production strain needs feedback-resistant ThrA.",
+        "gap_or_uncertainty": "Which ThrA mutation best relieves feedback inhibition?",
+        "hypothesis": "Codon saturation mutagenesis at residue 433 can identify a highly feedback-resistant variant.",
+        "decision": "Use seamless PS-Brick for codon saturation mutagenesis of ThrA residue 433; generate 20 mutants in one cycle.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "PS-Brick seamless assembly",
+          "version": "",
+          "category": "DNA assembly"
+        },
+        "parameters": {
+          "target": "ThrA residue 433",
+          "mutants": 20
+        },
+        "observation": "ThrA-Gly433Phe gave 48-fold higher threonine than wild-type.",
+        "result_status": "success",
+        "next_step_reason": "Identify metabolic bottleneck after thrABC overexpression.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E01_01",
+            "source_file": "docs/0043/combined.md",
+            "section": "C004",
+            "quote_or_span": "the thrA-Gly433Phe mutant resulted in the highest concentration of threonine, 48-fold higher than that of the wild-type control"
+          },
+          {
+            "evidence_id": "EV_AUTO_002",
+            "source_file": "docs/0043/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Remarkably, the thrA-Gly433Phe mutant resulted in the highest concentration of threonine, 48-fold higher than that of the wild-type control."
+          },
+          {
+            "evidence_id": "EV_AUTO_014",
+            "source_file": "docs/0043/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Thus, 20 mutants (including promoter, RBS, $thrA^{Gly433}$ BC and terminator) were generated by one cycle of PS-Brick assembly."
+          },
+          {
+            "evidence_id": "EV_AUTO_018",
+            "source_file": "docs/0043/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "c The threonine production with 20 ThrA mutants."
+          },
+          {
+            "evidence_id": "EV_AUTO_012",
+            "source_file": "docs/0043/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Here, ppc, aspA, aspC, asd and pntAB with their native promoters, RBSs and terminators were amplified as donor PCR fragments and then assembled in parallel into the last round assembled vector pACYC184-thrA $^{433}$ BC using PS-Brick to investigate the potential rate-limiting step for threonine accumulation (Fig."
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "experiment",
+        "state_before": "Feedback-resistant ThrA obtained; threonine production still limited.",
+        "gap_or_uncertainty": "Which gene is the bottleneck after thrABC overexpression?",
+        "hypothesis": "Overexpression of candidate genes (ppc, aspA, aspC, asd, pntAB) will reveal the bottleneck.",
+        "decision": "Assemble each candidate gene into the vector and test threonine production.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "PS-Brick assembly",
+          "version": "",
+          "category": "DNA assembly"
+        },
+        "parameters": {
+          "candidate_genes": [
+            "ppc",
+            "aspA",
+            "aspC",
+            "asd",
+            "pntAB"
+          ]
+        },
+        "observation": "Only asd overexpression increased threonine (56.7%); others decreased production. asd identified as bottleneck.",
+        "result_status": "success",
+        "next_step_reason": "Intensify threonine export.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E02_01",
+            "source_file": "docs/0043/combined.md",
+            "section": "C004",
+            "quote_or_span": "only overexpression of the asd gene led to a 56.7% increase in threonine production"
+          },
+          {
+            "evidence_id": "EV_C004_E03_01",
+            "source_file": "docs/0043/combined.md",
+            "section": "C004",
+            "quote_or_span": "The asd gene encoding aspartyl semialdehyde dehydrogenase was first demonstrated as the metabolic bottleneck after thrABC overexpression in this study"
+          },
+          {
+            "evidence_id": "EV_C004_E03_02",
+            "source_file": "docs/0043/combined.md",
+            "section": "C004",
+            "quote_or_span": "upregulation of the non-rate-limiting reaction step of pathway inversely decreases threonine accumulation"
+          },
+          {
+            "evidence_id": "EV_AUTO_012",
+            "source_file": "docs/0043/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Here, ppc, aspA, aspC, asd and pntAB with their native promoters, RBSs and terminators were amplified as donor PCR fragments and then assembled in parallel into the last round assembled vector pACYC184-thrA $^{433}$ BC using PS-Brick to investigate the potential rate-limiting step for threonine accumulation (Fig."
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "experiment",
+        "state_before": "Bottleneck (asd) identified; threonine export may be limiting.",
+        "gap_or_uncertainty": "Which threonine exporter best increases production?",
+        "hypothesis": "Overexpression of exporters (rhtA, rhtB, rhtC, yeaS) with standardized expression elements will increase threonine titer.",
+        "decision": "Use bicistronic design (BCD1) and mid-strength promoter to overexpress four exporters; test threonine production.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "PS-Brick assembly",
+          "version": "",
+          "category": "DNA assembly"
+        },
+        "parameters": {
+          "exporters": [
+            "rhtA",
+            "rhtB",
+            "rhtC",
+            "yeaS"
+          ],
+          "promoter": "P_T (mid-strength)",
+          "RBS": "BCD1"
+        },
+        "observation": "rhtC overexpression gave highest threonine (3.7 g/L from 0.9 g/L).",
+        "result_status": "success",
+        "next_step_reason": "Inactivate threonine catabolism.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E04_01",
+            "source_file": "docs/0043/combined.md",
+            "section": "C004",
+            "quote_or_span": "the overexpression of the rhtC gene increased threonine production from 0.9 g/L to 3.7 g/L"
+          },
+          {
+            "evidence_id": "EV_AUTO_005",
+            "source_file": "docs/0043/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Second, P $_{T}$ and BCD1 [65, 66] were amplified as donor PCR fragments, and inserted in front of the ATG start codon of the four exporter genes in the last round assembled vectors, generating the corresponding vectors pACYC184-thrA $^{433}$ BC-asd-P $_{T}$ BCD1-rhtA/rhtB/rhtC/yeaS (Fig."
+          },
+          {
+            "evidence_id": "EV_AUTO_006",
+            "source_file": "docs/0043/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Four threonine exporters under the same standard initiation element (a mid-strength promoter (P $_{T}$ ) from a constitutive bacteriophage P $_{L}$ promoter library [65] along with a mid-strength bicistronic design (BCD1) RBS [66]) were assembled into the last round PS-Brick plasmids pACYC184-thrA $^{433}$ BC-asd through two cycles of PS-Brick reaction, respectively."
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "experiment",
+        "state_before": "Threonine production improved but catabolism may still reduce yield.",
+        "gap_or_uncertainty": "Can deletion of tdh and ilvA further increase threonine?",
+        "hypothesis": "Repetitive sgRNA arrays for tdh and ilvA deletion can be assembled via TA clone/BciVI PS-Brick, and double mutant will increase threonine.",
+        "decision": "Assemble repetitive sgRNA arrays using PS-Brick; perform CRISPR-Cas9 deletion of tdh and ilvA; test fed-batch production.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "PS-Brick TA clone/BciVI assembly, CRISPR-Cas9",
+          "version": "",
+          "category": "DNA assembly, genome editing"
+        },
+        "parameters": {
+          "target_genes": [
+            "tdh",
+            "ilvA"
+          ],
+          "method": "CRISPR-Cas9 with sgRNA arrays"
+        },
+        "observation": "Double mutant strain obtained; fed-batch produced 45.71 g/L threonine, 28.7% higher than control (35.52 g/L).",
+        "result_status": "success",
+        "next_step_reason": "Extend to 1-propanol production.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E05_01",
+            "source_file": "docs/0043/combined.md",
+            "section": "C004",
+            "quote_or_span": "the double mutation strain E. coli MG1655△tdh△ilvA was obtained"
+          },
+          {
+            "evidence_id": "EV_C004_E07_01",
+            "source_file": "docs/0043/combined.md",
+            "section": "C004",
+            "quote_or_span": "Batch culture of this engineered strain in a 7.5-L fermenter allowed production of 45.71 g/L threonine, 28.7% higher than the production of control strains retaining the tdh and ilvA genes (35.52 g/L)"
+          },
+          {
+            "evidence_id": "EV_AUTO_016",
+            "source_file": "docs/0043/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Following the genome editing protocol [70], we transformed ptargetET-tdh-ilvA into a strain expressing Cas9, and the double mutation strain E."
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "experiment",
+        "state_before": "High threonine producer available; 1-propanol pathway can be derived from threonine.",
+        "gap_or_uncertainty": "Can PS-Brick assemble heterologous 1-propanol pathway and produce 1-propanol?",
+        "hypothesis": "Assembling kivD and ADH2 in one PS-Brick cycle will enable 1-propanol production from threonine.",
+        "decision": "Assemble kivD and ADH2 into the threonine producer; test fed-batch production.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "PS-Brick assembly",
+          "version": "",
+          "category": "DNA assembly"
+        },
+        "parameters": {
+          "genes": [
+            "kivD",
+            "ADH2"
+          ],
+          "host": "threonine producer"
+        },
+        "observation": "Fed-batch produced 1.35 g/L 1-propanol, but precursors accumulated (threonine 21.01 g/L, 2-ketobutyrate 0.89 g/L), indicating low enzyme activity.",
+        "result_status": "partial",
+        "next_step_reason": "Analyze limitation and validate overall method.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C005_E01_02",
+            "source_file": "docs/0043/combined.md",
+            "section": "C005",
+            "quote_or_span": "the precursor threonine and 2-keto-butyrate accumulated at relatively high concentrations of 21.01 g/L and 0.89 g/L, respectively"
+          },
+          {
+            "evidence_id": "EV_AUTO_010",
+            "source_file": "docs/0043/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "01 g/L and 0.89 g/L, respectively, which suggests that the activity of heterologous KivD and ADH2 was not high enough."
+          },
+          {
+            "evidence_id": "EV_C001_E08_01",
+            "source_file": "docs/0043/combined.md",
+            "section": "C001",
+            "quote_or_span": "the heterologous pathway deriving 1-propanol pathway from threonine, composed of Lactococcus lactis kivD and Saccharomyces cerevisiae ADH2, was assembled by one cycle of PS-Brick, resulting in 1.35 g/L 1-propanol in fed-batch fermentation."
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "analysis",
+        "state_before": "Low 1-propanol titer observed.",
+        "gap_or_uncertainty": "Why is 1-propanol titer low?",
+        "hypothesis": "Insufficient activity of heterologous KivD and ADH2 limits 1-propanol production.",
+        "decision": "Conclude that future work should focus on obtaining more efficient enzymes.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "data interpretation",
+          "version": "",
+          "category": "analysis"
+        },
+        "parameters": {},
+        "observation": "Low enzyme activity identified as limitation.",
+        "result_status": "failure",
+        "next_step_reason": "Validate PS-Brick method overall.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C005_E02_01",
+            "source_file": "docs/0043/combined.md",
+            "section": "C005",
+            "quote_or_span": "which suggests that the activity of heterologous KivD and ADH2 was not high enough."
+          },
+          {
+            "evidence_id": "EV_C005_E03_01",
+            "source_file": "docs/0043/combined.md",
+            "section": "C005",
+            "quote_or_span": "In future work, further effort should be made to obtain 2-keto-acid decarboxylase and alcohol dehydrogenase with high efficiency."
+          }
+        ]
+      },
+      {
+        "step_index": 12,
+        "phase": "validation",
+        "state_before": "PS-Brick applied to multiple DBTL cycles and 1-propanol pathway.",
+        "gap_or_uncertainty": "Does PS-Brick successfully enable iterative, seamless, and repetitive sequence assembly for metabolic engineering?",
+        "hypothesis": "PS-Brick is the first restriction-ligation assembly method using both Type IIP and IIS REs, combining iterative and seamless strengths.",
+        "decision": "Summarize achievements: 45.71 g/L threonine via DBTL cycles; repetitive sgRNA assembly; 1-propanol pathway assembly.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "summary",
+          "version": "",
+          "category": "analysis"
+        },
+        "parameters": {},
+        "observation": "PS-Brick successfully demonstrated for iterative DBTL cycles; first method combining both RE types for iterative seamless assembly.",
+        "result_status": "success",
+        "next_step_reason": "Conclude study.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E06_01",
+            "source_file": "docs/0043/combined.md",
+            "section": "C001",
+            "quote_or_span": "An application of metabolic engineering to threonine production, including the release of feedback regulation, elimination of metabolic bottlenecks, intensification of threonine export and inactivation of threonine catabolism, was stepwise resolved in E. coli by rounds of “design-build-test-learn” cycles through the iterative PS-Brick paradigm, and 45.71 g/L threonine was obtained through fed-batch fermentation."
+          },
+          {
+            "evidence_id": "EV_C001_E07_01",
+            "source_file": "docs/0043/combined.md",
+            "section": "C001",
+            "quote_or_span": "seamless cloning enabled precise in-frame fusion for codon saturation mutagenesis and bicistronic design, and the repetitive sequence cloning ability of PS-Brick enabled construction of tandem CRISPR sgRNA arrays for genome editing."
+          },
+          {
+            "evidence_id": "EV_C005_E04_01",
+            "source_file": "docs/0043/combined.md",
+            "section": "C005",
+            "quote_or_span": "the PS-Brick framework is the first restriction-ligation assembly method using both Type IIP and IIS REs"
+          },
+          {
+            "evidence_id": "EV_C005_E05_01",
+            "source_file": "docs/0043/combined.md",
+            "section": "C005",
+            "quote_or_span": "we have developed a novel PS-Brick framework that enables iterative, seamless and sequence-repeat DNA assembly."
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "Colony PCR",
+        "DNA sequencing",
+        "Fed-batch fermentation",
+        "Comparison with traditional cloning"
+      ],
+      "metrics": [
+        "Assembly efficiency (CFU/μg DNA)",
+        "Assembly accuracy (%)",
+        "Threonine titer (g/L)",
+        "1-propanol titer (g/L)"
+      ],
+      "final_conclusion": "PS-Brick is the first restriction-ligation assembly method using both Type IIP and IIS REs, enabling iterative, seamless, and repetitive sequence assembly. It was successfully applied to threonine overproduction (45.71 g/L) through four DBTL cycles and to 1-propanol pathway assembly (1.35 g/L), though low enzyme activity limited 1-propanol yield.",
+      "limitations": [
+        "Low 1-propanol titer due to insufficient KivD and ADH2 activity",
+        "PS-Brick unfit for combinatorial pathway engineering due to limitations in multi-part assembly",
+        "Need to eliminate internal restriction sites remains a general limitation for RE-based strategies"
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_specific_evidence_backfilled=4",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_specific_evidence_backfilled=3",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 100.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p3\\states\\0043.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p3\\events\\0043.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1
+        ],
+        "K02": [
+          1,
+          12
+        ],
+        "K04": [
+          3
+        ],
+        "K05": [
+          3,
+          4
+        ],
+        "K06": [
+          5
+        ],
+        "K07": [
+          6
+        ],
+        "K08": [
+          6,
+          7
+        ],
+        "K09": [
+          8
+        ],
+        "K10": [
+          9
+        ],
+        "K11": [
+          9,
+          10,
+          11
+        ],
+        "K12": [
+          10,
+          11
+        ],
+        "K14": [
+          1,
+          12
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K03"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K03",
+            "K04",
+            "K05"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K05"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K06"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K07",
+            "K08"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K08"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K09"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K10",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K11",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K11",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 12,
+          "covered_event_ids": [
+            "K02",
+            "K14"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 3,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "-180min",
+          "-95.1%"
+        ]
+      }
+    ],
+    "step_count": 12,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 100.0
+  },
+  "api_usage": {
+    "prompt_tokens": 175958,
+    "completion_tokens": 34632,
+    "total_tokens": 210590,
+    "prompt_cache_hit_tokens": 3712,
+    "prompt_cache_miss_tokens": 172246
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 5833,
+        "completion_tokens": 983,
+        "total_tokens": 6816,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 5833
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 17357,
+        "completion_tokens": 4665,
+        "total_tokens": 22022,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 17357
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 9648,
+        "completion_tokens": 1540,
+        "total_tokens": 11188,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9392
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 11620,
+        "completion_tokens": 1394,
+        "total_tokens": 13014,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 11364
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 9708,
+        "completion_tokens": 1473,
+        "total_tokens": 11181,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9452
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 9944,
+        "completion_tokens": 1578,
+        "total_tokens": 11522,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9688
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C005",
+      "api_usage": {
+        "prompt_tokens": 9472,
+        "completion_tokens": 1248,
+        "total_tokens": 10720,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9216
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C006",
+      "api_usage": {
+        "prompt_tokens": 9927,
+        "completion_tokens": 2391,
+        "total_tokens": 12318,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9671
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C007",
+      "api_usage": {
+        "prompt_tokens": 10389,
+        "completion_tokens": 63,
+        "total_tokens": 10452,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 10133
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C008",
+      "api_usage": {
+        "prompt_tokens": 5573,
+        "completion_tokens": 50,
+        "total_tokens": 5623,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 5317
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 17295,
+        "completion_tokens": 4128,
+        "total_tokens": 21423,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 16911
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 14740,
+        "completion_tokens": 6791,
+        "total_tokens": 21531,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 14100
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 20569,
+        "completion_tokens": 1169,
+        "total_tokens": 21738,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 20569
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 23883,
+        "completion_tokens": 7159,
+        "total_tokens": 31042,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 23243
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

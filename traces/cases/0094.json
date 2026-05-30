@@ -1,0 +1,869 @@
+{
+  "case": {
+    "case_id": "sci_evo_0094",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Expanding the DNA editing toolbox: Novel lambda integrase variants targeting microalgal and human genome sequences",
+      "doi": "https://doi.org/10.1371/journal.pone.0292479",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0092_10_1371_journal_pone_0292479_expanding_the_dna_editing_toolbox_novel_lambda_integrase_variants_targeting_microalgal_and.pdf",
+      "mineru_md": "docs/0094/mineru.md",
+      "combined_md": "docs/0094/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Lambda integrase is efficient for large DNA integration but limited by intrinsic sequence specificity to cognate attB sites. The goal is to engineer variants targeting pseudosites in microalgae and human genomes to expand the DNA editing toolbox.",
+      "target_object": "lambda integrase",
+      "known_context": "Intrinsic sequence specificities of recombinases curtail their use to DNA sequences with sufficient homology to endogenous target motifs.",
+      "constraints": [
+        "Must target exogenous sequences in Phaeodactylum tricornutum and Nannochloropsis oceanica",
+        "Must achieve specificity switch away from native attB"
+      ],
+      "input_data": [
+        "C3-INT-HA template",
+        "attPhae2 and attPhae2L pseudosites",
+        "attNanno1 and attNanno1L pseudosites"
+      ],
+      "quantifiable_goals": [
+        "Improve recombination efficiency on non-cognate substrates",
+        "Achieve >1000-fold specificity switch"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "Lambda integrase has intrinsic sequence specificity limiting its use to cognate attB sites.",
+        "gap_or_uncertainty": "Can extensive engineering broaden the applicability and robustness of recombinases?",
+        "hypothesis": "Extensive engineering is required to broaden applicability and robustness of recombinases.",
+        "decision": "Pursue directed evolution of lambda integrase variants targeting exogenous sequences.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "literature analysis",
+          "version": "",
+          "category": "reasoning"
+        },
+        "parameters": {},
+        "observation": "Intrinsic sequence specificities curtail their use to DNA sequences with sufficient homology to endogenous target motifs.",
+        "result_status": "success",
+        "next_step_reason": "Hypothesis leads to design of directed evolution targeting microalgal sequences.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0094/combined.md",
+            "section": "C001",
+            "quote_or_span": "intrinsic sequence specificities curtail their use to DNA sequences with sufficient homology to endogenous target motifs"
+          },
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0094/combined.md",
+            "section": "C001",
+            "quote_or_span": "Extensive engineering is therefore required to broaden applicability and robustness."
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "experiment",
+        "state_before": "Directed evolution design ready for implementation.",
+        "gap_or_uncertainty": "Will random mutagenesis and selection yield variants with improved activity on attPhae2/attPhae2L?",
+        "hypothesis": "Random mutagenesis of C3-INT-HA followed by selection on attPhae2/attPhae2L will yield variants with improved recombination.",
+        "decision": "Generate library using GeneMorph II kit, ligate into selection vectors with attPhae2/attPhae2L, and select with increasing ampicillin.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "GeneMorph II Random Mutagenesis kit",
+          "version": "",
+          "category": "mutagenesis"
+        },
+        "parameters": {
+          "template": "C3-INT-HA",
+          "selection_marker": "ampicillin",
+          "round1_ampicillin": "300-900 µg/ml",
+          "round2_ampicillin": "12-18 mg/ml"
+        },
+        "observation": "Two rounds of selection yielded variants C4 and C5 with potentially improved activity over C3 for recombination using attPhae2 x attPhae2L DNA substrates.",
+        "result_status": "success",
+        "next_step_reason": "Selected variants C4 and C5 are tested in vitro for improved activity.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E04_01",
+            "source_file": "docs/0094/combined.md",
+            "section": "C001",
+            "quote_or_span": "The integrase library was generated from C3-INT-HA pET22b(+) with GeneMorph II Random Mutagenesis kit"
+          },
+          {
+            "evidence_id": "EV_C001_E04_02",
+            "source_file": "docs/0094/combined.md",
+            "section": "C001",
+            "quote_or_span": "The library was ligated into pINT selection vectors comprising attPhae2 and attPhae2Lsites"
+          },
+          {
+            "evidence_id": "EV_C002_E02_01",
+            "source_file": "docs/0094/combined.md",
+            "section": "C002",
+            "quote_or_span": "Random mutagenesis of Int C3 followed by 2 rounds of selection yielded two hits, C4 and C5 (Table 1) with potentially improved activity over Int C3 for recombination using attPhae2 x attPhae2L DNA substrates"
+          },
+          {
+            "evidence_id": "EV_AUTO_030",
+            "source_file": "docs/0094/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "C4 was selected from the first round with 900 $\\mu$ g/ml ampicillin while C5 was selected from the second round with 18 mg/ml ampicillin."
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "experiment",
+        "state_before": "C4 and C5 variants selected from directed evolution.",
+        "gap_or_uncertainty": "Do C4 and C5 show improved activity on attNanno1 x attNanno1L substrates?",
+        "hypothesis": "C4 and C5 will show improved recombination of attNanno1 x attNanno1L compared to C3.",
+        "decision": "Test C4 and C5 in vitro using PURExpress in vitro translation and intramolecular recombination assay.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "PURExpress In Vitro Protein Synthesis Kit",
+          "version": "",
+          "category": "in vitro translation"
+        },
+        "parameters": {
+          "substrate": "attNanno1 x attNanno1L",
+          "assay": "intramolecular recombination"
+        },
+        "observation": "Both C4 and C5 showed potential improved activity over Int C3 for recombination of attNanno1 x attNanno1L.",
+        "result_status": "success",
+        "next_step_reason": "Activity data leads to identification of N99D as key mutation.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E06_01",
+            "source_file": "docs/0094/combined.md",
+            "section": "C001",
+            "quote_or_span": "Intramolecular recombination was then assayed by adding 10 ng relevant plasmid substrate"
+          },
+          {
+            "evidence_id": "EV_C001_E06_02",
+            "source_file": "docs/0094/combined.md",
+            "section": "C001",
+            "quote_or_span": "using PURExpress® In Vitro Protein Synthesis Kit"
+          },
+          {
+            "evidence_id": "EV_C002_E03_01",
+            "source_file": "docs/0094/combined.md",
+            "section": "C002",
+            "quote_or_span": "both showed potential improved activity over Int C3 for recombination of attNanno1 x attNanno1L (Fig 3B)"
+          },
+          {
+            "evidence_id": "EV_AUTO_004",
+            "source_file": "docs/0094/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Based on results highlighting a potential key role for the N99D mutation in observed phenotype, we generated a construct termed Int C7 (Table 1) comprising the expected minimal set of mutations required for improved recombination of the novel attNanno1 and attHNanno substrates (N99D and H329R) in addition to the core C3 mutations."
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "analysis",
+        "state_before": "C4 and C5 show improved activity on attNanno substrates.",
+        "gap_or_uncertainty": "Which mutation is responsible for the specificity switch?",
+        "hypothesis": "N99D mutation is potentially responsible for the observed specificity switch phenotype.",
+        "decision": "Analyze mutations in C4 and C5, focusing on N99D based on proximity to DNA and prior reports.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "sequence analysis",
+          "version": "",
+          "category": "bioinformatics"
+        },
+        "parameters": {},
+        "observation": "N99D highlighted as potentially responsible for the observed specificity switch phenotype based on the proximity of N99 to the DNA substrate in the crystal structure and prior reports highlighting this residue as a specificity determinant.",
+        "result_status": "success",
+        "next_step_reason": "Hypothesis about N99D is tested by mutational analysis.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E05_01",
+            "source_file": "docs/0094/combined.md",
+            "section": "C002",
+            "quote_or_span": "highlighted N99D as potentially responsible for the observed specificity switch phenotype based on the proximity of N99 to the DNA substrate in the crystal structure and prior reports highlighting this residue as a specificity determinant"
+          },
+          {
+            "evidence_id": "EV_AUTO_015",
+            "source_file": "docs/0094/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "highlighted N99D as potentially responsible for the observed specificity switch phenotype based on the proximity of N99 to the DNA substrate in the crystal structure and prior reports highlighting this residue as a specificity determinant $[37-39]$ ."
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "experiment",
+        "state_before": "N99D identified as candidate key mutation.",
+        "gap_or_uncertainty": "Does N99D directly confer improved activity on attNanno substrates?",
+        "hypothesis": "Adding N99D to Int-h/218 and Int C3 will improve recombination on attNanno substrates, while D99N reversion in C4 and C6 will reduce efficiency.",
+        "decision": "Generate panel of constructs: Int-h/218+N99D, Int C3+N99D, Int C4+D99N, Int C6+D99N and test on attNanno x attNannoL substrates.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "site-directed mutagenesis",
+          "version": "",
+          "category": "mutagenesis"
+        },
+        "parameters": {
+          "constructs": [
+            "Int-h/218 + N99D",
+            "Int C3 + N99D",
+            "Int C4 + D99N",
+            "Int C6 + D99N"
+          ],
+          "substrate": "attNanno x attNannoL"
+        },
+        "observation": "Recombination by Int-h/218 + N99D and Int C3 + N99D was potentially improved over Int-h/218 and Int C3. Conversely, the D99N reversion in Int C4 and Int C6 potentially led to reduced efficiency of recombination.",
+        "result_status": "success",
+        "next_step_reason": "Confirmation of N99D role enables design of minimal variant C7.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E06_01",
+            "source_file": "docs/0094/combined.md",
+            "section": "C002",
+            "quote_or_span": "recombination by Int-h/218 + N99D and Int C3 + N99D was potentially improved over Int-h/218 and Int C3 (Fig 5). Conversely, the D99N reversion in Int C4 and Int C6 potentially led to reduced efficiency of recombination."
+          },
+          {
+            "evidence_id": "EV_AUTO_018",
+            "source_file": "docs/0094/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "When tested using attNanno x attNannoL substrates, recombination by Int-h/218 + N99D and Int C3 + N99D was potentially improved over Int-h/218 and Int C3 (Fig 5)."
+          },
+          {
+            "evidence_id": "EV_AUTO_020",
+            "source_file": "docs/0094/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Conversely, the D99N reversion in Int C4 and Int C6 potentially led to reduced efficiency of recombination."
+          },
+          {
+            "evidence_id": "EV_AUTO_009",
+            "source_file": "docs/0094/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "We therefore generated a panel of constructs to interrogate the N99D mutation."
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "design",
+        "state_before": "N99D confirmed as key specificity determinant; H329R also present in C5.",
+        "gap_or_uncertainty": "What is the minimal set of mutations required for improved recombination of attNanno1 and attHNanno?",
+        "hypothesis": "A construct with N99D and H329R plus core C3 mutations will show high activity and specificity switch.",
+        "decision": "Design Int C7 comprising N99D, H329R, and core C3 mutations.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "rational design",
+          "version": "",
+          "category": "protein engineering"
+        },
+        "parameters": {
+          "mutations": [
+            "N99D",
+            "H329R"
+          ],
+          "background": "C3 core mutations"
+        },
+        "observation": "Int C7 designed as minimal variant.",
+        "result_status": "success",
+        "next_step_reason": "C7 variant is expressed and purified for characterization.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E08_01",
+            "source_file": "docs/0094/combined.md",
+            "section": "C002",
+            "quote_or_span": "we generated a construct termed Int C7 (Table 1) comprising the expected minimal set of mutations required for improved recombination of the novel attNanno1 and attHNanno substrates (N99D and H329R) in addition to the core C3 mutations. Expressed and purified C7 showed 345-fold improvement over C3 for recombination of attNanno1 substrates and 1097-fold improvement for recombination of HTN substrates"
+          },
+          {
+            "evidence_id": "EV_AUTO_004",
+            "source_file": "docs/0094/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Based on results highlighting a potential key role for the N99D mutation in observed phenotype, we generated a construct termed Int C7 (Table 1) comprising the expected minimal set of mutations required for improved recombination of the novel attNanno1 and attHNanno substrates (N99D and H329R) in addition to the core C3 mutations."
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "experiment",
+        "state_before": "Int C7 designed as minimal variant.",
+        "gap_or_uncertainty": "Does Int C7 show the predicted high activity and specificity switch?",
+        "hypothesis": "Expressed and purified C7 will show >1000-fold specificity switch for attNanno1 and attHNanno substrates.",
+        "decision": "Express and purify Int C7 and test recombination on attNanno1 and attHNanno substrates.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "protein expression and purification",
+          "version": "",
+          "category": "protein biochemistry"
+        },
+        "parameters": {
+          "substrates": [
+            "attNanno1",
+            "attHNanno"
+          ]
+        },
+        "observation": "Expressed and purified C7 showed 345-fold improvement over C3 for recombination of attNanno1 substrates and 1097-fold improvement for recombination of HTN substrates.",
+        "result_status": "success",
+        "next_step_reason": "C7 variant is used for genomic targeting in human cells and MD simulations provide mechanistic explanation.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_028",
+            "source_file": "docs/0094/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Expressed and purified C7 showed 345-fold improvement over C3 for recombination of attNanno1 substrates and 1097-fold improvement for recombination of HTN substrates (Fig 8A)."
+          },
+          {
+            "evidence_id": "EV_C003_E05_01",
+            "source_file": "docs/0094/combined.md",
+            "section": "C003",
+            "quote_or_span": "The results showed that with 750ng and 1000ng of transfected target vector, both junctions can be generated by nested PCR, which was verified by PCR product sequencing"
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "analysis",
+        "state_before": "C7 shows high activity and specificity switch.",
+        "gap_or_uncertainty": "What is the mechanistic basis for the specificity switch conferred by N99D and H329R?",
+        "hypothesis": "N99D enables interaction with cytosine in variant sites, and H329R forms salt bridge with D351 stabilizing tetramer.",
+        "decision": "Perform MD simulations on Int C7 and related complexes.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "molecular dynamics simulations",
+          "version": "",
+          "category": "computational modeling"
+        },
+        "parameters": {
+          "starting_structure": "pdb: 1Z1G",
+          "mutations": [
+            "N99D",
+            "H329R"
+          ]
+        },
+        "observation": "A favourable network of interactions promotes binding and activity of Int variants comprising N99D in the DNA core binding domain to substrates with the cytosine to guanine transversion. H329R potentially introduces up to 4 intra-subunit salt bridges that could stabilize tetramer binding to DNA and favour recombination of non-cognate sequences.",
+        "result_status": "success",
+        "next_step_reason": "MD simulations provide mechanistic explanation for specificity switch of C7.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E01_01",
+            "source_file": "docs/0094/combined.md",
+            "section": "C003",
+            "quote_or_span": "This large network of interactions was observed to be stable for >75% of the simulation time and is likely a key determinant of the observed specificity switch."
+          },
+          {
+            "evidence_id": "EV_C004_E04_01",
+            "source_file": "docs/0094/combined.md",
+            "section": "C004",
+            "quote_or_span": "MD simulations provide additional insight into the orthogonal phenotypes observed in this study. A favourable network of interactions promotes binding and activity of Int variants comprising N99D in the DNA core binding domain to substrates with the cytosine to guanine transversion."
+          },
+          {
+            "evidence_id": "EV_C004_E05_01",
+            "source_file": "docs/0094/combined.md",
+            "section": "C004",
+            "quote_or_span": "H329 in the Int catalytic domain is distal to bound DNA. Mutation to R329 potentially introduces up to 4 intra-subunit salt bridges that could stabilize tetramer binding to DNA and favour recombination of non-cognate sequences."
+          },
+          {
+            "evidence_id": "EV_AUTO_001",
+            "source_file": "docs/0094/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The combined H329R and N99D mutations present in C7 therefore result in loss of the N99-DG8 interaction but improved R329-D351 interaction (attB-Int $^{C7}$ complex, Fig 10, S4 and S6A Figs)."
+          },
+          {
+            "evidence_id": "EV_AUTO_002",
+            "source_file": "docs/0094/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "However, the H329R mutation resulted in an R329 –D351 salt bridge interaction that was stable for 60% of the simulation time for the attB-Int $^{C3\\_H329R}$ complex (S4 and S5B Figs)."
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "analysis",
+        "state_before": "Recombination junctions detected at genomic attHNanno.",
+        "gap_or_uncertainty": "Does Int C7 prefer intermolecular or intramolecular recombination?",
+        "hypothesis": "Int C7 may catalyze intermolecular recombination more efficiently than intramolecular.",
+        "decision": "Analyze recombination outcomes from cell-based experiments.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "PCR and sequencing analysis",
+          "version": "",
+          "category": "molecular biology"
+        },
+        "parameters": {},
+        "observation": "This indicates that contrary to expectations on thermodynamic grounds, Int-C7 surprisingly catalyzed intermolecular recombination more efficiently than intramolecular recombination.",
+        "result_status": "success",
+        "next_step_reason": "Integration is validated by Southern blot and GFP expression.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E06_01",
+            "source_file": "docs/0094/combined.md",
+            "section": "C003",
+            "quote_or_span": "This indicates that contrary to expectations on thermodynamic grounds, Int-C7 surprisingly catalyzed intermolecular recombination more efficiently than intramolecular recombination"
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "validation",
+        "state_before": "CL6 subclones identified with targeted integration.",
+        "gap_or_uncertainty": "Is the integration single-copy and does it lead to sustained transgene expression?",
+        "hypothesis": "Southern blot will show single-copy integration and GFP expression will be homogeneous and sustained.",
+        "decision": "Perform Southern blot on CL6 subclones and monitor GFP expression.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Southern blot",
+          "version": "",
+          "category": "molecular biology"
+        },
+        "parameters": {
+          "samples": "CL6 subclones",
+          "probe": "GFP"
+        },
+        "observation": "Southern analysis indicated single copy payload integration into attHNanno in 3 out of 4 CL6 subclones. Transgene expression (GFP) from this targeted human locus was homogeneous and sustained in the three CL6 subclones.",
+        "result_status": "success",
+        "next_step_reason": "Successful integration leads to bioinformatic characterization of the locus as safe harbor.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E07_01",
+            "source_file": "docs/0094/combined.md",
+            "section": "C003",
+            "quote_or_span": "Southern analysis indicated single copy payload integration into attHNanno in 3 out of 4 CL6 subclones"
+          },
+          {
+            "evidence_id": "EV_C003_E07_02",
+            "source_file": "docs/0094/combined.md",
+            "section": "C003",
+            "quote_or_span": "transgene expression (GFP) from this targeted human locus was homogeneous and sustained in the three CL6 subclones"
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "analysis",
+        "state_before": "Single-copy integration and sustained expression validated.",
+        "gap_or_uncertainty": "Is the attHNanno locus a safe harbor site?",
+        "hypothesis": "Bioinformatics analysis will show attHNanno is in a gene-deserted region favorable for transgene expression.",
+        "decision": "Perform bioinformatics analysis of the genomic attHNanno locus.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "bioinformatics analysis",
+          "version": "",
+          "category": "genomics"
+        },
+        "parameters": {
+          "locus": "chr11:110,828,911"
+        },
+        "observation": "Bioinformatics analysis of the genomic attHNanno locus (chr11:110,828,911) shows the target sequence to be located in a gene-deserted region. These findings indicated that the locus can be considered a safe harbor site favorable for transgene expression.",
+        "result_status": "success",
+        "next_step_reason": "Final conclusion and limitations.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E08_01",
+            "source_file": "docs/0094/combined.md",
+            "section": "C003",
+            "quote_or_span": "Bioinformatics analysis of the genomic attHNanno locus (chr11:110,828,911) shows the target sequence to be located in a gene-deserted region"
+          },
+          {
+            "evidence_id": "EV_C003_E08_02",
+            "source_file": "docs/0094/combined.md",
+            "section": "C003",
+            "quote_or_span": "these findings indicated that the locus can be considered a safe harbor site favorable for transgene expression"
+          },
+          {
+            "evidence_id": "EV_C004_E01_01",
+            "source_file": "docs/0094/combined.md",
+            "section": "C004",
+            "quote_or_span": "Bioinformatic analysis suggests attHNanno is a safe harbor that can now be targeted by the orthogonal Int C7 enzyme."
+          }
+        ]
+      },
+      {
+        "step_index": 12,
+        "phase": "analysis",
+        "state_before": "Successful human cell targeting achieved, but microalgae targeting was not demonstrated.",
+        "gap_or_uncertainty": "Why did microalgae targeting fail and what are the limitations of RMCE?",
+        "hypothesis": "Microalgae targeting failed likely due to DNA uptake/expression issues, and RMCE is limited by availability of pseudo sites and cognate enzymes.",
+        "decision": "Acknowledge limitations of the study.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "limitation analysis",
+          "version": "",
+          "category": "reasoning"
+        },
+        "parameters": {},
+        "observation": "Microalgae targeting failed likely due to DNA uptake/expression issues. RMCE is limited by the availability of pseudo sites and cognate enzymes targeting these.",
+        "result_status": "inconclusive",
+        "next_step_reason": "These limitations inform future work.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E06_01",
+            "source_file": "docs/0094/combined.md",
+            "section": "C004",
+            "quote_or_span": "RMCE is limited by the availability of pseudo sites and cognate enzymes targeting these."
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "Southern blot",
+        "GFP expression monitoring",
+        "PCR and sequencing of recombination junctions"
+      ],
+      "metrics": [
+        "Fold improvement in recombination efficiency",
+        "Specificity switch ratio",
+        "Copy number of integration"
+      ],
+      "final_conclusion": "Directed evolution yielded Int C7 with N99D and H329R mutations, achieving >1000-fold specificity switch for attNanno1 and attHNanno substrates. Int C7 enabled single-copy genomic integration at a safe harbor locus in human cells with sustained transgene expression. Microalgae targeting failed likely due to DNA uptake/expression issues.",
+      "limitations": [
+        "Microalgae targeting failed likely due to DNA uptake/expression issues.",
+        "RMCE limited by availability of pseudo sites and cognate enzymes."
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_specific_evidence_backfilled=2",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_quote_align_repaired=1",
+        "v22_step_trimmed=14_to_12",
+        "v22_specific_evidence_backfilled=3",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 99.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p1\\states\\0094.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p1\\events\\0094.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1
+        ],
+        "K02": [
+          1
+        ],
+        "K03": [
+          1
+        ],
+        "K04": [
+          2
+        ],
+        "K05": [
+          2,
+          3,
+          7
+        ],
+        "K06": [
+          4,
+          8
+        ],
+        "K07": [
+          4,
+          5,
+          6
+        ],
+        "K08": [
+          3,
+          6,
+          7,
+          8
+        ],
+        "K09": [
+          8
+        ],
+        "K12": [
+          9,
+          10
+        ],
+        "K13": [
+          10,
+          11
+        ],
+        "K14": [
+          12
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02",
+            "K03"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K04",
+            "K05"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K05",
+            "K08"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K06",
+            "K07"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K07"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K07",
+            "K08"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K05",
+            "K08",
+            "K10"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K06",
+            "K08",
+            "K09"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K11",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K12",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K13"
+          ]
+        },
+        {
+          "step_index": 12,
+          "covered_event_ids": [
+            "K14"
+          ]
+        }
+      ]
+    },
+    "warnings": [],
+    "step_count": 12,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 99.0
+  },
+  "api_usage": {
+    "prompt_tokens": 118250,
+    "completion_tokens": 26834,
+    "total_tokens": 145084,
+    "prompt_cache_hit_tokens": 6912,
+    "prompt_cache_miss_tokens": 111338
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 4047,
+        "completion_tokens": 702,
+        "total_tokens": 4749,
+        "prompt_tokens_details": {
+          "cached_tokens": 3968
+        },
+        "prompt_cache_hit_tokens": 3968,
+        "prompt_cache_miss_tokens": 79
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 12364,
+        "completion_tokens": 2436,
+        "total_tokens": 14800,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 12364
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 7317,
+        "completion_tokens": 1486,
+        "total_tokens": 8803,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7061
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 8208,
+        "completion_tokens": 1587,
+        "total_tokens": 9795,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7952
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 8445,
+        "completion_tokens": 1372,
+        "total_tokens": 9817,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8189
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 8475,
+        "completion_tokens": 1282,
+        "total_tokens": 9757,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8219
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C005",
+      "api_usage": {
+        "prompt_tokens": 5609,
+        "completion_tokens": 44,
+        "total_tokens": 5653,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 5353
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 11188,
+        "completion_tokens": 3116,
+        "total_tokens": 14304,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 10804
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 12772,
+        "completion_tokens": 6829,
+        "total_tokens": 19601,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 12132
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 18673,
+        "completion_tokens": 542,
+        "total_tokens": 19215,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 18673
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 21152,
+        "completion_tokens": 7438,
+        "total_tokens": 28590,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 20512
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

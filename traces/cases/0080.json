@@ -1,0 +1,857 @@
+{
+  "case": {
+    "case_id": "sci_evo_0080",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Combining Rational and Random Strategies in β-Glucosidase Zm-p60.1 Protein Library Construction",
+      "doi": "https://doi.org/10.1371/journal.pone.0108292",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0078_10_1371_journal_pone_0108292_combining_rational_and_random_strategies_in_glucosidase_zm_p60_1_protein_library_construct.pdf",
+      "mineru_md": "docs/0080/mineru.md",
+      "combined_md": "docs/0080/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "How to efficiently construct a complete protein library at a highly conserved position when saturation mutagenesis unexpectedly yields many active variants, requiring a combined rational and random strategy.",
+      "target_object": "β-glucosidase Zm-p60.1 position W373",
+      "known_context": "Previous work showed that mutation W373K severely impairs catalytic activity, suggesting W373 is critical.",
+      "constraints": [
+        "Low transformation efficiency of E. coli strain",
+        "Codon bias in NNM degeneracy",
+        "Cost considerations for mutagenesis and screening"
+      ],
+      "input_data": [
+        "Zm-p60.1 gene sequence",
+        "Previous W373K mutant data"
+      ],
+      "quantifiable_goals": [
+        "Complete library of all 18 amino acid variants at position 373",
+        "Assess activity of all variants on natural and artificial substrates"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "W373 is highly conserved; previous W373K mutant has severely impaired activity.",
+        "gap_or_uncertainty": "Unknown whether other amino acids at position 373 can retain activity.",
+        "hypothesis": "W373 is critical for activity, so saturation mutagenesis will yield few active variants.",
+        "decision": "Test hypothesis by saturation mutagenesis at W373.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "Literature-based hypothesis",
+          "version": "",
+          "category": "reasoning"
+        },
+        "parameters": {},
+        "observation": "Expected one or a few functional variants based on previous work.",
+        "result_status": "success",
+        "next_step_reason": "Design saturation mutagenesis library to test hypothesis.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0080/combined.md",
+            "section": "C001",
+            "quote_or_span": "On the basis of our previous work we expected to find one or a few functional variants of the weakly catalyzing mutant W373K [7,8]."
+          },
+          {
+            "evidence_id": "EV_AUTO_036",
+            "source_file": "docs/0080/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Thus, although their catalytic activity was significantly impaired, we have demonstrated that variation at position 373 is possible, without complete loss of activity, and that variants with mutations at the position could be used in efforts to modulate and explain $\\beta$ -glucosidases' specificity."
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "design",
+        "state_before": "Hypothesis that W373 is critical.",
+        "gap_or_uncertainty": "Need to create a library covering all possible amino acids at position 373 except Met and Trp.",
+        "hypothesis": "NNM codon degeneration will generate a diverse library excluding Met and Trp.",
+        "decision": "Use NNM degeneracy primers for saturation mutagenesis.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "NNM codon degeneration",
+          "version": "",
+          "category": "library_design"
+        },
+        "parameters": {
+          "degeneracy": "NNM",
+          "excluded_amino_acids": [
+            "Met",
+            "Trp"
+          ]
+        },
+        "observation": "Library designed with 32 codon variants encoding 18 amino acids and 2 stop codons.",
+        "result_status": "success",
+        "next_step_reason": "Construct library and screen for activity.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E03_01",
+            "source_file": "docs/0080/combined.md",
+            "section": "C002",
+            "quote_or_span": "A library of Zm-p60.1 mutants with variations at the Trp373 position was created using the following set of primers introducing NNM degeneracy:"
+          },
+          {
+            "evidence_id": "EV_AUTO_012",
+            "source_file": "docs/0080/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Mutagenesis by NNM codon degeneration yields 32 codon variants, encoding 18 amino acids and 2 stop codons."
+          },
+          {
+            "evidence_id": "EV_AUTO_036",
+            "source_file": "docs/0080/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Thus, although their catalytic activity was significantly impaired, we have demonstrated that variation at position 373 is possible, without complete loss of activity, and that variants with mutations at the position could be used in efforts to modulate and explain $\\beta$ -glucosidases' specificity."
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "experiment",
+        "state_before": "Library designed, transformation into E. coli.",
+        "gap_or_uncertainty": "Low transformation efficiency may limit library size.",
+        "hypothesis": "Despite low efficiency, some clones will be obtained for screening.",
+        "decision": "Proceed with screening of obtained colonies.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Transformation and plating",
+          "version": "",
+          "category": "cloning"
+        },
+        "parameters": {
+          "host_strain": "E. coli XJb(DE3) Δbgl"
+        },
+        "observation": "Number of colonies was low due to low transformation efficiency.",
+        "result_status": "failure",
+        "next_step_reason": "Screen available clones for activity.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E04_01",
+            "source_file": "docs/0080/combined.md",
+            "section": "C002",
+            "quote_or_span": "The number of colonies was low due to the low transformation efficiency of the engineered E. coli strain."
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "experiment",
+        "state_before": "Low number of colonies obtained.",
+        "gap_or_uncertainty": "Activity of clones unknown.",
+        "hypothesis": "Most clones will be inactive if W373 is critical.",
+        "decision": "Screen 21 clones on XGlc plates.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "XGlc plate assay",
+          "version": "",
+          "category": "activity_screening"
+        },
+        "parameters": {
+          "substrate": "XGlc",
+          "number_of_clones": 21
+        },
+        "observation": "20 of 21 clones were active; one inactive clone had an unintended stop codon at position 206.",
+        "result_status": "partial",
+        "next_step_reason": "Sequence active clones to identify variants.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E06_01",
+            "source_file": "docs/0080/combined.md",
+            "section": "C001",
+            "quote_or_span": "The clone with no glucosidase activity proved to be a proline variant with an additional stop codon introduced at position 206 by an unknown error in the mutagenesis procedure."
+          },
+          {
+            "evidence_id": "EV_AUTO_019",
+            "source_file": "docs/0080/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "However, most clones proved to be active, for example 20 of 21 clones initially obtained displayed various levels of $\\beta$ -glucosidase activity."
+          },
+          {
+            "evidence_id": "EV_AUTO_023",
+            "source_file": "docs/0080/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Therefore, we applied saturation mutagenesis followed by activity screening to identify other amino acid residues at the W373 position that could be compatible with the composition of $\\beta$ -glucosidase Zm-p60.1 and catalytic effects of the substitutions."
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "analysis",
+        "state_before": "20 active clones identified.",
+        "gap_or_uncertainty": "Which amino acid variants are present and at what frequencies?",
+        "hypothesis": "Sequencing will reveal multiple variants with frequencies reflecting codon usage.",
+        "decision": "Sequence the 20 active clones.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Sanger sequencing",
+          "version": "",
+          "category": "sequencing"
+        },
+        "parameters": {},
+        "observation": "10 unique amino acid variants identified: Leu (5), Pro (3), Arg (3), Ser (2), Ala (2), Gly (2), His (1), Thr (1), Asp (1), Phe (1).",
+        "result_status": "success",
+        "next_step_reason": "Assess completeness of library and need for further screening.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E05_01",
+            "source_file": "docs/0080/combined.md",
+            "section": "C001",
+            "quote_or_span": "We identified 10 variants at the 373 position: Leu (five copies); Pro and Arg (each in three copies); Ser, Ala and Gly (each in two copies); His, Thr, Asp and Phe (all in one copy)."
+          },
+          {
+            "evidence_id": "EV_C002_E02_01",
+            "source_file": "docs/0080/combined.md",
+            "section": "C002",
+            "quote_or_span": "The cost-effectiveness of the mutagenesis strategies was compared using estimates for (a) SDM and sequencing based on costs of commercial oligonucleotide synthesis + mutagenesis (by a QuikChange kit) + DNA isolation (by a Qiagen kit) + commercial sequencing (ca. 100 USD per variant in total), and b) screening only, based on DNA isolation (by a Qiagen kit) + commercial sequencing (ca. 20 USD per variant in total)."
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "simulation",
+        "state_before": "10 variants found, 8 missing (Cys, Glu, Ile, Met, Asn, Gln, Val, Tyr).",
+        "gap_or_uncertainty": "How many clones must be screened to find remaining variants?",
+        "hypothesis": "Monte Carlo simulation will show a sharp increase in screening effort for the last variants.",
+        "decision": "Run Monte Carlo simulation with 1,000,000 iterations.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "Monte Carlo simulation",
+          "version": "Python 2.7.3",
+          "category": "simulation"
+        },
+        "parameters": {
+          "iterations": 1000000,
+          "codon_degeneracy": "NNM"
+        },
+        "observation": "Sharp increase in clones needed for the last quarter of library construction.",
+        "result_status": "success",
+        "next_step_reason": "Compare cost of continued screening vs. site-directed mutagenesis.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E07_01",
+            "source_file": "docs/0080/combined.md",
+            "section": "C001",
+            "quote_or_span": "we determined theoretical average numbers of clones needed to find new variants and complete the library in computer simulations (Figure 2)."
+          },
+          {
+            "evidence_id": "EV_C001_E07_02",
+            "source_file": "docs/0080/combined.md",
+            "section": "C001",
+            "quote_or_span": "The simulations show that there is a sharp increase in numbers of clones needed for the last quarter of library construction"
+          },
+          {
+            "evidence_id": "EV_C002_E01_01",
+            "source_file": "docs/0080/combined.md",
+            "section": "C002",
+            "quote_or_span": "The simulation used to calculate theoretical average numbers of clones that needed to be screened for a new hit using each codon degeneration strategy was based on Monte Carlo method (scripts are enclosed as a File S6) implemented in Python 2.7.3 with 1 000 000 iterations simulating random clone picking."
+          },
+          {
+            "evidence_id": "EV_C003_E05_01",
+            "source_file": "docs/0080/combined.md",
+            "section": "C003",
+            "quote_or_span": "File S6 The simulation used to calculate theoretical average numbers of clones that needed to be screened for a new hit based on Monte Carlo method."
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "analysis",
+        "state_before": "Simulation shows screening for missing variants is inefficient.",
+        "gap_or_uncertainty": "Which strategy is more cost-effective for completing the library?",
+        "hypothesis": "SDM is more cost-effective than screening for the missing variants.",
+        "decision": "Perform cost analysis comparing SDM (~100 USD/variant) vs. screening (~20 USD/variant).",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Cost analysis",
+          "version": "",
+          "category": "cost_estimation"
+        },
+        "parameters": {
+          "sdm_cost_per_variant": "~100 USD",
+          "screening_cost_per_variant": "~20 USD"
+        },
+        "observation": "SDM becomes cost-effective when many clones must be screened to find a new variant; SDM ~100 USD/variant, screening ~20 USD/variant.",
+        "result_status": "success",
+        "next_step_reason": "Propose combined strategy.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E02_01",
+            "source_file": "docs/0080/combined.md",
+            "section": "C002",
+            "quote_or_span": "The cost-effectiveness of the mutagenesis strategies was compared using estimates for (a) SDM and sequencing based on costs of commercial oligonucleotide synthesis + mutagenesis (by a QuikChange kit) + DNA isolation (by a Qiagen kit) + commercial sequencing (ca. 100 USD per variant in total), and b) screening only, based on DNA isolation (by a Qiagen kit) + commercial sequencing (ca. 20 USD per variant in total)."
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "revision",
+        "state_before": "Random screening inefficient for complete coverage; SDM cost-effective for missing variants.",
+        "gap_or_uncertainty": "How to efficiently complete the library?",
+        "hypothesis": "A combined random and rational strategy will efficiently generate all variants.",
+        "decision": "Propose combined strategy: random mutagenesis (NNM) plus SDM for missing variants.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "Combined strategy proposal",
+          "version": "",
+          "category": "strategy_design"
+        },
+        "parameters": {},
+        "observation": "Ideal strategy combines random mutagenesis with SDM to generate missing variants.",
+        "result_status": "success",
+        "next_step_reason": "Implement SDM to create missing variants.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E08_01",
+            "source_file": "docs/0080/combined.md",
+            "section": "C001",
+            "quote_or_span": "we propose that an ideal strategy should combine random mutagenesis with site-directed mutagenesis (SDM) to generate missing variants (Figure 3)."
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "experiment",
+        "state_before": "Missing variants: Cys, Glu, Ile, Met, Asn, Gln, Val, Tyr.",
+        "gap_or_uncertainty": "Can missing variants be created by SDM?",
+        "hypothesis": "SDM with specific primers will generate the missing variants.",
+        "decision": "Use QuikChange kit for individual SDM reactions.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "QuikChange site-directed mutagenesis",
+          "version": "",
+          "category": "mutagenesis"
+        },
+        "parameters": {
+          "template": "Zm-p60.1 wild-type",
+          "missing_variants": [
+            "Cys",
+            "Glu",
+            "Ile",
+            "Met",
+            "Asn",
+            "Gln",
+            "Val",
+            "Tyr"
+          ]
+        },
+        "observation": "Missing variants created; expression problems encountered for Leu and Ser variants.",
+        "result_status": "partial",
+        "next_step_reason": "Optimize codons for problematic variants.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E05_01",
+            "source_file": "docs/0080/combined.md",
+            "section": "C002",
+            "quote_or_span": "Finally, to complete the library we created missing variants using the QuikChange kit again in individual reactions with the same template and following primers –"
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "revision",
+        "state_before": "Expression problems with Leu and Ser variants.",
+        "gap_or_uncertainty": "Codon usage may affect expression.",
+        "hypothesis": "Changing codons to TCC for Ser and CTG for Leu will improve expression.",
+        "decision": "Perform codon optimization for Leu and Ser.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Codon optimization",
+          "version": "",
+          "category": "gene_synthesis"
+        },
+        "parameters": {
+          "Ser_codon": "TCC",
+          "Leu_codon": "CTG"
+        },
+        "observation": "Expression problems resolved.",
+        "result_status": "success",
+        "next_step_reason": "Express and purify all variants for activity assays.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E06_01",
+            "source_file": "docs/0080/combined.md",
+            "section": "C002",
+            "quote_or_span": "Due to expression problems with Leu and Ser variants their codons were changed to TCC for Ser and CTG for Leu."
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "validation",
+        "state_before": "All 18 amino acid variants expressed and purified.",
+        "gap_or_uncertainty": "Are all variants active on natural and artificial substrates?",
+        "hypothesis": "All variants will retain some activity, but at reduced levels.",
+        "decision": "Test activity on tZOG (1 mM) and pNPG.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Enzyme activity assay",
+          "version": "",
+          "category": "biochemical_assay"
+        },
+        "parameters": {
+          "substrates": [
+            "tZOG",
+            "pNPG"
+          ],
+          "tZOG_concentration": "1 mM"
+        },
+        "observation": "All variants hydrolyzed both substrates, but at reduced levels compared to wild-type.",
+        "result_status": "success",
+        "next_step_reason": "Characterize pH optima of selected variants.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E08_01",
+            "source_file": "docs/0080/combined.md",
+            "section": "C002",
+            "quote_or_span": "In surprising contrast to the high conservation at this position all enzyme variants were able to hydrolyze the substrates, albeit at reduced levels (Figure 4)."
+          },
+          {
+            "evidence_id": "EV_AUTO_029",
+            "source_file": "docs/0080/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "All purified enzymes were tested for their activity towards the natural substrate trans-zeatin-O-β-D-glucoside (tZOG, OlChemIm, Olomouc, Czech Republic) at a concentration of 1 mM."
+          },
+          {
+            "evidence_id": "EV_AUTO_012",
+            "source_file": "docs/0080/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Mutagenesis by NNM codon degeneration yields 32 codon variants, encoding 18 amino acids and 2 stop codons."
+          }
+        ]
+      },
+      {
+        "step_index": 12,
+        "phase": "analysis",
+        "state_before": "All variants active but impaired.",
+        "gap_or_uncertainty": "Do substitutions affect pH optimum?",
+        "hypothesis": "pH optimum may shift for some variants.",
+        "decision": "Analyze pH profiles of most (W373H) and least (W373K) active variants.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "pH optimum analysis",
+          "version": "",
+          "category": "biochemical_assay"
+        },
+        "parameters": {
+          "variants": [
+            "W373H",
+            "W373K"
+          ]
+        },
+        "observation": "W373H pH optimum shifted from 5.5 to 6.0; W373K similar to wild-type.",
+        "result_status": "success",
+        "next_step_reason": "Conclude on tolerance of variation at position 373.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E04_01",
+            "source_file": "docs/0080/combined.md",
+            "section": "C003",
+            "quote_or_span": "File S1 The pH optimum analysis of the most and least active variants (W373H and W373K)."
+          },
+          {
+            "evidence_id": "EV_AUTO_011",
+            "source_file": "docs/0080/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "We found no significant difference between the W373K mutant and WT pH profiles, but the pH optimum of the W373H mutant shifted from 5.5 to 6."
+          },
+          {
+            "evidence_id": "EV_AUTO_036",
+            "source_file": "docs/0080/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Thus, although their catalytic activity was significantly impaired, we have demonstrated that variation at position 373 is possible, without complete loss of activity, and that variants with mutations at the position could be used in efforts to modulate and explain $\\beta$ -glucosidases' specificity."
+          },
+          {
+            "evidence_id": "EV_AUTO_017",
+            "source_file": "docs/0080/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "coli expression strain, all 20 variants at position 373 were expressed, purified to homogeneity and tested for catalytic effect."
+          },
+          {
+            "evidence_id": "EV_C001_E05_01",
+            "source_file": "docs/0080/combined.md",
+            "section": "C001",
+            "quote_or_span": "We identified 10 variants at the 373 position: Leu (five copies); Pro and Arg (each in three copies); Ser, Ala and Gly (each in two copies); His, Thr, Asp and Phe (all in one copy)."
+          },
+          {
+            "evidence_id": "EV_AUTO_015",
+            "source_file": "docs/0080/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "These results suggest that mutagenesis at the 373 position can influence the optimum pH of Zm-p60.1, but this effect alone is not the cause of the activity reductions."
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "Activity screening on XGlc plates",
+        "Sequencing of variants",
+        "Monte Carlo simulation",
+        "Cost analysis",
+        "SDM for missing variants",
+        "Enzyme assays on tZOG and pNPG",
+        "pH optimum analysis"
+      ],
+      "metrics": [
+        "Number of active clones (20/21)",
+        "Number of unique variants (10 initially, 18 after SDM)",
+        "Hydrolysis rates on tZOG and pNPG",
+        "pH optimum shift"
+      ],
+      "final_conclusion": "All 18 amino acid variants at position 373 are active but with significantly reduced activity, demonstrating that variation is tolerated but not optimal. The combined random and rational strategy efficiently completed the library.",
+      "limitations": [
+        "All variants have significantly impaired catalytic activity compared to wild-type.",
+        "Low transformation efficiency limited initial library size.",
+        "Expression problems required codon optimization for Leu and Ser."
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_specific_evidence_backfilled=15",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_specific_evidence_backfilled=9",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 100.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p3\\states\\0080.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p3\\events\\0080.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1,
+          2,
+          4
+        ],
+        "K02": [
+          1,
+          2
+        ],
+        "K03": [
+          3
+        ],
+        "K04": [
+          2,
+          3,
+          4,
+          5
+        ],
+        "K05": [
+          2,
+          5,
+          12
+        ],
+        "K06": [
+          6,
+          7
+        ],
+        "K07": [
+          5,
+          6,
+          7,
+          8
+        ],
+        "K08": [
+          7,
+          8
+        ],
+        "K09": [
+          6,
+          8,
+          9
+        ],
+        "K11": [
+          11
+        ],
+        "K12": [
+          12
+        ],
+        "K13": [
+          1,
+          2,
+          11,
+          12
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K01",
+            "K02",
+            "K04",
+            "K05",
+            "K10",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K03",
+            "K04"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K01",
+            "K04"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K04",
+            "K05",
+            "K07",
+            "K10"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K06",
+            "K07",
+            "K09"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K06",
+            "K07",
+            "K08"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K07",
+            "K08",
+            "K09"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K09",
+            "K10"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K10"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K11",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 12,
+          "covered_event_ids": [
+            "K05",
+            "K12",
+            "K13"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 6,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "1000"
+        ]
+      },
+      {
+        "step_index": 12,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "6.0"
+        ]
+      }
+    ],
+    "step_count": 12,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 100.0
+  },
+  "api_usage": {
+    "prompt_tokens": 78259,
+    "completion_tokens": 19364,
+    "total_tokens": 97623,
+    "prompt_cache_hit_tokens": 5120,
+    "prompt_cache_miss_tokens": 73139
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 2805,
+        "completion_tokens": 695,
+        "total_tokens": 3500,
+        "prompt_tokens_details": {
+          "cached_tokens": 2688
+        },
+        "prompt_cache_hit_tokens": 2688,
+        "prompt_cache_miss_tokens": 117
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 6594,
+        "completion_tokens": 2007,
+        "total_tokens": 8601,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 6594
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 6651,
+        "completion_tokens": 1236,
+        "total_tokens": 7887,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6395
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 7290,
+        "completion_tokens": 1367,
+        "total_tokens": 8657,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7034
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 4170,
+        "completion_tokens": 846,
+        "total_tokens": 5016,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 3914
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 8265,
+        "completion_tokens": 2574,
+        "total_tokens": 10839,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 7881
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 9850,
+        "completion_tokens": 4718,
+        "total_tokens": 14568,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 9210
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 15105,
+        "completion_tokens": 733,
+        "total_tokens": 15838,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 15105
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 17529,
+        "completion_tokens": 5188,
+        "total_tokens": 22717,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 16889
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

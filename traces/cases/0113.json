@@ -1,0 +1,877 @@
+{
+  "case": {
+    "case_id": "sci_evo_0113",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Expanding detection windows for discriminating single nucleotide variants using rationally designed DNA equalizer probes",
+      "doi": "https://doi.org/10.1038/s41467-020-19269-9",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0111_10_1038_s41467_020_19269_9_expanding_detection_windows_for_discriminating_single_nucleotide_variants_using_rationally.pdf",
+      "mineru_md": "docs/0113/mineru.md",
+      "combined_md": "docs/0113/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Discriminating single nucleotide variants (SNVs) in dsDNA using hybridization probes suffers from a trade-off between sensitivity and specificity, resulting in narrow detection windows where signals from correct and spurious targets overlap.",
+      "target_object": "dsDNA targets with single nucleotide variants",
+      "known_context": "Current hybridization probes exhibit monotonic signal increase for both correct and spurious targets, leading to narrow detection windows. Existing frustrating probes shift detection windows to higher concentrations, sacrificing sensitivity at lower ranges.",
+      "constraints": [
+        "Must maintain sensitivity at low target concentrations",
+        "Must discriminate single nucleotide variants without prior knowledge of mutation position"
+      ],
+      "input_data": [],
+      "quantifiable_goals": [
+        "Expand detection window for SNV discrimination",
+        "Achieve infinite robustness factor",
+        "Detect as low as 10 aM correct template while discriminating 1 pM spurious target"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "Current hybridization probes exhibit monotonic signal increase for both correct and spurious targets, leading to narrow detection windows. Existing frustrating probes shift detection windows to higher concentrations, sacrificing sensitivity at lower ranges.",
+        "gap_or_uncertainty": "How to expand the detection window without compromising sensitivity at lower concentration range?",
+        "hypothesis": "Transforming the quantitative relationship between detection signal and target concentrations from a monotonic sigmoidal function to an asymmetric unimodal function can expand the detection window without compromising low-concentration sensitivity.",
+        "decision": "Design a DNA computing module that achieves this transformation.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "Conceptual design of DNA Equalizer Gate (DEG)",
+          "version": "",
+          "category": "conceptual"
+        },
+        "parameters": {},
+        "observation": "DEG offers a paradigm to expand the detection window without compromising sensitivity at lower concentration range by transforming the quantitative relationship between the detection signal and target concentrations from a monotonic sigmoidal function to an asymmetric unimodal function.",
+        "result_status": "success",
+        "next_step_reason": "The hypothesis provides a clear direction for designing a DNA computing module to achieve the desired transformation.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0113/combined.md",
+            "section": "C001",
+            "quote_or_span": "detection signals increase monotonically with increases in concentrations of both correct and spurious targets"
+          },
+          {
+            "evidence_id": "EV_C001_E01_02",
+            "source_file": "docs/0113/combined.md",
+            "section": "C001",
+            "quote_or_span": "a detection window exists between the target concentrations that lead to the same level of detection signals"
+          },
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0113/combined.md",
+            "section": "C001",
+            "quote_or_span": "the success of current strategies is at the cost of shifting detection windows towards the higher concentration end, inevitably sacrificing sensitivities at lower concentration range"
+          },
+          {
+            "evidence_id": "EV_C001_E03_01",
+            "source_file": "docs/0113/combined.md",
+            "section": "C001",
+            "quote_or_span": "DEG offers a paradigm to expand the detection window without compromising sensitivity at lower concentration range by transforming the quantitative relationship between the detection signal and target concentrations from a monotonic sigmoidal function to an asymmetric unimodal function"
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "design",
+        "state_before": "Hypothesis that transforming signal-concentration relationship to asymmetric unimodal can expand detection window.",
+        "gap_or_uncertainty": "How to implement the transformation in a DNA-based system?",
+        "hypothesis": "A DNA Equalizer Gate (DEG) using DNA Equalizer Probes (DEPs) can consume complementary strand B, producing a maximum yield of strand A when target concentration equals DEP concentration.",
+        "decision": "Design DEG with DEPs that are identical in sequence to strand A, forming a three-stranded complex BCD to consume B.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "DNA Equalizer Gate (DEG) design",
+          "version": "",
+          "category": "DNA computing module"
+        },
+        "parameters": {
+          "DEPs": "identical sequences with strand A",
+          "reaction": "B consumed by DEPs forming BCD complex"
+        },
+        "observation": "DEG transforms the quantitative relationship between detection signal and target concentrations from a typical sigmoidal function to a unimodal function. A maximum yield exists when the concentration of AB equals that of DEPs.",
+        "result_status": "success",
+        "next_step_reason": "The design provides a concrete mechanism to achieve the desired unimodal response; next step is to model it computationally.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E04_01",
+            "source_file": "docs/0113/combined.md",
+            "section": "C001",
+            "quote_or_span": "DEG is a DNA computing module that acts on dsDNA and allows user-definable transformation of the quantitative relationship between detection signals and target concentrations"
+          },
+          {
+            "evidence_id": "EV_C001_E04_02",
+            "source_file": "docs/0113/combined.md",
+            "section": "C001",
+            "quote_or_span": "B is then consumed by DEPs that are of the identical sequences with A forming three-stranded complex BCD"
+          },
+          {
+            "evidence_id": "EV_C001_E04_03",
+            "source_file": "docs/0113/combined.md",
+            "section": "C001",
+            "quote_or_span": "a maximum yield exists when the concentration of AB equals to those of DEPs"
+          },
+          {
+            "evidence_id": "EV_C002_E01_01",
+            "source_file": "docs/0113/combined.md",
+            "section": "C002",
+            "quote_or_span": "DEG transforms the quantitative relationship between the detection signal and target concentrations from a typical sigmoidal function to a unimodal function."
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "simulation",
+        "state_before": "DEG design proposed but its behavior needs to be quantitatively predicted.",
+        "gap_or_uncertainty": "How to simulate DEG behavior to predict detection window, reaction yield, and sequence specificity?",
+        "hypothesis": "A thermodynamic-driven mathematical model using a stoichiometric matrix can simplify the coupled equilibrium equations and simulate DEG behavior.",
+        "decision": "Construct a mathematical model with a stoichiometric matrix RM to reduce the number of independent equilibrium equations.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "Thermodynamic-driven mathematical model",
+          "version": "",
+          "category": "computational simulation"
+        },
+        "parameters": {
+          "stoichiometric_matrix": "RM",
+          "rank_of_RM": 4
+        },
+        "observation": "The rank of RM was determined to be 4, indicating that four independent equilibrium equations need to be solved. The model can simulate detection window, reaction yield, and sequence specificity.",
+        "result_status": "partial",
+        "next_step_reason": "The model initially failed for [AB] ≤ [DEPs], requiring a correction.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E06_01",
+            "source_file": "docs/0113/combined.md",
+            "section": "C001",
+            "quote_or_span": "A thermodynamic-driven mathematical model was constructed, where the detection window, reaction yield, and sequence specificity can be precisely simulated and predicted in silico"
+          },
+          {
+            "evidence_id": "EV_C002_E02_01",
+            "source_file": "docs/0113/combined.md",
+            "section": "C002",
+            "quote_or_span": "a stoichiometric matrix RM was introduced to help simplify the calculation"
+          },
+          {
+            "evidence_id": "EV_C002_E02_02",
+            "source_file": "docs/0113/combined.md",
+            "section": "C002",
+            "quote_or_span": "The rank of RM was determined to be 4, indicating that four independent equilibrium equations need to be solved."
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "revision",
+        "state_before": "Initial thermodynamic model failed to simulate DEG behavior when [AB] ≤ [DEPs].",
+        "gap_or_uncertainty": "The model does not correctly reflect the final equilibrium distribution for low target concentrations.",
+        "hypothesis": "A probability function that accounts for the possible distributions of DEPs on B is necessary to correctly reflect the final equilibrium distribution.",
+        "decision": "Incorporate a probability correction into the model.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Probability correction for DEP distribution",
+          "version": "",
+          "category": "mathematical correction"
+        },
+        "parameters": {},
+        "observation": "The probability function was necessary to correctly reflect the final equilibrium distribution.",
+        "result_status": "success",
+        "next_step_reason": "With the corrected model, in silico predictions of discrimination and robustness factors can be performed.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E03_02",
+            "source_file": "docs/0113/combined.md",
+            "section": "C002",
+            "quote_or_span": "a probability function that took the possible distributions of DEPs on B was necessary to correctly reflect the final equilibrium distribution"
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "simulation",
+        "state_before": "Corrected thermodynamic model is available.",
+        "gap_or_uncertainty": "How do discrimination factors and robustness factors compare between classic toehold-exchange and DEGs?",
+        "hypothesis": "DEGs will show improved discrimination and robustness factors compared to classic toehold-exchange probes.",
+        "decision": "Perform in silico predictions of discrimination factors and robustness factors for both classic toehold-exchange and DEGs.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "In silico prediction using corrected thermodynamic model",
+          "version": "",
+          "category": "computational simulation"
+        },
+        "parameters": {},
+        "observation": "In silico prediction of discrimination factors for classic toehold-exchange and DEGs, and robustness factors for both, were obtained.",
+        "result_status": "success",
+        "next_step_reason": "The predictions indicate that DEG dramatically increases RF values and the detection window is tunable.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E03_01",
+            "source_file": "docs/0113/combined.md",
+            "section": "C003",
+            "quote_or_span": "In silico prediction of discrimination factors for classic toehold-exchange (c) and DEGs (d)."
+          },
+          {
+            "evidence_id": "EV_C003_E05_01",
+            "source_file": "docs/0113/combined.md",
+            "section": "C003",
+            "quote_or_span": "In silico prediction of robustness factors for classic toehold-exchange (e) and DEGs (f)."
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "analysis",
+        "state_before": "In silico predictions of discrimination and robustness factors are available.",
+        "gap_or_uncertainty": "What are the implications of the predicted factors for detection window and tunability?",
+        "hypothesis": "DEG dramatically increases RF values from finite to infinite, and the detection window is tunable by altering DEP concentrations.",
+        "decision": "Analyze the in silico results to extract key performance metrics.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Data analysis of simulation results",
+          "version": "",
+          "category": "computational analysis"
+        },
+        "parameters": {},
+        "observation": "The use of DEG dramatically increases RF values from a finite value to infinite. The detection window for discriminating SNVs is tunable by altering the concentrations of DEPs.",
+        "result_status": "success",
+        "next_step_reason": "These promising in silico results need experimental validation.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E04_01",
+            "source_file": "docs/0113/combined.md",
+            "section": "C003",
+            "quote_or_span": "The detection window for discriminating SNVs is tunable by altering the concentrations of DEPs."
+          },
+          {
+            "evidence_id": "EV_C003_E06_01",
+            "source_file": "docs/0113/combined.md",
+            "section": "C003",
+            "quote_or_span": "The use of DEG dramatically increases RF values from a finite value to infinite."
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "experiment",
+        "state_before": "In silico predictions show infinite RF and tunable detection window for DEG.",
+        "gap_or_uncertainty": "Do experimental results match the in silico predictions for DEG yields, robustness factor, and sequence specificity?",
+        "hypothesis": "Experimental validation will confirm the predicted yields, RF, and sequence specificity for mutations at various positions.",
+        "decision": "Perform wet-lab experiments to measure DEG yields for varying DEP concentrations, robustness factor vs target concentration, and sequence specificity for mutations at positions 1, 6, 14, 17.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Fluorescence-based toehold-exchange reporter assay",
+          "version": "",
+          "category": "experimental validation"
+        },
+        "parameters": {
+          "toehold_exchange_beacons": "20 nM",
+          "replicates": "n=2"
+        },
+        "observation": "Experimentally determined yields plotted against target concentrations for DEGs with varying DEP concentrations matched simulations. Robustness factor plotted against target concentrations matched in silico prediction. Yields for correct and spurious targets with mutations at positions 1, 6, 14, and 17 were determined.",
+        "result_status": "success",
+        "next_step_reason": "Successful validation on short dsDNA motivates integration with PCR for longer amplicons.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E01_01",
+            "source_file": "docs/0113/combined.md",
+            "section": "C004",
+            "quote_or_span": "Experimentally determined yields (Exp) plotted against target concentrations for DEGs with varying DEP concentrations and compared to simulation (Sim)."
+          },
+          {
+            "evidence_id": "EV_C004_E03_01",
+            "source_file": "docs/0113/combined.md",
+            "section": "C004",
+            "quote_or_span": "Robustness factor plotted against target concentrations and compared to in silico prediction."
+          },
+          {
+            "evidence_id": "EV_C004_E04_01",
+            "source_file": "docs/0113/combined.md",
+            "section": "C004",
+            "quote_or_span": "Experimentally determined yields plotted against target concentrations for correct and spurious targets carrying mutations at four designated positions."
+          },
+          {
+            "evidence_id": "EV_C004_E04_02",
+            "source_file": "docs/0113/combined.md",
+            "section": "C004",
+            "quote_or_span": "Single-nucleotide mutations were made to the target at positions 1, 6, 14, and 17."
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "design",
+        "state_before": "DEG validated on short dsDNA; need to extend to PCR amplicons.",
+        "gap_or_uncertainty": "How to integrate DEG with PCR for longer dsDNA amplicons without cross-reactions?",
+        "hypothesis": "Using four DEPs for an 87 bp amplicon, with outer DEPs identical to PCR primers, will avoid cross-reactions and enable DEG-PCR.",
+        "decision": "Design a set of four DEPs for a representative 87 bp dsDNA amplicon, with outer DEPs identical to PCR primers.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "DEG-PCR design",
+          "version": "",
+          "category": "assay design"
+        },
+        "parameters": {
+          "outer_DEPs_concentration": "500 nM",
+          "inner_DEPs_concentration": "200 nM"
+        },
+        "observation": "Experimental validation of the 4-DEP design for the detection of an 87 bp dsDNA as a mimic of PCR amplicon was performed.",
+        "result_status": "success",
+        "next_step_reason": "The DEG-PCR design is ready for experimental testing with real-time monitoring.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E08_01",
+            "source_file": "docs/0113/combined.md",
+            "section": "C002",
+            "quote_or_span": "a set of four DEPs were designed for a representative 87 bp dsDNA amplicon"
+          },
+          {
+            "evidence_id": "EV_C002_E08_02",
+            "source_file": "docs/0113/combined.md",
+            "section": "C002",
+            "quote_or_span": "two outer DEPs were designed intentionally to be identical as the PCR primers"
+          },
+          {
+            "evidence_id": "EV_C004_E05_01",
+            "source_file": "docs/0113/combined.md",
+            "section": "C004",
+            "quote_or_span": "Experimental validation of the 4-DEP design for the detection of an 87 bp dsDNA as a mimic of PCR amplicon."
+          },
+          {
+            "evidence_id": "EV_C004_E05_02",
+            "source_file": "docs/0113/combined.md",
+            "section": "C004",
+            "quote_or_span": "The concentration of outer DEPs was fixed at 500 nM and that of inner DEPs was set to be 200 nM."
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "experiment",
+        "state_before": "DEG-PCR design ready for testing.",
+        "gap_or_uncertainty": "What is the detection window achievable with DEG-PCR compared to asymmetric PCR?",
+        "hypothesis": "DEG-PCR will achieve a wider detection window than asymmetric PCR, discriminating 10 aM correct template from 1 pM spurious target.",
+        "decision": "Perform real-time monitoring of DEG-PCR and compare with asymmetric PCR using the same toehold-exchange reporter.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Real-time PCR with toehold-exchange reporter",
+          "version": "",
+          "category": "experimental validation"
+        },
+        "parameters": {},
+        "observation": "Real-time monitoring of DEG-PCR achieved a wide detection window: as low as 10 aM of correct template could be clearly discriminated from 1 pM spurious target containing a single nucleotide mutation. In contrast, asymmetric PCR showed a much narrower detection window, with correct discrimination only above 1 fM.",
+        "result_status": "success",
+        "next_step_reason": "The superior performance of DEG-PCR motivates clinical validation with real samples.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E06_01",
+            "source_file": "docs/0113/combined.md",
+            "section": "C004",
+            "quote_or_span": "Real-time monitoring of DEG-PCR using a toehold-exchange reporter. A wide detection window was achieved, where as low as 10 aM of correct template could be clearly discriminated from 1 pM spurious target containing a single nucleotide mutation."
+          },
+          {
+            "evidence_id": "EV_AUTO_015",
+            "source_file": "docs/0113/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "A wide detection window was achieved, where as low as 10 aM of correct template could be clearly discriminated from 1 pM spurious target containing a single nucleotide mutation."
+          },
+          {
+            "evidence_id": "EV_AUTO_017",
+            "source_file": "docs/0113/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "More importantly, fluorescence signal for 1 pM spurious template containing a single nucleotide mutation is significantly suppressed using DEG, which is much lower than that of 10 aM of the correct template (Fig."
+          },
+          {
+            "evidence_id": "EV_C003_E08_01",
+            "source_file": "docs/0113/combined.md",
+            "section": "C003",
+            "quote_or_span": "a much narrower detection window (above 1 fM) was observed when asymmetric PCR was used to generate detectable ssDNA amplicon followed by the readout using the same toehold-exchange reporter"
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "validation",
+        "state_before": "DEG-PCR demonstrated wide detection window in synthetic samples.",
+        "gap_or_uncertainty": "Can DEG-PCR be applied to clinical samples for simultaneous infection detection and drug-resistance screening?",
+        "hypothesis": "A dual-channel DEG-PCR can simultaneously detect parasitic infection and screen for drug-resistance mutations in clinical samples.",
+        "decision": "Validate dual-channel DEG-PCR using clinical parasitic worm samples from Honduras, targeting the β-tubulin gene codon 200 A to T mutation.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Dual-channel DEG-PCR",
+          "version": "",
+          "category": "clinical validation"
+        },
+        "parameters": {
+          "training_set": "13 clinical samples",
+          "test_set": "8 unknown clinical samples",
+          "confidence_interval": "99%",
+          "codon": 200
+        },
+        "observation": "Simultaneous detection of parasitic infection and screening for drug-resistance was achieved. Test results classified into D.R.+, D.R.-, and N.C. areas using error eclipses with 99% confidence interval.",
+        "result_status": "success",
+        "next_step_reason": "Clinical validation reveals limitations such as quantification ambiguity and small sample size.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E07_01",
+            "source_file": "docs/0113/combined.md",
+            "section": "C003",
+            "quote_or_span": "We finally employed DEG-PCR for the diagnosis of soil-transmitted helminth (STH) infections with clinical samples collected from school-age children living in highly endemic rural areas in Honduras."
+          },
+          {
+            "evidence_id": "EV_C005_E01_01",
+            "source_file": "docs/0113/combined.md",
+            "section": "C005",
+            "quote_or_span": "Simultaneous detection of parasitic infection and screening for drug-resistance was achieved using a dual-channel design (FAM- and Cy5-Reporter)."
+          },
+          {
+            "evidence_id": "EV_C005_E01_02",
+            "source_file": "docs/0113/combined.md",
+            "section": "C005",
+            "quote_or_span": "A single nucleotide A to T mutation of this codon is a hotspot for drug resistance screening."
+          },
+          {
+            "evidence_id": "EV_C005_E01_03",
+            "source_file": "docs/0113/combined.md",
+            "section": "C005",
+            "quote_or_span": "Experimental tests of the dual-channel DEG-PCR using synthetic DNA standards (blue and red dots) and 13 (D.R.-) clinical samples (green circles) as a training set (c) and 8 unknown clinical parasitic worm samples (d)."
+          },
+          {
+            "evidence_id": "EV_C006_E01_02",
+            "source_file": "docs/0113/combined.md",
+            "section": "C006",
+            "quote_or_span": "Error eclipses with 99% confidence interval and 2-degrees of freedom (two fluorescence channels) were used to define D.R. $(+)$ and D.R. $(-)$"
+          },
+          {
+            "evidence_id": "EV_C005_E02_02",
+            "source_file": "docs/0113/combined.md",
+            "section": "C005",
+            "quote_or_span": "Error eclipses with 99% confidence interval and 2-degrees of freedom (two fluorescence channels) were used to define D.R.+ and D.R.-."
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "analysis",
+        "state_before": "Clinical validation successful but reveals limitations.",
+        "gap_or_uncertainty": "What are the limitations of DEG-PCR for quantification and clinical applicability?",
+        "hypothesis": "DEG-PCR has quantification ambiguity for correct target (two concentrations give same signal) and limited clinical sample size.",
+        "decision": "Acknowledge limitations and suggest future work.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Limitation analysis",
+          "version": "",
+          "category": "critical assessment"
+        },
+        "parameters": {},
+        "observation": "The yield of 0.35 corresponds to either 15 nM or 1 μM of the correct dsDNA target, indicating quantification ambiguity. Clinical sample size was limited.",
+        "result_status": "partial",
+        "next_step_reason": "These limitations need to be addressed in future studies.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_004",
+            "source_file": "docs/0113/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The yield of 0.35 corresponds to either 15 nM or 1 $\\mu$ M of the correct dsDNA target."
+          },
+          {
+            "evidence_id": "EV_C006_E05_01",
+            "source_file": "docs/0113/combined.md",
+            "section": "C006",
+            "quote_or_span": "All other relevant data are available upon reasonable request. Source data are provided with this paper."
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "In silico thermodynamic modeling",
+        "Experimental fluorescence-based toehold-exchange reporter assays",
+        "Real-time PCR monitoring",
+        "Clinical sample testing with dual-channel DEG-PCR"
+      ],
+      "metrics": [
+        "Detection window (concentration range for discrimination)",
+        "Robustness factor (RF)",
+        "Discrimination factor (DF)",
+        "Yield vs. target concentration curves"
+      ],
+      "final_conclusion": "DEG-PCR successfully expands the detection window for SNV discrimination, achieving discrimination of 10 aM correct template from 1 pM spurious target, and enables simultaneous infection detection and drug-resistance screening in clinical samples.",
+      "limitations": [
+        "Quantification ambiguity: a given yield can correspond to two different target concentrations",
+        "Limited clinical sample size (13 training, 8 test)",
+        "DEG works well except when mutation occurs at the very edge of dsDNA"
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_specific_evidence_backfilled=2",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_specific_evidence_backfilled=2",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 100.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p2\\states\\0113.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p2\\events\\0113.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 11,
+      "covered_event_count": 11,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1
+        ],
+        "K03": [
+          1,
+          2
+        ],
+        "K04": [
+          2
+        ],
+        "K05": [
+          3,
+          4
+        ],
+        "K06": [
+          3,
+          4
+        ],
+        "K07": [
+          4,
+          5,
+          6,
+          7
+        ],
+        "K08": [
+          1,
+          2,
+          5,
+          6,
+          7
+        ],
+        "K09": [
+          2,
+          6,
+          7
+        ],
+        "K12": [
+          9
+        ],
+        "K13": [
+          9,
+          10
+        ],
+        "K14": [
+          10,
+          11
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02",
+            "K03",
+            "K08",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K03",
+            "K04",
+            "K08",
+            "K09"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K05",
+            "K06",
+            "K10"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K05",
+            "K06",
+            "K07"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K07",
+            "K08"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K07",
+            "K08",
+            "K09"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K07",
+            "K08",
+            "K09",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K10"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K11",
+            "K12",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K11",
+            "K13",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K14"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 10,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "200"
+        ]
+      }
+    ],
+    "step_count": 11,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 100.0
+  },
+  "api_usage": {
+    "prompt_tokens": 116973,
+    "completion_tokens": 27872,
+    "total_tokens": 144845,
+    "prompt_cache_hit_tokens": 3200,
+    "prompt_cache_miss_tokens": 113773
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 2191,
+        "completion_tokens": 460,
+        "total_tokens": 2651,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 2191
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 8659,
+        "completion_tokens": 1848,
+        "total_tokens": 10507,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 8659
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 7930,
+        "completion_tokens": 1401,
+        "total_tokens": 9331,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7674
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 7414,
+        "completion_tokens": 1280,
+        "total_tokens": 8694,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7158
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 8448,
+        "completion_tokens": 1113,
+        "total_tokens": 9561,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8192
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 8402,
+        "completion_tokens": 1689,
+        "total_tokens": 10091,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8146
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C005",
+      "api_usage": {
+        "prompt_tokens": 6626,
+        "completion_tokens": 1531,
+        "total_tokens": 8157,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6370
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C006",
+      "api_usage": {
+        "prompt_tokens": 5789,
+        "completion_tokens": 1377,
+        "total_tokens": 7166,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 5533
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 12202,
+        "completion_tokens": 3054,
+        "total_tokens": 15256,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 11818
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 12010,
+        "completion_tokens": 6550,
+        "total_tokens": 18560,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 11370
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 17151,
+        "completion_tokens": 992,
+        "total_tokens": 18143,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 17151
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 20151,
+        "completion_tokens": 6577,
+        "total_tokens": 26728,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 19511
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

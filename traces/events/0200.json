@@ -1,0 +1,2454 @@
+{
+  "doc_no": "0200",
+  "source": {
+    "title": "Machine learning-assisted directed protein evolution with combinatorial libraries",
+    "doi": "https://doi.org/10.1073/pnas.1901979116",
+    "license": "",
+    "pdf_name": "0199_10_1073_pnas_1901979116_machine_learning_assisted_directed_protein_evolution_with_combinatorial_libraries.pdf",
+    "combined_md": "docs/0200/combined.md",
+    "mineru_md": "docs/0200/mineru.md"
+  },
+  "gist_memory": {
+    "paper_problem_memory": "Directed protein evolution is limited by the high experimental cost of screening large combinatorial libraries. The paper proposes integrating machine learning to predict protein fitness in silico, reducing the number of variants that need to be tested experimentally. The goal is to efficiently navigate sequence space by making multiple mutations simultaneously, avoiding the sequential single-mutation walks of traditional directed evolution. The approach is validated on an empirical fitness landscape (GB1) and applied to engineer enantioselective enzymes for a new-to-nature reaction.",
+    "section_gists": [
+      {
+        "section_index": 4,
+        "heading": "Abstract",
+        "gist": "Machine learning is incorporated into directed evolution to reduce experimental effort by screening combinatorial libraries in silico. Validated on GB1 fitness landscape, showing higher fitness than other methods. Applied to evolve enzyme for stereodivergent carbene Si–H insertion, achieving 93% and 79% ee in two rounds. ML enhances quality and diversity of solutions.",
+        "process_signals": [
+          "Problem: high experimental cost of sampling combinatorial sequence space",
+          "Solution: ML models trained on tested variants to predict fitness computationally",
+          "Validation: GB1 landscape shows ML-guided evolution finds higher fitness",
+          "Application: enzyme evolution for enantioselectivity, two rounds, seven mutations fixed",
+          "Outcome: 93% and 79% ee, increased throughput and diversity"
+        ],
+        "methods": [
+          "Machine learning models trained on sequence-function data",
+          "In silico screening of combinatorial libraries",
+          "Two rounds of evolution with predicted libraries"
+        ],
+        "metrics": [
+          "Fitness (GB1 binding enrichment)",
+          "Enantiomeric excess (ee)"
+        ],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 5,
+        "heading": "Significance Statement",
+        "gist": "Proposes that ML can decrease expense and improve outcomes of directed evolution. Simulations show greater performance improvement. ML-assisted evolution from a single parent produced enzyme variants for enantioselective new-to-nature reaction. ML efficiently navigates large sequence space and produces diverse solutions.",
+        "process_signals": [
+          "Motivation: proteins often need engineering for new roles",
+          "Hypothesis: ML reduces experimental burden and improves results",
+          "Evidence: simulations show better performance; wet-lab achieves enantioselective variants",
+          "Benefit: explores multiple mutations simultaneously, finds diverse solutions"
+        ],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 6,
+        "heading": "Introduction",
+        "gist": "Directed evolution is powerful but screening is a bottleneck. In silico methods like molecular dynamics are resource-intensive. Machine learning is an emerging alternative that builds models from data. This work uses ML to enhance directed evolution with combinatorial libraries, enabling multiple mutations per round. Approach validated on GB1 dataset and applied to engineer enzyme for stereodivergent C–Si bond formation.",
+        "process_signals": [
+          "Problem: screening is resource-intensive bottleneck in directed evolution",
+          "Existing alternatives: MD simulations require CPU hours and mechanistic understanding",
+          "ML advantage: data-driven, efficient, versatile",
+          "Previous ML in protein engineering: identified beneficial mutations and optimal fragments",
+          "This work: ML-assisted directed evolution with combinatorial libraries, multiple mutations per round",
+          "Hypothesis: ML can traverse fitness landscapes more efficiently by modeling epistasis",
+          "Validation plan: GB1 empirical landscape (4 positions, 160k variants)",
+          "Application plan: enzyme for new-to-nature C–Si bond formation"
+        ],
+        "methods": [
+          "Combinatorial library sampling",
+          "Machine learning models trained on sequence-function data",
+          "Predicted restricted libraries enriched in high fitness"
+        ],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 7,
+        "heading": "Results",
+        "gist": "",
+        "process_signals": [],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 8,
+        "heading": "Directed evolution and machine learning",
+        "gist": "In ML-assisted directed evolution, sequence-function data from all variants train a panel of models. Best models predict fitness of all possible sequences, and a restricted library of top predicted variants is constructed and screened. This allows exploring full combinatorial space of multiple positions simultaneously, unlike sequential single mutations or recombination of top mutations. Fig. 1 illustrates the approach for four positions.",
+        "process_signals": [
+          "Workflow: train models on random sample of combinatorial library (input library)",
+          "Use models to predict fitness of all possible variants",
+          "Construct predicted library of top-ranked variants using degenerate codons",
+          "Screen predicted library experimentally",
+          "Best variant becomes parent for next round with new positions",
+          "Advantage over single-mutation walk: explores epistatic interactions, larger steps in sequence space",
+          "Advantage over recombination: provides variability estimates at each position, not just top mutations"
+        ],
+        "methods": [
+          "Panel of models: linear, kernel, neural network, ensemble",
+          "Model selection based on accuracy",
+          "Degenerate codon design for predicted library (SwiftLib)"
+        ],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 9,
+        "heading": "Validation on an Empirical Fitness Landscape",
+        "gist": "Simulated directed evolution on GB1 fitness landscape (4 positions, 149,361 measured variants). Compared single-mutation walk, recombination, and ML-assisted approach with equal screening burden (570 variants). ML used 470 random training variants, predicted top 100. ML-assisted approach reached higher fitness more frequently: 17% reached fitness 7, 8% reached fitness 8, vs. 7% and 0% for single-mutation walk. Recombination performed intermediately. ML avoids low-fitness peaks.",
+        "process_signals": [
+          "Dataset: GB1 binding to IgG-Fc, 4 positions, fitness max 8.76, 19.7% at 0",
+          "Single-mutation walk: greedy, deterministic, 570 variants screened (3-fold oversampling for 95% coverage)",
+          "Recombination: random sample, recombine top 3 mutations, max library 81, alternative recombination worse",
+          "ML-assisted: 470 training, 100 predicted, total 570; shallow neural networks, 4-fold CV based on Pearson's r",
+          "Results: ML-assisted distribution shifted to higher fitness; 17% reach fitness 7, 8% reach 8",
+          "Single-mutation walk: 7% reach 7, 0% reach 8; recombination: 10% reach 7, 2% reach 8",
+          "ML avoids low-fitness peaks (0% at fitness 0 vs. 6% for single-mutation)",
+          "Design choices: training/prediction split based on plate size, could be optimized (Fig. S1A)"
+        ],
+        "methods": [
+          "Shallow neural networks with randomized hyperparameter search",
+          "4-fold cross-validation based on Pearson's r",
+          "Model selection based on error on 1000 held-out variants",
+          "Prediction of top 100 sequences"
+        ],
+        "metrics": [
+          "Fitness (enrichment of folded protein bound to antibody)",
+          "Highest fitness reached",
+          "Distribution of fitness values"
+        ],
+        "failures_or_limits": [
+          "Design choices (number of training vs. predicted variants) could be improved for higher expected fitness (Fig. S1A)",
+          "Alternative recombination strategy performed worse (Fig. S1B)"
+        ]
+      },
+      {
+        "section_index": 10,
+        "heading": "Application to Evolution of Enantiodivergent Enzyme Activity",
+        "gist": "Applied ML-assisted directed evolution to engineer Rma NOD for enantioselective C–Si bond formation. Starting parent: Y32K V97L (76% ee (S)). Two sets of positions: Set I (K32, F46, L56, L97) near active site; Set II (P49, R51, I53) near substrate channel. Used NDT codons for input libraries to maximize diversity. Round 1: 124 sequence-function pairs trained models, predicted libraries of 90 variants each for (S)- and (R)-enantiomers. Identified VCHV (93% ee (S)) and GSSG (62% ee (R)). Round 2: used VCHV and GSSG as parents for Set II. From predicted libraries, obtained variants with 93% ee (S) and 79% ee (R). Total 805 variants tested over 7 positions. VCHV was less selective in final validation than initial screen.",
+        "process_signals": [
+          "Goal: engineer enzyme for both enantiomers of new-to-nature C–Si bond formation",
+          "Parent choice: Rma NOD Y32K V97L, 76% ee (S), thermostable, less enantiopreference than previous enzyme",
+          "Position selection: Set I near active site, Set II near substrate channel",
+          "Library design: NDT codons for input libraries to maximize diversity and avoid overrepresentation",
+          "Round 1: 124 input variants, models trained, 90 predicted variants screened per enantiomer",
+          "Round 1 results: VCHV (93% ee (S)), GSSG (62% ee (R)); VCHV less selective in final validation",
+          "Round 2: VCHV and GSSG as parents for Set II; predicted libraries screened",
+          "Round 2 results: 93% ee (S) and 79% ee (R) final variants",
+          "Total: 445 sequence-function relationships for training, 360 predicted variants tested, 805 total over 7 positions",
+          "Throughput limitation: one 96-well plate per predicted library; more throughput could improve results (Fig. S1A)",
+          "Failed sequencing reads reduced input data below two full plates"
+        ],
+        "methods": [
+          "NDT codon mutagenesis for input libraries",
+          "SwiftLib for degenerate codon design of predicted libraries",
+          "Whole-cell reactions, SFC chiral separation for ee measurement",
+          "Panel of models trained, top models used for prediction"
+        ],
+        "metrics": [
+          "Enantiomeric excess (ee)",
+          "Number of variants screened"
+        ],
+        "failures_or_limits": [
+          "VCHV was most selective in initial screen but less selective in final validation",
+          "Failed sequencing reads reduced input data",
+          "Limited throughput (one plate per predicted library) may limit reaching optimum"
+        ]
+      },
+      {
+        "section_index": 11,
+        "heading": "Machine Learning Identifies Diverse Improved Sequences",
+        "gist": "ML-assisted directed evolution identifies diverse improved sequences, not just single best. Tables show top variants from input and predicted libraries for Sets I and II. Predicted library variants contain mutations not present in top input variants, demonstrating non-obvious solutions. Evolved variants also show increased cellular activity. Diversity provides multiple solutions with different properties (e.g., activity).",
+        "process_signals": [
+          "Benefit: ML identifies diverse set of improved sequences, not just top one",
+          "Diversity useful for other design requirements (activity, substrate tolerance, IP)",
+          "Tables 1 and 2: top variants in input vs. predicted libraries",
+          "Predicted library variants have mutations not in top input variants (non-obvious)",
+          "Example: top (S)-selective predicted variants have mutations at positions 32,46,56 not in top input",
+          "Evolved variants show increased cellular activity over starting variant (2.2-3.2 fold)",
+          "Activity increase may contribute to selectivity by overcoming background",
+          "Two most (S)-selective variants differ <1% ee but one has higher activity"
+        ],
+        "methods": [],
+        "metrics": [
+          "Enantiomeric excess (ee)",
+          "Cellular activity increase"
+        ],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 12,
+        "heading": "Machine Learning Predicts Regions of Sequence Space Enriched in Function",
+        "gist": "ML-assisted approach focuses experiments on regions of sequence space enriched in desired function. Visualized as 1D fitness distributions of input vs. predicted libraries. Predicted libraries are shifted toward higher fitness (right for (S), left for (R)). ML benefits more pronounced in Set II (fewer positions, more data). Predicted library sizes: Set I 864 (S), 630 (R); Set II 192 (S), 90 (R). 90 variants tested per library.",
+        "process_signals": [
+          "Alternative analysis: focus on library fitness distributions, not individual best variants",
+          "Visualization: kernel density estimates of fitness for input (lighter) and predicted (darker) libraries",
+          "Predicted libraries shifted toward desired enantioselectivity",
+          "Random mutations biased toward parent selectivity",
+          "ML benefits greater in Set II due to fewer positions and more data per position",
+          "Predicted library sizes: Set I 864 (S), 630 (R); Set II 192 (S), 90 (R)",
+          "90 variants tested per predicted library; Set II had redundancy due to small theoretical size"
+        ],
+        "methods": [
+          "Kernel density estimation for fitness distributions",
+          "Predicted library construction using degenerate codons"
+        ],
+        "metrics": [
+          "Fitness (enantioselectivity)",
+          "Library size"
+        ],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 13,
+        "heading": "Discussion",
+        "gist": "ML screens full recombination library in silico, reducing in vitro screening. Evolved single parent to both enantiomers of new-to-nature reaction. Models epistasis directly by sampling combinatorial space. ML enables larger steps in sequence space, avoiding negative epistasis and indirect paths. Diverse solutions found (e.g., position 49 tolerates Pro, Tyr, Arg). Approach differs from Gaussian process-based probability of improvement. Multiple model types tested. Future improvements: more data, better physical descriptors, embedded representations. ML leverages limited data without detailed mechanistic understanding.",
+        "process_signals": [
+          "Key achievement: rapid evolution of enantioselective variants from single parent",
+          "Advantage over ProSAR: models epistasis directly, not just single mutations",
+          "ML increases effective throughput, enables larger steps, avoids negative epistasis",
+          "Diverse solutions: position 49 tolerates multiple amino acids with minimal ee loss",
+          "Comparison to Saito et al.: they use Gaussian processes for probability of improvement; this work identifies optimal variants directly",
+          "Model selection: multiple types tested because best model unknown a priori",
+          "Limitations: predictive accuracy could be improved with more data or better simulations",
+          "Future: deep mutational scanning datasets for validation, better physical descriptors, embedded representations",
+          "Overall: ML leverages limited experimental resources without mechanistic understanding"
+        ],
+        "methods": [
+          "Panel of models: linear, kernel, neural network, ensemble",
+          "Model selection based on accuracy",
+          "Combinatorial library sampling"
+        ],
+        "metrics": [],
+        "failures_or_limits": [
+          "Predictive accuracy limited by data quantity and model abstraction",
+          "More data or computationally expensive simulations could improve accuracy",
+          "Current implementation is baseline; future work can incorporate better descriptors"
+        ]
+      },
+      {
+        "section_index": 14,
+        "heading": "Materials and Methods",
+        "gist": "",
+        "process_signals": [],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 15,
+        "heading": "Approach Validation on an Empirical Fitness Landscape",
+        "gist": "GB1 fitness landscape: 149,361 measured variants, 4 positions. Simulated three approaches: single-mutation walk (greedy, 4 rounds, 570 variants), recombination (random 527 variants, recombine top 3, avg 570 variants), ML-assisted (470 training, 100 predicted, total 570). ML used shallow neural networks, 4-fold CV based on Pearson's r, model selection on 1000 held-out variants. Process repeated with varying training sizes (Fig. S1A).",
+        "process_signals": [
+          "Dataset: only measured sequences used, no imputation",
+          "Single-mutation walk: deterministic, 19N variants per round, 4 rounds, 570 total (3-fold oversampling for 95% coverage)",
+          "Recombination: 527 random variants, top 3 recombined, average 570 over 10,000 simulations",
+          "ML-assisted: 470 training, 100 predicted; shallow neural networks with randomized hyperparameter search",
+          "Model evaluation: 4-fold CV Pearson's r, error on 1000 held-out variants",
+          "Predicted library size 100 chosen to match 96-well plate capacity",
+          "Total screening burden equalized at 570 variants",
+          "Sensitivity analysis: varied training size to simulate lower accuracy (Fig. S1A)"
+        ],
+        "methods": [
+          "Shallow neural networks",
+          "Randomized hyperparameter search",
+          "4-fold cross-validation with Pearson's r",
+          "Model selection based on held-out error"
+        ],
+        "metrics": [
+          "Pearson's r",
+          "Fitness"
+        ],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 16,
+        "heading": "Library Cloning, Expression, and Characterization of Rma NOD",
+        "gist": "Rma NOD gene cloned into pET22b(+). Libraries constructed with degenerate codons via SwiftLib. Expression in E. coli BL21 in 96 deep-well plates. Activity measured by whole-cell reactions with Me-EDA and PhMe2SiH, anaerobic, 6 hr. Enantiomeric excess measured by SFC with chiral column.",
+        "process_signals": [
+          "Cloning: gBlock into pET22b(+)",
+          "Library construction: PCR, Gibson assembly, degenerate codons from SwiftLib",
+          "Codon distribution verified by sequencing (Supp Fig. 2)",
+          "Expression: 96 deep-well plates, 1 mL HyperBroth, E. coli BL21, induced with IPTG and heme precursor",
+          "Activity assay: whole cells, 10 mM substrates, anaerobic, 6 hr, cyclohexane extraction",
+          "ee measurement: SFC with Chiralcel OD-H column, 95% CO2, 5% isopropanol, 3 min"
+        ],
+        "methods": [
+          "SwiftLib for degenerate codon design",
+          "Whole-cell biotransformation",
+          "Supercritical fluid chromatography (SFC) for chiral analysis"
+        ],
+        "metrics": [
+          "Enantiomeric excess (ee)"
+        ],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 17,
+        "heading": "Rma NOD Model Training and Prediction Testing",
+        "gist": "Sequence-function pairs from screening used to train panel of models (KNN, linear, trees, random forests, MLP) with default hyperparameters in scikit-learn. Top 3 model types selected, gridsearch CV for hyperparameters. Top 3 hyperparameter sets for top 3 models used to predict top 1000 sequences. Degenerate codons designed by SwiftLib to encode frequent amino acids. 90 random variants from predicted library tested in vitro. Random sampling differs from GB1 where all sequences enumerated.",
+        "process_signals": [
+          "Data: sequence-function pairs from screening, available on ProtaBank",
+          "Model panel: KNN, linear (ARD, Bayesian Ridge, Elastic Net, Lasso LARS, Ridge), decision trees, random forests (AdaBoost, Bagging, Gradient Boosting), MLP",
+          "Default hyperparameters initially, then top 3 models selected",
+          "Gridsearch cross-validation for hyperparameter optimization",
+          "Top 3 hyperparameter sets for top 3 model types used for prediction",
+          "Prediction: top 1000 sequences ranked by frequency across models",
+          "Library design: SwiftLib identifies degenerate codons for frequent amino acids",
+          "Testing: 90 random variants from predicted library screened",
+          "Random sampling means optimal predicted sequence may not be tested, but fitness distributions can be generated"
+        ],
+        "methods": [
+          "scikit-learn models",
+          "Gridsearch cross-validation",
+          "SwiftLib for degenerate codon design",
+          "Random sampling of predicted library for experimental testing"
+        ],
+        "metrics": [],
+        "failures_or_limits": [
+          "Random sampling of predicted library may miss optimal sequence",
+          "Model accuracy limited by data quantity and default hyperparameters initially"
+        ]
+      }
+    ],
+    "global_hypotheses_about_storyline": [
+      "The paper hypothesizes that machine learning can effectively reduce the experimental burden of directed evolution by predicting fitness of combinatorial libraries in silico, enabling multiple mutations per round and more efficient navigation of sequence space.",
+      "It posits that ML models trained on a random sample of a combinatorial library can capture epistatic interactions and guide the construction of smaller, enriched libraries.",
+      "The approach is expected to find higher fitness variants and more diverse solutions compared to traditional single-mutation walks or recombination strategies.",
+      "The wet-lab application aims to demonstrate that ML-assisted evolution can rapidly engineer enantioselective enzymes for a new-to-nature reaction from a single parent, achieving both enantiomers."
+    ],
+    "uncertainties_to_resolve": [
+      "How does the performance of ML-assisted evolution scale with library size and number of positions?",
+      "What is the optimal ratio of training to predicted variants for different landscapes?",
+      "How transferable are models between different protein systems or functions?",
+      "What is the impact of different model types and hyperparameters on prediction accuracy and evolutionary outcomes?",
+      "How does the approach handle highly rugged or deceptive fitness landscapes?",
+      "What are the limits of using NDT codons for input library diversity, and how does it affect model training?",
+      "Can the approach be integrated with higher-throughput screening methods to further improve outcomes?",
+      "How robust is the method to experimental noise and missing data (e.g., failed sequencing reads)?"
+    ]
+  },
+  "chunk_events": [
+    {
+      "chunk_id": "C001",
+      "char_start": 0,
+      "char_end": 18000,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C001_E01",
+          "chunk_id": "C001",
+          "event_type": "problem",
+          "order_hint": 1,
+          "summary": "Combinatorial sequence space is expensive to sample experimentally, motivating in silico screening.",
+          "methods_or_tools": [],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E01_01"
+          ]
+        },
+        {
+          "event_id": "C001_E02",
+          "chunk_id": "C001",
+          "event_type": "hypothesis",
+          "order_hint": 2,
+          "summary": "Machine learning models trained on tested variants can computationally test sequence space, reducing experimental effort.",
+          "methods_or_tools": [
+            "machine learning models"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E02_01"
+          ]
+        },
+        {
+          "event_id": "C001_E03",
+          "chunk_id": "C001",
+          "event_type": "design",
+          "order_hint": 3,
+          "summary": "The approach uses a random sample of a combinatorial library to train models, then predicts a restricted library enriched in high fitness.",
+          "methods_or_tools": [
+            "machine learning models",
+            "degenerate codons"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E03_01"
+          ]
+        },
+        {
+          "event_id": "C001_E04",
+          "chunk_id": "C001",
+          "event_type": "computation",
+          "order_hint": 4,
+          "summary": "Shallow neural networks were trained with 470 randomly-selected input variants and used to predict 100 variants for testing.",
+          "methods_or_tools": [
+            "shallow neural networks"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [
+            "470 training variants",
+            "100 predicted variants"
+          ],
+          "evidence_ids": [
+            "EV_C001_E04_01"
+          ]
+        },
+        {
+          "event_id": "C001_E05",
+          "chunk_id": "C001",
+          "event_type": "experiment",
+          "order_hint": 5,
+          "summary": "Simulated directed evolution on GB1 fitness landscape compared single-mutation walk, recombination, and ML-assisted approach with equal screening burden (570 variants).",
+          "methods_or_tools": [],
+          "entities": [
+            "GB1 fitness landscape"
+          ],
+          "numbers_or_metrics": [
+            "570 variants"
+          ],
+          "evidence_ids": [
+            "EV_C001_E05_01"
+          ]
+        },
+        {
+          "event_id": "C001_E07",
+          "chunk_id": "C001",
+          "event_type": "limitation",
+          "order_hint": 7,
+          "summary": "Design choices such as the number of training vs. predicted variants could be improved for higher expected fitness.",
+          "methods_or_tools": [],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E07_01"
+          ]
+        }
+      ],
+      "notes": "Chunk covers abstract, significance, introduction, and part of results including validation on GB1 landscape. Events focus on problem, hypothesis, design, computation, experiment, analysis, and limitation.",
+      "api_usage": {
+        "prompt_tokens": 8920,
+        "completion_tokens": 1017,
+        "total_tokens": 9937,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8664
+      }
+    },
+    {
+      "chunk_id": "C002",
+      "char_start": 17100,
+      "char_end": 35100,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C002_E01",
+          "chunk_id": "C002",
+          "event_type": "analysis",
+          "order_hint": 1,
+          "summary": "ML-assisted evolution reaches global optimum fitness in 8.2% of simulations vs. 4.9% for single-mutant walk and 4.0% for recombination.",
+          "methods_or_tools": [],
+          "entities": [
+            "GB1 fitness landscape"
+          ],
+          "numbers_or_metrics": [
+            "8.2%",
+            "4.9%",
+            "4.0%"
+          ],
+          "evidence_ids": [
+            "EV_C002_E01_01"
+          ]
+        },
+        {
+          "event_id": "C002_E02",
+          "chunk_id": "C002",
+          "event_type": "analysis",
+          "order_hint": 2,
+          "summary": "ML approach requires about 30% fewer variants to achieve results similar to single-mutant walk.",
+          "methods_or_tools": [],
+          "entities": [
+            "GB1 fitness landscape"
+          ],
+          "numbers_or_metrics": [
+            "30%"
+          ],
+          "evidence_ids": [
+            "EV_C002_E02_01"
+          ]
+        },
+        {
+          "event_id": "C002_E03",
+          "chunk_id": "C002",
+          "event_type": "analysis",
+          "order_hint": 3,
+          "summary": "ML approach has higher expected fitness (6.42) vs. single-mutant walk (5.41) and recombination (5.93).",
+          "methods_or_tools": [],
+          "entities": [
+            "GB1 fitness landscape"
+          ],
+          "numbers_or_metrics": [
+            "6.42",
+            "5.41",
+            "5.93"
+          ],
+          "evidence_ids": [
+            "EV_C002_E03_01"
+          ]
+        },
+        {
+          "event_id": "C002_E04",
+          "chunk_id": "C002",
+          "event_type": "analysis",
+          "order_hint": 4,
+          "summary": "ML model accuracy can be low (Pearson's r = 0.41) but still sufficient to guide evolution.",
+          "methods_or_tools": [],
+          "entities": [],
+          "numbers_or_metrics": [
+            "Pearson's r = 0.41"
+          ],
+          "evidence_ids": [
+            "EV_C002_E04_01"
+          ]
+        },
+        {
+          "event_id": "C002_E05",
+          "chunk_id": "C002",
+          "event_type": "experiment",
+          "order_hint": 5,
+          "summary": "Round 1: From 124 sequence-function pairs, models predicted libraries; screening 90 variants each identified VCHV (93% ee (S)) and GSSG (62% ee (R)).",
+          "methods_or_tools": [
+            "NDT mutagenesis",
+            "machine learning models"
+          ],
+          "entities": [
+            "Rma NOD",
+            "VCHV",
+            "GSSG"
+          ],
+          "numbers_or_metrics": [
+            "124",
+            "90",
+            "93% ee",
+            "62% ee"
+          ],
+          "evidence_ids": [
+            "EV_C002_E05_01",
+            "EV_C002_E05_02"
+          ]
+        },
+        {
+          "event_id": "C002_E06",
+          "chunk_id": "C002",
+          "event_type": "experiment",
+          "order_hint": 6,
+          "summary": "Round 2: Using VCHV and GSSG as parents, predicted libraries yielded variants with 93% ee (S) and 79% ee (R).",
+          "methods_or_tools": [],
+          "entities": [
+            "VCHV",
+            "GSSG"
+          ],
+          "numbers_or_metrics": [
+            "93% ee",
+            "79% ee"
+          ],
+          "evidence_ids": [
+            "EV_C002_E06_01"
+          ]
+        },
+        {
+          "event_id": "C002_E07",
+          "chunk_id": "C002",
+          "event_type": "experiment",
+          "order_hint": 7,
+          "summary": "Total experimental effort: 445 sequence-function pairs for training, 360 predicted variants tested, 805 total over 7 positions.",
+          "methods_or_tools": [],
+          "entities": [],
+          "numbers_or_metrics": [
+            "445",
+            "360",
+            "805",
+            "7"
+          ],
+          "evidence_ids": [
+            "EV_C002_E07_01"
+          ]
+        },
+        {
+          "event_id": "C002_E08",
+          "chunk_id": "C002",
+          "event_type": "limitation",
+          "order_hint": 8,
+          "summary": "VCHV was most selective in initial screen but less selective in final validation.",
+          "methods_or_tools": [],
+          "entities": [
+            "VCHV"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E08_01"
+          ]
+        }
+      ],
+      "notes": "Chunk contains key validation results on GB1 landscape and detailed experimental application for enzyme evolution, including specific metrics and limitations.",
+      "api_usage": {
+        "prompt_tokens": 10101,
+        "completion_tokens": 1358,
+        "total_tokens": 11459,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9845
+      }
+    },
+    {
+      "chunk_id": "C003",
+      "char_start": 34200,
+      "char_end": 52200,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C003_E01",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 1,
+          "summary": "Proposes an alternative analysis focusing on library fitness distributions rather than individual best variants.",
+          "methods_or_tools": [
+            "kernel density estimation"
+          ],
+          "entities": [
+            "fitness distribution",
+            "library"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E01_01",
+            "EV_C003_E01_02"
+          ]
+        },
+        {
+          "event_id": "C003_E02",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 2,
+          "summary": "Visualizes input and predicted library fitness distributions as kernel density estimates, showing shift toward desired enantioselectivity.",
+          "methods_or_tools": [
+            "kernel density estimation"
+          ],
+          "entities": [
+            "input library",
+            "predicted library",
+            "enantioselectivity"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E02_01"
+          ]
+        },
+        {
+          "event_id": "C003_E03",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 3,
+          "summary": "Notes that random mutations are biased toward parent selectivity, and ML focuses predictions on high-fitness regions.",
+          "methods_or_tools": [],
+          "entities": [
+            "random mutations",
+            "parent selectivity",
+            "machine learning"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E03_01",
+            "EV_C003_E03_02"
+          ]
+        },
+        {
+          "event_id": "C003_E04",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 4,
+          "summary": "Reports predicted library sizes and number of variants tested, noting ML benefits more pronounced in Position Set II.",
+          "methods_or_tools": [],
+          "entities": [
+            "Position Set I",
+            "Position Set II",
+            "predicted library"
+          ],
+          "numbers_or_metrics": [
+            "864 variants for (S)-enantiomer in Set I",
+            "630 variants for (R)-enantiomer in Set I",
+            "192 variants for (S)-enantiomer in Set II",
+            "90 variants for (R)-enantiomer in Set II",
+            "90 variants tested per predicted library"
+          ],
+          "evidence_ids": [
+            "EV_C003_E04_03"
+          ]
+        },
+        {
+          "event_id": "C003_E05",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 5,
+          "summary": "Discusses how ML enables larger steps in sequence space by modeling epistasis and avoiding negative epistatic effects.",
+          "methods_or_tools": [],
+          "entities": [
+            "machine learning",
+            "epistasis",
+            "sequence space"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E05_01",
+            "EV_C003_E05_02",
+            "EV_C003_E05_03"
+          ]
+        },
+        {
+          "event_id": "C003_E06",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 6,
+          "summary": "Highlights that ML-assisted evolution finds diverse solutions, e.g., position 49 tolerates multiple amino acids with minimal ee loss.",
+          "methods_or_tools": [],
+          "entities": [
+            "position 49",
+            "proline",
+            "tyrosine",
+            "arginine"
+          ],
+          "numbers_or_metrics": [
+            "less than 1% loss in enantioselectivity"
+          ],
+          "evidence_ids": [
+            "EV_C003_E06_01",
+            "EV_C003_E06_02",
+            "EV_C003_E06_03"
+          ]
+        },
+        {
+          "event_id": "C003_E07",
+          "chunk_id": "C003",
+          "event_type": "limitation",
+          "order_hint": 7,
+          "summary": "Acknowledges that predictive accuracy could be improved by more data or computationally expensive simulations.",
+          "methods_or_tools": [],
+          "entities": [
+            "predictive accuracy",
+            "data",
+            "simulations"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E07_01"
+          ]
+        },
+        {
+          "event_id": "C003_E08",
+          "chunk_id": "C003",
+          "event_type": "design",
+          "order_hint": 8,
+          "summary": "Describes model training and prediction testing: panel of models, gridsearch CV, top 1000 sequences, degenerate codon design, random sampling of 90 variants.",
+          "methods_or_tools": [
+            "scikit-learn",
+            "gridsearch cross-validation",
+            "SwiftLib"
+          ],
+          "entities": [
+            "model panel",
+            "predicted library",
+            "degenerate codons"
+          ],
+          "numbers_or_metrics": [
+            "top 1000 sequences",
+            "90 random variants tested"
+          ],
+          "evidence_ids": [
+            "EV_C003_E08_02",
+            "EV_C003_E08_03"
+          ]
+        }
+      ],
+      "notes": "This chunk contains analysis of fitness distributions, discussion of ML benefits, limitations, and detailed methods for model training and prediction testing.",
+      "api_usage": {
+        "prompt_tokens": 9206,
+        "completion_tokens": 1636,
+        "total_tokens": 10842,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8950
+      }
+    },
+    {
+      "chunk_id": "C004",
+      "char_start": 51300,
+      "char_end": 69300,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C004_E01",
+          "chunk_id": "C004",
+          "event_type": "design",
+          "order_hint": 1,
+          "summary": "Model training uses a panel of regressors from scikit-learn, selecting top 3 model types by Leave-One-Out cross-validation Pearson correlation, then gridsearch hyperparameter optimization to select 9 models total.",
+          "methods_or_tools": [
+            "scikit-learn",
+            "Leave-One-Out cross-validation",
+            "gridsearch hyperparameter optimization"
+          ],
+          "entities": [
+            "K-nearest neighbors",
+            "linear models",
+            "decision trees",
+            "random forests",
+            "multilayer perceptrons"
+          ],
+          "numbers_or_metrics": [
+            "3 model types",
+            "9 models total"
+          ],
+          "evidence_ids": [
+            "EV_C004_E01_01",
+            "EV_C004_E01_02"
+          ]
+        },
+        {
+          "event_id": "C004_E02",
+          "chunk_id": "C004",
+          "event_type": "design",
+          "order_hint": 2,
+          "summary": "Predicted libraries are designed by interpreting model predictions as amino acid frequencies in the top 1000 sequences, then encoding frequent amino acids with degenerate codons via SwiftLib.",
+          "methods_or_tools": [
+            "SwiftLib"
+          ],
+          "entities": [
+            "degenerate codons"
+          ],
+          "numbers_or_metrics": [
+            "top 1000 sequences"
+          ],
+          "evidence_ids": [
+            "EV_C004_E02_01",
+            "EV_C004_E02_02"
+          ]
+        },
+        {
+          "event_id": "C004_E03",
+          "chunk_id": "C004",
+          "event_type": "limitation",
+          "order_hint": 3,
+          "summary": "The prediction interpretation step loses exact sequence combinations, potentially including non-optimal variants, but balances experimental costs.",
+          "methods_or_tools": [],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E03_01",
+            "EV_C004_E03_02"
+          ]
+        },
+        {
+          "event_id": "C004_E04",
+          "chunk_id": "C004",
+          "event_type": "experiment",
+          "order_hint": 4,
+          "summary": "Protein expression and biocatalytic reaction protocol: cells grown in 96 deep-well plates, induced, and whole-cell reactions with substrates Me-EDA and PhMe2SiH under anaerobic conditions for 4 hours.",
+          "methods_or_tools": [
+            "96 deep-well plates",
+            "whole-cell biotransformation"
+          ],
+          "entities": [
+            "Me-EDA",
+            "PhMe2SiH",
+            "E. coli BL21"
+          ],
+          "numbers_or_metrics": [
+            "4 replicates",
+            "10 mM substrates",
+            "4 hours reaction"
+          ],
+          "evidence_ids": [
+            "EV_C004_E04_01",
+            "EV_C004_E04_03"
+          ]
+        },
+        {
+          "event_id": "C004_E05",
+          "chunk_id": "C004",
+          "event_type": "experiment",
+          "order_hint": 5,
+          "summary": "Enantiomeric excess measured by supercritical fluid chromatography (SFC) with chiral column, using automatic integration.",
+          "methods_or_tools": [
+            "supercritical fluid chromatography (SFC)",
+            "Chiralcel OD-H column"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [
+            "95% CO2, 5% isopropanol, 3 minutes"
+          ],
+          "evidence_ids": [
+            "EV_C004_E05_02"
+          ]
+        },
+        {
+          "event_id": "C004_E07",
+          "chunk_id": "C004",
+          "event_type": "design",
+          "order_hint": 7,
+          "summary": "Starting variant Y32K V97L chosen for higher activity over wild-type to improve data reproducibility, despite slightly lower enantioselectivity.",
+          "methods_or_tools": [],
+          "entities": [
+            "Y32K V97L",
+            "wild-type Rma NOD"
+          ],
+          "numbers_or_metrics": [
+            "76% ee (S) for Y32K V97L",
+            "59% ee for WT"
+          ],
+          "evidence_ids": [
+            "EV_C004_E07_01"
+          ]
+        }
+      ],
+      "notes": "This chunk contains detailed methods for model training, prediction interpretation, experimental protocols, and model performance statistics, which are core to the paper's process.",
+      "api_usage": {
+        "prompt_tokens": 10755,
+        "completion_tokens": 1638,
+        "total_tokens": 12393,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 10499
+      }
+    },
+    {
+      "chunk_id": "C005",
+      "char_start": 68400,
+      "char_end": 86400,
+      "chunk_relevance": "medium",
+      "events": [
+        {
+          "event_id": "C005_E01",
+          "chunk_id": "C005",
+          "event_type": "analysis",
+          "order_hint": 1,
+          "summary": "Analysis of amino acid frequencies in top predicted sequences to guide degenerate codon design.",
+          "methods_or_tools": [],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C005_E01_01"
+          ]
+        },
+        {
+          "event_id": "C005_E02",
+          "chunk_id": "C005",
+          "event_type": "design",
+          "order_hint": 2,
+          "summary": "Design of predicted libraries using degenerate codons based on top model predictions.",
+          "methods_or_tools": [
+            "SwiftLib"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C005_E02_01"
+          ]
+        },
+        {
+          "event_id": "C005_E04",
+          "chunk_id": "C005",
+          "event_type": "analysis",
+          "order_hint": 4,
+          "summary": "Analysis of the effect of training data size on ML-assisted evolution performance.",
+          "methods_or_tools": [],
+          "entities": [],
+          "numbers_or_metrics": [
+            "N + 100 total screening burden"
+          ],
+          "evidence_ids": [
+            "EV_C005_E04_01"
+          ]
+        },
+        {
+          "event_id": "C005_E05",
+          "chunk_id": "C005",
+          "event_type": "analysis",
+          "order_hint": 5,
+          "summary": "Analysis of predicted vs measured enantioselectivity for predicted libraries.",
+          "methods_or_tools": [],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C005_E05_01"
+          ]
+        },
+        {
+          "event_id": "C005_E06",
+          "chunk_id": "C005",
+          "event_type": "analysis",
+          "order_hint": 6,
+          "summary": "Comparison of input and predicted library amino acid compositions to assess cloning biases.",
+          "methods_or_tools": [],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C005_E06_01"
+          ]
+        },
+        {
+          "event_id": "C005_E07",
+          "chunk_id": "C005",
+          "event_type": "limitation",
+          "order_hint": 7,
+          "summary": "Limitation of ProSAR-like method on landscapes with epistasis.",
+          "methods_or_tools": [
+            "ProSAR"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C005_E07_01"
+          ]
+        }
+      ],
+      "notes": "Chunk contains supplementary analyses and method details, including amino acid frequency analysis, model ensemble design, performance comparisons, and limitations of ProSAR.",
+      "api_usage": {
+        "prompt_tokens": 10970,
+        "completion_tokens": 963,
+        "total_tokens": 11933,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 10714
+      }
+    },
+    {
+      "chunk_id": "C006",
+      "char_start": 85500,
+      "char_end": 103500,
+      "chunk_relevance": "medium",
+      "events": [
+        {
+          "event_id": "C006_E01",
+          "chunk_id": "C006",
+          "event_type": "analysis",
+          "order_hint": 1,
+          "summary": "Comparison of library coverage requirements for single-mutation walk under different codon assumptions.",
+          "methods_or_tools": [
+            "Bosley and Ostermeier probability expressions"
+          ],
+          "entities": [
+            "single-mutation walk",
+            "library coverage",
+            "codon usage"
+          ],
+          "numbers_or_metrics": [
+            "95% library coverage",
+            "570 variants (3-fold oversampling)",
+            "554 variants (equal codon representation)",
+            "944 variants (NNS/NNK codons)",
+            "644 variants (22c-trick)"
+          ],
+          "evidence_ids": [
+            "EV_C006_E01_01",
+            "EV_C006_E01_02"
+          ]
+        },
+        {
+          "event_id": "C006_E02",
+          "chunk_id": "C006",
+          "event_type": "analysis",
+          "order_hint": 2,
+          "summary": "Justification for using 570 variants as baseline for single-mutation walk comparison.",
+          "methods_or_tools": [],
+          "entities": [
+            "single-mutation walk",
+            "ML approach"
+          ],
+          "numbers_or_metrics": [
+            "570 variants",
+            "300-400 variants"
+          ],
+          "evidence_ids": [
+            "EV_C006_E02_01",
+            "EV_C006_E02_02",
+            "EV_C006_E02_03"
+          ]
+        },
+        {
+          "event_id": "C006_E03",
+          "chunk_id": "C006",
+          "event_type": "experiment",
+          "order_hint": 3,
+          "summary": "Chiral SFC analysis of racemic and enzymatic organosilicon products to determine enantiomeric excess.",
+          "methods_or_tools": [
+            "Chiral SFC with Chiralcel OD-H column"
+          ],
+          "entities": [
+            "racemic product",
+            "VCHVYVV",
+            "GSSGPRL"
+          ],
+          "numbers_or_metrics": [
+            "5% isopropanol in CO2, 3 mL/min, 210 nm",
+            "VCHVYVV: 96.2% ee",
+            "GSSGPRL: 90.4% ee"
+          ],
+          "evidence_ids": [
+            "EV_C006_E03_01",
+            "EV_C006_E03_02"
+          ]
+        },
+        {
+          "event_id": "C006_E04",
+          "chunk_id": "C006",
+          "event_type": "validation",
+          "order_hint": 4,
+          "summary": "Statistical validation of improved activity and enantioselectivity of evolved variants over starting variants.",
+          "methods_or_tools": [
+            "Welch's t-test",
+            "conversion of ee to ΔΔG via ln(R/S)"
+          ],
+          "entities": [
+            "KFLLPRI",
+            "VCHVYVV",
+            "VCHVPVI",
+            "VCHVPVV",
+            "GSSGPRL",
+            "GSSGPGL",
+            "GSSGPFF",
+            "VCHVPRI",
+            "GSSGPRI"
+          ],
+          "numbers_or_metrics": [
+            "p-values: 3.77E-02, 2.26E-04, 6.84E-04, 2.27E-05, 3.37E-05, 6.06E-04",
+            "p-values for enantioselectivity: 1.48E-03, 1.62E-03, 7.54E-03, 1.65E-03, 1.21E-02, 3.93E-02"
+          ],
+          "evidence_ids": [
+            "EV_C006_E04_01",
+            "EV_C006_E04_02",
+            "EV_C006_E04_03",
+            "EV_C006_E04_04"
+          ]
+        },
+        {
+          "event_id": "C006_E05",
+          "chunk_id": "C006",
+          "event_type": "analysis",
+          "order_hint": 5,
+          "summary": "Model performance and selection for Set I and Set II using leave-one-out Pearson r.",
+          "methods_or_tools": [
+            "leave-one-out cross-validation",
+            "GradientBoostingRegressor",
+            "RandomForestRegressor",
+            "LinearSVR",
+            "ARDRegression",
+            "KernelRidge",
+            "BayesianRidge"
+          ],
+          "entities": [
+            "Set I models",
+            "Set II models"
+          ],
+          "numbers_or_metrics": [
+            "Pearson r values: 0.512, 0.478, 0.461, 0.447, 0.424, 0.419"
+          ],
+          "evidence_ids": [
+            "EV_C006_E05_01"
+          ]
+        },
+        {
+          "event_id": "C006_E06",
+          "chunk_id": "C006",
+          "event_type": "limitation",
+          "order_hint": 6,
+          "summary": "Acknowledgment that the method does not guarantee identifying variants better than the best in the input library.",
+          "methods_or_tools": [],
+          "entities": [
+            "ML-assisted directed evolution"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C006_E06_01"
+          ]
+        }
+      ],
+      "notes": "This chunk contains supplementary information: library coverage calculations, chiral SFC traces, statistical validation of improved variants, and model performance details. It provides supporting evidence for the main claims but does not introduce new core research events.",
+      "api_usage": {
+        "prompt_tokens": 12223,
+        "completion_tokens": 1831,
+        "total_tokens": 14054,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 11967
+      }
+    },
+    {
+      "chunk_id": "C007",
+      "char_start": 102600,
+      "char_end": 120600,
+      "chunk_relevance": "medium",
+      "events": [
+        {
+          "event_id": "C007_E02",
+          "chunk_id": "C007",
+          "event_type": "computation",
+          "order_hint": 2,
+          "summary": "Model selection for Set 2(S): top models chosen based on cross-validation performance.",
+          "methods_or_tools": [
+            "GradientBoostingRegressor",
+            "ARDRegression",
+            "LinearSVR"
+          ],
+          "entities": [
+            "Set 2(S)"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C007_E02_01"
+          ]
+        },
+        {
+          "event_id": "C007_E03",
+          "chunk_id": "C007",
+          "event_type": "computation",
+          "order_hint": 3,
+          "summary": "Model selection for Set 2(R): top models chosen based on cross-validation performance.",
+          "methods_or_tools": [
+            "GradientBoostingRegressor",
+            "ARDRegression",
+            "BayesianRidge"
+          ],
+          "entities": [
+            "Set 2(R)"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C007_E03_01"
+          ]
+        }
+      ],
+      "notes": "This chunk contains tables of model performance and lists of selected models for different sets, which are part of the computational process but do not describe new experimental or design events beyond model selection.",
+      "api_usage": {
+        "prompt_tokens": 11842,
+        "completion_tokens": 560,
+        "total_tokens": 12402,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 11586
+      }
+    },
+    {
+      "chunk_id": "C008",
+      "char_start": 119700,
+      "char_end": 122065,
+      "chunk_relevance": "none",
+      "events": [],
+      "notes": "This chunk contains only model hyperparameter listings and supplemental references, with no research evolution events.",
+      "api_usage": {
+        "prompt_tokens": 6064,
+        "completion_tokens": 50,
+        "total_tokens": 6114,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 6064
+      }
+    }
+  ],
+  "evidence_bank": [
+    {
+      "evidence_id": "EV_C001_E01_01",
+      "source_file": "docs/0200/combined.md",
+      "section": "C001",
+      "char_start": 1068,
+      "char_end": 1144,
+      "quote": "Combinatorial sequence space can be quite expensive to sample experimentally"
+    },
+    {
+      "evidence_id": "EV_C001_E02_01",
+      "source_file": "docs/0200/combined.md",
+      "section": "C001",
+      "char_start": 1150,
+      "char_end": 1265,
+      "quote": "machine learning models trained on tested variants provide a fast method for testing sequence space computationally"
+    },
+    {
+      "evidence_id": "EV_C001_E03_01",
+      "source_file": "docs/0200/combined.md",
+      "section": "C001",
+      "char_start": 8320,
+      "char_end": 8587,
+      "quote": "data from a random sample of the combinatorial library, the input library, are used to train machine learning models. These models are used to predict a smaller set of variants, the predicted library, which can be encoded with degenerate codons to test experimentally"
+    },
+    {
+      "evidence_id": "EV_C001_E04_01",
+      "source_file": "docs/0200/combined.md",
+      "section": "C001",
+      "char_start": 13066,
+      "char_end": 13184,
+      "quote": "shallow neural networks were trained with 470 randomly-selected input variants, from which 100 predictions were tested"
+    },
+    {
+      "evidence_id": "EV_C001_E05_01",
+      "source_file": "docs/0200/combined.md",
+      "section": "C001",
+      "char_start": 10012,
+      "char_end": 10162,
+      "quote": "we compare the final fitnesses reached by simulated directed evolution with and without machine learning, based on testing the same number of variants"
+    },
+    {
+      "evidence_id": "EV_C001_E07_01",
+      "source_file": "docs/0200/combined.md",
+      "section": "C001",
+      "char_start": 13525,
+      "char_end": 13608,
+      "quote": "these design choices could be improved to increase the expected fitness improvement"
+    },
+    {
+      "evidence_id": "EV_C002_E01_01",
+      "source_file": "docs/0200/combined.md",
+      "section": "C002",
+      "char_start": 18442,
+      "char_end": 18684,
+      "quote": "machine learning-assisted evolution reaches the global optimum fitness value in 8.2% of 600 simulations, compared to 4.9% of all starting sequences reaching the same value through a single-mutant walk and 4.0% of simulated recombination runs."
+    },
+    {
+      "evidence_id": "EV_C002_E02_01",
+      "source_file": "docs/0200/combined.md",
+      "section": "C002",
+      "char_start": 18717,
+      "char_end": 18859,
+      "quote": "the machine-learning approach requires about 30% fewer variants to achieve final results similar to the single-mutant walk with this analysis."
+    },
+    {
+      "evidence_id": "EV_C002_E03_01",
+      "source_file": "docs/0200/combined.md",
+      "section": "C002",
+      "char_start": 19040,
+      "char_end": 19192,
+      "quote": "the machine learning approach has an expected fitness value of 6.42, compared to 5.41 and 5.93 for the single step walk and recombination, respectively."
+    },
+    {
+      "evidence_id": "EV_C002_E04_01",
+      "source_file": "docs/0200/combined.md",
+      "section": "C002",
+      "char_start": 19209,
+      "char_end": 19493,
+      "quote": "the accuracy of the machine learning models as determined on a test set of 1000 random variants not found in the training set can be quite low (Pearson's r = 0.41 with stdev 0.17). However, this level of accuracy as measured by Pearson's r appears to be sufficient to guide evolution."
+    },
+    {
+      "evidence_id": "EV_C002_E05_01",
+      "source_file": "docs/0200/combined.md",
+      "section": "C002",
+      "char_start": 24495,
+      "char_end": 24624,
+      "quote": "From 124 sequence–function relationships sampled randomly, models were trained to predict a restricted set of selective variants."
+    },
+    {
+      "evidence_id": "EV_C002_E05_02",
+      "source_file": "docs/0200/combined.md",
+      "section": "C002",
+      "char_start": 25362,
+      "char_end": 25573,
+      "quote": "From the predicted libraries for both enantiomers, two variants, called VCHV (93 % ee) and GSSG (62 % ee) for their amino acids at positions 32, 46, 56, and 97, were identified by screening 90 variants for each."
+    },
+    {
+      "evidence_id": "EV_C002_E06_01",
+      "source_file": "docs/0200/combined.md",
+      "section": "C002",
+      "char_start": 25924,
+      "char_end": 26081,
+      "quote": "From those predicted libraries, we obtained two variants with measured enantioselectivities of 93% and 79% ee for the (S)- and (R)-enantiomers, respectively."
+    },
+    {
+      "evidence_id": "EV_C002_E07_01",
+      "source_file": "docs/0200/combined.md",
+      "section": "C002",
+      "char_start": 26082,
+      "char_end": 26322,
+      "quote": "These two enantioselective enzymes were achieved after obtaining 445 sequence-function relationships for model training and testing an additional 360 predicted variants, for a total of 805 variants tested experimentally covering 7 positions"
+    },
+    {
+      "evidence_id": "EV_C002_E08_01",
+      "source_file": "docs/0200/combined.md",
+      "section": "C002",
+      "char_start": 25694,
+      "char_end": 25796,
+      "quote": "VCHV was the most selective variant in the initial screen, but was less selective in final validation."
+    },
+    {
+      "evidence_id": "EV_C003_E01_01",
+      "source_file": "docs/0200/combined.md",
+      "section": "C003",
+      "char_start": 34682,
+      "char_end": 34808,
+      "quote": "we caution against focusing solely on examples of individual variants with higher fitness and propose an alternative analysis."
+    },
+    {
+      "evidence_id": "EV_C003_E01_02",
+      "source_file": "docs/0200/combined.md",
+      "section": "C003",
+      "char_start": 35221,
+      "char_end": 35357,
+      "quote": "an alternative representation of a library is a 1-dimensional distribution of fitness values sampled at random for each encoded library."
+    },
+    {
+      "evidence_id": "EV_C003_E02_01",
+      "source_file": "docs/0200/combined.md",
+      "section": "C003",
+      "char_start": 35497,
+      "char_end": 35663,
+      "quote": "Each subplot in Fig. 5 shows both the input and predicted (output) library as kernel density estimates in each round of evolution for R- and S-selectivity as fitness."
+    },
+    {
+      "evidence_id": "EV_C003_E03_01",
+      "source_file": "docs/0200/combined.md",
+      "section": "C003",
+      "char_start": 37026,
+      "char_end": 37119,
+      "quote": "the distribution of random mutations made in the input libraries is shifted toward the parent"
+    },
+    {
+      "evidence_id": "EV_C003_E03_02",
+      "source_file": "docs/0200/combined.md",
+      "section": "C003",
+      "char_start": 37295,
+      "char_end": 37419,
+      "quote": "the machine-learning algorithm is able to focus its predictions on areas of sequence space that are enriched in high fitness"
+    },
+    {
+      "evidence_id": "EV_C003_E04_03",
+      "source_file": "docs/0200/combined.md",
+      "section": "C003",
+      "char_start": 38107,
+      "char_end": 38316,
+      "quote": "the machine learning algorithms appear to have more pronounced benefits in Position Set II, likely due to the smaller number of positions explored and larger number of sequence-function relationships obtained."
+    },
+    {
+      "evidence_id": "EV_C003_E05_01",
+      "source_file": "docs/0200/combined.md",
+      "section": "C003",
+      "char_start": 38959,
+      "char_end": 39125,
+      "quote": "we modeled epistatic interactions at the mutated positions by sampling the combinatorial sequence space directly and incorporating models with nonlinear interactions."
+    },
+    {
+      "evidence_id": "EV_C003_E05_02",
+      "source_file": "docs/0200/combined.md",
+      "section": "C003",
+      "char_start": 39127,
+      "char_end": 39300,
+      "quote": "Machine learning increases effective throughput by providing an efficient computational method for estimating desired properties of all possible proteins in a large library."
+    },
+    {
+      "evidence_id": "EV_C003_E05_03",
+      "source_file": "docs/0200/combined.md",
+      "section": "C003",
+      "char_start": 39306,
+      "char_end": 39448,
+      "quote": "we can take larger steps through sequence space by identifying combinations of beneficial mutations, circumventing the need for indirect paths"
+    },
+    {
+      "evidence_id": "EV_C003_E06_01",
+      "source_file": "docs/0200/combined.md",
+      "section": "C003",
+      "char_start": 40196,
+      "char_end": 40273,
+      "quote": "proline is conserved at residue 49 in two of the most (S)-selective variants."
+    },
+    {
+      "evidence_id": "EV_C003_E06_02",
+      "source_file": "docs/0200/combined.md",
+      "section": "C003",
+      "char_start": 40440,
+      "char_end": 40541,
+      "quote": "tyrosine and arginine are also tolerated at position 49 with less than 1% loss in enantioselectivity."
+    },
+    {
+      "evidence_id": "EV_C003_E06_03",
+      "source_file": "docs/0200/combined.md",
+      "section": "C003",
+      "char_start": 40542,
+      "char_end": 40629,
+      "quote": "This suggests that there are diverse solutions in protein space for specific properties"
+    },
+    {
+      "evidence_id": "EV_C003_E07_01",
+      "source_file": "docs/0200/combined.md",
+      "section": "C003",
+      "char_start": 40868,
+      "char_end": 41125,
+      "quote": "While predictive accuracy could be improved by more computationally-expensive simulations or by collecting more data for machine learning, improved variants can already be identified by sampling from a space predicted to be dense in higher fitness variants."
+    },
+    {
+      "evidence_id": "EV_C003_E08_02",
+      "source_file": "docs/0200/combined.md",
+      "section": "C003",
+      "char_start": 47515,
+      "char_end": 47592,
+      "quote": "gridsearch cross-validation was used to identify the optimal hyperparameters."
+    },
+    {
+      "evidence_id": "EV_C003_E08_03",
+      "source_file": "docs/0200/combined.md",
+      "section": "C003",
+      "char_start": 47593,
+      "char_end": 47720,
+      "quote": "The top 3 hyperparameter sets for the top 3 model types were used to identify the top 1000 sequences in each predicted library."
+    },
+    {
+      "evidence_id": "EV_C004_E01_01",
+      "source_file": "docs/0200/combined.md",
+      "section": "C004",
+      "char_start": 62065,
+      "char_end": 62249,
+      "quote": "The 3 model types with highest Pearson correlation from a Leave-One-Out cross validation (LOO CV) with default hyperparameters were selected for gridsearch hyperparameter optimization."
+    },
+    {
+      "evidence_id": "EV_C004_E01_02",
+      "source_file": "docs/0200/combined.md",
+      "section": "C004",
+      "char_start": 62250,
+      "char_end": 62380,
+      "quote": "From this gridsearch, the 3 sets of hyperparameters with highest LOO CV Pearson correlation were selected, for a total of 9 models"
+    },
+    {
+      "evidence_id": "EV_C004_E02_01",
+      "source_file": "docs/0200/combined.md",
+      "section": "C004",
+      "char_start": 62718,
+      "char_end": 62925,
+      "quote": "we interpret our models' predictions by the frequency of each amino acid's occurrence in a top fraction (the top 1000) of the library, which we are able to encode efficiently with degenerate codon libraries."
+    },
+    {
+      "evidence_id": "EV_C004_E02_02",
+      "source_file": "docs/0200/combined.md",
+      "section": "C004",
+      "char_start": 63545,
+      "char_end": 63637,
+      "quote": "The top amino acids at each position are encoded by degenerate codons identified by SwiftLib"
+    },
+    {
+      "evidence_id": "EV_C004_E03_01",
+      "source_file": "docs/0200/combined.md",
+      "section": "C004",
+      "char_start": 68170,
+      "char_end": 68365,
+      "quote": "At this step, the exact combinations predicted by the machine learning models are lost, and instead interpreted as frequencies at individual amino acid positions to encode with degenerate codons."
+    },
+    {
+      "evidence_id": "EV_C004_E03_02",
+      "source_file": "docs/0200/combined.md",
+      "section": "C004",
+      "char_start": 63807,
+      "char_end": 63977,
+      "quote": "While the optimal combinations of amino acids identified by the model are retained in this library, there may be non-optimal combinations that result from this procedure."
+    },
+    {
+      "evidence_id": "EV_C004_E04_01",
+      "source_file": "docs/0200/combined.md",
+      "section": "C004",
+      "char_start": 59159,
+      "char_end": 59293,
+      "quote": "Four replicates of each well position were made to minimize variability in cell culture and maximize accuracy for downstream modeling."
+    },
+    {
+      "evidence_id": "EV_C004_E04_03",
+      "source_file": "docs/0200/combined.md",
+      "section": "C004",
+      "char_start": 60320,
+      "char_end": 60421,
+      "quote": "The reaction plate was covered with a foil cover (USA scientific) and shaken at 1000 rpm for 4 hours."
+    },
+    {
+      "evidence_id": "EV_C004_E05_02",
+      "source_file": "docs/0200/combined.md",
+      "section": "C004",
+      "char_start": 61070,
+      "char_end": 61121,
+      "quote": "Automatic integration was performed in ChemStation."
+    },
+    {
+      "evidence_id": "EV_C004_E07_01",
+      "source_file": "docs/0200/combined.md",
+      "section": "C004",
+      "char_start": 64400,
+      "char_end": 64566,
+      "quote": "we started with a previously-engineered variant, Y32K V97L, for its significantly higher activity, which we hypothesized would make data collection more reproducible."
+    },
+    {
+      "evidence_id": "EV_C005_E01_01",
+      "source_file": "docs/0200/combined.md",
+      "section": "C005",
+      "char_start": 70670,
+      "char_end": 70806,
+      "quote": "The amino acids occurring significantly more frequently in the top 1000 sequences are then [Y, N, R, G], [V, F, I], and [I, V, L, S, F]."
+    },
+    {
+      "evidence_id": "EV_C005_E02_01",
+      "source_file": "docs/0200/combined.md",
+      "section": "C005",
+      "char_start": 70807,
+      "char_end": 70973,
+      "quote": "This process is repeated for the top 3 models determined by default hyperparameters, and then 3 hyperparameter sets are used for each optimal, for a total of 9 models"
+    },
+    {
+      "evidence_id": "EV_C005_E04_01",
+      "source_file": "docs/0200/combined.md",
+      "section": "C005",
+      "char_start": 78639,
+      "char_end": 78846,
+      "quote": "With 570 sequences measured (in black), the machine learning-assisted evolution approach reaches the global optimum fitness value in 8.4% of simulations, compared to 4.9% of all starting sequences (in blue)."
+    },
+    {
+      "evidence_id": "EV_C005_E05_01",
+      "source_file": "docs/0200/combined.md",
+      "section": "C005",
+      "char_start": 81845,
+      "char_end": 81967,
+      "quote": "The predicted versus measured values for sequence-verified variants in the predicted libraries are shown for each library."
+    },
+    {
+      "evidence_id": "EV_C005_E06_01",
+      "source_file": "docs/0200/combined.md",
+      "section": "C005",
+      "char_start": 84018,
+      "char_end": 84120,
+      "quote": "heat maps of encoded amino acids are shown for each round comparing the input and predicted libraries."
+    },
+    {
+      "evidence_id": "EV_C005_E07_01",
+      "source_file": "docs/0200/combined.md",
+      "section": "C005",
+      "char_start": 81555,
+      "char_end": 81769,
+      "quote": "in our recombination landscape of a small number of positions with known epistasis (nonlinear effects), this approach should not be expected to find optimal solutions (and does not outperform other methods tested)."
+    },
+    {
+      "evidence_id": "EV_C006_E01_01",
+      "source_file": "docs/0200/combined.md",
+      "section": "C006",
+      "char_start": 93975,
+      "char_end": 94104,
+      "quote": "Protein engineers often aim for 95% library coverage (9, 10), or a 95% probability of seeing a particular variant in the library."
+    },
+    {
+      "evidence_id": "EV_C006_E01_02",
+      "source_file": "docs/0200/combined.md",
+      "section": "C006",
+      "char_start": 94105,
+      "char_end": 94234,
+      "quote": "Assuming equal frequency of each amino acid, this number is roughly 3-fold the library size, which is often used in practice (9)."
+    },
+    {
+      "evidence_id": "EV_C006_E02_01",
+      "source_file": "docs/0200/combined.md",
+      "section": "C006",
+      "char_start": 95834,
+      "char_end": 95948,
+      "quote": "From a protein engineer's perspective, a comparison to 644 variants is likely the most pertinent in Supp Figure 1."
+    },
+    {
+      "evidence_id": "EV_C006_E02_02",
+      "source_file": "docs/0200/combined.md",
+      "section": "C006",
+      "char_start": 95949,
+      "char_end": 96139,
+      "quote": "However, to provide DE alone with a stronger baseline, we have used 570 variants, obtained from applying the 3-fold oversampling rule (9) to 10 libraries containing 19 desired variants each."
+    },
+    {
+      "evidence_id": "EV_C006_E02_03",
+      "source_file": "docs/0200/combined.md",
+      "section": "C006",
+      "char_start": 96174,
+      "char_end": 96382,
+      "quote": "In any case, we empirically observe that the single-mutation walk performs similarly to the ML approach at 300-400 variants (Supp Figure 1), which is significantly less than any of the numbers presented here."
+    },
+    {
+      "evidence_id": "EV_C006_E03_01",
+      "source_file": "docs/0200/combined.md",
+      "section": "C006",
+      "char_start": 96471,
+      "char_end": 96592,
+      "quote": "All the ee values of synthesized organosilicon products were determined using automatic peak integration from chiral SFC."
+    },
+    {
+      "evidence_id": "EV_C006_E03_02",
+      "source_file": "docs/0200/combined.md",
+      "section": "C006",
+      "char_start": 96727,
+      "char_end": 96799,
+      "quote": "Chiralcel OD-H (4.6 mm x 25 cm), 5% isopropanol in CO₂, 3 mL/min, 210 nm"
+    },
+    {
+      "evidence_id": "EV_C006_E04_01",
+      "source_file": "docs/0200/combined.md",
+      "section": "C006",
+      "char_start": 100038,
+      "char_end": 100099,
+      "quote": "Activity is significantly improved over starting variant KFLL"
+    },
+    {
+      "evidence_id": "EV_C006_E04_02",
+      "source_file": "docs/0200/combined.md",
+      "section": "C006",
+      "char_start": 100988,
+      "char_end": 101069,
+      "quote": "Enantioselectivity in Set II is significantly improved over starting variant VCHV"
+    },
+    {
+      "evidence_id": "EV_C006_E04_03",
+      "source_file": "docs/0200/combined.md",
+      "section": "C006",
+      "char_start": 101413,
+      "char_end": 101494,
+      "quote": "Enantioselectivity in Set II is significantly improved over starting variant GSSG"
+    },
+    {
+      "evidence_id": "EV_C006_E04_04",
+      "source_file": "docs/0200/combined.md",
+      "section": "C006",
+      "char_start": 99978,
+      "char_end": 100036,
+      "quote": "The p-values obtained from Welch's t-test are shown below."
+    },
+    {
+      "evidence_id": "EV_C006_E05_01",
+      "source_file": "docs/0200/combined.md",
+      "section": "C006",
+      "char_start": 101879,
+      "char_end": 102004,
+      "quote": "The LOO Pearson r of the regressors with default hyperparameters and the models ultimately selected are shown for each round."
+    },
+    {
+      "evidence_id": "EV_C006_E06_01",
+      "source_file": "docs/0200/combined.md",
+      "section": "C006",
+      "char_start": 99633,
+      "char_end": 99882,
+      "quote": "we would like to reiterate that while we have shown this method is more likely to find better variants on an empirical method, this method does not guarantee identifying protein variants that are better than the best identified in the input library."
+    },
+    {
+      "evidence_id": "EV_C007_E02_01",
+      "source_file": "docs/0200/combined.md",
+      "section": "C007",
+      "char_start": 111869,
+      "char_end": 111895,
+      "quote": "# Set 2(S) Models Selected"
+    },
+    {
+      "evidence_id": "EV_C007_E03_01",
+      "source_file": "docs/0200/combined.md",
+      "section": "C007",
+      "char_start": 118023,
+      "char_end": 118049,
+      "quote": "# Set 2(R) Models Selected"
+    },
+    {
+      "evidence_id": "EV_AUTO_001",
+      "source_file": "docs/0200/combined.md",
+      "section": "auto_specific",
+      "char_start": 20484,
+      "char_end": 20703,
+      "quote": "Carbon–silicon bond formation is a new-to-nature enzyme reaction (20), and Rma NOD with mutations Y32K and V97L catalyzes this reaction with 76% ee for the (S)-enantiomer in whole-cell reactions (SI Appendix, Table 1)."
+    },
+    {
+      "evidence_id": "EV_AUTO_002",
+      "source_file": "docs/0200/combined.md",
+      "section": "auto_specific",
+      "char_start": 24381,
+      "char_end": 24494,
+      "quote": "In the first round, Rma NOD Y32K V97L (76 % ee) was used as a parent for NDT mutagenesis at the Set I positions."
+    },
+    {
+      "evidence_id": "EV_AUTO_003",
+      "source_file": "docs/0200/combined.md",
+      "section": "auto_specific",
+      "char_start": 64299,
+      "char_end": 64566,
+      "quote": "Although WT has slightly lower enantioselectivity (and thus may reach both enantiomers more easily), we started with a previously-engineered variant, Y32K V97L, for its significantly higher activity, which we hypothesized would make data collection more reproducible."
+    },
+    {
+      "evidence_id": "EV_AUTO_004",
+      "source_file": "docs/0200/combined.md",
+      "section": "auto_specific",
+      "char_start": 59446,
+      "char_end": 59573,
+      "quote": "5 mM isopropyl $\\beta$ -D-1-thiogalactopyranoside and supplemented with 1 mM 5-aminolevulinic acid to increase heme production."
+    },
+    {
+      "evidence_id": "EV_AUTO_005",
+      "source_file": "docs/0200/combined.md",
+      "section": "auto_specific",
+      "char_start": 32608,
+      "char_end": 32796,
+      "quote": "Mutations that improve selectivity for the $(S)$ -enantiomer appear in the background of $[32V, 46C, 56H, 97V (VCHV)]$ and for the $(R)$ -enantiomer are in $[32G, 46S, 56S, 97G (GSSG)]$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_006",
+      "source_file": "docs/0200/combined.md",
+      "section": "auto_specific",
+      "char_start": 94234,
+      "char_end": 94374,
+      "quote": "Therefore, for 19 mutations away from one of the 20 canonical amino acids, $19 \\times 3 = 57$ variants are needed for roughly 95% coverage."
+    },
+    {
+      "evidence_id": "EV_AUTO_007",
+      "source_file": "docs/0200/combined.md",
+      "section": "auto_specific",
+      "char_start": 46268,
+      "char_end": 46431,
+      "quote": "The relative product activity was measured using 10 mM Me-EDA and 10 mM PhMe $_2$ SiH with whole cells resuspended in 400 uL nitrogen-free M9-N buffer, pH 7.4 (47."
+    },
+    {
+      "evidence_id": "EV_AUTO_008",
+      "source_file": "docs/0200/combined.md",
+      "section": "auto_specific",
+      "char_start": 45317,
+      "char_end": 45532,
+      "quote": "With 570 total variants (SI Appendix, Library Coverage) this leaves 470 variants for the input library in step I for an equal screening burden, assuming 95% coverage of 19 mutations from wild type at each position."
+    },
+    {
+      "evidence_id": "EV_AUTO_009",
+      "source_file": "docs/0200/combined.md",
+      "section": "auto_specific",
+      "char_start": 39300,
+      "char_end": 39672,
+      "quote": "Thus we can take larger steps through sequence space by identifying combinations of beneficial mutations, circumventing the need for indirect paths (16) or alterations of the nature of selection (31), and potentially avoiding negative epistatic effects resulting from the accumulation of large numbers of mutations (33) that require reversion later in the evolution (34)."
+    },
+    {
+      "evidence_id": "EV_AUTO_010",
+      "source_file": "docs/0200/combined.md",
+      "section": "auto_specific",
+      "char_start": 32796,
+      "char_end": 32901,
+      "quote": "Activity increase over the starting variant, 32K, 46F, 56L, 97L (KFLL), is shown for the final variants."
+    },
+    {
+      "evidence_id": "EV_AUTO_011",
+      "source_file": "docs/0200/combined.md",
+      "section": "auto_specific",
+      "char_start": 29419,
+      "char_end": 29631,
+      "quote": "The improvement in total activity measured in whole cells compared to the starting variant (32K, 46F, 56L, 97L) obtained after two rounds of machine learning-assisted directed evolution is also shown in Table 2."
+    },
+    {
+      "evidence_id": "EV_AUTO_012",
+      "source_file": "docs/0200/combined.md",
+      "section": "auto_specific",
+      "char_start": 11685,
+      "char_end": 11945,
+      "quote": "Assuming each amino acid occurs with equal frequency and that the library has complete coverage, applying the 3-fold oversampling rule to obtain roughly 95% library coverage (18, 19) results in a total of 570 variants screened (SI Appendix, Library Coverage)."
+    },
+    {
+      "evidence_id": "EV_AUTO_013",
+      "source_file": "docs/0200/combined.md",
+      "section": "auto_specific",
+      "char_start": 95546,
+      "char_end": 95832,
+      "quote": "A typical balance between balancing the degenerate codon complexity and amino acid coverage that protein engineers employ is the use of NDT/VHG/TGG codons, also known as the 22c-trick (10), in which methionine occurs 1/22 times for $N \\approx 64.4$ , or 644 variants over 10 libraries."
+    },
+    {
+      "evidence_id": "EV_AUTO_014",
+      "source_file": "docs/0200/combined.md",
+      "section": "auto_specific",
+      "char_start": 95400,
+      "char_end": 95546,
+      "quote": "The least frequent amino acid encoded with these codons (methionine) occurs at a frequency of 1/32, requiring $N \\approx 94.4$ , or 944 variants."
+    },
+    {
+      "evidence_id": "EV_AUTO_015",
+      "source_file": "docs/0200/combined.md",
+      "section": "auto_specific",
+      "char_start": 95176,
+      "char_end": 95293,
+      "quote": "Assuming equal representation of the 19 codons gives $N \\approx 55.4$ , or 554 variants for the 10 libraries needed."
+    },
+    {
+      "evidence_id": "EV_AUTO_016",
+      "source_file": "docs/0200/combined.md",
+      "section": "auto_specific",
+      "char_start": 44199,
+      "char_end": 44394,
+      "quote": "2) Simulated recombination proceeds by selecting 527 random variants and recombining the mutations found in the top three variants, for an average of 570 variants tested over 10,000 simulations."
+    },
+    {
+      "evidence_id": "EV_AUTO_017",
+      "source_file": "docs/0200/combined.md",
+      "section": "auto_specific",
+      "char_start": 43221,
+      "char_end": 43506,
+      "quote": "Fitness values were provided for 149,361 out of 160,000 total possible sequences covering 4 positions in human protein GB1, where fitness was defined as the enrichment of folded protein bound to IgG-Fc antibody as measured by coupling mRNA display with next-generation sequencing (16)."
+    },
+    {
+      "evidence_id": "EV_AUTO_018",
+      "source_file": "docs/0200/combined.md",
+      "section": "auto_specific",
+      "char_start": 37499,
+      "char_end": 37661,
+      "quote": "Specifically, 90 predicted variants were tested for predicted library sizes of 864 for the $(S)$ -enantiomer and 630 for the $(R)$ -enantiomer in Position Set I."
+    },
+    {
+      "evidence_id": "EV_AUTO_019",
+      "source_file": "docs/0200/combined.md",
+      "section": "auto_specific",
+      "char_start": 30241,
+      "char_end": 30338,
+      "quote": "However, the 49P 51V 53I variant from VCHV has higher total activity under screening conditions."
+    },
+    {
+      "evidence_id": "EV_AUTO_020",
+      "source_file": "docs/0200/combined.md",
+      "section": "auto_specific",
+      "char_start": 26081,
+      "char_end": 26345,
+      "quote": "These two enantioselective enzymes were achieved after obtaining 445 sequence-function relationships for model training and testing an additional 360 predicted variants, for a total of 805 variants tested experimentally covering 7 positions, as summarized in Fig."
+    },
+    {
+      "evidence_id": "EV_AUTO_021",
+      "source_file": "docs/0200/combined.md",
+      "section": "auto_specific",
+      "char_start": 23951,
+      "char_end": 24145,
+      "quote": "NDT libraries encode 12 amino acids having diverse properties with 12 unique codons (18), thus minimizing the probability that an amino acid is overrepresented in the initial training set (29)."
+    },
+    {
+      "evidence_id": "EV_AUTO_022",
+      "source_file": "docs/0200/combined.md",
+      "section": "auto_specific",
+      "char_start": 18524,
+      "char_end": 18649,
+      "quote": "2% of 600 simulations, compared to 4.9% of all starting sequences reaching the same value through a single-mutant walk and 4."
+    },
+    {
+      "evidence_id": "EV_AUTO_023",
+      "source_file": "docs/0200/combined.md",
+      "section": "auto_specific",
+      "char_start": 10582,
+      "char_end": 10688,
+      "quote": "76, with a fitness value of 1 set for the parent sequence, and 19.7% of variants at a reported value of 0."
+    },
+    {
+      "evidence_id": "EV_AUTO_024",
+      "source_file": "docs/0200/combined.md",
+      "section": "auto_specific",
+      "char_start": 10582,
+      "char_end": 10648,
+      "quote": "76, with a fitness value of 1 set for the parent sequence, and 19."
+    },
+    {
+      "evidence_id": "EV_AUTO_025",
+      "source_file": "docs/0200/combined.md",
+      "section": "auto_specific",
+      "char_start": 10535,
+      "char_end": 10648,
+      "quote": "The landscape contains a fitness maximum at 8.76, with a fitness value of 1 set for the parent sequence, and 19."
+    },
+    {
+      "evidence_id": "EV_AUTO_026",
+      "source_file": "docs/0200/combined.md",
+      "section": "auto_specific",
+      "char_start": 10163,
+      "char_end": 10363,
+      "quote": "The empirical landscape used here consists of measurements of 149,361 out of a total $20^{4} = 160,000$ variants from NNK/NNS saturation mutagenesis at four positions known to interact epistatically."
+    },
+    {
+      "evidence_id": "EV_AUTO_027",
+      "source_file": "docs/0200/combined.md",
+      "section": "auto_specific",
+      "char_start": 6276,
+      "char_end": 6567,
+      "quote": "We first investigate the benefits of in silico screening by machine learning using the dataset collected by Wu and coworkers (16), who studied the effects on antibody binding of mutations at four positions in human GB1 binding protein (theoretical library size $20^{4} = 160,000$ variants)."
+    },
+    {
+      "evidence_id": "EV_AUTO_028",
+      "source_file": "docs/0200/combined.md",
+      "section": "auto_specific",
+      "char_start": 4926,
+      "char_end": 5164,
+      "quote": "Previous applications of machine learning in protein engineering have identified beneficial mutations (13) and optimal combinations of protein fragments (14) for increased enzyme activity and protein stability, as reviewed recently (15)."
+    },
+    {
+      "evidence_id": "EV_AUTO_029",
+      "source_file": "docs/0200/combined.md",
+      "section": "auto_specific",
+      "char_start": 95071,
+      "char_end": 95176,
+      "quote": "95$ for 95% library coverage, but the choice of codons can have a strong effect on the value of $f_{i}$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_030",
+      "source_file": "docs/0200/combined.md",
+      "section": "auto_specific",
+      "char_start": 95000,
+      "char_end": 95176,
+      "quote": "As stated previously, a typical desired library coverage is $P_{i} = 0.95$ for 95% library coverage, but the choice of codons can have a strong effect on the value of $f_{i}$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_031",
+      "source_file": "docs/0200/combined.md",
+      "section": "auto_specific",
+      "char_start": 78638,
+      "char_end": 78807,
+      "quote": "With 570 sequences measured (in black), the machine learning-assisted evolution approach reaches the global optimum fitness value in 8.4% of simulations, compared to 4."
+    },
+    {
+      "evidence_id": "EV_AUTO_032",
+      "source_file": "docs/0200/combined.md",
+      "section": "auto_specific",
+      "char_start": 78333,
+      "char_end": 78574,
+      "quote": "The highest fitness value from the top 100 sequences (roughly the smallest batch size, as screening is typically done in 96 well plates) from each model trained with N sequences is shown to demonstrate the effect of increased training data."
+    },
+    {
+      "evidence_id": "EV_AUTO_033",
+      "source_file": "docs/0200/combined.md",
+      "section": "auto_specific",
+      "char_start": 74981,
+      "char_end": 75102,
+      "quote": "| Fitness | 1000 Random Combinatorial Sequences | Single-Step Maxima | Equal Screening to Single-Step Maxima (n = 470) |"
+    },
+    {
+      "evidence_id": "EV_AUTO_034",
+      "source_file": "docs/0200/combined.md",
+      "section": "auto_specific",
+      "char_start": 71060,
+      "char_end": 71541,
+      "quote": "In the described approach, this step can be tuned to consider more or less sequences (such as the top 20% or top 1%) depending on the protein engineer's discretion considering the following: screening throughput, sequencing cost, cloning capabilities, desired fitness improvement, model accuracy, theoretical size of the predicted library, ease of encoding with codon degeneracy, and an interpretation of the landscape (how many variants are expected to be near the fitness peak)."
+    },
+    {
+      "evidence_id": "EV_AUTO_035",
+      "source_file": "docs/0200/combined.md",
+      "section": "auto_specific",
+      "char_start": 54866,
+      "char_end": 55013,
+      "quote": "(2016) Kinetic characterization of 100 glycoside hydrolase mutants enables the discovery of structural features correlated with kinetic constants."
+    },
+    {
+      "evidence_id": "EV_AUTO_036",
+      "source_file": "docs/0200/combined.md",
+      "section": "auto_specific",
+      "char_start": 47720,
+      "char_end": 47905,
+      "quote": "Degenerate codons encoding amino acids occurring with highest frequencies in every model at each position were identified by Swiftlib (17), and 90 random variants were tested in vitro."
+    }
+  ],
+  "event_graph": {
+    "paper_main_problem": "Directed protein evolution is limited by the high experimental cost of screening large combinatorial libraries. The paper proposes integrating machine learning to predict protein fitness in silico, reducing the number of variants that need to be tested experimentally.",
+    "canonical_events": [
+      {
+        "canonical_id": "K01",
+        "order": 1,
+        "event_type": "problem",
+        "summary": "Combinatorial sequence space is expensive to sample experimentally, motivating in silico screening.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E01"
+        ],
+        "evidence_ids": [
+          "EV_C001_E01_01"
+        ],
+        "key_entities": [],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K02",
+        "order": 2,
+        "event_type": "hypothesis",
+        "summary": "Machine learning models trained on tested variants can computationally test sequence space, reducing experimental effort.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E02"
+        ],
+        "evidence_ids": [
+          "EV_C001_E02_01"
+        ],
+        "key_entities": [],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K03",
+        "order": 3,
+        "event_type": "design",
+        "summary": "The approach uses a random sample of a combinatorial library to train models, then predicts a restricted library enriched in high fitness.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E03"
+        ],
+        "evidence_ids": [
+          "EV_C001_E03_01"
+        ],
+        "key_entities": [],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K04",
+        "order": 4,
+        "event_type": "computation",
+        "summary": "Shallow neural networks were trained with 470 randomly-selected input variants and used to predict 100 variants for testing.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E04"
+        ],
+        "evidence_ids": [
+          "EV_C001_E04_01"
+        ],
+        "key_entities": [],
+        "key_numbers": [
+          "470 training variants",
+          "100 predicted variants"
+        ]
+      },
+      {
+        "canonical_id": "K05",
+        "order": 5,
+        "event_type": "experiment",
+        "summary": "Simulated directed evolution on GB1 fitness landscape compared single-mutation walk, recombination, and ML-assisted approach with equal screening burden (570 variants).",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E05"
+        ],
+        "evidence_ids": [
+          "EV_C001_E05_01"
+        ],
+        "key_entities": [
+          "GB1 fitness landscape"
+        ],
+        "key_numbers": [
+          "570 variants"
+        ]
+      },
+      {
+        "canonical_id": "K06",
+        "order": 6,
+        "event_type": "analysis",
+        "summary": "ML-assisted evolution reaches global optimum fitness in 8.2% of simulations vs. 4.9% for single-mutant walk and 4.0% for recombination.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E01"
+        ],
+        "evidence_ids": [
+          "EV_C002_E01_01"
+        ],
+        "key_entities": [
+          "GB1 fitness landscape"
+        ],
+        "key_numbers": [
+          "8.2%",
+          "4.9%",
+          "4.0%"
+        ]
+      },
+      {
+        "canonical_id": "K07",
+        "order": 7,
+        "event_type": "analysis",
+        "summary": "ML approach requires about 30% fewer variants to achieve results similar to single-mutant walk.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E02"
+        ],
+        "evidence_ids": [
+          "EV_C002_E02_01"
+        ],
+        "key_entities": [
+          "GB1 fitness landscape"
+        ],
+        "key_numbers": [
+          "30%"
+        ]
+      },
+      {
+        "canonical_id": "K08",
+        "order": 8,
+        "event_type": "analysis",
+        "summary": "ML approach has higher expected fitness (6.42) vs. single-mutant walk (5.41) and recombination (5.93).",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E03"
+        ],
+        "evidence_ids": [
+          "EV_C002_E03_01"
+        ],
+        "key_entities": [
+          "GB1 fitness landscape"
+        ],
+        "key_numbers": [
+          "6.42",
+          "5.41",
+          "5.93"
+        ]
+      },
+      {
+        "canonical_id": "K09",
+        "order": 9,
+        "event_type": "analysis",
+        "summary": "ML model accuracy can be low (Pearson's r = 0.41) but still sufficient to guide evolution.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E04"
+        ],
+        "evidence_ids": [
+          "EV_C002_E04_01"
+        ],
+        "key_entities": [],
+        "key_numbers": [
+          "Pearson's r = 0.41"
+        ]
+      },
+      {
+        "canonical_id": "K10",
+        "order": 10,
+        "event_type": "experiment",
+        "summary": "Round 1: From 124 sequence-function pairs, models predicted libraries; screening 90 variants each identified VCHV (93% ee (S)) and GSSG (62% ee (R)).",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E05"
+        ],
+        "evidence_ids": [
+          "EV_C002_E05_01",
+          "EV_C002_E05_02"
+        ],
+        "key_entities": [
+          "Rma NOD",
+          "VCHV",
+          "GSSG"
+        ],
+        "key_numbers": [
+          "124",
+          "90",
+          "93% ee",
+          "62% ee"
+        ]
+      },
+      {
+        "canonical_id": "K11",
+        "order": 11,
+        "event_type": "experiment",
+        "summary": "Round 2: Using VCHV and GSSG as parents, predicted libraries yielded variants with 93% ee (S) and 79% ee (R).",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E06"
+        ],
+        "evidence_ids": [
+          "EV_C002_E06_01"
+        ],
+        "key_entities": [
+          "VCHV",
+          "GSSG"
+        ],
+        "key_numbers": [
+          "93% ee",
+          "79% ee"
+        ]
+      },
+      {
+        "canonical_id": "K12",
+        "order": 12,
+        "event_type": "experiment",
+        "summary": "Total experimental effort: 445 sequence-function pairs for training, 360 predicted variants tested, 805 total over 7 positions.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E07"
+        ],
+        "evidence_ids": [
+          "EV_C002_E07_01"
+        ],
+        "key_entities": [],
+        "key_numbers": [
+          "445",
+          "360",
+          "805",
+          "7"
+        ]
+      },
+      {
+        "canonical_id": "K13",
+        "order": 13,
+        "event_type": "limitation",
+        "summary": "VCHV was most selective in initial screen but less selective in final validation.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E08"
+        ],
+        "evidence_ids": [
+          "EV_C002_E08_01"
+        ],
+        "key_entities": [
+          "VCHV"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K14",
+        "order": 14,
+        "event_type": "analysis",
+        "summary": "ML-assisted evolution finds diverse solutions, e.g., position 49 tolerates multiple amino acids with minimal ee loss.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E06"
+        ],
+        "evidence_ids": [
+          "EV_C003_E06_01",
+          "EV_C003_E06_02",
+          "EV_C003_E06_03"
+        ],
+        "key_entities": [
+          "position 49",
+          "proline",
+          "tyrosine",
+          "arginine"
+        ],
+        "key_numbers": [
+          "less than 1% loss in enantioselectivity"
+        ]
+      },
+      {
+        "canonical_id": "K15",
+        "order": 15,
+        "event_type": "limitation",
+        "summary": "Predictive accuracy could be improved by more data or computationally expensive simulations.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E07"
+        ],
+        "evidence_ids": [
+          "EV_C003_E07_01"
+        ],
+        "key_entities": [
+          "predictive accuracy",
+          "data",
+          "simulations"
+        ],
+        "key_numbers": []
+      }
+    ],
+    "edges": [
+      {
+        "source": "K01",
+        "target": "K02",
+        "relation": "enables",
+        "reason": "The problem of expensive experimental sampling motivates the hypothesis that ML can reduce effort."
+      },
+      {
+        "source": "K02",
+        "target": "K03",
+        "relation": "enables",
+        "reason": "The hypothesis leads to the design of using random samples to train models and predict enriched libraries."
+      },
+      {
+        "source": "K03",
+        "target": "K04",
+        "relation": "enables",
+        "reason": "The design is implemented by training shallow neural networks on 470 variants and predicting 100."
+      },
+      {
+        "source": "K04",
+        "target": "K05",
+        "relation": "enables",
+        "reason": "The computational setup is used in simulated directed evolution on GB1 landscape."
+      },
+      {
+        "source": "K05",
+        "target": "K06",
+        "relation": "follows",
+        "reason": "The simulation results show ML reaches global optimum more often."
+      },
+      {
+        "source": "K06",
+        "target": "K07",
+        "relation": "follows",
+        "reason": "Further analysis shows ML requires fewer variants for similar results."
+      },
+      {
+        "source": "K07",
+        "target": "K08",
+        "relation": "follows",
+        "reason": "Expected fitness is higher for ML approach."
+      },
+      {
+        "source": "K08",
+        "target": "K09",
+        "relation": "follows",
+        "reason": "Even with low model accuracy, ML can guide evolution effectively."
+      },
+      {
+        "source": "K09",
+        "target": "K10",
+        "relation": "enables",
+        "reason": "The validation on GB1 supports applying ML to enzyme evolution in Round 1."
+      },
+      {
+        "source": "K10",
+        "target": "K11",
+        "relation": "follows",
+        "reason": "Round 2 uses the best variants from Round 1 as parents."
+      },
+      {
+        "source": "K11",
+        "target": "K12",
+        "relation": "follows",
+        "reason": "Total experimental effort is summarized after two rounds."
+      },
+      {
+        "source": "K10",
+        "target": "K13",
+        "relation": "contradicts",
+        "reason": "VCHV's selectivity dropped in final validation, indicating a limitation."
+      },
+      {
+        "source": "K11",
+        "target": "K14",
+        "relation": "follows",
+        "reason": "Diverse solutions were found, such as tolerance at position 49."
+      },
+      {
+        "source": "K14",
+        "target": "K15",
+        "relation": "follows",
+        "reason": "Despite success, predictive accuracy remains a limitation."
+      }
+    ],
+    "must_cover_points": [
+      "Problem of expensive combinatorial sampling",
+      "Hypothesis that ML can reduce experimental effort",
+      "Design of training on random sample and predicting enriched library",
+      "GB1 simulation setup with equal screening burden",
+      "ML reaches global optimum more often (8.2% vs 4.9% and 4.0%)",
+      "ML requires 30% fewer variants for similar results",
+      "Higher expected fitness with ML (6.42 vs 5.41 and 5.93)",
+      "Low model accuracy (Pearson's r=0.41) still sufficient",
+      "Round 1 enzyme evolution: VCHV (93% ee S) and GSSG (62% ee R)",
+      "Round 2 enzyme evolution: 93% ee S and 79% ee R",
+      "Total experimental effort: 805 variants over 7 positions",
+      "Limitation: VCHV less selective in final validation",
+      "Diverse solutions found (position 49 tolerance)",
+      "Limitation: predictive accuracy could be improved"
+    ],
+    "paper_not_suitable_reasons": []
+  }
+}

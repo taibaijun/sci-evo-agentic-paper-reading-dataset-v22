@@ -1,0 +1,874 @@
+{
+  "case": {
+    "case_id": "sci_evo_0075",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Engineering of Methylation State Specific 3xMBT Domain Using ELISA Screening",
+      "doi": "https://doi.org/10.1371/journal.pone.0154207",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0073_10_1371_journal_pone_0154207_engineering_of_methylation_state_specific_3xmbt_domain_using_elisa_screening.pdf",
+      "mineru_md": "docs/0075/mineru.md",
+      "combined_md": "docs/0075/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "The wild-type 3xMBT domain binds both mono- and di-methylated lysine peptides with similar affinity, limiting its utility as a methylation-state-specific probe. The goal is to engineer 3xMBT variants that exclusively recognize di-methylated lysine.",
+      "target_object": "3xMBT domain",
+      "known_context": "3xMBT is a methyl-lysine binding domain that recognizes mono- and di-methylated lysines but not unmodified or tri-methylated lysines.",
+      "constraints": [
+        "Must retain high affinity for di-methylated lysine",
+        "Must eliminate binding to mono-methylated lysine"
+      ],
+      "input_data": [
+        "WT 3xMBT binding profile to methylated peptides"
+      ],
+      "quantifiable_goals": [
+        "Achieve exclusive binding to di-methylated peptides",
+        "Increase di-methyl/mono-methyl binding signal ratio >3.5-fold over WT"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "WT 3xMBT binds both mono- and di-methylated lysines, limiting its use as a state-specific probe.",
+        "gap_or_uncertainty": "Lack of methylation-state specificity in 3xMBT.",
+        "hypothesis": "WT 3xMBT domain binds mono- and di-methylated peptides with high signal relative to un-methylated or tri-methylated peptides.",
+        "decision": "Characterize WT 3xMBT binding profile to methylated peptides.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "ELISA",
+          "version": "",
+          "category": "immunoassay"
+        },
+        "parameters": {},
+        "observation": "WT 3XMBT domain bound mono- and di-methylated peptides, obtaining high ELISA binding signal relative to un-methylated or tri-methylated peptides.",
+        "result_status": "success",
+        "next_step_reason": "WT binding profile established; need to develop an ELISA for detection of methylated peptides.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0075/combined.md",
+            "section": "C001",
+            "quote_or_span": "the WT 3XMBT domain bound mono- and di-methylated peptides, obtaining high ELISA binding signal relative to the signal for un-methylated or tri-methylated peptides"
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "experiment",
+        "state_before": "ELISA developed with Flag-GST-3XMBT.",
+        "gap_or_uncertainty": "Need to validate ELISA for detecting mono- and di-methylated peptides and PKMT activity.",
+        "hypothesis": "The ELISA can detect differences in methylation state of peptides and monitor PKMT activity.",
+        "decision": "Test ELISA with RelA and H3K36 peptides in different methylation states and with SETD7 methyltransferase.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "ELISA",
+          "version": "",
+          "category": "immunoassay"
+        },
+        "parameters": {
+          "peptides": "RelA (300-320), H3K36",
+          "methylation_states": "un-, mono-, di-, tri-methylated",
+          "enzyme": "SETD7"
+        },
+        "observation": "WT 3XMBT bound mono- and di-methylated peptides with high signal; ELISA could monitor SETD7 activity.",
+        "result_status": "success",
+        "next_step_reason": "ELISA validated; confirm binding specificity with inactive D355N mutant.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E03_01",
+            "source_file": "docs/0075/combined.md",
+            "section": "C001",
+            "quote_or_span": "We first tested the ability of the assay to detect differences in the methylation state of a RelA peptide (300–320) and H3K36 peptide–both un-methylated, mono-, di- and tri-methylated [17,21]."
+          },
+          {
+            "evidence_id": "EV_C001_E03_02",
+            "source_file": "docs/0075/combined.md",
+            "section": "C001",
+            "quote_or_span": "we found that the WT 3XMBT domain bound mono- and di-methylated peptides, obtaining high ELISA binding signal relative to the signal for un-methylated or tri-methylated peptides."
+          },
+          {
+            "evidence_id": "EV_C002_E01_01",
+            "source_file": "docs/0075/combined.md",
+            "section": "C002",
+            "quote_or_span": "These experiments validated the ELISA method using the 3XMBT domain to detect mono and di-methylated peptides and demonstrated that it can also be used to monitor PKMT activity on specific peptides."
+          },
+          {
+            "evidence_id": "EV_AUTO_020",
+            "source_file": "docs/0075/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "(B) ELISA signal intensity obtained with the WT and D355N 3XMBT binding to the indicated peptides."
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "validation",
+        "state_before": "ELISA validated for WT 3xMBT.",
+        "gap_or_uncertainty": "Need to confirm that ELISA signal is specific to methyl-lysine binding.",
+        "hypothesis": "The inactive D355N mutant will show low binding to all peptides, confirming binding specificity.",
+        "decision": "Test binding of D355N mutant to methylated peptides.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "ELISA",
+          "version": "",
+          "category": "immunoassay"
+        },
+        "parameters": {
+          "mutant": "D355N",
+          "peptides": "un-, mono-, di-, tri-methylated"
+        },
+        "observation": "The inactive 3XMBT D355N mutant exhibited low binding to all peptides.",
+        "result_status": "success",
+        "next_step_reason": "Binding specificity confirmed; adapt ELISA for full-length proteins.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E04_01",
+            "source_file": "docs/0075/combined.md",
+            "section": "C001",
+            "quote_or_span": "the inactive 3XMBT D355N mutant exhibited low binding to all peptides"
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "design",
+        "state_before": "ELISA works for peptides but needs adaptation for full-length proteins.",
+        "gap_or_uncertainty": "GST dimerization between recombinant RelA and 3XMBT may interfere.",
+        "hypothesis": "Using MBP-MBT fusion will avoid GST dimerization and allow detection of methylation on full-length proteins.",
+        "decision": "Switch to MBP-MBT fusion protein and test with GST-RelA methylation by SETD7.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "ELISA",
+          "version": "",
+          "category": "immunoassay"
+        },
+        "parameters": {
+          "fusion_protein": "MBP-MBT",
+          "substrate": "GST-RelA",
+          "enzyme": "SETD7",
+          "mutants": "K37R, K314R/K315R"
+        },
+        "observation": "Higher ELISA signal for WT RelA compared to methylation site mutants, consistent with decreased methylation.",
+        "result_status": "success",
+        "next_step_reason": "ELISA adapted for full-length proteins; optimize for high-throughput screening in crude lysates.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E02_01",
+            "source_file": "docs/0075/combined.md",
+            "section": "C002",
+            "quote_or_span": "To avoid GST dimerization between the recombinant RelA and the 3XMBT, we utilized a MBP (maltose binding protein) MBT fusion protein."
+          },
+          {
+            "evidence_id": "EV_C002_E02_02",
+            "source_file": "docs/0075/combined.md",
+            "section": "C002",
+            "quote_or_span": "We observed higher ELISA binding signal for the WT RelA relative to the signal detected for the K37R and K314R/K315R mutants, consistent with the decrease in available methylation sites in these mutant proteins."
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "design",
+        "state_before": "ELISA works with purified proteins.",
+        "gap_or_uncertainty": "Need to enable high-throughput screening of mutant libraries in crude E. coli lysates.",
+        "hypothesis": "The ELISA can be optimized to detect 3XMBT binding in crude E. coli lysates.",
+        "decision": "Optimize assay conditions for lysate screening.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "ELISA",
+          "version": "",
+          "category": "immunoassay"
+        },
+        "parameters": {
+          "sample_type": "crude E. coli lysates"
+        },
+        "observation": "Assay successfully detected 3XMBT binding to methylated peptides in crude lysates.",
+        "result_status": "success",
+        "next_step_reason": "Lysate screening enabled; design double site saturation mutagenesis library.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E06_01",
+            "source_file": "docs/0075/combined.md",
+            "section": "C001",
+            "quote_or_span": "We also optimized the assay to detect 3XMBT binding in crude E. coli lysates which facilitated the high throughput screening of 3XMBT mutant libraries."
+          },
+          {
+            "evidence_id": "EV_C002_E03_01",
+            "source_file": "docs/0075/combined.md",
+            "section": "C002",
+            "quote_or_span": "These experiments demonstrate the utility of the assay to detect 3XMBT binding to methylated peptides in crude E. coli lysates and pave the way for the screening of 3XMBT mutant libraries."
+          },
+          {
+            "evidence_id": "EV_C003_E05_01",
+            "source_file": "docs/0075/combined.md",
+            "section": "C003",
+            "quote_or_span": "We have optimized the assay to detect MBT binding in crude E. coli lysates to enable the high throughput screening of MBT mutant libraries."
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "design",
+        "state_before": "WT 3xMBT lacks di-methyl specificity; residues 361 and 411 are known to be important for binding.",
+        "gap_or_uncertainty": "Need to engineer di-methyl specificity by mutating key binding pocket residues.",
+        "hypothesis": "Double site saturation mutagenesis at L361 and T411 will generate variants with altered methylation state specificity.",
+        "decision": "Generate a double site saturation mutagenesis library at positions 361 and 411.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "site saturation mutagenesis",
+          "version": "",
+          "category": "molecular biology"
+        },
+        "parameters": {
+          "residues": "L361, T411",
+          "library_size": "400 possible mutants"
+        },
+        "observation": "Library generated with NNS degenerate codons covering all 20 amino acids at both positions.",
+        "result_status": "success",
+        "next_step_reason": "Library ready for expression and screening.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E05_01",
+            "source_file": "docs/0075/combined.md",
+            "section": "C001",
+            "quote_or_span": "To perform double site saturation mutagenesis on positions 361 and 411 on 3XL3MBTL1, a short fragment of the MBT gene containing these two amino acid positions was amplified by PCR using a mix of primers: fr-MBTL361-NNS, and rev-MBTT411-NNS"
+          },
+          {
+            "evidence_id": "EV_C002_E04_01",
+            "source_file": "docs/0075/combined.md",
+            "section": "C002",
+            "quote_or_span": "Thus, we generated a 3XMBT mutant library by double site saturation mutagenesis of residues 361 and 411."
+          },
+          {
+            "evidence_id": "EV_C002_E04_02",
+            "source_file": "docs/0075/combined.md",
+            "section": "C002",
+            "quote_or_span": "Each of the 400 3XMBT mutants was overexpressed in E. coli and individually tested for binding to mono and di-methylated RelA peptides"
+          },
+          {
+            "evidence_id": "EV_AUTO_030",
+            "source_file": "docs/0075/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Each position can be substituted to all of the 20 naturally-occurring amino acids generating a library of 400 possible mutant proteins."
+          },
+          {
+            "evidence_id": "EV_C001_E08_02",
+            "source_file": "docs/0075/combined.md",
+            "section": "C001",
+            "quote_or_span": "The structure of the Lethal(3)malignant brain tumor-like protein 1 3-MBT repeats (dimethyl lysine analog, PDBID-1OYX) [20] was overlapped on 4EDU using the least square fit in Coot to allow the correct orientation of the dimethyl lysine."
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "experiment",
+        "state_before": "Mutant library generated; ELISA optimized for lysate screening.",
+        "gap_or_uncertainty": "Need to identify mutants with improved di-methyl/mono-methyl binding ratio.",
+        "hypothesis": "Screening individual clones will reveal variants with >3.5-fold increase in di-methyl/mono-methyl signal ratio.",
+        "decision": "Express library in E. coli BL21(DE3), screen individual clones in 96-well ELISA with mono- and di-methylated RelA peptides.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "ELISA",
+          "version": "",
+          "category": "immunoassay"
+        },
+        "parameters": {
+          "host": "E. coli BL21(DE3)",
+          "peptides": "mono- and di-methylated RelA",
+          "selection_criterion": ">3.5-fold increase in me2/me1 signal over WT"
+        },
+        "observation": "Mutants exhibiting >3.5-fold increase in binding signal for di-methylated over mono-methylated peptide relative to WT were selected.",
+        "result_status": "success",
+        "next_step_reason": "Selected clones to be validated for exclusive di-methyl specificity.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E07_02",
+            "source_file": "docs/0075/combined.md",
+            "section": "C001",
+            "quote_or_span": "Cleared E. coli lysates containing overexpressed MBT protein were subsequently loaded onto the high throughput ELISA plate for lysine methylation detection."
+          },
+          {
+            "evidence_id": "EV_C002_E05_01",
+            "source_file": "docs/0075/combined.md",
+            "section": "C002",
+            "quote_or_span": "Mutants exhibiting more than a 3.5-fold increase in binding signal for the di-methylated peptide over the mono-methylated peptide relative to the WT protein were selected for further analysis."
+          },
+          {
+            "evidence_id": "EV_AUTO_023",
+            "source_file": "docs/0075/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Individual bacterial colonies, representing individual MBT mutant clones, were picked from the plates, inoculated into 800 $\\mu$ l of LB containing 100 $\\mu$ g/ml ampicillin in a sterile 96-deep well plate (Masterblock, Greiner Bio-One) and grown overnight at 37°C with agitation."
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "validation",
+        "state_before": "Primary screen identified hits with improved di-methyl/mono-methyl ratio.",
+        "gap_or_uncertainty": "Need to confirm exclusive di-methyl specificity and eliminate mono-methyl binding.",
+        "hypothesis": "Selected clones (NNS3A1, NNS3F5, NNS4A10) will specifically bind only di-methylated RelA peptide.",
+        "decision": "Validate binding specificity using both cell lysates and purified recombinant proteins.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "ELISA",
+          "version": "",
+          "category": "immunoassay"
+        },
+        "parameters": {
+          "clones": "NNS3A1, NNS3F5, NNS4A10",
+          "peptide": "di-methylated RelA",
+          "sample_types": "cell lysates, purified proteins"
+        },
+        "observation": "All clones specifically bound only the di-methylated RelA peptide.",
+        "result_status": "success",
+        "next_step_reason": "Di-methyl-specific clones identified; analyze sequences to find key mutations.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E06_01",
+            "source_file": "docs/0075/combined.md",
+            "section": "C002",
+            "quote_or_span": "Using both cell lysates and purified recombinant proteins (Fig 4C and S1 Fig, respectively), we found that all clones can specifically bind only the di-methylated RelA peptide, demonstrating our ability to engineer a 3XMBT that is highly specific for one methylation state."
+          },
+          {
+            "evidence_id": "EV_C003_E06_01",
+            "source_file": "docs/0075/combined.md",
+            "section": "C003",
+            "quote_or_span": "we have utilized this assay to engineer MBT variants that are highly specific to di-methylated lysine"
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "hypothesis",
+        "state_before": "T411L mutation found in all di-methyl-specific clones.",
+        "gap_or_uncertainty": "Is T411L sufficient to confer di-methyl specificity?",
+        "hypothesis": "The leucine substitution at T411 alone may be sufficient to increase selectivity toward di-methyl lysines.",
+        "decision": "Propose T411L single mutant as the key determinant of specificity.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "sequence analysis",
+          "version": "",
+          "category": "bioinformatics"
+        },
+        "parameters": {},
+        "observation": "Hypothesis formed that T411L alone may confer di-methyl specificity.",
+        "result_status": "success",
+        "next_step_reason": "Hypothesis formed; validate experimentally with recombinant T411L.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E08_02",
+            "source_file": "docs/0075/combined.md",
+            "section": "C002",
+            "quote_or_span": "Based on the structural model we hypothesized that the leucine substitution mutant at T411 may be sufficient to increase the selectivity toward di-methyl lysines."
+          },
+          {
+            "evidence_id": "EV_C003_E01_01",
+            "source_file": "docs/0075/combined.md",
+            "section": "C003",
+            "quote_or_span": "Based on the structural model we hypothesized that the leucine substitution mutant at T411 may be sufficient to increase the selectivity toward di-methyl lysines."
+          },
+          {
+            "evidence_id": "EV_C002_E08_01",
+            "source_file": "docs/0075/combined.md",
+            "section": "C002",
+            "quote_or_span": "Analysis of the binding site of the T411L mutant reveals that the mutation to leucine can significantly increase the hydrophobicity of the binding site, leading to an exclusion of the water molecule and consequently to disfavored binding to mono-methylated lysine"
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "experiment",
+        "state_before": "Hypothesis that T411L alone confers di-methyl specificity.",
+        "gap_or_uncertainty": "Need to experimentally confirm that T411L single mutant recapitulates the specificity of the double mutant NNS3F5.",
+        "hypothesis": "Recombinant T411L will show binding specificity comparable to NNS3F5 and distinct from WT.",
+        "decision": "Compare binding specificity of recombinant T411L, WT, and NNS3F5 to various methylated peptides.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "ELISA",
+          "version": "",
+          "category": "immunoassay"
+        },
+        "parameters": {
+          "proteins": "T411L, WT, NNS3F5",
+          "peptides": "various methylated peptides"
+        },
+        "observation": "T411L binding specificity was similar to NNS3F5, confirming T411L alone confers di-methyl specificity.",
+        "result_status": "success",
+        "next_step_reason": "T411L validated; perform structural modeling to rationalize specificity.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E02_01",
+            "source_file": "docs/0075/combined.md",
+            "section": "C003",
+            "quote_or_span": "the binding specificity to different peptides of recombinant T411L 3XMBT mutant was compared to the WT and the NNS3F5 recombinant 3XMBT proteins (Fig 5D and S3 Fig)."
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "analysis",
+        "state_before": "T411L experimentally confirmed to confer di-methyl specificity.",
+        "gap_or_uncertainty": "How does T411L structurally alter the binding pocket to favor di-methyl over mono-methyl?",
+        "hypothesis": "T411L increases hydrophobicity, excluding a water molecule that stabilizes mono-methyl binding, while maintaining di-methyl affinity.",
+        "decision": "Analyze crystal structures and build in silico models of T411L mutant with mono- and di-methylated lysine.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "structural modeling",
+          "version": "",
+          "category": "computational"
+        },
+        "parameters": {
+          "pdb_ids": "4EDU, 1OYX",
+          "software": "Coot"
+        },
+        "observation": "T411L mutation increases hydrophobicity, excludes water molecule, disfavors mono-methyl binding while maintaining di-methyl affinity.",
+        "result_status": "success",
+        "next_step_reason": "Mechanism rationalized; note limitation that further engineering needed for other methylation states.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E08_01",
+            "source_file": "docs/0075/combined.md",
+            "section": "C001",
+            "quote_or_span": "The human SCML2 MBT repeats in a complex with histone H2A peptide (monomethyl lysine, pdbID-4EDU)[18] structure was modified according to its electron density or mutated using Coot [19]."
+          },
+          {
+            "evidence_id": "EV_C001_E08_02",
+            "source_file": "docs/0075/combined.md",
+            "section": "C001",
+            "quote_or_span": "The structure of the Lethal(3)malignant brain tumor-like protein 1 3-MBT repeats (dimethyl lysine analog, PDBID-1OYX) [20] was overlapped on 4EDU using the least square fit in Coot to allow the correct orientation of the dimethyl lysine."
+          },
+          {
+            "evidence_id": "EV_C002_E08_01",
+            "source_file": "docs/0075/combined.md",
+            "section": "C002",
+            "quote_or_span": "Analysis of the binding site of the T411L mutant reveals that the mutation to leucine can significantly increase the hydrophobicity of the binding site, leading to an exclusion of the water molecule and consequently to disfavored binding to mono-methylated lysine"
+          },
+          {
+            "evidence_id": "EV_C003_E04_01",
+            "source_file": "docs/0075/combined.md",
+            "section": "C003",
+            "quote_or_span": "our data supports a model by which these structural changes can lead to a decreased affinity to mono-methylated lysine while maintaining affinity to the di-methylated lysine."
+          }
+        ]
+      },
+      {
+        "step_index": 12,
+        "phase": "analysis",
+        "state_before": "Engineered 3xMBT variants specifically recognize di-methylated lysine.",
+        "gap_or_uncertainty": "The current engineering only addresses di-methyl specificity; other methylation states remain.",
+        "hypothesis": "Further engineering of methylated lysine binding domains using the ELISA approach can lead to domains specific for mono- or tri-methylated proteins.",
+        "decision": "Note limitation and future direction.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "literature reasoning",
+          "version": "",
+          "category": "conceptual"
+        },
+        "parameters": {},
+        "observation": "Further engineering needed for domains specific to mono- or tri-methylated proteins.",
+        "result_status": "success",
+        "next_step_reason": "Limitation acknowledged; future work can extend the approach.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E07_01",
+            "source_file": "docs/0075/combined.md",
+            "section": "C003",
+            "quote_or_span": "We envision that further engineering of methylated lysine binding domains using the ELISA approach can lead to a repertoire of domains capable of specific recognition of mono-methylated, di-methylated or tri-methylated proteins in the cell."
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "ELISA with purified proteins",
+        "ELISA with cell lysates",
+        "Structural modeling"
+      ],
+      "metrics": [
+        "Binding signal ratio di-methyl/mono-methyl >3.5-fold over WT",
+        "Exclusive binding to di-methylated peptides"
+      ],
+      "final_conclusion": "Engineered 3xMBT variants, particularly T411L, specifically recognize di-methylated lysine, with structural basis elucidated.",
+      "limitations": [
+        "Further engineering needed for domains specific to mono- or tri-methylated proteins."
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_specific_evidence_backfilled=6",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_step_trimmed=14_to_12",
+        "v22_specific_evidence_backfilled=5",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 89.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p5\\states\\0075.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p5\\events\\0075.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1
+        ],
+        "K03": [
+          1,
+          2,
+          3,
+          4,
+          7,
+          12
+        ],
+        "K04": [
+          2,
+          3,
+          10
+        ],
+        "K05": [
+          4
+        ],
+        "K06": [
+          4,
+          5,
+          7
+        ],
+        "K07": [
+          5,
+          6,
+          7
+        ],
+        "K08": [
+          7
+        ],
+        "K09": [
+          8
+        ],
+        "K11": [
+          9,
+          10
+        ],
+        "K12": [
+          2,
+          3,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "K13": [
+          6,
+          9,
+          10,
+          11
+        ],
+        "K14": [
+          11,
+          12
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K03"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K02",
+            "K03",
+            "K04",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K03",
+            "K04",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K03",
+            "K05",
+            "K06"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K02",
+            "K06",
+            "K07"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K07",
+            "K12",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K03",
+            "K06",
+            "K07",
+            "K08",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K09",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K10",
+            "K11",
+            "K12",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K04",
+            "K11",
+            "K12",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K12",
+            "K13",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 12,
+          "covered_event_ids": [
+            "K02",
+            "K03",
+            "K12",
+            "K14"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 1,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "3x"
+        ]
+      },
+      {
+        "step_index": 3,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "3x"
+        ]
+      },
+      {
+        "step_index": 6,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "3x"
+        ]
+      },
+      {
+        "step_index": 12,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "3x"
+        ]
+      }
+    ],
+    "step_count": 12,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 89.0
+  },
+  "api_usage": {
+    "prompt_tokens": 91714,
+    "completion_tokens": 24110,
+    "total_tokens": 115824,
+    "prompt_cache_hit_tokens": 2432,
+    "prompt_cache_miss_tokens": 89282
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 4011,
+        "completion_tokens": 679,
+        "total_tokens": 4690,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 4011
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 4562,
+        "completion_tokens": 2247,
+        "total_tokens": 6809,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 4562
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 7532,
+        "completion_tokens": 1655,
+        "total_tokens": 9187,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7276
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 7860,
+        "completion_tokens": 1657,
+        "total_tokens": 9517,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7604
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 6570,
+        "completion_tokens": 1057,
+        "total_tokens": 7627,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6314
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 10700,
+        "completion_tokens": 3151,
+        "total_tokens": 13851,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 10316
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 12114,
+        "completion_tokens": 6072,
+        "total_tokens": 18186,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 11474
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 17792,
+        "completion_tokens": 888,
+        "total_tokens": 18680,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 17792
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 20573,
+        "completion_tokens": 6704,
+        "total_tokens": 27277,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 19933
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

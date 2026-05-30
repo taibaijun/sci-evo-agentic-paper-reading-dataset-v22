@@ -1,0 +1,1308 @@
+{
+  "doc_no": "0032",
+  "source": {
+    "title": "Hotspot Hunter: a computational system for large-scale screening and selection of candidate immunological hotspots in pathogen proteomes",
+    "doi": "https://doi.org/10.1186/1471-2105-9-s1-s19",
+    "license": "cc-by",
+    "pdf_name": "0030_10_1186_1471_2105_9_s1_s19_hotspot_hunter_a_computational_system_for_large_scale_screening_and_selection_of_candidate.pdf",
+    "combined_md": "docs/0032/combined.md",
+    "mineru_md": "docs/0032/mineru.md"
+  },
+  "gist_memory": {
+    "paper_problem_memory": "Experimental identification of T-cell epitopes is laborious, costly, and impractical for large-scale screening across multiple HLA alleles and pathogen proteomes. Existing computational tools predict binding for single proteins and require manual integration, hindering systematic study of promiscuous epitopes and immunological hotspots. Hotspot Hunter addresses this by providing automated, large-scale screening and selection of candidate immunological hotspots across pathogen proteomes, integrating multiple HLA supertypes and antigenic diversity analysis.",
+    "section_gists": [
+      {
+        "section_index": 4,
+        "heading": "Abstract",
+        "gist": "Hotspot Hunter is a web-based system for large-scale screening of immunological hotspots (clusters of promiscuous T-cell epitopes) in pathogen proteomes. It covers four HLA supertypes (A2, A3, B7, DR) using ANN and SVM predictors with soft computing integration. It enables single-protein and multiple-sequence analysis, providing a global view of hotspot localization and antigenic diversity. Target selection shortlists candidate peptides for epitope-based vaccines. Experimental validation showed successful identification of real hotspots.",
+        "process_signals": [
+          "Problem: need for automated screening of promiscuous epitopes across large proteomes",
+          "Approach: computational system integrating ANN and SVM with soft computing",
+          "Validation: experimental confirmation of predicted hotspots"
+        ],
+        "methods": [
+          "Artificial Neural Network (ANN)",
+          "Support Vector Machine (SVM)",
+          "Soft computing integration of ANN and SVM predictions"
+        ],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 5,
+        "heading": "Background",
+        "gist": "T-cell epitope identification is crucial for vaccine design but experimentally challenging due to large proteomes, MHC diversity, low epitope prevalence, and high costs. Promiscuous epitopes binding multiple HLA alleles are ideal for population coverage. Immunological hotspots (clusters of promiscuous epitopes) have been observed in several antigens and can simplify vaccine design. Existing prediction servers handle single proteins and lack hotspot prediction and large-scale analysis capabilities. Hotspot Hunter fills this gap by enabling large-scale screening of hotspots across four HLA supertypes using ANN and SVM with soft computing integration.",
+        "process_signals": [
+          "Motivation: experimental methods are laborious/costly, limited HLA coverage",
+          "Hypothesis: clusters of promiscuous epitopes form immunological hotspots exploitable for vaccines",
+          "Gap: no existing tool for large-scale hotspot screening and antigenic diversity analysis"
+        ],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": [
+          "Experimental approaches are not applicable for large-scale screening",
+          "Existing tools require manual integration and are not tailor-made for hotspots"
+        ]
+      },
+      {
+        "section_index": 6,
+        "heading": "System implementation",
+        "gist": "Hotspot Hunter uses ANN and SVM models trained on 9-mer peptide datasets for HLA-A2, A3, B7, and DR supertypes. Datasets were compiled from MHCPEP, IEDB, literature, and unpublished data. DR dataset derived from consistent experiments, expected higher quality. ANN architectures: 3-layer backprop for A2/A3 (267-4-1), B7 (289-8-1), 4-layer for DR (268-2-4-1) with varying parameters. SVM: Gaussian kernel for A2/A3, polynomial kernel for B7/DR. Ten-fold cross-validation Aroc: ANN 0.83-0.88, SVM 0.80-0.95. Validation on HPV E6/E7, survivin, MOG, HCV showed correct hotspot prediction with some misses. Benchmark study reported ANN models best among external tools for certain alleles; SVM models also competitive.",
+        "process_signals": [
+          "Design choice: 9-mer peptides as binding core for both class I and II",
+          "Training data: aggregated from multiple sources; DR data from single experiment for higher quality",
+          "Model selection: ANN and SVM architectures chosen via sampling and performance comparison",
+          "Validation: experimental datasets used to confirm prediction accuracy; some hotspots missed"
+        ],
+        "methods": [
+          "Artificial Neural Network (ANN) with backpropagation",
+          "Support Vector Machine (SVM) with Gaussian and polynomial kernels",
+          "Soft computing integration (average of ANN and SVM scores)"
+        ],
+        "metrics": [
+          "Area under ROC curve (Aroc) from 10-fold cross-validation: ANN A2=0.83, A3=0.83, B7=0.88, DR=0.85; SVM A2=0.91, A3=0.95, B7=0.92, DR=0.80",
+          "Validation: correctly predicted 2/3 HLA-A2 hotspots, 3/3 HLA-A3 hotspots; 1/2 B7 hotspots; all predicted DR hotspots localized in experimental regions"
+        ],
+        "failures_or_limits": [
+          "Missed one HLA-A2 hotspot in HPV E6/E7",
+          "Missed one HLA-B7 hotspot in survivin",
+          "DR SVM Aroc lower (0.80) compared to others"
+        ]
+      },
+      {
+        "section_index": 7,
+        "heading": "Using the system",
+        "gist": "Hotspot Hunter provides single sequence query (FASTA, length limits), multiple sequence query (ALN/PHY alignment), and target selection functions. Single sequence analysis on MOG predicted four DR hotspots, three corresponding to experimental regions. Multiple sequence query enables global view of hotspot localization and consensus hotspots (present in ≥50% sequences). Target selection identifies candidate peptides for vaccine formulation based on antigenic diversity, highlighting best targets and antigenically redundant sequences.",
+        "process_signals": [
+          "Application: MOG analysis showed predicted hotspots overlapping experimental ones",
+          "Feature: consensus hotspots defined for multiple sequence alignments",
+          "Target selection: uses antigenic diversity to shortlist peptides, ignoring redundant ones"
+        ],
+        "methods": [
+          "Sliding window (15-mer for DR, 30-mer for class I) with scoring",
+          "Consensus hotspot definition (≥50% sequences, min 2 sequences)",
+          "Antigenic diversity analysis for target selection"
+        ],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 8,
+        "heading": "Discussion",
+        "gist": "Experimental epitope identification is not scalable. Existing computational tools (SYFPEITHI, BIMAS, ProPred1, etc.) predict binding but lack hotspot analysis and large-scale capability. Combined antigen processing models (NetCTL, MHC-PATHWAY) have weaknesses due to alternative pathways. Hotspot Hunter differs by combining ANN and SVM for robust prediction, presenting hotspots, enabling systematic proteome-wide analysis, and providing target selection based on antigenic diversity. It is a new generation tool for epitope-based vaccine design, integrated into specialized databases.",
+        "process_signals": [
+          "Comparison: other tools predict single proteins, lack hotspot and large-scale analysis",
+          "Limitation of combined processing models: alternative pathways reduce adequacy",
+          "Novelty: concurrent multi-sequence analysis, global view, antigenic diversity-based target selection"
+        ],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": [
+          "Combined antigen processing models may not be adequate due to alternative pathways",
+          "Hotspot Hunter relies solely on binding prediction, not integrated processing steps"
+        ]
+      }
+    ],
+    "global_hypotheses_about_storyline": [
+      "The research evolved from the need to overcome experimental limitations in T-cell epitope mapping by computationally predicting promiscuous epitopes and their clusters (hotspots) across large pathogen proteomes.",
+      "The hypothesis is that clusters of promiscuous epitopes (hotspots) can be predicted by integrating ANN and SVM models trained on diverse HLA binding data, and that these hotspots are biologically relevant and useful for vaccine design.",
+      "Design choices (9-mer core, soft computing integration, sliding window scoring) were driven by biological knowledge and performance optimization.",
+      "Validation on known antigens confirmed the approach but revealed imperfect sensitivity (missed hotspots), indicating room for improvement.",
+      "The system's novelty lies in its large-scale, multi-sequence analysis and antigenic diversity-based target selection, addressing gaps in existing tools."
+    ],
+    "uncertainties_to_resolve": [
+      "How were the thresholds for hotspot definition (e.g., binding score thresholds) determined?",
+      "What is the quantitative performance (sensitivity, specificity, PPV) on larger benchmark datasets?",
+      "How does the soft computing integration (averaging) compare to other fusion methods?",
+      "What is the impact of training data quality (e.g., DR dataset consistency) on prediction accuracy?",
+      "How were the ANN and SVM architectures and parameters specifically selected (e.g., sampling strategy)?",
+      "What are the false positive rates in hotspot prediction, and how do they affect vaccine target selection?"
+    ]
+  },
+  "chunk_events": [
+    {
+      "chunk_id": "C001",
+      "char_start": 0,
+      "char_end": 18000,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C001_E01",
+          "chunk_id": "C001",
+          "event_type": "problem",
+          "order_hint": 1,
+          "summary": "Experimental mapping of T-cell epitopes is challenging due to large proteomes, MHC diversity, low epitope prevalence, high costs, and time-consuming assays.",
+          "methods_or_tools": [],
+          "entities": [
+            "T-cell epitopes",
+            "MHC molecules",
+            "pathogen proteomes"
+          ],
+          "numbers_or_metrics": [
+            "~0.1–5% natural prevalence"
+          ],
+          "evidence_ids": [
+            "EV_C001_E01_02"
+          ]
+        },
+        {
+          "event_id": "C001_E03",
+          "chunk_id": "C001",
+          "event_type": "problem",
+          "order_hint": 3,
+          "summary": "Existing prediction servers handle single proteins and lack hotspot prediction and large-scale analysis, making systematic study impractical.",
+          "methods_or_tools": [
+            "existing prediction servers"
+          ],
+          "entities": [
+            "promiscuous T-cell epitope prediction servers"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E03_01",
+            "EV_C001_E03_02"
+          ]
+        },
+        {
+          "event_id": "C001_E04",
+          "chunk_id": "C001",
+          "event_type": "design",
+          "order_hint": 4,
+          "summary": "Hotspot Hunter uses ANN and SVM as predictive engines with soft computing integration for robust prediction.",
+          "methods_or_tools": [
+            "Artificial Neural Network (ANN)",
+            "Support Vector Machine (SVM)",
+            "soft computing"
+          ],
+          "entities": [
+            "Hotspot Hunter"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E04_01",
+            "EV_C001_E04_02"
+          ]
+        },
+        {
+          "event_id": "C001_E05",
+          "chunk_id": "C001",
+          "event_type": "design",
+          "order_hint": 5,
+          "summary": "Training datasets compiled from MHCPEP, IEDB, literature, and unpublished data; DR dataset from consistent experiments expected higher quality.",
+          "methods_or_tools": [
+            "MHCPEP database",
+            "IEDB",
+            "SYFPEITHI"
+          ],
+          "entities": [
+            "HLA-A2",
+            "HLA-A3",
+            "HLA-B7",
+            "HLA-DR"
+          ],
+          "numbers_or_metrics": [
+            "3050 peptides (A2)",
+            "2216 peptides (A3)",
+            "4102 peptides (B7)",
+            "2396 peptides (DR)"
+          ],
+          "evidence_ids": [
+            "EV_C001_E05_01",
+            "EV_C001_E05_02"
+          ]
+        },
+        {
+          "event_id": "C001_E06",
+          "chunk_id": "C001",
+          "event_type": "computation",
+          "order_hint": 6,
+          "summary": "ANN models built with specific architectures and parameters; 10-fold cross-validation Aroc values reported.",
+          "methods_or_tools": [
+            "back propagation networks",
+            "10-fold cross-validation"
+          ],
+          "entities": [
+            "ANN models"
+          ],
+          "numbers_or_metrics": [
+            "Aroc: A2=0.83, A3=0.83, B7=0.88, DR=0.85"
+          ],
+          "evidence_ids": [
+            "EV_C001_E06_01",
+            "EV_C001_E06_02"
+          ]
+        },
+        {
+          "event_id": "C001_E07",
+          "chunk_id": "C001",
+          "event_type": "computation",
+          "order_hint": 7,
+          "summary": "SVM models with Gaussian or polynomial kernels; 10-fold cross-validation Aroc values reported.",
+          "methods_or_tools": [
+            "SVM with Gaussian kernel",
+            "SVM with polynomial kernel",
+            "10-fold cross-validation"
+          ],
+          "entities": [
+            "SVM models"
+          ],
+          "numbers_or_metrics": [
+            "Aroc: A2=0.91, A3=0.95, B7=0.92, DR=0.80"
+          ],
+          "evidence_ids": [
+            "EV_C001_E07_01",
+            "EV_C001_E07_02"
+          ]
+        },
+        {
+          "event_id": "C001_E08",
+          "chunk_id": "C001",
+          "event_type": "validation",
+          "order_hint": 8,
+          "summary": "Experimental validation on HPV E6/E7, survivin, MOG, HCV, and Sap2 showed correct hotspot prediction with some misses.",
+          "methods_or_tools": [],
+          "entities": [
+            "HPV E6/E7",
+            "survivin",
+            "MOG",
+            "HCV",
+            "Sap2"
+          ],
+          "numbers_or_metrics": [
+            "2/3 HLA-A2 hotspots correctly predicted",
+            "3/3 HLA-A3 hotspots correctly predicted",
+            "1/2 HLA-B7 hotspots correctly predicted"
+          ],
+          "evidence_ids": [
+            "EV_C001_E08_01",
+            "EV_C001_E08_02",
+            "EV_C001_E08_03",
+            "EV_C001_E08_04"
+          ]
+        }
+      ],
+      "notes": "This chunk covers the abstract, background, and system implementation sections, providing problem statement, design choices, computational methods, and validation results.",
+      "api_usage": {
+        "prompt_tokens": 6547,
+        "completion_tokens": 1833,
+        "total_tokens": 8380,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6291
+      }
+    },
+    {
+      "chunk_id": "C002",
+      "char_start": 17100,
+      "char_end": 35100,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C002_E01",
+          "chunk_id": "C002",
+          "event_type": "experiment",
+          "order_hint": 1,
+          "summary": "Single sequence analysis of MOG protein for HLA-DR hotspots predicted four hotspots, three corresponding to experimental regions.",
+          "methods_or_tools": [
+            "Hotspot Hunter single sequence query",
+            "ANN",
+            "SVM"
+          ],
+          "entities": [
+            "MOG",
+            "HLA-DR"
+          ],
+          "numbers_or_metrics": [
+            "four hotspots",
+            "three corresponding to experimental regions"
+          ],
+          "evidence_ids": [
+            "EV_C002_E01_01"
+          ]
+        },
+        {
+          "event_id": "C002_E02",
+          "chunk_id": "C002",
+          "event_type": "design",
+          "order_hint": 2,
+          "summary": "Binding strength defined as sum of ANN and SVM scores for each hotspot.",
+          "methods_or_tools": [
+            "ANN",
+            "SVM"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E02_01"
+          ]
+        },
+        {
+          "event_id": "C002_E03",
+          "chunk_id": "C002",
+          "event_type": "design",
+          "order_hint": 3,
+          "summary": "Threshold of 65 for DR supertype defines positive binders to multiple DR alleles.",
+          "methods_or_tools": [],
+          "entities": [
+            "DR supertype"
+          ],
+          "numbers_or_metrics": [
+            "threshold 65"
+          ],
+          "evidence_ids": [
+            "EV_C002_E03_01"
+          ]
+        },
+        {
+          "event_id": "C002_E04",
+          "chunk_id": "C002",
+          "event_type": "design",
+          "order_hint": 4,
+          "summary": "Multiple sequence query enables global view of hotspot localization and antigenic diversity analysis.",
+          "methods_or_tools": [
+            "Multiple Sequences Query"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E04_01"
+          ]
+        },
+        {
+          "event_id": "C002_E05",
+          "chunk_id": "C002",
+          "event_type": "design",
+          "order_hint": 5,
+          "summary": "Consensus hotspots defined as present in at least 50% of sequences, minimum two sequences.",
+          "methods_or_tools": [],
+          "entities": [],
+          "numbers_or_metrics": [
+            "50%",
+            "at least two sequences"
+          ],
+          "evidence_ids": [
+            "EV_C002_E05_01"
+          ]
+        },
+        {
+          "event_id": "C002_E06",
+          "chunk_id": "C002",
+          "event_type": "design",
+          "order_hint": 6,
+          "summary": "Target selection function identifies candidate peptides for epitope-based vaccine effective against multiple variants.",
+          "methods_or_tools": [
+            "Target Selection"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E06_01"
+          ]
+        }
+      ],
+      "notes": "Chunk describes usage examples and design features of Hotspot Hunter, including single and multiple sequence analysis, hotspot definition, and target selection.",
+      "api_usage": {
+        "prompt_tokens": 9260,
+        "completion_tokens": 849,
+        "total_tokens": 10109,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9004
+      }
+    },
+    {
+      "chunk_id": "C003",
+      "char_start": 34200,
+      "char_end": 52200,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C003_E01",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 1,
+          "summary": "Hotspot Hunter performs predictions on four HLA supertypes and allows integration of results to identify hotspots common across multiple supertypes.",
+          "methods_or_tools": [
+            "Hotspot Hunter"
+          ],
+          "entities": [
+            "HLA-A2",
+            "HLA-A3",
+            "HLA-B7",
+            "HLA-DR"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E01_01",
+            "EV_C003_E01_02"
+          ]
+        },
+        {
+          "event_id": "C003_E02",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 2,
+          "summary": "Target selection analysis ranks consensus hotspots and identifies best peptide targets for experimental validation, highlighting antigenically redundant sequences.",
+          "methods_or_tools": [
+            "Target Selection function"
+          ],
+          "entities": [
+            "dengue virus type 1 NS2b protein"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E02_01",
+            "EV_C003_E02_02",
+            "EV_C003_E02_03"
+          ]
+        },
+        {
+          "event_id": "C003_E03",
+          "chunk_id": "C003",
+          "event_type": "limitation",
+          "order_hint": 3,
+          "summary": "Combined antigen processing models have a major weakness because they only represent major pathways; alternative pathways exist, making simple sequential combination inadequate.",
+          "methods_or_tools": [
+            "NetCTL",
+            "MHC-PATHWAY"
+          ],
+          "entities": [
+            "proteasome",
+            "TAP",
+            "endoplasmic reticulum"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E03_02"
+          ]
+        },
+        {
+          "event_id": "C003_E04",
+          "chunk_id": "C003",
+          "event_type": "design",
+          "order_hint": 4,
+          "summary": "Hotspot Hunter differs from other servers by combining ANN and SVM for robust prediction, presenting immunological hotspots, enabling concurrent multi-sequence analysis with a global view, and providing target selection based on antigenic diversity.",
+          "methods_or_tools": [
+            "ANN",
+            "SVM",
+            "Hotspot Hunter"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E04_01",
+            "EV_C003_E04_02",
+            "EV_C003_E04_03",
+            "EV_C003_E04_04"
+          ]
+        }
+      ],
+      "notes": "Chunk describes system features (multi-supertype integration, target selection), discusses limitations of combined processing models, and highlights design novelties of Hotspot Hunter.",
+      "api_usage": {
+        "prompt_tokens": 7617,
+        "completion_tokens": 807,
+        "total_tokens": 8424,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7361
+      }
+    },
+    {
+      "chunk_id": "C004",
+      "char_start": 51300,
+      "char_end": 53984,
+      "chunk_relevance": "none",
+      "events": [],
+      "notes": "This chunk contains only a reference list with no research process events.",
+      "api_usage": {
+        "prompt_tokens": 3234,
+        "completion_tokens": 45,
+        "total_tokens": 3279,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 2978
+      }
+    }
+  ],
+  "evidence_bank": [
+    {
+      "evidence_id": "EV_C001_E01_02",
+      "source_file": "docs/0032/combined.md",
+      "section": "C001",
+      "char_start": 5664,
+      "char_end": 5818,
+      "quote": "The high cost of peptide synthesis, limited access to human peripheral blood samples, and time-consuming experimental assays further add to the challenge."
+    },
+    {
+      "evidence_id": "EV_C001_E03_01",
+      "source_file": "docs/0032/combined.md",
+      "section": "C001",
+      "char_start": 6987,
+      "char_end": 7266,
+      "quote": "Nearly all existing publicly available promiscuous T-cell epitope prediction servers perform prediction for a single protein sequence per submission, while those that accept multiple sequences are not tailor-made to predict hotspots; they rely on manual visualization techniques."
+    },
+    {
+      "evidence_id": "EV_C001_E03_02",
+      "source_file": "docs/0032/combined.md",
+      "section": "C001",
+      "char_start": 7267,
+      "char_end": 7478,
+      "quote": "Given the large size of pathogen proteomes, it is painstaking to integrate the individual prediction results, and therefore impractical to use these tools for large-scale systematic study of promiscuous epitopes"
+    },
+    {
+      "evidence_id": "EV_C001_E04_01",
+      "source_file": "docs/0032/combined.md",
+      "section": "C001",
+      "char_start": 8146,
+      "char_end": 8261,
+      "quote": "Hotspot Hunter uses Artificial Neural Network (ANN) and Support Vector Machine (SVM) methods as predictive engines."
+    },
+    {
+      "evidence_id": "EV_C001_E04_02",
+      "source_file": "docs/0032/combined.md",
+      "section": "C001",
+      "char_start": 8370,
+      "char_end": 8491,
+      "quote": "A soft computing approach was applied to integrate the prediction results produced by both methods used by Hotspot Hunter"
+    },
+    {
+      "evidence_id": "EV_C001_E05_01",
+      "source_file": "docs/0032/combined.md",
+      "section": "C001",
+      "char_start": 9796,
+      "char_end": 9970,
+      "quote": "These data were mainly from three sources, the MHCPEP database [24], IEDB [25], and published literature, and a set of HLA non-binding peptides (Brusic V., unpublished data)."
+    },
+    {
+      "evidence_id": "EV_C001_E05_02",
+      "source_file": "docs/0032/combined.md",
+      "section": "C001",
+      "char_start": 11084,
+      "char_end": 11327,
+      "quote": "Since the data originated from a single set of experiments, with relatively consistent experimental conditions, it is reasonable to expect that the DR training dataset is of higher quality relative to datasets aggregated from multiple sources."
+    },
+    {
+      "evidence_id": "EV_C001_E06_01",
+      "source_file": "docs/0032/combined.md",
+      "section": "C001",
+      "char_start": 11416,
+      "char_end": 11543,
+      "quote": "Three-layer back propagation networks (267-4-1) with sigmoid activation functions were built for HLA-A2 and -A3 supertype [28]."
+    },
+    {
+      "evidence_id": "EV_C001_E06_02",
+      "source_file": "docs/0032/combined.md",
+      "section": "C001",
+      "char_start": 13139,
+      "char_end": 13314,
+      "quote": "Ten-fold cross-validation results showed that the area under the receiver operating curve (Aroc) for A2, A3, B7 and DR ANN models were 0.83, 0.83, 0.88 and 0.85, respectively."
+    },
+    {
+      "evidence_id": "EV_C001_E07_01",
+      "source_file": "docs/0032/combined.md",
+      "section": "C001",
+      "char_start": 13316,
+      "char_end": 13451,
+      "quote": "A SVM with Gaussian kernel (g = 0.1 and c = 0.5) was used for HLA-A2 and Gaussian kernel (g = 0.1 and c = 2) for HLA-A3 supertype [29]."
+    },
+    {
+      "evidence_id": "EV_C001_E07_02",
+      "source_file": "docs/0032/combined.md",
+      "section": "C001",
+      "char_start": 13577,
+      "char_end": 13708,
+      "quote": "Ten-fold cross-validation results showed that the Aroc of A2, A3, B7 and DR SVM models are 0.91, 0.95, 0.92, and 0.80 respectively."
+    },
+    {
+      "evidence_id": "EV_C001_E08_01",
+      "source_file": "docs/0032/combined.md",
+      "section": "C001",
+      "char_start": 14100,
+      "char_end": 14215,
+      "quote": "Two of three HLA-A2 hotspots and all three HLA-A3 hotspots were correctly predicted without false positive [29,31]."
+    },
+    {
+      "evidence_id": "EV_C001_E08_02",
+      "source_file": "docs/0032/combined.md",
+      "section": "C001",
+      "char_start": 15032,
+      "char_end": 15094,
+      "quote": "Hotspot Hunter correctly predicted one hotspot and missed one."
+    },
+    {
+      "evidence_id": "EV_C001_E08_03",
+      "source_file": "docs/0032/combined.md",
+      "section": "C001",
+      "char_start": 15384,
+      "char_end": 15474,
+      "quote": "All the predicted hotspots were localized in the experimentally validated hotspot regions."
+    },
+    {
+      "evidence_id": "EV_C001_E08_04",
+      "source_file": "docs/0032/combined.md",
+      "section": "C001",
+      "char_start": 15653,
+      "char_end": 15772,
+      "quote": "Hotspot Hunter accurately identified two of the three HLA-DR restricted immunological regions experimentally identified"
+    },
+    {
+      "evidence_id": "EV_C002_E01_01",
+      "source_file": "docs/0032/combined.md",
+      "section": "C002",
+      "char_start": 18702,
+      "char_end": 18879,
+      "quote": "Hotspot Hunter predicted four hotspots, 38–56, 79–93, 121–163 and 174–211, for the protein (Figure 1B), three of which corresponded to the two experimentally identified regions."
+    },
+    {
+      "evidence_id": "EV_C002_E02_01",
+      "source_file": "docs/0032/combined.md",
+      "section": "C002",
+      "char_start": 18880,
+      "char_end": 18989,
+      "quote": "The \"binding strength\" represents the sum of binding scores predicted by ANN and SVM models for each hotspot."
+    },
+    {
+      "evidence_id": "EV_C002_E03_01",
+      "source_file": "docs/0032/combined.md",
+      "section": "C002",
+      "char_start": 19752,
+      "char_end": 19911,
+      "quote": "Individual peptides with prediction scores greater than or equal to the threshold 65 for DR supertype are considered as positive binders to multiple DR alleles"
+    },
+    {
+      "evidence_id": "EV_C002_E04_01",
+      "source_file": "docs/0032/combined.md",
+      "section": "C002",
+      "char_start": 20562,
+      "char_end": 20747,
+      "quote": "The results page provides a global view of the localizations of the hotspots in the proteome set, enabling analysis of antigenic diversity and shift of hotspots across protein variants."
+    },
+    {
+      "evidence_id": "EV_C002_E05_01",
+      "source_file": "docs/0032/combined.md",
+      "section": "C002",
+      "char_start": 21351,
+      "char_end": 21507,
+      "quote": "Consensus hotspots are defined as hotspots present in at least 50% of the sequences (subject to presence in at least two sequences submitted for prediction)"
+    },
+    {
+      "evidence_id": "EV_C002_E06_01",
+      "source_file": "docs/0032/combined.md",
+      "section": "C002",
+      "char_start": 21681,
+      "char_end": 21898,
+      "quote": "\"Target Selection\" function for multiple sequence queries employs a computational method to identify candidate peptides for the formulation of an epitope-based vaccine that could be effective against multiple variants"
+    },
+    {
+      "evidence_id": "EV_C003_E01_01",
+      "source_file": "docs/0032/combined.md",
+      "section": "C003",
+      "char_start": 36556,
+      "char_end": 36641,
+      "quote": "Hotspot Hunter performs predictions on four HLA supertypes, HLA-A2, -A3, -B7 and -DR."
+    },
+    {
+      "evidence_id": "EV_C003_E01_02",
+      "source_file": "docs/0032/combined.md",
+      "section": "C003",
+      "char_start": 36642,
+      "char_end": 36777,
+      "quote": "It allows integration of the prediction results of the four supertypes for identification of hotspots common across multiple supertypes"
+    },
+    {
+      "evidence_id": "EV_C003_E02_01",
+      "source_file": "docs/0032/combined.md",
+      "section": "C003",
+      "char_start": 35975,
+      "char_end": 36099,
+      "quote": "All the predicted consensus hotspots are ranked to aid in the decision support, aiming to select the best consensus hotspot."
+    },
+    {
+      "evidence_id": "EV_C003_E02_02",
+      "source_file": "docs/0032/combined.md",
+      "section": "C003",
+      "char_start": 39647,
+      "char_end": 39722,
+      "quote": "Best peptide targets for experimental validation are highlighted in yellow."
+    },
+    {
+      "evidence_id": "EV_C003_E02_03",
+      "source_file": "docs/0032/combined.md",
+      "section": "C003",
+      "char_start": 39723,
+      "char_end": 39878,
+      "quote": "Antigenically redundant peptides are peptides whose complete nonamer antigenic diversity is covered by the other peptides at the consensus hotspot position"
+    },
+    {
+      "evidence_id": "EV_C003_E03_02",
+      "source_file": "docs/0032/combined.md",
+      "section": "C003",
+      "char_start": 41360,
+      "char_end": 41462,
+      "quote": "these observations suggest that a simple sequential combination of prediction systems is not adequate."
+    },
+    {
+      "evidence_id": "EV_C003_E04_01",
+      "source_file": "docs/0032/combined.md",
+      "section": "C003",
+      "char_start": 41787,
+      "char_end": 41908,
+      "quote": "the prediction engine combines the strengths of the ANN and SVM methods for better and more robust prediction performance"
+    },
+    {
+      "evidence_id": "EV_C003_E04_02",
+      "source_file": "docs/0032/combined.md",
+      "section": "C003",
+      "char_start": 41918,
+      "char_end": 41973,
+      "quote": "it presents users with predicted immunological hotspots"
+    },
+    {
+      "evidence_id": "EV_C003_E04_03",
+      "source_file": "docs/0032/combined.md",
+      "section": "C003",
+      "char_start": 42147,
+      "char_end": 42274,
+      "quote": "it can concurrently analyze multiple sequences and present a map providing a global view of their localizations in the proteome"
+    },
+    {
+      "evidence_id": "EV_C003_E04_04",
+      "source_file": "docs/0032/combined.md",
+      "section": "C003",
+      "char_start": 42330,
+      "char_end": 42442,
+      "quote": "the system provides a utility for selecting candidate experimental targets based on antigenic diversity analysis"
+    },
+    {
+      "evidence_id": "EV_AUTO_001",
+      "source_file": "docs/0032/combined.md",
+      "section": "auto_specific",
+      "char_start": 9173,
+      "char_end": 9413,
+      "quote": "The HLA-A2 training dataset had a total of 3050 (675 binders and 2375 non-binders) 9-mer peptides related to 15 variants of the HLA-A2 supertype (0201, 0202, 0203, 0204, 0205, 0206, 0207, 0208, 0209, 0210, 0211, 0214, 0217, 6802 and 6901)."
+    },
+    {
+      "evidence_id": "EV_AUTO_002",
+      "source_file": "docs/0032/combined.md",
+      "section": "auto_specific",
+      "char_start": 9590,
+      "char_end": 9795,
+      "quote": "The HLA-B7 training dataset had a total of 4102 (1258 binders and 2844 non-binders) 9-mer peptides related to 13 variants (0702, 1508, 3501, 3502, 3503, 5101, 5102, 5103, 5301, 5401, 5501, 5502 and 5601)."
+    },
+    {
+      "evidence_id": "EV_AUTO_003",
+      "source_file": "docs/0032/combined.md",
+      "section": "auto_specific",
+      "char_start": 15474,
+      "char_end": 15827,
+      "quote": "Additional validation study using secretory aspartyl proteinase 2 (Sap2), a major protein which is known to induce immune response during Candida infection in human, showed that Hotspot Hunter accurately identified two of the three HLA-DR restricted immunological regions experimentally identified using PBMC proliferation and IL-2 ELISpot assays [38]."
+    },
+    {
+      "evidence_id": "EV_AUTO_004",
+      "source_file": "docs/0032/combined.md",
+      "section": "auto_specific",
+      "char_start": 45625,
+      "char_end": 45722,
+      "quote": ": Polyvalent vaccines for optimal coverage of potential T-cell epitopes in global HIV-1 variants."
+    },
+    {
+      "evidence_id": "EV_AUTO_005",
+      "source_file": "docs/0032/combined.md",
+      "section": "auto_specific",
+      "char_start": 6543,
+      "char_end": 6795,
+      "quote": "The presence of clusters of promiscuous T-cell epitopes, immunological hotspots, has been observed in several antigens, such as SARS coronavirus nucleocapsid $[11]$ , HIV-1 proteins $[12-14]$ , and Chlamydia trachomatis outer membrane protein $[15]$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_006",
+      "source_file": "docs/0032/combined.md",
+      "section": "auto_specific",
+      "char_start": 44188,
+      "char_end": 44277,
+      "quote": "HHSN2662-00400085C; and the ImmunoGrid project under the EC contract FP6-2004-IST-4, No."
+    },
+    {
+      "evidence_id": "EV_AUTO_007",
+      "source_file": "docs/0032/combined.md",
+      "section": "auto_specific",
+      "char_start": 9413,
+      "char_end": 9590,
+      "quote": "The HLA-A3 training dataset had a total of 2216 (680 binders and 1536 non-binders) 9-mer peptides related to eight variants (0301, 0302, 1101, 1102, 3101, 3301, 3303 and 6801)."
+    },
+    {
+      "evidence_id": "EV_AUTO_008",
+      "source_file": "docs/0032/combined.md",
+      "section": "auto_specific",
+      "char_start": 10075,
+      "char_end": 10236,
+      "quote": "The HLA-DR training dataset had 2396 (448 binders and 1948 non-binders) 9-mer peptides related to six HLA-DRB1 variants (0101, 0301, 0701, 0801, 1101 and 1501)."
+    },
+    {
+      "evidence_id": "EV_AUTO_009",
+      "source_file": "docs/0032/combined.md",
+      "section": "auto_specific",
+      "char_start": 15094,
+      "char_end": 15383,
+      "quote": "The prediction performance for HLA-DR hotspots was validated using experimental results from systematic binding studies of overlapping peptides from myelin oligodendrocyte glycoprotein (MOG) (NCBI Accession: CAA88109) [36] and hepatitis C virus 1B protein (NCBI Accession: AAB00216) [37]."
+    },
+    {
+      "evidence_id": "EV_AUTO_010",
+      "source_file": "docs/0032/combined.md",
+      "section": "auto_specific",
+      "char_start": 13859,
+      "char_end": 14099,
+      "quote": "The prediction performances of models for HLA-A2 and -A3 supertypes were validated using experimental results from a systematic study of human papillomavirus type 16 E6 (NCBI Accession: P03126) and E7 (NCBI Accession: P03129) proteins [30]."
+    },
+    {
+      "evidence_id": "EV_AUTO_011",
+      "source_file": "docs/0032/combined.md",
+      "section": "auto_specific",
+      "char_start": 14849,
+      "char_end": 15031,
+      "quote": "The prediction performances of models for HLA-B7 supertype were validated using experimental results of the tumor-associated antigen survivin (NCBI Accession: NP\\_001159.2) [34,35]."
+    },
+    {
+      "evidence_id": "EV_AUTO_012",
+      "source_file": "docs/0032/combined.md",
+      "section": "auto_specific",
+      "char_start": 26059,
+      "char_end": 26206,
+      "quote": "The input protein sequence is Myelin Oligodendrocyte glycoprotein (NCBI Accession: CAA88109) and the selected HLA supertype of interest is HLA-DR."
+    },
+    {
+      "evidence_id": "EV_AUTO_013",
+      "source_file": "docs/0032/combined.md",
+      "section": "auto_specific",
+      "char_start": 16988,
+      "char_end": 17152,
+      "quote": "The threshold for each supertype was the sum of the thresholds of corresponding ANN and SVM models, which were selected based on experimental binding data [29,33]."
+    },
+    {
+      "evidence_id": "EV_AUTO_014",
+      "source_file": "docs/0032/combined.md",
+      "section": "auto_specific",
+      "char_start": 13576,
+      "char_end": 13676,
+      "quote": "Ten-fold cross-validation results showed that the Aroc of A2, A3, B7 and DR SVM models are 0.91, 0."
+    },
+    {
+      "evidence_id": "EV_AUTO_015",
+      "source_file": "docs/0032/combined.md",
+      "section": "auto_specific",
+      "char_start": 13138,
+      "char_end": 13282,
+      "quote": "Ten-fold cross-validation results showed that the area under the receiver operating curve (Aroc) for A2, A3, B7 and DR ANN models were 0.83, 0."
+    },
+    {
+      "evidence_id": "EV_AUTO_016",
+      "source_file": "docs/0032/combined.md",
+      "section": "auto_specific",
+      "char_start": 11543,
+      "char_end": 11619,
+      "quote": "Training parameters were determined by observing 100 cross-validation runs."
+    },
+    {
+      "evidence_id": "EV_AUTO_017",
+      "source_file": "docs/0032/combined.md",
+      "section": "auto_specific",
+      "char_start": 51630,
+      "char_end": 51794,
+      "quote": "Tongchusak S: In silico prediction and immunological validation of candida albicans secretory aspartyl proteinase 2 peptides bound to multiple HLA-DRBI supertypes."
+    }
+  ],
+  "event_graph": {
+    "paper_main_problem": "Experimental identification of T-cell epitopes is laborious, costly, and impractical for large-scale screening across multiple HLA alleles and pathogen proteomes. Existing computational tools predict binding for single proteins and require manual integration, hindering systematic study of promiscuous epitopes and immunological hotspots.",
+    "canonical_events": [
+      {
+        "canonical_id": "K01",
+        "order": 1,
+        "event_type": "problem",
+        "summary": "Experimental mapping of T-cell epitopes is challenging due to large proteomes, MHC diversity, low epitope prevalence, high costs, and time-consuming assays.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E01"
+        ],
+        "evidence_ids": [
+          "EV_C001_E01_02"
+        ],
+        "key_entities": [
+          "T-cell epitopes",
+          "MHC molecules",
+          "pathogen proteomes"
+        ],
+        "key_numbers": [
+          "~0.1–5% natural prevalence"
+        ]
+      },
+      {
+        "canonical_id": "K02",
+        "order": 2,
+        "event_type": "problem",
+        "summary": "Existing prediction servers handle single proteins and lack hotspot prediction and large-scale analysis, making systematic study impractical.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E03"
+        ],
+        "evidence_ids": [
+          "EV_C001_E03_01",
+          "EV_C001_E03_02"
+        ],
+        "key_entities": [
+          "promiscuous T-cell epitope prediction servers"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K03",
+        "order": 3,
+        "event_type": "design",
+        "summary": "Hotspot Hunter uses ANN and SVM as predictive engines with soft computing integration for robust prediction.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E04"
+        ],
+        "evidence_ids": [
+          "EV_C001_E04_01",
+          "EV_C001_E04_02"
+        ],
+        "key_entities": [
+          "Hotspot Hunter",
+          "ANN",
+          "SVM"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K04",
+        "order": 4,
+        "event_type": "design",
+        "summary": "Training datasets compiled from MHCPEP, IEDB, literature, and unpublished data; DR dataset from consistent experiments expected higher quality.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E05"
+        ],
+        "evidence_ids": [
+          "EV_C001_E05_01",
+          "EV_C001_E05_02",
+          "EV_AUTO_001",
+          "EV_AUTO_007",
+          "EV_AUTO_002",
+          "EV_AUTO_008"
+        ],
+        "key_entities": [
+          "HLA-A2",
+          "HLA-A3",
+          "HLA-B7",
+          "HLA-DR"
+        ],
+        "key_numbers": [
+          "3050 peptides (A2)",
+          "2216 peptides (A3)",
+          "4102 peptides (B7)",
+          "2396 peptides (DR)"
+        ]
+      },
+      {
+        "canonical_id": "K05",
+        "order": 5,
+        "event_type": "computation",
+        "summary": "ANN models built with specific architectures and parameters; 10-fold cross-validation Aroc values reported.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E06"
+        ],
+        "evidence_ids": [
+          "EV_C001_E06_01",
+          "EV_C001_E06_02",
+          "EV_AUTO_015",
+          "EV_AUTO_016"
+        ],
+        "key_entities": [
+          "ANN models"
+        ],
+        "key_numbers": [
+          "Aroc: A2=0.83, A3=0.83, B7=0.88, DR=0.85"
+        ]
+      },
+      {
+        "canonical_id": "K06",
+        "order": 6,
+        "event_type": "computation",
+        "summary": "SVM models with Gaussian or polynomial kernels; 10-fold cross-validation Aroc values reported.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E07"
+        ],
+        "evidence_ids": [
+          "EV_C001_E07_01",
+          "EV_C001_E07_02",
+          "EV_AUTO_014"
+        ],
+        "key_entities": [
+          "SVM models"
+        ],
+        "key_numbers": [
+          "Aroc: A2=0.91, A3=0.95, B7=0.92, DR=0.80"
+        ]
+      },
+      {
+        "canonical_id": "K07",
+        "order": 7,
+        "event_type": "design",
+        "summary": "Binding strength defined as sum of ANN and SVM scores; threshold of 65 for DR supertype defines positive binders.",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C002_E02",
+          "C002_E03"
+        ],
+        "evidence_ids": [
+          "EV_C002_E02_01",
+          "EV_C002_E03_01",
+          "EV_AUTO_013"
+        ],
+        "key_entities": [
+          "DR supertype"
+        ],
+        "key_numbers": [
+          "threshold 65"
+        ]
+      },
+      {
+        "canonical_id": "K08",
+        "order": 8,
+        "event_type": "validation",
+        "summary": "Experimental validation on HPV E6/E7, survivin, MOG, HCV, and Sap2 showed correct hotspot prediction with some misses.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E08",
+          "C002_E01"
+        ],
+        "evidence_ids": [
+          "EV_C001_E08_01",
+          "EV_C001_E08_02",
+          "EV_C001_E08_03",
+          "EV_C001_E08_04",
+          "EV_C002_E01_01",
+          "EV_AUTO_003"
+        ],
+        "key_entities": [
+          "HPV E6/E7",
+          "survivin",
+          "MOG",
+          "HCV",
+          "Sap2"
+        ],
+        "key_numbers": [
+          "2/3 HLA-A2 hotspots correctly predicted",
+          "3/3 HLA-A3 hotspots correctly predicted",
+          "1/2 HLA-B7 hotspots correctly predicted",
+          "four MOG hotspots predicted, three corresponding to experimental regions"
+        ]
+      },
+      {
+        "canonical_id": "K09",
+        "order": 9,
+        "event_type": "design",
+        "summary": "Multiple sequence query enables global view of hotspot localization and antigenic diversity analysis; consensus hotspots defined as present in at least 50% of sequences.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E04",
+          "C002_E05"
+        ],
+        "evidence_ids": [
+          "EV_C002_E04_01",
+          "EV_C002_E05_01"
+        ],
+        "key_entities": [],
+        "key_numbers": [
+          "50%",
+          "at least two sequences"
+        ]
+      },
+      {
+        "canonical_id": "K10",
+        "order": 10,
+        "event_type": "design",
+        "summary": "Target selection function identifies candidate peptides for epitope-based vaccine effective against multiple variants, ranking consensus hotspots and highlighting antigenically redundant sequences.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E06",
+          "C003_E02"
+        ],
+        "evidence_ids": [
+          "EV_C002_E06_01",
+          "EV_C003_E02_01",
+          "EV_C003_E02_02",
+          "EV_C003_E02_03"
+        ],
+        "key_entities": [
+          "dengue virus type 1 NS2b protein"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K11",
+        "order": 11,
+        "event_type": "analysis",
+        "summary": "Hotspot Hunter performs predictions on four HLA supertypes and allows integration of results to identify hotspots common across multiple supertypes.",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C003_E01"
+        ],
+        "evidence_ids": [
+          "EV_C003_E01_01",
+          "EV_C003_E01_02"
+        ],
+        "key_entities": [
+          "HLA-A2",
+          "HLA-A3",
+          "HLA-B7",
+          "HLA-DR"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K12",
+        "order": 12,
+        "event_type": "limitation",
+        "summary": "Combined antigen processing models have a major weakness because they only represent major pathways; alternative pathways exist, making simple sequential combination inadequate.",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C003_E03"
+        ],
+        "evidence_ids": [
+          "EV_C003_E03_02"
+        ],
+        "key_entities": [
+          "NetCTL",
+          "MHC-PATHWAY",
+          "proteasome",
+          "TAP",
+          "endoplasmic reticulum"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K13",
+        "order": 13,
+        "event_type": "design",
+        "summary": "Hotspot Hunter differs from other servers by combining ANN and SVM for robust prediction, presenting immunological hotspots, enabling concurrent multi-sequence analysis with a global view, and providing target selection based on antigenic diversity.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E04"
+        ],
+        "evidence_ids": [
+          "EV_C003_E04_01",
+          "EV_C003_E04_02",
+          "EV_C003_E04_03",
+          "EV_C003_E04_04"
+        ],
+        "key_entities": [
+          "Hotspot Hunter"
+        ],
+        "key_numbers": []
+      }
+    ],
+    "edges": [
+      {
+        "source": "K01",
+        "target": "K02",
+        "relation": "follows",
+        "reason": "General experimental challenges motivate the need for computational tools, but existing tools have limitations."
+      },
+      {
+        "source": "K02",
+        "target": "K03",
+        "relation": "enables",
+        "reason": "To address the lack of large-scale hotspot prediction, Hotspot Hunter is designed with ANN and SVM engines."
+      },
+      {
+        "source": "K03",
+        "target": "K04",
+        "relation": "enables",
+        "reason": "The predictive engines require training data, which are compiled from multiple sources."
+      },
+      {
+        "source": "K04",
+        "target": "K05",
+        "relation": "enables",
+        "reason": "Training data is used to build ANN models."
+      },
+      {
+        "source": "K04",
+        "target": "K06",
+        "relation": "enables",
+        "reason": "Training data is used to build SVM models."
+      },
+      {
+        "source": "K05",
+        "target": "K07",
+        "relation": "enables",
+        "reason": "ANN and SVM scores are combined to define binding strength and thresholds."
+      },
+      {
+        "source": "K06",
+        "target": "K07",
+        "relation": "enables",
+        "reason": "SVM scores are part of the binding strength definition."
+      },
+      {
+        "source": "K07",
+        "target": "K08",
+        "relation": "enables",
+        "reason": "Binding strength and thresholds are used to predict hotspots, which are then experimentally validated."
+      },
+      {
+        "source": "K08",
+        "target": "K09",
+        "relation": "follows",
+        "reason": "Validation on single sequences leads to extension for multiple sequence analysis."
+      },
+      {
+        "source": "K09",
+        "target": "K10",
+        "relation": "enables",
+        "reason": "Consensus hotspots from multiple sequences are used for target selection."
+      },
+      {
+        "source": "K10",
+        "target": "K11",
+        "relation": "follows",
+        "reason": "Target selection is part of the overall analysis across supertypes."
+      },
+      {
+        "source": "K11",
+        "target": "K12",
+        "relation": "follows",
+        "reason": "Discussion of limitations of combined processing models contrasts with Hotspot Hunter's approach."
+      },
+      {
+        "source": "K12",
+        "target": "K13",
+        "relation": "contradicts",
+        "reason": "Hotspot Hunter's design avoids the weakness of simple sequential combination by focusing on binding prediction and antigenic diversity."
+      }
+    ],
+    "must_cover_points": [
+      "Experimental challenges in T-cell epitope mapping",
+      "Limitations of existing single-protein prediction tools",
+      "Design of Hotspot Hunter with ANN and SVM integration",
+      "Compilation of training datasets for four HLA supertypes",
+      "ANN model architectures and cross-validation performance",
+      "SVM model kernels and cross-validation performance",
+      "Experimental validation on multiple antigens with quantitative results",
+      "Multiple sequence analysis and consensus hotspot definition",
+      "Target selection based on antigenic diversity",
+      "Comparison with other tools and discussion of limitations"
+    ],
+    "paper_not_suitable_reasons": []
+  }
+}

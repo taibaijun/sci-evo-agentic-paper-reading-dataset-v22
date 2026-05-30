@@ -1,0 +1,930 @@
+{
+  "case": {
+    "case_id": "sci_evo_0038",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Analysis of protein secretion in Bacillus subtilis by combining a secretion stress biosensor strain with an in vivo split GFP assay",
+      "doi": "https://doi.org/10.1186/s12934-023-02199-8",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0036_10_1186_s12934_023_02199_8_analysis_of_protein_secretion_in_bacillus_subtilis_by_combining_a_secretion_stress_biosens.pdf",
+      "mineru_md": "docs/0038/mineru.md",
+      "combined_md": "docs/0038/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Activity-based screening methods are not universally applicable for detecting secreted proteins, limiting high-throughput optimization of recombinant protein secretion in Bacillus subtilis.",
+      "target_object": "Recombinant protein secretion in Bacillus subtilis",
+      "known_context": "Activity-based screening is limited to proteins with detectable enzymatic activity.",
+      "constraints": [
+        "High-throughput compatible",
+        "Activity-independent detection"
+      ],
+      "input_data": [],
+      "quantifiable_goals": [
+        "Develop an activity-independent high-throughput method for monitoring secretion and stress",
+        "Optimize cutinase secretion using signal peptide library"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "Activity-based screening methods are not universally applicable for detecting secreted proteins.",
+        "gap_or_uncertainty": "Need for an activity-independent, high-throughput method to monitor secretion and stress.",
+        "hypothesis": "Combining a split GFP assay with a secretion stress biosensor enables activity-independent, high-throughput monitoring of secretion and stress.",
+        "decision": "Develop a combined online monitoring system consisting of an in vivo split GFP assay and an mCherry-based secretion stress biosensor.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "Literature-based hypothesis generation",
+          "version": "",
+          "category": "reasoning"
+        },
+        "parameters": {},
+        "observation": "Hypothesis formulated based on known limitations of activity-based screening.",
+        "result_status": "success",
+        "next_step_reason": "Design the secretion stress biosensor.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0038/combined.md",
+            "section": "C001",
+            "quote_or_span": "However, not every protein can be detected by activity-based screening."
+          },
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0038/combined.md",
+            "section": "C001",
+            "quote_or_span": "We therefore developed a combined online monitoring system, consisting of an in vivo split GFP assay for activity-independent target detection and an mCherry-based secretion stress biosensor."
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "experiment",
+        "state_before": "Library constructed.",
+        "gap_or_uncertainty": "Need to evaluate secretion stress for different signal peptides.",
+        "hypothesis": "Online monitoring of mCherry fluorescence in B. subtilis PAL5 will reveal secretion stress levels for Cut11 fused to SP_Pel, SP_Epr, SP_Bsn.",
+        "decision": "Perform online monitoring of secretion stress for Cut11 fused to three signal peptides (SP_Pel, SP_Epr, SP_Bsn) in B. subtilis PAL5 using BioLector.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "BioLector microbioreactor",
+          "version": "",
+          "category": "high_throughput_cultivation"
+        },
+        "parameters": {
+          "signal_peptides": [
+            "SP_Pel",
+            "SP_Epr",
+            "SP_Bsn"
+          ],
+          "target_protein": "Cut11",
+          "strain": "B. subtilis PAL5",
+          "measurement": "mCherry fluorescence"
+        },
+        "observation": "All cultures showed similar growth; SP_Pel exhibited about 30% higher mCherry fluorescence.",
+        "result_status": "success",
+        "next_step_reason": "Analyze correlation between enzymatic activity and secretion stress.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E03_02",
+            "source_file": "docs/0038/combined.md",
+            "section": "C002",
+            "quote_or_span": "All cutinase producing cultures showed similar growth behavior (Fig. 1A, inset), which allowed a direct comparison of mCherry fluorescence intensities"
+          },
+          {
+            "evidence_id": "EV_AUTO_026",
+            "source_file": "docs/0038/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "For the $SP_{Pel}$ variant, secretion stress increased slightly earlier and more strongly, resulting in about 30% higher mCherry fluorescence compared to the other cutinase-secreting strains."
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "analysis",
+        "state_before": "Secretion stress data obtained.",
+        "gap_or_uncertainty": "Is there a correlation between enzymatic activity and secretion stress?",
+        "hypothesis": "Enzymatic activity and secretion stress may not correlate for these signal peptides.",
+        "decision": "Compare enzymatic activities and secretion stress for SP_Pel, SP_Epr, SP_Bsn.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Correlation analysis",
+          "version": "",
+          "category": "statistical_analysis"
+        },
+        "parameters": {
+          "metrics": [
+            "enzymatic activity (U/ml)",
+            "mCherry fluorescence"
+          ]
+        },
+        "observation": "No correlation observed between enzymatic activity and secretion stress.",
+        "result_status": "failure",
+        "next_step_reason": "Develop an activity-independent detection method (split GFP).",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E04_01",
+            "source_file": "docs/0038/combined.md",
+            "section": "C002",
+            "quote_or_span": "a correlation between the enzymatic activity and secretion stress was not observed"
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "experiment",
+        "state_before": "No correlation between activity and stress.",
+        "gap_or_uncertainty": "Need an activity-independent method to detect secreted protein.",
+        "hypothesis": "In vivo split GFP assay can detect secreted Cut11 by adding GFP1-10 to culture broth.",
+        "decision": "Develop in vivo split GFP assay for online detection of secreted Cut11 by adding GFP1-10 to culture broth during cultivation.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Split GFP assay",
+          "version": "",
+          "category": "protein_detection"
+        },
+        "parameters": {
+          "tag": "GFP11",
+          "complement": "GFP1-10",
+          "addition_time": "16 h",
+          "concentration": "3% (v/v)"
+        },
+        "observation": "In vivo holo-GFP reconstitution enabled detection of secreted Cut11.",
+        "result_status": "success",
+        "next_step_reason": "Validate split GFP assay against enzymatic activity.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E06_01",
+            "source_file": "docs/0038/combined.md",
+            "section": "C002",
+            "quote_or_span": "we tested the addition of GFP1-10 to the culture broth during cultivation thereby enabling in vivo holo-GFP reconstitution"
+          },
+          {
+            "evidence_id": "EV_C002_E06_02",
+            "source_file": "docs/0038/combined.md",
+            "section": "C002",
+            "quote_or_span": "GFP1-10 solution was added directly to the culture broth at a final concentration of 3% (v/v) after 16 h of cultivation"
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "validation",
+        "state_before": "Split GFP assay developed.",
+        "gap_or_uncertainty": "Does split GFP fluorescence correlate with enzymatic activity?",
+        "hypothesis": "Split GFP fluorescence will show good correlation with enzymatic activity for Cut11 secretion.",
+        "decision": "Validate split GFP assay by comparing fluorescence with enzymatic activity using pNPP substrate.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Correlation analysis",
+          "version": "",
+          "category": "statistical_analysis"
+        },
+        "parameters": {
+          "metrics": [
+            "split GFP fluorescence",
+            "enzymatic activity (pNPP assay)"
+          ]
+        },
+        "observation": "Good correlation observed between split GFP fluorescence and enzymatic activity.",
+        "result_status": "success",
+        "next_step_reason": "Evaluate simultaneous use of biosensor and split GFP assay.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E07_01",
+            "source_file": "docs/0038/combined.md",
+            "section": "C001",
+            "quote_or_span": "Using the split GFP-based detection assay, we demonstrated a good correlation between the amount of secreted cutinase and the enzymatic activity."
+          },
+          {
+            "evidence_id": "EV_C002_E07_01",
+            "source_file": "docs/0038/combined.md",
+            "section": "C002",
+            "quote_or_span": "A good correlation was observed between split GFP fluorescence and the corresponding enzymatic activity determined with the substrate pNPP"
+          },
+          {
+            "evidence_id": "EV_C003_E01_01",
+            "source_file": "docs/0038/combined.md",
+            "section": "C003",
+            "quote_or_span": "A good correlation was observed between split GFP fluorescence and the corresponding enzymatic activity determined with the substrate pNPP (Fig. 2B)."
+          },
+          {
+            "evidence_id": "EV_C003_E01_02",
+            "source_file": "docs/0038/combined.md",
+            "section": "C003",
+            "quote_or_span": "The results therefore clearly demonstrate the applicability of the in vivo split GFP assay as an easy-to-perform and time-saving in vivo assay suitable for online detection of secreted enzymes."
+          },
+          {
+            "evidence_id": "EV_AUTO_032",
+            "source_file": "docs/0038/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "By combining both methods, an activity-independent high-throughput method was created, that allowed optimization of Cut11 secretion."
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "experiment",
+        "state_before": "Split GFP assay validated.",
+        "gap_or_uncertainty": "Need to evaluate simultaneous use of biosensor and split GFP assay with varying secretion levels.",
+        "hypothesis": "Modulating spacer length will vary Cut11 secretion, allowing correlation analysis between split GFP and enzymatic activity.",
+        "decision": "Evaluate simultaneous use of mCherry secretion stress biosensor and split GFP assay by varying spacer length (4 to 12 nt) for SP_Pel, SP_Epr, SP_Bsn.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Simultaneous monitoring with spacer modulation",
+          "version": "",
+          "category": "high_throughput_cultivation"
+        },
+        "parameters": {
+          "signal_peptides": [
+            "SP_Pel",
+            "SP_Epr",
+            "SP_Bsn"
+          ],
+          "spacer_lengths": "4 to 12 nucleotides"
+        },
+        "observation": "Simultaneous monitoring data collected; split GFP and enzymatic activity correlated.",
+        "result_status": "success",
+        "next_step_reason": "Analyze correlation between split GFP and enzymatic activity.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E02_01",
+            "source_file": "docs/0038/combined.md",
+            "section": "C003",
+            "quote_or_span": "we evaluated the simultaneous use of the mCherry-based secretion stress biosensor strain B. subtilis PAL5 and the in vivo split GFP assay"
+          },
+          {
+            "evidence_id": "EV_AUTO_032",
+            "source_file": "docs/0038/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "By combining both methods, an activity-independent high-throughput method was created, that allowed optimization of Cut11 secretion."
+          },
+          {
+            "evidence_id": "EV_AUTO_030",
+            "source_file": "docs/0038/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "# Construction of Cut11 signal peptide library"
+          },
+          {
+            "evidence_id": "EV_AUTO_015",
+            "source_file": "docs/0038/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The plasmid pBS-4nt-SP $_{\\text{Pel}}$ -Cut11 [29] was used to construct the Cut11 signal peptide library."
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "analysis",
+        "state_before": "Simultaneous monitoring data collected.",
+        "gap_or_uncertainty": "What is the quantitative correlation between split GFP and enzymatic activity?",
+        "hypothesis": "Split GFP fluorescence will correlate with enzymatic activity, but sensitivity may decrease for low-performing variants.",
+        "decision": "Calculate correlation between split GFP fluorescence and enzymatic activities.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Correlation analysis",
+          "version": "",
+          "category": "statistical_analysis"
+        },
+        "parameters": {
+          "metrics": [
+            "split GFP fluorescence",
+            "enzymatic activity"
+          ]
+        },
+        "observation": "Good correlation found (r=0.85, R²=0.73), but sensitivity decreased for low-performing variants.",
+        "result_status": "partial",
+        "next_step_reason": "Analyze stress-activity correlation per signal peptide.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E03_02",
+            "source_file": "docs/0038/combined.md",
+            "section": "C003",
+            "quote_or_span": "the sensitivity of the in vivo split GFP assay decreased with inferior performing variants"
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "analysis",
+        "state_before": "Signal peptide-specific correlations observed.",
+        "gap_or_uncertainty": "Why does SP_Pel show disproportionately high stress with longer spacers?",
+        "hypothesis": "Disproportionally high increase in secretion stress for SP_Pel with spacer ≥7 nt may indicate improper protein folding, reducing efficient secretion.",
+        "decision": "Identify limitation: high stress with SP_Pel and spacer ≥7 nt suggests misfolding.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Data interpretation",
+          "version": "",
+          "category": "reasoning"
+        },
+        "parameters": {},
+        "observation": "For spacer lengths ≥7 nt, increase in stress was higher than increase in cutinase amount/activity, indicating possible misfolding.",
+        "result_status": "partial",
+        "next_step_reason": "Screen signal peptide library to find optimal secretion.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E05_01",
+            "source_file": "docs/0038/combined.md",
+            "section": "C003",
+            "quote_or_span": "for spacer lengths≥7 nt the increase of secretion stress response was higher than the increase in cutinase amount and enzymatic activity"
+          },
+          {
+            "evidence_id": "EV_C003_E05_02",
+            "source_file": "docs/0038/combined.md",
+            "section": "C003",
+            "quote_or_span": "The disproportionally high increase in secretion stress may indicate improper protein folding at a significant rate, thereby reducing efficient protein secretion."
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "experiment",
+        "state_before": "Limitation identified with SP_Pel.",
+        "gap_or_uncertainty": "Need to screen the full signal peptide library to identify high-secreting variants.",
+        "hypothesis": "Screening the SP-Cut11 library with split GFP and stress biosensor will identify clones with high secretion and acceptable stress.",
+        "decision": "Screen 480 clones from SP-Cut11 library using split GFP assay and secretion stress biosensor.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Library screening",
+          "version": "",
+          "category": "high_throughput_screening"
+        },
+        "parameters": {
+          "library": "SP-Cut11",
+          "number_of_clones": 480,
+          "measurements": [
+            "split GFP fluorescence",
+            "mCherry fluorescence",
+            "enzymatic activity"
+          ]
+        },
+        "observation": "Correlation between split GFP and activity (r=0.77, R²=0.61) but no correlation with stress.",
+        "result_status": "partial",
+        "next_step_reason": "Validate top clones from screening.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E08_01",
+            "source_file": "docs/0038/combined.md",
+            "section": "C001",
+            "quote_or_span": "a library of 173 different B. subtilis signal peptides fused to the cutinase was screened for enzymatically active secreted protein and secretion stress response"
+          },
+          {
+            "evidence_id": "EV_C003_E06_01",
+            "source_file": "docs/0038/combined.md",
+            "section": "C003",
+            "quote_or_span": "480 individual clones were analyzed with respect to the amount and activity of the secreted cutinase and the accompanying secretion stress"
+          },
+          {
+            "evidence_id": "EV_C003_E06_03",
+            "source_file": "docs/0038/combined.md",
+            "section": "C003",
+            "quote_or_span": "no correlation was observed between the secretion stress response and the amount/activity of the secreted cutinase"
+          },
+          {
+            "evidence_id": "EV_AUTO_021",
+            "source_file": "docs/0038/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Screening of the signal peptide library again revealed a correlation between results obtained with the split GFP assay and enzymatic activity (r=0.77; $R^{2}=0."
+          },
+          {
+            "evidence_id": "EV_AUTO_010",
+            "source_file": "docs/0038/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "77; $R^{2}=0.61$ ), although with reduced sensitivity for low-secreting variants."
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "validation",
+        "state_before": "Library screening completed.",
+        "gap_or_uncertainty": "Need to validate top clones from screening to confirm secretion performance.",
+        "hypothesis": "Recultivating top clones as triplicates will confirm high secretion and identify signal peptides.",
+        "decision": "Select five clones with highest split GFP, recultivate as biological triplicates, and identify signal peptides.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Clone validation",
+          "version": "",
+          "category": "molecular_biology"
+        },
+        "parameters": {
+          "number_of_clones": 5,
+          "replicates": 3
+        },
+        "observation": "Identified signal peptides SP_NamZ, SP_Mpr, SP_DacB; SP_DacB showed higher stress despite similar secretion.",
+        "result_status": "success",
+        "next_step_reason": "Analyze overall relationship between stress and secretion.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E07_01",
+            "source_file": "docs/0038/combined.md",
+            "section": "C003",
+            "quote_or_span": "we selected five clones with the highest level of cutinase secretion based on the split GFP measurement that were subsequently recultivated as biological triplicates"
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "analysis",
+        "state_before": "Top clones validated.",
+        "gap_or_uncertainty": "What is the overall relationship between secretion stress and secretion levels?",
+        "hypothesis": "Secretion stress only partially reflects secretion levels; protein misfolding competes with secretion.",
+        "decision": "Conclude that secretion stress partially reflects secretion levels, with misfolding causing high stress and low secretion.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Data synthesis",
+          "version": "",
+          "category": "reasoning"
+        },
+        "parameters": {},
+        "observation": "Secretion stress response only partially reflects secretion levels; protein misfolding competes with effective secretion.",
+        "result_status": "partial",
+        "next_step_reason": "Acknowledge remaining limitations.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E08_01",
+            "source_file": "docs/0038/combined.md",
+            "section": "C003",
+            "quote_or_span": "the secretion stress response only partially reflects secretion levels"
+          },
+          {
+            "evidence_id": "EV_C003_E08_02",
+            "source_file": "docs/0038/combined.md",
+            "section": "C003",
+            "quote_or_span": "Protein misfolding competes with effective secretion leading to high-level stress and disproportionately low protein secretion."
+          }
+        ]
+      },
+      {
+        "step_index": 12,
+        "phase": "analysis",
+        "state_before": "Overall conclusion drawn.",
+        "gap_or_uncertainty": "The exact relation between stress response and amount of secreted enzyme remains unclear.",
+        "hypothesis": "Further studies are needed to elucidate the stress-secretion relationship.",
+        "decision": "Note limitation: the relation between stress response and amount of secreted enzyme remains to be elucidated.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Limitation acknowledgment",
+          "version": "",
+          "category": "reasoning"
+        },
+        "parameters": {},
+        "observation": "The relation between stress response and amount of secreted enzyme or extracellular enzymatic activity remains to be elucidated in more detail.",
+        "result_status": "inconclusive",
+        "next_step_reason": "End of trajectory.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E08_01",
+            "source_file": "docs/0038/combined.md",
+            "section": "C002",
+            "quote_or_span": "the relation between stress response and amount of secreted enzyme or extracellular enzymatic activity remains to be elucidated in more detail"
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "Correlation between split GFP fluorescence and enzymatic activity (pNPP assay)",
+        "Recultivation of top clones as biological triplicates"
+      ],
+      "metrics": [
+        "Pearson correlation coefficient (r)",
+        "Coefficient of determination (R²)",
+        "Enzymatic activity (U/ml)",
+        "Fluorescence intensities (split GFP, mCherry)"
+      ],
+      "final_conclusion": "The combined split GFP and secretion stress biosensor system enables activity-independent high-throughput screening, but secretion stress only partially reflects secretion levels due to protein misfolding.",
+      "limitations": [
+        "The relation between stress response and amount of secreted enzyme remains to be elucidated.",
+        "Sensitivity of split GFP assay decreased for low-performing variants.",
+        "Disproportionally high stress with SP_Pel and spacer ≥7 nt suggests misfolding."
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_step_trimmed=16_to_12",
+        "v22_specific_evidence_backfilled=9",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_step_trimmed=16_to_12",
+        "v22_specific_evidence_backfilled=5",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 100.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p2\\states\\0038.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p2\\events\\0038.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1
+        ],
+        "K05": [
+          2,
+          8
+        ],
+        "K06": [
+          2,
+          3,
+          6
+        ],
+        "K07": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "K08": [
+          1,
+          4
+        ],
+        "K09": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          9,
+          10
+        ],
+        "K11": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          9
+        ],
+        "K12": [
+          2,
+          3,
+          6,
+          7
+        ],
+        "K14": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          9,
+          10
+        ],
+        "K15": [
+          2,
+          10
+        ],
+        "K16": [
+          8,
+          11
+        ],
+        "K17": [
+          11,
+          12
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02",
+            "K03",
+            "K07",
+            "K08",
+            "K09",
+            "K10",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K04",
+            "K05",
+            "K06",
+            "K07",
+            "K09",
+            "K12",
+            "K14",
+            "K15"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K02",
+            "K06",
+            "K07",
+            "K09",
+            "K11",
+            "K12",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K02",
+            "K07",
+            "K08",
+            "K09",
+            "K11",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K02",
+            "K07",
+            "K09",
+            "K10",
+            "K11",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K02",
+            "K06",
+            "K07",
+            "K09",
+            "K10",
+            "K11",
+            "K12",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K02",
+            "K07",
+            "K09",
+            "K11",
+            "K12",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K05",
+            "K07",
+            "K13",
+            "K16"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K02",
+            "K03",
+            "K07",
+            "K09",
+            "K10",
+            "K11",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K02",
+            "K07",
+            "K09",
+            "K14",
+            "K15"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K07",
+            "K16",
+            "K17"
+          ]
+        },
+        {
+          "step_index": 12,
+          "covered_event_ids": [
+            "K07",
+            "K17"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 6,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "12"
+        ]
+      },
+      {
+        "step_index": 7,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "0.73",
+          "0.85"
+        ]
+      }
+    ],
+    "step_count": 12,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 100.0
+  },
+  "api_usage": {
+    "prompt_tokens": 102682,
+    "completion_tokens": 27693,
+    "total_tokens": 130375,
+    "prompt_cache_hit_tokens": 2688,
+    "prompt_cache_miss_tokens": 99994
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 4971,
+        "completion_tokens": 1211,
+        "total_tokens": 6182,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 4971
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 8435,
+        "completion_tokens": 2601,
+        "total_tokens": 11036,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 8435
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 8079,
+        "completion_tokens": 1402,
+        "total_tokens": 9481,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7823
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 7684,
+        "completion_tokens": 1621,
+        "total_tokens": 9305,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7428
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 7693,
+        "completion_tokens": 1807,
+        "total_tokens": 9500,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7437
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 6519,
+        "completion_tokens": 67,
+        "total_tokens": 6586,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6263
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 10537,
+        "completion_tokens": 3712,
+        "total_tokens": 14249,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 10153
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 11769,
+        "completion_tokens": 6815,
+        "total_tokens": 18584,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 11129
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 16812,
+        "completion_tokens": 1478,
+        "total_tokens": 18290,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 16812
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 20183,
+        "completion_tokens": 6979,
+        "total_tokens": 27162,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 19543
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

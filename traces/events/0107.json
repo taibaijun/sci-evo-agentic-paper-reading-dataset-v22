@@ -1,0 +1,2115 @@
+{
+  "doc_no": "0107",
+  "source": {
+    "title": "ECNet is an evolutionary context-integrated deep learning framework for protein engineering",
+    "doi": "https://doi.org/10.1038/s41467-021-25976-8",
+    "license": "cc-by",
+    "pdf_name": "0105_10_1038_s41467_021_25976_8_ecnet_is_an_evolutionary_context_integrated_deep_learning_framework_for_protein_engineerin.pdf",
+    "combined_md": "docs/0107/combined.md",
+    "mineru_md": "docs/0107/mineru.md"
+  },
+  "gist_memory": {
+    "paper_problem_memory": "Protein engineering requires accurate prediction of functional fitness for unseen variants, but existing ML methods have limited accuracy because they capture general sequence contexts not specific to the target protein. The challenge is to model epistasis and generalize from low-order to higher-order mutants with limited labeled data.",
+    "section_gists": [
+      {
+        "section_index": 3,
+        "heading": "ECNet is an evolutionary context-integrated deep learning framework for protein engineering",
+        "gist": "Introduces ECNet, a deep learning algorithm that integrates local evolutionary context (from homologous sequences) and global evolutionary context (from large protein sequence databases) to predict functional fitness for protein engineering. Claims improved accuracy over existing methods and demonstrates successful engineering of TEM-1 β-lactamase.",
+        "process_signals": [
+          "Problem: existing ML algorithms have limited accuracy because they capture general sequence contexts not specific to the target protein.",
+          "Hypothesis: evolutionary contexts (local and global) can capture residue-residue epistasis and improve generalization.",
+          "Solution: ECNet integrates local evolutionary context from homologous sequences with global context from protein language models.",
+          "Validation: benchmarking on ~50 DMS datasets and wet-lab validation on TEM-1."
+        ],
+        "methods": [
+          "Local evolutionary context from homologous sequences via direct coupling analysis.",
+          "Global evolutionary context from protein language models (e.g., TAPE).",
+          "Integration with BiLSTM and fully-connected layers."
+        ],
+        "metrics": [
+          "Spearman correlation",
+          "AUROC",
+          "Hit rates in wet-lab validation"
+        ],
+        "failures_or_limits": [
+          "Existing methods lack specificity to the target protein.",
+          "Unsupervised methods cannot leverage available fitness data."
+        ]
+      },
+      {
+        "section_index": 4,
+        "heading": "Results",
+        "gist": "Establishes that residue co-evolution correlates with protein functional fitness, motivating the use of evolutionary context. Describes the ECNet architecture: local evolutionary context from MSA and direct coupling analysis, global context from protein language models, and integration via BiLSTM.",
+        "process_signals": [
+          "Hypothesis: co-evolution information can infer epistasis and fitness.",
+          "Observation: strength of pairwise dependencies correlates with double mutant fitness (Spearman 0.35).",
+          "Observation: change of dependency strength predicts fitness across DMS datasets (Spearman 0.1-0.5).",
+          "Trend: correlation increases with more homologous sequences.",
+          "Design: ECNet uses local evolutionary context (coupling matrix from MSA) and global context (from language models) as input to BiLSTM."
+        ],
+        "methods": [
+          "Direct coupling analysis (CCMPred) on MSA to get pairwise couplings.",
+          "Local evolutionary context: coupling matrix e_ij(x_i, x_j).",
+          "Global evolutionary context: representations from protein language models (e.g., TAPE).",
+          "Model: BiLSTM with self-attention and fully-connected layers."
+        ],
+        "metrics": [
+          "Spearman correlation between coupling strength and double mutant fitness",
+          "Spearman correlation between predicted and experimental fitness"
+        ],
+        "failures_or_limits": [
+          "Correlation varies across proteins (0.1-0.5), depends on MSA quality."
+        ]
+      },
+      {
+        "section_index": 5,
+        "heading": "Accurate prediction of functional fitness landscape of proteins.",
+        "gist": "Benchmarks ECNet against multiple baselines on DMS datasets. ECNet outperforms Doc2Vec, Envision, EVmutation, DeepSequence, Autoregressive, TAPE, and UniRep. Ablation shows joint representations improve performance. ECNet is robust to data noise and generalizes to higher-order mutants.",
+        "process_signals": [
+          "Comparison: ECNet vs Doc2Vec (16-60% relative improvement in Spearman).",
+          "Comparison: ECNet vs Envision (improved Spearman for most proteins).",
+          "Comparison: ECNet vs unsupervised methods (median Δρ=0.165-0.216).",
+          "Comparison: ECNet vs TAPE and UniRep (median Δρ=0.089-0.109).",
+          "Ablation: joint representations outperform individual ones.",
+          "Robustness: test correlation drops only 2% with 10% noise.",
+          "Generalization: ECNet predicts higher-order mutants from lower-order data."
+        ],
+        "methods": [
+          "Baselines: Doc2Vec, Envision, EVmutation, DeepSequence, Autoregressive, TAPE, UniRep.",
+          "Ablation: removing local or global context.",
+          "Noise robustness test.",
+          "Higher-order mutant prediction."
+        ],
+        "metrics": [
+          "Spearman correlation",
+          "AUROC",
+          "Relative improvement",
+          "Median Δρ"
+        ],
+        "failures_or_limits": [
+          "ECNet did not clearly outperform on two proteins with small training sets (1777 and 985 measurements).",
+          "Performance depends on MSA and DMS data properties."
+        ]
+      },
+      {
+        "section_index": 6,
+        "heading": "Discussion",
+        "gist": "Summarizes ECNet's advantages: biologically-motivated sequence modeling, superior performance, epistasis capture, generalization to higher-order mutants, and successful wet-lab validation. Notes limitations: performance impacted by MSA characteristics, DMS data properties, and training data exploration-exploitation trade-off.",
+        "process_signals": [
+          "Key challenge: fine-grained function prediction for closely related sequences.",
+          "ECNet uniquely uses evolutionary context for supervised learning.",
+          "Generalization from low-order to higher-order mutants.",
+          "Wet-lab validation: high hit rates for TEM-1 ampicillin resistance.",
+          "Limitations: MSA quality, DMS completeness, training data design."
+        ],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": [
+          "Performance depends on number of homologous sequences, site conservation, DMS completeness.",
+          "Exploration-exploitation trade-off in training data affects performance.",
+          "Generalizability to new mutation sites is challenging but ECNet still outperforms DeepSequence."
+        ]
+      },
+      {
+        "section_index": 7,
+        "heading": "Methods",
+        "gist": "Describes datasets: Envision (12 DMS studies), DeepSequence (39 DMS studies), single/double mutants, higher-order avGFP mutants, inhibitor-resistant TEM-1 variants, and viral protein fitness data. Details MSA construction and direct coupling analysis for local evolutionary context.",
+        "process_signals": [
+          "Data sources: multiple DMS and mutagenesis datasets.",
+          "MSA construction: HHblits against uniclust-30, 3 iterations, 99% max seq identity, 50% coverage.",
+          "Direct coupling analysis: CCMPred maximizes pseudo-likelihood to learn pairwise couplings.",
+          "Local evolutionary context: coupling matrix e_ij(x_i, x_j) for all residue pairs."
+        ],
+        "methods": [
+          "HHblits for MSA",
+          "CCMPred for direct coupling analysis",
+          "Coupling matrix as local evolutionary context"
+        ],
+        "metrics": [],
+        "failures_or_limits": [
+          "MSA quality depends on homologous sequences available.",
+          "Computational cost of pseudo-likelihood optimization is O(NL^2)."
+        ]
+      },
+      {
+        "section_index": 8,
+        "heading": "Sequence-to-function neural network model",
+        "gist": "Details ECNet architecture: BiLSTM with self-attention, two-layer fully-connected top module. Input: one-hot amino acids, local evolutionary context (coupling matrix), global context (TAPE representations). Training: regression with MSE, auxiliary classification objective to handle skewed data, ensemble of three models. Hyperparameter grid search. Unsupervised extension using language model training.",
+        "process_signals": [
+          "Architecture: BiLSTM (hidden dim 128) + self-attention + 2-layer FC (hidden dim 128).",
+          "Input: concatenated one-hot, local evolutionary context, global context.",
+          "Training: Adam optimizer, MSE loss, early stopping.",
+          "Auxiliary classification: 10-quantile bins, cross-entropy loss, α=0.1.",
+          "Ensemble: three replicas averaged.",
+          "Hyperparameters: grid search on validation set.",
+          "Unsupervised ECNet: language model training on homologous sequences."
+        ],
+        "methods": [
+          "BiLSTM with self-attention",
+          "Batch normalization, dropout",
+          "Auxiliary classification objective",
+          "Ensemble averaging",
+          "Grid search for hyperparameters"
+        ],
+        "metrics": [
+          "MSE",
+          "Cross-entropy for auxiliary task"
+        ],
+        "failures_or_limits": [
+          "Skewed training data biases regression; addressed by auxiliary classification.",
+          "Training time: 0.5-6h per model, 2-20h for ensemble."
+        ]
+      },
+      {
+        "section_index": 9,
+        "heading": "Experimental validation of prioritized TEM-1 variants",
+        "gist": "Wet-lab validation: constructed TEM-1 mutants via overlapping PCR, measured ampicillin resistance at different concentrations using PacBio sequencing. Fitness calculated as ratio of relative abundances. ECNet-predicted variants showed improved resistance.",
+        "process_signals": [
+          "Mutant creation: overlapping PCR, confirmed by sequencing.",
+          "Ampicillin resistance assay: pooled plasmids, transformed into E. coli, plated on ampicillin gradients.",
+          "Fitness calculation: f_c(MT) = [N_c(MT)/N_c(WT)] / [N_0(MT)/N_0(WT)].",
+          "PacBio sequencing for read counts."
+        ],
+        "methods": [
+          "Overlapping PCR for mutagenesis",
+          "Ampicillin resistance assay with pooled variants",
+          "PacBio sequencing and TADA workflow",
+          "Fitness calculation from read counts"
+        ],
+        "metrics": [
+          "Fitness (relative abundance ratio)",
+          "Hit rates (not explicitly given in this section)"
+        ],
+        "failures_or_limits": [
+          "Validation limited to one protein (TEM-1).",
+          "Fitness measurement depends on ampicillin concentration."
+        ]
+      }
+    ],
+    "global_hypotheses_about_storyline": [
+      "The research likely started with the observation that existing ML methods for protein engineering lack specificity and fail to capture epistasis, motivating the integration of evolutionary context.",
+      "The hypothesis that co-evolution information correlates with fitness was tested and confirmed, leading to the design of local evolutionary context from MSA.",
+      "Global context from protein language models was added to capture broader sequence features, and ablation studies validated the benefit of joint representations.",
+      "The model was iteratively improved with auxiliary classification to handle skewed data and ensemble for robustness.",
+      "Wet-lab validation on TEM-1 demonstrated practical utility, but limitations in MSA dependence and data requirements were acknowledged."
+    ],
+    "uncertainties_to_resolve": [
+      "How was the decision made to use BiLSTM over other architectures?",
+      "Were there failed attempts with other global context representations before settling on TAPE?",
+      "What was the initial performance without the auxiliary classification objective, and how much did it improve?",
+      "How were the hyperparameters for the auxiliary loss weight (α=0.1) chosen?",
+      "Were there any negative results in wet-lab validation (e.g., predicted high-fitness variants that failed)?",
+      "How does ECNet perform on proteins with very few homologous sequences?",
+      "What is the computational cost of MSA and direct coupling analysis for large proteins?"
+    ]
+  },
+  "chunk_events": [
+    {
+      "chunk_id": "C001",
+      "char_start": 0,
+      "char_end": 18000,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C001_E01",
+          "chunk_id": "C001",
+          "event_type": "problem",
+          "order_hint": 1,
+          "summary": "Existing ML algorithms for protein engineering have limited accuracy because they capture general sequence contexts not specific to the target protein.",
+          "methods_or_tools": [],
+          "entities": [
+            "machine learning algorithms",
+            "protein engineering"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E01_01"
+          ]
+        },
+        {
+          "event_id": "C001_E02",
+          "chunk_id": "C001",
+          "event_type": "hypothesis",
+          "order_hint": 2,
+          "summary": "Hypothesized that co-evolution information can be used to infer epistasis or fitness of proteins.",
+          "methods_or_tools": [],
+          "entities": [
+            "co-evolution information",
+            "epistasis",
+            "fitness"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E02_01"
+          ]
+        },
+        {
+          "event_id": "C001_E03",
+          "chunk_id": "C001",
+          "event_type": "experiment",
+          "order_hint": 3,
+          "summary": "Investigated relationship between co-evolution of residue pairs and fitness of double mutants using DMS data and direct coupling analysis.",
+          "methods_or_tools": [
+            "direct coupling analysis",
+            "DMS"
+          ],
+          "entities": [
+            "human YAP65 WW domain",
+            "double mutants"
+          ],
+          "numbers_or_metrics": [
+            "Spearman correlation 0.35"
+          ],
+          "evidence_ids": [
+            "EV_C001_E03_01"
+          ]
+        },
+        {
+          "event_id": "C001_E04",
+          "chunk_id": "C001",
+          "event_type": "analysis",
+          "order_hint": 4,
+          "summary": "Used change of dependency strength to predict fitness across DMS datasets, finding Spearman correlations from 0.1 to 0.5.",
+          "methods_or_tools": [
+            "direct coupling analysis"
+          ],
+          "entities": [
+            "DMS datasets"
+          ],
+          "numbers_or_metrics": [
+            "Spearman correlation ranging from 0.1 to 0.5"
+          ],
+          "evidence_ids": [
+            "EV_C001_E04_01"
+          ]
+        },
+        {
+          "event_id": "C001_E05",
+          "chunk_id": "C001",
+          "event_type": "analysis",
+          "order_hint": 5,
+          "summary": "Observed trend of increasing correlation with more homologous sequences, suggesting MSA quality affects prediction.",
+          "methods_or_tools": [],
+          "entities": [
+            "homologous sequences"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E05_01"
+          ]
+        },
+        {
+          "event_id": "C001_E06",
+          "chunk_id": "C001",
+          "event_type": "design",
+          "order_hint": 6,
+          "summary": "Designed ECNet to integrate local evolutionary context from homologous sequences and global evolutionary context from protein language models.",
+          "methods_or_tools": [
+            "ECNet",
+            "local evolutionary context",
+            "global evolutionary context",
+            "protein language model"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E06_01"
+          ]
+        },
+        {
+          "event_id": "C001_E07",
+          "chunk_id": "C001",
+          "event_type": "design",
+          "order_hint": 7,
+          "summary": "ECNet uses a recurrent neural network trained on fitness data for sequence-to-function modeling with both local and global representations.",
+          "methods_or_tools": [
+            "recurrent neural network",
+            "local evolutionary context",
+            "global evolutionary context"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E07_01"
+          ]
+        }
+      ],
+      "notes": "Chunk introduces problem, hypothesis, preliminary experiments, and high-level design of ECNet.",
+      "api_usage": {
+        "prompt_tokens": 7562,
+        "completion_tokens": 1082,
+        "total_tokens": 8644,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7306
+      }
+    },
+    {
+      "chunk_id": "C002",
+      "char_start": 17100,
+      "char_end": 35100,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C002_E01",
+          "chunk_id": "C002",
+          "event_type": "design",
+          "order_hint": 1,
+          "summary": "ECNet integrates local evolutionary context from direct coupling analysis and global context from protein language models.",
+          "methods_or_tools": [
+            "CCMpred",
+            "Markov random field",
+            "protein language model"
+          ],
+          "entities": [
+            "ECNet",
+            "local evolutionary context",
+            "global evolutionary context"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E01_01",
+            "EV_C002_E01_02",
+            "EV_C002_E01_03"
+          ]
+        },
+        {
+          "event_id": "C002_E03",
+          "chunk_id": "C002",
+          "event_type": "experiment",
+          "order_hint": 3,
+          "summary": "ECNet compared to Doc2Vec representation on Envision dataset, showing 16-60% relative improvement in Spearman correlation.",
+          "methods_or_tools": [
+            "Doc2Vec",
+            "Envision dataset",
+            "Spearman correlation"
+          ],
+          "entities": [
+            "ECNet",
+            "Doc2Vec",
+            "Envision dataset"
+          ],
+          "numbers_or_metrics": [
+            "relative improvement ranging from 16 to 60%"
+          ],
+          "evidence_ids": [
+            "EV_C002_E03_01"
+          ]
+        },
+        {
+          "event_id": "C002_E04",
+          "chunk_id": "C002",
+          "event_type": "experiment",
+          "order_hint": 4,
+          "summary": "ECNet compared to Envision model, improving Spearman correlation for most proteins without using structural features.",
+          "methods_or_tools": [
+            "Envision model",
+            "Spearman correlation"
+          ],
+          "entities": [
+            "ECNet",
+            "Envision"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E04_01"
+          ]
+        },
+        {
+          "event_id": "C002_E05",
+          "chunk_id": "C002",
+          "event_type": "experiment",
+          "order_hint": 5,
+          "summary": "ECNet outperformed unsupervised methods EVmutation, DeepSequence, and Autoregressive on DMS datasets.",
+          "methods_or_tools": [
+            "EVmutation",
+            "DeepSequence",
+            "Autoregressive",
+            "Spearman correlation"
+          ],
+          "entities": [
+            "ECNet",
+            "EVmutation",
+            "DeepSequence",
+            "Autoregressive"
+          ],
+          "numbers_or_metrics": [
+            "median Δρ=0.216",
+            "median Δρ=0.196",
+            "median Δρ=0.165"
+          ],
+          "evidence_ids": [
+            "EV_C002_E05_01"
+          ]
+        },
+        {
+          "event_id": "C002_E07",
+          "chunk_id": "C002",
+          "event_type": "analysis",
+          "order_hint": 7,
+          "summary": "Ablation analysis showed joint representations outperform individual ones.",
+          "methods_or_tools": [
+            "ablation analysis"
+          ],
+          "entities": [
+            "joint representations",
+            "individual representation"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E07_01"
+          ]
+        },
+        {
+          "event_id": "C002_E08",
+          "chunk_id": "C002",
+          "event_type": "validation",
+          "order_hint": 8,
+          "summary": "ECNet is robust to data noise; test correlation decreased only 2% with 10% noise.",
+          "methods_or_tools": [
+            "noise robustness test"
+          ],
+          "entities": [
+            "ECNet",
+            "data noise"
+          ],
+          "numbers_or_metrics": [
+            "test correlation only decreased by 2%",
+            "training data was perturbed by 10%"
+          ],
+          "evidence_ids": [
+            "EV_C002_E08_01"
+          ]
+        }
+      ],
+      "notes": "Chunk describes ECNet design and benchmarking experiments.",
+      "api_usage": {
+        "prompt_tokens": 7538,
+        "completion_tokens": 1367,
+        "total_tokens": 8905,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7282
+      }
+    },
+    {
+      "chunk_id": "C003",
+      "char_start": 34200,
+      "char_end": 52200,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C003_E02",
+          "chunk_id": "C003",
+          "event_type": "experiment",
+          "order_hint": 2,
+          "summary": "ECNet's ability to prioritize high-performing variants was assessed by ranking test set variants and measuring recall of top 100 variants.",
+          "methods_or_tools": [
+            "ECNet",
+            "UniRep",
+            "EVmutation",
+            "random sampling"
+          ],
+          "entities": [
+            "avGFP",
+            "GB1",
+            "Pab1"
+          ],
+          "numbers_or_metrics": [
+            "recall",
+            "15–50× efficiency gain"
+          ],
+          "evidence_ids": [
+            "EV_C003_E02_01"
+          ]
+        },
+        {
+          "event_id": "C003_E03",
+          "chunk_id": "C003",
+          "event_type": "design",
+          "order_hint": 3,
+          "summary": "An unsupervised version of ECNet was built to address limited DMS data, trained on homologous sequences using a language model objective.",
+          "methods_or_tools": [
+            "unsupervised ECNet",
+            "language model objective"
+          ],
+          "entities": [
+            "unsupervised ECNet"
+          ],
+          "numbers_or_metrics": [
+            "average Spearman correlation 0.37"
+          ],
+          "evidence_ids": [
+            "EV_C003_E03_01",
+            "EV_C003_E03_02"
+          ]
+        },
+        {
+          "event_id": "C003_E04",
+          "chunk_id": "C003",
+          "event_type": "experiment",
+          "order_hint": 4,
+          "summary": "ECNet's generalization to higher-order variants was tested by training on single mutants and predicting double mutants, achieving Spearman correlations 0.73–0.94.",
+          "methods_or_tools": [
+            "ECNet",
+            "TAPE",
+            "EVmutation"
+          ],
+          "entities": [
+            "six proteins",
+            "single mutants",
+            "double mutants"
+          ],
+          "numbers_or_metrics": [
+            "Spearman correlations ranging from 0.73 to 0.94"
+          ],
+          "evidence_ids": [
+            "EV_C003_E04_01",
+            "EV_C003_E04_02"
+          ]
+        },
+        {
+          "event_id": "C003_E06",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 6,
+          "summary": "ECNet's predicted epistasis correlated better with observed epistasis than EVmutation and was comparable or better than TAPE.",
+          "methods_or_tools": [
+            "ECNet",
+            "EVmutation",
+            "TAPE",
+            "Spearman correlation"
+          ],
+          "entities": [
+            "GB1",
+            "RRM",
+            "TDP43",
+            "TEM-1",
+            "WW",
+            "FOSJUN"
+          ],
+          "numbers_or_metrics": [
+            "one-sided rank-sum test P values"
+          ],
+          "evidence_ids": [
+            "EV_C003_E06_02"
+          ]
+        }
+      ],
+      "notes": "Chunk contains multiple experimental validations, comparisons, and wet-lab results directly supporting ECNet's performance and generalization claims.",
+      "api_usage": {
+        "prompt_tokens": 7515,
+        "completion_tokens": 1439,
+        "total_tokens": 8954,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7259
+      }
+    },
+    {
+      "chunk_id": "C004",
+      "char_start": 51300,
+      "char_end": 69300,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C004_E01",
+          "chunk_id": "C004",
+          "event_type": "experiment",
+          "order_hint": 1,
+          "summary": "Wet-lab validation of ECNet-prioritized TEM-1 variants shows improved ampicillin resistance.",
+          "methods_or_tools": [
+            "overlapping PCR",
+            "ampicillin resistance assay",
+            "PacBio sequencing"
+          ],
+          "entities": [
+            "TEM-1 β-lactamase",
+            "ampicillin",
+            "E. coli"
+          ],
+          "numbers_or_metrics": [
+            "up to ~8-fold improvement",
+            "hit rates 0.52, 0.91, 0.94 at 300, 1500, 3000 μg/mL"
+          ],
+          "evidence_ids": [
+            "EV_C004_E01_01"
+          ]
+        },
+        {
+          "event_id": "C004_E02",
+          "chunk_id": "C004",
+          "event_type": "validation",
+          "order_hint": 2,
+          "summary": "ECNet generalizes from low-order to higher-order mutants, validated by wet-lab results.",
+          "methods_or_tools": [],
+          "entities": [
+            "TEM-1",
+            "higher-order mutants"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E02_01"
+          ]
+        },
+        {
+          "event_id": "C004_E03",
+          "chunk_id": "C004",
+          "event_type": "problem",
+          "order_hint": 3,
+          "summary": "Protein engineering requires fine-grained function prediction for closely related sequences.",
+          "methods_or_tools": [],
+          "entities": [
+            "protein engineering",
+            "machine learning"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E03_01"
+          ]
+        },
+        {
+          "event_id": "C004_E04",
+          "chunk_id": "C004",
+          "event_type": "limitation",
+          "order_hint": 4,
+          "summary": "ECNet performance depends on MSA characteristics and DMS data properties.",
+          "methods_or_tools": [],
+          "entities": [
+            "ECNet",
+            "MSA",
+            "DMS"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E04_01"
+          ]
+        },
+        {
+          "event_id": "C004_E05",
+          "chunk_id": "C004",
+          "event_type": "analysis",
+          "order_hint": 5,
+          "summary": "Exploration-exploitation trade-off in training data influences model performance.",
+          "methods_or_tools": [],
+          "entities": [
+            "training data",
+            "model performance"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E05_01"
+          ]
+        }
+      ],
+      "notes": "Chunk covers wet-lab validation, discussion of challenges and limitations, and method details for local evolutionary context.",
+      "api_usage": {
+        "prompt_tokens": 7249,
+        "completion_tokens": 1091,
+        "total_tokens": 8340,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6993
+      }
+    },
+    {
+      "chunk_id": "C005",
+      "char_start": 68400,
+      "char_end": 86400,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C005_E03",
+          "chunk_id": "C005",
+          "event_type": "design",
+          "order_hint": 3,
+          "summary": "Global evolutionary context is integrated using pre-trained TAPE transformer representations, which capture semantics from large protein databases.",
+          "methods_or_tools": [
+            "TAPE",
+            "Transformer",
+            "self-supervised learning"
+          ],
+          "entities": [
+            "global evolutionary representations",
+            "TAPE model"
+          ],
+          "numbers_or_metrics": [
+            "768-dimensional vector"
+          ],
+          "evidence_ids": [
+            "EV_C005_E03_01"
+          ]
+        },
+        {
+          "event_id": "C005_E05",
+          "chunk_id": "C005",
+          "event_type": "design",
+          "order_hint": 5,
+          "summary": "Ensemble of three ECNet models is used to improve robustness and accuracy.",
+          "methods_or_tools": [
+            "ensemble averaging"
+          ],
+          "entities": [
+            "ECNet",
+            "ensemble"
+          ],
+          "numbers_or_metrics": [
+            "three replicas"
+          ],
+          "evidence_ids": [
+            "EV_C005_E05_01"
+          ]
+        },
+        {
+          "event_id": "C005_E06",
+          "chunk_id": "C005",
+          "event_type": "revision",
+          "order_hint": 6,
+          "summary": "Auxiliary classification objective is added to address skewed training data bias, using 10-quantile bins and a hybrid loss.",
+          "methods_or_tools": [
+            "auxiliary classification",
+            "cross-entropy loss",
+            "10-quantile binning"
+          ],
+          "entities": [
+            "auxiliary classification objective",
+            "hybrid loss"
+          ],
+          "numbers_or_metrics": [
+            "α=0.1",
+            "10 bins"
+          ],
+          "evidence_ids": [
+            "EV_C005_E06_01"
+          ]
+        },
+        {
+          "event_id": "C005_E07",
+          "chunk_id": "C005",
+          "event_type": "design",
+          "order_hint": 7,
+          "summary": "Unsupervised ECNet extension is developed using a protein language model trained on homologous sequences to predict mutation probabilities without fitness data.",
+          "methods_or_tools": [
+            "BiLSTM",
+            "language model",
+            "softmax"
+          ],
+          "entities": [
+            "unsupervised ECNet",
+            "language model"
+          ],
+          "numbers_or_metrics": [
+            "two-layer BiLSTM with 256 units"
+          ],
+          "evidence_ids": [
+            "EV_C005_E07_01"
+          ]
+        }
+      ],
+      "notes": "This chunk details the design of local and global evolutionary representations, the ECNet architecture, training procedures, auxiliary classification, and unsupervised extension. It contains explicit design and revision events.",
+      "api_usage": {
+        "prompt_tokens": 6879,
+        "completion_tokens": 1456,
+        "total_tokens": 8335,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6623
+      }
+    },
+    {
+      "chunk_id": "C006",
+      "char_start": 85500,
+      "char_end": 103500,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C006_E01",
+          "chunk_id": "C006",
+          "event_type": "experiment",
+          "order_hint": 1,
+          "summary": "Benchmarked ECNet against Envision on the Envision dataset using 80/20 train-test split and Spearman correlation.",
+          "methods_or_tools": [
+            "Envision dataset",
+            "Spearman correlation",
+            "grid search"
+          ],
+          "entities": [
+            "ECNet",
+            "Envision"
+          ],
+          "numbers_or_metrics": [
+            "80% training",
+            "20% test"
+          ],
+          "evidence_ids": [
+            "EV_C006_E01_01",
+            "EV_C006_E01_02"
+          ]
+        },
+        {
+          "event_id": "C006_E02",
+          "chunk_id": "C006",
+          "event_type": "experiment",
+          "order_hint": 2,
+          "summary": "Converted fitness prediction into classification to identify variants more active than wild-type, using AUROC.",
+          "methods_or_tools": [
+            "AUROC"
+          ],
+          "entities": [
+            "ECNet"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C006_E02_01",
+            "EV_C006_E02_02"
+          ]
+        },
+        {
+          "event_id": "C006_E03",
+          "chunk_id": "C006",
+          "event_type": "experiment",
+          "order_hint": 3,
+          "summary": "Compared ECNet to unsupervised methods (EVmutation, DeepSequence, Autoregressive) on DeepSequence dataset using five-fold cross-validation.",
+          "methods_or_tools": [
+            "DeepSequence dataset",
+            "five-fold cross-validation",
+            "Spearman correlation"
+          ],
+          "entities": [
+            "ECNet",
+            "EVmutation",
+            "DeepSequence",
+            "Autoregressive"
+          ],
+          "numbers_or_metrics": [
+            "five-fold"
+          ],
+          "evidence_ids": [
+            "EV_C006_E03_01",
+            "EV_C006_E03_02"
+          ]
+        },
+        {
+          "event_id": "C006_E04",
+          "chunk_id": "C006",
+          "event_type": "experiment",
+          "order_hint": 4,
+          "summary": "Simulated variants prioritization experiment on avGFP, GB1, Pab1 to assess retrieval of high-performing variants.",
+          "methods_or_tools": [
+            "recall",
+            "maximum fitness"
+          ],
+          "entities": [
+            "ECNet",
+            "avGFP",
+            "GB1",
+            "Pab1"
+          ],
+          "numbers_or_metrics": [
+            "90% training",
+            "10% test",
+            "top 100 variants"
+          ],
+          "evidence_ids": [
+            "EV_C006_E04_01",
+            "EV_C006_E04_02"
+          ]
+        },
+        {
+          "event_id": "C006_E05",
+          "chunk_id": "C006",
+          "event_type": "experiment",
+          "order_hint": 5,
+          "summary": "Trained unsupervised ECNet on viral proteins and compared to CSCS, then trained supervised ECNet for improvement.",
+          "methods_or_tools": [
+            "language model objective",
+            "Spearman correlation"
+          ],
+          "entities": [
+            "ECNet",
+            "CSCS",
+            "influenza HA",
+            "HIV Env",
+            "SARS-CoV-2 Spike"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C006_E05_01",
+            "EV_C006_E05_02",
+            "EV_C006_E05_03"
+          ]
+        },
+        {
+          "event_id": "C006_E06",
+          "chunk_id": "C006",
+          "event_type": "experiment",
+          "order_hint": 6,
+          "summary": "Investigated effect of training data size by training ECNet with 100%, 25%, and 0% of DMS data.",
+          "methods_or_tools": [],
+          "entities": [
+            "ECNet"
+          ],
+          "numbers_or_metrics": [
+            "100%",
+            "25%",
+            "0%"
+          ],
+          "evidence_ids": [
+            "EV_C006_E06_01"
+          ]
+        },
+        {
+          "event_id": "C006_E07",
+          "chunk_id": "C006",
+          "event_type": "experiment",
+          "order_hint": 7,
+          "summary": "Predicted fitness of 146 TEM-1 inhibitor-resistant variants and compared to randomly generated variants with same mutated sites.",
+          "methods_or_tools": [],
+          "entities": [
+            "ECNet",
+            "TEM-1"
+          ],
+          "numbers_or_metrics": [
+            "146 variants",
+            "10 random variants per variant"
+          ],
+          "evidence_ids": [
+            "EV_C006_E07_01",
+            "EV_C006_E07_02"
+          ]
+        },
+        {
+          "event_id": "C006_E08",
+          "chunk_id": "C006",
+          "event_type": "design",
+          "order_hint": 8,
+          "summary": "Designed procedure to prioritize high-order TEM-1 variants using ECNet, including filtering by FoldX stability.",
+          "methods_or_tools": [
+            "FoldX",
+            "ECNet-base",
+            "ECNet-ensemble"
+          ],
+          "entities": [
+            "TEM-1"
+          ],
+          "numbers_or_metrics": [
+            "146 variants",
+            "18,937 candidate variants",
+            "37 prioritized variants"
+          ],
+          "evidence_ids": [
+            "EV_C006_E08_03"
+          ]
+        }
+      ],
+      "notes": "Chunk contains detailed benchmarking experiments, variants prioritization simulation, and design of TEM-1 validation experiment.",
+      "api_usage": {
+        "prompt_tokens": 7026,
+        "completion_tokens": 1489,
+        "total_tokens": 8515,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6770
+      }
+    },
+    {
+      "chunk_id": "C007",
+      "char_start": 102600,
+      "char_end": 119298,
+      "chunk_relevance": "none",
+      "events": [],
+      "notes": "This chunk contains only references, acknowledgements, author contributions, and boilerplate license text. No research evolution events are described.",
+      "api_usage": {
+        "prompt_tokens": 7922,
+        "completion_tokens": 58,
+        "total_tokens": 7980,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7666
+      }
+    }
+  ],
+  "evidence_bank": [
+    {
+      "evidence_id": "EV_C001_E01_01",
+      "source_file": "docs/0107/combined.md",
+      "section": "C001",
+      "char_start": 994,
+      "char_end": 1165,
+      "quote": "because the general sequence contexts they capture are not specific to the protein being engineered, the accuracy of existing machine learning algorithms is rather limited"
+    },
+    {
+      "evidence_id": "EV_C001_E02_01",
+      "source_file": "docs/0107/combined.md",
+      "section": "C001",
+      "char_start": 8433,
+      "char_end": 8537,
+      "quote": "we hypothesized that co-evolution information can also be used to infer epistasis or fitness of proteins"
+    },
+    {
+      "evidence_id": "EV_C001_E03_01",
+      "source_file": "docs/0107/combined.md",
+      "section": "C001",
+      "char_start": 8974,
+      "char_end": 9109,
+      "quote": "We found that the strength of pairwise dependencies correlated with the fitness of double mutants (Spearman correlation 0.35; Fig. 1a)."
+    },
+    {
+      "evidence_id": "EV_C001_E04_01",
+      "source_file": "docs/0107/combined.md",
+      "section": "C001",
+      "char_start": 9335,
+      "char_end": 9461,
+      "quote": "We found that the predictions correlated with experimental data with a Spearman correlation ranging from 0.1 to 0.5 (Fig. 1b)."
+    },
+    {
+      "evidence_id": "EV_C001_E05_01",
+      "source_file": "docs/0107/combined.md",
+      "section": "C001",
+      "char_start": 9475,
+      "char_end": 9683,
+      "quote": "we observed a trend of increasing correlation score if a protein has more homologous sequences, presumably because abundant homologous sequences lead to a more accurately fitted direct coupling analysis model"
+    },
+    {
+      "evidence_id": "EV_C001_E06_01",
+      "source_file": "docs/0107/combined.md",
+      "section": "C001",
+      "char_start": 1356,
+      "char_end": 1643,
+      "quote": "This algorithm integrates local evolutionary context from homologous sequences that explicitly model residue-residue epistasis for the protein of interest with the global evolutionary context that encodes rich semantic and structural features from the enormous protein sequence universe."
+    },
+    {
+      "evidence_id": "EV_C001_E07_01",
+      "source_file": "docs/0107/combined.md",
+      "section": "C001",
+      "char_start": 7351,
+      "char_end": 7506,
+      "quote": "a recurrent neural network model, trained on the fitness data of screened variants, is used for the sequence-to-function modeling with both representations"
+    },
+    {
+      "evidence_id": "EV_C002_E01_01",
+      "source_file": "docs/0107/combined.md",
+      "section": "C002",
+      "char_start": 21732,
+      "char_end": 21834,
+      "quote": "ECNet integrates global and local evolutionary contexts to represent the protein sequence of interest."
+    },
+    {
+      "evidence_id": "EV_C002_E01_02",
+      "source_file": "docs/0107/combined.md",
+      "section": "C002",
+      "char_start": 21996,
+      "char_end": 22149,
+      "quote": "a direct coupling analysis model is used to capture the dependencies between residues in protein sequences, which encodes the local evolutionary context."
+    },
+    {
+      "evidence_id": "EV_C002_E01_03",
+      "source_file": "docs/0107/combined.md",
+      "section": "C002",
+      "char_start": 26126,
+      "char_end": 26233,
+      "quote": "we integrated general protein sequence representations from unsupervised protein contextual language models"
+    },
+    {
+      "evidence_id": "EV_C002_E03_01",
+      "source_file": "docs/0107/combined.md",
+      "section": "C002",
+      "char_start": 28588,
+      "char_end": 28767,
+      "quote": "ECNet consistently outperformed the approach of Yang et al on all the 12 datasets, with a relative improvement ranging from 16 to 60% in terms of the achieved Spearman correlation"
+    },
+    {
+      "evidence_id": "EV_C002_E04_01",
+      "source_file": "docs/0107/combined.md",
+      "section": "C002",
+      "char_start": 29554,
+      "char_end": 29655,
+      "quote": "ECNet, without using these features, still improved the Spearman correlation for most of the proteins"
+    },
+    {
+      "evidence_id": "EV_C002_E05_01",
+      "source_file": "docs/0107/combined.md",
+      "section": "C002",
+      "char_start": 30868,
+      "char_end": 30990,
+      "quote": "ECNet, predicting the mutation effects using a supervised predictor, outperformed these methods across almost all proteins"
+    },
+    {
+      "evidence_id": "EV_C002_E07_01",
+      "source_file": "docs/0107/combined.md",
+      "section": "C002",
+      "char_start": 32442,
+      "char_end": 32534,
+      "quote": "a model using joint representations outperformed a model using any individual representation"
+    },
+    {
+      "evidence_id": "EV_C002_E08_01",
+      "source_file": "docs/0107/combined.md",
+      "section": "C002",
+      "char_start": 32762,
+      "char_end": 32851,
+      "quote": "ECNet's test correlation only decreased by 2% when the training data was perturbed by 10%"
+    },
+    {
+      "evidence_id": "EV_C003_E02_01",
+      "source_file": "docs/0107/combined.md",
+      "section": "C003",
+      "char_start": 35753,
+      "char_end": 35891,
+      "quote": "we trained an ECNet model and applied it to predict and rank all variants in the randomly split test set based on their predicted fitness."
+    },
+    {
+      "evidence_id": "EV_C003_E03_01",
+      "source_file": "docs/0107/combined.md",
+      "section": "C003",
+      "char_start": 36976,
+      "char_end": 37135,
+      "quote": "we further built an unsupervised version of ECNet model that does not require any DMS data for training but is able to produce reasonably accurate predictions."
+    },
+    {
+      "evidence_id": "EV_C003_E03_02",
+      "source_file": "docs/0107/combined.md",
+      "section": "C003",
+      "char_start": 37480,
+      "char_end": 37547,
+      "quote": "unsupervised ECNet achieved an average Spearman correlation of 0.37"
+    },
+    {
+      "evidence_id": "EV_C003_E04_01",
+      "source_file": "docs/0107/combined.md",
+      "section": "C003",
+      "char_start": 39564,
+      "char_end": 39676,
+      "quote": "We then trained our prediction model using single mutant data only and tested its performance on double mutants."
+    },
+    {
+      "evidence_id": "EV_C003_E04_02",
+      "source_file": "docs/0107/combined.md",
+      "section": "C003",
+      "char_start": 39677,
+      "char_end": 39760,
+      "quote": "ECNet achieved Spearman correlations ranging from 0.73 to 0.94 for the six proteins"
+    },
+    {
+      "evidence_id": "EV_C003_E06_02",
+      "source_file": "docs/0107/combined.md",
+      "section": "C003",
+      "char_start": 43856,
+      "char_end": 43940,
+      "quote": "The epistasis captured by ECNet was also more accurate or comparable to that of TAPE"
+    },
+    {
+      "evidence_id": "EV_C004_E01_01",
+      "source_file": "docs/0107/combined.md",
+      "section": "C004",
+      "char_start": 51424,
+      "char_end": 51524,
+      "quote": "most of the variants prioritized by ECNet demonstrated improved fitness as compared to the wild type"
+    },
+    {
+      "evidence_id": "EV_C004_E02_01",
+      "source_file": "docs/0107/combined.md",
+      "section": "C004",
+      "char_start": 52172,
+      "char_end": 52362,
+      "quote": "Despite being trained on the data of single mutants and consecutive double mutants, ECNet prioritized novel and higher-order TEM-1 mutants that showed improved resistance against ampicillin."
+    },
+    {
+      "evidence_id": "EV_C004_E03_01",
+      "source_file": "docs/0107/combined.md",
+      "section": "C004",
+      "char_start": 57235,
+      "char_end": 57440,
+      "quote": "in protein engineering prediction models are required to provide a more fine-grained characterization of protein functions, which distinguishes the quantitative function levels of closely related sequences"
+    },
+    {
+      "evidence_id": "EV_C004_E04_01",
+      "source_file": "docs/0107/combined.md",
+      "section": "C004",
+      "char_start": 59597,
+      "char_end": 59691,
+      "quote": "ECNet's prediction performance is impacted by the MSA characteristics and DMS data properties."
+    },
+    {
+      "evidence_id": "EV_C004_E05_01",
+      "source_file": "docs/0107/combined.md",
+      "section": "C004",
+      "char_start": 60313,
+      "char_end": 60406,
+      "quote": "the exploration-exploitation trade-off of training data also influenced the model performance"
+    },
+    {
+      "evidence_id": "EV_C005_E03_01",
+      "source_file": "docs/0107/combined.md",
+      "section": "C005",
+      "char_start": 70958,
+      "char_end": 71217,
+      "quote": "The representations capture the global evolutionary context from the massive protein sequence data the model was trained on, which is complementary to our evolutionary representations that capture the local evolutionary context specific to the target protein."
+    },
+    {
+      "evidence_id": "EV_C005_E05_01",
+      "source_file": "docs/0107/combined.md",
+      "section": "C005",
+      "char_start": 73605,
+      "char_end": 73884,
+      "quote": "To improve the model’s robustness and prediction accuracy, we used an ensemble approach to output the prediction, in which three replicas of ECNet models were trained using the same hyperparameters and training data, and their output scores were averaged as the final prediction."
+    },
+    {
+      "evidence_id": "EV_C005_E06_01",
+      "source_file": "docs/0107/combined.md",
+      "section": "C005",
+      "char_start": 76393,
+      "char_end": 76470,
+      "quote": "We addressed this issue by introducing an auxiliary classification objective."
+    },
+    {
+      "evidence_id": "EV_C005_E07_01",
+      "source_file": "docs/0107/combined.md",
+      "section": "C005",
+      "char_start": 78484,
+      "char_end": 78642,
+      "quote": "The main idea of the unsupervised ECNet is to train a model that learns the evolutionary preferences from the homologous sequences of the protein of interest."
+    },
+    {
+      "evidence_id": "EV_C006_E01_01",
+      "source_file": "docs/0107/combined.md",
+      "section": "C006",
+      "char_start": 86888,
+      "char_end": 87029,
+      "quote": "For each protein, we used 80% of the DMS data to train ECNet or other methods and the remaining 20% data to evaluate the model's performance."
+    },
+    {
+      "evidence_id": "EV_C006_E01_02",
+      "source_file": "docs/0107/combined.md",
+      "section": "C006",
+      "char_start": 87030,
+      "char_end": 87085,
+      "quote": "Spearman correlation was used as the evaluation metric."
+    },
+    {
+      "evidence_id": "EV_C006_E02_01",
+      "source_file": "docs/0107/combined.md",
+      "section": "C006",
+      "char_start": 87444,
+      "char_end": 87645,
+      "quote": "we also converted the task into a classification problem, in which protein sequences with a function score greater than the wild-type sequence (with a function score 1) were labeled as positive samples"
+    },
+    {
+      "evidence_id": "EV_C006_E02_02",
+      "source_file": "docs/0107/combined.md",
+      "section": "C006",
+      "char_start": 87696,
+      "char_end": 87769,
+      "quote": "We used the AUROC score as the metric for this classification evaluation."
+    },
+    {
+      "evidence_id": "EV_C006_E03_01",
+      "source_file": "docs/0107/combined.md",
+      "section": "C006",
+      "char_start": 88134,
+      "char_end": 88262,
+      "quote": "For ECNet, we performed five-fold cross-validation on this dataset and reported the average performance over all the five folds."
+    },
+    {
+      "evidence_id": "EV_C006_E03_02",
+      "source_file": "docs/0107/combined.md",
+      "section": "C006",
+      "char_start": 88341,
+      "char_end": 88395,
+      "quote": "We used Spearman correlation as the evaluation metric."
+    },
+    {
+      "evidence_id": "EV_C006_E04_01",
+      "source_file": "docs/0107/combined.md",
+      "section": "C006",
+      "char_start": 88926,
+      "char_end": 89058,
+      "quote": "We trained the model using 90% of the data (randomly sampled) and asked the model to predict the fitness for the remaining 10% data."
+    },
+    {
+      "evidence_id": "EV_C006_E04_02",
+      "source_file": "docs/0107/combined.md",
+      "section": "C006",
+      "char_start": 89417,
+      "char_end": 89579,
+      "quote": "We calculated the recall as the evaluation metric, which is defined as the fraction of true top 100 variants the model recovered in its list of top K predictions."
+    },
+    {
+      "evidence_id": "EV_C006_E05_01",
+      "source_file": "docs/0107/combined.md",
+      "section": "C006",
+      "char_start": 90154,
+      "char_end": 90277,
+      "quote": "We trained unsupervised ECNet models using the language model objective on the homologous sequences of three viral proteins"
+    },
+    {
+      "evidence_id": "EV_C006_E05_02",
+      "source_file": "docs/0107/combined.md",
+      "section": "C006",
+      "char_start": 90907,
+      "char_end": 91007,
+      "quote": "we compared our model to CSCS and validated that our model achieved a comparable performance as CSCS"
+    },
+    {
+      "evidence_id": "EV_C006_E05_03",
+      "source_file": "docs/0107/combined.md",
+      "section": "C006",
+      "char_start": 91024,
+      "char_end": 91189,
+      "quote": "we also trained a supervised ECNet on the viral proteins using five-fold cross-validation and found that the supervised model substantially improved the performance."
+    },
+    {
+      "evidence_id": "EV_C006_E06_01",
+      "source_file": "docs/0107/combined.md",
+      "section": "C006",
+      "char_start": 91396,
+      "char_end": 91644,
+      "quote": "we trained two separate ECNet models by using all of them as training data (denoted as 100%) or randomly sampling 1/4 of them as training data (denoted as 25%). We also trained an unsupervised ECNet model without using any DMS data (denoted as 0%)."
+    },
+    {
+      "evidence_id": "EV_C006_E07_01",
+      "source_file": "docs/0107/combined.md",
+      "section": "C006",
+      "char_start": 91753,
+      "char_end": 91897,
+      "quote": "We trained an ECNet model and used it to predict the fitness of 146 TEM-1 inhibitor-resistant variants and a set of randomly generated variants."
+    },
+    {
+      "evidence_id": "EV_C006_E07_02",
+      "source_file": "docs/0107/combined.md",
+      "section": "C006",
+      "char_start": 91898,
+      "char_end": 92019,
+      "quote": "For every of the 146 TEM-1 inhibitor-resistant variants, we generate ten random variants that have the same mutated sites"
+    },
+    {
+      "evidence_id": "EV_C006_E08_03",
+      "source_file": "docs/0107/combined.md",
+      "section": "C006",
+      "char_start": 96414,
+      "char_end": 96516,
+      "quote": "In total, we used ECNet to identify 37 TEM-1 variants that were likely to demonstrate improved fitness"
+    },
+    {
+      "evidence_id": "EV_AUTO_001",
+      "source_file": "docs/0107/combined.md",
+      "section": "auto_specific",
+      "char_start": 48464,
+      "char_end": 48685,
+      "quote": "d Spearman correlation of experimentally measured epistasis and predicted epistasis for double-mutation variants of GB1 (n = 4455), RRM (n = 2700), TDP43 (n = 5166), TEM-1 (n = 841), WW (n = 1680), and FOSJUN (n = 3072)."
+    },
+    {
+      "evidence_id": "EV_AUTO_002",
+      "source_file": "docs/0107/combined.md",
+      "section": "auto_specific",
+      "char_start": 102324,
+      "char_end": 102426,
+      "quote": "1038/s41467-019-12101-z); TEM-1 single-mutation and double-mutation mutants fitness data (https://doi."
+    },
+    {
+      "evidence_id": "EV_AUTO_003",
+      "source_file": "docs/0107/combined.md",
+      "section": "auto_specific",
+      "char_start": 93692,
+      "char_end": 93858,
+      "quote": "The list contains 146 TEM-1 variants, each with 2–11 mutations with respect to TEM-1 wild-type sequence, covering 72 positions and 99 unique amino acid (AA) changes."
+    },
+    {
+      "evidence_id": "EV_AUTO_004",
+      "source_file": "docs/0107/combined.md",
+      "section": "auto_specific",
+      "char_start": 96604,
+      "char_end": 96676,
+      "quote": "02 mutations per sequence), covering 22 positions in the TEM-1 sequence."
+    },
+    {
+      "evidence_id": "EV_AUTO_005",
+      "source_file": "docs/0107/combined.md",
+      "section": "auto_specific",
+      "char_start": 102542,
+      "char_end": 102637,
+      "quote": "1038/nature17995); inhibitor-resistant TEM-1 variants (downloaded from https://externalwebapps."
+    },
+    {
+      "evidence_id": "EV_AUTO_006",
+      "source_file": "docs/0107/combined.md",
+      "section": "auto_specific",
+      "char_start": 93311,
+      "char_end": 93538,
+      "quote": "To reduce the exponential search space $(20^{286}$ sequences) of possible sequences, we focused on a restricted subspace where the mutations only occur on plausible function-related sites of TEM-1 documented in the literature."
+    },
+    {
+      "evidence_id": "EV_AUTO_007",
+      "source_file": "docs/0107/combined.md",
+      "section": "auto_specific",
+      "char_start": 91897,
+      "char_end": 92153,
+      "quote": "For every of the 146 TEM-1 inhibitor-resistant variants, we generate ten random variants that have the same mutated sites as the inhibitor-resistant variant but the alternative amino acid at each position is resampled uniformly from the 20-amino acid set."
+    },
+    {
+      "evidence_id": "EV_AUTO_008",
+      "source_file": "docs/0107/combined.md",
+      "section": "auto_specific",
+      "char_start": 75721,
+      "char_end": 75942,
+      "quote": "For example, in the Envision dataset $^{35}$ , only 18% of TEM-1 variants are more active than the wild-type sequence (positive effects) while the remaining are less active than the wild-type sequence (negative effects)."
+    },
+    {
+      "evidence_id": "EV_AUTO_009",
+      "source_file": "docs/0107/combined.md",
+      "section": "auto_specific",
+      "char_start": 50471,
+      "char_end": 50667,
+      "quote": "We created those 37 variants and nine previously reported TEM-1 mutants which had demonstrated strong resistance against ampicillin to serve as positive controls $^{51,55}$ (Supplementary Data 2)."
+    },
+    {
+      "evidence_id": "EV_AUTO_010",
+      "source_file": "docs/0107/combined.md",
+      "section": "auto_specific",
+      "char_start": 42385,
+      "char_end": 42511,
+      "quote": "1 single mutants data and used it to predict the fitness of the 146 TEM-1 variants as well as the randomly generated variants."
+    },
+    {
+      "evidence_id": "EV_AUTO_011",
+      "source_file": "docs/0107/combined.md",
+      "section": "auto_specific",
+      "char_start": 96414,
+      "char_end": 96546,
+      "quote": "In total, we used ECNet to identify 37 TEM-1 variants that were likely to demonstrate improved fitness as compared to the wild type."
+    },
+    {
+      "evidence_id": "EV_AUTO_012",
+      "source_file": "docs/0107/combined.md",
+      "section": "auto_specific",
+      "char_start": 64221,
+      "char_end": 64323,
+      "quote": "In total, we obtained 18,937 randomly generated candidate variants for TEM-1 variants prioritization."
+    },
+    {
+      "evidence_id": "EV_AUTO_013",
+      "source_file": "docs/0107/combined.md",
+      "section": "auto_specific",
+      "char_start": 63979,
+      "char_end": 64221,
+      "quote": "To generate a list of random candidate variants for enhanced TEM-1 variants prioritization, we enumerated all combinations of amino acid mutations on all or a subset of the positions where mutations were introduced in this 146-sequence list."
+    },
+    {
+      "evidence_id": "EV_AUTO_014",
+      "source_file": "docs/0107/combined.md",
+      "section": "auto_specific",
+      "char_start": 50061,
+      "char_end": 50231,
+      "quote": "The 37 top-performers were novel TEM-1 variants and did not overlap with any variants in our training data or functional TEM-1 variants we collected from the literature."
+    },
+    {
+      "evidence_id": "EV_AUTO_015",
+      "source_file": "docs/0107/combined.md",
+      "section": "auto_specific",
+      "char_start": 48241,
+      "char_end": 48379,
+      "quote": "c The predicted fitness values of inhibitor-resistant TEM-1 variants (n = 146) were significantly higher (one-sided rank-sum test $P = 5."
+    },
+    {
+      "evidence_id": "EV_AUTO_016",
+      "source_file": "docs/0107/combined.md",
+      "section": "auto_specific",
+      "char_start": 44469,
+      "char_end": 44620,
+      "quote": "The datasets curated the fitness measurements of nearly all point-mutation variants and 12% of possible consecutive double-mutation variants of TEM-1."
+    },
+    {
+      "evidence_id": "EV_AUTO_017",
+      "source_file": "docs/0107/combined.md",
+      "section": "auto_specific",
+      "char_start": 40484,
+      "char_end": 40640,
+      "quote": "To further assess ECNet's ability, we used orthogonal data containing sequences of 146 TEM-1 variants that are known to be inhibitor-resistant (“Methods”)."
+    },
+    {
+      "evidence_id": "EV_AUTO_018",
+      "source_file": "docs/0107/combined.md",
+      "section": "auto_specific",
+      "char_start": 111512,
+      "char_end": 111608,
+      "quote": "Pervasive pairwise intragenic epistasis among sequential mutations in TEM-1 $\\beta$ -lactamase."
+    },
+    {
+      "evidence_id": "EV_AUTO_019",
+      "source_file": "docs/0107/combined.md",
+      "section": "auto_specific",
+      "char_start": 102873,
+      "char_end": 102959,
+      "quote": "The fitness data of TEM-1 validation experiment is available in Supplementary Data 1."
+    },
+    {
+      "evidence_id": "EV_AUTO_020",
+      "source_file": "docs/0107/combined.md",
+      "section": "auto_specific",
+      "char_start": 101232,
+      "char_end": 101404,
+      "quote": "The fitness of a TEM-1 variant is determined by the ratio between the relative abundance of variants under the selection of a specific concentration and without selection."
+    },
+    {
+      "evidence_id": "EV_AUTO_021",
+      "source_file": "docs/0107/combined.md",
+      "section": "auto_specific",
+      "char_start": 100804,
+      "char_end": 101114,
+      "quote": "The fitness of each mutant at a certain ampicillin concentration was determined based on the ratio of the relative abundance of the mutant to wild-type TEM-1 in the plate with the related concentration of ampicillin and the relative abundance of the variant to wild-type TEM-1 in the plate without ampicillin."
+    },
+    {
+      "evidence_id": "EV_AUTO_022",
+      "source_file": "docs/0107/combined.md",
+      "section": "auto_specific",
+      "char_start": 98505,
+      "char_end": 98728,
+      "quote": "The plasmids harboring the genes encoding wild-type TEM-1, positive controls, and ECNet's predicted variants were mixed with equal concentrations and transformed into Escherichia coli DH5α competent cells (six replicates)."
+    },
+    {
+      "evidence_id": "EV_AUTO_023",
+      "source_file": "docs/0107/combined.md",
+      "section": "auto_specific",
+      "char_start": 98460,
+      "char_end": 98505,
+      "quote": "Ampicillin resistance assay of TEM-1 mutants."
+    },
+    {
+      "evidence_id": "EV_AUTO_024",
+      "source_file": "docs/0107/combined.md",
+      "section": "auto_specific",
+      "char_start": 98356,
+      "char_end": 98458,
+      "quote": "In some cases, the constructed TEM-1 plasmids were used as PCR templates for creating other variants."
+    },
+    {
+      "evidence_id": "EV_AUTO_025",
+      "source_file": "docs/0107/combined.md",
+      "section": "auto_specific",
+      "char_start": 97978,
+      "char_end": 98152,
+      "quote": "The digested TEM-1 gene with mutations and pSkunk3-BLA plasmid was gel purified and ligated by T4 DNA ligase and then transformed into Escherichia coli DH5α competent cells."
+    },
+    {
+      "evidence_id": "EV_AUTO_026",
+      "source_file": "docs/0107/combined.md",
+      "section": "auto_specific",
+      "char_start": 97378,
+      "char_end": 97518,
+      "quote": "TEM-1 mutants were constructed by overlapping PCR using primers (Supplementary Data 2) carrying targeted single or multiple mutation sites."
+    },
+    {
+      "evidence_id": "EV_AUTO_027",
+      "source_file": "docs/0107/combined.md",
+      "section": "auto_specific",
+      "char_start": 96678,
+      "char_end": 96734,
+      "quote": "# Experimental validation of prioritized TEM-1 variants"
+    },
+    {
+      "evidence_id": "EV_AUTO_028",
+      "source_file": "docs/0107/combined.md",
+      "section": "auto_specific",
+      "char_start": 93571,
+      "char_end": 93692,
+      "quote": "(1) We compiled a list of inhibitor-resistant TEM-1 variants supported by evidence in previous studies (see \"Datasets\")."
+    },
+    {
+      "evidence_id": "EV_AUTO_029",
+      "source_file": "docs/0107/combined.md",
+      "section": "auto_specific",
+      "char_start": 92719,
+      "char_end": 92808,
+      "quote": "In both studies, the fitness of TEM-1 was defined as its resistance to ampicillin (Amp)."
+    },
+    {
+      "evidence_id": "EV_AUTO_030",
+      "source_file": "docs/0107/combined.md",
+      "section": "auto_specific",
+      "char_start": 92296,
+      "char_end": 92465,
+      "quote": "We trained an ECNet model using DMS data of low-order TEM-1 variants and used the model to prioritize new high-order variants that were likely to have enhanced fitness."
+    },
+    {
+      "evidence_id": "EV_AUTO_031",
+      "source_file": "docs/0107/combined.md",
+      "section": "auto_specific",
+      "char_start": 92246,
+      "char_end": 92296,
+      "quote": "Prioritized high-order TEM-1 variants using ECNet."
+    },
+    {
+      "evidence_id": "EV_AUTO_032",
+      "source_file": "docs/0107/combined.md",
+      "section": "auto_specific",
+      "char_start": 91704,
+      "char_end": 91752,
+      "quote": "Comparison to randomly generated TEM-1 variants."
+    },
+    {
+      "evidence_id": "EV_AUTO_033",
+      "source_file": "docs/0107/combined.md",
+      "section": "auto_specific",
+      "char_start": 77561,
+      "char_end": 77713,
+      "quote": "We used this hybrid loss when training the model for prioritizing novel TEM-1 variants and used the regression loss for other benchmarking experiments."
+    },
+    {
+      "evidence_id": "EV_AUTO_034",
+      "source_file": "docs/0107/combined.md",
+      "section": "auto_specific",
+      "char_start": 63509,
+      "char_end": 63639,
+      "quote": "We compiled a list of TEM-1 variants that have been found to be inhibitor-resistant with supporting evidence in previous studies."
+    },
+    {
+      "evidence_id": "EV_AUTO_035",
+      "source_file": "docs/0107/combined.md",
+      "section": "auto_specific",
+      "char_start": 63474,
+      "char_end": 63509,
+      "quote": "Inhibitor-resistant TEM-1 variants."
+    },
+    {
+      "evidence_id": "EV_AUTO_036",
+      "source_file": "docs/0107/combined.md",
+      "section": "auto_specific",
+      "char_start": 62921,
+      "char_end": 63013,
+      "quote": "A set of fitness of TEM-1 consecutive double mutants was also obtained from Gonzalez et al."
+    }
+  ],
+  "event_graph": {
+    "paper_main_problem": "Protein engineering requires accurate prediction of functional fitness for unseen variants, but existing ML methods have limited accuracy because they capture general sequence contexts not specific to the target protein. The challenge is to model epistasis and generalize from low-order to higher-order mutants with limited labeled data.",
+    "canonical_events": [
+      {
+        "canonical_id": "K01",
+        "order": 1,
+        "event_type": "problem",
+        "summary": "Existing ML algorithms for protein engineering have limited accuracy because they capture general sequence contexts not specific to the target protein.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E01"
+        ],
+        "evidence_ids": [
+          "EV_C001_E01_01"
+        ],
+        "key_entities": [
+          "machine learning algorithms",
+          "protein engineering"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K02",
+        "order": 2,
+        "event_type": "hypothesis",
+        "summary": "Hypothesized that co-evolution information can be used to infer epistasis or fitness of proteins.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E02"
+        ],
+        "evidence_ids": [
+          "EV_C001_E02_01"
+        ],
+        "key_entities": [
+          "co-evolution information",
+          "epistasis",
+          "fitness"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K03",
+        "order": 3,
+        "event_type": "experiment",
+        "summary": "Investigated relationship between co-evolution of residue pairs and fitness of double mutants using DMS data and direct coupling analysis, finding Spearman correlation 0.35.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E03"
+        ],
+        "evidence_ids": [
+          "EV_C001_E03_01"
+        ],
+        "key_entities": [
+          "human YAP65 WW domain",
+          "double mutants"
+        ],
+        "key_numbers": [
+          "Spearman correlation 0.35"
+        ]
+      },
+      {
+        "canonical_id": "K04",
+        "order": 4,
+        "event_type": "analysis",
+        "summary": "Used change of dependency strength to predict fitness across DMS datasets, finding Spearman correlations from 0.1 to 0.5, and observed trend of increasing correlation with more homologous sequences.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E04",
+          "C001_E05"
+        ],
+        "evidence_ids": [
+          "EV_C001_E04_01",
+          "EV_C001_E05_01"
+        ],
+        "key_entities": [
+          "DMS datasets",
+          "homologous sequences"
+        ],
+        "key_numbers": [
+          "Spearman correlation ranging from 0.1 to 0.5"
+        ]
+      },
+      {
+        "canonical_id": "K05",
+        "order": 5,
+        "event_type": "design",
+        "summary": "Designed ECNet to integrate local evolutionary context from homologous sequences (via direct coupling analysis) and global evolutionary context from protein language models (e.g., TAPE).",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E06",
+          "C002_E01",
+          "C005_E03"
+        ],
+        "evidence_ids": [
+          "EV_C001_E06_01",
+          "EV_C002_E01_01",
+          "EV_C002_E01_02",
+          "EV_C002_E01_03",
+          "EV_C005_E03_01"
+        ],
+        "key_entities": [
+          "ECNet",
+          "local evolutionary context",
+          "global evolutionary context",
+          "protein language model",
+          "TAPE"
+        ],
+        "key_numbers": [
+          "768-dimensional vector"
+        ]
+      },
+      {
+        "canonical_id": "K06",
+        "order": 6,
+        "event_type": "design",
+        "summary": "ECNet uses a BiLSTM with self-attention and fully-connected layers, trained on fitness data with MSE loss, and ensemble of three models for robustness.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E07",
+          "C005_E05"
+        ],
+        "evidence_ids": [
+          "EV_C001_E07_01",
+          "EV_C005_E05_01"
+        ],
+        "key_entities": [
+          "recurrent neural network",
+          "BiLSTM",
+          "ensemble"
+        ],
+        "key_numbers": [
+          "three replicas"
+        ]
+      },
+      {
+        "canonical_id": "K07",
+        "order": 7,
+        "event_type": "revision",
+        "summary": "Added auxiliary classification objective with 10-quantile bins and hybrid loss (α=0.1) to address skewed training data bias.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C005_E06"
+        ],
+        "evidence_ids": [
+          "EV_C005_E06_01"
+        ],
+        "key_entities": [
+          "auxiliary classification objective",
+          "hybrid loss"
+        ],
+        "key_numbers": [
+          "α=0.1",
+          "10 bins"
+        ]
+      },
+      {
+        "canonical_id": "K08",
+        "order": 8,
+        "event_type": "experiment",
+        "summary": "Benchmarked ECNet against Doc2Vec on Envision dataset, showing 16-60% relative improvement in Spearman correlation.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E03",
+          "C006_E01"
+        ],
+        "evidence_ids": [
+          "EV_C002_E03_01",
+          "EV_C006_E01_01",
+          "EV_C006_E01_02"
+        ],
+        "key_entities": [
+          "ECNet",
+          "Doc2Vec",
+          "Envision dataset"
+        ],
+        "key_numbers": [
+          "relative improvement ranging from 16 to 60%",
+          "80% training",
+          "20% test"
+        ]
+      },
+      {
+        "canonical_id": "K09",
+        "order": 9,
+        "event_type": "experiment",
+        "summary": "ECNet outperformed unsupervised methods EVmutation, DeepSequence, and Autoregressive on DeepSequence dataset (median Δρ=0.165-0.216).",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E05",
+          "C006_E03"
+        ],
+        "evidence_ids": [
+          "EV_C002_E05_01",
+          "EV_C006_E03_01",
+          "EV_C006_E03_02"
+        ],
+        "key_entities": [
+          "ECNet",
+          "EVmutation",
+          "DeepSequence",
+          "Autoregressive"
+        ],
+        "key_numbers": [
+          "median Δρ=0.216",
+          "median Δρ=0.196",
+          "median Δρ=0.165",
+          "five-fold cross-validation"
+        ]
+      },
+      {
+        "canonical_id": "K10",
+        "order": 10,
+        "event_type": "analysis",
+        "summary": "Ablation analysis showed joint representations outperform individual ones, and ECNet is robust to data noise (test correlation decreased only 2% with 10% noise).",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E07",
+          "C002_E08"
+        ],
+        "evidence_ids": [
+          "EV_C002_E07_01",
+          "EV_C002_E08_01"
+        ],
+        "key_entities": [
+          "joint representations",
+          "individual representation",
+          "data noise"
+        ],
+        "key_numbers": [
+          "test correlation only decreased by 2%",
+          "training data was perturbed by 10%"
+        ]
+      },
+      {
+        "canonical_id": "K11",
+        "order": 11,
+        "event_type": "experiment",
+        "summary": "ECNet generalized from single mutants to double mutants, achieving Spearman correlations 0.73–0.94 on six proteins.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E04"
+        ],
+        "evidence_ids": [
+          "EV_C003_E04_01",
+          "EV_C003_E04_02"
+        ],
+        "key_entities": [
+          "six proteins",
+          "single mutants",
+          "double mutants"
+        ],
+        "key_numbers": [
+          "Spearman correlations ranging from 0.73 to 0.94"
+        ]
+      },
+      {
+        "canonical_id": "K12",
+        "order": 12,
+        "event_type": "experiment",
+        "summary": "Wet-lab validation of ECNet-prioritized TEM-1 variants showed improved ampicillin resistance with hit rates 0.52, 0.91, 0.94 at 300, 1500, 3000 μg/mL.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C004_E01",
+          "C006_E07",
+          "C006_E08"
+        ],
+        "evidence_ids": [
+          "EV_C004_E01_01",
+          "EV_C006_E07_01",
+          "EV_C006_E07_02",
+          "EV_C006_E08_03"
+        ],
+        "key_entities": [
+          "TEM-1 β-lactamase",
+          "ampicillin",
+          "E. coli"
+        ],
+        "key_numbers": [
+          "up to ~8-fold improvement",
+          "hit rates 0.52, 0.91, 0.94 at 300, 1500, 3000 μg/mL",
+          "146 variants",
+          "37 prioritized variants"
+        ]
+      },
+      {
+        "canonical_id": "K13",
+        "order": 13,
+        "event_type": "validation",
+        "summary": "ECNet generalizes from low-order to higher-order mutants, validated by wet-lab results.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C004_E02"
+        ],
+        "evidence_ids": [
+          "EV_C004_E02_01"
+        ],
+        "key_entities": [
+          "TEM-1",
+          "higher-order mutants"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K14",
+        "order": 14,
+        "event_type": "limitation",
+        "summary": "ECNet performance depends on MSA characteristics and DMS data properties, and exploration-exploitation trade-off in training data influences model performance.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C004_E04",
+          "C004_E05"
+        ],
+        "evidence_ids": [
+          "EV_C004_E04_01",
+          "EV_C004_E05_01"
+        ],
+        "key_entities": [
+          "ECNet",
+          "MSA",
+          "DMS",
+          "training data"
+        ],
+        "key_numbers": []
+      }
+    ],
+    "edges": [
+      {
+        "source": "K01",
+        "target": "K02",
+        "relation": "enables",
+        "reason": "The problem of limited accuracy motivates the hypothesis that co-evolution information can improve fitness prediction."
+      },
+      {
+        "source": "K02",
+        "target": "K03",
+        "relation": "enables",
+        "reason": "The hypothesis leads to an experiment testing the correlation between co-evolution and double mutant fitness."
+      },
+      {
+        "source": "K03",
+        "target": "K04",
+        "relation": "follows",
+        "reason": "The initial experiment is extended to predict fitness across DMS datasets and analyze the effect of homologous sequences."
+      },
+      {
+        "source": "K04",
+        "target": "K05",
+        "relation": "enables",
+        "reason": "The observed correlation and its dependence on MSA quality motivate the design of ECNet integrating local and global evolutionary contexts."
+      },
+      {
+        "source": "K05",
+        "target": "K06",
+        "relation": "refines",
+        "reason": "The design of ECNet is refined with specific architecture choices (BiLSTM, ensemble) for sequence-to-function modeling."
+      },
+      {
+        "source": "K06",
+        "target": "K07",
+        "relation": "refines",
+        "reason": "The training process is revised by adding an auxiliary classification objective to handle skewed data."
+      },
+      {
+        "source": "K07",
+        "target": "K08",
+        "relation": "enables",
+        "reason": "The refined model is benchmarked against Doc2Vec on the Envision dataset."
+      },
+      {
+        "source": "K08",
+        "target": "K09",
+        "relation": "follows",
+        "reason": "Further benchmarking against unsupervised methods on the DeepSequence dataset."
+      },
+      {
+        "source": "K09",
+        "target": "K10",
+        "relation": "follows",
+        "reason": "Ablation and robustness analyses validate the contribution of joint representations and noise tolerance."
+      },
+      {
+        "source": "K10",
+        "target": "K11",
+        "relation": "enables",
+        "reason": "The validated model is tested for generalization from single to double mutants."
+      },
+      {
+        "source": "K11",
+        "target": "K12",
+        "relation": "enables",
+        "reason": "The generalization ability motivates wet-lab validation on TEM-1 variants."
+      },
+      {
+        "source": "K12",
+        "target": "K13",
+        "relation": "validates",
+        "reason": "Wet-lab results confirm ECNet's ability to generalize to higher-order mutants."
+      },
+      {
+        "source": "K13",
+        "target": "K14",
+        "relation": "follows",
+        "reason": "Despite successful validation, limitations regarding MSA and DMS data dependence are acknowledged."
+      }
+    ],
+    "must_cover_points": [
+      "Problem of limited accuracy in existing ML methods for protein engineering.",
+      "Hypothesis that co-evolution information can infer epistasis and fitness.",
+      "Experimental evidence of correlation between co-evolution and double mutant fitness.",
+      "Design of ECNet integrating local and global evolutionary contexts.",
+      "Architecture details: BiLSTM, ensemble, auxiliary classification.",
+      "Benchmarking against Doc2Vec and unsupervised methods.",
+      "Ablation and robustness analyses.",
+      "Generalization from single to double mutants.",
+      "Wet-lab validation on TEM-1 with hit rates.",
+      "Limitations regarding MSA and DMS data dependence."
+    ],
+    "paper_not_suitable_reasons": []
+  }
+}

@@ -1,0 +1,947 @@
+{
+  "case": {
+    "case_id": "sci_evo_0053",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Modification of the active centre of nattokinase to enhance its thermostability using a strategy based on molecular dynamics simulation, steered dynamics simulation, and conservative prediction",
+      "doi": "https://doi.org/10.3389/fnut.2024.1505584",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0051_10_3389_fnut_2024_1505584_modification_of_the_active_centre_of_nattokinase_to_enhance_its_thermostability_using_a_st.pdf",
+      "mineru_md": "docs/0053/mineru.md",
+      "combined_md": "docs/0053/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Nattokinase has poor thermostability limiting industrial use. Existing modification methods have not targeted the active center due to high conservation and risk of inactivation.",
+      "target_object": "nattokinase active centre",
+      "known_context": "Thermostability modification studies of nattokinase have not addressed its active centre region, while active centre modifications using directed evolution tend to result in a higher workload and a high percentage of negative results.",
+      "constraints": [
+        "Modifications must not inactivate the enzyme",
+        "Must overcome activity-stability trade-off"
+      ],
+      "input_data": [
+        "Nattokinase AprY structure",
+        "Sequence conservation data"
+      ],
+      "quantifiable_goals": [
+        "Enhance thermostability",
+        "Maintain or increase activity",
+        "Reduce screening workload"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "Nattokinase thermostability is poor, and active center modification is challenging due to high conservation and risk of inactivation.",
+        "gap_or_uncertainty": "No rational design strategy exists for active center thermostability modification that overcomes activity-stability trade-off.",
+        "hypothesis": "A rational design strategy targeting the active center can overcome the activity-stability trade-off and reduce screening workload.",
+        "decision": "Propose a rational design strategy (MSC) combining MD, SMD, and conservation analysis.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "MSC strategy",
+          "version": "",
+          "category": "rational design"
+        },
+        "parameters": {},
+        "observation": "Rational design strategy is hypothesized to effectively solve the problems.",
+        "result_status": "success",
+        "next_step_reason": "Design the MSC strategy steps.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0053/combined.md",
+            "section": "C001",
+            "quote_or_span": "The current thermostability modification strategies for nattokinase do not involve modification of the catalytic centre."
+          },
+          {
+            "evidence_id": "EV_C001_E03_01",
+            "source_file": "docs/0053/combined.md",
+            "section": "C001",
+            "quote_or_span": "Modifying the active centre of an enzyme is a more challenging process than modifying other regions. This is due to the fact that the amino acid residues in the active centre of an enzyme are highly conserved and interact extensively with the substrate. This makes it more likely that the enzyme will become inactivated following a mutation in this region."
+          },
+          {
+            "evidence_id": "EV_C002_E01_01",
+            "source_file": "docs/0053/combined.md",
+            "section": "C002",
+            "quote_or_span": "Thermostability modification studies of nattokinase have not addressed its active centre region, while active centre modifications using directed evolution tend to result in a higher workload and a high percentage of negative results."
+          },
+          {
+            "evidence_id": "EV_C001_E04_01",
+            "source_file": "docs/0053/combined.md",
+            "section": "C001",
+            "quote_or_span": "It is therefore evident that a rational design strategy to enhance the thermostability of the enzyme by modifying its active centre represents an effective means of solving the aforementioned problems."
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "design",
+        "state_before": "Hypothesis that rational design can overcome trade-off.",
+        "gap_or_uncertainty": "Need to define specific computational steps to identify candidate sites.",
+        "hypothesis": "Combining MD at different temperatures, SMD, and conservation analysis will pinpoint active center sites affecting thermostability.",
+        "decision": "Design MSC strategy: 1) MD to find flexible sites, 2) SMD to eliminate substrate-interacting residues, 3) conservation analysis to exclude strictly conserved residues.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "MSC strategy design",
+          "version": "",
+          "category": "computational design"
+        },
+        "parameters": {},
+        "observation": "MSC strategy designed with three sequential filters.",
+        "result_status": "success",
+        "next_step_reason": "Execute MD simulations to identify flexible active center residues.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E05_01",
+            "source_file": "docs/0053/combined.md",
+            "section": "C001",
+            "quote_or_span": "a new strategy based on the combination of molecular dynamics simulation at different temperatures, steered molecular dynamics simulation, and sequence conservative analysis (MSC) was designed in this study."
+          },
+          {
+            "evidence_id": "EV_C001_E06_01",
+            "source_file": "docs/0053/combined.md",
+            "section": "C001",
+            "quote_or_span": "The initial identification of candidate sites with high flexibility changes was achieved through a comparative analysis of RMSF alterations in the active centre of nattokinase under varying temperature conditions. This was followed by the utilisation of steered molecular dynamics simulation to eliminate sites involved in substrate interactions upon substrate entry into the enzyme's active centre. Subsequently, the highly conserved sites were further excluded through a sequence conservative analysis."
+          },
+          {
+            "evidence_id": "EV_C002_E02_01",
+            "source_file": "docs/0053/combined.md",
+            "section": "C002",
+            "quote_or_span": "it has become imperative to devise a rational design scheme for the stability modification of the active centre of nattokinase that reduces the intensity of screening work while improving the prediction accuracy."
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "simulation",
+        "state_before": "MSC strategy designed.",
+        "gap_or_uncertainty": "Which active center residues show high flexibility change with temperature?",
+        "hypothesis": "Residues with ΔRMSF > 0.05 Å between 298K and 328K are candidates for thermostability modification.",
+        "decision": "Run MD simulations at 298K and 328K and compute RMSF differences.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "Molecular Dynamics Simulation",
+          "version": "",
+          "category": "computational"
+        },
+        "parameters": {
+          "temperatures": [
+            "298K",
+            "328K"
+          ],
+          "threshold": "ΔRMSF > 0.05 Å"
+        },
+        "observation": "20 active center residues identified with ΔRMSF > 0.05 Å.",
+        "result_status": "success",
+        "next_step_reason": "Apply SMD to eliminate residues interacting with substrate during entry.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E03_01",
+            "source_file": "docs/0053/combined.md",
+            "section": "C002",
+            "quote_or_span": "20 amino acid residues (33–34, 62–63, 66–68, 93–127, 154, 216–218, 224) having RMSF differences greater than 0.05 Å."
+          },
+          {
+            "evidence_id": "EV_AUTO_015",
+            "source_file": "docs/0053/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Our previous study showed that the activity and thermostability-enhanced nattokinase T174V mutant had similarly reduced flexibility in the region of positions 167–176 under 328 K simulation conditions, which is consistent with the results of the present study, suggesting that conformational stabilisation of this region facilitates $Ca^{2+}$ binding, which in turn enhances thermostability (17)."
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "simulation",
+        "state_before": "20 candidate residues identified.",
+        "gap_or_uncertainty": "Some residues may be essential for substrate binding; mutating them could inactivate enzyme.",
+        "hypothesis": "Residues that interact with substrate during entry should be excluded.",
+        "decision": "Perform SMD of substrate docking and eliminate residues with prolonged hydrophobic interactions.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "Steered Molecular Dynamics Simulation",
+          "version": "",
+          "category": "computational"
+        },
+        "parameters": {
+          "substrate": "tetrapeptide",
+          "pull_distance": "15 Å"
+        },
+        "observation": "L96, L126, G154, M222 eliminated due to prolonged hydrophobic interactions with substrate.",
+        "result_status": "success",
+        "next_step_reason": "Apply conservation analysis to exclude strictly conserved residues.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E04_01",
+            "source_file": "docs/0053/combined.md",
+            "section": "C002",
+            "quote_or_span": "L96, L126, G154 and M222 each have prolonged hydrophobic interactions with the substrate when the substrate is stretched from binding to the enzyme active centre to 15 Å from the enzyme active centre"
+          },
+          {
+            "evidence_id": "EV_C002_E03_01",
+            "source_file": "docs/0053/combined.md",
+            "section": "C002",
+            "quote_or_span": "20 amino acid residues (33–34, 62–63, 66–68, 93–127, 154, 216–218, 224) having RMSF differences greater than 0.05 Å."
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "analysis",
+        "state_before": "16 residues remain after SMD elimination.",
+        "gap_or_uncertainty": "Strictly conserved residues are likely essential; mutating them may cause inactivation.",
+        "hypothesis": "Excluding strictly conserved residues (score=9) will reduce false positives.",
+        "decision": "Perform conservation analysis and exclude residues with conservation score 9.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Sequence Conservative Analysis",
+          "version": "",
+          "category": "bioinformatics"
+        },
+        "parameters": {
+          "conservation_score_threshold": "9"
+        },
+        "observation": "13 candidate sites remain for saturation mutagenesis.",
+        "result_status": "success",
+        "next_step_reason": "Experimentally test the 13 candidate sites via saturation mutagenesis.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_001",
+            "source_file": "docs/0053/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "To our expectation, mutations at most of the 13 candidate sites resulted in loss of activity, whereas mutants with enhanced thermostability were found at five sites, 33 (S33T), 62 (S62A), 216 (A216E, A216K, and A216R), and 218 (N218L; Table 2)."
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "experiment",
+        "state_before": "13 candidate sites selected.",
+        "gap_or_uncertainty": "Which mutations at these sites enhance thermostability without losing activity?",
+        "hypothesis": "Saturation mutagenesis and fibrin plate screening will identify thermostable mutants.",
+        "decision": "Perform saturation mutagenesis at 13 sites and screen for thermostability using fibrin plate assay.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Saturation mutagenesis and fibrin plate assay",
+          "version": "",
+          "category": "molecular biology"
+        },
+        "parameters": {
+          "sites": 13,
+          "screening_method": "fibrin plate assay"
+        },
+        "observation": "Most mutations lost activity; thermostable mutants found at 5 sites: S33T, S62A, A216E/K/R, N218L.",
+        "result_status": "partial",
+        "next_step_reason": "Validate strategy by comparing with previously reported mutants.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E08_01",
+            "source_file": "docs/0053/combined.md",
+            "section": "C002",
+            "quote_or_span": "mutations at most of the 13 candidate sites resulted in loss of activity"
+          },
+          {
+            "evidence_id": "EV_AUTO_001",
+            "source_file": "docs/0053/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "To our expectation, mutations at most of the 13 candidate sites resulted in loss of activity, whereas mutants with enhanced thermostability were found at five sites, 33 (S33T), 62 (S62A), 216 (A216E, A216K, and A216R), and 218 (N218L; Table 2)."
+          },
+          {
+            "evidence_id": "EV_C002_E07_01",
+            "source_file": "docs/0053/combined.md",
+            "section": "C002",
+            "quote_or_span": "these reported mutants showed a non-significant reduction or even enhancement of activity compared to the wild type, confirming the ability of our screening strategy to overcome the activity-stability trade-off in enzyme engineering"
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "validation",
+        "state_before": "Thermostable mutants identified at 5 sites.",
+        "gap_or_uncertainty": "Does the MSC strategy rediscover known mutants, confirming its validity?",
+        "hypothesis": "Previously reported mutants S33T, N218L, Y217K, S62A should be among the hits.",
+        "decision": "Compare identified mutants with literature.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Literature comparison",
+          "version": "",
+          "category": "analysis"
+        },
+        "parameters": {},
+        "observation": "Rediscovered S33T, N218L, Y217K, S62A, validating the MSC strategy's ability to overcome activity-stability trade-off.",
+        "result_status": "success",
+        "next_step_reason": "Characterize novel A216 mutants in detail.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E07_01",
+            "source_file": "docs/0053/combined.md",
+            "section": "C002",
+            "quote_or_span": "these reported mutants showed a non-significant reduction or even enhancement of activity compared to the wild type, confirming the ability of our screening strategy to overcome the activity-stability trade-off in enzyme engineering"
+          },
+          {
+            "evidence_id": "EV_AUTO_002",
+            "source_file": "docs/0053/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "This includes mutants such as S33T, S62A, Y217K, and N218L, which confirm the important influence of the active centre of nattokinase on its thermostability (17, 18, 21)."
+          },
+          {
+            "evidence_id": "EV_AUTO_001",
+            "source_file": "docs/0053/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "To our expectation, mutations at most of the 13 candidate sites resulted in loss of activity, whereas mutants with enhanced thermostability were found at five sites, 33 (S33T), 62 (S62A), 216 (A216E, A216K, and A216R), and 218 (N218L; Table 2)."
+          },
+          {
+            "evidence_id": "EV_AUTO_011",
+            "source_file": "docs/0053/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "In summary, we selected three previously unreported mutants, A216E, A216K and A216R, with both increased activity and thermostability, from the screened positive sites for subsequent characterisation studies."
+          },
+          {
+            "evidence_id": "EV_C004_E06_01",
+            "source_file": "docs/0053/combined.md",
+            "section": "C004",
+            "quote_or_span": "a rational design strategy combining MD-SMD-conservative analysis (MSC) was employed to reduce the screening intensity and improve the prediction accuracy of the active centre of nattokinase. This approach led to the identification of mutant A216K, which exhibited enhanced thermostability and increased activity."
+          },
+          {
+            "evidence_id": "EV_C004_E02_01",
+            "source_file": "docs/0053/combined.md",
+            "section": "C004",
+            "quote_or_span": "in the A216E mutant, Glu216 formed an additional hydrogen bond with Gln206, which enhanced its local stability"
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "experiment",
+        "state_before": "A216E, A216K, A216R identified as novel thermostable mutants.",
+        "gap_or_uncertainty": "What are the detailed enzymatic properties of these mutants?",
+        "hypothesis": "A216 mutants will show increased half-life and altered kinetics.",
+        "decision": "Purify and characterize A216E, A216K, A216R using tetrapeptide substrate method.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Protein purification and enzymatic assay",
+          "version": "",
+          "category": "biochemistry"
+        },
+        "parameters": {
+          "assay": "tetrapeptide substrate method",
+          "temperature": "55°C"
+        },
+        "observation": "All three mutants showed increased half-life at 55°C, unchanged pH properties, and altered kinetics. A216K activity 507.17 U/ml vs WT 190.36; residual activity A216K 76.58% vs WT 40.19%.",
+        "result_status": "success",
+        "next_step_reason": "Perform MD simulations to explain mechanisms.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E01_01",
+            "source_file": "docs/0053/combined.md",
+            "section": "C003",
+            "quote_or_span": "wild-type rAprY, A216E, A216K and A216R enzyme activities were 190.36, 282.76, 507.17, and 333.92 U/ml, respectively."
+          },
+          {
+            "evidence_id": "EV_C003_E01_02",
+            "source_file": "docs/0053/combined.md",
+            "section": "C003",
+            "quote_or_span": "residual enzyme activities of wild-type rAprY, A216E, A216K, and A216R were 40.19, 83.08, 76.58, and 70.35%, respectively."
+          },
+          {
+            "evidence_id": "EV_AUTO_005",
+            "source_file": "docs/0053/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The $K_{m}$ value of A216K mutant decreased compared with the wild-type rAprY, indicating a better substrate affinity; In addition, the $k_{cat}$ values of A216E and A216R mutants increased by 29."
+          },
+          {
+            "evidence_id": "EV_AUTO_006",
+            "source_file": "docs/0053/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "A216E, A216K, and A216R mutants showed significantly increased half-life at 55°C (5."
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "hypothesis",
+        "state_before": "Mechanisms of A216 mutants elucidated.",
+        "gap_or_uncertainty": "Can flexibility changes in region 167-176 serve as a screening indicator?",
+        "hypothesis": "Flexibility changes in region 167-176 could overcome activity-stability trade-off and serve as a screening indicator.",
+        "decision": "Propose region 167-176 as a screening indicator.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Hypothesis generation",
+          "version": "",
+          "category": "analysis"
+        },
+        "parameters": {},
+        "observation": "Hypothesis formulated based on consistent RMSF reduction in region 167-176 across mutants.",
+        "result_status": "success",
+        "next_step_reason": "Optimize fermentation for best mutant A216K.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E05_01",
+            "source_file": "docs/0053/combined.md",
+            "section": "C003",
+            "quote_or_span": "we hypothesised that the flexible changes in the region of positions 167–176 could overcome the activity-stability trade-off problem during nattokinase modification and is a good indicator for screening and evaluation"
+          },
+          {
+            "evidence_id": "EV_AUTO_003",
+            "source_file": "docs/0053/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The RMSF results showed that all three mutants showed reduced RMSF in the region of residues 167–176 compared to AprY, At the same time, the flexibility of A216E and A216K in the amino acid residue region 209–215 was reduced."
+          },
+          {
+            "evidence_id": "EV_AUTO_017",
+            "source_file": "docs/0053/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "In addition, the A216E and A216K mutants showed reduced RMSF around the mutation site and more stable secondary structures around these two mutation sites compared to AprY, indicating improved structural stability in the local region of the mutation site (Figures 4A,B)."
+          },
+          {
+            "evidence_id": "EV_AUTO_008",
+            "source_file": "docs/0053/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Analysis of the enzyme kinetic parameters of the A216E, A216K, and A216R mutants revealed the underlying mechanisms for the increase in specific enzyme activity."
+          },
+          {
+            "evidence_id": "EV_C004_E06_01",
+            "source_file": "docs/0053/combined.md",
+            "section": "C004",
+            "quote_or_span": "a rational design strategy combining MD-SMD-conservative analysis (MSC) was employed to reduce the screening intensity and improve the prediction accuracy of the active centre of nattokinase. This approach led to the identification of mutant A216K, which exhibited enhanced thermostability and increased activity."
+          },
+          {
+            "evidence_id": "EV_C004_E01_01",
+            "source_file": "docs/0053/combined.md",
+            "section": "C004",
+            "quote_or_span": "the A216E and A216K mutants showed reduced RMSF around the mutation site and more stable secondary structures around these two mutation sites compared to AprY"
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "experiment",
+        "state_before": "A216K identified as best mutant.",
+        "gap_or_uncertainty": "Can A216K yield be improved for industrial application?",
+        "hypothesis": "Sequential single-factor optimization will increase A216K expression in E. coli.",
+        "decision": "Optimize fermentation conditions: bottling volume, inoculum size, induction temperature, pH, induction time, IPTG concentration.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Fermentation optimization",
+          "version": "",
+          "category": "bioprocess"
+        },
+        "parameters": {
+          "bottling_volume": "20%",
+          "inoculum_size": "2%",
+          "induction_temperature": "20°C",
+          "pH": 8,
+          "induction_time": "20 h",
+          "IPTG": "0.7 mM"
+        },
+        "observation": "A216K expression reached 467.43 U/ml under optimized conditions.",
+        "result_status": "success",
+        "next_step_reason": "Note limitations of assays used.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E04_01",
+            "source_file": "docs/0053/combined.md",
+            "section": "C004",
+            "quote_or_span": "we conducted a sequential optimisation of the fermentation conditions (bottling volume, inoculum volume, induction temperature, pH, induction time, IPTG concentration) of the A216K mutant in Escherichia coli"
+          },
+          {
+            "evidence_id": "EV_C004_E05_01",
+            "source_file": "docs/0053/combined.md",
+            "section": "C004",
+            "quote_or_span": "The A216K mutant exhibited the highest expression at an IPTG addition of 0.7 mM/ml, reaching 467.43 U/ml"
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "analysis",
+        "state_before": "A216K optimized and characterized.",
+        "gap_or_uncertainty": "What are the limitations of the assays used?",
+        "hypothesis": "The tetrapeptide substrate assay may not accurately simulate thrombolytic activity; fibrin plate method is semi-quantitative.",
+        "decision": "Acknowledge assay limitations.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Limitation analysis",
+          "version": "",
+          "category": "analysis"
+        },
+        "parameters": {},
+        "observation": "Tetrapeptide substrate assay may not accurately simulate thrombolytic activity; fibrin plate method is semi-quantitative.",
+        "result_status": "success",
+        "next_step_reason": "Conclude overall validation of MSC strategy.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E08_01",
+            "source_file": "docs/0053/combined.md",
+            "section": "C003",
+            "quote_or_span": "this could not accurately simulate the thrombolytic activity of nattokinase, which is one of the few proteases in the Bacillus subtilis protease family that can hydrolyse the clot"
+          },
+          {
+            "evidence_id": "EV_AUTO_009",
+            "source_file": "docs/0053/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "In order to further confirm the enzymatic properties such as activity and thermostability of the selected mutants, rAprY and three mutants A216E, A216K, and A216R were purified and characterized (Supplementary Figure S4), and their enzymatic properties were detected using the tetrapeptidase substrate method, and the results are shown in Table 3 and Figure 2."
+          }
+        ]
+      },
+      {
+        "step_index": 12,
+        "phase": "validation",
+        "state_before": "A216K optimized and characterized; limitations noted.",
+        "gap_or_uncertainty": "Does the overall MSC strategy achieve its goals?",
+        "hypothesis": "MSC strategy successfully reduces screening workload and improves prediction accuracy.",
+        "decision": "Summarize outcomes: identified A216K with enhanced thermostability and activity, rediscovered known mutants, reduced screening from 13 sites to 5 positive sites.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Overall validation",
+          "version": "",
+          "category": "analysis"
+        },
+        "parameters": {},
+        "observation": "MSC strategy successfully identified A216K with enhanced thermostability and activity, reducing screening workload and improving prediction accuracy.",
+        "result_status": "success",
+        "next_step_reason": "None; trajectory complete.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E06_01",
+            "source_file": "docs/0053/combined.md",
+            "section": "C004",
+            "quote_or_span": "a rational design strategy combining MD-SMD-conservative analysis (MSC) was employed to reduce the screening intensity and improve the prediction accuracy of the active centre of nattokinase. This approach led to the identification of mutant A216K, which exhibited enhanced thermostability and increased activity."
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "Fibrin plate assay for thermostability screening",
+        "Tetrapeptide substrate assay for kinetic characterization",
+        "MD simulations for mechanistic analysis",
+        "Comparison with previously reported mutants"
+      ],
+      "metrics": [
+        "Half-life at 55°C",
+        "Residual activity after heat treatment",
+        "Enzyme activity (U/ml)",
+        "Kinetic parameters (Km, kcat)",
+        "RMSD, RMSF, hydrogen bond counts"
+      ],
+      "final_conclusion": "The MSC strategy successfully identified A216K with enhanced thermostability (half-life increased 3.6-5.7 fold) and increased activity (507.17 U/ml vs WT 190.36), while reducing screening workload and overcoming the activity-stability trade-off.",
+      "limitations": [
+        "Tetrapeptide substrate assay may not accurately simulate thrombolytic activity",
+        "Fibrin plate method is semi-quantitative"
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_phase_action_fixed=1",
+        "v22_specific_evidence_backfilled=13",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_step_trimmed=13_to_12",
+        "v22_specific_evidence_backfilled=12",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 100.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p4\\states\\0053.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p4\\events\\0053.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1,
+          2,
+          3
+        ],
+        "K02": [
+          1,
+          2,
+          9
+        ],
+        "K04": [
+          2,
+          3,
+          4
+        ],
+        "K05": [
+          3,
+          4
+        ],
+        "K06": [
+          2,
+          4,
+          5,
+          6,
+          7
+        ],
+        "K07": [
+          5,
+          6,
+          7
+        ],
+        "K08": [
+          6,
+          7
+        ],
+        "K09": [
+          8,
+          11
+        ],
+        "K11": [
+          1,
+          2,
+          9
+        ],
+        "K12": [
+          10
+        ],
+        "K13": [
+          11
+        ],
+        "K14": [
+          7,
+          9,
+          12
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02",
+            "K03",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K01",
+            "K02",
+            "K03",
+            "K04",
+            "K06",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K01",
+            "K03",
+            "K04",
+            "K05"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K04",
+            "K05",
+            "K06"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K06",
+            "K07"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K06",
+            "K07",
+            "K08"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K06",
+            "K07",
+            "K08",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K09"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K02",
+            "K11",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K12"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K09",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 12,
+          "covered_event_ids": [
+            "K14"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 3,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "298"
+        ]
+      },
+      {
+        "step_index": 6,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "13s",
+          "5s"
+        ]
+      },
+      {
+        "step_index": 7,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "5s"
+        ]
+      },
+      {
+        "step_index": 8,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "40.19%",
+          "76.58%"
+        ]
+      },
+      {
+        "step_index": 9,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "-176",
+          "-176s"
+        ]
+      },
+      {
+        "step_index": 12,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "13s"
+        ]
+      }
+    ],
+    "step_count": 12,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 100.0
+  },
+  "api_usage": {
+    "prompt_tokens": 120028,
+    "completion_tokens": 24817,
+    "total_tokens": 144845,
+    "prompt_cache_hit_tokens": 2944,
+    "prompt_cache_miss_tokens": 117084
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 4424,
+        "completion_tokens": 488,
+        "total_tokens": 4912,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 4424
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 13106,
+        "completion_tokens": 2462,
+        "total_tokens": 15568,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 13106
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 7128,
+        "completion_tokens": 1155,
+        "total_tokens": 8283,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6872
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 8083,
+        "completion_tokens": 1380,
+        "total_tokens": 9463,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7827
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 9397,
+        "completion_tokens": 1658,
+        "total_tokens": 11055,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9141
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 8259,
+        "completion_tokens": 1092,
+        "total_tokens": 9351,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8003
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C005",
+      "api_usage": {
+        "prompt_tokens": 5351,
+        "completion_tokens": 45,
+        "total_tokens": 5396,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 5095
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 11301,
+        "completion_tokens": 3338,
+        "total_tokens": 14639,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 10917
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 12504,
+        "completion_tokens": 6240,
+        "total_tokens": 18744,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 11864
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 19187,
+        "completion_tokens": 142,
+        "total_tokens": 19329,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 19187
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 21288,
+        "completion_tokens": 6817,
+        "total_tokens": 28105,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 20648
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

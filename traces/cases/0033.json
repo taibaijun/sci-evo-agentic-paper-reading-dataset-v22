@@ -1,0 +1,936 @@
+{
+  "case": {
+    "case_id": "sci_evo_0033",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "PreMode predicts mode-of-action of missense variants by deep graph representation learning of protein sequence and structural context",
+      "doi": "https://doi.org/10.1038/s41467-025-62318-4",
+      "url": "",
+      "license": "cc-by-nc-nd",
+      "publication_date": "",
+      "raw_file": "",
+      "mineru_md": "docs/0033/mineru.md",
+      "combined_md": "docs/0033/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Predicting mode-of-action (molecular and genetic) of missense variants is challenging because existing methods focus on binary pathogenicity, which does not capture the multi-dimensional functional impacts. Mode-of-action is gene-specific, with limited labeled data per gene, and requires understanding of protein sequence and structural context.",
+      "target_object": "missense variants",
+      "known_context": "Pathogenicity prediction methods exist but do not capture complexity of functional and genetic effects.",
+      "constraints": [
+        "Limited availability of mode-of-action data for most genes and protein families."
+      ],
+      "input_data": [
+        "Protein sequences",
+        "AlphaFold2 structures",
+        "MSA",
+        "ESM2 embeddings"
+      ],
+      "quantifiable_goals": [
+        "Predict molecular mode-of-action (e.g., biochemical properties) with high Spearman correlation.",
+        "Predict genetic mode-of-action (gain/loss-of-function) with high AUC."
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "Pathogenicity prediction methods exist but do not capture multi-dimensional functional impacts.",
+        "gap_or_uncertainty": "Pathogenicity does not capture complexity of functional and genetic effects, limiting clinical utility.",
+        "hypothesis": "Mode-of-action prediction should be gene-specific due to diverse protein functions; a universal predictor leads to conceptual ambiguity.",
+        "decision": "Define predictive tasks within individual proteins or protein families sharing similar functions.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "literature analysis",
+          "version": "",
+          "category": "reasoning"
+        },
+        "parameters": {},
+        "observation": "Pathogenicity prediction insufficient; gene-specific mode-of-action needed.",
+        "result_status": "success",
+        "next_step_reason": "Gene-specific hypothesis motivates curation of large mode-of-action datasets.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0033/combined.md",
+            "section": "C001",
+            "quote_or_span": "pathogenicity does not capture the complexity of functional and genetic effects of variants"
+          },
+          {
+            "evidence_id": "EV_C001_E01_02",
+            "source_file": "docs/0033/combined.md",
+            "section": "C001",
+            "quote_or_span": "Such limitation reduced the utility of the methods in genetic analysis and clinical applications."
+          },
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0033/combined.md",
+            "section": "C001",
+            "quote_or_span": "mode-of-action centers around how a variant disrupts the normal function of a protein. Given the inherent diversity of protein functions, attempting to define a universally applicable predictive task for all G/LoF variants across all proteins could lead to conceptual ambiguity."
+          },
+          {
+            "evidence_id": "EV_C001_E02_02",
+            "source_file": "docs/0033/combined.md",
+            "section": "C001",
+            "quote_or_span": "we propose that such predictive tasks should be defined within the context of individual proteins or protein families that share similar functions."
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "analysis",
+        "state_before": "Datasets curated but not characterized.",
+        "gap_or_uncertainty": "Need to understand structural and evolutionary differences between GoF and LoF variants.",
+        "hypothesis": "GoF and LoF variants have distinct structural and evolutionary properties.",
+        "decision": "Perform genome-wide comparison of GoF and LoF variant sites.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "statistical analysis",
+          "version": "",
+          "category": "bioinformatics"
+        },
+        "parameters": {
+          "pLDDT": "AlphaFold2 prediction confidence",
+          "rsa": "relative solvent accessibility",
+          "folding energy": "FoldX",
+          "conservation": "MSA"
+        },
+        "observation": "GoF variants more in low pLDDT regions and surfaces; LoF variants have bigger folding energy impact; both in conserved regions.",
+        "result_status": "success",
+        "next_step_reason": "Characterization reveals data limitation challenge.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E06_01",
+            "source_file": "docs/0033/combined.md",
+            "section": "C001",
+            "quote_or_span": "GoF variants are relatively more likely to be located in regions with lower pLDDT (50 < pLDDT < 90) than LoF variants, and are relatively more likely to be on protein surfaces (rsa ≥ 25%)"
+          },
+          {
+            "evidence_id": "EV_C001_E06_02",
+            "source_file": "docs/0033/combined.md",
+            "section": "C001",
+            "quote_or_span": "LoF variants have an overall bigger impact on protein folding energy than GoF variants"
+          },
+          {
+            "evidence_id": "EV_C001_E06_03",
+            "source_file": "docs/0033/combined.md",
+            "section": "C001",
+            "quote_or_span": "both LoF and GoF variants are more likely to be in conserved regions than non-conserved regions"
+          },
+          {
+            "evidence_id": "EV_AUTO_014",
+            "source_file": "docs/0033/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "a Genome wide comparison of gain- and loss-of-function variant sites' pLDDT (AlphaFold2 prediction confidence), protein folding energy change, relevant solvent accessibility, and conservation in 2043 GoF, 7889 LoF variants across 1300 genes and 13704 benign variants from same set of genes, p values were calculated by two-sided Mann-Whitney test."
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "analysis",
+        "state_before": "Characterization done, but data limitation identified.",
+        "gap_or_uncertainty": "Limited availability of mode-of-action data for most genes and protein families.",
+        "hypothesis": "Data limitation is the main challenge for mode-of-action prediction.",
+        "decision": "Acknowledge limitation and design model with transfer learning.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "literature analysis",
+          "version": "",
+          "category": "reasoning"
+        },
+        "parameters": {},
+        "observation": "Limited data per gene necessitates transfer learning.",
+        "result_status": "success",
+        "next_step_reason": "Data limitation motivates design of PreMode with transfer learning.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E07_01",
+            "source_file": "docs/0033/combined.md",
+            "section": "C001",
+            "quote_or_span": "The main challenge is the limited availability of data for most genes and protein families."
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "design",
+        "state_before": "Need a model that can leverage limited data and capture variant effects.",
+        "gap_or_uncertainty": "Existing methods do not capture direct and second-order impacts of amino acid alterations.",
+        "hypothesis": "SE(3)-equivariant graph neural networks with star-graph and KNN-graph can capture direct and second-order impacts.",
+        "decision": "Design PreMode architecture.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "PreMode",
+          "version": "1.0",
+          "category": "deep_learning"
+        },
+        "parameters": {
+          "architecture": "SE(3)-equivariant graph attention neural network with 4 layers",
+          "input_features": "ESM2 embeddings (d=1280), amino acid frequencies from MSA (d=20), weighted covariance matrix, contact strength predictions",
+          "graphs": "star-graph, KNN-graph"
+        },
+        "observation": "PreMode uses SE(3)-equivariant mechanisms on edge and node features through star-graph and KNN-graph.",
+        "result_status": "success",
+        "next_step_reason": "Model design enables pretraining on pathogenicity.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E01_01",
+            "source_file": "docs/0033/combined.md",
+            "section": "C002",
+            "quote_or_span": "PreMode applies SE(3)-equivariant mechanisms on edge features and node features first through a star-graph that connects variant site with all other residues to capture the direct impacts of amino acid alterations on other residues, then through the k-nearest neighbor (KNN)-graph that connects each residue with its closest neighbor residues to capture the second order impacts"
+          },
+          {
+            "evidence_id": "EV_C004_E06_01",
+            "source_file": "docs/0033/combined.md",
+            "section": "C004",
+            "quote_or_span": "PreMode is an SE(3)-equivariant graph attention neural network with 4 layers."
+          },
+          {
+            "evidence_id": "EV_C004_E06_02",
+            "source_file": "docs/0033/combined.md",
+            "section": "C004",
+            "quote_or_span": "First layer is a feature embedding layer that encodes the input features into latent dimensions."
+          },
+          {
+            "evidence_id": "EV_C004_E06_03",
+            "source_file": "docs/0033/combined.md",
+            "section": "C004",
+            "quote_or_span": "Second and third layers are equivariant graph attention layers designed to model interactions between the connected nodes"
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "experiment",
+        "state_before": "PreMode designed but not trained.",
+        "gap_or_uncertainty": "Need pretraining on large-scale pathogenicity data to learn general variant effects.",
+        "hypothesis": "Pretraining on pathogenicity will improve mode-of-action prediction.",
+        "decision": "Pretrain PreMode on 148,324 pathogenic/benign variants.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "PreMode pretraining",
+          "version": "1.0",
+          "category": "deep_learning"
+        },
+        "parameters": {
+          "training_data": "148,324 missense variants (83,844 benign, 64,480 pathogenic)",
+          "test_data": "1066 independent variants (533 pathogenic hotspots, 533 benign)"
+        },
+        "observation": "Achieved AUROC 0.932 on independent test set.",
+        "result_status": "success",
+        "next_step_reason": "Pretrained model enables transfer learning for molecular mode-of-action.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_006",
+            "source_file": "docs/0033/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "We collected a total of 148,324 missense variants for training, including 51,494 benign variants from PrimateAI $^{18}$ and 32,350 non-overlapping benign variants from ClinVar $^{59}$ with at least one-star non-conflict submits that labeled as “benign” or “likely-benign”; 64,480 “pathogenic” and “likely-pathogenic” variants from ClinVar database with at least one-star non-conflict submits $^{8}$ and non-overlapping variants from HGMD $^{41}$ (Table 2)."
+          },
+          {
+            "evidence_id": "EV_AUTO_007",
+            "source_file": "docs/0033/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "We collected 83,844 benign variants from ClinVar $^{59}$ and PrimateAI $^{18}$ in 13,748 genes, and 64,480 pathogenic variants from ClinVar $^{59}$ and HGMD $^{41}$ in 3703 genes (“Methods: Training and testing datasets”)."
+          },
+          {
+            "evidence_id": "EV_AUTO_012",
+            "source_file": "docs/0033/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Instead, we used independent testing data for which the pathogenicity label was entirely based on statistical evidence, that is, 533 pathogenic missense variants in cancer hotspots from cBioportal $^{50,52,60}$ , and same number of benign variants in the same genes randomly selected from common variants in primates $^{18}$ ."
+          },
+          {
+            "evidence_id": "EV_AUTO_016",
+            "source_file": "docs/0033/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "For testing, we included 1066 missense variants, including 533 pathogenic missense variants from somatic missense hotspots in 153 cancer driver genes that not annotated in the training data; and 533 benign variants from the same genes, randomly selected from ClinVar and PrimateAI that not overlapping with training dataset (Table 2)."
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "experiment",
+        "state_before": "Pretrained model available.",
+        "gap_or_uncertainty": "Need to evaluate molecular mode-of-action prediction.",
+        "hypothesis": "Transfer learning from pathogenicity will improve molecular mode-of-action prediction.",
+        "decision": "Fine-tune PreMode on DMS data and compare with baselines.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "PreMode transfer learning",
+          "version": "1.0",
+          "category": "deep_learning"
+        },
+        "parameters": {
+          "training_data": "~40% of DMS variants per gene",
+          "validation_data": "~10%",
+          "test_data": "~50%"
+        },
+        "observation": "PreMode outperformed all methods with Spearman correlation ~0.6; transfer learning saturates at ~40% of DMS data (~2000 variants).",
+        "result_status": "success",
+        "next_step_reason": "Success in molecular tasks leads to application on genetic mode-of-action.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E03_01",
+            "source_file": "docs/0033/combined.md",
+            "section": "C002",
+            "quote_or_span": "PreMode outperformed all methods with higher Spearman correlation (Fig. 4a) on all the assays of 8 genes."
+          },
+          {
+            "evidence_id": "EV_C002_E03_02",
+            "source_file": "docs/0033/combined.md",
+            "section": "C002",
+            "quote_or_span": "PreMode is able to accurately predict variant effects of all missense variants with around 40% (-2000) of variants measured inside one gene, after which increasing the number of data points will have minimal improvement"
+          },
+          {
+            "evidence_id": "EV_AUTO_034",
+            "source_file": "docs/0033/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Overall, PreMode is able to accurately predict variant effects of all missense variants with around 40% (-2000) of variants measured inside one gene, after which increasing the number of data points will have minimal improvement on the performance in the testing dataset (Fig."
+          },
+          {
+            "evidence_id": "EV_C002_E07_01",
+            "source_file": "docs/0033/combined.md",
+            "section": "C002",
+            "quote_or_span": "Pretrained PreMode is better than non-pretrained model for all genes except FGFR2, where all three models have average AUC lower than 0.6"
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "experiment",
+        "state_before": "Molecular mode-of-action prediction successful.",
+        "gap_or_uncertainty": "Need to evaluate genetic mode-of-action (GoF/LoF) prediction.",
+        "hypothesis": "PreMode can predict genetic mode-of-action with high AUC.",
+        "decision": "Fine-tune PreMode on GoF/LoF data per gene and compare with baselines.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "PreMode genetic mode-of-action",
+          "version": "1.0",
+          "category": "deep_learning"
+        },
+        "parameters": {
+          "training_data": "80% of GoF/LoF variants per gene",
+          "test_data": "20%",
+          "genes": "RET, KCNJ11, CACNA1A, BRAF, SCN5A, SCN2A, TP53, ABCC8, FGFR2"
+        },
+        "observation": "PreMode achieved AUC 0.8–0.9 in RET, KCNJ11, CACNA1A, BRAF and 0.7–0.8 in SCN5A, SCN2A, TP53, ABCC8, outperforming random forest and non-pretrained models.",
+        "result_status": "success",
+        "next_step_reason": "Cross-gene model failure contrasts with per-gene success.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E05_01",
+            "source_file": "docs/0033/combined.md",
+            "section": "C002",
+            "quote_or_span": "PreMode performed better in all the genes than baseline methods. It reached average AUC of 0.8–0.9 in genes RET, KCNJ11, CACNA1A and BRAF, average AUCs of 0.7–0.8 in SCN5A, SCN2A, TP53, and ABCC8"
+          },
+          {
+            "evidence_id": "EV_C003_E01_01",
+            "source_file": "docs/0033/combined.md",
+            "section": "C003",
+            "quote_or_span": "PreMode performed better in all the genes than baseline methods. It reached average AUC of 0.8–0.9 in genes RET, KCNJ11, CACNA1A and BRAF, average AUCs of 0.7–0.8 in SCN5A, SCN2A, TP53, and ABCC8"
+          },
+          {
+            "evidence_id": "EV_C003_E03_01",
+            "source_file": "docs/0033/combined.md",
+            "section": "C003",
+            "quote_or_span": "PreMode has similar performance as LoGoFunc in CACNA1A but better in all other genes"
+          },
+          {
+            "evidence_id": "EV_C003_E04_01",
+            "source_file": "docs/0033/combined.md",
+            "section": "C003",
+            "quote_or_span": "PreMode is better than funNCion in all three genes SCN2A, SCN5A, CACNA1A"
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "experiment",
+        "state_before": "Ablation shows feature importance; data efficiency is key.",
+        "gap_or_uncertainty": "Can PreMode learn from very few labeled variants?",
+        "hypothesis": "PreMode outperforms random forest in few-shot transfer learning.",
+        "decision": "Downsample training data to 10% and compare with random forest.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "few-shot learning",
+          "version": "",
+          "category": "deep_learning"
+        },
+        "parameters": {
+          "training_data": "10% of whole dataset"
+        },
+        "observation": "PreMode's overall performances in 9 genes were better than random forest even with only 10% of training data.",
+        "result_status": "success",
+        "next_step_reason": "Few-shot success leads to domain-based transfer validation.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E07_01",
+            "source_file": "docs/0033/combined.md",
+            "section": "C003",
+            "quote_or_span": "PreMode's overall performances in 9 genes were better than random forest even if we down sample the training data to 10% of whole dataset"
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "validation",
+        "state_before": "Few-shot learning successful.",
+        "gap_or_uncertainty": "Can domain-based transfer improve performance?",
+        "hypothesis": "Using data from same domain across genes improves performance over gene-only training.",
+        "decision": "Perform domain-based transfer learning (ion transport, tyrosine kinase, growth factor receptor domains).",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "domain-based transfer learning",
+          "version": "",
+          "category": "deep_learning"
+        },
+        "parameters": {
+          "domains": "ion transport domains, tyrosine protein kinase domains, growth factor receptor domains"
+        },
+        "observation": "Increased performance in all domains when using data across genes rather than gene alone.",
+        "result_status": "success",
+        "next_step_reason": "Validation enables detailed analysis of PTEN variant effects.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E08_01",
+            "source_file": "docs/0033/combined.md",
+            "section": "C003",
+            "quote_or_span": "We observed increased performance in all of the domains when using data across genes rather than using the gene alone"
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "analysis",
+        "state_before": "Domain-based transfer validated.",
+        "gap_or_uncertainty": "Can PreMode distinguish stability vs. function effects?",
+        "hypothesis": "PreMode can identify variants that only disrupt stability but not enzyme function, and vice versa.",
+        "decision": "Analyze PTEN variant predictions.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "case study",
+          "version": "",
+          "category": "bioinformatics"
+        },
+        "parameters": {
+          "gene": "PTEN",
+          "variants": "C124S, G129E, R130G"
+        },
+        "observation": "PreMode identified variants that only disrupt stability but not enzyme function, and vice versa, in PTEN.",
+        "result_status": "success",
+        "next_step_reason": "Analysis reveals limitation of binary G/LoF prediction.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E01_01",
+            "source_file": "docs/0033/combined.md",
+            "section": "C004",
+            "quote_or_span": "PreMode identified variants that only disrupt stability but not enzyme function"
+          },
+          {
+            "evidence_id": "EV_C004_E01_02",
+            "source_file": "docs/0033/combined.md",
+            "section": "C004",
+            "quote_or_span": "PreMode identified variants that only disrupt enzyme function but not stability, all located in the phosphatase domain"
+          },
+          {
+            "evidence_id": "EV_AUTO_001",
+            "source_file": "docs/0033/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "In fact, three known dominant negative variants in PTEN (C124S, G129E, and R130G) $^{76,77}$ were successfully predicted by PreMode to maintain stability while causing loss of enzyme function, among which G129E was not in the training data."
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "revision",
+        "state_before": "PTEN analysis shows nuanced effects.",
+        "gap_or_uncertainty": "Binary G/LoF prediction does not capture full complexity.",
+        "hypothesis": "PreMode's binary output is a limitation.",
+        "decision": "Acknowledge limitation and suggest future multi-class or continuous prediction.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "limitation analysis",
+          "version": "",
+          "category": "reasoning"
+        },
+        "parameters": {},
+        "observation": "PreMode currently predicts a binary label as G/LoF, which does not capture the complexity of protein functional changes.",
+        "result_status": "partial",
+        "next_step_reason": "Binary limitation relates to static structure limitation in low pLDDT regions.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E03_01",
+            "source_file": "docs/0033/combined.md",
+            "section": "C004",
+            "quote_or_span": "PreMode currently predicts a binary label as G/LoF. This is a limitation as it does not capture the complexity of protein functional changes."
+          }
+        ]
+      },
+      {
+        "step_index": 12,
+        "phase": "experiment",
+        "state_before": "Data efficiency is crucial; active learning could help.",
+        "gap_or_uncertainty": "Can active learning improve data efficiency for molecular mode-of-action?",
+        "hypothesis": "Iteratively selecting variants with highest model uncertainty improves data efficiency.",
+        "decision": "Perform active learning experiments on GFP.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "active learning",
+          "version": "",
+          "category": "deep_learning"
+        },
+        "parameters": {
+          "gene": "GFP",
+          "selection": "top 10% most uncertain variants each round",
+          "initial_data": "10% of training data"
+        },
+        "observation": "Active learning improved data efficiency; achieved Spearman correlation 0.69 with 40% data on GFP.",
+        "result_status": "success",
+        "next_step_reason": "Active learning shows promise for further data efficiency.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C005_E07_01",
+            "source_file": "docs/0033/combined.md",
+            "section": "C005",
+            "quote_or_span": "Then we selected the top 10% of data among the rest of training data where PreMode was most unconfident and added them to the next round of training."
+          },
+          {
+            "evidence_id": "EV_C002_E03_02",
+            "source_file": "docs/0033/combined.md",
+            "section": "C002",
+            "quote_or_span": "PreMode is able to accurately predict variant effects of all missense variants with around 40% (-2000) of variants measured inside one gene, after which increasing the number of data points will have minimal improvement"
+          },
+          {
+            "evidence_id": "EV_AUTO_034",
+            "source_file": "docs/0033/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Overall, PreMode is able to accurately predict variant effects of all missense variants with around 40% (-2000) of variants measured inside one gene, after which increasing the number of data points will have minimal improvement on the performance in the testing dataset (Fig."
+          },
+          {
+            "evidence_id": "EV_AUTO_008",
+            "source_file": "docs/0033/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "We split the DMS experiment datasets to \\~40% of training data, \\~10% of validation data and \\~50% of testing data the same way as previous methods $^{79-81}$ ."
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "Independent test sets for pathogenicity (cancer hotspots vs. benign)",
+        "Hold-out test sets for molecular mode-of-action (50% of DMS data)",
+        "Hold-out test sets for genetic mode-of-action (20% of GoF/LoF per gene)",
+        "Cross-gene validation",
+        "Domain-based transfer validation",
+        "Few-shot learning experiments",
+        "Active learning experiments"
+      ],
+      "metrics": [
+        "AUROC for pathogenicity (0.932)",
+        "Spearman correlation for molecular mode-of-action (~0.6)",
+        "AUC for genetic mode-of-action (0.7-0.9)",
+        "Data efficiency (saturation at ~40% DMS data)",
+        "Few-shot performance (better than random forest with 10% data)",
+        "Active learning Spearman correlation (0.69 with 40% data on GFP)"
+      ],
+      "final_conclusion": "PreMode effectively predicts mode-of-action of missense variants by leveraging deep graph representation learning of protein sequence and structural context, with strong performance in both molecular and genetic tasks, though limitations remain in binary prediction and static structure representation.",
+      "limitations": [
+        "Binary G/LoF prediction oversimplifies functional complexity.",
+        "Lower performance for genes with variants in low pLDDT regions due to static structure.",
+        "Cross-gene model fails due to gene-specific mechanisms and data imbalance.",
+        "FGFR2 performance low (AUC <0.6) for all models."
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_step_trimmed=17_to_12",
+        "v22_specific_evidence_backfilled=4",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_step_trimmed=13_to_12",
+        "v22_specific_evidence_backfilled=4",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 100.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_mainline_batch30_p4\\states\\0033.json",
+  "events_path": "outputs\\agentic_v22\\v22_mainline_batch30_p4\\events\\0033.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1,
+          11
+        ],
+        "K03": [
+          2,
+          6,
+          7
+        ],
+        "K04": [
+          2
+        ],
+        "K06": [
+          4
+        ],
+        "K07": [
+          5
+        ],
+        "K08": [
+          3,
+          5,
+          6,
+          7,
+          12
+        ],
+        "K09": [
+          7
+        ],
+        "K13": [
+          3,
+          6,
+          7,
+          8,
+          9
+        ],
+        "K14": [
+          8,
+          9
+        ],
+        "K15": [
+          10
+        ],
+        "K17": [
+          11
+        ],
+        "K18": [
+          6,
+          12
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02",
+            "K16"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K03",
+            "K04"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K05",
+            "K08",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K06"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K07",
+            "K08"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K03",
+            "K08",
+            "K11",
+            "K13",
+            "K18"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K03",
+            "K08",
+            "K09",
+            "K10",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K13",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K13",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K15"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K01",
+            "K16",
+            "K17"
+          ]
+        },
+        {
+          "step_index": 12,
+          "covered_event_ids": [
+            "K08",
+            "K18"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 5,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "0.932"
+        ]
+      },
+      {
+        "step_index": 6,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "2000"
+        ]
+      },
+      {
+        "step_index": 12,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "0.69"
+        ]
+      }
+    ],
+    "step_count": 12,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 100.0
+  },
+  "api_usage": {
+    "prompt_tokens": 145368,
+    "completion_tokens": 31622,
+    "total_tokens": 176990,
+    "prompt_cache_hit_tokens": 17280,
+    "prompt_cache_miss_tokens": 128088
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 6182,
+        "completion_tokens": 843,
+        "total_tokens": 7025,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 6182
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 16385,
+        "completion_tokens": 3500,
+        "total_tokens": 19885,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 16385
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 8585,
+        "completion_tokens": 1419,
+        "total_tokens": 10004,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8329
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 8694,
+        "completion_tokens": 1443,
+        "total_tokens": 10137,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8438
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 8712,
+        "completion_tokens": 1352,
+        "total_tokens": 10064,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8456
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 8230,
+        "completion_tokens": 1494,
+        "total_tokens": 9724,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7974
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C005",
+      "api_usage": {
+        "prompt_tokens": 8727,
+        "completion_tokens": 1216,
+        "total_tokens": 9943,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8471
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C006",
+      "api_usage": {
+        "prompt_tokens": 8011,
+        "completion_tokens": 59,
+        "total_tokens": 8070,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7755
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 13301,
+        "completion_tokens": 3883,
+        "total_tokens": 17184,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 12917
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 14744,
+        "completion_tokens": 8180,
+        "total_tokens": 22924,
+        "prompt_tokens_details": {
+          "cached_tokens": 14720
+        },
+        "prompt_cache_hit_tokens": 14720,
+        "prompt_cache_miss_tokens": 24
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 20233,
+        "completion_tokens": 1152,
+        "total_tokens": 21385,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 20233
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 23564,
+        "completion_tokens": 7081,
+        "total_tokens": 30645,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 22924
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

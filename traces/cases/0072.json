@@ -1,0 +1,757 @@
+{
+  "case": {
+    "case_id": "sci_evo_0072",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Development of a genetically programed vanillin-sensing bacterium for high-throughput screening of lignin-degrading enzyme libraries",
+      "doi": "https://doi.org/10.1186/s13068-017-0720-5",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0070_10_1186_s13068_017_0720_5_development_of_a_genetically_programed_vanillin_sensing_bacterium_for_high_throughput_scre.pdf",
+      "mineru_md": "docs/0072/mineru.md",
+      "combined_md": "docs/0072/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Lack of high-throughput screening methods for direct detection of vanillin production limits directed evolution of lignin-degrading enzymes.",
+      "target_object": "vanillin-sensing biosensor",
+      "known_context": "Robust methods for detecting the conversion of lignin to desired small molecules are not available.",
+      "constraints": [
+        "Must detect vanillin directly from lignin degradation",
+        "Must be compatible with high-throughput screening"
+      ],
+      "input_data": [
+        "RNAseq data of E. coli exposed to vanillin"
+      ],
+      "quantifiable_goals": [
+        "Detect vanillin at concentrations relevant to enzyme activity",
+        "Achieve sufficient fold induction for FACS-based screening"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "No robust high-throughput method exists for directly detecting vanillin from lignin degradation.",
+        "gap_or_uncertainty": "How to transduce vanillin concentration into a measurable signal for high-throughput screening.",
+        "hypothesis": "A vanillin-inducible promoter can be used to create a biosensor that transduces vanillin concentration to reporter gene expression.",
+        "decision": "Develop a genetically encoded biosensor using a vanillin-inducible promoter driving a fluorescent reporter.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "conceptual design",
+          "version": "",
+          "category": "reasoning"
+        },
+        "parameters": {},
+        "observation": "Development of a biosensor that can detect a lignin degradation product by transducing the metabolite concentration to reporter gene expression would be useful.",
+        "result_status": "success",
+        "next_step_reason": "Identify candidate vanillin-inducible promoters from transcriptomic data.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0072/combined.md",
+            "section": "C001",
+            "quote_or_span": "robust methods for detecting the conversion of lignin to desired small molecules are not available"
+          },
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0072/combined.md",
+            "section": "C001",
+            "quote_or_span": "Development of a biosensor that can detect a lignin degradation product by transducing the metabolite concentration to reporter gene expression would be useful"
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "design",
+        "state_before": "Hypothesis formulated; need to identify and clone vanillin-responsive promoters.",
+        "gap_or_uncertainty": "Which promoters are up-regulated by vanillin and can drive sufficient reporter expression.",
+        "hypothesis": "Putative promoter regions (first 300 bp upstream) of top seven up-regulated genes from RNAseq can function as vanillin-inducible promoters.",
+        "decision": "Clone the first 300 bp upstream of each of the top seven up-regulated genes into a pUC19-based plasmid with vGFP and a strong g10 RBS.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "molecular cloning",
+          "version": "",
+          "category": "genetic engineering"
+        },
+        "parameters": {
+          "promoter_length": "300 bp",
+          "reporter": "vGFP",
+          "plasmid_backbone": "pUC19",
+          "RBS": "g10"
+        },
+        "observation": "Seven plasmid constructs were designed, each with a different putative promoter region upstream of vGFP.",
+        "result_status": "success",
+        "next_step_reason": "Transform constructs into E. coli and screen for vanillin-induced fluorescence.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E03_01",
+            "source_file": "docs/0072/combined.md",
+            "section": "C001",
+            "quote_or_span": "The putative promoter regions of the top seven up-regulated genes were arbitrarily predicted to be located within the first 300 bp of the non-coding region immediately upstream of the up-regulated genes"
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "experiment",
+        "state_before": "Seven plasmid constructs designed; need to test their response to vanillin.",
+        "gap_or_uncertainty": "Which construct yields the highest fold induction and lowest background.",
+        "hypothesis": "At least one of the seven constructs will show significant vanillin-dependent fluorescence increase.",
+        "decision": "Transform E. coli BL21 with each construct, induce with 5 mM vanillin, and measure fluorescence.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "fluorescence assay",
+          "version": "",
+          "category": "biosensor characterization"
+        },
+        "parameters": {
+          "vanillin_concentration": "5 mM",
+          "strain": "E. coli BL21"
+        },
+        "observation": "Lcb5 (yeiW promoter) showed 4.3-fold induction; Lcb4 (proA promoter) showed high background and only 1.8-fold induction.",
+        "result_status": "partial",
+        "next_step_reason": "Select Lcb5 as the VSC biosensor for further characterization; note Lcb4 as a failure.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E04_01",
+            "source_file": "docs/0072/combined.md",
+            "section": "C001",
+            "quote_or_span": "Seven live cell biosensors (Lcb1–Lcb7) were developed by transforming chemically competent E. coli BL21 cells with seven plasmid constructs"
+          },
+          {
+            "evidence_id": "EV_AUTO_021",
+            "source_file": "docs/0072/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The biosensor Lcb5 constructed with the putative promoter region upstream of the yeiW gene showed higher fluorescence enhancement (4.3 fold) compared to Lcb4 that was made with the putative promoter region upstream of the proA gene."
+          },
+          {
+            "evidence_id": "EV_AUTO_020",
+            "source_file": "docs/0072/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Lcb4 showed high background fluorescence with 1.8-fold fluorescence enhancement."
+          },
+          {
+            "evidence_id": "EV_C003_E01_01",
+            "source_file": "docs/0072/combined.md",
+            "section": "C003",
+            "quote_or_span": "Response of the biosensor to 5 mM vanillin was not abruptly affected by the presence of 5 mg/ml alkaline kraft lignin alone or in combination with 5 mM each of acetosyringone, acetovanillone, guaiacol, syringaldehyde and vanillyl alcohol."
+          },
+          {
+            "evidence_id": "EV_C002_E05_01",
+            "source_file": "docs/0072/combined.md",
+            "section": "C002",
+            "quote_or_span": "To study its performance in real lignin-degrading condition, the biosensor was also treated with two mixtures: (1) 5 mg/ml alkaline kraft lignin and 5 mM vanillin and (2) 5 mg/ml alkaline kraft lignin and 5 mM each of acetosyringone, acetovanillone, guaiacol, syringaldehyde, vanillyl alcohol and vanillin."
+          },
+          {
+            "evidence_id": "EV_C003_E03_02",
+            "source_file": "docs/0072/combined.md",
+            "section": "C003",
+            "quote_or_span": "vanillin inhibited the growth of the biosensor at 5 mM concentration but the cells recovered from initial toxicity and entered log phase after 6 h."
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "experiment",
+        "state_before": "Lcb5 selected as VSC biosensor; need to determine its sensitivity and dynamic range.",
+        "gap_or_uncertainty": "What is the detection limit and dose-response profile of the VSC biosensor.",
+        "hypothesis": "The biosensor will show a dose-dependent increase in fluorescence with vanillin concentration.",
+        "decision": "Test VSC biosensor with vanillin concentrations from 0 to 5 mM and measure fluorescence by FACS.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "FACS",
+          "version": "",
+          "category": "flow cytometry"
+        },
+        "parameters": {
+          "vanillin_concentrations": "0, 0.2, 0.5, 1.0, 3.0, 5.0 mM"
+        },
+        "observation": "Dose-dependent response observed; detection limit of 200 µM vanillin by FACS.",
+        "result_status": "success",
+        "next_step_reason": "Validate specificity against lignin and related compounds.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E01_01",
+            "source_file": "docs/0072/combined.md",
+            "section": "C002",
+            "quote_or_span": "The VSC biosensor was then tested against different concentrations of vanillin to determine its detection threshold."
+          },
+          {
+            "evidence_id": "EV_C004_E02_01",
+            "source_file": "docs/0072/combined.md",
+            "section": "C004",
+            "quote_or_span": "detecting as low as 200 $\\mu$ M vanillin by FACS"
+          },
+          {
+            "evidence_id": "EV_C003_E01_01",
+            "source_file": "docs/0072/combined.md",
+            "section": "C003",
+            "quote_or_span": "Response of the biosensor to 5 mM vanillin was not abruptly affected by the presence of 5 mg/ml alkaline kraft lignin alone or in combination with 5 mM each of acetosyringone, acetovanillone, guaiacol, syringaldehyde and vanillyl alcohol."
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "validation",
+        "state_before": "Biosensor sensitivity established; need to ensure it responds specifically to vanillin.",
+        "gap_or_uncertainty": "Does the biosensor cross-react with lignin, vanillin analogues, or other chemicals.",
+        "hypothesis": "The biosensor is highly specific to vanillin and will not respond to lignin or analogues.",
+        "decision": "Test biosensor response to lignin, lignin model compound, DMSO, vanillin analogues, and non-specific toxic chemicals.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "fluorescence assay",
+          "version": "",
+          "category": "biosensor characterization"
+        },
+        "parameters": {
+          "tested_compounds": "lignin, lignin model compound, DMSO, vanillin analogues, non-specific toxic chemicals"
+        },
+        "observation": "No major response elicited by any of the tested compounds; biosensor is highly specific to vanillin.",
+        "result_status": "success",
+        "next_step_reason": "Test performance in complex mixtures mimicking real lignin degradation conditions.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E07_01",
+            "source_file": "docs/0072/combined.md",
+            "section": "C001",
+            "quote_or_span": "The biosensor is highly specific to vanillin and no major response is elicited by the presence of lignin, lignin model compound, DMSO, vanillin analogues or non-specific toxic chemicals"
+          },
+          {
+            "evidence_id": "EV_C004_E03_01",
+            "source_file": "docs/0072/combined.md",
+            "section": "C004",
+            "quote_or_span": "This biosensor does not show any cross-reactivity to lignin, vanillin analogues or non-specific toxic chemicals."
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "experiment",
+        "state_before": "Specificity validated; need to assess performance in the presence of lignin and other degradation products.",
+        "gap_or_uncertainty": "Will the biosensor function accurately in complex mixtures containing lignin and multiple degradation products.",
+        "hypothesis": "The biosensor response to vanillin will not be significantly affected by the presence of lignin and other degradation products.",
+        "decision": "Treat biosensor with two mixtures: (1) lignin + vanillin, (2) lignin + all degradation products + vanillin, and measure fluorescence.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "fluorescence assay",
+          "version": "",
+          "category": "biosensor characterization"
+        },
+        "parameters": {
+          "mixture_1": "5 mg/ml alkaline kraft lignin + 5 mM vanillin",
+          "mixture_2": "5 mg/ml alkaline kraft lignin + 5 mM each of acetosyringone, acetovanillone, guaiacol, syringaldehyde, vanillyl alcohol, vanillin"
+        },
+        "observation": "Fluorescence in mixtures was comparable to vanillin alone, with only 5–10% reduction.",
+        "result_status": "success",
+        "next_step_reason": "Test toxicity of lignin degradation products on the biosensor.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E05_01",
+            "source_file": "docs/0072/combined.md",
+            "section": "C002",
+            "quote_or_span": "To study its performance in real lignin-degrading condition, the biosensor was also treated with two mixtures: (1) 5 mg/ml alkaline kraft lignin and 5 mM vanillin and (2) 5 mg/ml alkaline kraft lignin and 5 mM each of acetosyringone, acetovanillone, guaiacol, syringaldehyde, vanillyl alcohol and vanillin."
+          },
+          {
+            "evidence_id": "EV_C003_E01_01",
+            "source_file": "docs/0072/combined.md",
+            "section": "C003",
+            "quote_or_span": "Response of the biosensor to 5 mM vanillin was not abruptly affected by the presence of 5 mg/ml alkaline kraft lignin alone or in combination with 5 mM each of acetosyringone, acetovanillone, guaiacol, syringaldehyde and vanillyl alcohol."
+          },
+          {
+            "evidence_id": "EV_C003_E01_02",
+            "source_file": "docs/0072/combined.md",
+            "section": "C003",
+            "quote_or_span": "about 5–10% less fluorescence was observed when the sensor was treated with the mixtures in comparison to treatment with vanillin alone"
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "experiment",
+        "state_before": "Biosensor performs well in mixtures; need to ensure it can survive and function in the presence of toxic degradation products.",
+        "gap_or_uncertainty": "Are lignin degradation products toxic to the biosensor at relevant concentrations.",
+        "hypothesis": "The biosensor will tolerate lignin degradation products up to 20 mM, with vanillin causing only temporary growth inhibition.",
+        "decision": "Grow biosensor in the presence of various lignin degradation products at concentrations up to 20 mM and monitor growth.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "growth assay",
+          "version": "",
+          "category": "toxicity testing"
+        },
+        "parameters": {
+          "tested_compounds": "lignin degradation products, acrylic acid",
+          "concentrations": "up to 20 mM"
+        },
+        "observation": "No major toxicity up to 20 mM; vanillin inhibited growth at 5 mM but cells recovered after 6 h; no recovery at 10 mM or higher within 9 h.",
+        "result_status": "partial",
+        "next_step_reason": "Analyze vanillin's antimicrobial mode to understand recovery.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E07_01",
+            "source_file": "docs/0072/combined.md",
+            "section": "C002",
+            "quote_or_span": "Toxicity of various lignin degradation products and the non-specific chemical acrylic acid was determined by growing the live cell biosensor in the presence of various concentrations of each chemical."
+          },
+          {
+            "evidence_id": "EV_C003_E03_02",
+            "source_file": "docs/0072/combined.md",
+            "section": "C003",
+            "quote_or_span": "vanillin inhibited the growth of the biosensor at 5 mM concentration but the cells recovered from initial toxicity and entered log phase after 6 h."
+          },
+          {
+            "evidence_id": "EV_C003_E03_03",
+            "source_file": "docs/0072/combined.md",
+            "section": "C003",
+            "quote_or_span": "the biosensing cells could not recover within the study time (9 h) from growth inhibition at vanillin concentrations of 10 mM or higher"
+          },
+          {
+            "evidence_id": "EV_C004_E04_01",
+            "source_file": "docs/0072/combined.md",
+            "section": "C004",
+            "quote_or_span": "No major lignin degradation product showed significant toxicity towards the biosensor when treated with up to 20 mM concentration."
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "analysis",
+        "state_before": "Vanillin causes temporary growth inhibition; need to understand the nature of this effect.",
+        "gap_or_uncertainty": "Is vanillin's antimicrobial effect bacteriostatic or bactericidal, and how does this impact biosensor viability.",
+        "hypothesis": "Vanillin's growth inhibition is bacteriostatic, allowing cells to recover and remain viable for sensing.",
+        "decision": "Interpret growth recovery data in the context of known antimicrobial mechanisms.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "literature analysis",
+          "version": "",
+          "category": "data interpretation"
+        },
+        "parameters": {},
+        "observation": "Microbial growth inhibition by vanillin is bacteriostatic in nature rather than bactericidal.",
+        "result_status": "success",
+        "next_step_reason": "Acknowledge limitation that biosensor has not been demonstrated in actual enzyme screening.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E04_01",
+            "source_file": "docs/0072/combined.md",
+            "section": "C003",
+            "quote_or_span": "microbial growth inhibition by vanillin is bacteriostatic in nature rather than bactericidal"
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "analysis",
+        "state_before": "Biosensor characterized; need to identify limitations and propose future applications.",
+        "gap_or_uncertainty": "The biosensor has not been tested in actual enzyme screening; detection limit may be insufficient for low-activity enzymes.",
+        "hypothesis": "The biosensor can be used as a host cell for screening lignin-degrading enzymes, but its detection range may limit selection of certain mutants.",
+        "decision": "Propose the biosensor as a host cell for screening, while noting the detection limit as a potential limitation.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "critical assessment",
+          "version": "",
+          "category": "limitation analysis"
+        },
+        "parameters": {},
+        "observation": "The biosensor could potentially be used for screening, but may not select mutants producing very low (<0.5 mM) or very high (>5 mM) vanillin.",
+        "result_status": "partial",
+        "next_step_reason": "Conclude with proposal for future use.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E08_01",
+            "source_file": "docs/0072/combined.md",
+            "section": "C001",
+            "quote_or_span": "This engineered E. coli cell could potentially be used as a host cell for screening lignin-degrading enzymes"
+          },
+          {
+            "evidence_id": "EV_C004_E01_01",
+            "source_file": "docs/0072/combined.md",
+            "section": "C004",
+            "quote_or_span": "We propose the use of this biosensor as a host cell for screening of lignin-degrading enzymes from randomized libraries and metagenomic samples."
+          },
+          {
+            "evidence_id": "EV_AUTO_005",
+            "source_file": "docs/0072/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "may be a limitation in selecting for mutants that can produce very low (<0.5 mM) or very high (>5 mM) concentrations of vanillin."
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "validation",
+        "state_before": "Biosensor validated for specificity, sensitivity, and robustness; ready for proposed application.",
+        "gap_or_uncertainty": "Can the biosensor be recommended as a host cell for high-throughput screening of lignin-degrading enzymes.",
+        "hypothesis": "The VSC biosensor is suitable as a host cell for screening lignin-degrading enzymes from randomized libraries and metagenomic samples.",
+        "decision": "Propose the biosensor for screening applications based on accumulated evidence.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "proposal",
+          "version": "",
+          "category": "application recommendation"
+        },
+        "parameters": {},
+        "observation": "The biosensor is proposed as a host cell for screening lignin-degrading enzymes.",
+        "result_status": "success",
+        "next_step_reason": "End of trajectory.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E05_01",
+            "source_file": "docs/0072/combined.md",
+            "section": "C004",
+            "quote_or_span": "We propose the use of this biosensor as a host cell for screening of lignin-degrading enzymes from randomized libraries and metagenomic samples."
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "Dose-response curve",
+        "Cross-reactivity testing",
+        "Performance in complex mixtures",
+        "Toxicity assays"
+      ],
+      "metrics": [
+        "Fold induction (4.3-fold at 5 mM vanillin)",
+        "Detection limit (200 µM by FACS)",
+        "Specificity (no cross-reactivity to lignin or analogues)",
+        "Tolerance (up to 20 mM of degradation products)"
+      ],
+      "final_conclusion": "A vanillin-sensing biosensor (VSC) was developed using the yeiW promoter, demonstrating high specificity, dose-dependent response, and robustness in lignin degradation mixtures, and is proposed as a host cell for high-throughput screening of lignin-degrading enzymes.",
+      "limitations": [
+        "Not yet demonstrated in actual enzyme screening experiments",
+        "Detection limit of 200 µM may be insufficient for low-activity enzymes",
+        "Vanillin toxicity at high concentrations (>5 mM) may limit dynamic range"
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_specific_evidence_backfilled=4",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_specific_evidence_backfilled=4",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 100.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p1\\states\\0072.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p1\\events\\0072.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1
+        ],
+        "K02": [
+          1,
+          2
+        ],
+        "K03": [
+          2
+        ],
+        "K04": [
+          3
+        ],
+        "K05": [
+          3
+        ],
+        "K06": [
+          3,
+          4,
+          9
+        ],
+        "K07": [
+          5
+        ],
+        "K08": [
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "K09": [
+          3,
+          5,
+          6,
+          7
+        ],
+        "K10": [
+          8
+        ],
+        "K12": [
+          8,
+          9
+        ],
+        "K14": [
+          9,
+          10
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K02",
+            "K03"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K04",
+            "K05",
+            "K06",
+            "K08",
+            "K09"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K06",
+            "K08"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K07",
+            "K08",
+            "K09"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K08",
+            "K09"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K08",
+            "K09"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K10",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K06",
+            "K12",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K14"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 3,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "4.3"
+        ]
+      }
+    ],
+    "step_count": 10,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 100.0
+  },
+  "api_usage": {
+    "prompt_tokens": 99417,
+    "completion_tokens": 23931,
+    "total_tokens": 123348,
+    "prompt_cache_hit_tokens": 2688,
+    "prompt_cache_miss_tokens": 96729
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 5434,
+        "completion_tokens": 882,
+        "total_tokens": 6316,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 5434
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 7719,
+        "completion_tokens": 3277,
+        "total_tokens": 10996,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 7719
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 7767,
+        "completion_tokens": 1394,
+        "total_tokens": 9161,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7511
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 8423,
+        "completion_tokens": 1556,
+        "total_tokens": 9979,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8167
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 7932,
+        "completion_tokens": 1571,
+        "total_tokens": 9503,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7676
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 7876,
+        "completion_tokens": 839,
+        "total_tokens": 8715,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7620
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 10184,
+        "completion_tokens": 3100,
+        "total_tokens": 13284,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 9800
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 10808,
+        "completion_tokens": 5134,
+        "total_tokens": 15942,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 10168
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 15342,
+        "completion_tokens": 950,
+        "total_tokens": 16292,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 15342
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 17932,
+        "completion_tokens": 5228,
+        "total_tokens": 23160,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 17292
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

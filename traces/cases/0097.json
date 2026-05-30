@@ -1,0 +1,883 @@
+{
+  "case": {
+    "case_id": "sci_evo_0097",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "SESNet: sequence-structure feature-integrated deep learning method for data-efficient protein engineering",
+      "doi": "https://doi.org/10.1186/s13321-023-00688-x",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0095_10_1186_s13321_023_00688_x_sesnet_sequence_structure_feature_integrated_deep_learning_method_for_data_efficient_prote.pdf",
+      "mineru_md": "docs/0097/mineru.md",
+      "combined_md": "docs/0097/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Predicting protein fitness for high-order mutants with limited experimental data.",
+      "target_object": "protein fitness landscape",
+      "known_context": "Deep learning has been widely used for protein engineering. However, it is limited by the lack of sufficient experimental data to train an accurate model for predicting the functional fitness of high-order mutants.",
+      "constraints": [
+        "Limited experimental data available for training"
+      ],
+      "input_data": [
+        "Deep mutational scanning (DMS) datasets",
+        "Multiple sequence alignments (MSAs)",
+        "Protein structures"
+      ],
+      "quantifiable_goals": [
+        "Achieve high Spearman correlation on fitness prediction across DMS datasets",
+        "Outperform state-of-the-art models on high-order mutant prediction"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "Deep learning models for protein fitness prediction require large experimental datasets, which are scarce for high-order mutants.",
+        "gap_or_uncertainty": "How to accurately predict fitness of high-order mutants with limited experimental data?",
+        "hypothesis": "Integrating sequence and structure information with an attention mechanism can improve prediction accuracy.",
+        "decision": "Develop a supervised deep-learning model (SESNet) that leverages local evolutionary context, global sequence features, and structure information.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "SESNet architecture design",
+          "version": "initial",
+          "category": "deep_learning_model"
+        },
+        "parameters": {
+          "local_encoder": "Potts model on MSA",
+          "global_encoder": "ESM-1b",
+          "structure_module": "ESM-IF1",
+          "attention_mechanism": "combined sequence and structure attention"
+        },
+        "observation": "Model architecture defined to integrate multiple information sources.",
+        "result_status": "success",
+        "next_step_reason": "Need to benchmark the designed model against existing methods.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0097/combined.md",
+            "section": "C001",
+            "quote_or_span": "Deep learning has been widely used for protein engineering. However, it is limited by the lack of sufficient experimental data to train an accurate model for predicting the functional fitness of high-order mutants."
+          },
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0097/combined.md",
+            "section": "C001",
+            "quote_or_span": "we develop SESNet, a supervised deep-learning model to predict the fitness for protein mutants by leveraging both sequence and structure information, and exploiting attention mechanism."
+          },
+          {
+            "evidence_id": "EV_C001_E02_02",
+            "source_file": "docs/0097/combined.md",
+            "section": "C001",
+            "quote_or_span": "Our model integrates local evolutionary context from homologous sequences, the global evolutionary context encoding rich semantic from the universal protein sequence space and the structure information accounting for the microenvironment around each residue in a protein."
+          },
+          {
+            "evidence_id": "EV_C003_E05_01",
+            "source_file": "docs/0097/combined.md",
+            "section": "C003",
+            "quote_or_span": "we use Potts model to establish the local encoder"
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "experiment",
+        "state_before": "SESNet architecture designed but not yet evaluated.",
+        "gap_or_uncertainty": "Does SESNet outperform existing models on DMS datasets?",
+        "hypothesis": "SESNet will achieve state-of-the-art performance on fitness prediction across multiple DMS datasets.",
+        "decision": "Benchmark SESNet against supervised (ECNet) and unsupervised (ESM-1b, ESM-1v, MSA transformer) models on 20 DMS datasets.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "five-fold cross-validation",
+          "version": "standard",
+          "category": "evaluation"
+        },
+        "parameters": {
+          "datasets": "20 DMS datasets",
+          "metrics": "Spearman correlation",
+          "training": "low-order mutants for high-order prediction"
+        },
+        "observation": "SESNet achieves best performance in 19 out of 20 datasets and outperforms all models on high-order mutant prediction.",
+        "result_status": "success",
+        "next_step_reason": "Analyze contribution of each model component via ablation study.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E05_01",
+            "source_file": "docs/0097/combined.md",
+            "section": "C001",
+            "quote_or_span": "in 19 out of 20 datasets, the supervised models generally outperform the unsupervised ones as expected, and our model (SESNet) achieves the best performance among all the models."
+          },
+          {
+            "evidence_id": "EV_C001_E05_02",
+            "source_file": "docs/0097/combined.md",
+            "section": "C001",
+            "quote_or_span": "we further explored the ability of our model to predict the fitness of higher-order variants by training it using the experimental results of the low-order variants on 6 datasets of DMS. As shown in Fig. 2B and C, our model outperforms all the other models."
+          },
+          {
+            "evidence_id": "EV_C004_E03_01",
+            "source_file": "docs/0097/combined.md",
+            "section": "C004",
+            "quote_or_span": "we randomly split a given dataset into five folds by randomized shuffling and splitting."
+          },
+          {
+            "evidence_id": "EV_C004_E04_01",
+            "source_file": "docs/0097/combined.md",
+            "section": "C004",
+            "quote_or_span": "We evaluated the performance for predicting the fitness of high-order mutants by the model trained on low-order mutants."
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "analysis",
+        "state_before": "SESNet shows superior performance, but component contributions are unknown.",
+        "gap_or_uncertainty": "Which components of SESNet are most critical for performance?",
+        "hypothesis": "All three components (local, global, structure) contribute positively, with global encoder being most significant.",
+        "decision": "Perform ablation study by removing each component and measuring average Spearman correlation.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "ablation study",
+          "version": "N/A",
+          "category": "model_analysis"
+        },
+        "parameters": {
+          "variants": [
+            "original",
+            "no local encoder",
+            "no global encoder",
+            "no structure module"
+          ]
+        },
+        "observation": "Average Spearman: original 0.672, no local 0.639, no global 0.247, no structure 0.630. Global encoder most significant.",
+        "result_status": "success",
+        "next_step_reason": "Investigate attention weights to understand structure module's role.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E06_01",
+            "source_file": "docs/0097/combined.md",
+            "section": "C001",
+            "quote_or_span": "the average spearman correlation of the original model is 0.672, much higher than that without local encoder (0.639), that without global encoder (0.247) and that without structure module (0.630)."
+          },
+          {
+            "evidence_id": "EV_C001_E06_02",
+            "source_file": "docs/0097/combined.md",
+            "section": "C001",
+            "quote_or_span": "The ablation study reveals that all three components contribute to the improvement of model performance, and the contribution from the global encoder, which captures the sequence feature in global protein sequence universe, is the most significant."
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "analysis",
+        "state_before": "Ablation study shows structure module contributes to performance, but its specific benefit is unclear.",
+        "gap_or_uncertainty": "Does the structure module improve identification of key residues?",
+        "hypothesis": "Attention weights can identify key AA sites, and structure module enhances this identification.",
+        "decision": "Analyze combined attention weights for GFP and RRM, with and without structure module.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "attention weight analysis",
+          "version": "N/A",
+          "category": "model_interpretation"
+        },
+        "parameters": {
+          "proteins": [
+            "GFP",
+            "RRM"
+          ],
+          "key_site_definition": "experimentally discovered top 20 sites or chromophore-forming AAs"
+        },
+        "observation": "5/20 top attention-score sites are key for GFP, 11/20 for RRM. Without structure module, only 3 key residues in top-20 for GFP.",
+        "result_status": "success",
+        "next_step_reason": "Note limitation of structure module for precise structural information.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E07_01",
+            "source_file": "docs/0097/combined.md",
+            "section": "C001",
+            "quote_or_span": "The combined attention weights can be used to measure the importance of each AA site on protein fitness when mutated."
+          },
+          {
+            "evidence_id": "EV_C001_E07_02",
+            "source_file": "docs/0097/combined.md",
+            "section": "C001",
+            "quote_or_span": "one can observe that, at least 5 out of 20 top attention-score A"
+          },
+          {
+            "evidence_id": "EV_C002_E01_01",
+            "source_file": "docs/0097/combined.md",
+            "section": "C002",
+            "quote_or_span": "The combined attention weights can be used to measure the importance of each AA site on protein fitness when mutated."
+          },
+          {
+            "evidence_id": "EV_C002_E01_02",
+            "source_file": "docs/0097/combined.md",
+            "section": "C002",
+            "quote_or_span": "at least 5 out of 20 top attention-score AA sites predicted by our model are the key sites"
+          },
+          {
+            "evidence_id": "EV_AUTO_006",
+            "source_file": "docs/0097/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Figure 3C and Additional file 1: Figure S2A show that 11 out of 20 top attention-score AA sites predicted by our model are the key AAs."
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "analysis",
+        "state_before": "Structure module improves key site identification but has limitations.",
+        "gap_or_uncertainty": "Is the structure module sufficient for capturing precise structural information?",
+        "hypothesis": "Current structure module may not fully capture structural details needed for optimizing fluorescence intensity.",
+        "decision": "Acknowledge limitation based on GFP analysis.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "limitation analysis",
+          "version": "N/A",
+          "category": "model_critique"
+        },
+        "parameters": {},
+        "observation": "Structure module insufficient for capturing precise structural information for GFP fluorescence optimization.",
+        "result_status": "partial",
+        "next_step_reason": "Address data scarcity with a data augmentation strategy.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E04_01",
+            "source_file": "docs/0097/combined.md",
+            "section": "C002",
+            "quote_or_span": "The current structure module in our SESNet is not sufficient to fully capture such information and needs improvement."
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "design",
+        "state_before": "SESNet performs well but requires large experimental data for training.",
+        "gap_or_uncertainty": "How to achieve high accuracy with very limited experimental data (<50 points)?",
+        "hypothesis": "Pre-training on fitness scores from an unsupervised model can provide a good initialization, enabling effective fine-tuning with few experimental data.",
+        "decision": "Propose data augmentation: pre-train SESNet on ESM-IF1 predicted fitness for all single and 30,000 random double mutants, then fine-tune on limited experimental data.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "data augmentation via pre-training",
+          "version": "initial",
+          "category": "training_strategy"
+        },
+        "parameters": {
+          "unsupervised_model": "ESM-IF1",
+          "pre-training_data": "all single-site mutants + 30,000 random double-site mutants",
+          "fine-tuning_data": "<50 experimental data points"
+        },
+        "observation": "Strategy designed to leverage unsupervised predictions for initialization.",
+        "result_status": "success",
+        "next_step_reason": "Test the strategy on GFP dataset.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E04_01",
+            "source_file": "docs/0097/combined.md",
+            "section": "C001",
+            "quote_or_span": "we propose a data augmentation strategy by leveraging the data from unsupervised models to pre-train our model."
+          },
+          {
+            "evidence_id": "EV_C001_E04_02",
+            "source_file": "docs/0097/combined.md",
+            "section": "C001",
+            "quote_or_span": "our model can achieve strikingly high accuracy in prediction of the fitness of protein mutants, especially for the higher order variants (>4 mutation sites), when finetuned by using only a small number of experimental mutation data (<50)."
+          },
+          {
+            "evidence_id": "EV_C002_E05_01",
+            "source_file": "docs/0097/combined.md",
+            "section": "C002",
+            "quote_or_span": "we propose a simple strategy of data augmentation by using the result generated by one unsupervised model to pre-train our model on a given protein, and then fine-tuning it using a limited number of experimental results on the same protein."
+          },
+          {
+            "evidence_id": "EV_C002_E05_02",
+            "source_file": "docs/0097/combined.md",
+            "section": "C002",
+            "quote_or_span": "We used the fitness results of low-order mutants predicted by the unsupervised model, ESM-IF1, to pre-train our model."
+          },
+          {
+            "evidence_id": "EV_C004_E05_02",
+            "source_file": "docs/0097/combined.md",
+            "section": "C004",
+            "quote_or_span": "we first built a mutant library, which contains all the single-site mutants and 30,000 double-site mutants randomly selected from tens of millions of saturated double-site mutants."
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "experiment",
+        "state_before": "Data augmentation strategy designed but not tested.",
+        "gap_or_uncertainty": "Does pre-training on unsupervised predictions improve performance with limited experimental data?",
+        "hypothesis": "Pre-trained SESNet will significantly outperform the original model when fine-tuned on small experimental datasets, especially for high-order mutants.",
+        "decision": "Fine-tune pre-trained SESNet on 40 experimental data points from GFP and evaluate on multi-site mutants.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "fine-tuning with limited data",
+          "version": "N/A",
+          "category": "training_strategy"
+        },
+        "parameters": {
+          "protein": "GFP",
+          "experimental_data_points": 40,
+          "evaluation": "Spearman correlation on multi-site mutants (2-8 sites)"
+        },
+        "observation": "Pre-trained model achieves Spearman 0.5–0.7 for multi-site mutants, outperforming original model and unsupervised model for high-order mutants.",
+        "result_status": "success",
+        "next_step_reason": "Validate strategy on other proteins and with another unsupervised model.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E06_01",
+            "source_file": "docs/0097/combined.md",
+            "section": "C002",
+            "quote_or_span": "the performance of the pre-trained model is significantly improved"
+          },
+          {
+            "evidence_id": "EV_C002_E06_02",
+            "source_file": "docs/0097/combined.md",
+            "section": "C002",
+            "quote_or_span": "the pretrained model can achieve high spearman correlation of 0.5–0.7 for multisite-mutants, even for high-order mutants with 5–8 mutation sites"
+          },
+          {
+            "evidence_id": "EV_C002_E07_01",
+            "source_file": "docs/0097/combined.md",
+            "section": "C002",
+            "quote_or_span": "when only 40 experimental data were used for training, the pretrained model has similar performance as compared to the unsupervised model for low-order mutants (<4 mutation sites), but clearly outperforms the latter for high-order mutants (>4 mutation sites)."
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "validation",
+        "state_before": "Data augmentation successful on GFP with ESM-IF1.",
+        "gap_or_uncertainty": "Is the data augmentation strategy generalizable to other proteins and unsupervised models?",
+        "hypothesis": "The strategy will work with other unsupervised models (ProGen2) and on other proteins (F7YBW8, CAPSD_AAV2S).",
+        "decision": "Validate using ProGen2 for pre-training and test on F7YBW8 (37 data points) and CAPSD_AAV2S (20 data points).",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "cross-protein and cross-model validation",
+          "version": "N/A",
+          "category": "validation"
+        },
+        "parameters": {
+          "unsupervised_model": "ProGen2",
+          "proteins": [
+            "F7YBW8",
+            "CAPSD_AAV2S"
+          ],
+          "experimental_data_points": [
+            37,
+            20
+          ]
+        },
+        "observation": "Pre-trained model outperforms original and unsupervised models on multi-site mutants for both proteins.",
+        "result_status": "success",
+        "next_step_reason": "Further validate on single-site mutants across many datasets.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E08_01",
+            "source_file": "docs/0097/combined.md",
+            "section": "C002",
+            "quote_or_span": "we used ProGen2 [8], an unsupervised model to learn the global sequence information, for data augmentation, and still derived the similar conclusion"
+          },
+          {
+            "evidence_id": "EV_C002_E08_02",
+            "source_file": "docs/0097/combined.md",
+            "section": "C002",
+            "quote_or_span": "To further validate the generality of the data augmentation strategy proposed here, we did the analysis on the dataset of other proteins"
+          },
+          {
+            "evidence_id": "EV_C003_E01_01",
+            "source_file": "docs/0097/combined.md",
+            "section": "C003",
+            "quote_or_span": "the pre-trained model outperforms both the original model without pretraining and the unsupervised model in the fitness prediction of all multi-site mutants (2–4 sites) after finetuned by using only 37 experimental data points"
+          },
+          {
+            "evidence_id": "EV_C003_E01_02",
+            "source_file": "docs/0097/combined.md",
+            "section": "C003",
+            "quote_or_span": "the pre-trained model also achieves the best performance in all of the high-order mutants ranging from 2 to 23 sites, when finetuned by only 20 experimental data points"
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "validation",
+        "state_before": "Data augmentation validated on multi-site mutants.",
+        "gap_or_uncertainty": "Does pre-training also improve single-site mutant prediction with limited data?",
+        "hypothesis": "Pre-trained model will outperform original model on single-site mutants across most datasets when fine-tuned on limited data.",
+        "decision": "Evaluate on 20 DMS datasets with 20, 40, or 100 experimental data points.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "single-site mutant evaluation",
+          "version": "N/A",
+          "category": "validation"
+        },
+        "parameters": {
+          "datasets": "20 DMS datasets",
+          "experimental_data_points": [
+            20,
+            40,
+            100
+          ]
+        },
+        "observation": "Pre-trained model outperforms original in 18/20 datasets with 20 points, 19/20 with 40 or 100 points.",
+        "result_status": "success",
+        "next_step_reason": "Analyze why pre-training works via t-SNE visualization.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E02_01",
+            "source_file": "docs/0097/combined.md",
+            "section": "C003",
+            "quote_or_span": "our pre-trained model generally outperforms the original one in majority of datasets: 18 out of 20 datasets when fine-tuning on 20 experimental data points, and in 19 out of 20 datasets when finetuning on 40 or 100 experimental data points"
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "analysis",
+        "state_before": "Pre-training consistently improves performance.",
+        "gap_or_uncertainty": "What is the mechanism behind the improvement from pre-training?",
+        "hypothesis": "Pre-training provides a good parameter initialization that separates positive and negative mutants in representation space.",
+        "decision": "Perform t-SNE visualization of representations from untrained, pre-trained, and fine-tuned models on GFP and RRM.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "t-SNE visualization",
+          "version": "N/A",
+          "category": "model_interpretation"
+        },
+        "parameters": {
+          "proteins": [
+            "GFP",
+            "RRM"
+          ],
+          "experimental_data_points": 40
+        },
+        "observation": "Untrained model cannot separate positive/negative variants; pre-training enables clear separation after fine-tuning.",
+        "result_status": "success",
+        "next_step_reason": "Conclude with overall success and limitations.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E03_02",
+            "source_file": "docs/0097/combined.md",
+            "section": "C003",
+            "quote_or_span": "the representations from untrained model cannot provide a distinguishable boundary between positive and negative variants"
+          },
+          {
+            "evidence_id": "EV_C003_E04_02",
+            "source_file": "docs/0097/combined.md",
+            "section": "C003",
+            "quote_or_span": "the pre-training can furnish a good parameter initialization for SESNet"
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "design",
+        "state_before": "SESNet architecture defined, but details of zero-shot score integration not specified.",
+        "gap_or_uncertainty": "How to incorporate zero-shot model scores into SESNet?",
+        "hypothesis": "A dynamic weight (sigmoid gate) can control the influence of zero-shot scores, and MSE loss can be used for training.",
+        "decision": "Implement a sigmoid gate to dynamically weight zero-shot scores and use MSE loss for model training.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "dynamic weight design",
+          "version": "initial",
+          "category": "model_component"
+        },
+        "parameters": {
+          "gating_mechanism": "sigmoid gate",
+          "loss_function": "MSE"
+        },
+        "observation": "Model uses dynamic weight (sigmoid gate) to incorporate zero-shot scores, with MSE loss.",
+        "result_status": "success",
+        "next_step_reason": "Proceed to training and evaluation.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E01_01",
+            "source_file": "docs/0097/combined.md",
+            "section": "C004",
+            "quote_or_span": "The scale of p quantifies how much should the model trust the score from the zero-shot model."
+          },
+          {
+            "evidence_id": "EV_C004_E01_02",
+            "source_file": "docs/0097/combined.md",
+            "section": "C004",
+            "quote_or_span": "We utilize the mean square error (MSE) as the loss function to update model parameters during back-propagation"
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "Five-fold cross-validation on 20 DMS datasets",
+        "High-order mutant prediction trained on low-order data",
+        "Ablation study",
+        "Attention weight analysis",
+        "Data augmentation with pre-training and fine-tuning",
+        "Cross-protein and cross-model validation"
+      ],
+      "metrics": [
+        "Spearman correlation"
+      ],
+      "final_conclusion": "SESNet integrates sequence and structure information with attention, achieving state-of-the-art performance on 19/20 DMS datasets. A data augmentation strategy using unsupervised model pre-training enables high accuracy with very limited experimental data, especially for high-order mutants.",
+      "limitations": [
+        "Structure module insufficient for capturing precise structural information for optimizing fluorescence intensity in GFP."
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_specific_evidence_backfilled=3",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_specific_evidence_backfilled=2",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 93.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p6\\states\\0097.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p6\\events\\0097.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1,
+          7
+        ],
+        "K02": [
+          1
+        ],
+        "K03": [
+          1,
+          2,
+          7,
+          8
+        ],
+        "K04": [
+          3
+        ],
+        "K05": [
+          3,
+          4,
+          5
+        ],
+        "K07": [
+          1,
+          6,
+          7,
+          8
+        ],
+        "K08": [
+          1,
+          7,
+          8,
+          9
+        ],
+        "K09": [
+          6,
+          7,
+          8
+        ],
+        "K10": [
+          1,
+          6,
+          7,
+          8,
+          9
+        ],
+        "K11": [
+          6,
+          10
+        ],
+        "K12": [
+          11
+        ],
+        "K13": [
+          2
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02",
+            "K03",
+            "K07",
+            "K08",
+            "K10"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K03",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K04",
+            "K05"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K05",
+            "K06"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K05",
+            "K06"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K07",
+            "K09",
+            "K10",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K01",
+            "K03",
+            "K07",
+            "K08",
+            "K09",
+            "K10"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K03",
+            "K07",
+            "K08",
+            "K09",
+            "K10"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K08",
+            "K10"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K11"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K12"
+          ]
+        }
+      ]
+    },
+    "warnings": [],
+    "step_count": 11,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 93.0
+  },
+  "api_usage": {
+    "prompt_tokens": 124274,
+    "completion_tokens": 26523,
+    "total_tokens": 150797,
+    "prompt_cache_hit_tokens": 2944,
+    "prompt_cache_miss_tokens": 121330
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 5309,
+        "completion_tokens": 1361,
+        "total_tokens": 6670,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 5309
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 13329,
+        "completion_tokens": 3213,
+        "total_tokens": 16542,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 13329
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 7695,
+        "completion_tokens": 1437,
+        "total_tokens": 9132,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7439
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 8446,
+        "completion_tokens": 1476,
+        "total_tokens": 9922,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8190
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 8771,
+        "completion_tokens": 1445,
+        "total_tokens": 10216,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8515
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 7862,
+        "completion_tokens": 1583,
+        "total_tokens": 9445,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7606
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C005",
+      "api_usage": {
+        "prompt_tokens": 5088,
+        "completion_tokens": 47,
+        "total_tokens": 5135,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 4832
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 13840,
+        "completion_tokens": 3141,
+        "total_tokens": 16981,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 13456
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 14036,
+        "completion_tokens": 5878,
+        "total_tokens": 19914,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 13396
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 18450,
+        "completion_tokens": 621,
+        "total_tokens": 19071,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 18450
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 21448,
+        "completion_tokens": 6321,
+        "total_tokens": 27769,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 20808
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

@@ -1,0 +1,921 @@
+{
+  "case": {
+    "case_id": "sci_evo_0133",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Compounds identified by virtual docking to a tetrameric EGFR extracellular domain can modulate Grb2 internalization",
+      "doi": "https://doi.org/10.1186/s12885-015-1415-6",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0131_10_1186_s12885_015_1415_6_compounds_identified_by_virtual_docking_to_a_tetrameric_egfr_extracellular_domain_can_modu.pdf",
+      "mineru_md": "docs/0133/mineru.md",
+      "combined_md": "docs/0133/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "EGFR overexpression/mutation drives many solid tumors, but resistance to current therapies (antibodies targeting extracellular domain, kinase inhibitors) necessitates new mechanisms.",
+      "target_object": "EGFR prone tetramer extracellular domain interface",
+      "known_context": "Recent studies identified a prone extracellular tetrameric EGFR configuration with a novel protein-protein interface involving domain III. Tumor cells frequently display resistance to mechanistically-distinct EGFR-directed therapeutic agents.",
+      "constraints": [
+        "Compounds must be drug-like (LogS > -6.0)",
+        "Compounds should target the tetramer-specific interface"
+      ],
+      "input_data": [
+        "Molecular dynamics simulation of the head-to-head prone tetramer",
+        "Life Chemicals library of 345,232 drug-like compounds"
+      ],
+      "quantifiable_goals": [
+        "Identify small molecules that modulate EGFR function via tetramer stabilization",
+        "Achieve a hit rate above random selection"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "EGFR overexpression/mutation drives tumors, and resistance to current therapies (cetuximab, erlotinib) motivates new mechanisms.",
+        "gap_or_uncertainty": "Need for therapeutics that work by additional mechanisms beyond existing EGFR inhibitors.",
+        "hypothesis": "Stabilizing the prone EGFR tetramer via small molecules targeting its novel protein-protein interface can modulate EGFR signaling and internalization.",
+        "decision": "Target the prone EGFR tetramer interface for virtual screening.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "literature analysis",
+          "version": "",
+          "category": "reasoning"
+        },
+        "parameters": {},
+        "observation": "The prone EGFR tetramer contains a novel protein-protein interface involving extracellular domain III, suitable for small molecule targeting.",
+        "result_status": "success",
+        "next_step_reason": "Hypothesis leads to design of virtual screening against the tetramer interface.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0133/combined.md",
+            "section": "C001",
+            "quote_or_span": "Overexpression or mutation of the epidermal growth factor receptor (EGFR) potently enhances the growth of many solid tumors."
+          },
+          {
+            "evidence_id": "EV_C001_E01_02",
+            "source_file": "docs/0133/combined.md",
+            "section": "C001",
+            "quote_or_span": "Tumor cells frequently display resistance to mechanistically-distinct EGFR-directed therapeutic agents, making it valuable to develop therapeutics that work by additional mechanisms."
+          },
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0133/combined.md",
+            "section": "C001",
+            "quote_or_span": "Recent studies have identified a novel prone extracellular tetrameric EGFR configuration, which we identify as a potential target for drug discovery."
+          },
+          {
+            "evidence_id": "EV_C001_E02_02",
+            "source_file": "docs/0133/combined.md",
+            "section": "C001",
+            "quote_or_span": "Our focus is on the prone EGFR tetramer, which contains a novel protein-protein interface involving extracellular domain III. This EGFR tetramer is computationally targeted for stabilization by small molecule ligand binding."
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "design",
+        "state_before": "Hypothesis that stabilizing the prone EGFR tetramer can modulate function.",
+        "gap_or_uncertainty": "No small molecules known to bind the tetramer interface.",
+        "hypothesis": "Virtual screening of a large compound library against the tetramer interface will identify candidate stabilizers.",
+        "decision": "Perform virtual screening of 345,232 drug-like compounds against the tetramer interface using three docking boxes.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "virtual screening",
+          "version": "",
+          "category": "computational docking"
+        },
+        "parameters": {
+          "library": "Life Chemicals, 345,232 compounds",
+          "docking_boxes": "1, 2, 3",
+          "solubility_filter": "LogS > -6.0",
+          "tautomers": "496,398 ligands after expansion"
+        },
+        "observation": "Virtual screening performed; compounds filtered for drug-like properties and solubility.",
+        "result_status": "success",
+        "next_step_reason": "Top compounds need manual selection for diversity and purchase.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E03_01",
+            "source_file": "docs/0133/combined.md",
+            "section": "C001",
+            "quote_or_span": "This study performed virtual screening of a Life Chemicals, Inc. small molecule library of 345,232 drug-like compounds against a molecular dynamics simulation of protein-protein interfaces distinct to the novel tetramer."
+          },
+          {
+            "evidence_id": "EV_C001_E03_03",
+            "source_file": "docs/0133/combined.md",
+            "section": "C001",
+            "quote_or_span": "An estimate of solubility (LogS) was generated for each compound using QikProp and compounds were filtered using a cutoff of -6.0 for LogS."
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "design",
+        "state_before": "Virtual screening completed.",
+        "gap_or_uncertainty": "Need to select a diverse set for experimental testing.",
+        "hypothesis": "Manual selection based on docking position diversity will yield promising candidates.",
+        "decision": "Manually filter top compounds for chemical diversity; select 109 for purchase.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "manual selection",
+          "version": "",
+          "category": "visual inspection"
+        },
+        "parameters": {
+          "selection_bias": "~75% not predicted to interact with EGF"
+        },
+        "observation": "109 compounds selected for functional evaluation.",
+        "result_status": "success",
+        "next_step_reason": "Selected compounds need to be tested in a functional assay.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E04_02",
+            "source_file": "docs/0133/combined.md",
+            "section": "C001",
+            "quote_or_span": "All compounds were then viewed as docked on the receptor and manual selection was based on docking position to maximize diversity of docking locations on the EGFR dimer. One hundred nine compounds were selected for functional evaluation"
+          },
+          {
+            "evidence_id": "EV_AUTO_021",
+            "source_file": "docs/0133/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Based on this analysis, 109 candidate ligands were selected for purchase and in vitro analysis."
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "design",
+        "state_before": "109 compounds selected for testing.",
+        "gap_or_uncertainty": "Need a functional assay to assess compound effects on EGFR tetramer stabilization.",
+        "hypothesis": "Grb2 internalization can serve as a surrogate readout for EGFR tetramer stabilization.",
+        "decision": "Develop a high-content fluorescence microscopy-based screen using Grb2 internalization in SCC61 cells.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Grb2 internalization assay",
+          "version": "",
+          "category": "cell-based high-content screening"
+        },
+        "parameters": {
+          "cell_line": "SCC61",
+          "EGF_concentration": "10 ng/ml",
+          "treatment_time": "50 min",
+          "compound_concentration": "10 µM",
+          "controls": "cetuximab (2 µM), erlotinib (20 µM)"
+        },
+        "observation": "Assay established with controls showing expected effects on Grb2 pit formation.",
+        "result_status": "success",
+        "next_step_reason": "Assay ready for primary screening of 109 compounds.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E01_01",
+            "source_file": "docs/0133/combined.md",
+            "section": "C002",
+            "quote_or_span": "We developed a high-content fluorescence microscopy-based screen to assess candidate compound activity in influencing internalization of the EGFR effector Grb2 in SCC61 cells"
+          },
+          {
+            "evidence_id": "EV_C002_E01_02",
+            "source_file": "docs/0133/combined.md",
+            "section": "C002",
+            "quote_or_span": "We chose to use Grb2 as a surrogate marker because it was unclear how EGFR activity state, reflected by auto-phosphorylation, would be affected by addition of compounds"
+          },
+          {
+            "evidence_id": "EV_C001_E05_02",
+            "source_file": "docs/0133/combined.md",
+            "section": "C001",
+            "quote_or_span": "After 5 min, EGF (10 ng/ml in serum free media) or vehicle was added. After 50 min, cells were washed once with PBS, and fixed for ten minutes at room temperature in 4 % PFA."
+          },
+          {
+            "evidence_id": "EV_C003_E08_01",
+            "source_file": "docs/0133/combined.md",
+            "section": "C003",
+            "quote_or_span": "14 of 109 compounds predicted to stabilize a recently defined homo-tetramer of EGFR influenced intracellular trafficking of the EGFR effector Grb2."
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "experiment",
+        "state_before": "Grb2 internalization assay established.",
+        "gap_or_uncertainty": "Which of the 109 compounds affect Grb2 internalization?",
+        "hypothesis": "Compounds that stabilize the tetramer will alter Grb2 pit formation.",
+        "decision": "Screen all 109 compounds in the Grb2 internalization assay.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Grb2 internalization screen",
+          "version": "",
+          "category": "high-content screening"
+        },
+        "parameters": {
+          "compounds": "109",
+          "concentration": "10 µM",
+          "readout": "Grb2-positive pit count ratio"
+        },
+        "observation": "14 preliminary hit compounds identified, classified into 4 phenotypic classes. Examples: F0922-0900 (Class 1), F2738-2186 (Class 2).",
+        "result_status": "success",
+        "next_step_reason": "Hits need further characterization in viability and phosphorylation assays.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E03_01",
+            "source_file": "docs/0133/combined.md",
+            "section": "C002",
+            "quote_or_span": "Fourteen preliminary hit compounds were selected for further analysis, based on phenotypic robustness as well as the combination of phenotype and whether or not the docked location predicted interaction with EGF."
+          },
+          {
+            "evidence_id": "EV_C002_E03_02",
+            "source_file": "docs/0133/combined.md",
+            "section": "C002",
+            "quote_or_span": "Compounds that alter Grb2 positive pit formation could fall into one of 4 possible classes."
+          },
+          {
+            "evidence_id": "EV_C003_E01_01",
+            "source_file": "docs/0133/combined.md",
+            "section": "C003",
+            "quote_or_span": "14 of 109 compounds predicted to stabilize a recently defined homo-tetramer of EGFR influenced intracellular trafficking of the EGFR effector Grb2."
+          },
+          {
+            "evidence_id": "EV_C003_E01_02",
+            "source_file": "docs/0133/combined.md",
+            "section": "C003",
+            "quote_or_span": "Typical screen results for the 14 preliminary hit compounds are shown in Fig. 2d"
+          },
+          {
+            "evidence_id": "EV_AUTO_001",
+            "source_file": "docs/0133/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Among compounds screened, F0922-0900 represents a Class 1 hit compound, F2738-2186 represents a Class 2 hit compound, and"
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "experiment",
+        "state_before": "14 hit compounds identified.",
+        "gap_or_uncertainty": "Do hits affect cell viability alone or in combination with existing drugs?",
+        "hypothesis": "Some hits may reduce viability or synergize with erlotinib/cetuximab.",
+        "decision": "Test 14 hits in viability assays using SCC61 and A431 cells, alone and with erlotinib/cetuximab.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "CellTiterBlue viability assay",
+          "version": "",
+          "category": "cell viability"
+        },
+        "parameters": {
+          "cell_lines": [
+            "SCC61",
+            "A431"
+          ],
+          "compound_concentration": "10 µM",
+          "erlotinib": "2 µM",
+          "cetuximab": "4 µM",
+          "incubation": "72 h"
+        },
+        "observation": "Most hits had no effect alone; no test compound significantly reduced viability of A431 cells.",
+        "result_status": "partial",
+        "next_step_reason": "Phosphorylation analysis needed to assess signaling effects.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E04_01",
+            "source_file": "docs/0133/combined.md",
+            "section": "C002",
+            "quote_or_span": "Viability in response to compound alone or compounds in combination with erlotinib or cetuximab was determined with the CellTiterBlue assay"
+          },
+          {
+            "evidence_id": "EV_C002_E04_02",
+            "source_file": "docs/0133/combined.md",
+            "section": "C002",
+            "quote_or_span": "For these experiments, lower doses of cetuximab and erlotinib were used than for screening, to maximize the chance of identifying synergy with newly identified compounds."
+          },
+          {
+            "evidence_id": "EV_C003_E02_02",
+            "source_file": "docs/0133/combined.md",
+            "section": "C003",
+            "quote_or_span": "no test compound significantly reduced the viability of A431 cells"
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "experiment",
+        "state_before": "Viability effects modest.",
+        "gap_or_uncertainty": "Do hits affect EGFR phosphorylation and downstream signaling?",
+        "hypothesis": "Hits may alter EGFR phosphorylation or ERK1/2 activation.",
+        "decision": "Perform western blot analysis of 6 selected hits in SCC61 cells for EGFR-Y1068, EGFR-Y1173, and ERK1/2-T202/Y204 phosphorylation.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "western blot",
+          "version": "",
+          "category": "protein phosphorylation analysis"
+        },
+        "parameters": {
+          "cell_line": "SCC61",
+          "compound_concentration": "10 µM",
+          "erlotinib": "20 µM",
+          "cetuximab": "4 µM",
+          "EGF_induction": "5.4-fold Y1068, 8.2-fold Y1173, 3.6-fold ERK1/2"
+        },
+        "observation": "Erlotinib blocked all EGF-induced phosphorylation; hits had minimal effects.",
+        "result_status": "partial",
+        "next_step_reason": "Docking pose analysis to rationalize hit activity.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E05_02",
+            "source_file": "docs/0133/combined.md",
+            "section": "C002",
+            "quote_or_span": "These time points were taken to parallel the process of EGFR/Grb2 recycling, and correspond to time periods known to reflect maximal changes in activity following EGF stimulation"
+          },
+          {
+            "evidence_id": "EV_C003_E03_01",
+            "source_file": "docs/0133/combined.md",
+            "section": "C003",
+            "quote_or_span": "Each of these EGF-induced phosphorylation events was entirely blocked by treatment with the EGFR kinase inhibitor erlotinib."
+          },
+          {
+            "evidence_id": "EV_AUTO_015",
+            "source_file": "docs/0133/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "2), activity in EGFR pY1173 western analysis (see Fig."
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "analysis",
+        "state_before": "Hits show phenotypic but not strong signaling effects.",
+        "gap_or_uncertainty": "What are the predicted binding modes of the hits?",
+        "hypothesis": "Docking poses will reveal common interactions with key residues.",
+        "decision": "Analyze docking poses of 6 hits for interactions with EGFR and EGF.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "docking pose analysis",
+          "version": "",
+          "category": "computational"
+        },
+        "parameters": {},
+        "observation": "4 of 6 hits dock to Arg470; the other 2 interact with neighboring residues. 2 hits predicted to interact with EGF residues Lys48-Leu52.",
+        "result_status": "success",
+        "next_step_reason": "Supports mechanism hypothesis of tetramer stabilization.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E06_01",
+            "source_file": "docs/0133/combined.md",
+            "section": "C002",
+            "quote_or_span": "All purchased compounds docked within 4Å of both EGFR molecules; 27 also docked within 4Å of at least one EGF molecule"
+          },
+          {
+            "evidence_id": "EV_C003_E04_01",
+            "source_file": "docs/0133/combined.md",
+            "section": "C003",
+            "quote_or_span": "4 of the 6 hits dock to Arg-470, and the 2 that are not predicted to interact with this residue, are predicted to interact with neighboring residues"
+          },
+          {
+            "evidence_id": "EV_C003_E04_02",
+            "source_file": "docs/0133/combined.md",
+            "section": "C003",
+            "quote_or_span": "the putative EGF interactions all involve EGF residues in the region of Lys48-Leu52"
+          },
+          {
+            "evidence_id": "EV_AUTO_001",
+            "source_file": "docs/0133/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Among compounds screened, F0922-0900 represents a Class 1 hit compound, F2738-2186 represents a Class 2 hit compound, and"
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "hypothesis",
+        "state_before": "Docking analysis reveals common interactions.",
+        "gap_or_uncertainty": "How do these compounds mechanistically affect EGFR?",
+        "hypothesis": "Compounds stabilize the prone tetramer, shifting quaternary equilibrium and altering EGFR function.",
+        "decision": "Propose mechanism of tetramer stabilization.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "mechanistic reasoning",
+          "version": "",
+          "category": "hypothesis generation"
+        },
+        "parameters": {},
+        "observation": "Using the unique prone tetramer as a target, stabilization of the head-to-head interface could shift equilibrium toward this tetramer, altering function.",
+        "result_status": "success",
+        "next_step_reason": "Validate the Grb2-tetramer link and acknowledge limitations.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E07_01",
+            "source_file": "docs/0133/combined.md",
+            "section": "C003",
+            "quote_or_span": "Using the unique prone tetramer of EGFR as a target, we deduced that stabilization of the head-to-head interface could potentially alter EGFR function by shifting the equilibrium toward this tetramer."
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "validation",
+        "state_before": "Mechanism hypothesis proposed.",
+        "gap_or_uncertainty": "Is Grb2 internalization a valid readout for tetramer stabilization?",
+        "hypothesis": "Grb2 specifically interacts with tetrameric EGFR.",
+        "decision": "Cite biophysical analysis showing 94% of EGFR is tetrameric and 95% of tetramers contain at least one bound Grb2.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "literature validation",
+          "version": "",
+          "category": "biophysical analysis"
+        },
+        "parameters": {},
+        "observation": "2% monomeric, 5% dimeric, <1% trimeric, 94% tetrameric; nearly 95% of tetramers contain at least one bound Grb2.",
+        "result_status": "success",
+        "next_step_reason": "Validation supports the screening approach, but limitations remain.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E01_02",
+            "source_file": "docs/0133/combined.md",
+            "section": "C004",
+            "quote_or_span": "2 % of EGFR is monomeric, 5 % is dimeric, <1 % is trimeric, and 94 % is tetrameric."
+          },
+          {
+            "evidence_id": "EV_C004_E01_03",
+            "source_file": "docs/0133/combined.md",
+            "section": "C004",
+            "quote_or_span": "nearly 95 % of the EGFR tetramers containing at least one bound Grb2"
+          },
+          {
+            "evidence_id": "EV_C004_E07_01",
+            "source_file": "docs/0133/combined.md",
+            "section": "C004",
+            "quote_or_span": "the cited demonstration that Grb2 specifically interacts with a tetrameric form of EGFR provides an exciting validation to hypotheses that drove our experimental design."
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "analysis",
+        "state_before": "Validation of Grb2-tetramer link.",
+        "gap_or_uncertainty": "The Grb2 assay does not diagnose mechanism; compounds may stabilize, destabilize, or alter oligomeric structure. Also, no direct binding evidence confirms predicted docking mode.",
+        "hypothesis": "Current data cannot distinguish between stabilization, destabilization, or other oligomeric changes.",
+        "decision": "Acknowledge limitations: assay not diagnostic of mechanism; no direct binding evidence.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "limitation analysis",
+          "version": "",
+          "category": "critical assessment"
+        },
+        "parameters": {},
+        "observation": "Grb2 screening assay does not diagnose mechanism; it is formally possible compounds are stabilizing, destabilizing, or altering oligomeric structure. Current studies do not establish whether active compounds bind to EGFR tetramer as predicted by docking.",
+        "result_status": "inconclusive",
+        "next_step_reason": "Limitations motivate future work on medicinal chemistry and target engagement.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E02_01",
+            "source_file": "docs/0133/combined.md",
+            "section": "C004",
+            "quote_or_span": "identification of compounds in the Grb2 screening assay is not diagnostic of the mechanism of action of the compound; it is formally possible that the compounds are stabilizing, destabilizing, or not affecting stability, but rather altering EGFR oligomeric structure"
+          },
+          {
+            "evidence_id": "EV_C004_E06_01",
+            "source_file": "docs/0133/combined.md",
+            "section": "C004",
+            "quote_or_span": "While the current studies do not establish whether the active compounds bind to the EGFR tetramer as predicted by docking"
+          }
+        ]
+      },
+      {
+        "step_index": 12,
+        "phase": "revision",
+        "state_before": "Limitations identified.",
+        "gap_or_uncertainty": "Need to validate mode of action and optimize compounds.",
+        "hypothesis": "Medicinal chemical optimization and structure-activity relationships will validate the docking-based mode of action.",
+        "decision": "Propose future work: medicinal chemistry optimization, SAR studies, exploration of effects on EGFR mobilization and other effector pathways.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "future directions",
+          "version": "",
+          "category": "planning"
+        },
+        "parameters": {},
+        "observation": "Future studies should perform medicinal chemical optimization, establish SAR in relation to docking boxes, and explore effects on EGFR mobilization and other effector pathways.",
+        "result_status": "success",
+        "next_step_reason": "Concludes the current study with a path forward.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E03_01",
+            "source_file": "docs/0133/combined.md",
+            "section": "C004",
+            "quote_or_span": "It will be important to perform classic medicinal chemical optimization, and establishment of structure-activity relationships in relation to the docking boxes to validate the mode of action of compounds emerging as hits."
+          },
+          {
+            "evidence_id": "EV_C004_E04_01",
+            "source_file": "docs/0133/combined.md",
+            "section": "C004",
+            "quote_or_span": "further investigation of the compounds identified in this screen should expand to explore their effect on the mobilization of total and phosphorylated (active) EGFR, and other EGFR-dependent effector pathways."
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "Grb2 internalization high-content screen",
+        "CellTiterBlue viability assay",
+        "Western blot phosphorylation analysis",
+        "Docking pose analysis",
+        "Biophysical validation of Grb2-tetramer interaction from literature"
+      ],
+      "metrics": [
+        "Grb2-positive pit count ratio",
+        "Cell viability (% reduction)",
+        "Fold-change in phosphorylation (EGFR-Y1068, Y1173, ERK1/2-T202/Y204)",
+        "Docking distance (within 4Å)",
+        "Oligomeric state distribution (% monomer, dimer, trimer, tetramer)"
+      ],
+      "final_conclusion": "Virtual screening against the EGFR tetramer interface identified 14 hit compounds that modulate Grb2 internalization. Hits showed minimal effects on phosphorylation, and docking analysis revealed common interaction with Arg470. The study demonstrates a novel approach to target EGFR quaternary structure, but direct binding and mechanism remain unconfirmed.",
+      "limitations": [
+        "Grb2 screening assay does not diagnose mechanism (stabilization, destabilization, or other oligomeric changes)",
+        "No direct binding evidence that active compounds bind to EGFR tetramer as predicted by docking",
+        "Modest viability effects and lack of strong signaling modulation",
+        "Future medicinal chemistry and target engagement studies needed"
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "All coverage requirements met with exact evidence quotes.",
+        "Limitations explicitly included as steps.",
+        "No invented methods or results.",
+        "v22_specific_evidence_backfilled=9",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_specific_evidence_backfilled=4",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 100.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p1\\states\\0133.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p1\\events\\0133.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1
+        ],
+        "K03": [
+          1,
+          2,
+          9,
+          11
+        ],
+        "K04": [
+          2,
+          3
+        ],
+        "K05": [
+          4
+        ],
+        "K06": [
+          4,
+          5
+        ],
+        "K07": [
+          6,
+          7
+        ],
+        "K08": [
+          6,
+          7
+        ],
+        "K09": [
+          8
+        ],
+        "K11": [
+          10
+        ],
+        "K12": [
+          11
+        ],
+        "K13": [
+          2,
+          8,
+          11,
+          12
+        ],
+        "K14": [
+          11,
+          12
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02",
+            "K03",
+            "K10"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K02",
+            "K03",
+            "K04",
+            "K10",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K04"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K05",
+            "K06"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K06"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K07",
+            "K08"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K07",
+            "K08"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K09",
+            "K10",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K02",
+            "K03",
+            "K10"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K10",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K03",
+            "K10",
+            "K12",
+            "K13",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 12,
+          "covered_event_ids": [
+            "K13",
+            "K14"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 6,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "14h"
+        ]
+      },
+      {
+        "step_index": 7,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "02",
+          "04",
+          "068",
+          "6s"
+        ]
+      },
+      {
+        "step_index": 8,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "70"
+        ]
+      }
+    ],
+    "step_count": 12,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 100.0
+  },
+  "api_usage": {
+    "prompt_tokens": 122792,
+    "completion_tokens": 27248,
+    "total_tokens": 150040,
+    "prompt_cache_hit_tokens": 2944,
+    "prompt_cache_miss_tokens": 119848
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 4635,
+        "completion_tokens": 954,
+        "total_tokens": 5589,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 4635
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 12537,
+        "completion_tokens": 3377,
+        "total_tokens": 15914,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 12537
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 8177,
+        "completion_tokens": 1328,
+        "total_tokens": 9505,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7921
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 9219,
+        "completion_tokens": 1516,
+        "total_tokens": 10735,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8963
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 9425,
+        "completion_tokens": 1452,
+        "total_tokens": 10877,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9169
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 8981,
+        "completion_tokens": 1226,
+        "total_tokens": 10207,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8725
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C005",
+      "api_usage": {
+        "prompt_tokens": 4617,
+        "completion_tokens": 48,
+        "total_tokens": 4665,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 4361
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 12281,
+        "completion_tokens": 3422,
+        "total_tokens": 15703,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 11897
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 12638,
+        "completion_tokens": 6386,
+        "total_tokens": 19024,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 11998
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 18636,
+        "completion_tokens": 1054,
+        "total_tokens": 19690,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 18636
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 21646,
+        "completion_tokens": 6485,
+        "total_tokens": 28131,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 21006
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

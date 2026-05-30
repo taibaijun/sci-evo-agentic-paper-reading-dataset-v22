@@ -1,0 +1,935 @@
+{
+  "case": {
+    "case_id": "sci_evo_0071",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Adaptive laboratory evolution of Corynebacterium glutamicum towards higher growth rates on glucose minimal medium",
+      "doi": "https://doi.org/10.1038/s41598-017-17014-9",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "",
+      "mineru_md": "docs/0071/mineru.md",
+      "combined_md": "docs/0071/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Improve growth rate of C. glutamicum on glucose minimal medium via ALE and compare evolvability of wild-type ATCC 13032 and prophage-free MB001.",
+      "target_object": "Corynebacterium glutamicum ATCC 13032 and MB001",
+      "known_context": "C. glutamicum is an important biotechnological platform strain. MB001 is a prophage-free variant of ATCC 13032.",
+      "constraints": [
+        "Glucose minimal medium (CGXII)",
+        "30°C incubation"
+      ],
+      "input_data": [],
+      "quantifiable_goals": [
+        "Increase growth rate on glucose minimal medium",
+        "Compare adaptive behavior of ATCC 13032 and MB001"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "C. glutamicum ATCC 13032 and MB001 have uncharacterized growth rate potential on glucose minimal medium.",
+        "gap_or_uncertainty": "It is unknown whether the prophage-free MB001 has a growth advantage over wild-type ATCC 13032 and how both strains will adapt under ALE.",
+        "hypothesis": "ALE on glucose minimal medium will improve growth rates, and MB001 may show different adaptive behavior due to lack of prophages.",
+        "decision": "Perform comparative ALE of ATCC 13032 and MB001 on glucose minimal medium.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "comparative adaptive laboratory evolution",
+          "version": "",
+          "category": "experimental_design"
+        },
+        "parameters": {},
+        "observation": "Goal defined: improve growth rate and compare evolvability.",
+        "result_status": "success",
+        "next_step_reason": "Need to establish baseline competitive fitness between strains.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0071/combined.md",
+            "section": "C001",
+            "quote_or_span": "In this work, we performed a comparative adaptive laboratory evolution experiment of the important biotechnological platform strain Corynebacterium glutamicum ATCC 13032 and its prophage-free variant MB001 towards improved growth rates on glucose minimal medium."
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "experiment",
+        "state_before": "No prior competitive fitness data between ATCC 13032 and MB001.",
+        "gap_or_uncertainty": "Does MB001 have a growth advantage over wild-type?",
+        "hypothesis": "MB001 may outcompete wild-type due to reduced metabolic burden from prophages.",
+        "decision": "Conduct competitive growth experiment with fluorescently labeled strains.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "competitive growth assay",
+          "version": "",
+          "category": "fitness_assay"
+        },
+        "parameters": {
+          "reporter_strains": "eYFP and E2-crimson",
+          "transfers": 3
+        },
+        "observation": "After three serial transfers, MB001 showed significant competitive advantage.",
+        "result_status": "success",
+        "next_step_reason": "Motivates comparative ALE to see if advantage persists under selection.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E03_01",
+            "source_file": "docs/0071/combined.md",
+            "section": "C001",
+            "quote_or_span": "already after three serial transfers a significant competitive advantage for strain MB001 (for both reporter strains, vice versa) was observed"
+          },
+          {
+            "evidence_id": "EV_C003_E08_01",
+            "source_file": "docs/0071/combined.md",
+            "section": "C003",
+            "quote_or_span": "we observed no significant differences in the adaptive behavior, mutation frequency or transposon activity of C. glutamicum ATCC 13032 wild type and its prophage-free derivative MB001 in our comparative ALE experiment"
+          },
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0071/combined.md",
+            "section": "C001",
+            "quote_or_span": "In this work, we performed a comparative adaptive laboratory evolution experiment of the important biotechnological platform strain Corynebacterium glutamicum ATCC 13032 and its prophage-free variant MB001 towards improved growth rates on glucose minimal medium."
+          },
+          {
+            "evidence_id": "EV_C002_E01_02",
+            "source_file": "docs/0071/combined.md",
+            "section": "C002",
+            "quote_or_span": "no significant differences, neither in the mutation frequency nor in transposon activity, were observed between ATCC 13032 and MB001"
+          },
+          {
+            "evidence_id": "EV_C001_E07_01",
+            "source_file": "docs/0071/combined.md",
+            "section": "C001",
+            "quote_or_span": "no significant differences, neither in the mutation frequency nor in transposon activity, were observed between ATCC 13032 and MB001"
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "design",
+        "state_before": "MB001 shows initial competitive advantage; ALE design needed.",
+        "gap_or_uncertainty": "Optimal ALE protocol to compare strains and achieve growth improvement.",
+        "hypothesis": "Repetitive batch cultivation in 48-well plates with 90 transfers (~630 generations) will select for faster growth.",
+        "decision": "Design ALE with six independent cell lines per strain, 90 serial transfers in CGXII glucose minimal medium.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "ALE protocol design",
+          "version": "",
+          "category": "experimental_design"
+        },
+        "parameters": {
+          "replicates": 6,
+          "transfers": 90,
+          "generations": "~630",
+          "medium": "CGXII minimal medium with glucose",
+          "temperature": "30°C"
+        },
+        "observation": "ALE design established; first 20 transfers included iron-depleted medium to test prophage induction, but discontinued due to no effect.",
+        "result_status": "success",
+        "next_step_reason": "Execute ALE and monitor fitness changes.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E04_01",
+            "source_file": "docs/0071/combined.md",
+            "section": "C001",
+            "quote_or_span": "Overall, six independent cell lines for each strain were evolved by repetitive batch cultivation using 48-well plates incubated at 30°C"
+          },
+          {
+            "evidence_id": "EV_C001_E04_02",
+            "source_file": "docs/0071/combined.md",
+            "section": "C001",
+            "quote_or_span": "serially transferred (90 times) from the stationary phase into fresh medium"
+          },
+          {
+            "evidence_id": "EV_C005_E03_01",
+            "source_file": "docs/0071/combined.md",
+            "section": "C005",
+            "quote_or_span": "The evolution experiment started with six biological replicates of each strain"
+          },
+          {
+            "evidence_id": "EV_C005_E03_03",
+            "source_file": "docs/0071/combined.md",
+            "section": "C005",
+            "quote_or_span": "In total, 90 serial transfers were performed during this ALE experiment."
+          },
+          {
+            "evidence_id": "EV_AUTO_036",
+            "source_file": "docs/0071/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "by genome sequencing and fitness tests), two cell lines that originated from different biological replicates of the two strains were used from the first (100 and 140 generations) and last two time points (540 and 630 generations)."
+          },
+          {
+            "evidence_id": "EV_C005_E06_01",
+            "source_file": "docs/0071/combined.md",
+            "section": "C005",
+            "quote_or_span": "two cell lines that originated from different biological replicates of the two strains were used from the first (100 and 140 generations) and last two time points (540 and 630 generations)."
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "analysis",
+        "state_before": "Fitness leap observed; genetic changes unknown.",
+        "gap_or_uncertainty": "Which mutations are responsible for improved growth?",
+        "hypothesis": "Genome sequencing of evolved populations will reveal causative mutations.",
+        "decision": "Sequence genomes of two cell lines per strain at 100, 140, 540, 630 generations.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "genome sequencing",
+          "version": "",
+          "category": "genomics"
+        },
+        "parameters": {
+          "time_points": [
+            100,
+            140,
+            540,
+            630
+          ],
+          "cell_lines_per_strain": 2
+        },
+        "observation": "Multiple potentially causative SNPs and transposon insertions identified; no significant difference in mutation frequency or transposon activity between strains.",
+        "result_status": "success",
+        "next_step_reason": "Focus on frequently mutated genes.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E01_02",
+            "source_file": "docs/0071/combined.md",
+            "section": "C002",
+            "quote_or_span": "no significant differences, neither in the mutation frequency nor in transposon activity, were observed between ATCC 13032 and MB001"
+          },
+          {
+            "evidence_id": "EV_C001_E07_01",
+            "source_file": "docs/0071/combined.md",
+            "section": "C001",
+            "quote_or_span": "no significant differences, neither in the mutation frequency nor in transposon activity, were observed between ATCC 13032 and MB001"
+          },
+          {
+            "evidence_id": "EV_C005_E06_01",
+            "source_file": "docs/0071/combined.md",
+            "section": "C005",
+            "quote_or_span": "two cell lines that originated from different biological replicates of the two strains were used from the first (100 and 140 generations) and last two time points (540 and 630 generations)."
+          },
+          {
+            "evidence_id": "EV_C005_E06_02",
+            "source_file": "docs/0071/combined.md",
+            "section": "C005",
+            "quote_or_span": "from the repeated ALE experiment one cell line of each strain were examined after 50 and 80 generations."
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "analysis",
+        "state_before": "Multiple potentially causative mutations identified.",
+        "gap_or_uncertainty": "Which genes are key targets?",
+        "hypothesis": "pyk and fruK are key targets due to frequent mutations.",
+        "decision": "Analyze mutation patterns in pyk and fruK.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "mutation frequency analysis",
+          "version": "",
+          "category": "bioinformatics"
+        },
+        "parameters": {},
+        "observation": "pyk had five different mutations appearing early with competitive dynamics; fruK had two SNPs (T6I, R71L) and a transposon insertion; T6I occurred independently in two prophage-free cell lines.",
+        "result_status": "success",
+        "next_step_reason": "Investigate later-stage mutations like corA.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E02_01",
+            "source_file": "docs/0071/combined.md",
+            "section": "C002",
+            "quote_or_span": "the pyk gene, encoding a pyruvate kinase, was one of the most frequently affected genes with five different mutations"
+          },
+          {
+            "evidence_id": "EV_C002_E02_02",
+            "source_file": "docs/0071/combined.md",
+            "section": "C002",
+            "quote_or_span": "these pyk mutations already appeared in an early stage of the experiment (after 100 & 140 generations) in low frequencies and displayed a competitive dynamic progression within the population"
+          },
+          {
+            "evidence_id": "EV_C002_E03_01",
+            "source_file": "docs/0071/combined.md",
+            "section": "C002",
+            "quote_or_span": "analysis of the sequencing data revealed the phosphofructokinase gene fruK as another important key target"
+          },
+          {
+            "evidence_id": "EV_C002_E03_02",
+            "source_file": "docs/0071/combined.md",
+            "section": "C002",
+            "quote_or_span": "one of the two fruK SNPs (T6I) occurred independently at different time points in the two prophage-free cell lines"
+          },
+          {
+            "evidence_id": "EV_AUTO_012",
+            "source_file": "docs/0071/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "It is noteworthy that one of the two fruK SNPs (T6I) occurred independently at different time points in the two prophage-free cell lines whereas mutation R71L was found only in strain UBm showing the highest growth rate of all isolated clones."
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "analysis",
+        "state_before": "pyk and fruK identified as early key targets.",
+        "gap_or_uncertainty": "Are there later-stage mutations contributing to fitness?",
+        "hypothesis": "corA mutations appear later and may have epistatic interactions.",
+        "decision": "Examine corA mutation timing and potential role.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "temporal mutation analysis",
+          "version": "",
+          "category": "bioinformatics"
+        },
+        "parameters": {},
+        "observation": "corA mutations only observed at later stages, suggesting epistatic interactions supporting evolution towards higher growth rates.",
+        "result_status": "success",
+        "next_step_reason": "Validate effects of key mutations by reintroduction.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E04_01",
+            "source_file": "docs/0071/combined.md",
+            "section": "C002",
+            "quote_or_span": "only observed at later stages in the ALE experiment suggesting epistatic interactions of corA mutations supporting the evolution towards higher growth rates on glucose"
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "validation",
+        "state_before": "Key mutations in pyk and fruK identified but not yet validated.",
+        "gap_or_uncertainty": "Do reintroduced pyk and fruK mutations improve growth and glucose consumption?",
+        "hypothesis": "Reintroduction of pyk and fruK mutations will increase glucose consumption rate and ptsG expression, and combination of pyk A271T and fruK R71L will show synergistic growth improvement.",
+        "decision": "Reintroduce selected pyk and fruK mutations into parental strain and measure glucose consumption rate, ptsG expression, and growth rate.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "mutation reintroduction and phenotyping",
+          "version": "",
+          "category": "genetic_engineering"
+        },
+        "parameters": {
+          "mutations": [
+            "pyk A271T",
+            "fruK R71L"
+          ]
+        },
+        "observation": "Reintegration of selected pyk and fruK mutations resulted in increased glucose consumption rate and ptsG expression; combination of pyk A271T and fruK R71L led to even higher growth rate, demonstrating synergistic effect.",
+        "result_status": "success",
+        "next_step_reason": "Characterize pyk mutations biochemically.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E08_01",
+            "source_file": "docs/0071/combined.md",
+            "section": "C001",
+            "quote_or_span": "The reintegration of selected pyk and fruK mutations resulted in an increased glucose consumption rate and ptsG expression causative for the accelerated growth on glucose minimal medium"
+          },
+          {
+            "evidence_id": "EV_C002_E06_01",
+            "source_file": "docs/0071/combined.md",
+            "section": "C002",
+            "quote_or_span": "The combination of pyk A271T and fruK R71L (as identified in strain UBm) led to an even higher growth rate on glucose demonstrating the synergistic effect of these key targets"
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "experiment",
+        "state_before": "pyk mutations validated for growth improvement.",
+        "gap_or_uncertainty": "How do different pyk mutations affect enzyme activity?",
+        "hypothesis": "pyk mutations may alter pyruvate kinase activity differently.",
+        "decision": "Measure in vitro pyruvate kinase activity of T12A, A20V, and A271T mutants.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "in vitro enzyme assay",
+          "version": "",
+          "category": "biochemistry"
+        },
+        "parameters": {
+          "mutations": [
+            "T12A",
+            "A20V",
+            "A271T"
+          ]
+        },
+        "observation": "T12A and A20V significantly decreased PK activity; A271T did not alter activity but had strongest growth impact.",
+        "result_status": "success",
+        "next_step_reason": "Test fruK mutations on different carbon sources.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E08_01",
+            "source_file": "docs/0071/combined.md",
+            "section": "C002",
+            "quote_or_span": "in vitro enzyme assays revealed a significantly decreased pyruvate kinase activity for the single mutants T12A and A20V"
+          },
+          {
+            "evidence_id": "EV_C002_E08_02",
+            "source_file": "docs/0071/combined.md",
+            "section": "C002",
+            "quote_or_span": "no difference in pyruvate kinase activity was measured for A271T"
+          },
+          {
+            "evidence_id": "EV_C002_E08_03",
+            "source_file": "docs/0071/combined.md",
+            "section": "C002",
+            "quote_or_span": "this mutant showed the strongest impact on growth"
+          },
+          {
+            "evidence_id": "EV_C003_E05_01",
+            "source_file": "docs/0071/combined.md",
+            "section": "C003",
+            "quote_or_span": "we showed that two of the mutations (T12A, A20V), in fact, led to a decrease in PK activity, whereas the third mutation A271T did not significantly alter the PK activity in the in vitro assay"
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "experiment",
+        "state_before": "fruK mutations validated for growth on glucose.",
+        "gap_or_uncertainty": "Do fruK mutations affect growth on other carbon sources?",
+        "hypothesis": "fruK mutations may have divergent effects on fructose and gluconate.",
+        "decision": "Test growth of fruK T6I and R71L mutants on fructose and gluconate.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "growth assay on alternative carbon sources",
+          "version": "",
+          "category": "phenotyping"
+        },
+        "parameters": {
+          "carbon_sources": [
+            "fructose",
+            "gluconate"
+          ]
+        },
+        "observation": "fruK T6I caused strong growth defect on fructose; R71L slightly improved fitness; all fruK mutations improved growth on gluconate.",
+        "result_status": "success",
+        "next_step_reason": "Test pyk mutations on gluconate for trade-offs.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E02_01",
+            "source_file": "docs/0071/combined.md",
+            "section": "C003",
+            "quote_or_span": "Whereas the fruK T6I mutation led to a strong growth defect on fructose, R71L slightly improved the fitness."
+          },
+          {
+            "evidence_id": "EV_C003_E04_01",
+            "source_file": "docs/0071/combined.md",
+            "section": "C003",
+            "quote_or_span": "all fruK mutations caused a significant improvement when gluconate served as sole carbon source"
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "experiment",
+        "state_before": "pyk mutations characterized on glucose.",
+        "gap_or_uncertainty": "Do pyk mutations cause trade-offs on gluconate?",
+        "hypothesis": "pyk A20V and T12A may impair growth on gluconate due to altered metabolic flux.",
+        "decision": "Test growth of pyk mutants on gluconate.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "growth assay on gluconate",
+          "version": "",
+          "category": "phenotyping"
+        },
+        "parameters": {
+          "carbon_source": "gluconate"
+        },
+        "observation": "pyk A20V and T12A strongly impeded growth on gluconate; A271T not affected.",
+        "result_status": "success",
+        "next_step_reason": "Compare overall evolvability of strains.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E03_01",
+            "source_file": "docs/0071/combined.md",
+            "section": "C003",
+            "quote_or_span": "In the pyk mutants, A20V and T12A, growth on gluconate was strongly impeded, but the A271T mutant was not affected."
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "analysis",
+        "state_before": "All key mutations characterized; strain comparison pending.",
+        "gap_or_uncertainty": "Did prophage-free MB001 show different evolvability?",
+        "hypothesis": "No significant difference in adaptive behavior between strains.",
+        "decision": "Compare mutation frequencies, transposon activity, and fitness trajectories.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "comparative genomics and fitness analysis",
+          "version": "",
+          "category": "bioinformatics"
+        },
+        "parameters": {},
+        "observation": "No significant differences in adaptive behavior, mutation frequency, or transposon activity between ATCC 13032 and MB001.",
+        "result_status": "success",
+        "next_step_reason": "Acknowledge limitations.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E08_01",
+            "source_file": "docs/0071/combined.md",
+            "section": "C003",
+            "quote_or_span": "we observed no significant differences in the adaptive behavior, mutation frequency or transposon activity of C. glutamicum ATCC 13032 wild type and its prophage-free derivative MB001 in our comparative ALE experiment"
+          }
+        ]
+      },
+      {
+        "step_index": 12,
+        "phase": "revision",
+        "state_before": "Study completed with key findings.",
+        "gap_or_uncertainty": "Uncharacterized epistatic interactions and incomplete validation limit full understanding.",
+        "hypothesis": "Epistatic interactions likely contribute to fitness; not all mutations validated.",
+        "decision": "Note limitations: only two cell lines per strain sequenced, not all mutations validated, trade-offs not fully explored.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "limitation assessment",
+          "version": "",
+          "category": "critical_analysis"
+        },
+        "parameters": {},
+        "observation": "Uncharacterized epistatic interactions likely contribute to fitness; only two cell lines per strain sequenced; not all mutations validated; trade-offs not fully explored.",
+        "result_status": "partial",
+        "next_step_reason": "Conclude study.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E07_01",
+            "source_file": "docs/0071/combined.md",
+            "section": "C004",
+            "quote_or_span": "it is likely to assume that so far uncharacterized epistatic interactions between the genomic variants significantly contribute to an improved fitness of the evolved populations"
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "Reintroduction of mutations into parental strain",
+        "Growth rate measurements on glucose and alternative carbon sources",
+        "In vitro enzyme assays",
+        "Glucose consumption and ptsG expression analysis"
+      ],
+      "metrics": [
+        "Growth rate (h⁻¹)",
+        "Glucose consumption rate",
+        "ptsG expression level",
+        "Pyruvate kinase activity"
+      ],
+      "final_conclusion": "ALE successfully improved growth rates after ~100 generations. Key mutations in pyk, fruK, and corA were identified. Reintroduction of pyk A271T and fruK R71L synergistically increased growth. No significant difference in evolvability between ATCC 13032 and MB001.",
+      "limitations": [
+        "Uncharacterized epistatic interactions likely contribute to fitness",
+        "Only two cell lines per strain sequenced",
+        "Not all mutations validated",
+        "Trade-offs not fully explored"
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_step_trimmed=13_to_12",
+        "v22_phase_action_fixed=3",
+        "v22_specific_evidence_backfilled=8",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_step_trimmed=13_to_12",
+        "v22_specific_evidence_backfilled=7",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 100.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p2\\states\\0071.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p2\\events\\0071.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1,
+          2,
+          3
+        ],
+        "K02": [
+          2,
+          3
+        ],
+        "K05": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "K06": [
+          2,
+          3,
+          4,
+          5,
+          11
+        ],
+        "K07": [
+          5
+        ],
+        "K08": [
+          6
+        ],
+        "K09": [
+          7,
+          9
+        ],
+        "K10": [
+          7,
+          8,
+          10
+        ],
+        "K11": [
+          9
+        ],
+        "K12": [
+          7,
+          8,
+          10
+        ],
+        "K13": [
+          1,
+          2,
+          4,
+          11
+        ],
+        "K14": [
+          12
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K05",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K01",
+            "K02",
+            "K05",
+            "K06",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K01",
+            "K02",
+            "K03",
+            "K04",
+            "K05",
+            "K06"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K05",
+            "K06",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K06",
+            "K07"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K08"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K09",
+            "K10",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K10",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K09",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K10",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K06",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 12,
+          "covered_event_ids": [
+            "K14"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 1,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "01h"
+        ]
+      },
+      {
+        "step_index": 2,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "01h",
+          "01s"
+        ]
+      },
+      {
+        "step_index": 3,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "01s",
+          "20"
+        ]
+      },
+      {
+        "step_index": 11,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "01s"
+        ]
+      }
+    ],
+    "step_count": 12,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 100.0
+  },
+  "api_usage": {
+    "prompt_tokens": 126030,
+    "completion_tokens": 26360,
+    "total_tokens": 152390,
+    "prompt_cache_hit_tokens": 3200,
+    "prompt_cache_miss_tokens": 122830
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 2126,
+        "completion_tokens": 458,
+        "total_tokens": 2584,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 2126
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 10244,
+        "completion_tokens": 2868,
+        "total_tokens": 13112,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 10244
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 7964,
+        "completion_tokens": 1484,
+        "total_tokens": 9448,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7708
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 9318,
+        "completion_tokens": 1398,
+        "total_tokens": 10716,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9062
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 8532,
+        "completion_tokens": 1256,
+        "total_tokens": 9788,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8276
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 9999,
+        "completion_tokens": 1241,
+        "total_tokens": 11240,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9743
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C005",
+      "api_usage": {
+        "prompt_tokens": 8025,
+        "completion_tokens": 1528,
+        "total_tokens": 9553,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7769
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C006",
+      "api_usage": {
+        "prompt_tokens": 6329,
+        "completion_tokens": 58,
+        "total_tokens": 6387,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6073
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 12615,
+        "completion_tokens": 2976,
+        "total_tokens": 15591,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 12231
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 12561,
+        "completion_tokens": 5974,
+        "total_tokens": 18535,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 11921
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 17517,
+        "completion_tokens": 1152,
+        "total_tokens": 18669,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 17517
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 20800,
+        "completion_tokens": 5967,
+        "total_tokens": 26767,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 20160
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

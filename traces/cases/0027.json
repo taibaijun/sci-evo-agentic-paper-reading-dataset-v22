@@ -1,0 +1,926 @@
+{
+  "case": {
+    "case_id": "sci_evo_0027",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Biosensor-driven, model-based optimization of the orthogonally expressed naringenin biosynthesis pathway",
+      "doi": "https://doi.org/10.1186/s12934-022-01775-8",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0025_10_1186_s12934_022_01775_8_biosensor_driven_model_based_optimization_of_the_orthogonally_expressed_naringenin_biosynt.pdf",
+      "mineru_md": "docs/0027/mineru.md",
+      "combined_md": "docs/0027/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Optimizing the heterologous naringenin biosynthesis pathway in E. coli using orthogonal expression tools and a biosensor-driven, model-based workflow to balance pathway modules and improve production titer without precursor supplementation or strain engineering.",
+      "target_object": "naringenin biosynthesis pathway in E. coli",
+      "known_context": "Flux imbalances and metabolic burden hinder heterologous flavonoid production.",
+      "constraints": [
+        "No precursor supplementation",
+        "No strain engineering"
+      ],
+      "input_data": [],
+      "quantifiable_goals": [
+        "Improve naringenin titer"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "Heterologous naringenin biosynthesis in E. coli suffers from flux imbalances and metabolic burden.",
+        "gap_or_uncertainty": "How to balance pathway modules to avoid metabolite accumulation and toxicity.",
+        "hypothesis": "A combinatorial engineering approach using orthogonal expression tools and biosensor-driven screening can collect high-quality data for predictive modeling to optimize the pathway.",
+        "decision": "Design a combinatorial library with tunable orthogonal promoters and enzyme variants, screen with a biosensor, and build predictive models.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "sigma factor toolbox",
+          "version": "",
+          "category": "orthogonal expression system"
+        },
+        "parameters": {},
+        "observation": "The approach is expected to generate a dataset covering a broad design space.",
+        "result_status": "success",
+        "next_step_reason": "Assemble the combinatorial pathway library.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0027/combined.md",
+            "section": "C001",
+            "quote_or_span": "The optimization of the heterologous biosynthesis of flavonoids is in no way straightforward and despite these previous engineering efforts, its industrial potential still remains largely unexploited"
+          },
+          {
+            "evidence_id": "EV_C001_E01_02",
+            "source_file": "docs/0027/combined.md",
+            "section": "C001",
+            "quote_or_span": "it is required to attune every enzymatic reaction in the pathway to each other and to the cell's available resources, thereby avoiding flux imbalances leading to accumulation of metabolites and associated toxicity or a potential detrimental metabolic burden on the cell"
+          },
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0027/combined.md",
+            "section": "C001",
+            "quote_or_span": "a combinatorial engineering approach using the tools for tunable and orthogonal expression, created in Bervoets et al. (2018) [8], is combined with a biosensor-driven screening to collect high-quality data to feed three different predictive models with increasing complexity to optimize microbial naringenin biosynthesis"
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "design",
+        "state_before": "Combinatorial approach designed.",
+        "gap_or_uncertainty": "Need to create a diverse library covering the design space.",
+        "hypothesis": "Using 10 sigmaB-specific promoters and 2 isozymes per step will generate 160,000 possible pathway configurations.",
+        "decision": "Assemble the naringenin pathway module combinatorially with variability at promoter and enzyme levels.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Golden Gate assembly",
+          "version": "",
+          "category": "DNA assembly"
+        },
+        "parameters": {
+          "promoters": "10 sigmaB-specific promoters",
+          "isozymes_per_step": 2,
+          "theoretical_variants": 160000
+        },
+        "observation": "Library assembled with broad coverage.",
+        "result_status": "success",
+        "next_step_reason": "Screen the library using the naringenin biosensor.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E03_01",
+            "source_file": "docs/0027/combined.md",
+            "section": "C001",
+            "quote_or_span": "The described module is assembled in a combinatorial manner, with variability introduced at the promoter and enzymatic levels."
+          },
+          {
+            "evidence_id": "EV_C001_E03_02",
+            "source_file": "docs/0027/combined.md",
+            "section": "C001",
+            "quote_or_span": "the theoretical search space comprises 160.000 (see Eq. 1) possible pathway configurations"
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "experiment",
+        "state_before": "Combinatorial library constructed.",
+        "gap_or_uncertainty": "Which strains produce high naringenin titers?",
+        "hypothesis": "Biosensor fluorescence correlates with naringenin production, enabling high-throughput screening.",
+        "decision": "Screen 190 colonies in MTP using the biosensor and select top 35 based on fluorescence.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "naringenin biosensor",
+          "version": "",
+          "category": "biosensor"
+        },
+        "parameters": {
+          "colonies_screened": 190,
+          "strains_selected": 35
+        },
+        "observation": "35 strains selected for further characterization.",
+        "result_status": "success",
+        "next_step_reason": "Measure naringenin titers and genotype selected strains.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E04_02",
+            "source_file": "docs/0027/combined.md",
+            "section": "C001",
+            "quote_or_span": "the selection was restricted to 35 strains"
+          },
+          {
+            "evidence_id": "EV_AUTO_013",
+            "source_file": "docs/0027/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The acquired fluorescence data from the 190 different strains was normalized for optical density (OD $_{600}$ ) and sorted in descending order."
+          },
+          {
+            "evidence_id": "EV_C005_E06_01",
+            "source_file": "docs/0027/combined.md",
+            "section": "C005",
+            "quote_or_span": "To determine the genotype of the 35 fluorescence-based selected library strains, first, cells from the MTP cultures were streaked on agar plates lacking the antibiotic required to sustain replication of the biosensor carrying plasmid. Next, single colonies were cultured for plasmid isolation and subsequent Sanger sequencing"
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "experiment",
+        "state_before": "35 strains selected from biosensor screening.",
+        "gap_or_uncertainty": "Actual naringenin titers and genotypes of selected strains unknown.",
+        "hypothesis": "UPLC analysis and DNA sequencing will provide accurate titer and genotype data.",
+        "decision": "Perform UPLC to measure naringenin titers and sequence the genotypes.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "UPLC",
+          "version": "",
+          "category": "analytical chemistry"
+        },
+        "parameters": {},
+        "observation": "Titers ranged from 1.52 to 27.03 mg/L; genotypes determined.",
+        "result_status": "success",
+        "next_step_reason": "Analyze data to identify key enzyme variants and build models.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E05_01",
+            "source_file": "docs/0027/combined.md",
+            "section": "C001",
+            "quote_or_span": "the naringenin titer in the MTP-scale cultures was determined through UPLC analysis and ranged from 1.52 to 27.03 mg/L"
+          },
+          {
+            "evidence_id": "EV_C001_E05_02",
+            "source_file": "docs/0027/combined.md",
+            "section": "C001",
+            "quote_or_span": "DNA sequencing was performed to determine the corresponding genotypes"
+          },
+          {
+            "evidence_id": "EV_C002_E01_01",
+            "source_file": "docs/0027/combined.md",
+            "section": "C002",
+            "quote_or_span": "Of the selected strains, the naringenin titer in the MTP-scale cultures was determined through UPLC analysis and ranged from 1.52 to 27.03 mg/L"
+          },
+          {
+            "evidence_id": "EV_C002_E01_02",
+            "source_file": "docs/0027/combined.md",
+            "section": "C002",
+            "quote_or_span": "DNA sequencing was performed to determine the corresponding genotypes."
+          },
+          {
+            "evidence_id": "EV_C001_E04_02",
+            "source_file": "docs/0027/combined.md",
+            "section": "C001",
+            "quote_or_span": "the selection was restricted to 35 strains"
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "analysis",
+        "state_before": "Titer and genotype data collected for 35 strains.",
+        "gap_or_uncertainty": "One strain failed sequencing, reducing dataset to 34; need to identify influential enzyme variants.",
+        "hypothesis": "Data exploration will reveal which enzyme variants significantly affect titer.",
+        "decision": "Perform ANOVA and barplot analysis; remove poorly represented variants (At4CL, PhCHS) to reduce features.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "ANOVA",
+          "version": "",
+          "category": "statistical analysis"
+        },
+        "parameters": {},
+        "observation": "FjTAL significantly outperforms RgTAL; At4CL and PhCHS underrepresented, removed from dataset.",
+        "result_status": "success",
+        "next_step_reason": "Build OLS regression model with reduced dataset.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E06_01",
+            "source_file": "docs/0027/combined.md",
+            "section": "C001",
+            "quote_or_span": "For one out of the 35 observations, sequencing was unsuccessful."
+          },
+          {
+            "evidence_id": "EV_C002_E03_01",
+            "source_file": "docs/0027/combined.md",
+            "section": "C002",
+            "quote_or_span": "pathway configurations containing the TAL CDS from Flavobacterium johnsoniae (FjTAL) perform significantly better on average than those containing the TAL CDS from Rhodotorula glutinis (RgTAL)"
+          },
+          {
+            "evidence_id": "EV_C002_E03_02",
+            "source_file": "docs/0027/combined.md",
+            "section": "C002",
+            "quote_or_span": "the presence of only a single 4CL CDS from Arabidopsis thaliana (At4CL) and three appearances of the CHS CDS from Petunia hybrida (PhCHS) in the dataset"
+          },
+          {
+            "evidence_id": "EV_C002_E03_03",
+            "source_file": "docs/0027/combined.md",
+            "section": "C002",
+            "quote_or_span": "It was decided accordingly to remove the total of four entries in the dataset containing either of these two enzyme variants to reduce the number of model features"
+          },
+          {
+            "evidence_id": "EV_AUTO_029",
+            "source_file": "docs/0027/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "For the followed pathway construction workflow, all enzyme variants in the pathway (listed in Table 2) were cloned in separate carrier plasmids, in which all operons catalyzing the same enzymatic reaction are flanked by the same pair of Golden Gate (GG) restriction sites, sequentially matching with the GG restriction sites for the different steps in the pathway $[34]$ (see Fig."
+          },
+          {
+            "evidence_id": "EV_AUTO_011",
+            "source_file": "docs/0027/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "By using a unique linker-based Golden Gate assembly workflow for the construction of the pathway variants, the presence of all promoters and coding sequences is evenly distributed in the final pathway library $[34, 39]$ ."
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "simulation",
+        "state_before": "Dataset reduced to 30 observations with key enzyme variants identified.",
+        "gap_or_uncertainty": "Need a predictive model to relate promoter TIF and enzyme variants to titer.",
+        "hypothesis": "OLS regression with quadratic and interaction terms can capture nonlinear effects.",
+        "decision": "Build OLS model with 6 features, quadratic and interaction terms; reduce by backward elimination.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "OLS regression",
+          "version": "",
+          "category": "statistical modeling"
+        },
+        "parameters": {
+          "features": 6,
+          "terms": "quadratic and interaction",
+          "reduction_method": "backward elimination"
+        },
+        "observation": "Model achieved R²=0.93 but predictions contradicted data exploration.",
+        "result_status": "failure",
+        "next_step_reason": "OLS model overfits and is sensitive to outliers; try PLS regression.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E04_01",
+            "source_file": "docs/0027/combined.md",
+            "section": "C002",
+            "quote_or_span": "first an ordinary least squares (OLS) regression analysis was performed"
+          },
+          {
+            "evidence_id": "EV_C002_E04_03",
+            "source_file": "docs/0027/combined.md",
+            "section": "C002",
+            "quote_or_span": "This initial model was reduced to only maintain the terms contributing to product formation by sequentially removing the least significant term"
+          },
+          {
+            "evidence_id": "EV_C002_E05_01",
+            "source_file": "docs/0027/combined.md",
+            "section": "C002",
+            "quote_or_span": "The predicted top six naringenin producers show a consensus of high FjTAL, Petroselinum crispum 4CL (Pc4CL) and PhCHI expression and low Gerbera hybrida CHS (GhCHS) expression"
+          },
+          {
+            "evidence_id": "EV_C002_E05_02",
+            "source_file": "docs/0027/combined.md",
+            "section": "C002",
+            "quote_or_span": "This is in contradiction with what could be expected from the performed data exploration for the preferred expression level of 4CL and CHS."
+          },
+          {
+            "evidence_id": "EV_C003_E01_01",
+            "source_file": "docs/0027/combined.md",
+            "section": "C003",
+            "quote_or_span": "The regression model contains 18 regressors and was trained with the 30 observations."
+          },
+          {
+            "evidence_id": "EV_AUTO_009",
+            "source_file": "docs/0027/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "(2018) [30] developed a machine-learning workflow, especially designed to deal with the optimization of heterologous biosynthetic pathways, trained with a relatively small dataset generated from a prescreened combinatorially engineered library, similar to this work."
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "simulation",
+        "state_before": "OLS model failed due to overfitting and outlier sensitivity.",
+        "gap_or_uncertainty": "Need a more robust model that aligns with data exploration.",
+        "hypothesis": "PLS regression with latent variables will handle multicollinearity and small sample size better.",
+        "decision": "Build PLS model with 2 latent variables using 30 observations.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "PLS regression",
+          "version": "",
+          "category": "statistical modeling"
+        },
+        "parameters": {
+          "latent_variables": 2,
+          "observations": 30
+        },
+        "observation": "Model achieved R²=0.79; predictions consistent with data exploration.",
+        "result_status": "success",
+        "next_step_reason": "Use PLS predictions to guide further optimization; also explore ANN ensemble.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E06_01",
+            "source_file": "docs/0027/combined.md",
+            "section": "C002",
+            "quote_or_span": "Partial least squares (PLS) regression model"
+          },
+          {
+            "evidence_id": "EV_C003_E01_01",
+            "source_file": "docs/0027/combined.md",
+            "section": "C003",
+            "quote_or_span": "The regression model contains 18 regressors and was trained with the 30 observations."
+          },
+          {
+            "evidence_id": "EV_C003_E02_01",
+            "source_file": "docs/0027/combined.md",
+            "section": "C003",
+            "quote_or_span": "The regression coefficients explaining promoter TIF all align toward an increased production capacity for high expression of TAL, and in sheer contrast with the OLS model, high expression of CHS and low expression of 4CL and CHI."
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "design",
+        "state_before": "PLS model provides robust predictions.",
+        "gap_or_uncertainty": "Risk of overfitting with small dataset when using ANN.",
+        "hypothesis": "An ANN ensemble with multiple random initializations and selection of top performers will avoid overfitting.",
+        "decision": "Adopt ANN ensemble workflow: 1000 iterations, random weights, store top 10 producers, selection threshold 0.5*f_max.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "ANN ensemble",
+          "version": "",
+          "category": "machine learning"
+        },
+        "parameters": {
+          "iterations": 1000,
+          "top_producers_stored": 10,
+          "selection_threshold": "0.5*f_max"
+        },
+        "observation": "ANN ensemble predictions similar to PLS, with minor differences in TAL and CHS promoter TIF.",
+        "result_status": "success",
+        "next_step_reason": "Validate model predictions by constructing and testing optimized strains.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E03_01",
+            "source_file": "docs/0027/combined.md",
+            "section": "C003",
+            "quote_or_span": "This ANN ensemble workflow (as opposed to the training of a single model) was adopted to avoid overfitting due to the use of a relatively small dataset."
+          },
+          {
+            "evidence_id": "EV_C003_E04_01",
+            "source_file": "docs/0027/combined.md",
+            "section": "C003",
+            "quote_or_span": "The genetic parts predicted to contribute to a superior naringenin production are very similar to the PLS model predictions with minor differences for TAL and CHS promoter TIF"
+          },
+          {
+            "evidence_id": "EV_C004_E02_01",
+            "source_file": "docs/0027/combined.md",
+            "section": "C004",
+            "quote_or_span": "The supplementation of glycerol to the medium increases the titer further by 116.8 ± 5.6% to 53.3 mg/L for strain Top10.5 and 111.2 ± 48.9% to 61.4 mg/L for Top10.4"
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "validation",
+        "state_before": "Model predictions suggest optimal pathway configurations.",
+        "gap_or_uncertainty": "Do the predicted strains actually produce higher titers?",
+        "hypothesis": "Strains built according to model predictions will outperform the unbalanced reference pathway.",
+        "decision": "Construct optimized strains (Top10.4, Top10.5) and benchmark against NarRef.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "benchmarking",
+          "version": "",
+          "category": "strain characterization"
+        },
+        "parameters": {},
+        "observation": "Optimized strains showed ~15-fold titer increase compared to NarRef.",
+        "result_status": "success",
+        "next_step_reason": "Test glycerol supplementation to further boost titer.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E01_01",
+            "source_file": "docs/0027/combined.md",
+            "section": "C004",
+            "quote_or_span": "both optimized strains show, on average, an almost 15 times increase in production titer compared to NarRef"
+          },
+          {
+            "evidence_id": "EV_C004_E02_01",
+            "source_file": "docs/0027/combined.md",
+            "section": "C004",
+            "quote_or_span": "The supplementation of glycerol to the medium increases the titer further by 116.8 ± 5.6% to 53.3 mg/L for strain Top10.5 and 111.2 ± 48.9% to 61.4 mg/L for Top10.4"
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "experiment",
+        "state_before": "Optimized strains validated.",
+        "gap_or_uncertainty": "Can glycerol supplementation further increase titer by boosting malonyl-CoA?",
+        "hypothesis": "Glycerol supplementation will increase malonyl-CoA supply, enhancing naringenin production.",
+        "decision": "Supplement medium with glycerol and measure titers for Top10.4 and Top10.5.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "glycerol supplementation",
+          "version": "",
+          "category": "media optimization"
+        },
+        "parameters": {},
+        "observation": "Titer increased by 116.8% for Top10.5 (53.3 mg/L) and 111.2% for Top10.4 (61.4 mg/L).",
+        "result_status": "success",
+        "next_step_reason": "Analyze glycerol effect and identify remaining limitations.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E02_01",
+            "source_file": "docs/0027/combined.md",
+            "section": "C004",
+            "quote_or_span": "The supplementation of glycerol to the medium increases the titer further by 116.8 ± 5.6% to 53.3 mg/L for strain Top10.5 and 111.2 ± 48.9% to 61.4 mg/L for Top10.4"
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "analysis",
+        "state_before": "Glycerol supplementation boosted titers.",
+        "gap_or_uncertainty": "Why does production halt in stationary phase?",
+        "hypothesis": "Malonyl-CoA limitation causes p-coumaric acid accumulation and halts naringenin production.",
+        "decision": "Analyze metabolite profiles in bioreactor; observe p-coumaric acid accumulation and plasmid instability.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "bioreactor analysis",
+          "version": "",
+          "category": "fermentation"
+        },
+        "parameters": {},
+        "observation": "No additional naringenin in stationary phase; p-coumaric acid accumulated; plasmid deletions and cell stress observed.",
+        "result_status": "failure",
+        "next_step_reason": "Identify plasmid instability and stress as limitations for further scale-up.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E05_01",
+            "source_file": "docs/0027/combined.md",
+            "section": "C004",
+            "quote_or_span": "In the stationary growth phase, no additional naringenin production was observed, though p-coumaric acid accumulation started. This could indicate insufficient malonyl-CoA formation"
+          },
+          {
+            "evidence_id": "EV_C004_E06_01",
+            "source_file": "docs/0027/combined.md",
+            "section": "C004",
+            "quote_or_span": "the production plasmid of two, non-coloring, single colonies was analyzed by sequencing, showing different large deletions in the pathway genes"
+          },
+          {
+            "evidence_id": "EV_C004_E06_02",
+            "source_file": "docs/0027/combined.md",
+            "section": "C004",
+            "quote_or_span": "microscopic images of these samples showed filamentation of the cells, which is a sign of stress"
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "Benchmarking against NarRef",
+        "Glycerol supplementation test"
+      ],
+      "metrics": [
+        "Naringenin titer (mg/L)",
+        "Fold increase over reference"
+      ],
+      "final_conclusion": "Model-based optimization achieved ~15-fold titer increase; glycerol further boosted titers to 61.4 mg/L, but malonyl-CoA limitation and plasmid instability remain challenges.",
+      "limitations": [
+        "Malonyl-CoA limitation in stationary phase",
+        "Plasmid instability and cell stress in bioreactor"
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_specific_evidence_backfilled=10",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_specific_evidence_backfilled=8",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 96.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p5\\states\\0027.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p5\\events\\0027.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1
+        ],
+        "K02": [
+          1
+        ],
+        "K03": [
+          1,
+          2
+        ],
+        "K04": [
+          3,
+          4
+        ],
+        "K05": [
+          3,
+          4
+        ],
+        "K08": [
+          5,
+          6,
+          7
+        ],
+        "K10": [
+          5,
+          6,
+          7,
+          8
+        ],
+        "K12": [
+          8
+        ],
+        "K14": [
+          9
+        ],
+        "K15": [
+          8,
+          9,
+          10
+        ],
+        "K17": [
+          11
+        ],
+        "K18": [
+          11
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02",
+            "K03"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K03"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K04",
+            "K05"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K04",
+            "K05"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K06",
+            "K07",
+            "K08",
+            "K10"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K08",
+            "K09",
+            "K10",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K08",
+            "K09",
+            "K10",
+            "K11",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K10",
+            "K12",
+            "K13",
+            "K15"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K14",
+            "K15"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K15"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K17",
+            "K18"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 2,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "10s",
+          "160000"
+        ]
+      },
+      {
+        "step_index": 5,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "35s"
+        ]
+      },
+      {
+        "step_index": 6,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "0.93"
+        ]
+      },
+      {
+        "step_index": 7,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "0.79"
+        ]
+      },
+      {
+        "step_index": 8,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "1000"
+        ]
+      },
+      {
+        "step_index": 10,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "111.2%",
+          "116.8%"
+        ]
+      }
+    ],
+    "step_count": 11,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 96.0
+  },
+  "api_usage": {
+    "prompt_tokens": 149937,
+    "completion_tokens": 27968,
+    "total_tokens": 177905,
+    "prompt_cache_hit_tokens": 3456,
+    "prompt_cache_miss_tokens": 146481
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 5091,
+        "completion_tokens": 769,
+        "total_tokens": 5860,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 5091
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 13305,
+        "completion_tokens": 3749,
+        "total_tokens": 17054,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 13305
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 8326,
+        "completion_tokens": 1130,
+        "total_tokens": 9456,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8070
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 9397,
+        "completion_tokens": 1559,
+        "total_tokens": 10956,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9141
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 9086,
+        "completion_tokens": 1661,
+        "total_tokens": 10747,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8830
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 8189,
+        "completion_tokens": 1372,
+        "total_tokens": 9561,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7933
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C005",
+      "api_usage": {
+        "prompt_tokens": 9326,
+        "completion_tokens": 1461,
+        "total_tokens": 10787,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9070
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C006",
+      "api_usage": {
+        "prompt_tokens": 9092,
+        "completion_tokens": 89,
+        "total_tokens": 9181,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8836
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C007",
+      "api_usage": {
+        "prompt_tokens": 6020,
+        "completion_tokens": 47,
+        "total_tokens": 6067,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 5764
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 14671,
+        "completion_tokens": 3820,
+        "total_tokens": 18491,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 14287
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 14643,
+        "completion_tokens": 5401,
+        "total_tokens": 20044,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 14003
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 19750,
+        "completion_tokens": 1370,
+        "total_tokens": 21120,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 19750
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 23041,
+        "completion_tokens": 5540,
+        "total_tokens": 28581,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 22401
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

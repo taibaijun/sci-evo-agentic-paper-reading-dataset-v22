@@ -1,0 +1,986 @@
+{
+  "case": {
+    "case_id": "sci_evo_0052",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Rational computational design and development of an immunogenic multiepitope vaccine incorporating transmembrane proteins of Fusobacterium necrophorum",
+      "doi": "https://doi.org/10.1038/s41598-025-00166-4",
+      "url": "",
+      "license": "cc-by-nc-nd",
+      "publication_date": "",
+      "raw_file": "0050_10_1038_s41598_025_00166_4_rational_computational_design_and_development_of_an_immunogenic_multiepitope_vaccine_incor.pdf",
+      "mineru_md": "docs/0052/mineru.md",
+      "combined_md": "docs/0052/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Fusobacterium necrophorum causes severe human and livestock diseases with rising antimicrobial resistance and no effective vaccines, motivating computational design of a multi-epitope vaccine targeting transmembrane proteins.",
+      "target_object": "Fusobacterium necrophorum transmembrane proteins",
+      "known_context": "Rising antimicrobial resistance and lack of effective vaccines for F. necrophorum infections.",
+      "constraints": [
+        "Computational design only; no experimental validation performed.",
+        "Epitopes must be non-allergenic, non-toxic, and antigenic."
+      ],
+      "input_data": [
+        "F. necrophorum proteome (2722 proteins)"
+      ],
+      "quantifiable_goals": [
+        "Design a multi-epitope vaccine with high antigenicity (VaxiJen >0.4).",
+        "Achieve >99% global population coverage.",
+        "Induce robust immune response in silico."
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "No effective vaccines for F. necrophorum; rising antimicrobial resistance.",
+        "gap_or_uncertainty": "Need for alternative therapeutic strategies against F. necrophorum.",
+        "hypothesis": "Transmembrane proteins of F. necrophorum are promising vaccine targets due to immune accessibility and roles in virulence.",
+        "decision": "Focus on transmembrane proteins for vaccine design.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "Literature review",
+          "version": "",
+          "category": "literature"
+        },
+        "parameters": {},
+        "observation": "Transmembrane proteins are accessible to the immune system and involved in adhesion, invasion, and virulence.",
+        "result_status": "success",
+        "next_step_reason": "Select specific transmembrane proteins with high antigenicity.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0052/combined.md",
+            "section": "C001",
+            "quote_or_span": "The rise in antimicrobial resistance and the absence of effective vaccines underscore the need for alternative therapeutic strategies."
+          },
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0052/combined.md",
+            "section": "C001",
+            "quote_or_span": "Transmembrane proteins present promising targets for vaccination due to their accessibility to the immune system and their involvement in bacterial adhesion, invasion, and virulence"
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "design",
+        "state_before": "Hypothesis that transmembrane proteins are good vaccine targets.",
+        "gap_or_uncertainty": "Which specific transmembrane proteins to select?",
+        "hypothesis": "Proteins with high antigenicity (>0.4), non-allergenicity, non-toxicity, and roles in virulence are suitable.",
+        "decision": "Select four transmembrane proteins: outer membrane efflux protein, SecA, FtsH, SecF.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "VaxiJen, AllerTOP, Toxipred",
+          "version": "",
+          "category": "immunoinformatics"
+        },
+        "parameters": {
+          "antigenicity_threshold": 0.4
+        },
+        "observation": "Four proteins met criteria from 2722 total proteins.",
+        "result_status": "success",
+        "next_step_reason": "Predict epitopes from selected proteins.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E03_01",
+            "source_file": "docs/0052/combined.md",
+            "section": "C001",
+            "quote_or_span": "These proteins were chosen based on their high antigenicity scores (>0.4), non-allergenicity and non-toxicity, along with their functional roles in bacterial virulence, including adhesion, invasion, and biofilm formation."
+          },
+          {
+            "evidence_id": "EV_AUTO_021",
+            "source_file": "docs/0052/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "From a total of 2722, four transmembrane proteins were selected based on their antigenicity and biological significance."
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "design",
+        "state_before": "Four transmembrane proteins selected.",
+        "gap_or_uncertainty": "Need to identify immunogenic epitopes for B-cells, MHC-I, and MHC-II.",
+        "hypothesis": "Epitopes with high binding affinity and low percentile rank will be immunogenic.",
+        "decision": "Use Bepipred 2.0 for B-cell epitopes, ANN 4.0 for MHC-I (IC50 <100 nM, rank <1%), NN-align for MHC-II (IC50 <100 nM).",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Bepipred 2.0, ANN 4.0, NN-align",
+          "version": "",
+          "category": "epitope prediction"
+        },
+        "parameters": {
+          "MHC_I_IC50_threshold": 100,
+          "MHC_I_percentile_rank_threshold": 1,
+          "MHC_II_IC50_threshold": 100
+        },
+        "observation": "Selected epitopes meeting criteria.",
+        "result_status": "success",
+        "next_step_reason": "Assemble epitopes into a vaccine construct.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E04_02",
+            "source_file": "docs/0052/combined.md",
+            "section": "C001",
+            "quote_or_span": "Only epitopes with IC50 values < 100 nM and percentile ranks < 1% were selected"
+          },
+          {
+            "evidence_id": "EV_C001_E04_03",
+            "source_file": "docs/0052/combined.md",
+            "section": "C001",
+            "quote_or_span": "The cut-off for selection was based on IC50 values < 100 nM and a low percentile rank"
+          },
+          {
+            "evidence_id": "EV_C003_E01_01",
+            "source_file": "docs/0052/combined.md",
+            "section": "C003",
+            "quote_or_span": "two epitopes selected from each protein based on their low percentage rank with their corresponding IC50 values, specifically those less than 100"
+          },
+          {
+            "evidence_id": "EV_C003_E02_01",
+            "source_file": "docs/0052/combined.md",
+            "section": "C003",
+            "quote_or_span": "The chosen epitopes were based on the antigenicity score exceeding 0.4 and an evaluation of their non-allergenic properties."
+          },
+          {
+            "evidence_id": "EV_C005_E07_01",
+            "source_file": "docs/0052/combined.md",
+            "section": "C005",
+            "quote_or_span": "Yellow lines show the engineered disulfide bonds predicted by Disulfide by Design 2.0"
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "design",
+        "state_before": "Epitopes predicted.",
+        "gap_or_uncertainty": "How to link epitopes and enhance immunogenicity?",
+        "hypothesis": "Using specific linkers and adding adjuvant will create a stable, immunogenic construct.",
+        "decision": "Link B-cell epitopes with AYY, MHC-I with KK, MHC-II with AAY; add beta-defensin adjuvant via GPGPG, and 6xHis tag.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "Manual construct design",
+          "version": "",
+          "category": "vaccine design"
+        },
+        "parameters": {
+          "linkers": [
+            "GPGPG",
+            "KK",
+            "AAY",
+            "AYY"
+          ],
+          "adjuvant": "beta-defensin",
+          "tag": "6xHis"
+        },
+        "observation": "Vaccine construct assembled.",
+        "result_status": "success",
+        "next_step_reason": "Validate antigenicity, allergenicity, toxicity of construct.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E05_01",
+            "source_file": "docs/0052/combined.md",
+            "section": "C001",
+            "quote_or_span": "The linkers GPGPG, KK, AAY, and AYY were used to join the selected epitopes in the final vaccine construct"
+          },
+          {
+            "evidence_id": "EV_C003_E04_01",
+            "source_file": "docs/0052/combined.md",
+            "section": "C003",
+            "quote_or_span": "Eight MHC Class-I epitopes were linked using KK, eight MHC Class-II were connected via AAY and four B cell epitopes were joined using AYY linkers"
+          },
+          {
+            "evidence_id": "EV_C003_E04_02",
+            "source_file": "docs/0052/combined.md",
+            "section": "C003",
+            "quote_or_span": "a beta defensin protein sequence was added to the N-terminal N using a GPGPG linker"
+          },
+          {
+            "evidence_id": "EV_C003_E04_03",
+            "source_file": "docs/0052/combined.md",
+            "section": "C003",
+            "quote_or_span": "a 6X Histidine tag was incorporated at the C-terminus"
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "validation",
+        "state_before": "Vaccine construct designed.",
+        "gap_or_uncertainty": "Is the construct antigenic, non-allergenic, non-toxic?",
+        "hypothesis": "Construct will meet safety and immunogenicity criteria.",
+        "decision": "Validate using VaxiJen, AllerTOP, Toxipred.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "VaxiJen, AllerTOP, Toxipred",
+          "version": "",
+          "category": "immunoinformatics"
+        },
+        "parameters": {},
+        "observation": "Antigenicity 0.7293, non-allergen, non-toxic.",
+        "result_status": "success",
+        "next_step_reason": "Analyze physicochemical properties and secondary structure.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E05_01",
+            "source_file": "docs/0052/combined.md",
+            "section": "C003",
+            "quote_or_span": "The design vaccine was categorized as non-allergen evaluated using AllerTOP server."
+          },
+          {
+            "evidence_id": "EV_C003_E05_02",
+            "source_file": "docs/0052/combined.md",
+            "section": "C003",
+            "quote_or_span": "The antigenicity was 0.7293, which is greater than the threshold level of 0.4 as predicted by VaxiJen server."
+          },
+          {
+            "evidence_id": "EV_C003_E05_03",
+            "source_file": "docs/0052/combined.md",
+            "section": "C003",
+            "quote_or_span": "Toxipred server confirmed that the vaccine construct is non-toxic."
+          },
+          {
+            "evidence_id": "EV_C007_E05_01",
+            "source_file": "docs/0052/combined.md",
+            "section": "C007",
+            "quote_or_span": "The antigenicity score of our vaccine construct was 0.7293 (VaxiJen analysis), which classifies it as highly immunogenic. Also, the population coverage estimates showed values of 99.39%, ensuring the applicability across different ethnicities."
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "analysis",
+        "state_before": "Physicochemical properties known.",
+        "gap_or_uncertainty": "What is the secondary structure composition?",
+        "hypothesis": "Construct will have a predominantly helical structure.",
+        "decision": "Predict secondary structure with GOR-IV.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "GOR-IV",
+          "version": "",
+          "category": "bioinformatics"
+        },
+        "parameters": {},
+        "observation": "Alpha helices 45.61%, beta strands 17.85%, coils 36.54%.",
+        "result_status": "success",
+        "next_step_reason": "Predict 3D structure.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E07_01",
+            "source_file": "docs/0052/combined.md",
+            "section": "C003",
+            "quote_or_span": "The GOR-IV pie chart Fig. 8 (B) quantifies structural composition, showing alpha helices (45.61%), beta strands (17.85%), and coils (36.54%), indicating a predominantly helical structure."
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "simulation",
+        "state_before": "Secondary structure known.",
+        "gap_or_uncertainty": "Need 3D structure for further analysis.",
+        "hypothesis": "TrRosetta can predict accurate 3D model.",
+        "decision": "Use TrRosetta; select best model by C-score; validate with Ramachandran and ERRAT.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "TrRosetta, PROCHECK, ERRAT",
+          "version": "",
+          "category": "structure prediction"
+        },
+        "parameters": {},
+        "observation": "Best model C-score 7.167, TM-score 0.52±0.25; Ramachandran 97.4% favored, ERRAT 97.078.",
+        "result_status": "success",
+        "next_step_reason": "Dock with TLRs to assess immune activation.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E06_01",
+            "source_file": "docs/0052/combined.md",
+            "section": "C001",
+            "quote_or_span": "Structural validation using TrRosetta and Ramachandran plots confirmed 97.4% of residues in favored regions, indicating high stability."
+          },
+          {
+            "evidence_id": "EV_C003_E08_02",
+            "source_file": "docs/0052/combined.md",
+            "section": "C003",
+            "quote_or_span": "The results indicated that approximately 97.4% of the residues were in the most favored regions"
+          },
+          {
+            "evidence_id": "EV_C004_E02_01",
+            "source_file": "docs/0052/combined.md",
+            "section": "C004",
+            "quote_or_span": "TrRosetta predicted five different models, and as shown in Fig. 9 (A), the model with the highest C-score of 7.167 exhibited a TM-score of $0.52 \\pm 0.25$ was selected."
+          },
+          {
+            "evidence_id": "EV_C004_E03_01",
+            "source_file": "docs/0052/combined.md",
+            "section": "C004",
+            "quote_or_span": "The results indicated that approximately 97.4% of the residues were in the most favored regions, while 2.3% were in the additionally allowed zones. Only 0.3% of the residues were located in the disallowed regions"
+          },
+          {
+            "evidence_id": "EV_C004_E04_01",
+            "source_file": "docs/0052/combined.md",
+            "section": "C004",
+            "quote_or_span": "The total quality factor value of the improved 3D structures, estimated using ERRAT was 97.078"
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "simulation",
+        "state_before": "3D structure validated.",
+        "gap_or_uncertainty": "Will the vaccine bind to immune receptors?",
+        "hypothesis": "Vaccine will bind strongly to TLR7 and TLR8.",
+        "decision": "Dock with TLR3,4,7,8 using ClusPro; select top model by binding energy.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "ClusPro",
+          "version": "",
+          "category": "molecular docking"
+        },
+        "parameters": {
+          "receptors": [
+            "TLR3",
+            "TLR4",
+            "TLR7",
+            "TLR8"
+          ]
+        },
+        "observation": "TLR7: 12 H-bonds; TLR8: 13 H-bonds, -1434.6 kcal/mol; TLR3/4 weak binding.",
+        "result_status": "success",
+        "next_step_reason": "Perform MD simulation on best complex (TLR8).",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E02_02",
+            "source_file": "docs/0052/combined.md",
+            "section": "C002",
+            "quote_or_span": "Thirty docking runs were performed for each receptor (TLR-3, TLR-4, TLR-7, and TLR-8), and the top-ranked model with the lowest binding energy was selected for further analysis."
+          },
+          {
+            "evidence_id": "EV_C007_E07_01",
+            "source_file": "docs/0052/combined.md",
+            "section": "C007",
+            "quote_or_span": "The TLR7-vaccine complex had 12 hydrogen bonds, whereas TLR8 showed the most potent interaction of 13 hydrogen bonds and -1434.6 kcal/mol binding energy."
+          },
+          {
+            "evidence_id": "EV_AUTO_001",
+            "source_file": "docs/0052/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The analysis revealed that TLR-3 and TLR-4 demonstrated weak binding with the vaccine formulation, and TLR-7 and TLR-8 showed robust"
+          },
+          {
+            "evidence_id": "EV_AUTO_007",
+            "source_file": "docs/0052/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "In interaction analysis, TLR-8(B) indicated 13 hydrogen bonds, while TLR-7 indicated 12, as illustrated in Table 7."
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "simulation",
+        "state_before": "Docking shows strong TLR8 binding.",
+        "gap_or_uncertainty": "Is the vaccine-TLR8 complex stable over time?",
+        "hypothesis": "Complex will remain stable in MD simulation.",
+        "decision": "Run 150 ns MD simulation; analyze RMSD, Rg, energy.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "GROMACS",
+          "version": "",
+          "category": "molecular dynamics"
+        },
+        "parameters": {
+          "simulation_time": "150 ns"
+        },
+        "observation": "RMSD stabilized at 3–5 Å after 150 ns, Rg ~36 Å, energy -5000 kJ/mol.",
+        "result_status": "success",
+        "next_step_reason": "Assess population coverage and immune simulation.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E04_01",
+            "source_file": "docs/0052/combined.md",
+            "section": "C002",
+            "quote_or_span": "The complexes were analyzed using root mean square deviation (RMSD) to examine the stability, and the system also calculated root mean square fluctuation (RMSF) to assess flexibility."
+          },
+          {
+            "evidence_id": "EV_C002_E04_02",
+            "source_file": "docs/0052/combined.md",
+            "section": "C002",
+            "quote_or_span": "The radius of gyration (Rg) was computed using GROMACS after converting the trajectory to XTC format with MDTraj."
+          },
+          {
+            "evidence_id": "EV_C004_E08_01",
+            "source_file": "docs/0052/combined.md",
+            "section": "C004",
+            "quote_or_span": "After 150 ns, the RMSD stabilizes around 3–5 Å, indicating that the system has reached equilibrium."
+          },
+          {
+            "evidence_id": "EV_C004_E08_02",
+            "source_file": "docs/0052/combined.md",
+            "section": "C004",
+            "quote_or_span": "An RMSD value between 3 and 5 Å indicates structural stability"
+          },
+          {
+            "evidence_id": "EV_AUTO_024",
+            "source_file": "docs/0052/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Principal component analysis (PCA) identified elastic regions critical for biological activity, and the stable energy levels (-5000 kJ/mol) further confirmed the reliability of the binding."
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "analysis",
+        "state_before": "Stable vaccine-TLR8 complex.",
+        "gap_or_uncertainty": "Will the vaccine cover diverse populations?",
+        "hypothesis": "Epitopes will provide high global coverage.",
+        "decision": "Perform population coverage analysis (IEDB).",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "IEDB population coverage",
+          "version": "",
+          "category": "immunoinformatics"
+        },
+        "parameters": {},
+        "observation": "99.39% global coverage.",
+        "result_status": "success",
+        "next_step_reason": "Simulate immune response.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E07_01",
+            "source_file": "docs/0052/combined.md",
+            "section": "C001",
+            "quote_or_span": "Population coverage analysis indicated over 99% global applicability"
+          },
+          {
+            "evidence_id": "EV_C003_E03_01",
+            "source_file": "docs/0052/combined.md",
+            "section": "C003",
+            "quote_or_span": "The analysis yielded a global value of 99.39% indicating the broad potential of the selected epitopes to elicit an immune response across diverse populations."
+          },
+          {
+            "evidence_id": "EV_C007_E05_01",
+            "source_file": "docs/0052/combined.md",
+            "section": "C007",
+            "quote_or_span": "The antigenicity score of our vaccine construct was 0.7293 (VaxiJen analysis), which classifies it as highly immunogenic. Also, the population coverage estimates showed values of 99.39%, ensuring the applicability across different ethnicities."
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "analysis",
+        "state_before": "High population coverage confirmed.",
+        "gap_or_uncertainty": "Will the vaccine induce a robust immune response?",
+        "hypothesis": "Immune simulation will show strong humoral and cellular response.",
+        "decision": "Perform immune simulation (C-IMMSIM).",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "C-IMMSIM",
+          "version": "",
+          "category": "immunoinformatics"
+        },
+        "parameters": {},
+        "observation": "IgM/IgG peak 5000 units by day 14, increased IFN-γ and IL-20.",
+        "result_status": "success",
+        "next_step_reason": "Acknowledge need for experimental validation.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C006_E05_01",
+            "source_file": "docs/0052/combined.md",
+            "section": "C006",
+            "quote_or_span": "The simulation results indicate that antigen production begins around day 3, while antibody production starts around day 7, peaks at approximately 3,000 units, and continues to rise, reaching a maximum of 5,000 units by day 14."
+          },
+          {
+            "evidence_id": "EV_C007_E01_01",
+            "source_file": "docs/0052/combined.md",
+            "section": "C007",
+            "quote_or_span": "Immune simulation results suggested robust activation of both humoral and cellular immunity, with a peak IgM and IgG response reaching 5000 units by day 14."
+          },
+          {
+            "evidence_id": "EV_AUTO_011",
+            "source_file": "docs/0052/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Interleukins, cytokines, and growth factors such as IL-20 and IFN- $\\gamma$ play pivotal roles in modulating and enhancing the immune response."
+          }
+        ]
+      },
+      {
+        "step_index": 12,
+        "phase": "revision",
+        "state_before": "Positive computational results.",
+        "gap_or_uncertainty": "Computational predictions need experimental confirmation.",
+        "hypothesis": "In vitro and in vivo studies will validate immunogenicity and safety.",
+        "decision": "State limitation and future work.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "None",
+          "version": "",
+          "category": "limitation"
+        },
+        "parameters": {},
+        "observation": "Experimental validation required.",
+        "result_status": "inconclusive",
+        "next_step_reason": "End of trajectory.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E08_01",
+            "source_file": "docs/0052/combined.md",
+            "section": "C001",
+            "quote_or_span": "experimental validation is necessary to confirm safety and efficacy, and challenges in vaccine manufacturing and variable immune responses across populations must also be addressed."
+          },
+          {
+            "evidence_id": "EV_C007_E08_01",
+            "source_file": "docs/0052/combined.md",
+            "section": "C007",
+            "quote_or_span": "Although the computational results are encouraging, experimental validation is needed to assess the immunogenicity and safety of the designed vaccine."
+          },
+          {
+            "evidence_id": "EV_C007_E08_02",
+            "source_file": "docs/0052/combined.md",
+            "section": "C007",
+            "quote_or_span": "Further in vitro and in vivo studies are required to assess immune responses, protective efficacy, and potential challenges in vaccine formulation and administration."
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "Antigenicity prediction (VaxiJen)",
+        "Allergenicity prediction (AllerTOP)",
+        "Toxicity prediction (Toxipred)",
+        "3D structure validation (Ramachandran, ERRAT)",
+        "Molecular docking (ClusPro)",
+        "MD simulation (GROMACS)",
+        "Population coverage (IEDB)",
+        "Immune simulation (C-IMMSIM)"
+      ],
+      "metrics": [
+        "VaxiJen score 0.7293",
+        "Ramachandran favored 97.4%",
+        "ERRAT 97.078",
+        "TLR8 binding energy -1434.6 kcal/mol",
+        "RMSD 3-5 Å",
+        "Population coverage 99.39%",
+        "IgM/IgG peak 5000 units"
+      ],
+      "final_conclusion": "A multi-epitope vaccine targeting F. necrophorum transmembrane proteins was computationally designed and showed high antigenicity, stability, strong TLR binding, and robust immune simulation, but requires experimental validation.",
+      "limitations": [
+        "No experimental validation (in vitro/in vivo).",
+        "Computational predictions may not translate to real-world efficacy.",
+        "Challenges in vaccine manufacturing and variable immune responses across populations."
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "All steps are computational; no wet-lab validation.",
+        "Some evidence quotes are from auto_specific sections but are consistent with paper content.",
+        "v22_phase_action_fixed=3",
+        "v22_specific_evidence_backfilled=5",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_step_trimmed=13_to_12",
+        "v22_specific_evidence_backfilled=3",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 100.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p4\\states\\0052.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p4\\events\\0052.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1
+        ],
+        "K03": [
+          2
+        ],
+        "K04": [
+          3,
+          4
+        ],
+        "K05": [
+          4
+        ],
+        "K06": [
+          5,
+          10
+        ],
+        "K08": [
+          6
+        ],
+        "K09": [
+          7
+        ],
+        "K12": [
+          8,
+          9
+        ],
+        "K13": [
+          9
+        ],
+        "K14": [
+          4,
+          5,
+          10
+        ],
+        "K15": [
+          11
+        ],
+        "K16": [
+          12
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K02",
+            "K03"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K04",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K04",
+            "K05",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K06",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K08"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K09"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K12"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K12",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K06",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K15"
+          ]
+        },
+        {
+          "step_index": 12,
+          "covered_event_ids": [
+            "K16"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 3,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "4.0"
+        ]
+      },
+      {
+        "step_index": 4,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "6x"
+        ]
+      },
+      {
+        "step_index": 8,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "13",
+          "47"
+        ]
+      },
+      {
+        "step_index": 9,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "36"
+        ]
+      }
+    ],
+    "step_count": 12,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 100.0
+  },
+  "api_usage": {
+    "prompt_tokens": 160491,
+    "completion_tokens": 34379,
+    "total_tokens": 194870,
+    "prompt_cache_hit_tokens": 3712,
+    "prompt_cache_miss_tokens": 156779
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 8536,
+        "completion_tokens": 2037,
+        "total_tokens": 10573,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 8536
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 6619,
+        "completion_tokens": 3001,
+        "total_tokens": 9620,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 6619
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 7637,
+        "completion_tokens": 1469,
+        "total_tokens": 9106,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7381
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 8567,
+        "completion_tokens": 1476,
+        "total_tokens": 10043,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8311
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 9432,
+        "completion_tokens": 1573,
+        "total_tokens": 11005,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9176
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 8466,
+        "completion_tokens": 1501,
+        "total_tokens": 9967,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8210
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C005",
+      "api_usage": {
+        "prompt_tokens": 10014,
+        "completion_tokens": 1303,
+        "total_tokens": 11317,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9758
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C006",
+      "api_usage": {
+        "prompt_tokens": 8681,
+        "completion_tokens": 1461,
+        "total_tokens": 10142,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8425
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C007",
+      "api_usage": {
+        "prompt_tokens": 8076,
+        "completion_tokens": 1468,
+        "total_tokens": 9544,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7820
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C008",
+      "api_usage": {
+        "prompt_tokens": 7693,
+        "completion_tokens": 59,
+        "total_tokens": 7752,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7437
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 16544,
+        "completion_tokens": 3868,
+        "total_tokens": 20412,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 16160
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 15563,
+        "completion_tokens": 6841,
+        "total_tokens": 22404,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 14923
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 20512,
+        "completion_tokens": 1068,
+        "total_tokens": 21580,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 20512
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 24151,
+        "completion_tokens": 7254,
+        "total_tokens": 31405,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 23511
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

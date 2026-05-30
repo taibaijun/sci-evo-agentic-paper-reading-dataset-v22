@@ -1,0 +1,870 @@
+{
+  "case": {
+    "case_id": "sci_evo_0020",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "ACIDES: on-line monitoring of forward genetic screens for protein engineering",
+      "doi": "https://doi.org/10.1038/s41467-023-43967-9",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0018_10_1038_s41467_023_43967_9_acides_on_line_monitoring_of_forward_genetic_screens_for_protein_engineering.pdf",
+      "mineru_md": "docs/0020/mineru.md",
+      "combined_md": "docs/0020/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Noisy NGS count data in forward genetic screens hinders accurate estimation of variant performance and convergence detection, necessitating a method for robust scoring, error estimation, and on-line monitoring.",
+      "target_object": "variant performance in forward genetic screens",
+      "known_context": "NGS data from forward genetic screens are vast and noisy, impeding estimation of variant performance. Scores need precise statistical error estimation to avoid winner's curse. It is hard to know when to end the experiment: too few rounds may select weak variants, too many rounds are costly.",
+      "constraints": [],
+      "input_data": [],
+      "quantifiable_goals": []
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "NGS data from forward genetic screens are vast and noisy, impeding estimation of variant performance.",
+        "gap_or_uncertainty": "Noisy NGS count data hinders accurate estimation of variant performance and convergence detection.",
+        "hypothesis": "Combining statistical inference and in-silico simulations can improve performance estimation in library selection by attributing accurate statistical scores to individual variants.",
+        "decision": "Develop ACIDES, a method that combines statistical inference and in-silico simulations.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "ACIDES",
+          "version": "",
+          "category": "computational_method"
+        },
+        "parameters": {},
+        "observation": "ACIDES is proposed to combine statistical inference and in-silico simulations to improve performance estimation.",
+        "result_status": "success",
+        "next_step_reason": "Need to design the statistical framework for selectivity estimation.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0020/combined.md",
+            "section": "C001",
+            "quote_or_span": "the vast and noisy nature of the sequencing data impedes the estimation of the performance of individual variants"
+          },
+          {
+            "evidence_id": "EV_C001_E03_01",
+            "source_file": "docs/0020/combined.md",
+            "section": "C001",
+            "quote_or_span": "in order to rank the variants and to identify the best performing ones, the score should come with a precise estimation of its statistical error. As a consequence of the noise in the counts, some irrelevant variants might appear to be highly enriched (winner's curse)"
+          },
+          {
+            "evidence_id": "EV_C001_E04_01",
+            "source_file": "docs/0020/combined.md",
+            "section": "C001",
+            "quote_or_span": "when running DE over multiple rounds, it is hard to know when to end the experiment: performing too few rounds could lead to selection of weak variants, not representative of their true ranking. On the other hand, performing too many rounds is costly, time-consuming and even ethically questionable"
+          },
+          {
+            "evidence_id": "EV_C001_E05_01",
+            "source_file": "docs/0020/combined.md",
+            "section": "C001",
+            "quote_or_span": "we propose ACIDES that combines statistical inference and in-silico simulations to improve performance estimation in the library selection process by attributing accurate statistical scores to individual variants"
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "design",
+        "state_before": "ACIDES is proposed to combine statistical inference and in-silico simulations.",
+        "gap_or_uncertainty": "Need to estimate selectivity and confidence intervals for each variant.",
+        "hypothesis": "Using maximum likelihood estimation with a negative binomial noise model and softmax normalization will provide robust selectivity estimates and 95% confidence intervals.",
+        "decision": "Implement first step of ACIDES: estimate selectivity and 95% CI using MLE with negative binomial and softmax.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "ACIDES",
+          "version": "",
+          "category": "computational_method"
+        },
+        "parameters": {
+          "noise_model": "negative binomial",
+          "normalization": "softmax",
+          "estimation_method": "maximum likelihood estimation",
+          "confidence_interval": "95%"
+        },
+        "observation": "ACIDES estimates selectivity and 95% confidence interval for each variant.",
+        "result_status": "success",
+        "next_step_reason": "Validate the negative binomial model against Poisson on plasmid library data.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E06_01",
+            "source_file": "docs/0020/combined.md",
+            "section": "C001",
+            "quote_or_span": "The first step of ACIDES estimates the selectivity of each individual variant present in the dataset (Fig. 1b) and its 95% confidence interval"
+          },
+          {
+            "evidence_id": "EV_C002_E01_01",
+            "source_file": "docs/0020/combined.md",
+            "section": "C002",
+            "quote_or_span": "our approach combines a robust inference framework (maximum likelihood estimation) with a better quantification of the NGS sampling noise"
+          },
+          {
+            "evidence_id": "EV_C002_E01_02",
+            "source_file": "docs/0020/combined.md",
+            "section": "C002",
+            "quote_or_span": "our approach benefits from a negative binomial distribution"
+          },
+          {
+            "evidence_id": "EV_C004_E01_01",
+            "source_file": "docs/0020/combined.md",
+            "section": "C004",
+            "quote_or_span": "ACIDES' first step comes with a three-fold improvement over this last approach."
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "validation",
+        "state_before": "Negative binomial model implemented for selectivity estimation.",
+        "gap_or_uncertainty": "Need to validate that negative binomial model better captures NGS noise than Poisson.",
+        "hypothesis": "Negative binomial model will show significant improvement over Poisson in predicting NGS sampling noise.",
+        "decision": "Compare negative binomial and Poisson models on plasmid library data.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "plasmid library NGS",
+          "version": "",
+          "category": "experimental"
+        },
+        "parameters": {},
+        "observation": "Negative binomial model realizes a 50- to 70-fold improvement over Poisson model in predictive ability of NGS sampling noise.",
+        "result_status": "success",
+        "next_step_reason": "Proceed to rank correction and convergence assessment.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E02_01",
+            "source_file": "docs/0020/combined.md",
+            "section": "C002",
+            "quote_or_span": "we observed that our negative binomial model realizes a 50- to 70-fold improvement over the Poisson model in the predictive ability of the NGS sampling noise"
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "design",
+        "state_before": "Selectivity estimates with confidence intervals available.",
+        "gap_or_uncertainty": "Naive ranking of variants is biased; need to correct bias and assess convergence quality.",
+        "hypothesis": "In-silico simulations can correct naive rank bias and compute Rank Robustness (RR) to measure selection convergence.",
+        "decision": "Implement second and third steps of ACIDES: rank correction via bootstrap and RR computation.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "ACIDES",
+          "version": "",
+          "category": "computational_method"
+        },
+        "parameters": {
+          "rank_correction_method": "bootstrap",
+          "rr_definition": "overlap of top-50 variants between naive and corrected ranks",
+          "rr_range": "0 to 1"
+        },
+        "observation": "ACIDES corrects naive rank bias and computes RR, a measure of selection convergence.",
+        "result_status": "success",
+        "next_step_reason": "Validate RR on synthetic datasets.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E03_01",
+            "source_file": "docs/0020/combined.md",
+            "section": "C002",
+            "quote_or_span": "The second step of ACIDES uses the estimation of the selectivities and their statistical errors to rank the variants."
+          },
+          {
+            "evidence_id": "EV_C002_E03_02",
+            "source_file": "docs/0020/combined.md",
+            "section": "C002",
+            "quote_or_span": "We correct this bias using in-silico simulations"
+          },
+          {
+            "evidence_id": "EV_C002_E03_03",
+            "source_file": "docs/0020/combined.md",
+            "section": "C002",
+            "quote_or_span": "The third and last step of ACIDES uses simulations to quantify a Rank Robustness (RR), a measure of the quality of the selection convergence"
+          },
+          {
+            "evidence_id": "EV_C004_E03_01",
+            "source_file": "docs/0020/combined.md",
+            "section": "C004",
+            "quote_or_span": "The second step of ACIDES uses a bootstrap method to account for the bias and recover both the corrected rank and its 95%-CI."
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "experiment",
+        "state_before": "RR defined as a measure of selection convergence.",
+        "gap_or_uncertainty": "Need to test if RR reflects data quality in controlled scenarios.",
+        "hypothesis": "RR will be high for data-rich and low for data-poor synthetic datasets, with true ranks within 95%-CI.",
+        "decision": "Apply ACIDES to two synthetic datasets representing data-rich and data-poor scenarios.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "synthetic datasets",
+          "version": "",
+          "category": "simulation"
+        },
+        "parameters": {
+          "scenarios": [
+            "data-rich",
+            "data-poor"
+          ]
+        },
+        "observation": "Estimated RRs are high for data-rich and low for data-poor examples; true ranks fall within 95%-CI.",
+        "result_status": "success",
+        "next_step_reason": "Analyze real screening datasets to understand RR variation.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E04_01",
+            "source_file": "docs/0020/combined.md",
+            "section": "C002",
+            "quote_or_span": "we apply ACIDES to two synthetic datasets (Methods) describing two opposite scenarios"
+          },
+          {
+            "evidence_id": "EV_C002_E04_03",
+            "source_file": "docs/0020/combined.md",
+            "section": "C002",
+            "quote_or_span": "the estimated RRs are high and low for, respectively, the data-rich and -poor examples"
+          },
+          {
+            "evidence_id": "EV_C005_E02_02",
+            "source_file": "docs/0020/combined.md",
+            "section": "C005",
+            "quote_or_span": "Repeating this estimation 3000 times, we then compute the median and 95%-CI of the obtained synthetic naive ranks."
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "analysis",
+        "state_before": "RR validated on synthetic data.",
+        "gap_or_uncertainty": "How does RR vary across real screening datasets and what factors explain it?",
+        "hypothesis": "RR variation across datasets can be explained by Accuracy and Spread metrics.",
+        "decision": "Analyze seven screening datasets (Data-A to Data-G) and compute RR, Accuracy, and Spread.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "ACIDES",
+          "version": "",
+          "category": "computational_method"
+        },
+        "parameters": {
+          "datasets": [
+            "Data-A",
+            "Data-B",
+            "Data-C",
+            "Data-D",
+            "Data-E",
+            "Data-F",
+            "Data-G"
+          ]
+        },
+        "observation": "RR varies from ~0.5 to >0.8; high RR in Data-A and Data-B explained by high Accuracy and large Spread; Data-F has high Accuracy but narrow Spread, leading to lower RR.",
+        "result_status": "success",
+        "next_step_reason": "Low RR in some datasets indicates limitation; explore RR monitoring for experimental guidance.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E05_01",
+            "source_file": "docs/0020/combined.md",
+            "section": "C002",
+            "quote_or_span": "In Data-A and Data-B, Accuracy is the highest, while the Spread is also relatively large. This is consistent with the high RR (RR > 0.8)."
+          },
+          {
+            "evidence_id": "EV_C002_E05_04",
+            "source_file": "docs/0020/combined.md",
+            "section": "C002",
+            "quote_or_span": "Data-F has a relatively high Accuracy, but Spread is the narrowest"
+          },
+          {
+            "evidence_id": "EV_C002_E07_03",
+            "source_file": "docs/0020/combined.md",
+            "section": "C002",
+            "quote_or_span": "At 1% NGS depth, the variant ordering seems largely unreliable: RR is smaller than 0.5"
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "analysis",
+        "state_before": "RR varies across datasets; some have low RR.",
+        "gap_or_uncertainty": "Low RR indicates inability to distinguish fitness from noise; suggests further tests or more experimental efforts.",
+        "hypothesis": "Low RR implies that variant ordering is unreliable and more experimental effort is needed.",
+        "decision": "Interpret low RR as a signal for insufficient data quality.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "ACIDES",
+          "version": "",
+          "category": "computational_method"
+        },
+        "parameters": {},
+        "observation": "When RR is low, we cannot distinguish if variants are selected due to fitness or noise.",
+        "result_status": "partial",
+        "next_step_reason": "Use RR to monitor convergence over rounds and NGS depth.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E06_01",
+            "source_file": "docs/0020/combined.md",
+            "section": "C002",
+            "quote_or_span": "we cannot distinguish if the obtained variants are selected because of their ability to perform the task (fitness) or just there due to noise"
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "experiment",
+        "state_before": "RR can indicate data quality; need to test if it can guide experimental decisions.",
+        "gap_or_uncertainty": "Can RR monitoring help decide when to stop experiments or how much NGS depth is needed?",
+        "hypothesis": "RR increases with more rounds and higher NGS depth, and saturation indicates sufficient data.",
+        "decision": "Monitor RR vs. selection rounds and NGS depth using downsampling on Data-A, Data-B, and Data-F.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "downsampling NGS data",
+          "version": "",
+          "category": "simulation"
+        },
+        "parameters": {
+          "downsampling_factors": [
+            "1%",
+            "5%",
+            "10%",
+            "20%",
+            "50%",
+            "100%"
+          ],
+          "rounds": "1 to 5"
+        },
+        "observation": "At 1% NGS depth, RR < 0.5 (unreliable). RR saturates at 5 rounds with >20% NGS depth for Data-A; Data-F requires more effort.",
+        "result_status": "success",
+        "next_step_reason": "Compare ACIDES with existing methods like Enrich2.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E07_01",
+            "source_file": "docs/0020/combined.md",
+            "section": "C002",
+            "quote_or_span": "ACIDES can estimate RR after each selection round"
+          },
+          {
+            "evidence_id": "EV_C002_E07_02",
+            "source_file": "docs/0020/combined.md",
+            "section": "C002",
+            "quote_or_span": "ACIDES can be run on downsampled NGS data to compute RR with smaller NGS depth"
+          },
+          {
+            "evidence_id": "EV_C002_E07_03",
+            "source_file": "docs/0020/combined.md",
+            "section": "C002",
+            "quote_or_span": "At 1% NGS depth, the variant ordering seems largely unreliable: RR is smaller than 0.5"
+          },
+          {
+            "evidence_id": "EV_C002_E07_04",
+            "source_file": "docs/0020/combined.md",
+            "section": "C002",
+            "quote_or_span": "Saturation of RR seems to be observed for RR > 0.7, which corresponds to 5 performed rounds with the NGS depth larger than 20%"
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "analysis",
+        "state_before": "ACIDES provides RR monitoring; need to benchmark against state-of-the-art method Enrich2.",
+        "gap_or_uncertainty": "How does ACIDES compare to Enrich2 in score estimation using replicate data?",
+        "hypothesis": "ACIDES will show higher correlation of low-error scores between replicates than Enrich2.",
+        "decision": "Compare ACIDES and Enrich2 using replicate datasets, measuring correlation of low-error scores.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Enrich2",
+          "version": "",
+          "category": "computational_method"
+        },
+        "parameters": {
+          "comparison_metric": "R² correlation of low-error scores between replicates"
+        },
+        "observation": "ACIDES outperforms Enrich2, with higher correlation of low-error scores between replicates, especially for smaller sets.",
+        "result_status": "success",
+        "next_step_reason": "Extend comparison to DiMSum and cross-validation metrics.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E08_01",
+            "source_file": "docs/0020/combined.md",
+            "section": "C002",
+            "quote_or_span": "We start by comparing the performance of ACIDES with Enrich2"
+          },
+          {
+            "evidence_id": "EV_C002_E08_02",
+            "source_file": "docs/0020/combined.md",
+            "section": "C002",
+            "quote_or_span": "we plot the scores with low predicted errors obtained from one replicate against those obtained from the other"
+          },
+          {
+            "evidence_id": "EV_C003_E01_01",
+            "source_file": "docs/0020/combined.md",
+            "section": "C003",
+            "quote_or_span": "we compare ACIDES with a weighted linear least squares method (Enrich2)"
+          },
+          {
+            "evidence_id": "EV_C003_E02_01",
+            "source_file": "docs/0020/combined.md",
+            "section": "C003",
+            "quote_or_span": "The figure shows that ACIDES outperforms Enrich2."
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "validation",
+        "state_before": "ACIDES outperforms Enrich2; need to compare with DiMSum and validate error estimation.",
+        "gap_or_uncertainty": "How does ACIDES perform against DiMSum in error estimation, especially for bulk variants?",
+        "hypothesis": "ACIDES will outperform or match DiMSum in error estimation, as shown by cross-validation z-score and Q-Q plot metrics.",
+        "decision": "Compare ACIDES, Enrich2, and DiMSum using cross-validation z-scores and Q-Q plots on multiple datasets.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "DiMSum",
+          "version": "",
+          "category": "computational_method"
+        },
+        "parameters": {
+          "metrics": [
+            "z-score",
+            "Q-Q plot",
+            "R²"
+          ]
+        },
+        "observation": "ACIDES and DiMSum show similar performance, both outperforming Enrich2; ACIDES slightly outperforms DiMSum in some metrics, especially for bulk variants with intermediate scores.",
+        "result_status": "success",
+        "next_step_reason": "Acknowledge limitations of ACIDES.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E06_01",
+            "source_file": "docs/0020/combined.md",
+            "section": "C003",
+            "quote_or_span": "ACIDES and DiMSum show similar performance and they both overperform Enrich2."
+          },
+          {
+            "evidence_id": "EV_C003_E07_01",
+            "source_file": "docs/0020/combined.md",
+            "section": "C003",
+            "quote_or_span": "ACIDES slightly outperforms DiMSum and behaves better than the other algorithms."
+          },
+          {
+            "evidence_id": "EV_C003_E08_01",
+            "source_file": "docs/0020/combined.md",
+            "section": "C003",
+            "quote_or_span": "demonstrate the higher capacity of ACIDES to recover the ground truth rank in several scenarios based on synthetic data"
+          },
+          {
+            "evidence_id": "EV_C004_E02_01",
+            "source_file": "docs/0020/combined.md",
+            "section": "C004",
+            "quote_or_span": "our approach realizes a more robust and accurate estimation of the variant scores and outperforms the previous method (Fig. 4)."
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "revision",
+        "state_before": "ACIDES validated against Enrich2 and DiMSum.",
+        "gap_or_uncertainty": "ACIDES has limitations: assumes constant selection pressure, negative binomial may not capture sequence-dependent dispersion, cannot describe errors from replicates not sharing initial library, cannot account for mutagenesis between rounds.",
+        "hypothesis": "These limitations may affect performance in certain experimental setups.",
+        "decision": "Document limitations for future improvement.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "ACIDES",
+          "version": "",
+          "category": "computational_method"
+        },
+        "parameters": {},
+        "observation": "ACIDES does not account for changes in selection pressure, may not capture sequence-dependent dispersion, cannot describe errors from replicates with different initial libraries, and cannot account for mutagenesis between rounds.",
+        "result_status": "partial",
+        "next_step_reason": "Complete trajectory.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E05_01",
+            "source_file": "docs/0020/combined.md",
+            "section": "C004",
+            "quote_or_span": "ACIDES does not account for changes in the selection pressure over rounds."
+          },
+          {
+            "evidence_id": "EV_C004_E06_01",
+            "source_file": "docs/0020/combined.md",
+            "section": "C004",
+            "quote_or_span": "ACIDES uses a negative binomial model to describe the dispersion of count data by assuming that the count variance depends only on the frequency of the variant."
+          },
+          {
+            "evidence_id": "EV_C004_E06_02",
+            "source_file": "docs/0020/combined.md",
+            "section": "C004",
+            "quote_or_span": "it is possible that dispersions induced by a sequence-dependent procedure, such as error-prone PCR"
+          },
+          {
+            "evidence_id": "EV_C004_E07_01",
+            "source_file": "docs/0020/combined.md",
+            "section": "C004",
+            "quote_or_span": "statistical errors due to the replicates that do not share the same initial library cannot be described by ACIDES, provided that the model is only trained on a single series of screening rounds."
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "Comparison with Poisson model on plasmid library",
+        "Synthetic data validation",
+        "Real dataset analysis with Accuracy and Spread",
+        "RR monitoring with rounds and NGS depth",
+        "Comparison with Enrich2 using replicate data",
+        "Comparison with DiMSum using cross-validation z-scores and Q-Q plots"
+      ],
+      "metrics": [
+        "50- to 70-fold improvement over Poisson",
+        "R² ≃ 0.92 on synthetic data",
+        "RR ranges from ~0.5 to >0.8",
+        "Higher correlation of low-error scores between replicates vs Enrich2",
+        "Similar or slightly better performance vs DiMSum"
+      ],
+      "final_conclusion": "ACIDES provides robust variant scoring, error estimation, and on-line monitoring of forward genetic screens, outperforming existing methods in many scenarios.",
+      "limitations": [
+        "Assumes constant selection pressure",
+        "Negative binomial may not capture sequence-dependent dispersion",
+        "Cannot describe errors from replicates not sharing initial library",
+        "Cannot account for mutagenesis between rounds"
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_specific_evidence_backfilled=2",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 100.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_mainline_batch30_p3\\states\\0020.json",
+  "events_path": "outputs\\agentic_v22\\v22_mainline_batch30_p3\\events\\0020.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 10,
+      "covered_event_count": 10,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1,
+          7
+        ],
+        "K05": [
+          2,
+          3
+        ],
+        "K06": [
+          2,
+          3
+        ],
+        "K07": [
+          1,
+          4
+        ],
+        "K08": [
+          5
+        ],
+        "K09": [
+          6
+        ],
+        "K11": [
+          6,
+          8
+        ],
+        "K12": [
+          8,
+          9
+        ],
+        "K13": [
+          9,
+          10
+        ],
+        "K14": [
+          11
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02",
+            "K03",
+            "K04",
+            "K07"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K04",
+            "K05",
+            "K06"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K05",
+            "K06"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K07"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K08"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K09",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K01",
+            "K10"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K11",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K12",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K13"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K14"
+          ]
+        }
+      ]
+    },
+    "warnings": [],
+    "step_count": 11,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 100.0
+  },
+  "api_usage": {
+    "prompt_tokens": 135573,
+    "completion_tokens": 27312,
+    "total_tokens": 162885,
+    "prompt_cache_hit_tokens": 3200,
+    "prompt_cache_miss_tokens": 132373
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 4374,
+        "completion_tokens": 810,
+        "total_tokens": 5184,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 4374
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 15487,
+        "completion_tokens": 3238,
+        "total_tokens": 18725,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 15487
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 8926,
+        "completion_tokens": 1190,
+        "total_tokens": 10116,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8670
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 8594,
+        "completion_tokens": 1578,
+        "total_tokens": 10172,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8338
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 8809,
+        "completion_tokens": 1249,
+        "total_tokens": 10058,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8553
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 8006,
+        "completion_tokens": 1320,
+        "total_tokens": 9326,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7750
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C005",
+      "api_usage": {
+        "prompt_tokens": 8725,
+        "completion_tokens": 1556,
+        "total_tokens": 10281,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8469
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C006",
+      "api_usage": {
+        "prompt_tokens": 5296,
+        "completion_tokens": 59,
+        "total_tokens": 5355,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 5040
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 14469,
+        "completion_tokens": 3050,
+        "total_tokens": 17519,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 14085
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 13628,
+        "completion_tokens": 5994,
+        "total_tokens": 19622,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 12988
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 17877,
+        "completion_tokens": 1000,
+        "total_tokens": 18877,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 17877
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 21382,
+        "completion_tokens": 6268,
+        "total_tokens": 27650,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 20742
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

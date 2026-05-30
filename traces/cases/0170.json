@@ -1,0 +1,853 @@
+{
+  "case": {
+    "case_id": "sci_evo_0170",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Polymerase-guided base editing enables in vivo mutagenesis and rapid protein engineering",
+      "doi": "https://doi.org/10.1038/s41467-021-21876-z",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0168_10_1038_s41467_021_21876_z_polymerase_guided_base_editing_enables_in_vivo_mutagenesis_and_rapid_protein_engineering.pdf",
+      "mineru_md": "docs/0170/mineru.md",
+      "combined_md": "docs/0170/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Existing in vivo mutagenesis systems have limited mutation windows, require multiple gRNAs, inhibit mutation at binding sites, and have fixed mutation biases. The goal is to develop a targeted, continual, inducible in vivo mutagenesis platform with high mutation rates, broad windows, tunable spectra, and minimal off-target effects.",
+      "target_object": "TRIDENT platform",
+      "known_context": "CRISPR-based targeting systems (CRISPR-X, EvolvR) have narrow mutation windows (~40 bp), inhibit mutation at gRNA binding sites, and have fixed mutation bias. TRACE lacks chemically inducible tunability and has low diversity biased to C/G transitions; Moore et al. and Álvarez et al. systems have significant off-target mutation frequency.",
+      "constraints": [
+        "Targeted mutagenesis",
+        "Inducible control",
+        "Minimal off-target effects",
+        "Broad mutation window",
+        "Tunable mutation spectrum"
+      ],
+      "input_data": [],
+      "quantifiable_goals": [
+        "High on:off-target mutation ratio",
+        "Broad mutation window (up to 2 kb)",
+        "Tunable mutation rate over 100-fold range",
+        "Increased mutational diversity beyond C>T and G>A"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "Existing in vivo mutagenesis systems (CRISPR-X, EvolvR, TRACE) have limitations: narrow mutation windows (~40 bp), inhibition at gRNA binding sites, fixed mutation bias, lack of tunability, and significant off-target effects.",
+        "gap_or_uncertainty": "How to achieve targeted, continual, inducible in vivo mutagenesis with high mutation rates, broad windows, tunable spectra, and minimal off-target effects.",
+        "hypothesis": "A system mimicking B-cell somatic hypermutation (SHM) by targeting mutagenic enzymes via T7 RNAP could overcome these limitations.",
+        "decision": "Design TRIDENT platform with cytosine deaminase (PmCDA1), engineered adenosine deaminase (yeTadA1.0), and DNA repair factors (Apn2p, Msh6p) targeted via T7 RNAP.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "TRIDENT design",
+          "version": "initial",
+          "category": "protein_engineering"
+        },
+        "parameters": {},
+        "observation": "TRIDENT is designed to consist of up to three components: cytosine deaminase, adenosine deaminase, and DNA-repair factors, targeted to a locus via T7 RNAP, inspired by SHM.",
+        "result_status": "success",
+        "next_step_reason": "Test initial implementation of TRIDENT with PmCDA1-T7 RNAP fusion.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0170/combined.md",
+            "section": "C001",
+            "quote_or_span": "mutations are limited to an approximately 40 bp window adjacent to the gRNA target site, mutation of the 20 bp gRNA binding site is inhibited, and mutagenesis is focused to just two or three base pairs"
+          },
+          {
+            "evidence_id": "EV_C001_E02_02",
+            "source_file": "docs/0170/combined.md",
+            "section": "C001",
+            "quote_or_span": "effective diversification of a 1000 bp gene can require more than 20 gRNAs, requiring redesign for each new target and inhibiting mutation at over 400 bp of sequence corresponding to gRNA binding sites"
+          },
+          {
+            "evidence_id": "EV_C001_E03_02",
+            "source_file": "docs/0170/combined.md",
+            "section": "C001",
+            "quote_or_span": "Moore et al. and Álvarez et al. also developed a cytidine deaminase T7 RNA Polymerase targeting system in E. coli, but did not utilize DNA-modifiers to increase mutation diversity and both systems, while more targeted than chemical mutagenesis, still retained significant off-target mutation frequency"
+          },
+          {
+            "evidence_id": "EV_C001_E04_01",
+            "source_file": "docs/0170/combined.md",
+            "section": "C001",
+            "quote_or_span": "TRIDENT consists of up to three components targeted to a locus of interest via T7 RNA polymerase: (1) a cytosine deaminase enzyme that introduces C>T and G>A substitutions, (2) an engineered adenosine deaminase enzyme that introduces A>G and T>C substitutions, and (3) DNA-repair factors that further enhance A/T/G mutational diversity"
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "experiment",
+        "state_before": "TRIDENT design with PmCDA1-T7 RNAP fusion expressed from plasmid.",
+        "gap_or_uncertainty": "Will plasmid-based expression of PmCDA1-T7 RNAP achieve high on-target mutagenesis with low off-target effects?",
+        "hypothesis": "Plasmid-based expression will provide sufficient targeting and low off-target mutagenesis.",
+        "decision": "Test plasmid-based expression of PmCDA1-T7 RNAP in YHM0.P_T7 KO strain.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Plasmid-based expression",
+          "version": "YHM0.P_T7 KO",
+          "category": "in_vivo_mutagenesis"
+        },
+        "parameters": {},
+        "observation": "Plasmid-based expression increased off-target mutagenesis by more than 2500-fold above background, resulting in a net on:off-target ratio of only 60-fold.",
+        "result_status": "failure",
+        "next_step_reason": "Optimize expression to reduce off-target effects.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E06_01",
+            "source_file": "docs/0170/combined.md",
+            "section": "C001",
+            "quote_or_span": "Plasmid-based expression of PmCDA1-T7 RNAP increased off-target mutagenesis by more than 2500-fold above the background rate, resulting in a net on:off-target ratio of 60-fold"
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "revision",
+        "state_before": "High off-target mutagenesis from plasmid-based expression.",
+        "gap_or_uncertainty": "How to reduce off-target mutagenesis while maintaining on-target activity?",
+        "hypothesis": "Genomic integration and inducible promoter control will reduce off-target effects and enable tunability.",
+        "decision": "Integrate PmCDA1-T7 RNAP expression cassette into genome and use β-estradiol inducible promoter.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Genomic integration and inducible promoter",
+          "version": "YHM1",
+          "category": "strain_engineering"
+        },
+        "parameters": {
+          "inducer": "β-estradiol",
+          "concentration": "2 nM",
+          "induction_time": "16 h"
+        },
+        "observation": "Achieved up to 1800-fold on:off-target ratio and tunable mutation rate over 100-fold range (LOF rate from 2.5×10^-5 to 2.7×10^-3).",
+        "result_status": "success",
+        "next_step_reason": "Characterize mutation window and rate of optimized system.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_025",
+            "source_file": "docs/0170/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The combined strategy of controlling the expression of PmCDA1-T7 RNAP from a synthetic, inducible promoter $^{17}$ and integrating the expression cassette for the fusion protein into the genome of the base strain YHM0 (resulting in YHM1) resulted in the highest on:off-target ratio of up to 1800-fold when induced with 2 nM $\\beta$ -estradiol inducer for 16 h (Fig."
+          },
+          {
+            "evidence_id": "EV_AUTO_036",
+            "source_file": "docs/0170/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The improved system further enabled titratable control of on-target mutation rate over a 100-fold range from a LOF rate of $2.5 \\times 10^{-5}$ to $2."
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "analysis",
+        "state_before": "Optimized TRIDENT strain YHM1 with PmCDA1.",
+        "gap_or_uncertainty": "What are the mutation window and rate characteristics of TRIDENT with PmCDA1?",
+        "hypothesis": "TRIDENT will achieve precise initiation and constant sustained mutation rate across a broad window.",
+        "decision": "Characterize mutation window and rate using URA3 reporter with P_T7 promoter.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Mutation rate measurement",
+          "version": "URA3 reporter",
+          "category": "sequencing"
+        },
+        "parameters": {},
+        "observation": "TRIDENT with PmCDA1 achieves precise initiation of mutation and constant sustained mutation rate across a target region, with mutation window up to 2 kb; first increase at cytosines 9–12 bases from initiation site.",
+        "result_status": "success",
+        "next_step_reason": "Assess mutation spectrum bias.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E01_01",
+            "source_file": "docs/0170/combined.md",
+            "section": "C002",
+            "quote_or_span": "TRIDENT with PmCDA1 achieves several important characteristics of engineered in vivo mutagenesis, including precise initiation of mutation and constant sustained mutation rate across a target region."
+          },
+          {
+            "evidence_id": "EV_C002_E01_02",
+            "source_file": "docs/0170/combined.md",
+            "section": "C002",
+            "quote_or_span": "the first increase in mutation rate occurring at cytosines that are 9–12 bases from the RNA transcription initiation site of T7 RNAP"
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "analysis",
+        "state_before": "Characterized mutation window and rate.",
+        "gap_or_uncertainty": "What is the mutation spectrum of TRIDENT with PmCDA1?",
+        "hypothesis": "The spectrum may be biased towards C>T and G>A substitutions.",
+        "decision": "Analyze mutation spectrum from sequencing data.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Mutation spectrum analysis",
+          "version": "sequencing",
+          "category": "bioinformatics"
+        },
+        "parameters": {},
+        "observation": "Over 99% of induced mutations are C>T and G>A substitutions.",
+        "result_status": "partial",
+        "next_step_reason": "Expand platform to enhance mutational diversity by targeting DNA-repair factors.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E08_01",
+            "source_file": "docs/0170/combined.md",
+            "section": "C002",
+            "quote_or_span": "the overall mutation spectrum remained biased as over 99% of induced mutations are C>T and G>A substitutions"
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "experiment",
+        "state_before": "Error-prone library of TadA domains fused to T7 RNAP.",
+        "gap_or_uncertainty": "Will directed evolution yield variants with increased TAA reversion rate?",
+        "hypothesis": "Multiple rounds of evolution and selection will enrich for variants with higher A/T mutagenesis.",
+        "decision": "Perform five rounds of evolution and selection, measuring TAA reversion rate.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Directed evolution and selection",
+          "version": "5 rounds",
+          "category": "protein_engineering"
+        },
+        "parameters": {},
+        "observation": "Substantial increase in TAA-reverting colonies after five rounds; engineered yeTadA1.0-T7 RNAP fusion exhibited 270-fold increase in TAA-reversion rate compared to parental TadA-TadA*-T7 RNAP.",
+        "result_status": "success",
+        "next_step_reason": "Validate on/off-target mutation rates of strains with yeTadA1.0.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E03_01",
+            "source_file": "docs/0170/combined.md",
+            "section": "C003",
+            "quote_or_span": "We observed a substantial increase in the number of TAA reverting colonies on media lacking uracil after five rounds of evolution (Supplementary Fig. 12)."
+          },
+          {
+            "evidence_id": "EV_AUTO_034",
+            "source_file": "docs/0170/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "0-T7 RNAP fusion (pCS4333) exhibited a 270-fold increase in TAA-reversion rate compared with the TadA-TadA\\*-T7 RNAP fusion (pCS4332)."
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "validation",
+        "state_before": "Engineered yeTadA1.0 strains YHM5 and YHM6.",
+        "gap_or_uncertainty": "Do YHM5 and YHM6 retain low off-target mutation rates and minimal fitness impact?",
+        "hypothesis": "The strains will have similar on/off-target rates to optimized YHM2 and no significant growth defect.",
+        "decision": "Measure on/off-target mutation rates and growth rates of YHM5 and YHM6 compared to YHM2.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Mutation rate and growth assay",
+          "version": "YHM5, YHM6, YHM2",
+          "category": "strain_characterization"
+        },
+        "parameters": {},
+        "observation": "YHM5 and YHM6 retained similar on/off-target mutation rates to YHM2; no statistically significant difference in growth rate (p < 0.05) up to 100 nM β-estradiol.",
+        "result_status": "success",
+        "next_step_reason": "Apply TRIDENT to correct a TAA stop codon in mCherry.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E08_01",
+            "source_file": "docs/0170/combined.md",
+            "section": "C003",
+            "quote_or_span": "We also confirmed that the most advanced TRIDENT strains, YHM5 and YHM6, retained similar on and off-target mutation rates to YHM2, which had been optimized for lower off-target mutagenesis (Supplementary Fig. 13)."
+          },
+          {
+            "evidence_id": "EV_C003_E08_02",
+            "source_file": "docs/0170/combined.md",
+            "section": "C003",
+            "quote_or_span": "There was no statistically significant difference (p < 0.05) in growth rate for any level of β-estradiol induction up to 100 nM (Supplementary Table 3)."
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "experiment",
+        "state_before": "Validated TRIDENT strain YHM6.",
+        "gap_or_uncertainty": "Can TRIDENT correct a TAA stop codon in mCherry and recover fluorescence?",
+        "hypothesis": "Induced mutagenesis will revert the stop codon, yielding mCherry-positive cells detectable by FACS.",
+        "decision": "Grow YHM6.mCherry.TAA with 10 nM β-estradiol for 16 h and sort mCherry-positive cells by FACS.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "FACS",
+          "version": "BD Aria II",
+          "category": "cell_sorting"
+        },
+        "parameters": {
+          "inducer": "10 nM β-estradiol",
+          "induction_time": "16 h"
+        },
+        "observation": "0.14% mCherry-positive cells after one sort.",
+        "result_status": "success",
+        "next_step_reason": "Evolve red-shifted mCherry variant.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E01_01",
+            "source_file": "docs/0170/combined.md",
+            "section": "C004",
+            "quote_or_span": "Strain YHM6.mCherry.TAA was grown with 10 nM β-estradiol for 16 h and mCherry-positive cells were sorted once yielding a 0.14% mCherry-positive population."
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "experiment",
+        "state_before": "mCherry-positive population from stop codon reversion.",
+        "gap_or_uncertainty": "Can TRIDENT evolve a red-shifted mCherry variant?",
+        "hypothesis": "Sorting for red-shifted fluorescence will enrich for variants with altered emission spectra.",
+        "decision": "Sort 1% of cells with highest 615:660 nm emission ratio over multiple rounds, then characterize isolated variant.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "FACS-based directed evolution",
+          "version": "multi-round sorting",
+          "category": "protein_engineering"
+        },
+        "parameters": {},
+        "observation": "Evolved mCherry-F23S variant with 5 nm red-shift (max emission 615 nm vs 610 nm WT); all non-parent variants contained single F23S mutation (T>C substitution).",
+        "result_status": "success",
+        "next_step_reason": "Apply TRIDENT to evolve pyrimethamine resistance in PfDHFR.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E03_01",
+            "source_file": "docs/0170/combined.md",
+            "section": "C004",
+            "quote_or_span": "TRIDENT-evolved mCherry variant, mCherry-F23S, is red-shifted by 5 nm."
+          },
+          {
+            "evidence_id": "EV_C004_E03_02",
+            "source_file": "docs/0170/combined.md",
+            "section": "C004",
+            "quote_or_span": "mCherry had max emission of 610 nm and mCherry-F23S had max emission of 615 nm."
+          },
+          {
+            "evidence_id": "EV_AUTO_006",
+            "source_file": "docs/0170/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Of 12 sequenced colonies, all non-parent variants contained a single F23S mutation resulting from a T>C substitution of TTC to TCC."
+          },
+          {
+            "evidence_id": "EV_AUTO_014",
+            "source_file": "docs/0170/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The data indicate that mCherry-F23S is 5 nm red-shifted compared to wild-type mCherry $^{23}$ with an emission max of 615 nm compared to 610 nm (Fig."
+          },
+          {
+            "evidence_id": "EV_AUTO_024",
+            "source_file": "docs/0170/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "From this initial library, we enriched for red-shifted variants by sorting the 1% of cells having the highest ratio of 615:660 nm emission and outgrowing for 24 h without additional mutagenesis before sorting again."
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "analysis",
+        "state_before": "Pyrimethamine-resistant PfDHFR populations.",
+        "gap_or_uncertainty": "What mutations confer pyrimethamine resistance?",
+        "hypothesis": "Sequencing will reveal enriched mutations, likely D54N.",
+        "decision": "Sequence PfDHFR from resistant replicates and analyze mutation frequencies.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Sequencing and alignment",
+          "version": "MAFFT",
+          "category": "bioinformatics"
+        },
+        "parameters": {},
+        "observation": "D54N was the most common mutation, present in >85% of sequences; D54 is within 3 Å of pyrimethamine binding pocket.",
+        "result_status": "success",
+        "next_step_reason": "Validate functional impact of D54N on growth rate.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E05_01",
+            "source_file": "docs/0170/combined.md",
+            "section": "C004",
+            "quote_or_span": "the most common mutation, D54N, was present in over 85% of individual sequences."
+          },
+          {
+            "evidence_id": "EV_C004_E05_02",
+            "source_file": "docs/0170/combined.md",
+            "section": "C004",
+            "quote_or_span": "the D54 residue is within 3 Å of the pocket where pyrimethamine binds"
+          },
+          {
+            "evidence_id": "EV_AUTO_003",
+            "source_file": "docs/0170/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "D54N and Y57H, have been identified in previous studies as impacting the interaction between pyrimethamine and PfDHFR $^{24,25}$ , and the most common mutation, D54N, was present in over 85% of individual sequences."
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "validation",
+        "state_before": "Identified D54N as dominant mutation.",
+        "gap_or_uncertainty": "Does D54N significantly improve growth rate in pyrimethamine?",
+        "hypothesis": "D54N will confer faster growth; other mutations may have weaker effects.",
+        "decision": "Express PfDHFR variants individually and in combination, measure growth rates in pyrimethamine.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Growth rate assay",
+          "version": "optical density",
+          "category": "functional_validation"
+        },
+        "parameters": {},
+        "observation": "All variants with D54N grew significantly faster than wild-type; Y57H and Q237* showed positive but not statistically significant improvement.",
+        "result_status": "success",
+        "next_step_reason": "Note limitations of TRIDENT.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E06_01",
+            "source_file": "docs/0170/combined.md",
+            "section": "C004",
+            "quote_or_span": "All yeast with PfDHFR variants containing the D54N mutation grew significantly faster than yeast with wild-type PfDHFR."
+          },
+          {
+            "evidence_id": "EV_AUTO_005",
+            "source_file": "docs/0170/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Two other mutations (Y57H and Q237\\*) appeared to have a positive impact on growth rate, but the improvement compared to wild-type was not statistically significant in the context of this experiment."
+          },
+          {
+            "evidence_id": "EV_AUTO_009",
+            "source_file": "docs/0170/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Validation experiments confirmed that the D54N mutation resulted in a faster growth rate."
+          }
+        ]
+      },
+      {
+        "step_index": 12,
+        "phase": "analysis",
+        "state_before": "Successful protein engineering demonstrations.",
+        "gap_or_uncertainty": "What are the remaining limitations of TRIDENT?",
+        "hypothesis": "TRIDENT still has transition bias and potential downstream mutagenesis due to single T7 terminator.",
+        "decision": "Discuss limitations: transition bias and T7 terminator efficiency.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Limitation analysis",
+          "version": "literature",
+          "category": "review"
+        },
+        "parameters": {},
+        "observation": "TRIDENT shows bias towards transition mutations; single T7 terminator may not fully prevent downstream mutagenesis (Moore et al. suggest ≥4 terminators).",
+        "result_status": "partial",
+        "next_step_reason": "Future work to address limitations.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E07_01",
+            "source_file": "docs/0170/combined.md",
+            "section": "C004",
+            "quote_or_span": "the system shows bias towards transition mutations that limitation can be addressed through further tuning of the DNA-repair modifying pathways"
+          },
+          {
+            "evidence_id": "EV_C004_E08_01",
+            "source_file": "docs/0170/combined.md",
+            "section": "C004",
+            "quote_or_span": "Moore et al. showed that four or more T7 terminators may be needed to efficiently terminate T7 RNAP transcription and prevent downstream mutagenesis"
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "On/off-target mutation rate measurement",
+        "Growth rate assay",
+        "FACS-based enrichment",
+        "Sequencing and mutation analysis"
+      ],
+      "metrics": [
+        "On:off-target mutation ratio",
+        "Mutation rate (LOF rate)",
+        "Mutation spectrum",
+        "Growth rate in selective conditions"
+      ],
+      "final_conclusion": "TRIDENT is a targeted, continual, inducible in vivo mutagenesis platform with high mutation rates, broad windows (up to 2 kb), tunable spectra, and minimal off-target effects. It successfully evolved a red-shifted mCherry variant and pyrimethamine-resistant PfDHFR, with D54N as the key resistance mutation.",
+      "limitations": [
+        "Bias towards transition mutations",
+        "Single T7 terminator may not fully prevent downstream mutagenesis"
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_step_trimmed=15_to_12",
+        "v22_specific_evidence_backfilled=1",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_step_trimmed=13_to_12",
+        "v22_specific_evidence_backfilled=1",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 100.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p2\\states\\0170.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p2\\events\\0170.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1
+        ],
+        "K04": [
+          2,
+          3
+        ],
+        "K05": [
+          3
+        ],
+        "K06": [
+          4,
+          5
+        ],
+        "K11": [
+          6
+        ],
+        "K12": [
+          1,
+          7
+        ],
+        "K13": [
+          7,
+          8,
+          9
+        ],
+        "K14": [
+          8,
+          9
+        ],
+        "K16": [
+          10
+        ],
+        "K17": [
+          11
+        ],
+        "K18": [
+          12
+        ],
+        "K19": [
+          12
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02",
+            "K03",
+            "K08",
+            "K10",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K04"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K04",
+            "K05"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K06"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K06",
+            "K07",
+            "K08"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K10",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K12",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K13",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K13",
+            "K14",
+            "K15"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K16"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K17"
+          ]
+        },
+        {
+          "step_index": 12,
+          "covered_event_ids": [
+            "K18",
+            "K19"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 3,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "-3",
+          "2.7"
+        ]
+      },
+      {
+        "step_index": 4,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "2kb"
+        ]
+      },
+      {
+        "step_index": 7,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "0s"
+        ]
+      }
+    ],
+    "step_count": 12,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 100.0
+  },
+  "api_usage": {
+    "prompt_tokens": 121139,
+    "completion_tokens": 31433,
+    "total_tokens": 152572,
+    "prompt_cache_hit_tokens": 15872,
+    "prompt_cache_miss_tokens": 105267
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 2390,
+        "completion_tokens": 539,
+        "total_tokens": 2929,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 2390
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 9536,
+        "completion_tokens": 2190,
+        "total_tokens": 11726,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 9536
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 7879,
+        "completion_tokens": 1728,
+        "total_tokens": 9607,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7623
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 8357,
+        "completion_tokens": 1674,
+        "total_tokens": 10031,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8101
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 7952,
+        "completion_tokens": 1700,
+        "total_tokens": 9652,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7696
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 7134,
+        "completion_tokens": 1446,
+        "total_tokens": 8580,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6878
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C005",
+      "api_usage": {
+        "prompt_tokens": 6950,
+        "completion_tokens": 1567,
+        "total_tokens": 8517,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6694
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C006",
+      "api_usage": {
+        "prompt_tokens": 5813,
+        "completion_tokens": 1003,
+        "total_tokens": 6816,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 5557
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 11260,
+        "completion_tokens": 3956,
+        "total_tokens": 15216,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 10876
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 13405,
+        "completion_tokens": 7379,
+        "total_tokens": 20784,
+        "prompt_tokens_details": {
+          "cached_tokens": 13312
+        },
+        "prompt_cache_hit_tokens": 13312,
+        "prompt_cache_miss_tokens": 93
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 18507,
+        "completion_tokens": 1562,
+        "total_tokens": 20069,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 18507
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 21956,
+        "completion_tokens": 6689,
+        "total_tokens": 28645,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 21316
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

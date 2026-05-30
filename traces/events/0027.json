@@ -1,0 +1,1998 @@
+{
+  "doc_no": "0027",
+  "source": {
+    "title": "Biosensor-driven, model-based optimization of the orthogonally expressed naringenin biosynthesis pathway",
+    "doi": "https://doi.org/10.1186/s12934-022-01775-8",
+    "license": "cc-by",
+    "pdf_name": "0025_10_1186_s12934_022_01775_8_biosensor_driven_model_based_optimization_of_the_orthogonally_expressed_naringenin_biosynt.pdf",
+    "combined_md": "docs/0027/combined.md",
+    "mineru_md": "docs/0027/mineru.md"
+  },
+  "gist_memory": {
+    "paper_problem_memory": "Optimizing the heterologous naringenin biosynthesis pathway in E. coli using orthogonal expression tools and a biosensor-driven, model-based workflow to balance pathway modules and improve production titer without precursor supplementation or strain engineering.",
+    "section_gists": [
+      {
+        "section_index": 6,
+        "heading": "Abstract",
+        "gist": "Summarizes the study: implementing a sigma factor toolbox for orthogonal expression of naringenin pathway, using biosensor-driven screening and combinatorial libraries, training three computer models to predict optimal pathway configuration, achieving 32% titer improvement over random screen, and reaching 286 mg/L in bioreactor, the highest reported without precursor supplementation.",
+        "process_signals": [
+          "Workflow combines orthogonal expression, combinatorial assembly, biosensor screening, and predictive modeling.",
+          "Three models (OLS, PLS, ANN) were trained and compared.",
+          "Best strain produced 286 mg/L naringenin in ~26 h."
+        ],
+        "methods": [
+          "Sigma factor toolbox for orthogonal gene expression",
+          "Biosensor-driven high-throughput screening",
+          "Combinatorial pathway assembly",
+          "Statistical learning (OLS, PLS, ANN)"
+        ],
+        "metrics": [
+          "Naringenin titer (mg/L)",
+          "32% improvement over random library screen",
+          "286 mg/L in bioreactor"
+        ],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 7,
+        "heading": "Background",
+        "gist": "Describes challenges in metabolic engineering of complex pathways, need for dynamic control and orthogonal expression to avoid crosstalk. Introduces sigma factor toolbox for tunable orthogonal expression. Naringenin is a key flavonoid scaffold; previous efforts focused on precursor supply and enzyme variants. Combinatorial engineering creates large libraries, but search space is huge. Statistical and ML methods can reduce experimental load by predicting optimal architectures from small characterized subsets. High-quality data from biosensor pre-screening is crucial.",
+        "process_signals": [
+          "Orthogonal expression prevents interference between modules and host machinery.",
+          "Combinatorial approach leads to exponential search space.",
+          "Need for high-throughput screen to select diverse producing phenotypes.",
+          "Biosensors enable screening for molecules without colorimetric assay.",
+          "Goal: combine orthogonal expression, biosensor screening, and predictive models to optimize naringenin production."
+        ],
+        "methods": [
+          "Sigma factor toolbox for orthogonal expression",
+          "Combinatorial pathway assembly",
+          "Biosensor-driven screening",
+          "Predictive modeling (statistical/ML)"
+        ],
+        "metrics": [],
+        "failures_or_limits": [
+          "Industrial potential of flavonoids remains largely unexploited due to optimization challenges.",
+          "Flux imbalances can lead to metabolite accumulation, toxicity, metabolic burden."
+        ]
+      },
+      {
+        "section_index": 8,
+        "heading": "Results",
+        "gist": "Section header only; no content.",
+        "process_signals": [],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 9,
+        "heading": "Combinatorial pathway assembly, screening and data collection",
+        "gist": "Describes construction of naringenin pathway module with four enzymes (TAL, 4CL, CHS, CHI) using combinatorial assembly: 10 sigmaB-specific promoters and 2 isozymes per step, yielding 160,000 theoretical variants. Golden Gate assembly with CLIVA ensures unbiased library. Library introduced into E. coli with sigmaB and naringenin biosensor plasmid. 190 colonies screened on MTP scale; naringenin and fluorescence measured. 34 strains selected for further characterization based on fluorescence and growth. Genotyped by sequencing; 8 features recorded (promoter TIF and CDS variant for each enzyme). Data used for modeling.",
+        "process_signals": [
+          "Combinatorial library created with 10 promoters × 2 isozymes per step.",
+          "CLIVA and Golden Gate assembly ensure no bias toward specific parts.",
+          "Biosensor enables high-throughput fluorescence-based screening.",
+          "34 strains selected for detailed characterization and genotyping.",
+          "Dataset: 34 observations, 8 features (4 promoter TIF, 4 CDS variants)."
+        ],
+        "methods": [
+          "Golden Gate assembly with CLIVA",
+          "Biosensor-based fluorescence screening",
+          "MTP cultivation and UPLC quantification",
+          "Sanger sequencing for genotyping"
+        ],
+        "metrics": [
+          "Naringenin titer (mg/L)",
+          "Fluorescence/OD",
+          "Growth (OD)"
+        ],
+        "failures_or_limits": [
+          "Only 34 strains characterized out of 190 screened; selection based on fluorescence may miss some producers.",
+          "Biosensor fluorescence not perfectly correlated with titer."
+        ]
+      },
+      {
+        "section_index": 11,
+        "heading": "Data exploration",
+        "gist": "Explored dataset of 34 strains. Promoter TIF values lin-log transformed. Pearson correlation showed no significant linear correlation between promoter TIF and titer after multiple testing correction, but indications of positive correlation for P_TAL and P_CHS, negative for P_4CL. Barplots of enzyme variant frequency vs titer: FjTAL significantly outperforms RgTAL. At4CL and PhCHS severely underrepresented (1 and 3 occurrences), attributed to poor performance, so removed from dataset (4 entries dropped). Final dataset: 30 strains, 6 features (CDS_4CL and CDS_CHS removed).",
+        "process_signals": [
+          "Lin-log transformation applied to promoter TIF.",
+          "No significant linear correlations after correction, but trends noted.",
+          "FjTAL clearly better than RgTAL.",
+          "At4CL and PhCHS underrepresented, removed to reduce model complexity.",
+          "Dataset reduced to 30 strains, 6 features."
+        ],
+        "methods": [
+          "Lin-log transformation",
+          "Pearson correlation",
+          "ANOVA",
+          "Barplots for frequency analysis"
+        ],
+        "metrics": [
+          "p-values from ANOVA",
+          "Occurrence frequency"
+        ],
+        "failures_or_limits": [
+          "At4CL and PhCHS performed poorly, limiting enzyme variant space.",
+          "Small dataset (30) for modeling."
+        ]
+      },
+      {
+        "section_index": 12,
+        "heading": "Linking pathway features to naringenin production",
+        "gist": "Built three models: OLS regression, PLS regression, and ANN ensemble. OLS: initial model with 6 features, quadratic and interaction terms; reduced by removing least significant terms; R²=0.93 but predictions inconsistent with data exploration and other models; heavily influenced by outlier strain 135. PLS: with 2 latent variables, R²=0.79; predictions more robust; top strains require high FjTAL, Pc4CL, PhCHI expression and low GhCHS expression. ANN ensemble: used 100 models with different architectures; top predictions similar to PLS; ensemble averaging reduces overfitting. Top 6 predicted strains (Top10.1-6) selected for validation.",
+        "process_signals": [
+          "OLS model overfits and is sensitive to outlier (strain 135).",
+          "PLS and ANN ensemble give consistent, robust predictions.",
+          "Top predictions: high TAL and CHS expression, low 4CL and CHI expression.",
+          "ANN ensemble designed to handle small datasets and overfitting.",
+          "Six strains selected for in vivo validation."
+        ],
+        "methods": [
+          "Ordinary Least Squares (OLS) regression",
+          "Partial Least Squares (PLS) regression",
+          "Artificial Neural Network (ANN) ensemble",
+          "Leave-one-out cross-validation",
+          "Feature selection by backward elimination (OLS)"
+        ],
+        "metrics": [
+          "R² (OLS: 0.93, PLS: 0.79)",
+          "Predicted vs measured titer plots"
+        ],
+        "failures_or_limits": [
+          "OLS model overfitting due to small dataset and outlier influence.",
+          "OLS predictions contradicted exploratory analysis.",
+          "PLS and ANN ensemble more reliable but still limited by data size."
+        ]
+      },
+      {
+        "section_index": 13,
+        "heading": "In vivo validation of model-based optimized pathways",
+        "gist": "Six predicted strains (Top10.1-6) and three best strains from initial screen (135, 220, 133) reconstructed without biosensor plasmid and tested. Reference strain 135 showed lower titer (16.12 vs 27.03 mg/L), labeled outlier. Top10.4 and Top10.5 improved titer by 22.5% and 32.3% over best reference strain 220, reaching 24.24 and 26.18 mg/L, matching PLS predictions. Top10.1-3 underperformed, indicating metabolic burden from high TAL and CHS expression. Benchmarking against NarRef (unoptimized pathway) showed ~15-fold increase. Glycerol supplementation further improved titer to ~31 mg/L for Top10.4.",
+        "process_signals": [
+          "Strain 135 confirmed as outlier; biosensor plasmid may affect titer.",
+          "Top10.4 and Top10.5 validated model predictions.",
+          "Top10.1-3 underperformance reveals metabolic burden limit.",
+          "Glycerol as carbon source boosts production.",
+          "Optimized strains vastly outperform unoptimized NarRef."
+        ],
+        "methods": [
+          "Reconstruction of pathway variants without biosensor",
+          "MTP cultivation with glucose or glycerol",
+          "UPLC quantification",
+          "Statistical testing (ANOVA, Tukey, Grubbs' test)"
+        ],
+        "metrics": [
+          "Naringenin titer (mg/L)",
+          "Percent improvement over reference",
+          "p-values for comparisons"
+        ],
+        "failures_or_limits": [
+          "Top10.1, Top10.2, Top10.3 underperformed due to metabolic burden.",
+          "Biosensor plasmid presence may alter titer.",
+          "Biological variability observed."
+        ]
+      },
+      {
+        "section_index": 14,
+        "heading": "Bioreactor-scale in-depth characterization of the obtained optimal naringenin producing microbial cell factory.",
+        "gist": "Top10.4 cultivated in 1.5 L bioreactor. Reached 286±3 mg/L naringenin in ~26 h (stationary phase). Growth rate μ=0.33/h, Y_PX=62.9 mg/g CDW, q_p=20.8 mg/g CDW/h. After stationary phase, no further naringenin production; p-coumaric acid accumulated, suggesting malonyl-CoA limitation. Cells showed stress (filamentation) and plasmid instability (large deletions in pathway genes). Glycerol not depleted (6 g/L remaining), indicating other nutrient limitation.",
+        "process_signals": [
+          "High titer achieved but production halted in stationary phase.",
+          "p-coumaric acid accumulation indicates malonyl-CoA bottleneck.",
+          "Plasmid instability and cell stress observed.",
+          "Nutrient limitation (not carbon) may limit biomass and production."
+        ],
+        "methods": [
+          "Batch bioreactor cultivation",
+          "Optical density, UPLC, glycerol quantification",
+          "Microscopy and plasmid sequencing"
+        ],
+        "metrics": [
+          "Naringenin titer: 286 mg/L",
+          "Growth rate: 0.33/h",
+          "Yield: 62.9 mg/g CDW",
+          "Specific productivity: 20.8 mg/g CDW/h"
+        ],
+        "failures_or_limits": [
+          "Production ceased in stationary phase due to malonyl-CoA limitation and plasmid instability.",
+          "Cell stress and filamentation.",
+          "Nutrient limitation other than carbon."
+        ]
+      },
+      {
+        "section_index": 15,
+        "heading": "Discussion",
+        "gist": "Workflow successfully optimized naringenin production in one DBTL cycle using only 0.02% of possible variants. Biosensor enabled high-quality data collection despite imperfect titer correlation. OLS model overfit due to small dataset and outlier; PLS and ANN ensemble more robust. Metabolic burden from high TAL and CHS expression limited optimization; RBS engineering could alleviate. Malonyl-CoA remains key bottleneck; precursor engineering could further improve titers. Medium and fermentation conditions affect genotype performance.",
+        "process_signals": [
+          "Single DBTL cycle sufficient for significant improvement.",
+          "Biosensor valuable for screening despite inaccuracy.",
+          "OLS model failure due to overfitting; PLS and ANN ensemble preferred.",
+          "Metabolic burden defines optimization limit with current parts.",
+          "Malonyl-CoA limitation and plasmid instability are major hurdles.",
+          "Future work: RBS engineering, precursor pathway engineering, second module."
+        ],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": [
+          "OLS model overfitting and sensitivity to outliers.",
+          "Biosensor operational range and error could be improved.",
+          "Metabolic burden from strong promoters.",
+          "Malonyl-CoA limitation.",
+          "Plasmid instability in bioreactor.",
+          "Small dataset limits model complexity."
+        ]
+      },
+      {
+        "section_index": 16,
+        "heading": "Conclusions",
+        "gist": "Achieved competitive naringenin titer without precursor engineering. Combined combinatorial screening with predictive modeling; PLS and ANN ensemble outperformed OLS. ANN ensemble is easy-to-implement, handles overfitting, and requires no prior knowledge for term selection. Workflow applicable to other pathways with high-throughput screen. Medium and fermentation conditions can affect genotypes differently.",
+        "process_signals": [
+          "PLS and ANN ensemble are robust for small datasets.",
+          "Workflow is generalizable.",
+          "Medium conditions matter."
+        ],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 17,
+        "heading": "Materials and methods",
+        "gist": "Section header only; no content.",
+        "process_signals": [],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 22,
+        "heading": "Analytic methods",
+        "gist": "UPLC method for naringenin and p-coumaric acid quantification; HPLC for glycerol. Details on columns, gradients, detectors.",
+        "process_signals": [],
+        "methods": [
+          "UPLC with TUV detector at 290 nm",
+          "Kinetex C18 column",
+          "Gradient elution with TFA/water and acetonitrile",
+          "HPLC with RID for glycerol"
+        ],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 23,
+        "heading": "Statistical methods, regression models and machine learning",
+        "gist": "Data processing in R; lin-log transformation of promoter TIF; ANOVA and Tukey's test; Grubbs' test for outliers. Preprocessing: removed one strain with missing value, lin-log transformed promoter data.",
+        "process_signals": [
+          "Lin-log transformation formula provided.",
+          "One strain removed due to missing data."
+        ],
+        "methods": [
+          "Lin-log transformation",
+          "ANOVA",
+          "Tukey's HSD",
+          "Grubbs' test"
+        ],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 30,
+        "heading": "Availability of data and materials",
+        "gist": "Data available in article and additional files.",
+        "process_signals": [],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": []
+      }
+    ],
+    "global_hypotheses_about_storyline": [
+      "Orthogonal expression using sigma factor toolbox can effectively decouple pathway modules from host regulation, enabling independent tuning.",
+      "Combinatorial assembly with unbiased methods (CLIVA, Golden Gate) ensures full representation of genetic parts, allowing performance-based selection.",
+      "Biosensor-driven screening, despite imperfect correlation, can select diverse producing phenotypes for high-quality dataset.",
+      "Predictive models (PLS, ANN) can identify optimal pathway architectures from a small fraction of the search space, outperforming random screening.",
+      "Metabolic burden from overexpression of certain enzymes (TAL, CHS) limits production, defining the optimization ceiling with current parts.",
+      "Malonyl-CoA availability is a key bottleneck; precursor engineering could further enhance production.",
+      "Medium composition (glycerol vs glucose) significantly impacts production, and effects may be genotype-dependent."
+    ],
+    "uncertainties_to_resolve": [
+      "Would RBS engineering alleviate metabolic burden and allow higher expression levels?",
+      "Can the biosensor be tuned to provide more accurate titer predictions, eliminating need for UPLC?",
+      "What specific nutrient limitation caused growth arrest in bioreactor?",
+      "How generalizable is the workflow to other pathways and organisms?",
+      "Can iterative DBTL cycles with expanded datasets further improve titers?",
+      "What is the exact mechanism of plasmid instability and can it be mitigated?",
+      "How do fermentation conditions (e.g., fed-batch) affect production and stability?"
+    ]
+  },
+  "chunk_events": [
+    {
+      "chunk_id": "C001",
+      "char_start": 0,
+      "char_end": 18000,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C001_E01",
+          "chunk_id": "C001",
+          "event_type": "problem",
+          "order_hint": 1,
+          "summary": "Optimizing heterologous naringenin biosynthesis in E. coli is challenging due to flux imbalances and metabolic burden.",
+          "methods_or_tools": [],
+          "entities": [
+            "naringenin",
+            "E. coli"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E01_01",
+            "EV_C001_E01_02"
+          ]
+        },
+        {
+          "event_id": "C001_E02",
+          "chunk_id": "C001",
+          "event_type": "design",
+          "order_hint": 2,
+          "summary": "A combinatorial engineering approach using orthogonal expression tools and biosensor-driven screening is designed to collect high-quality data for predictive modeling.",
+          "methods_or_tools": [
+            "sigma factor toolbox",
+            "biosensor-driven screening",
+            "predictive models"
+          ],
+          "entities": [
+            "naringenin",
+            "E. coli"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E02_01"
+          ]
+        },
+        {
+          "event_id": "C001_E03",
+          "chunk_id": "C001",
+          "event_type": "design",
+          "order_hint": 3,
+          "summary": "The naringenin pathway module is assembled combinatorially with 10 sigmaB-specific promoters and 2 isozymes per step, creating a theoretical search space of 160,000 variants.",
+          "methods_or_tools": [
+            "Golden Gate assembly",
+            "CLIVA"
+          ],
+          "entities": [
+            "sigmaB-specific promoters",
+            "TAL",
+            "4CL",
+            "CHS",
+            "CHI"
+          ],
+          "numbers_or_metrics": [
+            "160,000 possible pathway configurations"
+          ],
+          "evidence_ids": [
+            "EV_C001_E03_01",
+            "EV_C001_E03_02"
+          ]
+        },
+        {
+          "event_id": "C001_E04",
+          "chunk_id": "C001",
+          "event_type": "experiment",
+          "order_hint": 4,
+          "summary": "190 colonies were screened on MTP scale using the naringenin biosensor, and 35 strains were selected for further characterization based on fluorescence.",
+          "methods_or_tools": [
+            "biosensor",
+            "MTP-scale screening"
+          ],
+          "entities": [
+            "naringenin",
+            "biosensor"
+          ],
+          "numbers_or_metrics": [
+            "190 colonies",
+            "35 strains"
+          ],
+          "evidence_ids": [
+            "EV_C001_E04_02"
+          ]
+        },
+        {
+          "event_id": "C001_E05",
+          "chunk_id": "C001",
+          "event_type": "experiment",
+          "order_hint": 5,
+          "summary": "Naringenin titers of selected strains were determined by UPLC, ranging from 1.52 to 27.03 mg/L, and genotypes were sequenced.",
+          "methods_or_tools": [
+            "UPLC",
+            "DNA sequencing"
+          ],
+          "entities": [
+            "naringenin"
+          ],
+          "numbers_or_metrics": [
+            "1.52 to 27.03 mg/L"
+          ],
+          "evidence_ids": [
+            "EV_C001_E05_01",
+            "EV_C001_E05_02"
+          ]
+        },
+        {
+          "event_id": "C001_E06",
+          "chunk_id": "C001",
+          "event_type": "failure",
+          "order_hint": 6,
+          "summary": "One out of 35 selected strains had unsuccessful sequencing, reducing the dataset to 34 observations.",
+          "methods_or_tools": [],
+          "entities": [],
+          "numbers_or_metrics": [
+            "34 observations"
+          ],
+          "evidence_ids": [
+            "EV_C001_E06_01"
+          ]
+        }
+      ],
+      "notes": "This chunk covers the abstract, background, and the beginning of results, detailing the problem, design, and initial experimental steps.",
+      "api_usage": {
+        "prompt_tokens": 8326,
+        "completion_tokens": 1130,
+        "total_tokens": 9456,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8070
+      }
+    },
+    {
+      "chunk_id": "C002",
+      "char_start": 17100,
+      "char_end": 35100,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C002_E01",
+          "chunk_id": "C002",
+          "event_type": "experiment",
+          "order_hint": 1,
+          "summary": "35 strains selected from biosensor screening were characterized for naringenin titer via UPLC and genotyped by sequencing.",
+          "methods_or_tools": [
+            "UPLC analysis",
+            "DNA sequencing"
+          ],
+          "entities": [
+            "naringenin",
+            "biosensor",
+            "MTP-scale cultures"
+          ],
+          "numbers_or_metrics": [
+            "1.52 to 27.03 mg/L",
+            "35 strains"
+          ],
+          "evidence_ids": [
+            "EV_C002_E01_01",
+            "EV_C002_E01_02"
+          ]
+        },
+        {
+          "event_id": "C002_E03",
+          "chunk_id": "C002",
+          "event_type": "analysis",
+          "order_hint": 3,
+          "summary": "ANOVA and barplots revealed FjTAL significantly outperforms RgTAL; At4CL and PhCHS severely underrepresented, removed from dataset.",
+          "methods_or_tools": [
+            "ANOVA",
+            "barplots"
+          ],
+          "entities": [
+            "FjTAL",
+            "RgTAL",
+            "At4CL",
+            "PhCHS"
+          ],
+          "numbers_or_metrics": [
+            "1 occurrence of At4CL",
+            "3 occurrences of PhCHS",
+            "34 observations"
+          ],
+          "evidence_ids": [
+            "EV_C002_E03_01",
+            "EV_C002_E03_02",
+            "EV_C002_E03_03"
+          ]
+        },
+        {
+          "event_id": "C002_E04",
+          "chunk_id": "C002",
+          "event_type": "computation",
+          "order_hint": 4,
+          "summary": "OLS regression model built with 6 features, quadratic and interaction terms; reduced by backward elimination; R²=0.93 but predictions inconsistent with data exploration.",
+          "methods_or_tools": [
+            "ordinary least squares (OLS) regression",
+            "backward elimination"
+          ],
+          "entities": [
+            "naringenin titer",
+            "promoter TIF",
+            "CDS variants"
+          ],
+          "numbers_or_metrics": [
+            "R²=0.93",
+            "30 pathway architectures"
+          ],
+          "evidence_ids": [
+            "EV_C002_E04_01",
+            "EV_C002_E04_03"
+          ]
+        },
+        {
+          "event_id": "C002_E05",
+          "chunk_id": "C002",
+          "event_type": "failure",
+          "order_hint": 5,
+          "summary": "OLS model predictions contradicted data exploration: predicted high 4CL and CHI expression, low CHS expression, inconsistent with trends.",
+          "methods_or_tools": [],
+          "entities": [
+            "OLS model",
+            "4CL",
+            "CHS",
+            "CHI"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E05_01",
+            "EV_C002_E05_02"
+          ]
+        },
+        {
+          "event_id": "C002_E06",
+          "chunk_id": "C002",
+          "event_type": "computation",
+          "order_hint": 6,
+          "summary": "PLS regression model built with 2 latent variables; R²=0.79; predictions more robust and consistent with data exploration.",
+          "methods_or_tools": [
+            "partial least squares (PLS) regression"
+          ],
+          "entities": [
+            "PLS model",
+            "naringenin titer"
+          ],
+          "numbers_or_metrics": [
+            "R²=0.79",
+            "2 latent variables"
+          ],
+          "evidence_ids": [
+            "EV_C002_E06_01"
+          ]
+        }
+      ],
+      "notes": "Chunk covers data exploration, model building (OLS, PLS, ANN), and selection of top predicted strains for validation.",
+      "api_usage": {
+        "prompt_tokens": 9397,
+        "completion_tokens": 1559,
+        "total_tokens": 10956,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9141
+      }
+    },
+    {
+      "chunk_id": "C003",
+      "char_start": 34200,
+      "char_end": 52200,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C003_E01",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 1,
+          "summary": "PLS regression model constructed with 18 regressors and 30 observations, using 2 latent variables, explaining 78.92% of titer variance.",
+          "methods_or_tools": [
+            "Partial Least Squares (PLS) regression",
+            "Leave-one-out cross-validation"
+          ],
+          "entities": [
+            "PLS model",
+            "naringenin titer"
+          ],
+          "numbers_or_metrics": [
+            "R²=0.7892",
+            "2 latent variables",
+            "30 observations",
+            "18 regressors"
+          ],
+          "evidence_ids": [
+            "EV_C003_E01_01"
+          ]
+        },
+        {
+          "event_id": "C003_E02",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 2,
+          "summary": "PLS model predicts high TAL and CHS expression, low 4CL and CHI expression for optimal production, contrasting with OLS model.",
+          "methods_or_tools": [
+            "PLS regression coefficients"
+          ],
+          "entities": [
+            "TAL",
+            "CHS",
+            "4CL",
+            "CHI",
+            "OLS model"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E02_01"
+          ]
+        },
+        {
+          "event_id": "C003_E03",
+          "chunk_id": "C003",
+          "event_type": "design",
+          "order_hint": 3,
+          "summary": "ANN ensemble workflow adopted to avoid overfitting: 1000 iterations, random weights, top 10 producers stored, selection threshold 0.5*f_max.",
+          "methods_or_tools": [
+            "Artificial Neural Network (ANN) ensemble",
+            "custom Matlab script"
+          ],
+          "entities": [
+            "ANN ensemble",
+            "overfitting"
+          ],
+          "numbers_or_metrics": [
+            "1000 iterations",
+            "0.5*f_max threshold"
+          ],
+          "evidence_ids": [
+            "EV_C003_E03_01"
+          ]
+        },
+        {
+          "event_id": "C003_E04",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 4,
+          "summary": "ANN ensemble predictions similar to PLS, with minor differences in TAL and CHS promoter TIF.",
+          "methods_or_tools": [
+            "ANN ensemble"
+          ],
+          "entities": [
+            "ANN ensemble",
+            "PLS model",
+            "P_TAL",
+            "P_CHS"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E04_01"
+          ]
+        }
+      ],
+      "notes": "Chunk covers PLS and ANN model building, prediction, and in vivo validation of top strains, including failure analysis and outlier identification.",
+      "api_usage": {
+        "prompt_tokens": 9086,
+        "completion_tokens": 1661,
+        "total_tokens": 10747,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8830
+      }
+    },
+    {
+      "chunk_id": "C004",
+      "char_start": 51300,
+      "char_end": 69300,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C004_E01",
+          "chunk_id": "C004",
+          "event_type": "experiment",
+          "order_hint": 1,
+          "summary": "Benchmarking optimized strains against unbalanced NarRef pathway shows ~15-fold titer increase.",
+          "methods_or_tools": [
+            "NarRef pathway",
+            "MTP cultivation"
+          ],
+          "entities": [
+            "NarRef",
+            "Top10.4",
+            "Top10.5"
+          ],
+          "numbers_or_metrics": [
+            "~15-fold increase"
+          ],
+          "evidence_ids": [
+            "EV_C004_E01_01"
+          ]
+        },
+        {
+          "event_id": "C004_E02",
+          "chunk_id": "C004",
+          "event_type": "experiment",
+          "order_hint": 2,
+          "summary": "Glycerol supplementation boosts naringenin titer significantly, with genotype-dependent effects.",
+          "methods_or_tools": [
+            "glycerol supplementation",
+            "MTP cultivation"
+          ],
+          "entities": [
+            "Top10.4",
+            "Top10.5"
+          ],
+          "numbers_or_metrics": [
+            "116.8% increase for Top10.5",
+            "111.2% increase for Top10.4",
+            "53.3 mg/L",
+            "61.4 mg/L"
+          ],
+          "evidence_ids": [
+            "EV_C004_E02_01"
+          ]
+        },
+        {
+          "event_id": "C004_E03",
+          "chunk_id": "C004",
+          "event_type": "analysis",
+          "order_hint": 3,
+          "summary": "Glycerol effect suggests malonyl-CoA supply boosts CHS expression benefit and reduces need for p-coumaric acid push.",
+          "methods_or_tools": [],
+          "entities": [
+            "malonyl-CoA",
+            "GhCHS",
+            "FjTAL"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E03_01"
+          ]
+        },
+        {
+          "event_id": "C004_E05",
+          "chunk_id": "C004",
+          "event_type": "failure",
+          "order_hint": 5,
+          "summary": "Production halts in stationary phase; p-coumaric acid accumulates, indicating malonyl-CoA limitation.",
+          "methods_or_tools": [],
+          "entities": [
+            "p-coumaric acid",
+            "malonyl-CoA"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E05_01"
+          ]
+        },
+        {
+          "event_id": "C004_E06",
+          "chunk_id": "C004",
+          "event_type": "failure",
+          "order_hint": 6,
+          "summary": "Plasmid instability and cell stress observed in bioreactor, with large deletions in pathway genes.",
+          "methods_or_tools": [
+            "sequencing",
+            "microscopy"
+          ],
+          "entities": [
+            "production plasmid"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E06_01",
+            "EV_C004_E06_02"
+          ]
+        }
+      ],
+      "notes": "Chunk covers validation experiments, bioreactor characterization, and discussion of limitations.",
+      "api_usage": {
+        "prompt_tokens": 8189,
+        "completion_tokens": 1372,
+        "total_tokens": 9561,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7933
+      }
+    },
+    {
+      "chunk_id": "C005",
+      "char_start": 68400,
+      "char_end": 86400,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C005_E01",
+          "chunk_id": "C005",
+          "event_type": "design",
+          "order_hint": 1,
+          "summary": "All enzyme variants were cloned in separate carrier plasmids with matching Golden Gate restriction sites for sequential pathway assembly.",
+          "methods_or_tools": [
+            "Golden Gate assembly",
+            "carrier plasmids"
+          ],
+          "entities": [
+            "enzyme variants",
+            "carrier plasmids",
+            "Golden Gate restriction sites"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C005_E01_01"
+          ]
+        },
+        {
+          "event_id": "C005_E02",
+          "chunk_id": "C005",
+          "event_type": "design",
+          "order_hint": 2,
+          "summary": "Promoterless CDSs were cloned into carrier vectors using CPEC, then promoter libraries were inserted via CLIVA reaction.",
+          "methods_or_tools": [
+            "CPEC",
+            "CLIVA reaction"
+          ],
+          "entities": [
+            "promoterless CDSs",
+            "carrier vectors",
+            "promoter libraries"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C005_E02_01"
+          ]
+        },
+        {
+          "event_id": "C005_E03",
+          "chunk_id": "C005",
+          "event_type": "design",
+          "order_hint": 3,
+          "summary": "All pathway library fragments were assembled into the expression vector backbone in a one-pot, 5-piece Golden Gate reaction.",
+          "methods_or_tools": [
+            "Golden Gate reaction"
+          ],
+          "entities": [
+            "pathway library fragments",
+            "expression vector backbone"
+          ],
+          "numbers_or_metrics": [
+            "5-piece"
+          ],
+          "evidence_ids": [
+            "EV_C005_E03_01"
+          ]
+        },
+        {
+          "event_id": "C005_E06",
+          "chunk_id": "C005",
+          "event_type": "experiment",
+          "order_hint": 6,
+          "summary": "Genotype of 35 fluorescence-selected strains was determined by streaking on agar without biosensor antibiotic, plasmid isolation, and Sanger sequencing.",
+          "methods_or_tools": [
+            "Sanger sequencing",
+            "plasmid isolation"
+          ],
+          "entities": [
+            "35 fluorescence-based selected library strains"
+          ],
+          "numbers_or_metrics": [
+            "35"
+          ],
+          "evidence_ids": [
+            "EV_C005_E06_01"
+          ]
+        }
+      ],
+      "notes": "This chunk contains detailed methods for pathway construction, library screening, product extraction, and bioreactor setup, which are key experimental design and execution events.",
+      "api_usage": {
+        "prompt_tokens": 9326,
+        "completion_tokens": 1461,
+        "total_tokens": 10787,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9070
+      }
+    },
+    {
+      "chunk_id": "C006",
+      "char_start": 85500,
+      "char_end": 103500,
+      "chunk_relevance": "none",
+      "events": [],
+      "notes": "This chunk contains only supplementary figure/table descriptions, acknowledgements, author contributions, funding, availability, declarations, and bibliography. No research evolution events (problem, hypothesis, design, computation, experiment, analysis, revision, validation, failure, limitation) are described in the text.",
+      "api_usage": {
+        "prompt_tokens": 9092,
+        "completion_tokens": 89,
+        "total_tokens": 9181,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8836
+      }
+    },
+    {
+      "chunk_id": "C007",
+      "char_start": 102600,
+      "char_end": 108839,
+      "chunk_relevance": "none",
+      "events": [],
+      "notes": "This chunk contains only reference list and publisher information, no research process events.",
+      "api_usage": {
+        "prompt_tokens": 6020,
+        "completion_tokens": 47,
+        "total_tokens": 6067,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 5764
+      }
+    }
+  ],
+  "evidence_bank": [
+    {
+      "evidence_id": "EV_C001_E01_01",
+      "source_file": "docs/0027/combined.md",
+      "section": "C001",
+      "char_start": 4655,
+      "char_end": 4854,
+      "quote": "The optimization of the heterologous biosynthesis of flavonoids is in no way straightforward and despite these previous engineering efforts, its industrial potential still remains largely unexploited"
+    },
+    {
+      "evidence_id": "EV_C001_E01_02",
+      "source_file": "docs/0027/combined.md",
+      "section": "C001",
+      "char_start": 4909,
+      "char_end": 5178,
+      "quote": "it is required to attune every enzymatic reaction in the pathway to each other and to the cell's available resources, thereby avoiding flux imbalances leading to accumulation of metabolites and associated toxicity or a potential detrimental metabolic burden on the cell"
+    },
+    {
+      "evidence_id": "EV_C001_E02_01",
+      "source_file": "docs/0027/combined.md",
+      "section": "C001",
+      "char_start": 9221,
+      "char_end": 9541,
+      "quote": "a combinatorial engineering approach using the tools for tunable and orthogonal expression, created in Bervoets et al. (2018) [8], is combined with a biosensor-driven screening to collect high-quality data to feed three different predictive models with increasing complexity to optimize microbial naringenin biosynthesis"
+    },
+    {
+      "evidence_id": "EV_C001_E03_01",
+      "source_file": "docs/0027/combined.md",
+      "section": "C001",
+      "char_start": 10354,
+      "char_end": 10480,
+      "quote": "The described module is assembled in a combinatorial manner, with variability introduced at the promoter and enzymatic levels."
+    },
+    {
+      "evidence_id": "EV_C001_E03_02",
+      "source_file": "docs/0027/combined.md",
+      "section": "C001",
+      "char_start": 10901,
+      "char_end": 10991,
+      "quote": "the theoretical search space comprises 160.000 (see Eq. 1) possible pathway configurations"
+    },
+    {
+      "evidence_id": "EV_C001_E04_02",
+      "source_file": "docs/0027/combined.md",
+      "section": "C001",
+      "char_start": 17130,
+      "char_end": 17172,
+      "quote": "the selection was restricted to 35 strains"
+    },
+    {
+      "evidence_id": "EV_C001_E05_01",
+      "source_file": "docs/0027/combined.md",
+      "section": "C001",
+      "char_start": 17200,
+      "char_end": 17318,
+      "quote": "the naringenin titer in the MTP-scale cultures was determined through UPLC analysis and ranged from 1.52 to 27.03 mg/L"
+    },
+    {
+      "evidence_id": "EV_C001_E05_02",
+      "source_file": "docs/0027/combined.md",
+      "section": "C001",
+      "char_start": 17348,
+      "char_end": 17417,
+      "quote": "DNA sequencing was performed to determine the corresponding genotypes"
+    },
+    {
+      "evidence_id": "EV_C001_E06_01",
+      "source_file": "docs/0027/combined.md",
+      "section": "C001",
+      "char_start": 17637,
+      "char_end": 17701,
+      "quote": "For one out of the 35 observations, sequencing was unsuccessful."
+    },
+    {
+      "evidence_id": "EV_C002_E01_01",
+      "source_file": "docs/0027/combined.md",
+      "section": "C002",
+      "char_start": 17175,
+      "char_end": 17318,
+      "quote": "Of the selected strains, the naringenin titer in the MTP-scale cultures was determined through UPLC analysis and ranged from 1.52 to 27.03 mg/L"
+    },
+    {
+      "evidence_id": "EV_C002_E01_02",
+      "source_file": "docs/0027/combined.md",
+      "section": "C002",
+      "char_start": 17348,
+      "char_end": 17418,
+      "quote": "DNA sequencing was performed to determine the corresponding genotypes."
+    },
+    {
+      "evidence_id": "EV_C002_E03_01",
+      "source_file": "docs/0027/combined.md",
+      "section": "C002",
+      "char_start": 24211,
+      "char_end": 24403,
+      "quote": "pathway configurations containing the TAL CDS from Flavobacterium johnsoniae (FjTAL) perform significantly better on average than those containing the TAL CDS from Rhodotorula glutinis (RgTAL)"
+    },
+    {
+      "evidence_id": "EV_C002_E03_02",
+      "source_file": "docs/0027/combined.md",
+      "section": "C002",
+      "char_start": 24605,
+      "char_end": 24757,
+      "quote": "the presence of only a single 4CL CDS from Arabidopsis thaliana (At4CL) and three appearances of the CHS CDS from Petunia hybrida (PhCHS) in the dataset"
+    },
+    {
+      "evidence_id": "EV_C002_E03_03",
+      "source_file": "docs/0027/combined.md",
+      "section": "C002",
+      "char_start": 25128,
+      "char_end": 25291,
+      "quote": "It was decided accordingly to remove the total of four entries in the dataset containing either of these two enzyme variants to reduce the number of model features"
+    },
+    {
+      "evidence_id": "EV_C002_E04_01",
+      "source_file": "docs/0027/combined.md",
+      "section": "C002",
+      "char_start": 25469,
+      "char_end": 25540,
+      "quote": "first an ordinary least squares (OLS) regression analysis was performed"
+    },
+    {
+      "evidence_id": "EV_C002_E04_03",
+      "source_file": "docs/0027/combined.md",
+      "section": "C002",
+      "char_start": 26215,
+      "char_end": 26358,
+      "quote": "This initial model was reduced to only maintain the terms contributing to product formation by sequentially removing the least significant term"
+    },
+    {
+      "evidence_id": "EV_C002_E05_01",
+      "source_file": "docs/0027/combined.md",
+      "section": "C002",
+      "char_start": 26784,
+      "char_end": 26959,
+      "quote": "The predicted top six naringenin producers show a consensus of high FjTAL, Petroselinum crispum 4CL (Pc4CL) and PhCHI expression and low Gerbera hybrida CHS (GhCHS) expression"
+    },
+    {
+      "evidence_id": "EV_C002_E05_02",
+      "source_file": "docs/0027/combined.md",
+      "section": "C002",
+      "char_start": 27043,
+      "char_end": 27182,
+      "quote": "This is in contradiction with what could be expected from the performed data exploration for the preferred expression level of 4CL and CHS."
+    },
+    {
+      "evidence_id": "EV_C002_E06_01",
+      "source_file": "docs/0027/combined.md",
+      "section": "C002",
+      "char_start": 33991,
+      "char_end": 34035,
+      "quote": "Partial least squares (PLS) regression model"
+    },
+    {
+      "evidence_id": "EV_C003_E01_01",
+      "source_file": "docs/0027/combined.md",
+      "section": "C003",
+      "char_start": 42251,
+      "char_end": 42336,
+      "quote": "The regression model contains 18 regressors and was trained with the 30 observations."
+    },
+    {
+      "evidence_id": "EV_C003_E02_01",
+      "source_file": "docs/0027/combined.md",
+      "section": "C003",
+      "char_start": 43059,
+      "char_end": 43288,
+      "quote": "The regression coefficients explaining promoter TIF all align toward an increased production capacity for high expression of TAL, and in sheer contrast with the OLS model, high expression of CHS and low expression of 4CL and CHI."
+    },
+    {
+      "evidence_id": "EV_C003_E03_01",
+      "source_file": "docs/0027/combined.md",
+      "section": "C003",
+      "char_start": 45106,
+      "char_end": 45258,
+      "quote": "This ANN ensemble workflow (as opposed to the training of a single model) was adopted to avoid overfitting due to the use of a relatively small dataset."
+    },
+    {
+      "evidence_id": "EV_C003_E04_01",
+      "source_file": "docs/0027/combined.md",
+      "section": "C003",
+      "char_start": 45518,
+      "char_end": 45693,
+      "quote": "The genetic parts predicted to contribute to a superior naringenin production are very similar to the PLS model predictions with minor differences for TAL and CHS promoter TIF"
+    },
+    {
+      "evidence_id": "EV_C004_E01_01",
+      "source_file": "docs/0027/combined.md",
+      "section": "C004",
+      "char_start": 52289,
+      "char_end": 52396,
+      "quote": "both optimized strains show, on average, an almost 15 times increase in production titer compared to NarRef"
+    },
+    {
+      "evidence_id": "EV_C004_E02_01",
+      "source_file": "docs/0027/combined.md",
+      "section": "C004",
+      "char_start": 52412,
+      "char_end": 52576,
+      "quote": "The supplementation of glycerol to the medium increases the titer further by 116.8 ± 5.6% to 53.3 mg/L for strain Top10.5 and 111.2 ± 48.9% to 61.4 mg/L for Top10.4"
+    },
+    {
+      "evidence_id": "EV_C004_E03_01",
+      "source_file": "docs/0027/combined.md",
+      "section": "C004",
+      "char_start": 55615,
+      "char_end": 55815,
+      "quote": "support the theory that the elevated malonyl-CoA supply boosts the positive effect of high GhCHS expression and at the same time reduces the requirement of the p-coumaric acid-accumulation-push-effect"
+    },
+    {
+      "evidence_id": "EV_C004_E05_01",
+      "source_file": "docs/0027/combined.md",
+      "section": "C004",
+      "char_start": 56919,
+      "char_end": 57100,
+      "quote": "In the stationary growth phase, no additional naringenin production was observed, though p-coumaric acid accumulation started. This could indicate insufficient malonyl-CoA formation"
+    },
+    {
+      "evidence_id": "EV_C004_E06_01",
+      "source_file": "docs/0027/combined.md",
+      "section": "C004",
+      "char_start": 57517,
+      "char_end": 57660,
+      "quote": "the production plasmid of two, non-coloring, single colonies was analyzed by sequencing, showing different large deletions in the pathway genes"
+    },
+    {
+      "evidence_id": "EV_C004_E06_02",
+      "source_file": "docs/0027/combined.md",
+      "section": "C004",
+      "char_start": 57348,
+      "char_end": 57444,
+      "quote": "microscopic images of these samples showed filamentation of the cells, which is a sign of stress"
+    },
+    {
+      "evidence_id": "EV_C005_E01_01",
+      "source_file": "docs/0027/combined.md",
+      "section": "C005",
+      "char_start": 71896,
+      "char_end": 72211,
+      "quote": "all enzyme variants in the pathway (listed in Table 2) were cloned in separate carrier plasmids, in which all operons catalyzing the same enzymatic reaction are flanked by the same pair of Golden Gate (GG) restriction sites, sequentially matching with the GG restriction sites for the different steps in the pathway"
+    },
+    {
+      "evidence_id": "EV_C005_E02_01",
+      "source_file": "docs/0027/combined.md",
+      "section": "C005",
+      "char_start": 72244,
+      "char_end": 72427,
+      "quote": "promoterless CDSs were cloned in the carrier vectors using Circular Polymerase Extension Cloning (CPEC) after which the promoter (-libraries) were inserted in a 2-piece CLIVA reaction"
+    },
+    {
+      "evidence_id": "EV_C005_E03_01",
+      "source_file": "docs/0027/combined.md",
+      "section": "C005",
+      "char_start": 72728,
+      "char_end": 72846,
+      "quote": "all pathway (library) fragments were put together in the expression vector backbone, in a one-pot, 5-piece GG reaction"
+    },
+    {
+      "evidence_id": "EV_C005_E06_01",
+      "source_file": "docs/0027/combined.md",
+      "section": "C005",
+      "char_start": 74558,
+      "char_end": 74883,
+      "quote": "To determine the genotype of the 35 fluorescence-based selected library strains, first, cells from the MTP cultures were streaked on agar plates lacking the antibiotic required to sustain replication of the biosensor carrying plasmid. Next, single colonies were cultured for plasmid isolation and subsequent Sanger sequencing"
+    },
+    {
+      "evidence_id": "EV_AUTO_001",
+      "source_file": "docs/0027/combined.md",
+      "section": "auto_specific",
+      "char_start": 73422,
+      "char_end": 73836,
+      "quote": "Library screening was performed by randomly picking single colonies by hand after transformation, and incubation in 150 $\\mu$ L 853 medium in sterile 96-well flat-bottomed black MTPs (Greiner Bio-One, Vilvoorde, Belgium), enclosed by a Breath-Easy $^{\\circledR}$ sealing membrane (Sigma-Aldrich) for 24 h at 30 ${}^{\\circ}$ C while shaking (800 rpm in a Compact Digital Microplate Shaker, ThermoFisher Scientific)."
+    },
+    {
+      "evidence_id": "EV_AUTO_002",
+      "source_file": "docs/0027/combined.md",
+      "section": "auto_specific",
+      "char_start": 75448,
+      "char_end": 75662,
+      "quote": "coli MG1655 cells were transformed with the plasmids containing the pathway architectures from strain 135, 220, 133 and Top10.1–6, and subsequently cultured, analogous as performed for the pathway library strains."
+    },
+    {
+      "evidence_id": "EV_AUTO_003",
+      "source_file": "docs/0027/combined.md",
+      "section": "auto_specific",
+      "char_start": 77086,
+      "char_end": 77300,
+      "quote": "The conversion of $OD_{600}$ to cell dry weight (CDW) was determined by pelleting 20 mL of the final fermentation broth, washing with physiological solution, and drying the pellets for 24 h at 70°C before weighing."
+    },
+    {
+      "evidence_id": "EV_AUTO_004",
+      "source_file": "docs/0027/combined.md",
+      "section": "auto_specific",
+      "char_start": 56525,
+      "char_end": 56649,
+      "quote": "33/h$ ), yield of product (P) on biomass (X) formation ( $Y_{PX}=62.9$ mg P/g CDW) and specific production rate ( $q_{p}=20."
+    },
+    {
+      "evidence_id": "EV_AUTO_005",
+      "source_file": "docs/0027/combined.md",
+      "section": "auto_specific",
+      "char_start": 49341,
+      "char_end": 49496,
+      "quote": "7 Production titers of: A Strains 135, 220 and 133, which were selected as the three best naringenin producers in the biosensor-driven screening (see Fig."
+    },
+    {
+      "evidence_id": "EV_AUTO_006",
+      "source_file": "docs/0027/combined.md",
+      "section": "auto_specific",
+      "char_start": 71759,
+      "char_end": 71846,
+      "quote": "(2017) [34], which were used for pathway (library) cloning, were available in the lab."
+    },
+    {
+      "evidence_id": "EV_AUTO_007",
+      "source_file": "docs/0027/combined.md",
+      "section": "auto_specific",
+      "char_start": 59473,
+      "char_end": 59726,
+      "quote": "(2017) [34], complemented in this work with the use of CLIVA for the integration of discrete promoter levels, shows no exclusion of certain library building blocks in the assembly, thereby allowing a broad coverage of the defined search space (see Fig."
+    },
+    {
+      "evidence_id": "EV_AUTO_008",
+      "source_file": "docs/0027/combined.md",
+      "section": "auto_specific",
+      "char_start": 56493,
+      "char_end": 56593,
+      "quote": "Also, the growth rate ( $\\mu=0.33/h$ ), yield of product (P) on biomass (X) formation ( $Y_{PX}=62."
+    },
+    {
+      "evidence_id": "EV_AUTO_009",
+      "source_file": "docs/0027/combined.md",
+      "section": "auto_specific",
+      "char_start": 43879,
+      "char_end": 44146,
+      "quote": "(2018) [30] developed a machine-learning workflow, especially designed to deal with the optimization of heterologous biosynthetic pathways, trained with a relatively small dataset generated from a prescreened combinatorially engineered library, similar to this work."
+    },
+    {
+      "evidence_id": "EV_AUTO_010",
+      "source_file": "docs/0027/combined.md",
+      "section": "auto_specific",
+      "char_start": 40926,
+      "char_end": 41340,
+      "quote": "(P\\_X: promoter driving expression of enzyme X; CDS\\_X: enzyme variant of enzyme X; Rg: Rhodotorula glutinis; Fj: Flavobacterium johnsoniae; Pc: Petroselinum crispum; Ph: Petunia hybrida; Gh: Gerbera hybrida; Ms: Medicago sativa; TAL: Tyrosine ammonia-lyase; 4CL: 4-coumaroyl-CoA ligase; CHS: Chalcone synthase; CHI: Chalcone isomerase; solid red square: strain 135, top naringenin producer in library screening)"
+    },
+    {
+      "evidence_id": "EV_AUTO_011",
+      "source_file": "docs/0027/combined.md",
+      "section": "auto_specific",
+      "char_start": 24782,
+      "char_end": 25004,
+      "quote": "By using a unique linker-based Golden Gate assembly workflow for the construction of the pathway variants, the presence of all promoters and coding sequences is evenly distributed in the final pathway library $[34, 39]$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_012",
+      "source_file": "docs/0027/combined.md",
+      "section": "auto_specific",
+      "char_start": 17175,
+      "char_end": 17311,
+      "quote": "Of the selected strains, the naringenin titer in the MTP-scale cultures was determined through UPLC analysis and ranged from 1.52 to 27."
+    },
+    {
+      "evidence_id": "EV_AUTO_013",
+      "source_file": "docs/0027/combined.md",
+      "section": "auto_specific",
+      "char_start": 16620,
+      "char_end": 16764,
+      "quote": "The acquired fluorescence data from the 190 different strains was normalized for optical density (OD $_{600}$ ) and sorted in descending order."
+    },
+    {
+      "evidence_id": "EV_AUTO_014",
+      "source_file": "docs/0027/combined.md",
+      "section": "auto_specific",
+      "char_start": 90796,
+      "char_end": 91117,
+      "quote": "The fixed input values, other than the two variables depicted on the x- and y-axes, are set according to the predicted optimal producer (see legend, P\\_X: promoter TIF of enzymatic step X; CDS\\_X: enzyme variant; TAL: Tyrosine ammonia-lyase; 4CL: 4-coumaroyl-CoA ligase; CHS: Chalcone synthase; CHI: Chalcone isomerase)."
+    },
+    {
+      "evidence_id": "EV_AUTO_015",
+      "source_file": "docs/0027/combined.md",
+      "section": "auto_specific",
+      "char_start": 90081,
+      "char_end": 90498,
+      "quote": "(P\\_X: promoter transcription initiation frequency (TIF) of enzymatic step X; CDS\\_X: enzyme variant; I(P\\_X^2): quadratic term of promoter TIF; 'P\\_X:CDS\\_X' and 'P\\_X: P\\_Y': promoter TIF interaction terms with enzyme variants or between the promoter TIFs of two different enzymatic pathway reaction steps; TAL: Tyrosine ammonia-lyase; 4CL: 4-coumaroyl-CoA ligase; CHS: Chalcone synthase; CHI: Chalcone isomerase)."
+    },
+    {
+      "evidence_id": "EV_AUTO_016",
+      "source_file": "docs/0027/combined.md",
+      "section": "auto_specific",
+      "char_start": 89488,
+      "char_end": 89936,
+      "quote": "(P\\_X: promoter transcription initiation frequency (TIF) of enzymatic step X; CDS\\_X: enzyme variant; I(P\\_X^2): quadratic term of promoter transcription initiation frequency; 'P\\_X:CDS\\_X' and 'P\\_X: P\\_Y': promoter TIF interaction terms with enzyme variants or between the promoter TIFs of two different enzymatic pathway reaction steps; TAL: Tyrosine ammonia-lyase; 4CL: 4-coumaroyl-CoA ligase; CHS: Chalcone synthase; CHI: Chalcone isomerase)."
+    },
+    {
+      "evidence_id": "EV_AUTO_017",
+      "source_file": "docs/0027/combined.md",
+      "section": "auto_specific",
+      "char_start": 88596,
+      "char_end": 89069,
+      "quote": "(Q: quadrant; P\\_X: promoter transcription initiation frequency for expression of enzyme X; CDS\\_X: coding sequence variant of enzyme X; P\\_X:P\\_X: interaction term; I(P\\_X^2): quadratic term; Rg: Rhodotorula glutinis; Fj: Flavobacterium johnsoniae; Pc: Petroselinum crispum; At: Arabidopsis thaliana; Ph: Petunia hybrida; Gh: Gerbera hybrida; Ms: Medicago sativa; TAL: Tyrosine ammonia-lyase; 4CL: 4-coumaroyl-CoA ligase; CHS: Chalcone synthase; CHI: Chalcone isomerase)."
+    },
+    {
+      "evidence_id": "EV_AUTO_018",
+      "source_file": "docs/0027/combined.md",
+      "section": "auto_specific",
+      "char_start": 81581,
+      "char_end": 82101,
+      "quote": "ther of two enzyme variants. $$ \\begin{array}{l} T i t e r _ {i} = \\beta_ {0} + \\beta_ {1} P _ {T A L, i} + \\beta_ {2} P _ {4 C L, i} + \\beta_ {3} P _ {C H S, i} + \\beta_ {4} P _ {C H I, i} \\\\ + \\beta_ {5} C D S _ {T A L, i} + \\beta_ {6} C D S _ {C H I, i} + \\beta_ {7} P _ {T A L, i} ^ {2} + \\beta_ {8} P _ {4 C L, i} ^ {2} + \\beta_ {9} P _ {C H S, i} ^ {2} \\\\ + \\beta_ {1 0} P _ {C H I, i} ^ {2} + \\beta_ {1 1} P _ {T A L, i} C D S _ {T A L, i} + \\beta_ {1 2} P _ {C H I, i} C D S _ {C H I, i} \\\\ + \\beta_ {1 3} P _ {"
+    },
+    {
+      "evidence_id": "EV_AUTO_019",
+      "source_file": "docs/0027/combined.md",
+      "section": "auto_specific",
+      "char_start": 81553,
+      "char_end": 82073,
+      "quote": "coding is used describing either of two enzyme variants. $$ \\begin{array}{l} T i t e r _ {i} = \\beta_ {0} + \\beta_ {1} P _ {T A L, i} + \\beta_ {2} P _ {4 C L, i} + \\beta_ {3} P _ {C H S, i} + \\beta_ {4} P _ {C H I, i} \\\\ + \\beta_ {5} C D S _ {T A L, i} + \\beta_ {6} C D S _ {C H I, i} + \\beta_ {7} P _ {T A L, i} ^ {2} + \\beta_ {8} P _ {4 C L, i} ^ {2} + \\beta_ {9} P _ {C H S, i} ^ {2} \\\\ + \\beta_ {1 0} P _ {C H I, i} ^ {2} + \\beta_ {1 1} P _ {T A L, i} C D S _ {T A L, i} + \\beta_ {1 2} P _ {C H I, i} C D S _ {C H I"
+    },
+    {
+      "evidence_id": "EV_AUTO_020",
+      "source_file": "docs/0027/combined.md",
+      "section": "auto_specific",
+      "char_start": 81533,
+      "char_end": 82053,
+      "quote": "e default 0/1 dummy coding is used describing either of two enzyme variants. $$ \\begin{array}{l} T i t e r _ {i} = \\beta_ {0} + \\beta_ {1} P _ {T A L, i} + \\beta_ {2} P _ {4 C L, i} + \\beta_ {3} P _ {C H S, i} + \\beta_ {4} P _ {C H I, i} \\\\ + \\beta_ {5} C D S _ {T A L, i} + \\beta_ {6} C D S _ {C H I, i} + \\beta_ {7} P _ {T A L, i} ^ {2} + \\beta_ {8} P _ {4 C L, i} ^ {2} + \\beta_ {9} P _ {C H S, i} ^ {2} \\\\ + \\beta_ {1 0} P _ {C H I, i} ^ {2} + \\beta_ {1 1} P _ {T A L, i} C D S _ {T A L, i} + \\beta_ {1 2} P _ {C H"
+    },
+    {
+      "evidence_id": "EV_AUTO_021",
+      "source_file": "docs/0027/combined.md",
+      "section": "auto_specific",
+      "char_start": 81525,
+      "char_end": 82045,
+      "quote": "}$ ), the default 0/1 dummy coding is used describing either of two enzyme variants. $$ \\begin{array}{l} T i t e r _ {i} = \\beta_ {0} + \\beta_ {1} P _ {T A L, i} + \\beta_ {2} P _ {4 C L, i} + \\beta_ {3} P _ {C H S, i} + \\beta_ {4} P _ {C H I, i} \\\\ + \\beta_ {5} C D S _ {T A L, i} + \\beta_ {6} C D S _ {C H I, i} + \\beta_ {7} P _ {T A L, i} ^ {2} + \\beta_ {8} P _ {4 C L, i} ^ {2} + \\beta_ {9} P _ {C H S, i} ^ {2} \\\\ + \\beta_ {1 0} P _ {C H I, i} ^ {2} + \\beta_ {1 1} P _ {T A L, i} C D S _ {T A L, i} + \\beta_ {1 2} P"
+    },
+    {
+      "evidence_id": "EV_AUTO_022",
+      "source_file": "docs/0027/combined.md",
+      "section": "auto_specific",
+      "char_start": 81497,
+      "char_end": 82017,
+      "quote": "l pathway features (CDS $_{X}$ ), the default 0/1 dummy coding is used describing either of two enzyme variants. $$ \\begin{array}{l} T i t e r _ {i} = \\beta_ {0} + \\beta_ {1} P _ {T A L, i} + \\beta_ {2} P _ {4 C L, i} + \\beta_ {3} P _ {C H S, i} + \\beta_ {4} P _ {C H I, i} \\\\ + \\beta_ {5} C D S _ {T A L, i} + \\beta_ {6} C D S _ {C H I, i} + \\beta_ {7} P _ {T A L, i} ^ {2} + \\beta_ {8} P _ {4 C L, i} ^ {2} + \\beta_ {9} P _ {C H S, i} ^ {2} \\\\ + \\beta_ {1 0} P _ {C H I, i} ^ {2} + \\beta_ {1 1} P _ {T A L, i} C D S _"
+    },
+    {
+      "evidence_id": "EV_AUTO_023",
+      "source_file": "docs/0027/combined.md",
+      "section": "auto_specific",
+      "char_start": 81484,
+      "char_end": 82004,
+      "quote": "he categorical pathway features (CDS $_{X}$ ), the default 0/1 dummy coding is used describing either of two enzyme variants. $$ \\begin{array}{l} T i t e r _ {i} = \\beta_ {0} + \\beta_ {1} P _ {T A L, i} + \\beta_ {2} P _ {4 C L, i} + \\beta_ {3} P _ {C H S, i} + \\beta_ {4} P _ {C H I, i} \\\\ + \\beta_ {5} C D S _ {T A L, i} + \\beta_ {6} C D S _ {C H I, i} + \\beta_ {7} P _ {T A L, i} ^ {2} + \\beta_ {8} P _ {4 C L, i} ^ {2} + \\beta_ {9} P _ {C H S, i} ^ {2} \\\\ + \\beta_ {1 0} P _ {C H I, i} ^ {2} + \\beta_ {1 1} P _ {T A"
+    },
+    {
+      "evidence_id": "EV_AUTO_024",
+      "source_file": "docs/0027/combined.md",
+      "section": "auto_specific",
+      "char_start": 81120,
+      "char_end": 81478,
+      "quote": "Ordinary least squares (OLS) regression Equation 8 depicts the linear relationship established by the OLS regression, where Titer $_{i}$ is the obtained titer in mg/L for pathway i, P $_{X,i}$ and CDS $_{X,i}$ are the promoter- and enzyme variants of enzyme X for pathway i, $\\beta_{1-18}$ are the regression coefficients and $\\varepsilon_{i}$ an error term."
+    },
+    {
+      "evidence_id": "EV_AUTO_025",
+      "source_file": "docs/0027/combined.md",
+      "section": "auto_specific",
+      "char_start": 77300,
+      "char_end": 77362,
+      "quote": "The determined $OD_{600}$ to CDW conversion is described as:"
+    },
+    {
+      "evidence_id": "EV_AUTO_026",
+      "source_file": "docs/0027/combined.md",
+      "section": "auto_specific",
+      "char_start": 74558,
+      "char_end": 74792,
+      "quote": "To determine the genotype of the 35 fluorescence-based selected library strains, first, cells from the MTP cultures were streaked on agar plates lacking the antibiotic required to sustain replication of the biosensor carrying plasmid."
+    },
+    {
+      "evidence_id": "EV_AUTO_027",
+      "source_file": "docs/0027/combined.md",
+      "section": "auto_specific",
+      "char_start": 73294,
+      "char_end": 73420,
+      "quote": "100, after which cells were made competent again for electroporation with the GG assembly mix containing the pathway variants."
+    },
+    {
+      "evidence_id": "EV_AUTO_028",
+      "source_file": "docs/0027/combined.md",
+      "section": "auto_specific",
+      "char_start": 72232,
+      "char_end": 72436,
+      "quote": "Therefore, promoterless CDSs were cloned in the carrier vectors using Circular Polymerase Extension Cloning (CPEC) after which the promoter (-libraries) were inserted in a 2-piece CLIVA reaction $(35)$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_029",
+      "source_file": "docs/0027/combined.md",
+      "section": "auto_specific",
+      "char_start": 71848,
+      "char_end": 72228,
+      "quote": "For the followed pathway construction workflow, all enzyme variants in the pathway (listed in Table 2) were cloned in separate carrier plasmids, in which all operons catalyzing the same enzymatic reaction are flanked by the same pair of Golden Gate (GG) restriction sites, sequentially matching with the GG restriction sites for the different steps in the pathway $[34]$ (see Fig."
+    },
+    {
+      "evidence_id": "EV_AUTO_030",
+      "source_file": "docs/0027/combined.md",
+      "section": "auto_specific",
+      "char_start": 62445,
+      "char_end": 62664,
+      "quote": "Tuning the biosensor to a more suitable operational range with a lower error could improve the reliability of fluorescence-to-production titer conversion $[36]$ , ideally rendering subsequent UPLC analysis unnecessary."
+    },
+    {
+      "evidence_id": "EV_AUTO_031",
+      "source_file": "docs/0027/combined.md",
+      "section": "auto_specific",
+      "char_start": 60641,
+      "char_end": 60965,
+      "quote": "On top of that, the naringenin production titer of strain 135, which could, after further characterization, be labeled as an outlier in the dataset, is predicted closely to its measured value by the OLS regression model, even if the observation is not included for model training (see LOO cross validation predictions, Fig."
+    },
+    {
+      "evidence_id": "EV_AUTO_032",
+      "source_file": "docs/0027/combined.md",
+      "section": "auto_specific",
+      "char_start": 59245,
+      "char_end": 59362,
+      "quote": "3 \\pm 12.6\\%$ increase in production titer as compared to the best producer found in the constructed pathway library."
+    },
+    {
+      "evidence_id": "EV_AUTO_033",
+      "source_file": "docs/0027/combined.md",
+      "section": "auto_specific",
+      "char_start": 42336,
+      "char_end": 42490,
+      "quote": "Based on model cross-validation (CV) using 30 LOO segments, 2 latent variables (LV) were selected to produce the final model (see Additional file 1: Fig."
+    },
+    {
+      "evidence_id": "EV_AUTO_034",
+      "source_file": "docs/0027/combined.md",
+      "section": "auto_specific",
+      "char_start": 28168,
+      "char_end": 28566,
+      "quote": "(P\\_X: promoter TIF of enzymatic step X; CDS\\_X: enzyme variant; NA: not applicable due to failed CDS DNA sequencing; Rg: Rhodotorula glutinis; Fj: Flavobacterium johnsoniae; Pc: Petroselinum crispum; At: Arabidopsis thaliana; Ph: Petunia hybrida; Gh: Gerbera hybrida; Ms: Medicago sativa; TAL: Tyrosine ammonia-lyase; 4CL: 4-coumaroyl-CoA ligase; CHS: Chalcone synthase; CHI: Chalcone isomerase)"
+    },
+    {
+      "evidence_id": "EV_AUTO_035",
+      "source_file": "docs/0027/combined.md",
+      "section": "auto_specific",
+      "char_start": 27737,
+      "char_end": 28001,
+      "quote": "5 A Barplots visualizing the occurrence frequency of each promoter variant (BX) at each enzymatic step in the characterized pathways (TAL, 4CL, CHS, CHI) versus the achieved naringenin titer with those pathways containing the specific promoter—enzyme combination."
+    },
+    {
+      "evidence_id": "EV_AUTO_036",
+      "source_file": "docs/0027/combined.md",
+      "section": "auto_specific",
+      "char_start": 23614,
+      "char_end": 23893,
+      "quote": "To identify key influences of enzyme variant choice on the pathway efficiency, for each enzyme type (CDS\\_X, with $X =$ TAL, 4CL, CHS, CHI), barplots were generated that compare the occurrence frequency of either of the two variants in the pathway to the achieved titer (see Fig."
+    }
+  ],
+  "event_graph": {
+    "paper_main_problem": "Optimizing the heterologous naringenin biosynthesis pathway in E. coli using orthogonal expression tools and a biosensor-driven, model-based workflow to balance pathway modules and improve production titer without precursor supplementation or strain engineering.",
+    "canonical_events": [
+      {
+        "canonical_id": "K01",
+        "order": 1,
+        "event_type": "problem",
+        "summary": "Optimizing heterologous naringenin biosynthesis in E. coli is challenging due to flux imbalances and metabolic burden.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E01"
+        ],
+        "evidence_ids": [
+          "EV_C001_E01_01",
+          "EV_C001_E01_02"
+        ],
+        "key_entities": [
+          "naringenin",
+          "E. coli"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K02",
+        "order": 2,
+        "event_type": "design",
+        "summary": "A combinatorial engineering approach using orthogonal expression tools and biosensor-driven screening is designed to collect high-quality data for predictive modeling.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E02"
+        ],
+        "evidence_ids": [
+          "EV_C001_E02_01"
+        ],
+        "key_entities": [
+          "sigma factor toolbox",
+          "biosensor-driven screening",
+          "predictive models"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K03",
+        "order": 3,
+        "event_type": "design",
+        "summary": "The naringenin pathway module is assembled combinatorially with 10 sigmaB-specific promoters and 2 isozymes per step, creating a theoretical search space of 160,000 variants.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E03"
+        ],
+        "evidence_ids": [
+          "EV_C001_E03_01",
+          "EV_C001_E03_02"
+        ],
+        "key_entities": [
+          "sigmaB-specific promoters",
+          "TAL",
+          "4CL",
+          "CHS",
+          "CHI"
+        ],
+        "key_numbers": [
+          "160,000 possible pathway configurations"
+        ]
+      },
+      {
+        "canonical_id": "K04",
+        "order": 4,
+        "event_type": "experiment",
+        "summary": "190 colonies were screened on MTP scale using the naringenin biosensor, and 35 strains were selected for further characterization based on fluorescence.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E04"
+        ],
+        "evidence_ids": [
+          "EV_C001_E04_02"
+        ],
+        "key_entities": [
+          "naringenin",
+          "biosensor"
+        ],
+        "key_numbers": [
+          "190 colonies",
+          "35 strains"
+        ]
+      },
+      {
+        "canonical_id": "K05",
+        "order": 5,
+        "event_type": "experiment",
+        "summary": "Naringenin titers of selected strains were determined by UPLC, ranging from 1.52 to 27.03 mg/L, and genotypes were sequenced.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E05",
+          "C002_E01"
+        ],
+        "evidence_ids": [
+          "EV_C001_E05_01",
+          "EV_C001_E05_02",
+          "EV_C002_E01_01",
+          "EV_C002_E01_02"
+        ],
+        "key_entities": [
+          "naringenin"
+        ],
+        "key_numbers": [
+          "1.52 to 27.03 mg/L"
+        ]
+      },
+      {
+        "canonical_id": "K06",
+        "order": 6,
+        "event_type": "failure",
+        "summary": "One out of 35 selected strains had unsuccessful sequencing, reducing the dataset to 34 observations.",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C001_E06"
+        ],
+        "evidence_ids": [
+          "EV_C001_E06_01"
+        ],
+        "key_entities": [],
+        "key_numbers": [
+          "34 observations"
+        ]
+      },
+      {
+        "canonical_id": "K07",
+        "order": 7,
+        "event_type": "analysis",
+        "summary": "ANOVA and barplots revealed FjTAL significantly outperforms RgTAL; At4CL and PhCHS severely underrepresented, removed from dataset.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E03"
+        ],
+        "evidence_ids": [
+          "EV_C002_E03_01",
+          "EV_C002_E03_02",
+          "EV_C002_E03_03"
+        ],
+        "key_entities": [
+          "FjTAL",
+          "RgTAL",
+          "At4CL",
+          "PhCHS"
+        ],
+        "key_numbers": [
+          "1 occurrence of At4CL",
+          "3 occurrences of PhCHS",
+          "34 observations"
+        ]
+      },
+      {
+        "canonical_id": "K08",
+        "order": 8,
+        "event_type": "computation",
+        "summary": "OLS regression model built with 6 features, quadratic and interaction terms; reduced by backward elimination; R²=0.93 but predictions inconsistent with data exploration.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E04"
+        ],
+        "evidence_ids": [
+          "EV_C002_E04_01",
+          "EV_C002_E04_03"
+        ],
+        "key_entities": [
+          "naringenin titer",
+          "promoter TIF",
+          "CDS variants"
+        ],
+        "key_numbers": [
+          "R²=0.93",
+          "30 pathway architectures"
+        ]
+      },
+      {
+        "canonical_id": "K09",
+        "order": 9,
+        "event_type": "failure",
+        "summary": "OLS model predictions contradicted data exploration: predicted high 4CL and CHI expression, low CHS expression, inconsistent with trends.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E05"
+        ],
+        "evidence_ids": [
+          "EV_C002_E05_01",
+          "EV_C002_E05_02"
+        ],
+        "key_entities": [
+          "OLS model",
+          "4CL",
+          "CHS",
+          "CHI"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K10",
+        "order": 10,
+        "event_type": "computation",
+        "summary": "PLS regression model built with 2 latent variables; R²=0.79; predictions more robust and consistent with data exploration.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E06",
+          "C003_E01"
+        ],
+        "evidence_ids": [
+          "EV_C002_E06_01",
+          "EV_C003_E01_01"
+        ],
+        "key_entities": [
+          "PLS model",
+          "naringenin titer"
+        ],
+        "key_numbers": [
+          "R²=0.79",
+          "2 latent variables"
+        ]
+      },
+      {
+        "canonical_id": "K11",
+        "order": 11,
+        "event_type": "analysis",
+        "summary": "PLS model predicts high TAL and CHS expression, low 4CL and CHI expression for optimal production, contrasting with OLS model.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E02"
+        ],
+        "evidence_ids": [
+          "EV_C003_E02_01"
+        ],
+        "key_entities": [
+          "TAL",
+          "CHS",
+          "4CL",
+          "CHI",
+          "OLS model"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K12",
+        "order": 12,
+        "event_type": "design",
+        "summary": "ANN ensemble workflow adopted to avoid overfitting: 1000 iterations, random weights, top 10 producers stored, selection threshold 0.5*f_max.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E03"
+        ],
+        "evidence_ids": [
+          "EV_C003_E03_01"
+        ],
+        "key_entities": [
+          "ANN ensemble",
+          "overfitting"
+        ],
+        "key_numbers": [
+          "1000 iterations",
+          "0.5*f_max threshold"
+        ]
+      },
+      {
+        "canonical_id": "K13",
+        "order": 13,
+        "event_type": "analysis",
+        "summary": "ANN ensemble predictions similar to PLS, with minor differences in TAL and CHS promoter TIF.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E04"
+        ],
+        "evidence_ids": [
+          "EV_C003_E04_01"
+        ],
+        "key_entities": [
+          "ANN ensemble",
+          "PLS model",
+          "P_TAL",
+          "P_CHS"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K14",
+        "order": 14,
+        "event_type": "experiment",
+        "summary": "Benchmarking optimized strains against unbalanced NarRef pathway shows ~15-fold titer increase.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C004_E01"
+        ],
+        "evidence_ids": [
+          "EV_C004_E01_01"
+        ],
+        "key_entities": [
+          "NarRef",
+          "Top10.4",
+          "Top10.5"
+        ],
+        "key_numbers": [
+          "~15-fold increase"
+        ]
+      },
+      {
+        "canonical_id": "K15",
+        "order": 15,
+        "event_type": "experiment",
+        "summary": "Glycerol supplementation boosts naringenin titer significantly, with genotype-dependent effects.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C004_E02"
+        ],
+        "evidence_ids": [
+          "EV_C004_E02_01"
+        ],
+        "key_entities": [
+          "Top10.4",
+          "Top10.5"
+        ],
+        "key_numbers": [
+          "116.8% increase for Top10.5",
+          "111.2% increase for Top10.4",
+          "53.3 mg/L",
+          "61.4 mg/L"
+        ]
+      },
+      {
+        "canonical_id": "K16",
+        "order": 16,
+        "event_type": "analysis",
+        "summary": "Glycerol effect suggests malonyl-CoA supply boosts CHS expression benefit and reduces need for p-coumaric acid push.",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C004_E03"
+        ],
+        "evidence_ids": [
+          "EV_C004_E03_01"
+        ],
+        "key_entities": [
+          "malonyl-CoA",
+          "GhCHS",
+          "FjTAL"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K17",
+        "order": 17,
+        "event_type": "failure",
+        "summary": "Production halts in stationary phase; p-coumaric acid accumulates, indicating malonyl-CoA limitation.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C004_E05"
+        ],
+        "evidence_ids": [
+          "EV_C004_E05_01"
+        ],
+        "key_entities": [
+          "p-coumaric acid",
+          "malonyl-CoA"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K18",
+        "order": 18,
+        "event_type": "failure",
+        "summary": "Plasmid instability and cell stress observed in bioreactor, with large deletions in pathway genes.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C004_E06"
+        ],
+        "evidence_ids": [
+          "EV_C004_E06_01",
+          "EV_C004_E06_02"
+        ],
+        "key_entities": [
+          "production plasmid"
+        ],
+        "key_numbers": []
+      }
+    ],
+    "edges": [
+      {
+        "source": "K01",
+        "target": "K02",
+        "relation": "enables",
+        "reason": "The problem motivates the design of a combinatorial engineering approach."
+      },
+      {
+        "source": "K02",
+        "target": "K03",
+        "relation": "enables",
+        "reason": "The design leads to the combinatorial assembly of the pathway module."
+      },
+      {
+        "source": "K03",
+        "target": "K04",
+        "relation": "enables",
+        "reason": "The assembled library is screened using the biosensor."
+      },
+      {
+        "source": "K04",
+        "target": "K05",
+        "relation": "enables",
+        "reason": "Selected strains are characterized for titer and genotype."
+      },
+      {
+        "source": "K05",
+        "target": "K06",
+        "relation": "follows",
+        "reason": "Sequencing failure reduces the dataset."
+      },
+      {
+        "source": "K06",
+        "target": "K07",
+        "relation": "enables",
+        "reason": "The reduced dataset is analyzed to identify key enzyme variants."
+      },
+      {
+        "source": "K07",
+        "target": "K08",
+        "relation": "enables",
+        "reason": "Data exploration informs the building of the OLS model."
+      },
+      {
+        "source": "K08",
+        "target": "K09",
+        "relation": "contradicts",
+        "reason": "OLS model predictions contradict data exploration."
+      },
+      {
+        "source": "K09",
+        "target": "K10",
+        "relation": "enables",
+        "reason": "Failure of OLS motivates building the PLS model."
+      },
+      {
+        "source": "K10",
+        "target": "K11",
+        "relation": "enables",
+        "reason": "PLS model provides predictions consistent with data exploration."
+      },
+      {
+        "source": "K11",
+        "target": "K12",
+        "relation": "enables",
+        "reason": "PLS predictions inform the design of the ANN ensemble."
+      },
+      {
+        "source": "K12",
+        "target": "K13",
+        "relation": "enables",
+        "reason": "ANN ensemble yields predictions similar to PLS."
+      },
+      {
+        "source": "K13",
+        "target": "K14",
+        "relation": "enables",
+        "reason": "Model predictions are validated by benchmarking optimized strains."
+      },
+      {
+        "source": "K14",
+        "target": "K15",
+        "relation": "enables",
+        "reason": "Benchmarking leads to testing glycerol supplementation."
+      },
+      {
+        "source": "K15",
+        "target": "K16",
+        "relation": "enables",
+        "reason": "Glycerol effect is analyzed to infer malonyl-CoA role."
+      },
+      {
+        "source": "K16",
+        "target": "K17",
+        "relation": "enables",
+        "reason": "Analysis suggests malonyl-CoA limitation, confirmed in bioreactor."
+      },
+      {
+        "source": "K17",
+        "target": "K18",
+        "relation": "follows",
+        "reason": "Bioreactor run reveals additional failure of plasmid instability."
+      }
+    ],
+    "must_cover_points": [
+      "Problem of flux imbalances and metabolic burden in naringenin pathway.",
+      "Design of combinatorial approach with orthogonal expression and biosensor screening.",
+      "Combinatorial assembly of pathway with 10 promoters and 2 isozymes per step.",
+      "Biosensor-driven screening of 190 colonies and selection of 35 strains.",
+      "UPLC titer measurement and genotyping of selected strains.",
+      "Data exploration revealing FjTAL superiority and removal of poor enzyme variants.",
+      "OLS model building and its failure due to overfitting and outlier sensitivity.",
+      "PLS model building with robust predictions.",
+      "ANN ensemble design to avoid overfitting.",
+      "Validation of model predictions with optimized strains showing titer improvement.",
+      "Glycerol supplementation boosting titer.",
+      "Malonyl-CoA limitation halting production in stationary phase.",
+      "Plasmid instability and cell stress in bioreactor."
+    ],
+    "paper_not_suitable_reasons": []
+  }
+}

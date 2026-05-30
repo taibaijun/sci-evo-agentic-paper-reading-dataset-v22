@@ -1,0 +1,949 @@
+{
+  "case": {
+    "case_id": "sci_evo_0174",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "A dual-reporter system for investigating and optimizing protein translation and folding in E. coli",
+      "doi": "https://doi.org/10.1038/s41467-021-26337-1",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0172_10_1038_s41467_021_26337_1_a_dual_reporter_system_for_investigating_and_optimizing_protein_translation_and_folding_in.pdf",
+      "mineru_md": "docs/0174/mineru.md",
+      "combined_md": "docs/0174/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Heterologous protein expression in E. coli often leads to misfolding, aggregation, and degradation. Existing screening methods are low-throughput and cannot simultaneously monitor translation and folding at the single-cell level.",
+      "target_object": "E. coli protein expression system",
+      "known_context": "E. coli is a valued host for industrial expression of peptides and proteins, but heterologous expression often results in misfolding, aggregation, and degradation.",
+      "constraints": [
+        "Low-throughput existing screening methods",
+        "Inability to simultaneously monitor translation and folding at single-cell level"
+      ],
+      "input_data": [],
+      "quantifiable_goals": [
+        "Simultaneously monitor protein translation and folding at single-cell level",
+        "High-throughput screening of protein variants"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "Heterologous protein expression in E. coli often results in misfolding, aggregation, and degradation. Existing screening methods are low-throughput and cannot simultaneously monitor translation and folding at the single-cell level.",
+        "gap_or_uncertainty": "No system enables simultaneous monitoring of translation and folding at the single cell level.",
+        "hypothesis": "A dual-reporter system can be developed to simultaneously monitor protein translation and folding at the single-cell level.",
+        "decision": "Design a dual-reporter system with a translation sensor and a folding sensor.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "literature review",
+          "version": "",
+          "category": "conceptual"
+        },
+        "parameters": {},
+        "observation": "The problem of low-throughput screening and lack of simultaneous monitoring motivates the design of a dual-reporter system.",
+        "result_status": "success",
+        "next_step_reason": "Proceed to design the dual-reporter system.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0174/combined.md",
+            "section": "C001",
+            "quote_or_span": "heterologous expression of recombinant proteins in bacteria such as E. coli, a valued host for industrial expression of a wide range of peptides and proteins, often results in misfolding, aggregation and degradation."
+          },
+          {
+            "evidence_id": "EV_C001_E01_02",
+            "source_file": "docs/0174/combined.md",
+            "section": "C001",
+            "quote_or_span": "no system enables simultaneous monitoring of translation and folding at the single cell level."
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "design",
+        "state_before": "No system exists for simultaneous monitoring of translation and folding at single-cell level.",
+        "gap_or_uncertainty": "Need to design sensors that can report on translation and folding independently.",
+        "hypothesis": "A translation-coupling cassette with mCherry can report translation, and an IbpA promoter driving GFP can report folding stress.",
+        "decision": "Design a dual-reporter system consisting of a translation sensor (translation-coupling cassette with mCherry) and a folding sensor (IbpA promoter driving GFP).",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "genetic circuit design",
+          "version": "",
+          "category": "synthetic biology"
+        },
+        "parameters": {
+          "translation_sensor": "translation-coupling cassette with mCherry",
+          "folding_sensor": "IbpA promoter driving GFP"
+        },
+        "observation": "The designed system should allow simultaneous monitoring of translation and folding at the single-cell level.",
+        "result_status": "success",
+        "next_step_reason": "Optimize the folding sensor components for better sensitivity.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0174/combined.md",
+            "section": "C001",
+            "quote_or_span": "we have developed a dual-reporter system that simultaneously monitors protein translation and protein folding at the single cell level (Fig. 1a)."
+          },
+          {
+            "evidence_id": "EV_C001_E02_02",
+            "source_file": "docs/0174/combined.md",
+            "section": "C001",
+            "quote_or_span": "The translation sensor consists of a translation-coupling cassette comprised of a strong secondary mRNA structure formed by a C-terminal hexa-histidine tag, a stop codon for the gene of interest and a ribosome binding site (RBS) for a downstream fluorescent reporter protein, mCherry."
+          },
+          {
+            "evidence_id": "EV_C001_E02_03",
+            "source_file": "docs/0174/combined.md",
+            "section": "C001",
+            "quote_or_span": "The protein folding sensor is based on the naturally occurring heat shock response system in E. coli."
+          },
+          {
+            "evidence_id": "EV_C001_E02_04",
+            "source_file": "docs/0174/combined.md",
+            "section": "C001",
+            "quote_or_span": "In our protein folding sensor, the RpoH inducible IbpA promoter is inserted upstream of a GFP reporter gene"
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "experiment",
+        "state_before": "The folding sensor design needs optimization for dynamic range and sensitivity.",
+        "gap_or_uncertainty": "The effect of plasmid copy number and GFP stability on the folding sensor performance is unknown.",
+        "hypothesis": "Using a low-copy plasmid backbone (pBBR1) and an unstable GFP variant (GFP-ASV) will improve the signal-to-noise ratio of the folding sensor.",
+        "decision": "Test plasmid backbones (pBBR1 vs ColE1) and GFP variants (GFP-mut3 vs GFP-ASV) using heat shock induction.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "flow cytometry",
+          "version": "",
+          "category": "fluorescence measurement"
+        },
+        "parameters": {
+          "plasmid_backbones": [
+            "pBBR1",
+            "ColE1"
+          ],
+          "GFP_variants": [
+            "GFP-mut3",
+            "GFP-ASV"
+          ],
+          "induction": "heat shock"
+        },
+        "observation": "pBBR1 with GFP-ASV gave two sharp well-defined peaks with a 3–5-fold increase in signal-to-noise ratio compared to other combinations.",
+        "result_status": "success",
+        "next_step_reason": "Validate the optimized dual-reporter system with model proteins.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E03_01",
+            "source_file": "docs/0174/combined.md",
+            "section": "C001",
+            "quote_or_span": "To test whether the copy number affects the lbpAp-GFP activity, we have analyzed the heat shock response from two vector backbones with the pBBR1 or the ColE1 ORI, respectively."
+          },
+          {
+            "evidence_id": "EV_C001_E03_02",
+            "source_file": "docs/0174/combined.md",
+            "section": "C001",
+            "quote_or_span": "The two ORIs were further tested in combination with two GFP-variants, GFP-mut3 and GFP-ASV."
+          },
+          {
+            "evidence_id": "EV_C002_E01_01",
+            "source_file": "docs/0174/combined.md",
+            "section": "C002",
+            "quote_or_span": "Monitoring of the heat shock response signals of protein folding sensors (pSEVA441-IbpAp and pSEVA631(Sp)-IbpAp) with different origin of replications (ColE1 and pBBR1, respectively) and GFP variants (GFP-mut3 and GFP-ASV) after induction of the IbpA promoter."
+          },
+          {
+            "evidence_id": "EV_C002_E01_02",
+            "source_file": "docs/0174/combined.md",
+            "section": "C002",
+            "quote_or_span": "two sharp well-defined peaks were observed from the heat induced and uninduced pBBR1 plasmids with a 3–5-fold increase in the signal-to-noise ratio."
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "experiment",
+        "state_before": "Optimized dual-reporter system ready for validation with model proteins.",
+        "gap_or_uncertainty": "Whether the dual-reporter system can distinguish between soluble and insoluble proteins and report on their translation and folding status.",
+        "hypothesis": "Soluble proteins will show high mCherry and low GFP, while insoluble proteins will show low mCherry and high GFP.",
+        "decision": "Validate the dual-reporter system with five model proteins: PARP1-BRCT (soluble), BRCA1-BRCT (insoluble), p19 (soluble), E6 (insoluble), and a control.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "flow cytometry",
+          "version": "",
+          "category": "fluorescence measurement"
+        },
+        "parameters": {
+          "proteins": [
+            "PARP1-BRCT",
+            "BRCA1-BRCT",
+            "p19",
+            "E6",
+            "control"
+          ],
+          "reporters": [
+            "mCherry",
+            "GFP"
+          ]
+        },
+        "observation": "Soluble proteins gave high mCherry/low GFP; insoluble proteins gave low mCherry/high GFP, but GFP levels varied between insoluble proteins (BRCA1-BRCT showed 5–10-fold increase in GFP signal compared to PARP1-BRCT).",
+        "result_status": "partial",
+        "next_step_reason": "Test solubility tags to improve solubility and further validate the system.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E03_02",
+            "source_file": "docs/0174/combined.md",
+            "section": "C002",
+            "quote_or_span": "Overexpression of the insoluble BRCA1-BRCT, however, promoted binding of RpoH to the IbpA promoter region of the folding sensor, resulting in a 5–10-fold increase in GFP-signal compared to PARP1-BRCT."
+          },
+          {
+            "evidence_id": "EV_C002_E05_01",
+            "source_file": "docs/0174/combined.md",
+            "section": "C002",
+            "quote_or_span": "Different levels of GFP fluorescence were observed for BRCA1-BRCT and E6 although they both were expressed as insoluble protein."
+          },
+          {
+            "evidence_id": "EV_C002_E05_02",
+            "source_file": "docs/0174/combined.md",
+            "section": "C002",
+            "quote_or_span": "The results demonstrate that it is possible to combine both biosensors to simultaneously investigate translation and proper folding of proteins in E. coli."
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "experiment",
+        "state_before": "The dual-reporter system can distinguish soluble and insoluble proteins, but some proteins remain insoluble.",
+        "gap_or_uncertainty": "Whether solubility tags can improve solubility and reduce GFP signal for insoluble proteins.",
+        "hypothesis": "N-terminal solubility tags (NusA, SUMO) will improve solubility and reduce GFP signal for insoluble proteins.",
+        "decision": "Test NusA and SUMO solubility tags on PARP1-BRCT, BRCA1-BRCT, p19, and E6.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "flow cytometry",
+          "version": "",
+          "category": "fluorescence measurement"
+        },
+        "parameters": {
+          "tags": [
+            "NusA",
+            "SUMO"
+          ],
+          "proteins": [
+            "PARP1-BRCT",
+            "BRCA1-BRCT",
+            "p19",
+            "E6"
+          ]
+        },
+        "observation": "Solubility tags improved solubility and reduced GFP signal for some proteins, but SUMO decreased expression of BRCA1-BRCT.",
+        "result_status": "partial",
+        "next_step_reason": "Proceed to deep mutational scanning to screen for stability variants.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E04_02",
+            "source_file": "docs/0174/combined.md",
+            "section": "C002",
+            "quote_or_span": "The N-terminally linked solubility tags did not have a large impact on the translation level of PARP1-BRCT, BRCA1-BRCT, and E6, which all expressed also without the tags, and the SUMO tag even decreased the expression level of BRCA1-BRCT."
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "experiment",
+        "state_before": "The dual-reporter system is validated for monitoring translation and folding of individual proteins.",
+        "gap_or_uncertainty": "Whether the system can be used for high-throughput screening of protein variants with altered stability.",
+        "hypothesis": "A random mutant library of PARP1-BRCT can be screened by FACS using the dual-reporter to enrich variants with impaired folding.",
+        "decision": "Generate a random mutant library of PARP1-BRCT (1–3 mutations per protein) and screen by FACS for high mCherry and high GFP.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "FACS",
+          "version": "",
+          "category": "cell sorting"
+        },
+        "parameters": {
+          "library": "PARP1-BRCT random mutant library",
+          "mutation_rate": "1–3 amino acid substitutions per protein",
+          "sorting_gates": "P1: high mCherry; P2: high mCherry + high GFP (upper 1%)"
+        },
+        "observation": "Cells sorted for high mCherry and high GFP showed enrichment of variants with impaired folding.",
+        "result_status": "success",
+        "next_step_reason": "Analyze sorted bins by NGS and correlate with computational predictions.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E07_01",
+            "source_file": "docs/0174/combined.md",
+            "section": "C002",
+            "quote_or_span": "We thus demonstrate the use of the dual-reporter system to screen for variants with either reduced or increased stability in a high-throughput mode."
+          },
+          {
+            "evidence_id": "EV_C002_E07_02",
+            "source_file": "docs/0174/combined.md",
+            "section": "C002",
+            "quote_or_span": "a randomly generated mutant library of pET22-PARP1-BRCT-mCherry was expressed with the protein folding sensor pSEVA631(Sp)-IbpAp-GFP-ASV to demonstrate the applicability of the dual-reporter system to screen for new variants with correct translation but altered stability."
+          },
+          {
+            "evidence_id": "EV_C003_E01_01",
+            "source_file": "docs/0174/combined.md",
+            "section": "C003",
+            "quote_or_span": "The mutant library was prepared using the error-prone DNA polymerase Mutazyme II that provides a minimal mutational bias. By adjusting the amount of initial target DNA and the number of gene duplications, a mutation rate of 1–3 amino acid substitutions per protein was achieved."
+          },
+          {
+            "evidence_id": "EV_C003_E02_01",
+            "source_file": "docs/0174/combined.md",
+            "section": "C003",
+            "quote_or_span": "The cell cultures were sorted using FACS for high mCherry signal (P1) alone and for both high mCherry signal (P1) and high GFP signal (P2). Gate 1 (P1) was defined as a mCherry signal higher than the control plasmid background, to ensure that only cells expressing correctly translated proteins were collected. Gate 2 (P2) was defined as the upper 1% of cells with the highest GFP fluorescence, in order to select for variants expressing proteins with decreased stability."
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "analysis",
+        "state_before": "Sorted bins from deep mutational scanning are available.",
+        "gap_or_uncertainty": "Whether the experimental enrichment of variants correlates with computational stability predictions.",
+        "hypothesis": "NGS analysis of sorted bins will show correlation with FoldX and Rosetta stability predictions.",
+        "decision": "Perform NGS on sorted bins and compare enrichment scores with computational stability predictions (FoldX, Rosetta).",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "NGS",
+          "version": "",
+          "category": "sequencing"
+        },
+        "parameters": {
+          "computational_tools": [
+            "FoldX",
+            "Rosetta"
+          ],
+          "metric": "AUC"
+        },
+        "observation": "GFP signal shift indicated enrichment of variants with impaired folding; correlation with computational predictions gave AUC=0.61, suggesting reasonable but non-perfect correlation.",
+        "result_status": "partial",
+        "next_step_reason": "Validate selected variants individually.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E03_01",
+            "source_file": "docs/0174/combined.md",
+            "section": "C003",
+            "quote_or_span": "The PARP1-BRCT library sorted for both high mCherry signal and a high GFP signal (Lib. P2) shows a clear shift in GFP signal compared to PARP1-BRCT WT and the PARP1-BRCT library that was only sorted for correct translation (Lib. P1) (Fig. 5b). The shift in GFP signals indicates that protein variants with impaired folding properties had been enriched."
+          },
+          {
+            "evidence_id": "EV_C003_E07_01",
+            "source_file": "docs/0174/combined.md",
+            "section": "C003",
+            "quote_or_span": "From this analysis, we obtained an area under the curve of 0.61 suggestive of a reasonable but non-perfect correlation between the calculated stabilities and the experimental sequencing data."
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "validation",
+        "state_before": "Deep mutational scanning identified potential misfolding and non-interfering variants.",
+        "gap_or_uncertainty": "Whether the identified variants indeed show the expected folding behavior when tested individually.",
+        "hypothesis": "Synthesized variants will confirm the expected patterns: misfolding variants will show high GFP, non-interfering variants will show low GFP.",
+        "decision": "Synthesize 20 variants (14 misfolding, 6 non-interfering) and analyze by flow cytometry and Western blot.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "flow cytometry and Western blot",
+          "version": "",
+          "category": "protein analysis"
+        },
+        "parameters": {
+          "variants": "20 PARP1-BRCT variants",
+          "methods": [
+            "flow cytometry",
+            "Western blot"
+          ]
+        },
+        "observation": "14 misfolding and 6 non-interfering variants confirmed expected patterns, validating the system.",
+        "result_status": "success",
+        "next_step_reason": "Attempt to find suppressor mutations for a specific misfolding variant.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E02_02",
+            "source_file": "docs/0174/combined.md",
+            "section": "C004",
+            "quote_or_span": "The 20 variants were synthesized and introduced into the translation sensor plasmid and analyzed using flow cytometry, and the protein concentration was quantified using Western blots"
+          },
+          {
+            "evidence_id": "EV_AUTO_001",
+            "source_file": "docs/0174/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "From the deep mutational scanning we chose 20 variants for further analysis, of which 14 mutations (G20V, G20W, A31T, I33N, G37E, G37R, G37W, G38R, C50Y, S52I, S52N, I72N, V74F, H97L) were suggested by the deep mutational scan to result in misfolding and 6 mutations (I33T, V74I, D78V, Q81R, A96P, A96V) that were found not to interfere with protein folding."
+          },
+          {
+            "evidence_id": "EV_AUTO_002",
+            "source_file": "docs/0174/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The translation levels detected by the mCherry signal and by Western blotting was comparable for 6 (A31T, I33T, D78V, Q81R, A96P, A96V) of the 20 variants"
+          },
+          {
+            "evidence_id": "EV_AUTO_003",
+            "source_file": "docs/0174/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The corresponding high GFP signal shows that the stability of the PARP1-BRCT I33N and G37E variants was decreased as also predicted from the library sequencing data and the FoldX analysis."
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "experiment",
+        "state_before": "PARP1-BRCT I33N is a misfolding variant identified from the deep mutational scan.",
+        "gap_or_uncertainty": "Whether suppressor mutations can restore folding of I33N.",
+        "hypothesis": "A new mutant library based on I33N can be screened for variants with high translation and low GFP to identify suppressors.",
+        "decision": "Generate a random mutant library of PARP1-BRCT I33N and sort for high mCherry and low GFP.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "FACS",
+          "version": "",
+          "category": "cell sorting"
+        },
+        "parameters": {
+          "background": "PARP1-BRCT I33N",
+          "sorting_gates": "high mCherry, low GFP"
+        },
+        "observation": "After sorting, only WT sequences and one silent mutation (P10P) were found; likely due to reversion of the single nucleotide substitution.",
+        "result_status": "failure",
+        "next_step_reason": "Analyze the reason for failure and consider limitations.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E06_02",
+            "source_file": "docs/0174/combined.md",
+            "section": "C004",
+            "quote_or_span": "all the selected clones were found to encode wild type PARP1-BRCT, except for one silent mutation, P10P"
+          },
+          {
+            "evidence_id": "EV_C004_E07_01",
+            "source_file": "docs/0174/combined.md",
+            "section": "C004",
+            "quote_or_span": "Our observations that only WT sequences were found after sorting for proteins with increased stability is a likely result of the I33N mutation being a single nucleotide substitution making it likely to revert back to the WT PARP1-BRCT sequence."
+          },
+          {
+            "evidence_id": "EV_C005_E01_01",
+            "source_file": "docs/0174/combined.md",
+            "section": "C005",
+            "quote_or_span": "Our observations that only WT sequences were found after sorting for proteins with increased stability is a likely result of the I33N mutation being a single nucleotide substitution making it likely to revert back to the WT PARP1-BRCT sequence."
+          },
+          {
+            "evidence_id": "EV_C006_E07_01",
+            "source_file": "docs/0174/combined.md",
+            "section": "C006",
+            "quote_or_span": "64 single clones that show protein expression (Fig. 7A, Pool 1, Gate 1) in combination with a decreased GFP signal (Fig. 7A, Pool 1; Gate 2) were sorted"
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "analysis",
+        "state_before": "GFP fluorescence depends on DnaK binding sites, which vary between proteins.",
+        "gap_or_uncertainty": "GFP fluorescence may not be comparable between unrelated proteins.",
+        "hypothesis": "For variants of the same protein, GFP output can be used as a direct measure of stability.",
+        "decision": "State limitation and provide guidance for use.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "data interpretation",
+          "version": "",
+          "category": "conceptual"
+        },
+        "parameters": {},
+        "observation": "GFP fluorescence may not be comparable between unrelated proteins; for variants of the same protein, GFP output can be used as a direct measure of stability.",
+        "result_status": "success",
+        "next_step_reason": "Highlight system validation and remaining limitations.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C005_E04_01",
+            "source_file": "docs/0174/combined.md",
+            "section": "C005",
+            "quote_or_span": "This suggests that the GFP fluorescence may not be comparable when investigating unrelated proteins."
+          },
+          {
+            "evidence_id": "EV_C005_E05_01",
+            "source_file": "docs/0174/combined.md",
+            "section": "C005",
+            "quote_or_span": "For variants of the same protein, the GFP output can be used as a direct measure of high or low protein stability, as we have demonstrated for CI2."
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "validation",
+        "state_before": "The dual-reporter system has been used for various applications.",
+        "gap_or_uncertainty": "Whether the system can detect misfolded proteins that would otherwise be characterized as having no expression.",
+        "hypothesis": "The translation sensor differentiates nonsense from missense mutations, enabling detection of misfolded proteins.",
+        "decision": "Validate that the system detects misfolded proteins and differentiates mutation types.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "data interpretation",
+          "version": "",
+          "category": "conceptual"
+        },
+        "parameters": {},
+        "observation": "The system is capable of detecting misfolded proteins that would otherwise have been characterized as proteins with no expression; the translation sensor differentiates nonsense from missense mutations.",
+        "result_status": "success",
+        "next_step_reason": "Note limitation: need for downstream activity assay.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E05_01",
+            "source_file": "docs/0174/combined.md",
+            "section": "C004",
+            "quote_or_span": "the system is capable of detecting misfolded proteins that would otherwise have been characterized as proteins with no expression."
+          },
+          {
+            "evidence_id": "EV_C005_E06_01",
+            "source_file": "docs/0174/combined.md",
+            "section": "C005",
+            "quote_or_span": "The incorporation of the translation sensor makes it possible to differentiate between nonsense and missense mutations since the reporter signal will only be generated when complete translation of the target protein has been achieved."
+          }
+        ]
+      },
+      {
+        "step_index": 12,
+        "phase": "analysis",
+        "state_before": "The dual-reporter system can identify variants with high translation and solubility.",
+        "gap_or_uncertainty": "Whether the identified variants retain enzyme activity.",
+        "hypothesis": "A downstream activity assay is needed to ensure enzyme activity, as mutations near catalytic sites may reduce activity.",
+        "decision": "State limitation that a downstream activity assay is needed.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "data interpretation",
+          "version": "",
+          "category": "conceptual"
+        },
+        "parameters": {},
+        "observation": "The dual-reporter system can be used to obtain protein variants with high translation levels and high or moderate solubility; however, a downstream activity assay is needed to ensure an active enzyme.",
+        "result_status": "success",
+        "next_step_reason": "Conclude the trajectory.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C005_E08_01",
+            "source_file": "docs/0174/combined.md",
+            "section": "C005",
+            "quote_or_span": "The dual-reporter system can be used to obtain protein variants with high translation levels and high or moderate solubility; however, a downstream activity assay is needed to ensure an active enzyme."
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "Flow cytometry",
+        "Western blot",
+        "NGS",
+        "FACS"
+      ],
+      "metrics": [
+        "mCherry fluorescence (translation)",
+        "GFP fluorescence (folding)",
+        "AUC for computational correlation"
+      ],
+      "final_conclusion": "The dual-reporter system successfully enables simultaneous monitoring of protein translation and folding at the single-cell level, allowing high-throughput screening of protein variants. It can detect misfolded proteins and differentiate mutation types, but GFP signal is not comparable between unrelated proteins, and a downstream activity assay is needed for enzyme activity.",
+      "limitations": [
+        "GFP fluorescence may not be comparable between unrelated proteins due to varying DnaK binding sites.",
+        "A downstream activity assay is needed to ensure enzyme activity.",
+        "Suppressor screening for single nucleotide substitutions may be confounded by reversion to wild type."
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_step_trimmed=13_to_12",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_step_trimmed=13_to_12",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 99.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p6\\states\\0174.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p6\\events\\0174.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1
+        ],
+        "K02": [
+          1,
+          2,
+          3,
+          4,
+          6
+        ],
+        "K03": [
+          3
+        ],
+        "K04": [
+          4,
+          5,
+          6
+        ],
+        "K05": [
+          4,
+          5
+        ],
+        "K06": [
+          6,
+          9
+        ],
+        "K07": [
+          6,
+          7
+        ],
+        "K08": [
+          8,
+          9
+        ],
+        "K09": [
+          9
+        ],
+        "K12": [
+          11
+        ],
+        "K13": [
+          4,
+          6,
+          11,
+          12
+        ],
+        "K14": [
+          6,
+          9
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K02"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K02",
+            "K03"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K02",
+            "K04",
+            "K05",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K04",
+            "K05"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K02",
+            "K04",
+            "K06",
+            "K07",
+            "K13",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K07"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K08"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K06",
+            "K08",
+            "K09",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K10",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K12",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 12,
+          "covered_event_ids": [
+            "K13"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 7,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "0.61"
+        ]
+      }
+    ],
+    "step_count": 12,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 99.0
+  },
+  "api_usage": {
+    "prompt_tokens": 138222,
+    "completion_tokens": 31700,
+    "total_tokens": 169922,
+    "prompt_cache_hit_tokens": 3712,
+    "prompt_cache_miss_tokens": 134510
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 2480,
+        "completion_tokens": 331,
+        "total_tokens": 2811,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 2480
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 7845,
+        "completion_tokens": 2105,
+        "total_tokens": 9950,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 7845
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 6692,
+        "completion_tokens": 944,
+        "total_tokens": 7636,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6436
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 7504,
+        "completion_tokens": 1594,
+        "total_tokens": 9098,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7248
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 7437,
+        "completion_tokens": 1643,
+        "total_tokens": 9080,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7181
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 8491,
+        "completion_tokens": 1391,
+        "total_tokens": 9882,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8235
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C005",
+      "api_usage": {
+        "prompt_tokens": 7267,
+        "completion_tokens": 1324,
+        "total_tokens": 8591,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7011
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C006",
+      "api_usage": {
+        "prompt_tokens": 7188,
+        "completion_tokens": 1648,
+        "total_tokens": 8836,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6932
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C007",
+      "api_usage": {
+        "prompt_tokens": 7782,
+        "completion_tokens": 1162,
+        "total_tokens": 8944,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7526
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C008",
+      "api_usage": {
+        "prompt_tokens": 3106,
+        "completion_tokens": 73,
+        "total_tokens": 3179,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 2850
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 13083,
+        "completion_tokens": 3674,
+        "total_tokens": 16757,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 12699
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 15021,
+        "completion_tokens": 7444,
+        "total_tokens": 22465,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 14381
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 20696,
+        "completion_tokens": 799,
+        "total_tokens": 21495,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 20696
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 23630,
+        "completion_tokens": 7568,
+        "total_tokens": 31198,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 22990
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

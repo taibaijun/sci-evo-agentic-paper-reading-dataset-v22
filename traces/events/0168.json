@@ -1,0 +1,1211 @@
+{
+  "doc_no": "0168",
+  "source": {
+    "title": "Sample-efficient parameter exploration of the powder film drying process using experiment-based Bayesian optimization",
+    "doi": "https://doi.org/10.1038/s41598-022-05784-w",
+    "license": "cc-by",
+    "pdf_name": "0166_10_1038_s41598_022_05784_w_sample_efficient_parameter_exploration_of_the_powder_film_drying_process_using_experiment_.pdf",
+    "combined_md": "docs/0168/combined.md",
+    "mineru_md": "docs/0168/mineru.md"
+  },
+  "gist_memory": {
+    "paper_problem_memory": "Optimizing powder film drying process parameters is challenging due to multiscale, multiphysical phenomena and large parameter space (32,768 combinations). Traditional numerical models are impractical, and brute-force or empirical methods are inefficient. The goal is to develop a sample-efficient, non-parametric method using Bayesian optimization to minimize film defects.",
+    "section_gists": [
+      {
+        "section_index": 3,
+        "heading": "Sample-efficient parameter exploration of the powder film drying process using experiment-based Bayesian optimization",
+        "gist": "Introduces the challenge of parameter optimization in powder film forming, which involves complex phenomena and many parameters. Proposes Bayesian optimization (BO) with Gaussian process regression (GPR) as a sample-efficient alternative to brute-force or empirical methods. The study explores drying temperature profiles (5 time steps, 8 levels each) to minimize defects in fabricated films. BO converged in 40 experiments, far fewer than brute-force, and discovered novel parameter sets.",
+        "process_signals": [
+          "Numerical models are impractical due to process complexity.",
+          "Brute-force exploration is hindered by large parameter space (32,768 combinations).",
+          "BO is chosen for its sample efficiency and ability to handle uncertainty.",
+          "Initial random experiments are used to build a surrogate model without bias."
+        ],
+        "methods": [
+          "Bayesian optimization with Gaussian process regression",
+          "Surrogate model estimation using GPR",
+          "Acquisition function to select next experiment"
+        ],
+        "metrics": [
+          "Defect ratio (proportion of defect area to total droplet area)",
+          "Number of experiments to convergence (40)"
+        ],
+        "failures_or_limits": [
+          "Previous applications of BO had limited parameter space or subjective evaluation.",
+          "The process lacks a suitable numerical model, requiring repeated physical experiments."
+        ]
+      },
+      {
+        "section_index": 4,
+        "heading": "Experimental procedure",
+        "gist": "Describes the initial data preparation with 30 random temperature profiles to build the first surrogate model. The parameter space has 32,768 combinations (8^5). Defect ratio is evaluated via image binarization. BO then iteratively selects the next profile by maximizing an acquisition function based on GPR predictions. The process continues until convergence.",
+        "process_signals": [
+          "30 random experiments provide initial data without bias.",
+          "Defect ratio is computed from surface images by detecting cracks and thin regions.",
+          "BO loop: after each experiment, surrogate model is updated, acquisition function is computed, and next profile is selected."
+        ],
+        "methods": [
+          "Random selection of 30 temperature profiles for initial data",
+          "Image processing: binarization to detect defects (cracks, thin regions)",
+          "Gaussian process regression for surrogate modeling",
+          "Acquisition function (unspecified type) for selecting next experiment"
+        ],
+        "metrics": [
+          "Defect ratio (percentage of defect area)",
+          "Number of initial experiments: 30"
+        ],
+        "failures_or_limits": [
+          "Initial random experiments mostly yield high defect ratios (30-50%), with only 3/30 below 15%.",
+          "Difference in initial states may affect convergence speed."
+        ]
+      },
+      {
+        "section_index": 5,
+        "heading": "Results",
+        "gist": "Initial random experiments show most defect ratios between 30-50%, with rare low-defect samples (<15%). High-defect samples have radial cracks and thin periphery; low-defect samples lack thin regions and have sparse, non-radial cracks. BO exploration rapidly reduces defect ratios: all tested sets in exploration phase have <10% defect ratio, with lowest 2.8%. As exploration progresses, predicted low-defect regions become more limited and variance decreases, indicating convergence.",
+        "process_signals": [
+          "Initial data: 3/30 samples had defect ratio <15%, indicating rare good conditions.",
+          "BO exploration: defect ratios drop below 10% for all tested sets, with minimum 2.8%.",
+          "Defect ratio decreases as exploration progresses, showing BO efficiency.",
+          "GPR predictions show narrowing of low-defect regions and reduced variance over iterations."
+        ],
+        "methods": [
+          "Visualization of GPR predictions for two parameters",
+          "Comparison of defect ratio distributions between initial and exploration phases"
+        ],
+        "metrics": [
+          "Defect ratio (initial: 30-50% typical; exploration: <10%, min 2.8%)",
+          "Number of experiments: 40 total (30 initial + 10 exploration)"
+        ],
+        "failures_or_limits": [
+          "Most initial random experiments result in high defect ratios, indicating the difficulty of finding good parameters by chance.",
+          "The paper does not report any failed BO iterations; all exploration experiments yielded low defect ratios."
+        ]
+      },
+      {
+        "section_index": 6,
+        "heading": "Discussion",
+        "gist": "BO achieved 1000x efficiency over brute-force (40 vs 32,768 experiments). Human experts cannot easily navigate 5D parameter space, so BO reduces human cost. The resulting performance map enables inference of governing phenomena, aiding further research. Limitations include need for careful selection of parameters and evaluation criteria to avoid increased cost or measurement error. Future work: expand parameter space, apply to other processes, and use transfer learning from similar processes.",
+        "process_signals": [
+          "BO is 1000x more efficient than exhaustive search.",
+          "Human intervention only needed for setting search space and analyzing final results.",
+          "Performance map from BO can reveal process mechanisms.",
+          "Method is a 'human-in-the-loop' system where AI sensitizes human intelligence."
+        ],
+        "methods": [
+          "Efficiency comparison: 40 experiments vs 32,768",
+          "Inference of drying mechanisms from discovered parameter sets"
+        ],
+        "metrics": [
+          "Efficiency: 0.1% of parameter space explored",
+          "Human cost reduction"
+        ],
+        "failures_or_limits": [
+          "Inappropriate parameter selection may increase experimental cost and complicate interpretation.",
+          "Poor evaluation criteria can introduce measurement error affecting predictions.",
+          "Study is a single case; robustness for other materials/processes not examined.",
+          "Influence of input data properties (number, error, density) not fully studied."
+        ]
+      },
+      {
+        "section_index": 7,
+        "heading": "Methods",
+        "gist": "Details slurry preparation (carbon particles, Nafion, water, IPA), automated dropping system, and drying protocol (5 time steps of 120s each, 8 temperature levels from 30-100°C). Defect ratio is computed via image binarization: background separation at threshold 150, defect detection at threshold 50. GPR uses RBF kernel with hyperparameters optimized via L-BFGS-B. BO uses GPR to predict defect ratio and acquisition function to select next experiment.",
+        "process_signals": [
+          "Slurry composition and preparation are standardized.",
+          "Automated dropping ensures reproducibility.",
+          "Temperature profile is discretized into 5 steps of 120s, 8 levels each.",
+          "Defect detection relies on brightness thresholds; cracks and thin regions appear bright in transmitted light.",
+          "GPR with RBF kernel models the parameter-performance relationship.",
+          "Hyperparameters (C, l, β) are optimized by maximizing marginal likelihood."
+        ],
+        "methods": [
+          "Slurry: carbon Vulcan XC-72R, 5% Nafion, water, IPA; ionomer/carbon=0.8, solid ratio=0.1, water ratio=0.3",
+          "Automated pipetting with robot arm",
+          "Drying: 30 µL drop, heater at 30°C initially, then 5 steps of 120s at 30-100°C",
+          "Image processing: binarization at thresholds 150 (background) and 50 (defects)",
+          "GPR with RBF kernel, hyperparameter optimization via L-BFGS-B",
+          "BO with acquisition function (unspecified)"
+        ],
+        "metrics": [
+          "Defect ratio = defect area / droplet area",
+          "Hyperparameters: C, l, β"
+        ],
+        "failures_or_limits": [
+          "No power generation evaluation; only structural uniformity considered.",
+          "Fixed binarization thresholds may not generalize to other materials.",
+          "Acquisition function type not specified in Methods."
+        ]
+      }
+    ],
+    "global_hypotheses_about_storyline": [
+      "The initial hypothesis is that BO can efficiently navigate the large parameter space of powder film drying to find low-defect conditions, outperforming random or human-guided search.",
+      "The researchers likely hypothesized that certain temperature profiles would lead to uniform drying and fewer defects, but the exact profiles were unknown.",
+      "After initial random experiments showed mostly high defect ratios, the hypothesis was refined: BO can iteratively learn the relationship between temperature profile and defect ratio, converging to optimal regions.",
+      "The discovery of specific low-defect profiles led to the hypothesis that these profiles correspond to particular drying mechanisms (e.g., avoiding rapid evaporation that causes cracks).",
+      "The overall storyline: from problem (inefficient parameter search) to solution (BO), validation (40 experiments, low defect ratios), and generalization (process informatics methodology)."
+    ],
+    "uncertainties_to_resolve": [
+      "What specific acquisition function was used? (e.g., Expected Improvement, Upper Confidence Bound)",
+      "How was convergence defined? (e.g., no improvement for several iterations, or reaching a threshold)",
+      "Were there any BO iterations that did not improve the defect ratio? The Results suggest all exploration experiments had <10% defect ratio, but it's unclear if any were worse than previous.",
+      "What is the exact mechanism by which the discovered temperature profiles reduce defects? The Discussion mentions inference but does not detail it.",
+      "How sensitive is the method to the initial random experiments? Would different initial sets lead to different optima?",
+      "Can the method handle multi-objective optimization (e.g., defect ratio and film thickness uniformity)?",
+      "What are the practical implications for scaling up to industrial production?"
+    ]
+  },
+  "chunk_events": [
+    {
+      "chunk_id": "C001",
+      "char_start": 0,
+      "char_end": 18000,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C001_E01",
+          "chunk_id": "C001",
+          "event_type": "problem",
+          "order_hint": 1,
+          "summary": "The powder film forming process is controlled by many parameters and involves complex phenomena, making numerical models impractical and brute-force exploration infeasible.",
+          "methods_or_tools": [],
+          "entities": [
+            "powder film forming process"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E01_01"
+          ]
+        },
+        {
+          "event_id": "C001_E02",
+          "chunk_id": "C001",
+          "event_type": "hypothesis",
+          "order_hint": 2,
+          "summary": "Bayesian optimization (BO) is expected to be a suitable approach for production processes, enabling efficient parameter exploration with fewer experiments.",
+          "methods_or_tools": [
+            "Bayesian optimization",
+            "Gaussian process regression"
+          ],
+          "entities": [
+            "production processes"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E02_01"
+          ]
+        },
+        {
+          "event_id": "C001_E03",
+          "chunk_id": "C001",
+          "event_type": "design",
+          "order_hint": 3,
+          "summary": "The study uses drop casting with a slurry containing carbon particles, polymer, and solvent, and controls drying temperature and time as parameters to explore.",
+          "methods_or_tools": [
+            "drop casting",
+            "slurry preparation"
+          ],
+          "entities": [
+            "carbon particles",
+            "Nafion",
+            "water",
+            "IPA"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E03_01",
+            "EV_C001_E03_02"
+          ]
+        },
+        {
+          "event_id": "C001_E04",
+          "chunk_id": "C001",
+          "event_type": "design",
+          "order_hint": 4,
+          "summary": "The parameter space consists of 32,768 combinations (8 temperature levels over 5 time steps), and initial data is collected from 30 random experiments.",
+          "methods_or_tools": [
+            "random sampling"
+          ],
+          "entities": [
+            "temperature profile"
+          ],
+          "numbers_or_metrics": [
+            "32,768 combinations",
+            "30 experiments"
+          ],
+          "evidence_ids": [
+            "EV_C001_E04_02"
+          ]
+        },
+        {
+          "event_id": "C001_E05",
+          "chunk_id": "C001",
+          "event_type": "experiment",
+          "order_hint": 5,
+          "summary": "Defect ratio is evaluated by binarizing surface images to detect cracks and thin regions, and the proportion of defect area is computed.",
+          "methods_or_tools": [
+            "image binarization"
+          ],
+          "entities": [
+            "defect ratio"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E05_01"
+          ]
+        },
+        {
+          "event_id": "C001_E06",
+          "chunk_id": "C001",
+          "event_type": "computation",
+          "order_hint": 6,
+          "summary": "A surrogate model is built using Gaussian process regression (GPR) to predict defect ratio, and an acquisition function selects the next experiment.",
+          "methods_or_tools": [
+            "Gaussian process regression",
+            "acquisition function"
+          ],
+          "entities": [
+            "surrogate model"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E06_01",
+            "EV_C001_E06_02"
+          ]
+        },
+        {
+          "event_id": "C001_E07",
+          "chunk_id": "C001",
+          "event_type": "limitation",
+          "order_hint": 7,
+          "summary": "Previous applications of BO to production processes had limited parameter space or subjective evaluation, and numerical simulations were often used instead of experiments.",
+          "methods_or_tools": [],
+          "entities": [
+            "previous BO applications"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E07_01",
+            "EV_C001_E07_02"
+          ]
+        }
+      ],
+      "notes": "This chunk introduces the problem, hypothesis, experimental design, and initial computation steps. It sets up the BO framework and highlights limitations of prior work.",
+      "api_usage": {
+        "prompt_tokens": 6839,
+        "completion_tokens": 1160,
+        "total_tokens": 7999,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6583
+      }
+    },
+    {
+      "chunk_id": "C002",
+      "char_start": 17100,
+      "char_end": 35100,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C002_E01",
+          "chunk_id": "C002",
+          "event_type": "design",
+          "order_hint": 1,
+          "summary": "The acquisition function was set to the upper confidence bound (UCB) strategy to balance exploration and exploitation during Bayesian optimization.",
+          "methods_or_tools": [
+            "upper confidence bound (UCB)",
+            "Bayesian optimization"
+          ],
+          "entities": [
+            "acquisition function"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E01_01"
+          ]
+        },
+        {
+          "event_id": "C002_E02",
+          "chunk_id": "C002",
+          "event_type": "experiment",
+          "order_hint": 2,
+          "summary": "Initial random experiments showed most defect ratios between 30% and 50%, with only 3 out of 30 samples below 15%.",
+          "methods_or_tools": [
+            "random parameter selection"
+          ],
+          "entities": [
+            "defect ratio"
+          ],
+          "numbers_or_metrics": [
+            "30% to 50%",
+            "3 out of 30 samples",
+            "below 15%"
+          ],
+          "evidence_ids": [
+            "EV_C002_E02_01"
+          ]
+        },
+        {
+          "event_id": "C002_E03",
+          "chunk_id": "C002",
+          "event_type": "analysis",
+          "order_hint": 3,
+          "summary": "High defect ratio samples exhibited clear radial cracks at the center and an exceedingly thin region at the periphery, with carbon unevenly deposited in concentric circles.",
+          "methods_or_tools": [
+            "visual inspection"
+          ],
+          "entities": [
+            "radial cracks",
+            "thin region",
+            "carbon deposition"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E03_01"
+          ]
+        },
+        {
+          "event_id": "C002_E04",
+          "chunk_id": "C002",
+          "event_type": "analysis",
+          "order_hint": 4,
+          "summary": "Low defect ratio samples had no thin regions at the periphery and sparse, non-radial cracks.",
+          "methods_or_tools": [
+            "visual inspection"
+          ],
+          "entities": [
+            "thin regions",
+            "sparse cracks"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E04_01"
+          ]
+        },
+        {
+          "event_id": "C002_E05",
+          "chunk_id": "C002",
+          "event_type": "experiment",
+          "order_hint": 5,
+          "summary": "During the exploration phase, all tested parameter sets achieved defect ratios below 10%, with the lowest value of 2.8% obtained in experiments four and nine.",
+          "methods_or_tools": [
+            "Bayesian optimization",
+            "GPR",
+            "UCB"
+          ],
+          "entities": [
+            "defect ratio"
+          ],
+          "numbers_or_metrics": [
+            "below 10%",
+            "2.8%",
+            "experiments four and nine"
+          ],
+          "evidence_ids": [
+            "EV_C002_E05_01"
+          ]
+        },
+        {
+          "event_id": "C002_E07",
+          "chunk_id": "C002",
+          "event_type": "analysis",
+          "order_hint": 7,
+          "summary": "Low defect ratios tended to occur with a low–high–low temperature profile: first step low (30°C), second step relatively high (above 60°C), third step relatively low (below 60°C).",
+          "methods_or_tools": [
+            "examination of temperature profiles"
+          ],
+          "entities": [
+            "temperature profile",
+            "defect ratio"
+          ],
+          "numbers_or_metrics": [
+            "30°C",
+            "above 60°C",
+            "below 60°C"
+          ],
+          "evidence_ids": [
+            "EV_C002_E07_01"
+          ]
+        },
+        {
+          "event_id": "C002_E08",
+          "chunk_id": "C002",
+          "event_type": "hypothesis",
+          "order_hint": 8,
+          "summary": "The discovered low–high–low temperature profile may correspond to a very limited process window, and raising the temperature after lowering it once reduces defect ratio.",
+          "methods_or_tools": [],
+          "entities": [
+            "temperature profile",
+            "process window"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E08_01",
+            "EV_C002_E08_02"
+          ]
+        }
+      ],
+      "notes": "This chunk contains key experimental results and analysis from the Bayesian optimization process, including initial defect ratios, exploration outcomes, and mechanistic hypotheses.",
+      "api_usage": {
+        "prompt_tokens": 8212,
+        "completion_tokens": 1363,
+        "total_tokens": 9575,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7956
+      }
+    },
+    {
+      "chunk_id": "C003",
+      "char_start": 34200,
+      "char_end": 52200,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C003_E01",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 1,
+          "summary": "Analysis of temperature profile trends reveals low defect ratios for low-high-low temperature patterns.",
+          "methods_or_tools": [],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E01_01"
+          ]
+        },
+        {
+          "event_id": "C003_E02",
+          "chunk_id": "C003",
+          "event_type": "hypothesis",
+          "order_hint": 2,
+          "summary": "Hypothesis that low-high-low temperature profile cannot be discovered by conventional methods.",
+          "methods_or_tools": [],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E02_01"
+          ]
+        },
+        {
+          "event_id": "C003_E03",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 3,
+          "summary": "Discussion of drying mechanism: low initial temperature prevents uneven particle distribution, skin formation reduces evaporation, and final heating relaxes stress.",
+          "methods_or_tools": [],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E03_01",
+            "EV_C003_E03_02"
+          ]
+        },
+        {
+          "event_id": "C003_E04",
+          "chunk_id": "C003",
+          "event_type": "validation",
+          "order_hint": 4,
+          "summary": "Validation of BO efficiency: 40 experiments vs 32,768 combinations, 1000x more efficient.",
+          "methods_or_tools": [],
+          "entities": [],
+          "numbers_or_metrics": [
+            "40 experiments",
+            "32,768 combinations",
+            "1000x efficiency"
+          ],
+          "evidence_ids": [
+            "EV_C003_E04_01"
+          ]
+        },
+        {
+          "event_id": "C003_E05",
+          "chunk_id": "C003",
+          "event_type": "limitation",
+          "order_hint": 5,
+          "summary": "Limitation: human cannot understand 5D parameter space, but BO reduces human cost.",
+          "methods_or_tools": [],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E05_01"
+          ]
+        },
+        {
+          "event_id": "C003_E06",
+          "chunk_id": "C003",
+          "event_type": "limitation",
+          "order_hint": 6,
+          "summary": "Limitation: inappropriate parameter selection may increase cost and complicate interpretation.",
+          "methods_or_tools": [],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E06_01"
+          ]
+        },
+        {
+          "event_id": "C003_E07",
+          "chunk_id": "C003",
+          "event_type": "limitation",
+          "order_hint": 7,
+          "summary": "Limitation: poor evaluation criteria can introduce measurement error affecting predictions.",
+          "methods_or_tools": [],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E07_01"
+          ]
+        }
+      ],
+      "notes": "Chunk contains analysis of discovered temperature profiles, discussion of drying mechanisms, validation of BO efficiency, and several limitations of the study.",
+      "api_usage": {
+        "prompt_tokens": 6870,
+        "completion_tokens": 1146,
+        "total_tokens": 8016,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6614
+      }
+    },
+    {
+      "chunk_id": "C004",
+      "char_start": 51300,
+      "char_end": 65719,
+      "chunk_relevance": "none",
+      "events": [],
+      "notes": "This chunk contains only references, acknowledgements, author contributions, competing interests, and license information. No research evolution events are present.",
+      "api_usage": {
+        "prompt_tokens": 7162,
+        "completion_tokens": 59,
+        "total_tokens": 7221,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6906
+      }
+    }
+  ],
+  "evidence_bank": [
+    {
+      "evidence_id": "EV_C001_E01_01",
+      "source_file": "docs/0168/combined.md",
+      "section": "C001",
+      "char_start": 2712,
+      "char_end": 2838,
+      "quote": "the powder film forming process is controlled by a number of parameters, and the phenomena entailed in the process are complex"
+    },
+    {
+      "evidence_id": "EV_C001_E02_01",
+      "source_file": "docs/0168/combined.md",
+      "section": "C001",
+      "char_start": 5616,
+      "char_end": 5786,
+      "quote": "BO is also expected to be a suitable approach for production processes, in which it is challenging to search for the optimal process parameters manually and heuristically"
+    },
+    {
+      "evidence_id": "EV_C001_E03_01",
+      "source_file": "docs/0168/combined.md",
+      "section": "C001",
+      "char_start": 9144,
+      "char_end": 9260,
+      "quote": "we conducted experiments using drop casting, which can easily produce multiple samples with a small amount of slurry"
+    },
+    {
+      "evidence_id": "EV_C001_E03_02",
+      "source_file": "docs/0168/combined.md",
+      "section": "C001",
+      "char_start": 9719,
+      "char_end": 9872,
+      "quote": "The material slurry was dried while controlling the heating temperature, and the homogeneity of the resulting electrode film was quantitatively evaluated"
+    },
+    {
+      "evidence_id": "EV_C001_E04_02",
+      "source_file": "docs/0168/combined.md",
+      "section": "C001",
+      "char_start": 12792,
+      "char_end": 12853,
+      "quote": "we conducted 30 experiments using random temperature profiles"
+    },
+    {
+      "evidence_id": "EV_C001_E05_01",
+      "source_file": "docs/0168/combined.md",
+      "section": "C001",
+      "char_start": 13637,
+      "char_end": 13865,
+      "quote": "cracks and exceedingly thin regions were extracted based on the brightness values of the surface images, and the proportion of the detected areas to the total area where the dropped ink spread was evaluated as the “defect ratio”"
+    },
+    {
+      "evidence_id": "EV_C001_E06_01",
+      "source_file": "docs/0168/combined.md",
+      "section": "C001",
+      "char_start": 13964,
+      "char_end": 14029,
+      "quote": "To predict the defect ratio, we built a surrogate model using GPR"
+    },
+    {
+      "evidence_id": "EV_C001_E06_02",
+      "source_file": "docs/0168/combined.md",
+      "section": "C001",
+      "char_start": 14106,
+      "char_end": 14318,
+      "quote": "an acquisition function was calculated for each temperature profile using the predicted values of the surrogate model, and the temperature profile with the highest score was adopted as the subsequent experimental"
+    },
+    {
+      "evidence_id": "EV_C001_E07_01",
+      "source_file": "docs/0168/combined.md",
+      "section": "C001",
+      "char_start": 5990,
+      "char_end": 6191,
+      "quote": "there were some challenges that needed to be addressed, e.g., the explored parameter space was not large enough for practical use and the product evaluation was subjective and not sufficiently reliable"
+    },
+    {
+      "evidence_id": "EV_C001_E07_02",
+      "source_file": "docs/0168/combined.md",
+      "section": "C001",
+      "char_start": 6639,
+      "char_end": 6752,
+      "quote": "most attempts to apply BO methods to materials development have used numerical simulations instead of experiments"
+    },
+    {
+      "evidence_id": "EV_C002_E01_01",
+      "source_file": "docs/0168/combined.md",
+      "section": "C002",
+      "char_start": 24878,
+      "char_end": 25035,
+      "quote": "The acquisition function was set to the upper confidence bound (UCB) $^{50-52}$ . The UCB strategy balances exploration and exploitation during optimization."
+    },
+    {
+      "evidence_id": "EV_C002_E02_01",
+      "source_file": "docs/0168/combined.md",
+      "section": "C002",
+      "char_start": 25566,
+      "char_end": 25738,
+      "quote": "For most of the temperature profiles, defect ratios of 30% to 50% were observed; however, in rare samples (3 out of 30 samples), the defect ratios were below 15% (Fig. 2a)."
+    },
+    {
+      "evidence_id": "EV_C002_E03_01",
+      "source_file": "docs/0168/combined.md",
+      "section": "C002",
+      "char_start": 25739,
+      "char_end": 25970,
+      "quote": "In the samples with high defect ratios, clear radial cracks at the center of the electrodes and an exceedingly thin region at the periphery were typically observed, and carbon was unevenly deposited in concentric circles (Fig. 2b)."
+    },
+    {
+      "evidence_id": "EV_C002_E04_01",
+      "source_file": "docs/0168/combined.md",
+      "section": "C002",
+      "char_start": 25971,
+      "char_end": 26139,
+      "quote": "By contrast, the samples with a low defect ratio had no thin regions at the periphery, and sparse cracks were observed; however, they were not clearly radial (Fig. 2c)."
+    },
+    {
+      "evidence_id": "EV_C002_E05_01",
+      "source_file": "docs/0168/combined.md",
+      "section": "C002",
+      "char_start": 31539,
+      "char_end": 31716,
+      "quote": "In the exploration phase, the defect ratios were less than 10% for all the tested parameter sets, and the lowest value was 2.8%, which was obtained in experiments four and nine."
+    },
+    {
+      "evidence_id": "EV_C002_E07_01",
+      "source_file": "docs/0168/combined.md",
+      "section": "C002",
+      "char_start": 34280,
+      "char_end": 34531,
+      "quote": "low defect ratios tended to be observed in the temperature profiles wherein the temperature of the first step was low (30 °C), that of the second step was relatively high (above 60 °C), and that of the third step was also relatively low (below 60 °C)."
+    },
+    {
+      "evidence_id": "EV_C002_E08_01",
+      "source_file": "docs/0168/combined.md",
+      "section": "C002",
+      "char_start": 33996,
+      "char_end": 34079,
+      "quote": "The temperature profile discovered may correspond to a very limited process window."
+    },
+    {
+      "evidence_id": "EV_C002_E08_02",
+      "source_file": "docs/0168/combined.md",
+      "section": "C002",
+      "char_start": 34637,
+      "char_end": 34778,
+      "quote": "Comparing experiments five and six, it seems that raising the temperature after lowering it once has the effect of reducing the defect ratio."
+    },
+    {
+      "evidence_id": "EV_C003_E01_01",
+      "source_file": "docs/0168/combined.md",
+      "section": "C003",
+      "char_start": 34280,
+      "char_end": 34531,
+      "quote": "low defect ratios tended to be observed in the temperature profiles wherein the temperature of the first step was low (30 °C), that of the second step was relatively high (above 60 °C), and that of the third step was also relatively low (below 60 °C)."
+    },
+    {
+      "evidence_id": "EV_C003_E02_01",
+      "source_file": "docs/0168/combined.md",
+      "section": "C003",
+      "char_start": 34981,
+      "char_end": 35167,
+      "quote": "it is likely that the low–high–low (–high) temperature profile proposed and validated based on the machine learning system cannot be discovered via trials following conventional methods."
+    },
+    {
+      "evidence_id": "EV_C003_E03_01",
+      "source_file": "docs/0168/combined.md",
+      "section": "C003",
+      "char_start": 35322,
+      "char_end": 35440,
+      "quote": "maintaining a low temperature caused the solvent to evaporate gently, leading to an increase in the solid phase ratio."
+    },
+    {
+      "evidence_id": "EV_C003_E03_02",
+      "source_file": "docs/0168/combined.md",
+      "section": "C003",
+      "char_start": 35979,
+      "char_end": 36070,
+      "quote": "accelerated evaporation by increasing the temperature would not cause uneven precipitation."
+    },
+    {
+      "evidence_id": "EV_C003_E04_01",
+      "source_file": "docs/0168/combined.md",
+      "section": "C003",
+      "char_start": 38108,
+      "char_end": 38358,
+      "quote": "The total number of experiments conducted in this study was 40, corresponding to approximately 0.1% of all the possible parameter combinations. Therefore, the exploration was 1,000 times more efficient than evaluating all the parameters individually."
+    },
+    {
+      "evidence_id": "EV_C003_E05_01",
+      "source_file": "docs/0168/combined.md",
+      "section": "C003",
+      "char_start": 38536,
+      "char_end": 38692,
+      "quote": "it would be almost impossible for a human to understand the distribution of the predicted performance in a five-dimensional (in this study) parameter space."
+    },
+    {
+      "evidence_id": "EV_C003_E06_01",
+      "source_file": "docs/0168/combined.md",
+      "section": "C003",
+      "char_start": 40276,
+      "char_end": 40548,
+      "quote": "parameters that do not affect the process or are difficult to control may increase the cost of the experiments. This contradicts the original purpose of a highly efficient search and makes the interpretation of the proposed parameter sets and the resulting maps difficult."
+    },
+    {
+      "evidence_id": "EV_C003_E07_01",
+      "source_file": "docs/0168/combined.md",
+      "section": "C003",
+      "char_start": 40562,
+      "char_end": 40724,
+      "quote": "if the evaluation criterion is not set appropriately, the experiments become more difficult and the measurement error may crucially affect the prediction results."
+    },
+    {
+      "evidence_id": "EV_AUTO_001",
+      "source_file": "docs/0168/combined.md",
+      "section": "auto_specific",
+      "char_start": 8355,
+      "char_end": 8651,
+      "quote": "Notably, these features affect the power generation performance of PEFCs depending on electrochemical reaction activity, gas diffusivity and proton conductivity; therefore, improvements to the fabrication process of electrodes are essential for increasing the efficiency of PEFCs $^{36,41,42}$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_002",
+      "source_file": "docs/0168/combined.md",
+      "section": "auto_specific",
+      "char_start": 13443,
+      "char_end": 13605,
+      "quote": "In the initial dataset preparation phase, experiments were conducted with 30 temperature profiles that were randomly selected from all the possible combinations."
+    }
+  ],
+  "event_graph": {
+    "paper_main_problem": "Optimizing powder film drying process parameters is challenging due to multiscale, multiphysical phenomena and large parameter space (32,768 combinations). Traditional numerical models are impractical, and brute-force or empirical methods are inefficient. The goal is to develop a sample-efficient, non-parametric method using Bayesian optimization to minimize film defects.",
+    "canonical_events": [
+      {
+        "canonical_id": "K01",
+        "order": 1,
+        "event_type": "problem",
+        "summary": "The powder film forming process is controlled by many parameters and involves complex phenomena, making numerical models impractical and brute-force exploration infeasible.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E01"
+        ],
+        "evidence_ids": [
+          "EV_C001_E01_01"
+        ],
+        "key_entities": [
+          "powder film forming process"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K02",
+        "order": 2,
+        "event_type": "hypothesis",
+        "summary": "Bayesian optimization (BO) is expected to be a suitable approach for production processes, enabling efficient parameter exploration with fewer experiments.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E02"
+        ],
+        "evidence_ids": [
+          "EV_C001_E02_01"
+        ],
+        "key_entities": [
+          "Bayesian optimization",
+          "Gaussian process regression"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K03",
+        "order": 3,
+        "event_type": "design",
+        "summary": "The study uses drop casting with a slurry containing carbon particles, polymer, and solvent, and controls drying temperature and time as parameters to explore.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E03"
+        ],
+        "evidence_ids": [
+          "EV_C001_E03_01",
+          "EV_C001_E03_02"
+        ],
+        "key_entities": [
+          "drop casting",
+          "slurry",
+          "carbon particles",
+          "Nafion",
+          "water",
+          "IPA"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K04",
+        "order": 4,
+        "event_type": "design",
+        "summary": "The parameter space consists of 32,768 combinations (8 temperature levels over 5 time steps), and initial data is collected from 30 random experiments.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E04"
+        ],
+        "evidence_ids": [
+          "EV_C001_E04_02"
+        ],
+        "key_entities": [
+          "temperature profile",
+          "parameter space"
+        ],
+        "key_numbers": [
+          "32,768 combinations",
+          "30 experiments"
+        ]
+      },
+      {
+        "canonical_id": "K05",
+        "order": 5,
+        "event_type": "experiment",
+        "summary": "Defect ratio is evaluated by binarizing surface images to detect cracks and thin regions, and the proportion of defect area is computed.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E05"
+        ],
+        "evidence_ids": [
+          "EV_C001_E05_01"
+        ],
+        "key_entities": [
+          "defect ratio",
+          "image binarization"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K06",
+        "order": 6,
+        "event_type": "computation",
+        "summary": "A surrogate model is built using Gaussian process regression (GPR) to predict defect ratio, and an acquisition function (UCB) selects the next experiment.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E06",
+          "C002_E01"
+        ],
+        "evidence_ids": [
+          "EV_C001_E06_01",
+          "EV_C001_E06_02",
+          "EV_C002_E01_01"
+        ],
+        "key_entities": [
+          "Gaussian process regression",
+          "acquisition function",
+          "upper confidence bound"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K07",
+        "order": 7,
+        "event_type": "experiment",
+        "summary": "Initial random experiments showed most defect ratios between 30% and 50%, with only 3 out of 30 samples below 15%.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E02"
+        ],
+        "evidence_ids": [
+          "EV_C002_E02_01"
+        ],
+        "key_entities": [
+          "defect ratio"
+        ],
+        "key_numbers": [
+          "30% to 50%",
+          "3 out of 30",
+          "below 15%"
+        ]
+      },
+      {
+        "canonical_id": "K08",
+        "order": 8,
+        "event_type": "analysis",
+        "summary": "High defect ratio samples exhibited clear radial cracks at the center and an exceedingly thin region at the periphery, while low defect ratio samples had no thin regions and sparse, non-radial cracks.",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C002_E03",
+          "C002_E04"
+        ],
+        "evidence_ids": [
+          "EV_C002_E03_01",
+          "EV_C002_E04_01"
+        ],
+        "key_entities": [
+          "radial cracks",
+          "thin region",
+          "carbon deposition"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K09",
+        "order": 9,
+        "event_type": "experiment",
+        "summary": "During the exploration phase, all tested parameter sets achieved defect ratios below 10%, with the lowest value of 2.8% obtained in experiments four and nine.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E05"
+        ],
+        "evidence_ids": [
+          "EV_C002_E05_01"
+        ],
+        "key_entities": [
+          "defect ratio",
+          "exploration phase"
+        ],
+        "key_numbers": [
+          "below 10%",
+          "2.8%"
+        ]
+      },
+      {
+        "canonical_id": "K10",
+        "order": 10,
+        "event_type": "analysis",
+        "summary": "Low defect ratios tended to occur with a low–high–low temperature profile: first step low (30°C), second step relatively high (above 60°C), third step relatively low (below 60°C).",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E07",
+          "C003_E01"
+        ],
+        "evidence_ids": [
+          "EV_C002_E07_01",
+          "EV_C003_E01_01"
+        ],
+        "key_entities": [
+          "temperature profile",
+          "low-high-low pattern"
+        ],
+        "key_numbers": [
+          "30°C",
+          "above 60°C",
+          "below 60°C"
+        ]
+      },
+      {
+        "canonical_id": "K11",
+        "order": 11,
+        "event_type": "hypothesis",
+        "summary": "The discovered low–high–low temperature profile may correspond to a very limited process window, and raising the temperature after lowering it once reduces defect ratio.",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C002_E08",
+          "C003_E02"
+        ],
+        "evidence_ids": [
+          "EV_C002_E08_01",
+          "EV_C002_E08_02",
+          "EV_C003_E02_01"
+        ],
+        "key_entities": [
+          "process window",
+          "temperature profile"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K12",
+        "order": 12,
+        "event_type": "analysis",
+        "summary": "Discussion of drying mechanism: low initial temperature prevents uneven particle distribution, skin formation reduces evaporation, and final heating relaxes stress.",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C003_E03"
+        ],
+        "evidence_ids": [
+          "EV_C003_E03_01",
+          "EV_C003_E03_02"
+        ],
+        "key_entities": [
+          "drying mechanism",
+          "skin formation",
+          "stress relaxation"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K13",
+        "order": 13,
+        "event_type": "validation",
+        "summary": "Validation of BO efficiency: 40 experiments vs 32,768 combinations, 1000x more efficient.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E04"
+        ],
+        "evidence_ids": [
+          "EV_C003_E04_01"
+        ],
+        "key_entities": [
+          "BO efficiency"
+        ],
+        "key_numbers": [
+          "40 experiments",
+          "32,768 combinations",
+          "1000x efficiency"
+        ]
+      },
+      {
+        "canonical_id": "K14",
+        "order": 14,
+        "event_type": "limitation",
+        "summary": "Limitations: human cannot understand 5D parameter space; inappropriate parameter selection may increase cost; poor evaluation criteria can introduce measurement error.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E05",
+          "C003_E06",
+          "C003_E07"
+        ],
+        "evidence_ids": [
+          "EV_C003_E05_01",
+          "EV_C003_E06_01",
+          "EV_C003_E07_01"
+        ],
+        "key_entities": [
+          "5D parameter space",
+          "parameter selection",
+          "evaluation criteria"
+        ],
+        "key_numbers": []
+      }
+    ],
+    "edges": [
+      {
+        "source": "K01",
+        "target": "K02",
+        "relation": "enables",
+        "reason": "The problem of inefficient parameter search motivates the hypothesis that BO can provide a solution."
+      },
+      {
+        "source": "K02",
+        "target": "K03",
+        "relation": "enables",
+        "reason": "The hypothesis leads to the design of the experimental system using drop casting and controlled drying."
+      },
+      {
+        "source": "K03",
+        "target": "K04",
+        "relation": "enables",
+        "reason": "The experimental design defines the parameter space and the initial random sampling strategy."
+      },
+      {
+        "source": "K04",
+        "target": "K05",
+        "relation": "enables",
+        "reason": "The parameter space and initial experiments require a quantitative evaluation method (defect ratio via image binarization)."
+      },
+      {
+        "source": "K05",
+        "target": "K06",
+        "relation": "enables",
+        "reason": "The defect ratio metric is used to build the surrogate model and guide the acquisition function."
+      },
+      {
+        "source": "K06",
+        "target": "K07",
+        "relation": "follows",
+        "reason": "The initial random experiments are conducted before the BO loop, providing the first data for the surrogate model."
+      },
+      {
+        "source": "K07",
+        "target": "K08",
+        "relation": "enables",
+        "reason": "The initial defect ratio results are analyzed to characterize high and low defect samples."
+      },
+      {
+        "source": "K08",
+        "target": "K09",
+        "relation": "follows",
+        "reason": "After initial analysis, the BO exploration phase begins, yielding improved defect ratios."
+      },
+      {
+        "source": "K09",
+        "target": "K10",
+        "relation": "enables",
+        "reason": "The low defect ratios from exploration are analyzed to identify the common low-high-low temperature profile."
+      },
+      {
+        "source": "K10",
+        "target": "K11",
+        "relation": "enables",
+        "reason": "The identified profile leads to hypotheses about the process window and the effect of temperature changes."
+      },
+      {
+        "source": "K11",
+        "target": "K12",
+        "relation": "enables",
+        "reason": "The hypotheses about the profile motivate a discussion of the underlying drying mechanisms."
+      },
+      {
+        "source": "K12",
+        "target": "K13",
+        "relation": "follows",
+        "reason": "After discussing mechanisms, the overall efficiency of the BO method is validated."
+      },
+      {
+        "source": "K13",
+        "target": "K14",
+        "relation": "follows",
+        "reason": "The validation is followed by a discussion of limitations and caveats of the approach."
+      }
+    ],
+    "must_cover_points": [
+      "Problem of large parameter space and impracticality of brute-force search",
+      "Hypothesis that BO can efficiently find optimal parameters",
+      "Design of experimental system and parameter space (32,768 combinations, 5 time steps, 8 levels)",
+      "Initial random experiments (30) and defect ratio evaluation",
+      "Surrogate model (GPR) and acquisition function (UCB) for BO",
+      "Initial results: most defect ratios 30-50%, only 3/30 below 15%",
+      "BO exploration results: all defect ratios <10%, minimum 2.8%",
+      "Discovery of low-high-low temperature profile for low defects",
+      "Validation of BO efficiency: 40 experiments vs 32,768 (1000x)",
+      "Limitations: 5D space hard for humans, parameter selection, evaluation criteria"
+    ],
+    "paper_not_suitable_reasons": []
+  }
+}

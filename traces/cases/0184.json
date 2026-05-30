@@ -1,0 +1,908 @@
+{
+  "case": {
+    "case_id": "sci_evo_0184",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Blackjack mutations improve the on-target activities of increased fidelity variants of SpCas9 with 5′G-extended sgRNAs",
+      "doi": "https://doi.org/10.1038/s41467-020-15021-5",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "",
+      "mineru_md": "docs/0184/mineru.md",
+      "combined_md": "docs/0184/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Increased fidelity SpCas9 variants have reduced activity with 5'G-extended sgRNAs, limiting target space.",
+      "target_object": "SpCas9 variants (eSpCas9, SpCas9-HF1, HypaSpCas9, evoSpCas9, HeFSpCas9)",
+      "known_context": "Increased fidelity variants were developed to reduce off-target activity but show diminished activity with 5'-extended sgRNAs (21G-sgRNAs).",
+      "constraints": [
+        "Must maintain high fidelity",
+        "Must restore activity with 21G-sgRNAs"
+      ],
+      "input_data": [
+        "Structural model of SpCas9",
+        "Known mutations in increased fidelity variants"
+      ],
+      "quantifiable_goals": [
+        "Achieve on-target activity with 21G-sgRNAs comparable to 20G-sgRNAs",
+        "Maintain fidelity matching parental variants"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "Increased fidelity SpCas9 variants (eSpCas9, SpCas9-HF1, HypaSpCas9, evoSpCas9, HeFSpCas9) have reduced activity with 5'G-extended sgRNAs (21G-sgRNAs), limiting target space.",
+        "gap_or_uncertainty": "The structural basis for reduced activity with 21G-sgRNAs is unknown.",
+        "hypothesis": "A structural cap formed by Glu1007 and Tyr1013 on a surface loop clashes with the 5' extension; removing it could restore activity.",
+        "decision": "Propose to remove the cap by mutation to make space for the 5' G-extension.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "structural analysis",
+          "version": "",
+          "category": "computational modeling"
+        },
+        "parameters": {},
+        "observation": "Glu1007 and Tyr1013 are connected via a surface loop and may cap the 5' end of the sgRNA.",
+        "result_status": "success",
+        "next_step_reason": "Test the hypothesis by designing mutants that remove the cap.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0184/combined.md",
+            "section": "C001",
+            "quote_or_span": "most of the increased fidelity nucleases can routinely be used only with fully matching 20-nucleotide-long spacers (20G-sgRNAs)"
+          },
+          {
+            "evidence_id": "EV_C001_E01_02",
+            "source_file": "docs/0184/combined.md",
+            "section": "C001",
+            "quote_or_span": "they possess diminished activity with 5'-extended sgRNAs"
+          },
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0184/combined.md",
+            "section": "C001",
+            "quote_or_span": "We proposed that it might result from a capping of the 5' end of the sgRNA by Glu1007 and Tyr1013, which are connected via a surface loop"
+          },
+          {
+            "evidence_id": "EV_C001_E02_02",
+            "source_file": "docs/0184/combined.md",
+            "section": "C001",
+            "quote_or_span": "removing the cap by mutation would make space for a 5' G-extension of the sgRNA without clashing with the polypeptide chain"
+          },
+          {
+            "evidence_id": "EV_C004_E08_01",
+            "source_file": "docs/0184/combined.md",
+            "section": "C004",
+            "quote_or_span": "the incorporation of Blackjack mutations into an increased fidelity variant of SpCas9 that is not fully compatible with 5' modified sgRNAs and using it either alone or in combination with a genome- or epigenome-editor would considerable increase its available target space by making them compatible with 21G-sgRNAs."
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "experiment",
+        "state_before": "Deletion mutants active with 21G-sgRNAs, but need to assess performance across targets.",
+        "gap_or_uncertainty": "Which targets show improved performance with deletion mutants?",
+        "hypothesis": "Some targets will be suitable for detecting improved performance.",
+        "decision": "Screen 13 target sites with the two deletion mutants, WT, and SpCas9-HF1.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "EGFP-disruption assay",
+          "version": "",
+          "category": "cell-based assay"
+        },
+        "parameters": {
+          "cell_line": "N2a.dd-EGFP",
+          "number_of_targets": 13
+        },
+        "observation": "Identified some targets that appeared suitable for easy detection of possibly improved performance.",
+        "result_status": "success",
+        "next_step_reason": "Create further deletion mutants to optimize the loop removal.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E05_01",
+            "source_file": "docs/0184/combined.md",
+            "section": "C001",
+            "quote_or_span": "we screened 13 target sites with the two deletion mutants created, along with the WT and SpCas9-HF1 (Supplementary Fig. 1b) and identified some targets that appeared suitable for easy detection of possibly improved performance"
+          },
+          {
+            "evidence_id": "EV_C004_E04_01",
+            "source_file": "docs/0184/combined.md",
+            "section": "C004",
+            "quote_or_span": "they would be excellent substitutes for eSpCas9 and SpCas9-HF1 in all types of applications for which the latter two have been preferentially used but with the added advantage of providing 20G-level editing with 21G-sgRNAs as well."
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "design",
+        "state_before": "Initial deletion mutants show promise but need optimization.",
+        "gap_or_uncertainty": "Optimal loop deletion length and position unknown.",
+        "hypothesis": "Varying the deletion length and position will yield a mutant with higher activity.",
+        "decision": "Create 16 further deletion mutants between aa 1003-1017, varying loop removal and replacement lengths.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "site-directed mutagenesis",
+          "version": "",
+          "category": "molecular biology"
+        },
+        "parameters": {
+          "region": "aa 1003-1017",
+          "number_of_mutants": 16
+        },
+        "observation": "Created 16 further deletion mutant candidates.",
+        "result_status": "success",
+        "next_step_reason": "Test and select the best candidate based on on-target activity.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E06_01",
+            "source_file": "docs/0184/combined.md",
+            "section": "C001",
+            "quote_or_span": "we created 16 further deletion mutant candidates in that region, specifically between aa. 1003 and aa. 1017, by completely removing or exchanging segments of various lengths harboring the loop"
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "analysis",
+        "state_before": "16 further deletion mutants created.",
+        "gap_or_uncertainty": "Which mutant has the best balance of activity with 20G- and 21G-sgRNAs?",
+        "hypothesis": "The best candidate will exhibit highest on-target activity with 20G-sgRNAs and highest improvement with 21G-sgRNAs.",
+        "decision": "Select the best candidate (B-SpCas9-HF1) based on activity criteria.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "activity comparison",
+          "version": "",
+          "category": "data analysis"
+        },
+        "parameters": {},
+        "observation": "The best candidate was considered to be the one exhibiting the highest on-target activity with 20G-sgRNAs and demonstrating the highest improvement with 21G-sgRNAs. This variant was named Blackjack-SpCas9-HF1 (B-SpCas9-HF1).",
+        "result_status": "success",
+        "next_step_reason": "Characterize the selected variant for target-selectivity and fidelity.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E07_01",
+            "source_file": "docs/0184/combined.md",
+            "section": "C001",
+            "quote_or_span": "The best candidate was considered to be the one exhibiting the highest on-target activity with 20G-sgRNAs and demonstrating the highest improvement with 21G-sgRNAs. This variant was named Blackjack-SpCas9-HF1 (B-SpCas9-HF1)"
+          },
+          {
+            "evidence_id": "EV_C001_E06_01",
+            "source_file": "docs/0184/combined.md",
+            "section": "C001",
+            "quote_or_span": "we created 16 further deletion mutant candidates in that region, specifically between aa. 1003 and aa. 1017, by completely removing or exchanging segments of various lengths harboring the loop"
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "analysis",
+        "state_before": "B-SpCas9-HF1 selected.",
+        "gap_or_uncertainty": "Do Blackjack mutations affect target-selectivity and fidelity?",
+        "hypothesis": "Blackjack mutations increase target-selectivity and fidelity of parent SpCas9 variants with 20G-sgRNAs.",
+        "decision": "Assess target-selectivity and fidelity using EGFP-disruption assays with perfectly matching and partially mismatching 20G-sgRNAs.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "EGFP-disruption assay",
+          "version": "",
+          "category": "cell-based assay"
+        },
+        "parameters": {
+          "sgRNA_type": "20G-sgRNAs"
+        },
+        "observation": "Blackjack mutations increase the target-selectivity and fidelity of their respective parent SpCas9 variants.",
+        "result_status": "success",
+        "next_step_reason": "Blackjack mutations increase fidelity, which may reduce on-target activity; design plus variants to compensate.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E01_01",
+            "source_file": "docs/0184/combined.md",
+            "section": "C002",
+            "quote_or_span": "Blackjack mutations increase the target-selectivity of their respective parent SpCas9 variants. EGFP-disruption activities with perfectly matching 20G-sgRNAs."
+          },
+          {
+            "evidence_id": "EV_C002_E02_01",
+            "source_file": "docs/0184/combined.md",
+            "section": "C002",
+            "quote_or_span": "Blackjack mutations increase the fidelity of their respective parent SpCas9 variants. EGFP-disruption activities with partially mismatching 20G-sgRNAs."
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "experiment",
+        "state_before": "Plus variant design rationale established.",
+        "gap_or_uncertainty": "Which reversions increase activity?",
+        "hypothesis": "Most reversions will increase on-target activity, but some may not.",
+        "decision": "Construct four and seven candidates from Blackjack-eSpCas9 and Blackjack-SpCas9-HF1, respectively, lacking one or two original parental mutations at a time, and test on-target activity with 20G-sgRNAs.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "EGFP-disruption assay",
+          "version": "",
+          "category": "cell-based assay"
+        },
+        "parameters": {
+          "sgRNA_type": "20G-sgRNAs",
+          "number_of_candidates": {
+            "Blackjack-eSpCas9": 4,
+            "Blackjack-SpCas9-HF1": 7
+          }
+        },
+        "observation": "All new candidates exhibit increased on-target activity with 20G-sgRNAs compared to B-SpCas9-HF1 except that in which A497 was reverted.",
+        "result_status": "partial",
+        "next_step_reason": "Select the best plus variants (eSpCas9-plus and SpCas9-HF1-plus) and test with 21G-sgRNAs.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E04_01",
+            "source_file": "docs/0184/combined.md",
+            "section": "C002",
+            "quote_or_span": "we constructed four and seven candidates from Blackjack-eSpCas9 and Blackjack-SpCas9-HF1, respectively, lacking one or two “original parental” mutations at a time"
+          },
+          {
+            "evidence_id": "EV_C002_E05_01",
+            "source_file": "docs/0184/combined.md",
+            "section": "C002",
+            "quote_or_span": "All new candidates exhibit increased on-target activity with 20G-sgRNAs compared to B-SpCas9-HF1 except that in which A497 was reverted"
+          },
+          {
+            "evidence_id": "EV_C001_E07_01",
+            "source_file": "docs/0184/combined.md",
+            "section": "C001",
+            "quote_or_span": "The best candidate was considered to be the one exhibiting the highest on-target activity with 20G-sgRNAs and demonstrating the highest improvement with 21G-sgRNAs. This variant was named Blackjack-SpCas9-HF1 (B-SpCas9-HF1)"
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "experiment",
+        "state_before": "Plus variants show increased activity with 20G-sgRNAs.",
+        "gap_or_uncertainty": "Do plus variants show enhanced activity with 21G-sgRNAs while maintaining fidelity?",
+        "hypothesis": "eSpCas9-plus and SpCas9-HF1-plus will show greatly enhanced on-target activity with 21G-sgRNAs and identical fidelity/target-selectivity compared to parental variants.",
+        "decision": "Test on-target activities of eSpCas9-plus and SpCas9-HF1-plus with 20G- and 21G-sgRNAs using EGFP disruption assay.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "EGFP-disruption assay",
+          "version": "",
+          "category": "cell-based assay"
+        },
+        "parameters": {
+          "sgRNA_types": [
+            "20G-sgRNAs",
+            "21G-sgRNAs"
+          ]
+        },
+        "observation": "eSpCas9-plus and SpCas9-HF1-plus show greatly enhanced on-target activity with 21G-sgRNAs and identical fidelity/target-selectivity compared to eSpCas9 and SpCas9-HF1, respectively.",
+        "result_status": "success",
+        "next_step_reason": "Validate on-target activity on endogenous sites and assess fidelity with GUIDE-seq.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E01_01",
+            "source_file": "docs/0184/combined.md",
+            "section": "C003",
+            "quote_or_span": "eSpCas9-plus and SpCas9-HF1-plus show greatly enhanced on-target activity with 21G-sgRNAs and identical fidelity/target-selectivity compared to eSpCas9 and SpCas9-HF1, respectively, as assessed by EGFP disruption"
+          },
+          {
+            "evidence_id": "EV_AUTO_036",
+            "source_file": "docs/0184/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "6d) demonstrated highly increased on-target activities; reaching 90% of that with 20G-sgRNAs on the same targets, in contrast to their parent variants demonstrating only 10 and 16%, respectively."
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "experiment",
+        "state_before": "Plus variants show enhanced activity in EGFP disruption assay.",
+        "gap_or_uncertainty": "Do plus variants maintain high activity on endogenous targets?",
+        "hypothesis": "Plus variants will show high on-target activity across endogenous sites with 21G-sgRNAs.",
+        "decision": "Measure on-target activities of plus variants across 23 endogenous target sites in human VEGFA or FANCF loci using amplicon resequencing (NGS).",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "amplicon resequencing",
+          "version": "",
+          "category": "next-generation sequencing"
+        },
+        "parameters": {
+          "target_loci": [
+            "VEGFA",
+            "FANCF"
+          ],
+          "number_of_sites": 23,
+          "sgRNA_types": [
+            "20G-sgRNAs",
+            "21G-sgRNAs"
+          ]
+        },
+        "observation": "On-target activities measured across 23 endogenous target sites.",
+        "result_status": "success",
+        "next_step_reason": "Quantify the relative activity compared to WT SpCas9.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E02_01",
+            "source_file": "docs/0184/combined.md",
+            "section": "C003",
+            "quote_or_span": "On-target activities of SpCas9 variants across 23 endogenous target sites within the human VEGFA or FANCF loci targeted with d 20G- or e 21G-sgRNAs, measured by amplicon resequencing."
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "analysis",
+        "state_before": "Endogenous on-target activity data collected.",
+        "gap_or_uncertainty": "How do plus variants compare to WT SpCas9 with 21G-sgRNAs?",
+        "hypothesis": "Plus variants will achieve a high percentage of WT activity with 21G-sgRNAs.",
+        "decision": "Calculate relative activity of plus variants compared to WT SpCas9 with 21G-sgRNAs.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "quantitative comparison",
+          "version": "",
+          "category": "data analysis"
+        },
+        "parameters": {},
+        "observation": "With 21G-sgRNAs eSpCas9-plus demonstrates 88%, while SpCas9-HF1-plus exhibits 82% of the value of WT SpCas9 with 21G-sgRNA.",
+        "result_status": "success",
+        "next_step_reason": "Assess fidelity of plus variants using GUIDE-seq.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E03_01",
+            "source_file": "docs/0184/combined.md",
+            "section": "C003",
+            "quote_or_span": "with 21G-sgRNAs eSpCas9-plus demonstrates 88%, while SpCas9-HF1-plus exhibits 82% of the value of WT SpCas9 with 21G-sgRNA"
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "experiment",
+        "state_before": "Plus variants show high on-target activity.",
+        "gap_or_uncertainty": "Do plus variants maintain fidelity comparable to parental variants?",
+        "hypothesis": "Plus variants will have fidelity closely matching parental variants.",
+        "decision": "Compare fidelity of plus variants to parental variants using GUIDE-seq on seven target sites with 20G-sgRNAs.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "GUIDE-seq",
+          "version": "1.1",
+          "category": "next-generation sequencing"
+        },
+        "parameters": {
+          "cell_line": "HEK293.EGFP",
+          "number_of_targets": 7,
+          "sgRNA_type": "20G-sgRNAs"
+        },
+        "observation": "GUIDE-seq performed on seven target sites.",
+        "result_status": "success",
+        "next_step_reason": "Analyze GUIDE-seq results to confirm fidelity.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E04_01",
+            "source_file": "docs/0184/combined.md",
+            "section": "C003",
+            "quote_or_span": "We also wanted to compare the fidelity of these nucleases by GUIDE-seq. In HEK293.EGFP cells, we selected seven target sites that can be targeted by 20G-sgRNAs"
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "experiment",
+        "state_before": "Fidelity of plus variants confirmed.",
+        "gap_or_uncertainty": "Are plus variants effective when delivered as RNPs?",
+        "hypothesis": "Plus variants will demonstrate high activities with 21G-sgRNAs in RNP form.",
+        "decision": "Test plus variants in RNP form using EGFP disruption assay on 31 sequences with in vitro transcribed sgRNAs.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "EGFP-disruption assay",
+          "version": "",
+          "category": "cell-based assay"
+        },
+        "parameters": {
+          "delivery_format": "RNP",
+          "number_of_sequences": 31,
+          "sgRNA_type": "in vitro transcribed"
+        },
+        "observation": "Selected 31 sequences to assay for EGFP disruption by eSpCas9 and SpCas9-HF1 and by their plus variants delivered in RNP form.",
+        "result_status": "success",
+        "next_step_reason": "Quantify the activity improvement in RNP form.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E06_01",
+            "source_file": "docs/0184/combined.md",
+            "section": "C003",
+            "quote_or_span": "we selected 31 sequences to assay for EGFP disruption by eSpCas9 and SpCas9-HF1 and by their plus variants delivered in RNP form"
+          },
+          {
+            "evidence_id": "EV_C003_E07_01",
+            "source_file": "docs/0184/combined.md",
+            "section": "C003",
+            "quote_or_span": "only the plus variants demonstrate high activities with 21G-sgRNAs in pre-assembled RNP form too, reaching up to 23-fold higher activities than their parental variants"
+          }
+        ]
+      },
+      {
+        "step_index": 12,
+        "phase": "analysis",
+        "state_before": "RNP activity data collected.",
+        "gap_or_uncertainty": "How much higher is the activity of plus variants in RNP form?",
+        "hypothesis": "Plus variants will show up to 23-fold higher activity than parental variants with 21G-sgRNAs in RNP form.",
+        "decision": "Compare activities of plus variants to parental variants in RNP form.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "activity comparison",
+          "version": "",
+          "category": "data analysis"
+        },
+        "parameters": {},
+        "observation": "Only the plus variants demonstrate high activities with 21G-sgRNAs in pre-assembled RNP form too, reaching up to 23-fold higher activities than their parental variants.",
+        "result_status": "success",
+        "next_step_reason": "Conclude that plus variants are superior replacements.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E07_01",
+            "source_file": "docs/0184/combined.md",
+            "section": "C003",
+            "quote_or_span": "only the plus variants demonstrate high activities with 21G-sgRNAs in pre-assembled RNP form too, reaching up to 23-fold higher activities than their parental variants"
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "EGFP-disruption assay",
+        "Amplicon resequencing (NGS)",
+        "GUIDE-seq",
+        "Western blotting"
+      ],
+      "metrics": [
+        "On-target activity (% EGFP disruption)",
+        "Relative activity compared to WT SpCas9",
+        "Off-target cleavage sites",
+        "Fold change in activity"
+      ],
+      "final_conclusion": "eSpCas9-plus and SpCas9-HF1-plus show greatly enhanced on-target activity with 21G-sgRNAs while maintaining fidelity matching parental variants, making them superior replacements.",
+      "limitations": [
+        "Some targets remain refractory to editing even with plus variants.",
+        "A497N reversion did not increase activity, indicating context-dependent effects."
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_step_trimmed=16_to_12",
+        "v22_specific_evidence_backfilled=6",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_specific_evidence_backfilled=6",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 100.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p6\\states\\0184.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p6\\events\\0184.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1,
+          7,
+          11
+        ],
+        "K04": [
+          2,
+          4
+        ],
+        "K05": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "K06": [
+          2,
+          3,
+          4
+        ],
+        "K10": [
+          6
+        ],
+        "K12": [
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "K13": [
+          7,
+          8
+        ],
+        "K14": [
+          1,
+          5,
+          6,
+          7,
+          8,
+          9,
+          11,
+          12
+        ],
+        "K15": [
+          1,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "K16": [
+          7,
+          10
+        ],
+        "K17": [
+          7,
+          8,
+          11
+        ],
+        "K18": [
+          7,
+          8,
+          10,
+          11,
+          12
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02",
+            "K03",
+            "K05",
+            "K08",
+            "K14",
+            "K15"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K04",
+            "K05",
+            "K06"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K05",
+            "K06",
+            "K07"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K04",
+            "K05",
+            "K06",
+            "K07",
+            "K08"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K07",
+            "K08",
+            "K09",
+            "K12",
+            "K14",
+            "K15"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K07",
+            "K08",
+            "K09",
+            "K10",
+            "K12",
+            "K14",
+            "K15"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K01",
+            "K07",
+            "K08",
+            "K12",
+            "K13",
+            "K14",
+            "K15",
+            "K16",
+            "K17",
+            "K18"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K12",
+            "K13",
+            "K14",
+            "K15",
+            "K17",
+            "K18"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K08",
+            "K12",
+            "K14",
+            "K15"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K12",
+            "K15",
+            "K16",
+            "K18"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K01",
+            "K07",
+            "K08",
+            "K12",
+            "K14",
+            "K15",
+            "K17",
+            "K18"
+          ]
+        },
+        {
+          "step_index": 12,
+          "covered_event_ids": [
+            "K12",
+            "K14",
+            "K15",
+            "K18"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 3,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "-1017"
+        ]
+      }
+    ],
+    "step_count": 12,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 100.0
+  },
+  "api_usage": {
+    "prompt_tokens": 132427,
+    "completion_tokens": 30189,
+    "total_tokens": 162616,
+    "prompt_cache_hit_tokens": 3200,
+    "prompt_cache_miss_tokens": 129227
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 2324,
+        "completion_tokens": 526,
+        "total_tokens": 2850,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 2324
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 8443,
+        "completion_tokens": 1778,
+        "total_tokens": 10221,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 8443
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 7010,
+        "completion_tokens": 1443,
+        "total_tokens": 8453,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6754
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 7798,
+        "completion_tokens": 1342,
+        "total_tokens": 9140,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7542
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 7521,
+        "completion_tokens": 1513,
+        "total_tokens": 9034,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7265
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 7369,
+        "completion_tokens": 1635,
+        "total_tokens": 9004,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7113
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C005",
+      "api_usage": {
+        "prompt_tokens": 6965,
+        "completion_tokens": 2051,
+        "total_tokens": 9016,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6709
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C006",
+      "api_usage": {
+        "prompt_tokens": 6807,
+        "completion_tokens": 877,
+        "total_tokens": 7684,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6551
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 16914,
+        "completion_tokens": 4221,
+        "total_tokens": 21135,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 16530
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 16235,
+        "completion_tokens": 6806,
+        "total_tokens": 23041,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 15595
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 20771,
+        "completion_tokens": 2495,
+        "total_tokens": 23266,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 20771
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 24270,
+        "completion_tokens": 5502,
+        "total_tokens": 29772,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 23630
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

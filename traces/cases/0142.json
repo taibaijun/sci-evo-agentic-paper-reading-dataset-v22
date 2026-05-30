@@ -1,0 +1,945 @@
+{
+  "case": {
+    "case_id": "sci_evo_0142",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Fidelity Variants of RNA Dependent RNA Polymerases Uncover an Indirect, Mutagenic Activity of Amiloride Compounds",
+      "doi": "https://doi.org/10.1371/journal.ppat.1001163",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0140_10_1371_journal_ppat_1001163_fidelity_variants_of_rna_dependent_rna_polymerases_uncover_an_indirect_mutagenic_activity_.pdf",
+      "mineru_md": "docs/0142/mineru.md",
+      "combined_md": "docs/0142/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Uncover the indirect mutagenic activity of amiloride compounds and understand how different RdRp fidelity variants resist it.",
+      "target_object": "CVB3 RNA-dependent RNA polymerase (RdRp)",
+      "known_context": "Amiloride compounds inhibit CVB3 replication; high-fidelity RdRp variants can resist RNA mutagens.",
+      "constraints": [
+        "Use CVB3 as model system",
+        "Focus on RdRp fidelity variants"
+      ],
+      "input_data": [
+        "CVB3 wild type virus",
+        "RNA mutagens ribavirin and 5-azacytidine"
+      ],
+      "quantifiable_goals": [
+        "Identify RdRp variants with altered fidelity",
+        "Determine mutation frequencies under drug treatment",
+        "Elucidate mechanism of amiloride mutagenesis"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "No high-fidelity CVB3 RdRp variants known.",
+        "gap_or_uncertainty": "Whether CVB3 can evolve high-fidelity RdRp variants that resist RNA mutagens.",
+        "hypothesis": "Passaging CVB3 in ribavirin or 5-azacytidine will select for high-fidelity RdRp variants.",
+        "decision": "Perform a screen for high-fidelity variants by selecting for resistance to mutagenic base analogs.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Viral passage under mutagen selection",
+          "version": "",
+          "category": "experimental_evolution"
+        },
+        "parameters": {
+          "mutagens": [
+            "ribavirin",
+            "5-azacytidine"
+          ],
+          "virus": "CVB3 wild type"
+        },
+        "observation": "A screen was performed for high fidelity variants of CVB3 by selecting for resistance to ribavirin and 5-azacytidine.",
+        "result_status": "success",
+        "next_step_reason": "Screen led to isolation of a candidate variant.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0142/combined.md",
+            "section": "C001",
+            "quote_or_span": "we performed a screen for high fidelity variants of CVB3 by selecting for resistance to the mutagenic base analogs, ribavirin and 5-azacytidine."
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "experiment",
+        "state_before": "Screen initiated; no variant identified.",
+        "gap_or_uncertainty": "Which specific mutation(s) arise and confer resistance?",
+        "hypothesis": "A specific RdRp mutation will emerge and confer resistance to mutagens.",
+        "decision": "Sequence passaged virus populations and confirm resistance by reverse genetics.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Reverse genetics and growth assays",
+          "version": "",
+          "category": "molecular_virology"
+        },
+        "parameters": {
+          "mutagens_tested": [
+            "ribavirin (300 μM)",
+            "AZC (300 μM)",
+            "FU (150 μM)"
+          ]
+        },
+        "observation": "Wild type CVB3 acquired a C→U mutation resulting in A372V in RdRp after passage in ribavirin (by passage 10) and AZC (by passage 20). The role of A372V in resistance was confirmed by introducing the mutation back into the CVB3 wild type cDNA infectious clone and comparing growth under mutagen treatment.",
+        "result_status": "success",
+        "next_step_reason": "A372V variant isolated and confirmed; next characterize its fidelity.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E03_01",
+            "source_file": "docs/0142/combined.md",
+            "section": "C001",
+            "quote_or_span": "Wild type CVB3 acquired a new CtoU mutation resulting in an Alanine to Valine change at position 372 of the RdRp (A372V) after passage in both ribavirin (by passage 10) and AZC (by passage 20)"
+          },
+          {
+            "evidence_id": "EV_C001_E03_02",
+            "source_file": "docs/0142/combined.md",
+            "section": "C001",
+            "quote_or_span": "The role of A372V in resistance was confirmed by introducing the mutation back into the CVB3 wild type cDNA infectious clone"
+          },
+          {
+            "evidence_id": "EV_AUTO_016",
+            "source_file": "docs/0142/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Wild type CVB3 acquired a new CtoU mutation resulting in an Alanine to Valine change at position 372 of the RdRp (A372V) after passage in both ribavirin (by passage 10) and AZC (by passage 20), that did not arise in untreated control passages."
+          },
+          {
+            "evidence_id": "EV_AUTO_015",
+            "source_file": "docs/0142/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The role of A372V in resistance was confirmed by introducing the mutation back into the CVB3 wild type cDNA infectious clone and comparing the growth of A372V to wild type virus treated with 3 RNA mutagens with different nucleotide structures: ribavirin (300 $\\mu$ M), AZC (300 $\\mu$ M) and 5-fluorouracil (FU, 150 $\\mu$ M)."
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "experiment",
+        "state_before": "A372V variant isolated and confirmed resistant to mutagens.",
+        "gap_or_uncertainty": "Does A372V have higher fidelity than wild type?",
+        "hypothesis": "A372V is a high-fidelity variant with lower mutation frequency.",
+        "decision": "Determine mutation frequency of A372V and wild type populations.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Mutation frequency analysis",
+          "version": "",
+          "category": "sequencing"
+        },
+        "parameters": {},
+        "observation": "The A372V population presented a mutation frequency approximately 2-fold lower than wild type (P=0.0225).",
+        "result_status": "success",
+        "next_step_reason": "Higher fidelity suggested; confirm biochemically.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E04_02",
+            "source_file": "docs/0142/combined.md",
+            "section": "C001",
+            "quote_or_span": "The A372V population, on the other hand, presented a mutation frequency that was approximately 2-fold lower than wild type (P=0.0225)"
+          },
+          {
+            "evidence_id": "EV_AUTO_019",
+            "source_file": "docs/0142/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "(A) The mutation frequencies of wild type and A372V viruses grown in the presence of 400 $\\mu$ M amiloride were determined, shown as the mean number of mutations per $10^{4}$ nucleotides sequenced."
+          },
+          {
+            "evidence_id": "EV_AUTO_020",
+            "source_file": "docs/0142/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "05 statistical significance of difference between WT and A372V mutation frequencies."
+          },
+          {
+            "evidence_id": "EV_AUTO_026",
+            "source_file": "docs/0142/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "A372V is a higher fidelity RdRp variant that generates virus populations with lower basal mutation frequencies than wild type populations."
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "experiment",
+        "state_before": "A372V shows lower mutation frequency in cells.",
+        "gap_or_uncertainty": "Is the higher fidelity intrinsic to the RdRp enzyme?",
+        "hypothesis": "Purified A372V RdRp will exhibit higher fidelity in vitro.",
+        "decision": "Perform in vitro biochemical fidelity assay with purified RdRp.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "In vitro RdRp fidelity assay",
+          "version": "",
+          "category": "biochemistry"
+        },
+        "parameters": {},
+        "observation": "The observed rate of GMP misincorporation showed a 2-fold difference between wild type and A372V RdRp. In vitro biochemical assays confirm the higher fidelity of A372V.",
+        "result_status": "success",
+        "next_step_reason": "A372V confirmed as high-fidelity; dual resistance to amiloride noted, leading to hypothesis.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E05_01",
+            "source_file": "docs/0142/combined.md",
+            "section": "C001",
+            "quote_or_span": "the observed rate of GMP misincorporation showed a 2-fold difference between wild type and A372V RdRp"
+          },
+          {
+            "evidence_id": "EV_C002_E01_01",
+            "source_file": "docs/0142/combined.md",
+            "section": "C002",
+            "quote_or_span": "In vitro biochemical assays confirm the higher (A372V) and lower (S299T) incorporation fidelities of CVB3 variants."
+          },
+          {
+            "evidence_id": "EV_C002_E02_01",
+            "source_file": "docs/0142/combined.md",
+            "section": "C002",
+            "quote_or_span": "Quantification of relative incorporation product at 2 and 5 minutes reaction time."
+          },
+          {
+            "evidence_id": "EV_C002_E03_01",
+            "source_file": "docs/0142/combined.md",
+            "section": "C002",
+            "quote_or_span": "Table 1. Incorporation kinetics and relative fidelity of CVB3 RdRp variants."
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "hypothesis",
+        "state_before": "A372V is high-fidelity and also resistant to amiloride.",
+        "gap_or_uncertainty": "Why does a high-fidelity variant resist amiloride, a non-mutagenic drug?",
+        "hypothesis": "Amiloride has a previously unknown mutagenic activity.",
+        "decision": "Propose that amiloride is mutagenic and test this hypothesis.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "Hypothesis generation",
+          "version": "",
+          "category": "reasoning"
+        },
+        "parameters": {},
+        "observation": "Since the same mutation confers resistance to RNA mutagens and to amiloride, we hypothesized that amiloride has a previously unknown mutagenic activity.",
+        "result_status": "success",
+        "next_step_reason": "Test alternative explanation (replicative capacity) before accepting mutagenesis hypothesis.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E06_01",
+            "source_file": "docs/0142/combined.md",
+            "section": "C001",
+            "quote_or_span": "Since the same mutation confers resistance to RNA mutagens and to amiloride, we hypothesized that amiloride has a previously unknown mutagenic activity."
+          },
+          {
+            "evidence_id": "EV_AUTO_005",
+            "source_file": "docs/0142/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "It is perhaps for this reason that passage of wild type virus in $Mg^{2+}$ and $Mn^{2+}$ (that mimics only the mutagenic, and not the RdRp inhibitory, activity of amiloride), resulted in the selection of the high fidelity A372V variant over S299T (Figure 6G)."
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "experiment",
+        "state_before": "Hypothesis: amiloride is mutagenic; alternative: A372V replicates better under amiloride.",
+        "gap_or_uncertainty": "Could increased replicative capacity explain A372V resistance to amiloride?",
+        "hypothesis": "A372V does not have heightened replicative capacity compared to wild type.",
+        "decision": "Compare one-step growth kinetics and viral RNA levels of WT and A372V ± amiloride.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "One-step growth curve and northern blot",
+          "version": "",
+          "category": "virology"
+        },
+        "parameters": {
+          "amiloride_concentration": "400 μM"
+        },
+        "observation": "No significant differences in virus production kinetics were observed for wild type and A372V grown in the absence of amiloride. Heightened replicative capacity was thus not responsible for the resistance of A372V to amiloride.",
+        "result_status": "success",
+        "next_step_reason": "Replicative capacity ruled out; directly test mutagenesis hypothesis.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E07_01",
+            "source_file": "docs/0142/combined.md",
+            "section": "C001",
+            "quote_or_span": "No significant differences in virus production kinetics were observed for wild type and A372V grown in the absence of amiloride"
+          },
+          {
+            "evidence_id": "EV_C001_E07_02",
+            "source_file": "docs/0142/combined.md",
+            "section": "C001",
+            "quote_or_span": "Heightened replicative capacity was thus not responsible for the resistance of A372V to amiloride."
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "experiment",
+        "state_before": "Amiloride mutagenesis hypothesis untested.",
+        "gap_or_uncertainty": "Does amiloride increase mutation frequency of wild type CVB3?",
+        "hypothesis": "Amiloride treatment will increase mutation frequency of wild type, and A372V will show lower frequencies.",
+        "decision": "Measure mutation frequencies of WT and A372V with and without amiloride.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Mutation frequency analysis",
+          "version": "",
+          "category": "sequencing"
+        },
+        "parameters": {
+          "amiloride_concentration": "400 μM"
+        },
+        "observation": "Amiloride treatment increased mutation frequency of wild type CVB3; A372V showed lower basal and induced frequencies. Treatment with amiloride increased, but did not bias, the natural mutation profile.",
+        "result_status": "success",
+        "next_step_reason": "Amiloride mutagenesis confirmed; validate generality with another high-fidelity variant.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_019",
+            "source_file": "docs/0142/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "(A) The mutation frequencies of wild type and A372V viruses grown in the presence of 400 $\\mu$ M amiloride were determined, shown as the mean number of mutations per $10^{4}$ nucleotides sequenced."
+          },
+          {
+            "evidence_id": "EV_AUTO_018",
+            "source_file": "docs/0142/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "(C) Mutation profiles of wild type and A372V populations grown in the absence of drug or presence of 400 $\\mu$ m ribavirin or amiloride in (A)."
+          },
+          {
+            "evidence_id": "EV_C003_E02_01",
+            "source_file": "docs/0142/combined.md",
+            "section": "C003",
+            "quote_or_span": "treatment with amiloride increased, but did not bias, the natural mutation profile."
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "validation",
+        "state_before": "Amiloride mutagenesis shown for CVB3.",
+        "gap_or_uncertainty": "Is amiloride mutagenesis specific to CVB3 or general?",
+        "hypothesis": "A high-fidelity poliovirus variant will also resist amiloride mutagenesis.",
+        "decision": "Test poliovirus G64S high-fidelity variant for amiloride resistance.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Literature comparison",
+          "version": "",
+          "category": "comparative_analysis"
+        },
+        "parameters": {},
+        "observation": "Previous studies showed that G64S was resistant to ribavirin, AZC and FU; replicated with similar kinetics to wild type poliovirus; generated virus populations with lower basal mutation frequencies and presented a higher fidelity phenotype in biochemical incorporation assays.",
+        "result_status": "success",
+        "next_step_reason": "Generality confirmed; investigate another amiloride-resistant variant with different properties.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_013",
+            "source_file": "docs/0142/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Previous studies showed that G64S was resistant to ribavirin, AZC and FU; replicated with similar kinetics to wild type poliovirus in one-step growth curves and northern blot analysis; generated virus populations with lower basal mutation frequencies and presented a higher fidelity phenotype in biochemical incorporation assays $[14,15,16,17,18]$ ."
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "experiment",
+        "state_before": "S299T variant previously isolated for amiloride resistance.",
+        "gap_or_uncertainty": "What is the fidelity and mutagenesis resistance profile of S299T?",
+        "hypothesis": "S299T may have altered fidelity and distinct resistance mechanism.",
+        "decision": "Characterize S299T fidelity in vitro and mutation frequency ± amiloride.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "In vitro fidelity assay and mutation frequency analysis",
+          "version": "",
+          "category": "biochemistry_and_sequencing"
+        },
+        "parameters": {},
+        "observation": "S299T RdRp incorporated more GMP over time than wild type, consistent with decreased fidelity. Unlike A372V, the mutation frequency of S299T did not suggest higher fidelity; its mutation frequency was unchanged by amiloride.",
+        "result_status": "success",
+        "next_step_reason": "S299T has lower fidelity but complete resistance to amiloride mutagenesis; investigate its resistance mechanism.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_010",
+            "source_file": "docs/0142/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Unlike A372V, the mutation frequency of S299T did not suggest higher fidelity compared to wild type (Figure 5F)."
+          },
+          {
+            "evidence_id": "EV_AUTO_033",
+            "source_file": "docs/0142/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "As shown in Figure 2, S299T RdRp incorporated more GMP over time than wild type RdRp, consistent with the S299T mutation decreasing RdRp fidelity (Table 1)."
+          },
+          {
+            "evidence_id": "EV_AUTO_034",
+            "source_file": "docs/0142/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "To confirm the lower fidelity phenotype conferred by the S299T mutation, an in vitro biochemical assay examining the relative levels of misincorporation with the purified S299T enzyme was performed."
+          },
+          {
+            "evidence_id": "EV_AUTO_035",
+            "source_file": "docs/0142/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Finally, to examine the potential effects of the S299T mutation on RdRp fidelity, infections were performed in the presence of ribavirin, amiloride, EIPA, or under mock-treatment and mutation frequencies were determined for each population."
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "analysis",
+        "state_before": "S299T characterized as lower fidelity but amiloride mutagenesis-resistant.",
+        "gap_or_uncertainty": "How does S299T resist amiloride if not by high fidelity?",
+        "hypothesis": "S299T resists both RNA synthesis inhibition and mutagenesis by amiloride.",
+        "decision": "Compare RNA synthesis inhibition and mutagenesis resistance of S299T and A372V.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Comparative analysis",
+          "version": "",
+          "category": "data_analysis"
+        },
+        "parameters": {},
+        "observation": "S299T resists amiloride's antiviral activity better than wild type; its RNA synthesis is less inhibited and mutation frequency unchanged. A372V only resists mutagenesis via higher fidelity, while S299T resists both inhibition and mutagenesis.",
+        "result_status": "success",
+        "next_step_reason": "Two distinct resistance mechanisms identified; investigate dose-response to understand primary vs secondary effects.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_009",
+            "source_file": "docs/0142/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Hence, while A372V resists the mutagenic activity of amiloride by increasing RdRp fidelity; S299T partially resists RNA replication inhibition and this mutagenic effect entirely."
+          },
+          {
+            "evidence_id": "EV_AUTO_023",
+            "source_file": "docs/0142/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The S299T variant seems to resist amiloride on both fronts: RNA synthesis is less inhibited (Figure 5E) and its mutation frequency is unchanged (Figure 5F)."
+          },
+          {
+            "evidence_id": "EV_AUTO_024",
+            "source_file": "docs/0142/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Unlike S299T, this variant is solely resistant to the mutagenic antiviral activity since its RNA synthesis is as inhibited by amiloride as wild type virus (Figure 3E)."
+          },
+          {
+            "evidence_id": "EV_AUTO_031",
+            "source_file": "docs/0142/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "(A) S299T resists amiloride's antiviral activity better than wild type virus."
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "experiment",
+        "state_before": "Ion hypothesis untested.",
+        "gap_or_uncertainty": "Do high extracellular Mg2+ or Mn2+ increase mutation frequency and select for fidelity variants?",
+        "hypothesis": "High Mg2+ or Mn2+ will increase mutation frequency of WT and A372V but not S299T, and will select for A372V.",
+        "decision": "Grow viruses in high Mg2+/Mn2+ media, measure mutation frequencies, and passage virus to observe selection.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Ion supplementation and viral passage",
+          "version": "",
+          "category": "experimental_evolution"
+        },
+        "parameters": {
+          "ions_tested": [
+            "MgCl2",
+            "MnCl2",
+            "NaCl",
+            "CaCl2"
+          ]
+        },
+        "observation": "Treatment with Mg2+ and Mn2+, but not Na+ or Ca2+, increased mutation frequency of wild type and A372V, but not S299T. Wild type virus passaged in MnCl2 acquired and fixed the A372V mutation by passage 5-7.",
+        "result_status": "success",
+        "next_step_reason": "Ion hypothesis supported; conclude mechanism and resistance strategies.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_007",
+            "source_file": "docs/0142/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "To examine the potential role of altered intracellular cation concentrations in the observed mutagenic activity, wild type, A372V and S299T viruses were grown in cell media supplemented with high concentrations of either NaCl, $CaCl_{2}$ , $MgCl_{2}$ or $MnCl_{2}$ and the resulting mutation frequencies were determined."
+          },
+          {
+            "evidence_id": "EV_AUTO_008",
+            "source_file": "docs/0142/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "(D–F) Treatment with Mg $^{2+}$ and Mn $^{2+}$ , but not Na $^{+}$ or Ca $^{2+}$ , increase the mutation frequency of wild type (D) and A372V (E), but not S299T (F)."
+          },
+          {
+            "evidence_id": "EV_AUTO_027",
+            "source_file": "docs/0142/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Interestingly, wild type virus that was grown in the presence of $MnCl_{2}$ had acquired (passage 5) and fixed (passage 7 onward) the same high fidelity A372V mutation that was selected by RNA mutagen (Figure 1) and amiloride [8] passage."
+          },
+          {
+            "evidence_id": "EV_C004_E04_01",
+            "source_file": "docs/0142/combined.md",
+            "section": "C004",
+            "quote_or_span": "wild type virus was serially passaged in the presence of either compound and the RdRp regions of the passaged virus populations were sequenced at the intervals indicated"
+          }
+        ]
+      },
+      {
+        "step_index": 12,
+        "phase": "analysis",
+        "state_before": "Main conclusions drawn.",
+        "gap_or_uncertainty": "What are the limitations of this study?",
+        "hypothesis": "The study has limitations that should be acknowledged.",
+        "decision": "State the limitations: mutagenic effect moderate, unclear in vivo relevance, unknown direct ion targets, relative contribution of mutagenesis vs. RNA synthesis inhibition not fully quantified.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Limitation acknowledgment",
+          "version": "",
+          "category": "reasoning"
+        },
+        "parameters": {},
+        "observation": "The mutagenic effect is moderate, in vivo relevance unclear, direct ion targets unknown, and relative contribution of mutagenesis vs. RNA synthesis inhibition not fully quantified.",
+        "result_status": "success",
+        "next_step_reason": "Limitations acknowledged.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_017",
+            "source_file": "docs/0142/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Biochemical assays have shown that poliovirus RdRp activity in the presence of $Mn^{2+}$ results in higher mutation frequencies[28,29] and if S299T is $Mn^{2+}$ dependent, it may explain the higher basal mutation frequency relative to wild type virus."
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "Reverse genetics confirmation of A372V",
+        "In vitro biochemical fidelity assays",
+        "Mutation frequency analysis",
+        "One-step growth curves",
+        "Dose-response experiments",
+        "Ion supplementation experiments",
+        "Cross-validation with poliovirus G64S"
+      ],
+      "metrics": [
+        "Mutation frequency (mutations per 10^4 nucleotides)",
+        "RdRp fidelity (relative misincorporation rate)",
+        "Virus titer (PFU/ml)",
+        "Statistical significance (P values)"
+      ],
+      "final_conclusion": "Amiloride compounds have an indirect mutagenic activity mediated by changes in intracellular Mg2+ and Mn2+ concentrations. Two distinct resistance mechanisms exist: increased RdRp fidelity (A372V) and insensitivity to ion-induced mutagenesis (S299T).",
+      "limitations": [
+        "Mutagenic effect is moderate",
+        "In vivo relevance unclear",
+        "Direct ion targets unknown",
+        "Relative contribution of mutagenesis vs. RNA synthesis inhibition not fully quantified"
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_step_trimmed=14_to_12",
+        "v22_specific_evidence_backfilled=1",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_step_trimmed=13_to_12",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 95.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p1\\states\\0142.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p1\\events\\0142.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1,
+          2,
+          5,
+          8
+        ],
+        "K02": [
+          1,
+          2
+        ],
+        "K03": [
+          3,
+          4,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "K04": [
+          3,
+          4,
+          9
+        ],
+        "K05": [
+          1,
+          4,
+          5,
+          6,
+          9,
+          10
+        ],
+        "K06": [
+          6
+        ],
+        "K07": [
+          2,
+          3,
+          4,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "K08": [
+          5,
+          7,
+          8
+        ],
+        "K09": [
+          3,
+          4,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "K11": [
+          10
+        ],
+        "K14": [
+          5,
+          11
+        ],
+        "K15": [
+          12
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02",
+            "K05"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K01",
+            "K02",
+            "K07"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K03",
+            "K04",
+            "K07",
+            "K09"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K03",
+            "K04",
+            "K05",
+            "K07",
+            "K09"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K01",
+            "K05",
+            "K08",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K05",
+            "K06"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K03",
+            "K07",
+            "K08",
+            "K09",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K01",
+            "K03",
+            "K07",
+            "K08",
+            "K09"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K03",
+            "K04",
+            "K05",
+            "K07",
+            "K09",
+            "K10",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K03",
+            "K05",
+            "K07",
+            "K09",
+            "K10",
+            "K11",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K03",
+            "K07",
+            "K09",
+            "K13",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 12,
+          "covered_event_ids": [
+            "K15"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 11,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "-7"
+        ]
+      }
+    ],
+    "step_count": 12,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 95.0
+  },
+  "api_usage": {
+    "prompt_tokens": 131479,
+    "completion_tokens": 32066,
+    "total_tokens": 163545,
+    "prompt_cache_hit_tokens": 3200,
+    "prompt_cache_miss_tokens": 128279
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 5432,
+        "completion_tokens": 921,
+        "total_tokens": 6353,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 5432
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 12180,
+        "completion_tokens": 3652,
+        "total_tokens": 15832,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 12180
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 8675,
+        "completion_tokens": 1487,
+        "total_tokens": 10162,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8419
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 10322,
+        "completion_tokens": 1924,
+        "total_tokens": 12246,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 10066
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 9157,
+        "completion_tokens": 1530,
+        "total_tokens": 10687,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8901
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 8894,
+        "completion_tokens": 1503,
+        "total_tokens": 10397,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8638
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C005",
+      "api_usage": {
+        "prompt_tokens": 8811,
+        "completion_tokens": 1119,
+        "total_tokens": 9930,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8555
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C006",
+      "api_usage": {
+        "prompt_tokens": 6201,
+        "completion_tokens": 1020,
+        "total_tokens": 7221,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 5945
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 10649,
+        "completion_tokens": 3186,
+        "total_tokens": 13835,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 10265
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 11991,
+        "completion_tokens": 7671,
+        "total_tokens": 19662,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 11351
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 18458,
+        "completion_tokens": 534,
+        "total_tokens": 18992,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 18458
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 20709,
+        "completion_tokens": 7519,
+        "total_tokens": 28228,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 20069
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

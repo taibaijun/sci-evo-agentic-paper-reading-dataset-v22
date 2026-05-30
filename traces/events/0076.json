@@ -1,0 +1,1738 @@
+{
+  "doc_no": "0076",
+  "source": {
+    "title": "Better prediction of functional effects for sequence variants",
+    "doi": "https://doi.org/10.1186/1471-2164-16-s8-s1",
+    "license": "cc-by",
+    "pdf_name": "0074_10_1186_1471_2164_16_s8_s1_better_prediction_of_functional_effects_for_sequence_variants.pdf",
+    "combined_md": "docs/0076/combined.md",
+    "mineru_md": "docs/0076/mineru.md"
+  },
+  "gist_memory": {
+    "paper_problem_memory": "The paper aims to improve prediction of functional effects of sequence variants (distinguishing effect vs. neutral) over the previous SNAP method. The problem is motivated by the need to interpret genetic variation for personalized health. Key constraints include limited and imbalanced training data, sequence similarity between proteins, and the difficulty of annotating neutral variants. The initial hypothesis is that evolutionary information is most informative, but additional features can improve predictions. The method is designed to predict molecular function change, not disease association.",
+    "section_gists": [
+      {
+        "section_index": 6,
+        "heading": "Abstract",
+        "gist": "SNAP2 is a neural network classifier that improves over state-of-the-art in distinguishing effect from neutral variants. It achieves 83% two-state accuracy on >100k variants, outperforms other methods and their combinations. Evolutionary information is strongest signal, but SNAP2 also performs well without alignments (SNAP2_noali) for sequence orphans. Reliability index helps select high-confidence predictions.",
+        "process_signals": [
+          "Improved performance from screening many features and refining datasets",
+          "SNAP2 outperforms SNAP and other methods",
+          "Performance varies by organism",
+          "Reliability index calibrated for experimental follow-up",
+          "Alignment-free version developed for orphans"
+        ],
+        "methods": [
+          "Neural network classifier",
+          "Cross-validation on >100k variants",
+          "Reliability index"
+        ],
+        "metrics": [
+          "Two-state accuracy: 83%",
+          "Accuracy for top half of effect predictions: >96%"
+        ],
+        "failures_or_limits": [
+          "Neutral variants harder to predict",
+          "Performance plateau suspected"
+        ]
+      },
+      {
+        "section_index": 7,
+        "heading": "Introduction",
+        "gist": "The problem is distinguishing functional from neutral variants. Existing methods focus on disease-causing variants, but SNAP2 predicts molecular function change. Challenges include lack of good neutral annotations and performance drop for proteins without informative alignments. SNAP2 improves over SNAP in performance, alignment-free predictions, and runtime.",
+        "process_signals": [
+          "Focus on molecular function change, not disease",
+          "Avoid distinguishing gain-of-function from loss-of-function",
+          "Motivation: many organisms have 10-20% orphans",
+          "SNAP2 improves over SNAP in three aspects"
+        ],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": [
+          "Neutral annotations difficult to obtain",
+          "Performance decreases for proteins without alignments"
+        ]
+      },
+      {
+        "section_index": 8,
+        "heading": "Methods",
+        "gist": "Section header only, no content.",
+        "process_signals": [],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 9,
+        "heading": "Data sets",
+        "gist": "Training data from PMD (effect/neutral), EC (neutral from enzyme alignments), disease variants (OMIM, HumVar) as effect. Additional test sets: LacI and HIV-1 protease. Evaluation sets: ALL (101,515 variants), PMD_HUMAN, PMD_NON-HUMAN. Data imbalance: PMD has 74% effect; EC used to balance neutrals.",
+        "process_signals": [
+          "PMD annotations: 'no change' = neutral, any change = effect",
+          "EC method: enzymes with same EC number and >40% identity yield neutral variants",
+          "Disease variants classified as effect, may overestimate functional changes",
+          "LacI and HIV-1 protease used as independent test sets",
+          "Data split into ALL, PMD_HUMAN, PMD_NON-HUMAN"
+        ],
+        "methods": [
+          "PMD extraction and mapping",
+          "EC alignment and filtering",
+          "Disease variant compilation"
+        ],
+        "metrics": [],
+        "failures_or_limits": [
+          "Disease variants may not all be functional changes",
+          "Imbalance: 74% effect in PMD"
+        ]
+      },
+      {
+        "section_index": 10,
+        "heading": "Cross-validation",
+        "gist": "Proteins clustered by sequence similarity (PSI-BLAST, E<10^-3, single linkage). Clusters randomly split into 10 subsets for cross-validation: 8 training, 1 cross-training, 1 testing. Ensures no similar sequences between sets. Performance reported only on test sets.",
+        "process_signals": [
+          "Clustering to avoid overfitting due to sequence similarity",
+          "Imbalance in subset sizes accepted",
+          "Tenfold cross-validation with rotation"
+        ],
+        "methods": [
+          "PSI-BLAST all-against-all",
+          "Single linkage clustering",
+          "Tenfold cross-validation"
+        ],
+        "metrics": [],
+        "failures_or_limits": [
+          "Subset sizes varied due to cluster sizes"
+        ]
+      },
+      {
+        "section_index": 11,
+        "heading": "Prediction method",
+        "gist": "Neural networks chosen over SVMs, decision trees, random forests due to runtime efficiency. Two output units: neutral and effect. Networks trained with cross-training to optimize parameters. Final prediction uses average of 10 networks, output difference ranges -100 to +100.",
+        "process_signals": [
+          "SVMs and neural networks performed similarly; neural networks chosen for efficiency",
+          "Ten networks trained; all used for final prediction to avoid over-training",
+          "Output difference used as prediction score"
+        ],
+        "methods": [
+          "Standard neural networks",
+          "Two output units",
+          "Averaging over 10 networks"
+        ],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 12,
+        "heading": "Input features",
+        "gist": "Features include biophysical properties, sequence, PSIC profiles, secondary structure, solvent accessibility, flexibility, SWISS-PROT annotations. New features: AAindex properties, binding residues, disorder, terminal proximity, contact potentials, co-evolution, Pfam/PROSITE annotations, low-complexity regions, global composition. Sliding windows up to 21 residues.",
+        "process_signals": [
+          "Original SNAP features retained",
+          "New features added to improve prediction",
+          "Sliding window approach for local context"
+        ],
+        "methods": [
+          "Sliding windows of 1-21 residues",
+          "Feature extraction from various sources"
+        ],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 13,
+        "heading": "Feature selection",
+        "gist": "Greedy bottom-up feature selection per network, using AUC on cross-training set. Balanced training, repeated until no improvement. Combined features across networks, then backward elimination. Final architecture optimized (hidden nodes, learning rate, momentum). Tested on held-out sets to check overfitting.",
+        "process_signals": [
+          "Feature selection done separately for each network",
+          "Avoided local maxima by repeated training and recording best step",
+          "Backward elimination to remove non-contributing features",
+          "No significant overfitting observed"
+        ],
+        "methods": [
+          "Greedy bottom-up feature selection",
+          "Balanced training",
+          "Backward elimination",
+          "Architecture optimization"
+        ],
+        "metrics": [
+          "AUC on cross-training set"
+        ],
+        "failures_or_limits": [
+          "Exhaustive parameter screening not intended"
+        ]
+      },
+      {
+        "section_index": 14,
+        "heading": "Predicting effects without alignments",
+        "gist": "SNAP2_noali developed by excluding evolutionary information and using global features, amino acid indices, and a substitution matrix of effect probabilities from SNAP2 predictions. Used for proteins without alignments; users notified of reduced accuracy.",
+        "process_signals": [
+          "Developed to handle orphans (10-20% of proteins)",
+          "Used SNAP2 predictions to create effect probability matrix",
+          "Implementation selects SNAP2 or SNAP2_noali based on available information"
+        ],
+        "methods": [
+          "Feature selection without alignments",
+          "Effect probability matrix from SNAP2"
+        ],
+        "metrics": [],
+        "failures_or_limits": [
+          "Reduced accuracy for orphans"
+        ]
+      },
+      {
+        "section_index": 15,
+        "heading": "Performance measures",
+        "gist": "Metrics: accuracy/precision, coverage/recall for effect and neutral, F-measure, two-state accuracy (Q2), MCC. Standard deviation/error from 1000 bootstrap sets (50% sampling without replacement). Reliability index (RI) from normalized output difference (0-10).",
+        "process_signals": [
+          "Bootstrap without replacement for error estimates",
+          "RI used to assess prediction confidence"
+        ],
+        "methods": [
+          "Bootstrap resampling",
+          "Reliability index calculation"
+        ],
+        "metrics": [
+          "Accuracy, precision, recall, F-measure, Q2, MCC, RI"
+        ],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 16,
+        "heading": "Results",
+        "gist": "Section header only, no content.",
+        "process_signals": [],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 17,
+        "heading": "SNAP2 significantly improves predictions",
+        "gist": "SNAP2 outperforms SNAP, PolyPhen-2, SIFT on ALL dataset (AUC 0.905). Performance gain from new features and better data. Comparisons complicated by training overlaps and threshold optimization. SNAP2 results are cross-validated; others may be overestimated.",
+        "process_signals": [
+          "SNAP2 AUC: 0.905 vs SNAP 0.880, PolyPhen-2 0.853, SIFT 0.838",
+          "Improvement from novel features and more/better data",
+          "ROC curves significantly different (P<10^-4)",
+          "Other methods' performance may be overestimated due to training overlap"
+        ],
+        "methods": [
+          "Cross-validation",
+          "ROC analysis"
+        ],
+        "metrics": [
+          "AUC: SNAP2 0.905, SNAP 0.880, PolyPhen-2 0.853, SIFT 0.838"
+        ],
+        "failures_or_limits": [
+          "Direct comparison complicated by training overlaps and threshold issues"
+        ]
+      },
+      {
+        "section_index": 18,
+        "heading": "Performance differed between the human and non-human PMD data",
+        "gist": "SNAP2 performs slightly better on non-human PMD. On human PMD, PolyPhen-2 on par with SNAP2; SIFT best for neutrals. On non-human, SNAP2 outperforms others. PolyPhen-2 likely overestimated due to training overlap.",
+        "process_signals": [
+          "SNAP2 F_effect: human 78.0%, non-human 79.9%",
+          "PolyPhen-2 performance on human may be overestimated",
+          "Neutral prediction harder across methods"
+        ],
+        "methods": [],
+        "metrics": [
+          "F_effect, F_neutral, Q2, MCC"
+        ],
+        "failures_or_limits": [
+          "PolyPhen-2 training overlap with human PMD",
+          "Neutral variants predicted worse"
+        ]
+      },
+      {
+        "section_index": 19,
+        "heading": "Blind method combinations might be worse than a good single method",
+        "gist": "Combining SIFT and PolyPhen-2 did not improve over SNAP2 alone. For neutral variants, combination slightly improved over individual methods, but SNAP2 still better. Meta-methods may improve over simple combinations.",
+        "process_signals": [
+          "Combining methods by agreement did not beat SNAP2",
+          "SNAP2 alone outperformed SIFT+PolyPhen-2 combination",
+          "Meta-methods might be better but not tested here"
+        ],
+        "methods": [
+          "Method combination by agreement"
+        ],
+        "metrics": [],
+        "failures_or_limits": [
+          "Simple combination strategy may be suboptimal"
+        ]
+      }
+    ],
+    "global_hypotheses_about_storyline": [
+      "The research evolved from SNAP to SNAP2 by incorporating more features and refining datasets, leading to significant performance gains.",
+      "Evolutionary information is the most important feature, but alignment-free predictions are needed for orphan proteins.",
+      "Neutral variants are inherently harder to predict due to data imbalance and annotation challenges.",
+      "Combining methods naively does not guarantee improvement; a well-optimized single method can outperform combinations.",
+      "Performance varies across organisms, possibly due to training data biases."
+    ],
+    "uncertainties_to_resolve": [
+      "What specific features contributed most to the improvement?",
+      "How was the reliability index calibrated?",
+      "What is the exact performance of SNAP2_noali compared to SNAP2?",
+      "Were there any failed feature combinations or architectures?",
+      "How does SNAP2 perform on independent benchmarks beyond LacI and HIV-1 protease?",
+      "What are the limitations of the cross-validation strategy given cluster size imbalance?"
+    ]
+  },
+  "chunk_events": [
+    {
+      "chunk_id": "C001",
+      "char_start": 0,
+      "char_end": 18000,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C001_E01",
+          "chunk_id": "C001",
+          "event_type": "problem",
+          "order_hint": 1,
+          "summary": "The paper addresses the challenge of distinguishing functional from neutral sequence variants for personalized health.",
+          "methods_or_tools": [],
+          "entities": [
+            "sequence variants",
+            "personalized health"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E01_01"
+          ]
+        },
+        {
+          "event_id": "C001_E02",
+          "chunk_id": "C001",
+          "event_type": "design",
+          "order_hint": 2,
+          "summary": "SNAP2 is introduced as a neural network classifier that improves over previous methods by screening many features and refining datasets.",
+          "methods_or_tools": [
+            "neural network classifier"
+          ],
+          "entities": [
+            "SNAP2"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E02_01"
+          ]
+        },
+        {
+          "event_id": "C001_E03",
+          "chunk_id": "C001",
+          "event_type": "experiment",
+          "order_hint": 3,
+          "summary": "Cross-validation on >100k variants shows SNAP2 achieves 83% two-state accuracy.",
+          "methods_or_tools": [
+            "cross-validation"
+          ],
+          "entities": [
+            "SNAP2"
+          ],
+          "numbers_or_metrics": [
+            "83% two-state accuracy",
+            ">100k variants"
+          ],
+          "evidence_ids": [
+            "EV_C001_E03_01"
+          ]
+        },
+        {
+          "event_id": "C001_E04",
+          "chunk_id": "C001",
+          "event_type": "analysis",
+          "order_hint": 4,
+          "summary": "Evolutionary information from alignments is the strongest signal, but SNAP2 also performs well without alignments.",
+          "methods_or_tools": [
+            "multiple sequence alignments"
+          ],
+          "entities": [
+            "SNAP2",
+            "SNAP2_noali"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E04_01"
+          ]
+        },
+        {
+          "event_id": "C001_E05",
+          "chunk_id": "C001",
+          "event_type": "design",
+          "order_hint": 5,
+          "summary": "SNAP2_noali developed for sequence orphans, using global features and a substitution matrix from SNAP2 predictions.",
+          "methods_or_tools": [
+            "SNAP2_noali"
+          ],
+          "entities": [
+            "SNAP2_noali",
+            "sequence orphans"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E05_01"
+          ]
+        },
+        {
+          "event_id": "C001_E07",
+          "chunk_id": "C001",
+          "event_type": "design",
+          "order_hint": 7,
+          "summary": "SNAP2 predicts molecular function change, not disease association, avoiding gain/loss-of-function distinctions.",
+          "methods_or_tools": [],
+          "entities": [
+            "SNAP2"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E07_01"
+          ]
+        },
+        {
+          "event_id": "C001_E08",
+          "chunk_id": "C001",
+          "event_type": "design",
+          "order_hint": 8,
+          "summary": "Training data compiled from PMD, EC, disease variants, and protein-specific studies, with careful class assignment.",
+          "methods_or_tools": [
+            "PMD",
+            "EC",
+            "OMIM",
+            "HumVar"
+          ],
+          "entities": [
+            "PMD",
+            "EC",
+            "disease variants"
+          ],
+          "numbers_or_metrics": [
+            "51,817 variants from PMD",
+            "26,840 neutral variants from EC",
+            "22,858 disease variants"
+          ],
+          "evidence_ids": [
+            "EV_C001_E08_01"
+          ]
+        }
+      ],
+      "notes": "Chunk covers abstract, introduction, and methods sections, providing key design decisions, problem statements, and data compilation details.",
+      "api_usage": {
+        "prompt_tokens": 7024,
+        "completion_tokens": 1330,
+        "total_tokens": 8354,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6768
+      }
+    },
+    {
+      "chunk_id": "C002",
+      "char_start": 17100,
+      "char_end": 35100,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C002_E01",
+          "chunk_id": "C002",
+          "event_type": "analysis",
+          "order_hint": 1,
+          "summary": "SNAP2 outperforms SNAP, PolyPhen-2, and SIFT on the ALL dataset with AUC 0.905.",
+          "methods_or_tools": [
+            "SNAP2",
+            "SNAP",
+            "PolyPhen-2",
+            "SIFT",
+            "ROC analysis",
+            "cross-validation"
+          ],
+          "entities": [
+            "ALL dataset"
+          ],
+          "numbers_or_metrics": [
+            "AUC: SNAP2 0.905, SNAP 0.880, PolyPhen-2 0.853, SIFT 0.838"
+          ],
+          "evidence_ids": [
+            "EV_C002_E01_01"
+          ]
+        },
+        {
+          "event_id": "C002_E02",
+          "chunk_id": "C002",
+          "event_type": "analysis",
+          "order_hint": 2,
+          "summary": "Performance differs between human and non-human PMD data; SNAP2 slightly better on non-human.",
+          "methods_or_tools": [
+            "SNAP2",
+            "PolyPhen-2",
+            "SIFT",
+            "F-measure",
+            "Q2",
+            "MCC"
+          ],
+          "entities": [
+            "PMD_HUMAN",
+            "PMD_NON-HUMAN"
+          ],
+          "numbers_or_metrics": [
+            "SNAP2 F_effect: human 78.0%, non-human 79.9%"
+          ],
+          "evidence_ids": [
+            "EV_C002_E02_01"
+          ]
+        },
+        {
+          "event_id": "C002_E03",
+          "chunk_id": "C002",
+          "event_type": "analysis",
+          "order_hint": 3,
+          "summary": "Naive combination of SIFT and PolyPhen-2 does not outperform SNAP2 alone.",
+          "methods_or_tools": [
+            "SNAP2",
+            "SIFT",
+            "PolyPhen-2",
+            "method combination by agreement"
+          ],
+          "entities": [
+            "PMD_HUMAN"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E03_01"
+          ]
+        },
+        {
+          "event_id": "C002_E04",
+          "chunk_id": "C002",
+          "event_type": "analysis",
+          "order_hint": 4,
+          "summary": "SNAP2 outperforms other methods on difficult variants where methods disagree.",
+          "methods_or_tools": [
+            "SNAP2",
+            "SNAP",
+            "SIFT",
+            "PolyPhen-2"
+          ],
+          "entities": [
+            "difficult variants",
+            "PMD_HUMAN"
+          ],
+          "numbers_or_metrics": [
+            "SNAP2 correctly predicted 69% of difficult cases on ALL data"
+          ],
+          "evidence_ids": [
+            "EV_C002_E04_01"
+          ]
+        },
+        {
+          "event_id": "C002_E05",
+          "chunk_id": "C002",
+          "event_type": "analysis",
+          "order_hint": 5,
+          "summary": "SNAP2 improvement on difficult cases partly due to using information beyond alignments, e.g., co-evolving residues.",
+          "methods_or_tools": [
+            "SNAP2",
+            "SNAP2_noali",
+            "co-evolution features"
+          ],
+          "entities": [
+            "IL4 R109Q variant"
+          ],
+          "numbers_or_metrics": [
+            "SNAP2_noali predicted 75% of effect variants at over 90% accuracy"
+          ],
+          "evidence_ids": [
+            "EV_C002_E05_01"
+          ]
+        },
+        {
+          "event_id": "C002_E06",
+          "chunk_id": "C002",
+          "event_type": "limitation",
+          "order_hint": 6,
+          "summary": "Direct comparison complicated by training overlaps and threshold optimization; PolyPhen-2 performance may be overestimated.",
+          "methods_or_tools": [
+            "PolyPhen-2",
+            "SIFT",
+            "SNAP"
+          ],
+          "entities": [
+            "ALL dataset",
+            "PMD_HUMAN"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E06_01",
+            "EV_C002_E06_02"
+          ]
+        },
+        {
+          "event_id": "C002_E07",
+          "chunk_id": "C002",
+          "event_type": "analysis",
+          "order_hint": 7,
+          "summary": "Neutral variants are harder to predict than effect variants across all methods.",
+          "methods_or_tools": [
+            "SNAP2",
+            "SIFT",
+            "PolyPhen-2"
+          ],
+          "entities": [
+            "PMD_HUMAN"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E07_01"
+          ]
+        }
+      ],
+      "notes": "Chunk contains detailed performance comparisons and analysis of difficult cases, directly supporting the paper's claims of improvement.",
+      "api_usage": {
+        "prompt_tokens": 8789,
+        "completion_tokens": 1246,
+        "total_tokens": 10035,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8533
+      }
+    },
+    {
+      "chunk_id": "C003",
+      "char_start": 34200,
+      "char_end": 52200,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C003_E01",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 1,
+          "summary": "Evolutionary information is consistently most informative, but other important features vary by dataset.",
+          "methods_or_tools": [],
+          "entities": [
+            "SNAP2",
+            "SNAP2_noali"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E01_01",
+            "EV_C003_E01_02"
+          ]
+        },
+        {
+          "event_id": "C003_E02",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 2,
+          "summary": "Feature selection on subsets revealed structural features and biophysical properties as informative, with varying optimal window sizes.",
+          "methods_or_tools": [
+            "feature selection"
+          ],
+          "entities": [
+            "SNAP2"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E02_01",
+            "EV_C003_E02_02"
+          ]
+        },
+        {
+          "event_id": "C003_E07",
+          "chunk_id": "C003",
+          "event_type": "validation",
+          "order_hint": 7,
+          "summary": "SNAP2 performance confirmed on independent LacI and HIV-1 protease datasets, achieving Q2=78% and Q2=72% respectively.",
+          "methods_or_tools": [],
+          "entities": [
+            "SNAP2",
+            "LacI",
+            "HIV-1 protease"
+          ],
+          "numbers_or_metrics": [
+            "Q2 = 78% for 4,041 LacI variants",
+            "Q2 = 72% for 336 HIV-1 variants"
+          ],
+          "evidence_ids": [
+            "EV_C003_E07_01"
+          ]
+        }
+      ],
+      "notes": "Chunk contains detailed analysis of feature importance, design of SNAP2 and SNAP2_noali, validation on independent sets, and reliability index analysis.",
+      "api_usage": {
+        "prompt_tokens": 7500,
+        "completion_tokens": 1677,
+        "total_tokens": 9177,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7244
+      }
+    },
+    {
+      "chunk_id": "C004",
+      "char_start": 51300,
+      "char_end": 69277,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C004_E01",
+          "chunk_id": "C004",
+          "event_type": "design",
+          "order_hint": 1,
+          "summary": "Developed SNAP2_noali for orphan proteins without alignments, achieving Q2 around 68% from sequence alone.",
+          "methods_or_tools": [
+            "SNAP2_noali"
+          ],
+          "entities": [
+            "orphan families",
+            "SNAP2_noali"
+          ],
+          "numbers_or_metrics": [
+            "Q2 around 68%",
+            "6.5 million orphan families"
+          ],
+          "evidence_ids": [
+            "EV_C004_E01_01"
+          ]
+        },
+        {
+          "event_id": "C004_E02",
+          "chunk_id": "C004",
+          "event_type": "analysis",
+          "order_hint": 2,
+          "summary": "SNAP2 significantly outperformed SNAP and SIFT on difficult cases where methods disagreed.",
+          "methods_or_tools": [
+            "SNAP2",
+            "SNAP",
+            "SIFT"
+          ],
+          "entities": [
+            "difficult cases",
+            "ALL-difficult set"
+          ],
+          "numbers_or_metrics": [
+            "Q2(snap2)=69%",
+            "Q2(snap)=53%",
+            "Q2(sift)=41%"
+          ],
+          "evidence_ids": [
+            "EV_C004_E02_01"
+          ]
+        },
+        {
+          "event_id": "C004_E03",
+          "chunk_id": "C004",
+          "event_type": "limitation",
+          "order_hint": 3,
+          "summary": "Surprised by limited improvement despite many changes; suspected performance plateau or incomplete data.",
+          "methods_or_tools": [],
+          "entities": [
+            "SNAP2",
+            "PolyPhen-2"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E03_01",
+            "EV_C004_E03_02"
+          ]
+        },
+        {
+          "event_id": "C004_E04",
+          "chunk_id": "C004",
+          "event_type": "analysis",
+          "order_hint": 4,
+          "summary": "Observed that EC data was inconsistent but leaving it out worsened performance; OMIM data added easy-to-predict samples.",
+          "methods_or_tools": [],
+          "entities": [
+            "EC data",
+            "OMIM data"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E04_01",
+            "EV_C004_E04_02"
+          ]
+        },
+        {
+          "event_id": "C004_E05",
+          "chunk_id": "C004",
+          "event_type": "analysis",
+          "order_hint": 5,
+          "summary": "Needed all available data to achieve peak performance; smaller subsets reduced performance.",
+          "methods_or_tools": [],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E05_01"
+          ]
+        },
+        {
+          "event_id": "C004_E07",
+          "chunk_id": "C004",
+          "event_type": "design",
+          "order_hint": 7,
+          "summary": "Both SNAP2 versions optimized for runtime efficiency to enable large-scale in silico mutagenesis studies.",
+          "methods_or_tools": [
+            "SNAP2",
+            "SNAP2_noali"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E07_01"
+          ]
+        }
+      ],
+      "notes": "Chunk contains key results, limitations, and design decisions for SNAP2 and SNAP2_noali.",
+      "api_usage": {
+        "prompt_tokens": 8139,
+        "completion_tokens": 1088,
+        "total_tokens": 9227,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7883
+      }
+    }
+  ],
+  "evidence_bank": [
+    {
+      "evidence_id": "EV_C001_E01_01",
+      "source_file": "docs/0076/combined.md",
+      "section": "C001",
+      "char_start": 382,
+      "char_end": 528,
+      "quote": "Elucidating the effects of naturally occurring genetic variation is one of the major challenges for personalized health and personalized medicine."
+    },
+    {
+      "evidence_id": "EV_C001_E02_01",
+      "source_file": "docs/0076/combined.md",
+      "section": "C001",
+      "char_start": 529,
+      "char_end": 834,
+      "quote": "Here, we introduce SNAP2, a novel neural network based classifier that improves over the state-of-the-art in distinguishing between effect and neutral variants. Our method's improved performance results from screening many potentially relevant protein features and from refining our development data sets."
+    },
+    {
+      "evidence_id": "EV_C001_E03_01",
+      "source_file": "docs/0076/combined.md",
+      "section": "C001",
+      "char_start": 835,
+      "char_end": 998,
+      "quote": "Cross-validated on >100k experimentally annotated variants, SNAP2 significantly outperformed other methods, attaining a two-state accuracy (effect/neutral) of 83%."
+    },
+    {
+      "evidence_id": "EV_C001_E04_01",
+      "source_file": "docs/0076/combined.md",
+      "section": "C001",
+      "char_start": 1336,
+      "char_end": 1577,
+      "quote": "As expected, the evolutionary information from automatically generated multiple sequence alignments gave the strongest signal for the prediction. However, we also optimized our new method to perform surprisingly well even without alignments."
+    },
+    {
+      "evidence_id": "EV_C001_E05_01",
+      "source_file": "docs/0076/combined.md",
+      "section": "C001",
+      "char_start": 1578,
+      "char_end": 1768,
+      "quote": "This feature reduces prediction runtime by over two orders of magnitude, enables cross-genome comparisons, and renders our new method as the best solution for the 10-20% of sequence orphans."
+    },
+    {
+      "evidence_id": "EV_C001_E07_01",
+      "source_file": "docs/0076/combined.md",
+      "section": "C001",
+      "char_start": 4602,
+      "char_end": 4815,
+      "quote": "In contrast, the current version of our SNAP (Screening for Non-Acceptable Polymorphisms) method, SNAP2, does not predict the variant effect as “disease or not” but rather as “change of molecular function or not”."
+    },
+    {
+      "evidence_id": "EV_C001_E08_01",
+      "source_file": "docs/0076/combined.md",
+      "section": "C001",
+      "char_start": 6277,
+      "char_end": 6546,
+      "quote": "PMD annotations with ‘no change’ (‘=’) qualification (function equivalent to wild-type) were assigned to the ‘neutral’ class, while variants with any level of increase (‘+’, ‘++’, ‘+++’) or decrease (‘-’, ‘- -’, ‘- - -’) in function were assigned to the ‘effect’ class."
+    },
+    {
+      "evidence_id": "EV_C002_E01_01",
+      "source_file": "docs/0076/combined.md",
+      "section": "C002",
+      "char_start": 23351,
+      "char_end": 23504,
+      "quote": "SNAP2 (dark blue, AUC = 0.905) outperforms its predecessor SNAP (light blue, AUC = 0.880), PolyPhen-2 (orange, AUC = 0.853) and SIFT (green, AUC = 0.838)"
+    },
+    {
+      "evidence_id": "EV_C002_E02_01",
+      "source_file": "docs/0076/combined.md",
+      "section": "C002",
+      "char_start": 24047,
+      "char_end": 24283,
+      "quote": "The F-measure for predicting effect ( $F_{effect}$ , Eqn. 3), the two state-accuracy (Q2, Eqn. 4), and the Matthew's correlation coefficient (MCC, Eqn. 5) were slightly higher for SNAP2 when tested on the non-human than on the human set"
+    },
+    {
+      "evidence_id": "EV_C002_E03_01",
+      "source_file": "docs/0076/combined.md",
+      "section": "C002",
+      "char_start": 25681,
+      "char_end": 25739,
+      "quote": "the combined method did not improve over using SNAP2 alone"
+    },
+    {
+      "evidence_id": "EV_C002_E04_01",
+      "source_file": "docs/0076/combined.md",
+      "section": "C002",
+      "char_start": 28400,
+      "char_end": 28522,
+      "quote": "SNAP2 outperformed others on the difficult cases, correctly predicting 69%, as compared to SNAP with 53% and SIFT with 41%"
+    },
+    {
+      "evidence_id": "EV_C002_E05_01",
+      "source_file": "docs/0076/combined.md",
+      "section": "C002",
+      "char_start": 33624,
+      "char_end": 33763,
+      "quote": "one important source of SNAP2 improvement for difficult cases originates from its use on various pieces of information, not just alignments"
+    },
+    {
+      "evidence_id": "EV_C002_E06_01",
+      "source_file": "docs/0076/combined.md",
+      "section": "C002",
+      "char_start": 21590,
+      "char_end": 21653,
+      "quote": "the direct comparison is complicated due to a variety of issues"
+    },
+    {
+      "evidence_id": "EV_C002_E06_02",
+      "source_file": "docs/0076/combined.md",
+      "section": "C002",
+      "char_start": 21973,
+      "char_end": 22110,
+      "quote": "PolyPhen-2 is optimized on human variants that account for only 25% of our ALL data. For these, we over-estimate PolyPhen-2's performance"
+    },
+    {
+      "evidence_id": "EV_C002_E07_01",
+      "source_file": "docs/0076/combined.md",
+      "section": "C002",
+      "char_start": 25077,
+      "char_end": 25155,
+      "quote": "All methods performed significantly worse for neutral than for effect variants"
+    },
+    {
+      "evidence_id": "EV_C003_E01_01",
+      "source_file": "docs/0076/combined.md",
+      "section": "C003",
+      "char_start": 35074,
+      "char_end": 35173,
+      "quote": "The input features related to evolutionary information were consistently most informative for SNAP2"
+    },
+    {
+      "evidence_id": "EV_C003_E01_02",
+      "source_file": "docs/0076/combined.md",
+      "section": "C003",
+      "char_start": 35237,
+      "char_end": 35328,
+      "quote": "Which other input features best distinguished neutral from effect depended on the data set."
+    },
+    {
+      "evidence_id": "EV_C003_E02_01",
+      "source_file": "docs/0076/combined.md",
+      "section": "C003",
+      "char_start": 35590,
+      "char_end": 35800,
+      "quote": "The majority of our subsets considered structural features (secondary structure and solvent accessibility) informative, followed by biophysical amino acid properties (more precisely: charge and hydrophobicity)."
+    },
+    {
+      "evidence_id": "EV_C003_E02_02",
+      "source_file": "docs/0076/combined.md",
+      "section": "C003",
+      "char_start": 35993,
+      "char_end": 36092,
+      "quote": "the optimal window size for this feature varied between three and nine residues around the variant."
+    },
+    {
+      "evidence_id": "EV_C003_E07_01",
+      "source_file": "docs/0076/combined.md",
+      "section": "C003",
+      "char_start": 39173,
+      "char_end": 39314,
+      "quote": "they provide independent evidence to estimate the performance of SNAP2: Q2 = 78% for 4,041 LacI variants and Q2 = 72% for 336 HIV-1 variants."
+    },
+    {
+      "evidence_id": "EV_C004_E01_01",
+      "source_file": "docs/0076/combined.md",
+      "section": "C004",
+      "char_start": 51535,
+      "char_end": 51679,
+      "quote": "we developed a classifier that still achieves a two-state accuracy Q2 around 68% from sequence alone even for these 6.5 million orphan families."
+    },
+    {
+      "evidence_id": "EV_C004_E02_01",
+      "source_file": "docs/0076/combined.md",
+      "section": "C004",
+      "char_start": 51965,
+      "char_end": 52124,
+      "quote": "For these difficult cases, our new method SNAP2 significantly outperformed SNAP (set ALL-difficult: Q2(snap2) = 69%, Q2(snap) = 53%) and SIFT (Q2(sift) = 41%)."
+    },
+    {
+      "evidence_id": "EV_C004_E03_01",
+      "source_file": "docs/0076/combined.md",
+      "section": "C004",
+      "char_start": 52493,
+      "char_end": 52581,
+      "quote": "we made so many so important changes to SNAP that we were surprised not to improve more."
+    },
+    {
+      "evidence_id": "EV_C004_E03_02",
+      "source_file": "docs/0076/combined.md",
+      "section": "C004",
+      "char_start": 52582,
+      "char_end": 52731,
+      "quote": "Was this because prediction performance has reached a plateau, i.e. have we reached the limits for a method using only sequence information as input?"
+    },
+    {
+      "evidence_id": "EV_C004_E04_01",
+      "source_file": "docs/0076/combined.md",
+      "section": "C004",
+      "char_start": 52822,
+      "char_end": 52910,
+      "quote": "we observed that our EC data was inconsistent but that we fared worse by leaving it out."
+    },
+    {
+      "evidence_id": "EV_C004_E04_02",
+      "source_file": "docs/0076/combined.md",
+      "section": "C004",
+      "char_start": 53087,
+      "char_end": 53173,
+      "quote": "OMIM samples exhibit, on average, extreme signals that are somewhat 'easy' to predict."
+    },
+    {
+      "evidence_id": "EV_C004_E05_01",
+      "source_file": "docs/0076/combined.md",
+      "section": "C004",
+      "char_start": 53423,
+      "char_end": 53546,
+      "quote": "we needed to use all available data to achieve peak performance, i.e. smaller subsets reduced performance (data not shown)."
+    },
+    {
+      "evidence_id": "EV_C004_E07_01",
+      "source_file": "docs/0076/combined.md",
+      "section": "C004",
+      "char_start": 55119,
+      "char_end": 55287,
+      "quote": "Both versions of SNAP2 have been optimized towards runtime efficiency to enable large-scale in silico mutagenesis studies that probe the landscape of protein mutability"
+    },
+    {
+      "evidence_id": "EV_AUTO_001",
+      "source_file": "docs/0076/combined.md",
+      "section": "auto_specific",
+      "char_start": 39163,
+      "char_end": 39314,
+      "quote": "However, they provide independent evidence to estimate the performance of SNAP2: Q2 = 78% for 4,041 LacI variants and Q2 = 72% for 336 HIV-1 variants."
+    },
+    {
+      "evidence_id": "EV_AUTO_002",
+      "source_file": "docs/0076/combined.md",
+      "section": "auto_specific",
+      "char_start": 8420,
+      "char_end": 8603,
+      "quote": "We also included data from comprehensive studies of particular proteins, namely LacI repressor from Escherichia coli [31] (4,041 variants) and the HIV-1 protease [32] (336 variants)."
+    },
+    {
+      "evidence_id": "EV_AUTO_003",
+      "source_file": "docs/0076/combined.md",
+      "section": "auto_specific",
+      "char_start": 34175,
+      "char_end": 34343,
+      "quote": "While our R109Q was not explicitly found to increase disease susceptibility, there is evidence [54] that it reduces T-cell proliferation and receptor binding activity."
+    },
+    {
+      "evidence_id": "EV_AUTO_004",
+      "source_file": "docs/0076/combined.md",
+      "section": "auto_specific",
+      "char_start": 33764,
+      "char_end": 33910,
+      "quote": "One example of this improvement is the R109Q variant in the IL4 sequence (interleukin-4 isoform 1 precursor; NCBI reference sequence: NP\\_000580."
+    },
+    {
+      "evidence_id": "EV_AUTO_005",
+      "source_file": "docs/0076/combined.md",
+      "section": "auto_specific",
+      "char_start": 50035,
+      "char_end": 50165,
+      "quote": "Coli LacI repressor or the HIV-1 protease is an invaluable source of information for computational prediction of variant effects."
+    },
+    {
+      "evidence_id": "EV_AUTO_006",
+      "source_file": "docs/0076/combined.md",
+      "section": "auto_specific",
+      "char_start": 38856,
+      "char_end": 39034,
+      "quote": "In addition, we also tested our final method on two data sets of variants from the Escherichia coli LacI repressor and from the HIV-1 protease (Additional File 1, Table SOM\\_2)."
+    },
+    {
+      "evidence_id": "EV_AUTO_007",
+      "source_file": "docs/0076/combined.md",
+      "section": "auto_specific",
+      "char_start": 28129,
+      "char_end": 28399,
+      "quote": "This classification yielded 67,912 easy ( $\\sim$ 68% of the total; 27,370 neutral and 40,542 effect), 9,624 unsolvable ( $\\sim$ 10% of the total; 4,750 neutral and 4,874 effect), and 22,625 difficult variants ( $\\sim$ 22% of the total; 7,504 neutral and 15,121 effect)."
+    },
+    {
+      "evidence_id": "EV_AUTO_008",
+      "source_file": "docs/0076/combined.md",
+      "section": "auto_specific",
+      "char_start": 63234,
+      "char_end": 63355,
+      "quote": "Loeb DD, Swanstrom R, Everitt L, Manchester M, Stamper SE, Hutchison CA III: Complete mutagenesis of the HIV-1 protease."
+    },
+    {
+      "evidence_id": "EV_AUTO_009",
+      "source_file": "docs/0076/combined.md",
+      "section": "auto_specific",
+      "char_start": 27083,
+      "char_end": 27295,
+      "quote": "\\* Data set consisting of 9,657 variants (2,788 neutral, 6,869 effect) from 678 human proteins in the top rows and 42,160 variants (10,850 neutral, 31,310 effect) from 3,383 non-human proteins in the bottom rows."
+    },
+    {
+      "evidence_id": "EV_AUTO_010",
+      "source_file": "docs/0076/combined.md",
+      "section": "auto_specific",
+      "char_start": 28623,
+      "char_end": 28877,
+      "quote": "For the 3,963 human variants (1,374 neutral and 2,589 effect) for which any two of the methods disagreed, SNAP2 and PolyPhen-2 were correct in $\\sim 58\\%$ of the cases compared to $50\\%$ for SNAP, $46\\%$ for SIFT and $44 \\pm 1\\%$ for random predictions."
+    },
+    {
+      "evidence_id": "EV_AUTO_011",
+      "source_file": "docs/0076/combined.md",
+      "section": "auto_specific",
+      "char_start": 33764,
+      "char_end": 34049,
+      "quote": "One example of this improvement is the R109Q variant in the IL4 sequence (interleukin-4 isoform 1 precursor; NCBI reference sequence: NP\\_000580.1), a pleiotropic cytokine produced by activated T-cells and involved in B-cell activation as well as co-stimulation of DNA synthesis [51]."
+    },
+    {
+      "evidence_id": "EV_AUTO_012",
+      "source_file": "docs/0076/combined.md",
+      "section": "auto_specific",
+      "char_start": 60354,
+      "char_end": 60392,
+      "quote": "Human mutation 2009, 30(8):1237-1244."
+    },
+    {
+      "evidence_id": "EV_AUTO_013",
+      "source_file": "docs/0076/combined.md",
+      "section": "auto_specific",
+      "char_start": 28982,
+      "char_end": 29090,
+      "quote": "In this set of 3,963 human variants, 305 (45 neutral and 260 effect) were only correctly predicted by SNAP2."
+    },
+    {
+      "evidence_id": "EV_AUTO_014",
+      "source_file": "docs/0076/combined.md",
+      "section": "auto_specific",
+      "char_start": 14033,
+      "char_end": 14180,
+      "quote": "each feature could be selected in a window of w = 1,5,9,13,17, or 21 consecutive residues around the observed variant at the center of the window."
+    },
+    {
+      "evidence_id": "EV_AUTO_015",
+      "source_file": "docs/0076/combined.md",
+      "section": "auto_specific",
+      "char_start": 9073,
+      "char_end": 9301,
+      "quote": "We also split the PMD data into two subsets: one containing only human mutations ( $PMD\\_HUMAN$ ; 9,657 variants in 678 human sequences) and one consisting of all others ( $PMD\\_NON-HUMAN$ ; 42,160 variants in 3,383 sequences)."
+    },
+    {
+      "evidence_id": "EV_AUTO_016",
+      "source_file": "docs/0076/combined.md",
+      "section": "auto_specific",
+      "char_start": 8920,
+      "char_end": 9073,
+      "quote": "First, $PMD + EC + Disease$ were compiled into one comprehensive set termed ALL with 101,515 variants (40,478 neutral, 61,037 effect) in 9,744 proteins."
+    },
+    {
+      "evidence_id": "EV_AUTO_017",
+      "source_file": "docs/0076/combined.md",
+      "section": "auto_specific",
+      "char_start": 7528,
+      "char_end": 7632,
+      "quote": "We extracted 22,858 human disease-associated variants in 3,537 proteins from OMIM [24] and HumVar [25]."
+    },
+    {
+      "evidence_id": "EV_AUTO_018",
+      "source_file": "docs/0076/combined.md",
+      "section": "auto_specific",
+      "char_start": 6636,
+      "char_end": 6730,
+      "quote": "This approach identified 51,817 variants (neutral: 13,638, effect: 38,179) in 4,061 proteins."
+    },
+    {
+      "evidence_id": "EV_AUTO_019",
+      "source_file": "docs/0076/combined.md",
+      "section": "auto_specific",
+      "char_start": 5740,
+      "char_end": 6129,
+      "quote": "In particular, we used the following mixture: variants from PMD (the Protein Mutant Database [21]), residues differing between enzymes with the same experimentally annotated function according to the enzyme classification commission (EC), retrieved from SWISS-PROT [22,23], variants associated with disease as annotated in OMIM (Online Mendelian Inheritance in Men [24]), and HumVar [25]."
+    },
+    {
+      "evidence_id": "EV_AUTO_020",
+      "source_file": "docs/0076/combined.md",
+      "section": "auto_specific",
+      "char_start": 56674,
+      "char_end": 56876,
+      "quote": "This article has been published as part of BMC Genomics Volume 16 Supplement 8, 2015: Varl-SIG 2014: Identification and annotation of genetic variants in the context of structure, function and disease."
+    },
+    {
+      "evidence_id": "EV_AUTO_021",
+      "source_file": "docs/0076/combined.md",
+      "section": "auto_specific",
+      "char_start": 38393,
+      "char_end": 38640,
+      "quote": "About 10-20% of all proteins in newly sequenced organisms continue not to map anywhere else in today's databases [33,34,55]; for those 10-20% of proteins, $SNAP2_{noali}$ appears to be the best method available to predict the effect of mutations."
+    },
+    {
+      "evidence_id": "EV_AUTO_022",
+      "source_file": "docs/0076/combined.md",
+      "section": "auto_specific",
+      "char_start": 25740,
+      "char_end": 25949,
+      "quote": "Methods such as PredictSNP [48], Condel [49], and MetaSNP [50] have been explicitly optimized to combine different methods, mostly to annotate disease-variant relationships (as opposed to functional changes)."
+    },
+    {
+      "evidence_id": "EV_AUTO_023",
+      "source_file": "docs/0076/combined.md",
+      "section": "auto_specific",
+      "char_start": 7455,
+      "char_end": 7518,
+      "quote": "This yielded 26,840 ‘neutral’ variants in 2,146 proteins [11]."
+    },
+    {
+      "evidence_id": "EV_AUTO_024",
+      "source_file": "docs/0076/combined.md",
+      "section": "auto_specific",
+      "char_start": 2967,
+      "char_end": 3088,
+      "quote": "Some methods focus exclusively on the human genome [12,13] and some aspire to identify disease-causing variants [14-16]."
+    },
+    {
+      "evidence_id": "EV_AUTO_025",
+      "source_file": "docs/0076/combined.md",
+      "section": "auto_specific",
+      "char_start": 2628,
+      "char_end": 2967,
+      "quote": "Some tools are focused on non-coding regions [2-4]; others focus on coding regions and predict the effects of single amino acid variants (non-synonymous single-nucleotide polymorphisms, nsSNPs, or single amino acid substitutions, SAAS) on aspects such as protein structure [5], stability [6-8], binding affinity [9], and function [10,11]."
+    },
+    {
+      "evidence_id": "EV_AUTO_026",
+      "source_file": "docs/0076/combined.md",
+      "section": "auto_specific",
+      "char_start": 40348,
+      "char_end": 40551,
+      "quote": "To put this into perspective: when predicting effect/neutral for all variants, SNAP2 is correct in about 75% of its neutral predictions and in 86% of its effect predictions (Figure 4B rightmost points)."
+    },
+    {
+      "evidence_id": "EV_AUTO_027",
+      "source_file": "docs/0076/combined.md",
+      "section": "auto_specific",
+      "char_start": 37596,
+      "char_end": 37702,
+      "quote": "only three of these eight proteins (103 variants, $Q2_{PolyPhen-2} = 60\\%$ ) and SIFT gave no predictions."
+    },
+    {
+      "evidence_id": "EV_AUTO_028",
+      "source_file": "docs/0076/combined.md",
+      "section": "auto_specific",
+      "char_start": 36141,
+      "char_end": 36661,
+      "quote": "features: global features (amino acid composition, secondary structure and solvent accessibility composition, and protein length), PSI-BLAST [27] profiles and deltas, PSIC [12] profiles and deltas (differences between mutant and wild-type residue annotations; see Methods for details), residue flexibility, sequence and variant profiles, disorder, secondary structure and relative solvent accessibility and their deltas, physicochemical properties (charge, hydrophobicity, volume, and their deltas), contact potential pr"
+    },
+    {
+      "evidence_id": "EV_AUTO_029",
+      "source_file": "docs/0076/combined.md",
+      "section": "auto_specific",
+      "char_start": 36110,
+      "char_end": 36630,
+      "quote": "network included the following features: global features (amino acid composition, secondary structure and solvent accessibility composition, and protein length), PSI-BLAST [27] profiles and deltas, PSIC [12] profiles and deltas (differences between mutant and wild-type residue annotations; see Methods for details), residue flexibility, sequence and variant profiles, disorder, secondary structure and relative solvent accessibility and their deltas, physicochemical properties (charge, hydrophobicity, volume, and thei"
+    },
+    {
+      "evidence_id": "EV_AUTO_030",
+      "source_file": "docs/0076/combined.md",
+      "section": "auto_specific",
+      "char_start": 33440,
+      "char_end": 33544,
+      "quote": "our method that does not use alignments, predicted 75% of these effect variants at over 90% accuracy, i."
+    },
+    {
+      "evidence_id": "EV_AUTO_031",
+      "source_file": "docs/0076/combined.md",
+      "section": "auto_specific",
+      "char_start": 19262,
+      "char_end": 19454,
+      "quote": "Standard deviation and error for all measures were estimated over n = 1000 bootstrap sets; for each set we randomly selected 50% of all variants from the original test set without replacement."
+    },
+    {
+      "evidence_id": "EV_AUTO_032",
+      "source_file": "docs/0076/combined.md",
+      "section": "auto_specific",
+      "char_start": 15049,
+      "char_end": 15214,
+      "quote": "As an exhaustive screening of the entire parameter space was not intended, we heuristically selected parameter combinations for optimization: learning rate 0.005-0."
+    },
+    {
+      "evidence_id": "EV_AUTO_033",
+      "source_file": "docs/0076/combined.md",
+      "section": "auto_specific",
+      "char_start": 3464,
+      "char_end": 3631,
+      "quote": "Methods have improved significantly by using more protein and variant annotations, as demonstrated in particular in the advance from PolyPhen [12] to PolyPhen-2 [13]."
+    },
+    {
+      "evidence_id": "EV_AUTO_034",
+      "source_file": "docs/0076/combined.md",
+      "section": "auto_specific",
+      "char_start": 3197,
+      "char_end": 3341,
+      "quote": "Generally, today's methods are able to distinguish between a set with 100 disease-causing and another with 100 less impacting variants [17,18]."
+    },
+    {
+      "evidence_id": "EV_AUTO_035",
+      "source_file": "docs/0076/combined.md",
+      "section": "auto_specific",
+      "char_start": 58481,
+      "char_end": 58682,
+      "quote": "Dehouck Y, Grosfils A, Folch B, Gilis D, Bogaerts P, Rooman M: Fast and accurate predictions of protein stability changes upon mutations using statistical potentials and neural networks: PoPMuSiC-2.0."
+    },
+    {
+      "evidence_id": "EV_AUTO_036",
+      "source_file": "docs/0076/combined.md",
+      "section": "auto_specific",
+      "char_start": 50810,
+      "char_end": 50995,
+      "quote": "For those over 6.5 million, very little evolutionary information is available to guide other variant effect predictions and the fraction of orphan clusters appears to be increasing; i."
+    }
+  ],
+  "event_graph": {
+    "paper_main_problem": "Improving prediction of functional effects of sequence variants (effect vs. neutral) over previous SNAP method, motivated by personalized health needs and challenges of limited/imbalanced training data and sequence similarity.",
+    "canonical_events": [
+      {
+        "canonical_id": "K01",
+        "order": 1,
+        "event_type": "problem",
+        "summary": "Need to distinguish functional from neutral sequence variants for personalized health; existing methods focus on disease, not molecular function change.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E01",
+          "C001_E07"
+        ],
+        "evidence_ids": [
+          "EV_C001_E01_01",
+          "EV_C001_E07_01"
+        ],
+        "key_entities": [
+          "sequence variants",
+          "personalized health",
+          "molecular function change"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K02",
+        "order": 2,
+        "event_type": "design",
+        "summary": "SNAP2 designed as neural network classifier to improve over SNAP by screening many features and refining datasets; predicts molecular function change, not disease.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E02",
+          "C001_E07"
+        ],
+        "evidence_ids": [
+          "EV_C001_E02_01",
+          "EV_C001_E07_01"
+        ],
+        "key_entities": [
+          "SNAP2",
+          "neural network classifier"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K03",
+        "order": 3,
+        "event_type": "design",
+        "summary": "Training data compiled from PMD, EC, disease variants (OMIM, HumVar), and protein-specific studies (LacI, HIV-1 protease); careful class assignment (effect/neutral).",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E08"
+        ],
+        "evidence_ids": [
+          "EV_C001_E08_01",
+          "EV_AUTO_016",
+          "EV_AUTO_017",
+          "EV_AUTO_018",
+          "EV_AUTO_019",
+          "EV_AUTO_023"
+        ],
+        "key_entities": [
+          "PMD",
+          "EC",
+          "OMIM",
+          "HumVar",
+          "LacI",
+          "HIV-1 protease"
+        ],
+        "key_numbers": [
+          "51,817 variants from PMD",
+          "26,840 neutral variants from EC",
+          "22,858 disease variants",
+          "101,515 total variants in ALL dataset"
+        ]
+      },
+      {
+        "canonical_id": "K04",
+        "order": 4,
+        "event_type": "design",
+        "summary": "Cross-validation strategy: proteins clustered by sequence similarity (PSI-BLAST, E<10^-3, single linkage) to avoid overfitting; 10-fold cross-validation with random cluster split.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [],
+        "evidence_ids": [
+          "EV_AUTO_015",
+          "EV_AUTO_016"
+        ],
+        "key_entities": [
+          "PSI-BLAST",
+          "single linkage clustering",
+          "10-fold cross-validation"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K05",
+        "order": 5,
+        "event_type": "design",
+        "summary": "Input features include evolutionary information (PSIC profiles), biophysical properties, structural features, and new features (AAindex, binding residues, disorder, co-evolution, Pfam/PROSITE annotations); sliding windows up to 21 residues.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [],
+        "evidence_ids": [
+          "EV_AUTO_028",
+          "EV_AUTO_029",
+          "EV_AUTO_014"
+        ],
+        "key_entities": [
+          "PSIC profiles",
+          "AAindex",
+          "co-evolution",
+          "sliding windows"
+        ],
+        "key_numbers": [
+          "window sizes 1-21 residues"
+        ]
+      },
+      {
+        "canonical_id": "K06",
+        "order": 6,
+        "event_type": "computation",
+        "summary": "Feature selection: greedy bottom-up per network using AUC on cross-training set, balanced training, backward elimination; architecture optimized (hidden nodes, learning rate, momentum).",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [],
+        "evidence_ids": [
+          "EV_AUTO_032"
+        ],
+        "key_entities": [
+          "greedy feature selection",
+          "backward elimination",
+          "architecture optimization"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K07",
+        "order": 7,
+        "event_type": "experiment",
+        "summary": "SNAP2 cross-validated on >100k variants achieves 83% two-state accuracy; AUC 0.905 on ALL dataset, outperforming SNAP (0.880), PolyPhen-2 (0.853), SIFT (0.838).",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E03",
+          "C002_E01"
+        ],
+        "evidence_ids": [
+          "EV_C001_E03_01",
+          "EV_C002_E01_01"
+        ],
+        "key_entities": [
+          "SNAP2",
+          "SNAP",
+          "PolyPhen-2",
+          "SIFT",
+          "ALL dataset"
+        ],
+        "key_numbers": [
+          "83% two-state accuracy",
+          "AUC: SNAP2 0.905, SNAP 0.880, PolyPhen-2 0.853, SIFT 0.838"
+        ]
+      },
+      {
+        "canonical_id": "K08",
+        "order": 8,
+        "event_type": "analysis",
+        "summary": "Performance differs between human and non-human PMD data; SNAP2 slightly better on non-human (F_effect 79.9% vs 78.0%); neutral variants harder to predict across methods.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E02",
+          "C002_E07"
+        ],
+        "evidence_ids": [
+          "EV_C002_E02_01",
+          "EV_C002_E07_01"
+        ],
+        "key_entities": [
+          "PMD_HUMAN",
+          "PMD_NON-HUMAN"
+        ],
+        "key_numbers": [
+          "SNAP2 F_effect: human 78.0%, non-human 79.9%"
+        ]
+      },
+      {
+        "canonical_id": "K09",
+        "order": 9,
+        "event_type": "analysis",
+        "summary": "SNAP2 outperforms other methods on difficult variants where methods disagree (69% correct on ALL-difficult vs SNAP 53%, SIFT 41%); improvement partly from non-alignment features like co-evolution.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E04",
+          "C002_E05",
+          "C004_E02"
+        ],
+        "evidence_ids": [
+          "EV_C002_E04_01",
+          "EV_C002_E05_01",
+          "EV_C004_E02_01"
+        ],
+        "key_entities": [
+          "difficult variants",
+          "co-evolution features",
+          "IL4 R109Q variant"
+        ],
+        "key_numbers": [
+          "SNAP2 correctly predicted 69% of difficult cases",
+          "Q2(snap2)=69%, Q2(snap)=53%, Q2(sift)=41%"
+        ]
+      },
+      {
+        "canonical_id": "K10",
+        "order": 10,
+        "event_type": "analysis",
+        "summary": "Naive combination of SIFT and PolyPhen-2 does not outperform SNAP2 alone; simple agreement-based combination may be suboptimal.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E03"
+        ],
+        "evidence_ids": [
+          "EV_C002_E03_01"
+        ],
+        "key_entities": [
+          "SNAP2",
+          "SIFT",
+          "PolyPhen-2",
+          "method combination"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K11",
+        "order": 11,
+        "event_type": "design",
+        "summary": "SNAP2_noali developed for orphan proteins without alignments, using global features and effect probability matrix from SNAP2; achieves Q2 around 68% from sequence alone.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E05",
+          "C004_E01"
+        ],
+        "evidence_ids": [
+          "EV_C001_E05_01",
+          "EV_C004_E01_01"
+        ],
+        "key_entities": [
+          "SNAP2_noali",
+          "orphan proteins"
+        ],
+        "key_numbers": [
+          "Q2 around 68%",
+          "6.5 million orphan families"
+        ]
+      },
+      {
+        "canonical_id": "K12",
+        "order": 12,
+        "event_type": "validation",
+        "summary": "SNAP2 performance confirmed on independent LacI and HIV-1 protease datasets: Q2=78% for 4,041 LacI variants, Q2=72% for 336 HIV-1 variants.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E07"
+        ],
+        "evidence_ids": [
+          "EV_C003_E07_01",
+          "EV_AUTO_001",
+          "EV_AUTO_002"
+        ],
+        "key_entities": [
+          "LacI",
+          "HIV-1 protease"
+        ],
+        "key_numbers": [
+          "Q2 = 78% for 4,041 LacI variants",
+          "Q2 = 72% for 336 HIV-1 variants"
+        ]
+      },
+      {
+        "canonical_id": "K13",
+        "order": 13,
+        "event_type": "limitation",
+        "summary": "Direct comparison complicated by training overlaps and threshold optimization; PolyPhen-2 performance may be overestimated on human data.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E06"
+        ],
+        "evidence_ids": [
+          "EV_C002_E06_01",
+          "EV_C002_E06_02"
+        ],
+        "key_entities": [
+          "PolyPhen-2",
+          "training overlap"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K14",
+        "order": 14,
+        "event_type": "limitation",
+        "summary": "Surprised by limited improvement despite many changes; suspected performance plateau or incomplete data; EC data inconsistent but leaving it out worsened performance; needed all data for peak performance.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C004_E03",
+          "C004_E04",
+          "C004_E05"
+        ],
+        "evidence_ids": [
+          "EV_C004_E03_01",
+          "EV_C004_E03_02",
+          "EV_C004_E04_01",
+          "EV_C004_E04_02",
+          "EV_C004_E05_01"
+        ],
+        "key_entities": [
+          "performance plateau",
+          "EC data",
+          "OMIM data"
+        ],
+        "key_numbers": []
+      }
+    ],
+    "edges": [
+      {
+        "source": "K01",
+        "target": "K02",
+        "relation": "enables",
+        "reason": "Problem motivates design of SNAP2."
+      },
+      {
+        "source": "K02",
+        "target": "K03",
+        "relation": "enables",
+        "reason": "Design requires training data compilation."
+      },
+      {
+        "source": "K03",
+        "target": "K04",
+        "relation": "enables",
+        "reason": "Data requires cross-validation strategy to avoid overfitting."
+      },
+      {
+        "source": "K02",
+        "target": "K05",
+        "relation": "enables",
+        "reason": "Design includes feature engineering."
+      },
+      {
+        "source": "K05",
+        "target": "K06",
+        "relation": "enables",
+        "reason": "Features are selected and optimized."
+      },
+      {
+        "source": "K04",
+        "target": "K07",
+        "relation": "enables",
+        "reason": "Cross-validation enables performance evaluation."
+      },
+      {
+        "source": "K06",
+        "target": "K07",
+        "relation": "enables",
+        "reason": "Feature selection and architecture optimization lead to final model performance."
+      },
+      {
+        "source": "K07",
+        "target": "K08",
+        "relation": "follows",
+        "reason": "Overall performance leads to detailed analysis by organism."
+      },
+      {
+        "source": "K07",
+        "target": "K09",
+        "relation": "follows",
+        "reason": "Overall performance leads to analysis on difficult variants."
+      },
+      {
+        "source": "K07",
+        "target": "K10",
+        "relation": "follows",
+        "reason": "Overall performance leads to comparison with method combinations."
+      },
+      {
+        "source": "K02",
+        "target": "K11",
+        "relation": "enables",
+        "reason": "Design includes alignment-free version for orphans."
+      },
+      {
+        "source": "K07",
+        "target": "K12",
+        "relation": "validates",
+        "reason": "Cross-validation results validated on independent datasets."
+      },
+      {
+        "source": "K07",
+        "target": "K13",
+        "relation": "follows",
+        "reason": "Performance comparison reveals limitations in benchmarking."
+      },
+      {
+        "source": "K07",
+        "target": "K14",
+        "relation": "follows",
+        "reason": "Performance results lead to reflection on limited improvement and data issues."
+      }
+    ],
+    "must_cover_points": [
+      "Problem: distinguishing functional from neutral variants for molecular function change.",
+      "Design: SNAP2 neural network with many features and refined datasets.",
+      "Data: compilation from PMD, EC, disease variants, and independent test sets.",
+      "Cross-validation: sequence similarity clustering to avoid overfitting.",
+      "Features: evolutionary information strongest, plus structural and biophysical features.",
+      "Feature selection: greedy bottom-up with backward elimination.",
+      "Main result: 83% accuracy, AUC 0.905, outperforming SNAP, PolyPhen-2, SIFT.",
+      "Performance varies by organism; neutral variants harder.",
+      "SNAP2 excels on difficult variants using non-alignment features.",
+      "Naive method combination does not beat SNAP2.",
+      "SNAP2_noali for orphans achieves Q2 ~68%.",
+      "Validation on LacI and HIV-1 protease.",
+      "Limitations: comparison issues, performance plateau, data inconsistency."
+    ],
+    "paper_not_suitable_reasons": []
+  }
+}

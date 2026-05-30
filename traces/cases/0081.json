@@ -1,0 +1,879 @@
+{
+  "case": {
+    "case_id": "sci_evo_0081",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "An Evolution-Based Approach to De Novo Protein Design and Case Study on Mycobacterium tuberculosis",
+      "doi": "https://doi.org/10.1371/journal.pcbi.1003298",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0079_10_1371_journal_pcbi_1003298_an_evolution_based_approach_to_de_novo_protein_design_and_case_study_on_mycobacterium_tube.pdf",
+      "mineru_md": "docs/0081/mineru.md",
+      "combined_md": "docs/0081/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Physics-based force fields are inaccurate for protein fold recognition, limiting design of medium-to-large proteins.",
+      "target_object": "Protein sequences that fold into desired structures",
+      "known_context": "Existing physics-based methods (PBM) often fail to correctly recognize protein folds due to force field inaccuracies.",
+      "constraints": [
+        "Design sequences must fold into target scaffold structures",
+        "Homologous templates excluded from I-TASSER folding simulations"
+      ],
+      "input_data": [
+        "87 non-homologous single-domain protein scaffolds",
+        "243 M. tuberculosis protein structures"
+      ],
+      "quantifiable_goals": [
+        "Improve foldability over PBM (lower RMSD, higher TM-score)",
+        "Achieve soluble, well-folded proteins in experimental validation"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "Physics-based force fields are inaccurate for protein fold recognition, limiting design of medium-to-large proteins.",
+        "gap_or_uncertainty": "How to design protein sequences that reliably fold into target structures without relying solely on inaccurate physics-based force fields.",
+        "hypothesis": "Using evolutionary information from structure families can guide sequence design more robustly than physics-based methods.",
+        "decision": "Propose a novel method that uses evolutionary information, in the form of sequence profiles from structure families, to guide sequence design.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "Evolutionary information approach",
+          "version": "",
+          "category": "conceptual"
+        },
+        "parameters": {},
+        "observation": "Evolutionary information from structure families may provide more robust guidance for sequence design.",
+        "result_status": "success",
+        "next_step_reason": "Develop a computational method that implements this hypothesis.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0081/combined.md",
+            "section": "C001",
+            "quote_or_span": "the inaccuracy of the force-field design, which cannot accurately describe atomic interactions or correctly recognize protein folds"
+          },
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0081/combined.md",
+            "section": "C001",
+            "quote_or_span": "We propose a novel method which uses evolutionary information, in the form of sequence profiles from structure families, to guide the sequence design."
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "design",
+        "state_before": "Hypothesis that evolutionary information can guide sequence design.",
+        "gap_or_uncertainty": "Need a concrete computational method that combines evolutionary profiles with physics-based packing.",
+        "hypothesis": "A structural profile-guided Monte Carlo search with a combined energy function (profile match + FoldX) can design sequences that fold to the target.",
+        "decision": "Develop the Evolution-Based Method (EBM) consisting of structural profile construction and profile-guided Monte Carlo sequence space searching simulation.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "EBM (Evolution-Based Method)",
+          "version": "",
+          "category": "computational_design"
+        },
+        "parameters": {
+          "energy_function": "profile match + FoldX V3.0b5",
+          "monte_carlo_runs": 10,
+          "mutation_movements_per_run": 30000,
+          "sequence_selection": "clustering of decoys"
+        },
+        "observation": "Method developed: structural profiles from analogs, Monte Carlo search with combined energy, clustering for final sequence.",
+        "result_status": "success",
+        "next_step_reason": "Validate that I-TASSER can discriminate folded from unfolded designs.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E03_01",
+            "source_file": "docs/0081/combined.md",
+            "section": "C001",
+            "quote_or_span": "The outline of our protein design procedure is shown in Figure 1, which consists of structural profile construction and the profile-guided Monte Carlo sequence space searching simulation."
+          },
+          {
+            "evidence_id": "EV_C006_E01_01",
+            "source_file": "docs/0081/combined.md",
+            "section": "C006",
+            "quote_or_span": "The energy function of the MC search consists of two parts. The first part counts for the alignment match of the sequence decoy with the target structural profile"
+          },
+          {
+            "evidence_id": "EV_C006_E01_02",
+            "source_file": "docs/0081/combined.md",
+            "section": "C006",
+            "quote_or_span": "The second part of the energy function contains a physics-based force field from FoldX V3.0b5"
+          },
+          {
+            "evidence_id": "EV_C006_E04_01",
+            "source_file": "docs/0081/combined.md",
+            "section": "C006",
+            "quote_or_span": "For each target, ten independent Monte Carlo runs, each starting from a different random sequence, are performed."
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "validation",
+        "state_before": "EBM method developed; need to validate I-TASSER as a foldability discriminator.",
+        "gap_or_uncertainty": "Whether I-TASSER folding simulations can reliably distinguish folded from unfolded designs.",
+        "hypothesis": "I-TASSER estimated TM-score and RMSD correlate with actual values and can separate folded and unfolded designs.",
+        "decision": "Test I-TASSER on previously designed sequences with known experimental folding outcomes.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "I-TASSER",
+          "version": "",
+          "category": "structure_prediction"
+        },
+        "parameters": {
+          "homologous_templates_excluded": true
+        },
+        "observation": "Estimated TM-score and RMSD highly correlated with actual values (correlation 0.91 and 0.80). Average TM-score 0.718 (folded) vs 0.551 (unfolded); RMSD 3.9 Å vs 6.8 Å.",
+        "result_status": "success",
+        "next_step_reason": "Use validated I-TASSER to compare EBM and PBM foldability.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E06_01",
+            "source_file": "docs/0081/combined.md",
+            "section": "C001",
+            "quote_or_span": "the estimated TM-score and RMSD of the I-TASSER predictions for the designed proteins are highly correlated with the actual TM-score and RMSD, with a correlation coefficient of 0.91 and 0.80, respectively."
+          },
+          {
+            "evidence_id": "EV_C002_E01_01",
+            "source_file": "docs/0081/combined.md",
+            "section": "C002",
+            "quote_or_span": "the average TM-scores (RMSDs) are 0.718 (3.9 Å) and 0.551 (6.8 Å), respectively"
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "experiment",
+        "state_before": "I-TASSER validated as foldability discriminator.",
+        "gap_or_uncertainty": "Whether EBM-designed sequences show improved foldability over PBM.",
+        "hypothesis": "EBM sequences will have lower RMSD and higher TM-score than PBM sequences in I-TASSER folding simulations.",
+        "decision": "Design sequences for 87 test proteins using EBM and PBM, then fold with I-TASSER.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "EBM and PBM + I-TASSER",
+          "version": "",
+          "category": "computational_design_and_validation"
+        },
+        "parameters": {
+          "test_set": "87 non-homologous single-domain proteins"
+        },
+        "observation": "EBM: RMSD 2.12 Å, TM-score 0.87. EBM shows improved foldability.",
+        "result_status": "success",
+        "next_step_reason": "Analyze TM-score distribution to understand PBM unreliability.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E02_01",
+            "source_file": "docs/0081/combined.md",
+            "section": "C002",
+            "quote_or_span": "the RMSD and TM-score for the EBM designed sequences are 2.12 Å and 0.87, respectively, which demonstrated an improved foldability by EBM"
+          },
+          {
+            "evidence_id": "EV_AUTO_033",
+            "source_file": "docs/0081/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The method is tested on the design experiment of 87 non-homologous single-domain proteins covering different fold classes."
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "analysis",
+        "state_before": "EBM outperforms PBM on average, but PBM shows divergent TM-scores.",
+        "gap_or_uncertainty": "Why PBM sometimes fails dramatically.",
+        "hypothesis": "PBM TM-score distribution is bimodal, indicating unreliability; EBM improves low-scoring cases.",
+        "decision": "Examine TM-score distributions and individual cases.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Statistical analysis",
+          "version": "",
+          "category": "data_analysis"
+        },
+        "parameters": {},
+        "observation": "PBM TM-scores either very high (>0.85) or very low (<0.35). EBM improves TM-scores for low-scoring PBM cases.",
+        "result_status": "success",
+        "next_step_reason": "Investigate structural feature improvements (secondary structure, torsion, solvation).",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E04_01",
+            "source_file": "docs/0081/combined.md",
+            "section": "C002",
+            "quote_or_span": "the distribution of TM-scores of the PBM designed sequences is more divergent, i.e. the TM-scores are either very high (>0.85) or very low (<0.35)"
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "analysis",
+        "state_before": "EBM improves foldability; need to understand structural basis.",
+        "gap_or_uncertainty": "How EBM improves secondary structure, torsion angles, and solvation.",
+        "hypothesis": "EBM reduces normalized relative errors (NRE) in secondary structure, backbone torsion, and solvent accessibility compared to PBM.",
+        "decision": "Calculate NRE for secondary structure, Φ/Ψ angles, and solvent accessibility.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "NRE calculation",
+          "version": "",
+          "category": "structural_analysis"
+        },
+        "parameters": {},
+        "observation": "Secondary structure NRE: EBM 0.33 vs PBM 2.40 (7x lower). Improvement due to profile smoothening and SS energy terms.",
+        "result_status": "success",
+        "next_step_reason": "Analyze dependence on structural analogs and TM-score cutoff.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E07_01",
+            "source_file": "docs/0081/combined.md",
+            "section": "C002",
+            "quote_or_span": "The NRE of designed sequence by the EBM is 0.33, which is seven times lower than that by the PBM method"
+          },
+          {
+            "evidence_id": "EV_C003_E01_01",
+            "source_file": "docs/0081/combined.md",
+            "section": "C003",
+            "quote_or_span": "The reduction in the secondary structure error for the EBM method is mainly due to the smoothening effects introduced by the structural profiles and the single-sequence based SS energy terms, which significantly increase the short-range residue cooperation that are usually missed in the physics-based force fields."
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "analysis",
+        "state_before": "EBM performance established; need to understand parameter sensitivity.",
+        "gap_or_uncertainty": "How EBM performance depends on the number of structural analogs and TM-score cutoff.",
+        "hypothesis": "Higher TM-score cutoff for analog selection improves design accuracy.",
+        "decision": "Group test proteins by TM-score cutoff of structural analogs and compare RMSD.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Parameter sensitivity analysis",
+          "version": "",
+          "category": "data_analysis"
+        },
+        "parameters": {
+          "tm_score_cutoffs": [
+            0.7,
+            0.6,
+            0.5
+          ]
+        },
+        "observation": "RMSD: 1.46 Å (cutoff>0.7), 2.57 Å (>0.6), 2.84 Å (>0.5). Higher cutoff yields better designs.",
+        "result_status": "success",
+        "next_step_reason": "Perform ablation study to assess contribution of evolution vs physics terms.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E05_01",
+            "source_file": "docs/0081/combined.md",
+            "section": "C003",
+            "quote_or_span": "the average RMSD of the I-TASSER models for the first group of 46 proteins is 1.46 Å, which is lower than the two other groups based on the lower TM-score cutoffs (2.57 Å and 2.84 Å)."
+          },
+          {
+            "evidence_id": "EV_C005_E01_02",
+            "source_file": "docs/0081/combined.md",
+            "section": "C005",
+            "quote_or_span": "the designs for the thioredoxin, CISK-PX and TIF1 domains showed strongly shielded methyl shifts between 0.5 and -1.0 ppm and had well-resolved peaks in the amide region, features that are indicative of proteins possessing stable folds."
+          },
+          {
+            "evidence_id": "EV_AUTO_010",
+            "source_file": "docs/0081/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "In reality, recent studies have demonstrated that the current PDB library is approaching to completeness and almost all the proteins, including random homopolypeptides, can have protein analogs with similar folds (TM-score>0.5) in the PDB [62–64]."
+          },
+          {
+            "evidence_id": "EV_AUTO_011",
+            "source_file": "docs/0081/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "We found that 32% of residues in the conserved positions in the EBM sequences are identical to that in the target and 44% of residues in the conserved regions are highly homologous (with a BLOSUM62 mutation score>0.5) to the corresponding residues in the target."
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "analysis",
+        "state_before": "MTb designs generated; need to assess foldability.",
+        "gap_or_uncertainty": "Whether MTb designs fold as well as test set designs.",
+        "hypothesis": "MTb designs will have higher RMSD due to larger protein sizes, but performance consistent with test set when controlling for length.",
+        "decision": "Fold MTb designs with I-TASSER and compute RMSD.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "I-TASSER",
+          "version": "",
+          "category": "structure_prediction"
+        },
+        "parameters": {
+          "homologous_templates_excluded": true
+        },
+        "observation": "Average RMSD 3.28 Å for all, 2.57 Å for proteins ≤200 residues. Consistent with test set performance.",
+        "result_status": "success",
+        "next_step_reason": "Analyze ligand-binding properties of MTb designs.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E03_02",
+            "source_file": "docs/0081/combined.md",
+            "section": "C004",
+            "quote_or_span": "The average RMSD of the I-TASSER models is, however, relatively higher (=3.28 Å)"
+          },
+          {
+            "evidence_id": "EV_C004_E03_03",
+            "source_file": "docs/0081/combined.md",
+            "section": "C004",
+            "quote_or_span": "If we exclude the proteins of length >200 residues, the average RMSD of the I-TASSER models is reduced to 2.57 Å"
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "analysis",
+        "state_before": "MTb designs fold well; need to assess functional potential.",
+        "gap_or_uncertainty": "Whether designed MTb proteins retain ligand-binding capabilities.",
+        "hypothesis": "EBM-designed MTb proteins will have comparable or better ligand-binding predictions than targets.",
+        "decision": "Use COFACTOR to predict binding partners and binding sites.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "COFACTOR",
+          "version": "",
+          "category": "ligand_binding_prediction"
+        },
+        "parameters": {},
+        "observation": "62% of designed proteins have binding partners (vs 59% targets). Average 6.2 binding sites per design vs 5.5 per target.",
+        "result_status": "success",
+        "next_step_reason": "Experimentally validate selected EBM designs.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E04_01",
+            "source_file": "docs/0081/combined.md",
+            "section": "C004",
+            "quote_or_span": "62% of the EBM designed proteins have binding partners with a high confidence score"
+          },
+          {
+            "evidence_id": "EV_C004_E04_02",
+            "source_file": "docs/0081/combined.md",
+            "section": "C004",
+            "quote_or_span": "COFACTOR detects slightly less (59%) binding partners"
+          },
+          {
+            "evidence_id": "EV_C004_E04_03",
+            "source_file": "docs/0081/combined.md",
+            "section": "C004",
+            "quote_or_span": "the EBM designed sequences have on average more binding sites (6.2 per protein) than the target proteins (5.5 per protein)"
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "experiment",
+        "state_before": "Computational results promising; need experimental confirmation.",
+        "gap_or_uncertainty": "Whether EBM-designed proteins actually fold in vitro.",
+        "hypothesis": "EBM-designed proteins will be soluble and exhibit stable tertiary structure.",
+        "decision": "Select five designs (hnRNPK, thioredoxin, CISK-PX, LOV2, TIF1) for expression, purification, and characterization by CD and NMR.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Experimental validation (CD, NMR)",
+          "version": "",
+          "category": "biophysical_characterization"
+        },
+        "parameters": {
+          "proteins_tested": [
+            "hnRNPK",
+            "thioredoxin",
+            "CISK-PX",
+            "LOV2",
+            "TIF1"
+          ]
+        },
+        "observation": "All five soluble with secondary structure. Three (thioredoxin, CISK-PX, TIF1) have stable tertiary fold by NMR. Two (hnRNPK, LOV2) lack stable fold.",
+        "result_status": "partial",
+        "next_step_reason": "Characterize folding stability of successful designs.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E07_01",
+            "source_file": "docs/0081/combined.md",
+            "section": "C001",
+            "quote_or_span": "five sequences were randomly selected from the design pool and subjected to experimental validation. The results showed that all the designed proteins are soluble with distinct secondary structure and three have well ordered tertiary structure"
+          },
+          {
+            "evidence_id": "EV_C004_E07_01",
+            "source_file": "docs/0081/combined.md",
+            "section": "C004",
+            "quote_or_span": "all the designed domains successfully expressed and were soluble"
+          },
+          {
+            "evidence_id": "EV_C005_E01_01",
+            "source_file": "docs/0081/combined.md",
+            "section": "C005",
+            "quote_or_span": "the hnRNPK and Lov2 designs lacked upfield methyl chemical shifts (-1.0-0.5 ppm) and had sparse features in the protein amide range (5.5–10.0 ppm) (Figures 7F and 7I), which suggest that they do not possess a stable fold."
+          },
+          {
+            "evidence_id": "EV_C005_E01_02",
+            "source_file": "docs/0081/combined.md",
+            "section": "C005",
+            "quote_or_span": "the designs for the thioredoxin, CISK-PX and TIF1 domains showed strongly shielded methyl shifts between 0.5 and -1.0 ppm and had well-resolved peaks in the amide region, features that are indicative of proteins possessing stable folds."
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "experiment",
+        "state_before": "Three designs show stable fold; need to quantify stability.",
+        "gap_or_uncertainty": "Folding free energies of successful designs.",
+        "hypothesis": "Thioredoxin and CISK-PX designs have measurable folding free energies.",
+        "decision": "Perform urea denaturation experiments on thioredoxin and CISK-PX.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Urea denaturation",
+          "version": "",
+          "category": "biophysical_characterization"
+        },
+        "parameters": {},
+        "observation": "ΔG: thioredoxin -16.1 kJ/mol, CISK-PX -29.6 kJ/mol.",
+        "result_status": "success",
+        "next_step_reason": "Conclude with overall assessment and limitations.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C005_E02_01",
+            "source_file": "docs/0081/combined.md",
+            "section": "C005",
+            "quote_or_span": "Free energies of folding for the thioredoxin and CISK-PX domains were calculated by linear regression from the data points available and determined to be -16.1 and -29.6 kJ/mol, respectively [76]."
+          }
+        ]
+      },
+      {
+        "step_index": 12,
+        "phase": "analysis",
+        "state_before": "EBM method developed and validated; need to assess computational cost.",
+        "gap_or_uncertainty": "Computational cost of including FoldX in the EBM pipeline.",
+        "hypothesis": "Including FoldX significantly increases simulation time due to side-chain calculations.",
+        "decision": "Measure average simulation time with and without FoldX.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Computational cost analysis",
+          "version": "",
+          "category": "performance_analysis"
+        },
+        "parameters": {},
+        "observation": "Average simulation time without FoldX is 3.8 hours; including FoldX increases time to 16.5 hours.",
+        "result_status": "success",
+        "next_step_reason": "Note limitation in conclusions.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C006_E08_01",
+            "source_file": "docs/0081/combined.md",
+            "section": "C006",
+            "quote_or_span": "the average simulation time of our method without using FoldX is 3.8 hours, while including FoldX increases the time for the program to 16.5 hours"
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "I-TASSER folding simulations with homologous templates excluded",
+        "Experimental validation by CD and NMR spectroscopy",
+        "Urea denaturation for folding free energy"
+      ],
+      "metrics": [
+        "RMSD to target structure",
+        "TM-score",
+        "Normalized relative error (NRE) for secondary structure, torsion angles, solvent accessibility",
+        "Folding free energy (ΔG)"
+      ],
+      "final_conclusion": "EBM significantly improves foldability over PBM, with average RMSD 2.12 Å and TM-score 0.87 on test set. Evolution terms are major driver. Large-scale application to 243 M. tuberculosis proteins successful. Experimental validation: 3/5 designs have stable folds. Limitations include high computational cost with FoldX (16.5 hours) and failure of two designs to fold stably.",
+      "limitations": [
+        "Computation time high when including FoldX (16.5 hours vs 3.8 hours without)",
+        "Two out of five experimentally tested proteins (hnRNPK, LOV2) lacked stable fold",
+        "I-TASSER folding accuracy decreases for larger proteins"
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_step_trimmed=13_to_12",
+        "v22_specific_evidence_backfilled=6",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_step_trimmed=13_to_12",
+        "v22_specific_evidence_backfilled=3",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 100.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p5\\states\\0081.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p5\\events\\0081.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1
+        ],
+        "K03": [
+          1,
+          2
+        ],
+        "K04": [
+          2,
+          3,
+          4
+        ],
+        "K05": [
+          3,
+          4
+        ],
+        "K06": [
+          5
+        ],
+        "K07": [
+          6
+        ],
+        "K08": [
+          5,
+          6
+        ],
+        "K13": [
+          9
+        ],
+        "K14": [
+          7,
+          10
+        ],
+        "K15": [
+          10
+        ],
+        "K16": [
+          10,
+          11
+        ],
+        "K17": [
+          12
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02",
+            "K03"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K02",
+            "K03",
+            "K04"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K04",
+            "K05"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K04",
+            "K05",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K06",
+            "K08"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K07",
+            "K08",
+            "K09"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K09",
+            "K12",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K12"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K13"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K14",
+            "K15",
+            "K16"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K16"
+          ]
+        },
+        {
+          "step_index": 12,
+          "covered_event_ids": [
+            "K17"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 6,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "2.40",
+          "7x"
+        ]
+      },
+      {
+        "step_index": 7,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "0.6",
+          "0.7"
+        ]
+      }
+    ],
+    "step_count": 12,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 100.0
+  },
+  "api_usage": {
+    "prompt_tokens": 164211,
+    "completion_tokens": 33366,
+    "total_tokens": 197577,
+    "prompt_cache_hit_tokens": 3456,
+    "prompt_cache_miss_tokens": 160755
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 4643,
+        "completion_tokens": 1129,
+        "total_tokens": 5772,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 4643
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 16857,
+        "completion_tokens": 5059,
+        "total_tokens": 21916,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 16857
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 9415,
+        "completion_tokens": 1332,
+        "total_tokens": 10747,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9159
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 10463,
+        "completion_tokens": 1716,
+        "total_tokens": 12179,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 10207
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 10758,
+        "completion_tokens": 1550,
+        "total_tokens": 12308,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 10502
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 10473,
+        "completion_tokens": 1836,
+        "total_tokens": 12309,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 10217
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C005",
+      "api_usage": {
+        "prompt_tokens": 9460,
+        "completion_tokens": 1473,
+        "total_tokens": 10933,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9204
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C006",
+      "api_usage": {
+        "prompt_tokens": 9903,
+        "completion_tokens": 1431,
+        "total_tokens": 11334,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9647
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C007",
+      "api_usage": {
+        "prompt_tokens": 9188,
+        "completion_tokens": 48,
+        "total_tokens": 9236,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8932
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 16692,
+        "completion_tokens": 3937,
+        "total_tokens": 20629,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 16308
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 14013,
+        "completion_tokens": 6409,
+        "total_tokens": 20422,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 13373
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 19486,
+        "completion_tokens": 1107,
+        "total_tokens": 20593,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 19486
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 22860,
+        "completion_tokens": 6339,
+        "total_tokens": 29199,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 22220
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

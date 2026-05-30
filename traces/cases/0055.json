@@ -1,0 +1,824 @@
+{
+  "case": {
+    "case_id": "sci_evo_0055",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Development of a growth-coupled selection platform for directed evolution of heme biosynthetic enzymes in Corynebacterium glutamicum",
+      "doi": "https://doi.org/10.3389/fbioe.2023.1236118",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0053_10_3389_fbioe_2023_1236118_development_of_a_growth_coupled_selection_platform_for_directed_evolution_of_heme_biosynth.pdf",
+      "mineru_md": "docs/0055/mineru.md",
+      "combined_md": "docs/0055/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Intrinsic low activity and feedback inhibition of heme biosynthetic enzymes limit heme overproduction, and existing directed evolution methods have limitations.",
+      "target_object": "Heme biosynthetic enzymes (PbgS, HmbS, UroS, UroD, CgoX, CpfC, ChdC) in Corynebacterium glutamicum",
+      "known_context": "Heme overproduction is limited by enzyme activity and feedback inhibition. Non-iron metalloporphyrins (MPs) like ZnPPIX can be detoxified by heme, potentially coupling growth to heme production.",
+      "constraints": [
+        "Must work in C. glutamicum",
+        "Avoid complex genetic circuits or biosensors"
+      ],
+      "input_data": [],
+      "quantifiable_goals": [
+        "Improve growth under ZnPPIX stress",
+        "Increase specific activity and catalytic efficiency of heme biosynthetic enzymes"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "Heme overproduction is limited by low enzyme activity and feedback inhibition.",
+        "gap_or_uncertainty": "No existing growth-coupled selection method for heme biosynthetic enzymes in C. glutamicum.",
+        "hypothesis": "Growth can be coupled to heme production via detoxification of non-iron metalloporphyrins (MPs) like ZnPPIX, as heme competes with MPs to restore electron transport system (ETS).",
+        "decision": "Develop a growth-coupled selection platform based on ZnPPIX detoxification.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "Literature-based hypothesis",
+          "version": "N/A",
+          "category": "reasoning"
+        },
+        "parameters": {},
+        "observation": "A quantitative relationship between cell growth rate and activity of heme biosynthetic enzymes can be established independent of transcriptional regulator-based biosensors and complex genetic circuits.",
+        "result_status": "success",
+        "next_step_reason": "Design and validate the selection platform.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E03_01",
+            "source_file": "docs/0055/combined.md",
+            "section": "C001",
+            "quote_or_span": "a quantitative relationship between cell growth rate and activity of heme biosynthetic enzymes can be established independent of the transcriptional regulator-based biosensor and complex genetic circuits"
+          },
+          {
+            "evidence_id": "EV_C001_E03_02",
+            "source_file": "docs/0055/combined.md",
+            "section": "C001",
+            "quote_or_span": "the intracellular heme could compete with MPs to restore the ETS and the cell growth"
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "design",
+        "state_before": "Hypothesis formulated but no platform exists.",
+        "gap_or_uncertainty": "Need to create a selection system that links growth to heme production.",
+        "hypothesis": "A ZnPPIX-based growth-coupled selection platform can be developed in C. glutamicum.",
+        "decision": "Construct a C. glutamicum strain with heme uptake system and test growth under ZnPPIX stress.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Growth-coupled selection platform",
+          "version": "1.0",
+          "category": "directed_evolution"
+        },
+        "parameters": {
+          "strain": "C. glutamicum",
+          "selection_agent": "ZnPPIX",
+          "heme_uptake": "pXMJ19-hmuTUV"
+        },
+        "observation": "A growth-coupled selection platform based on the detoxification of ZnPPIX was successfully developed in C. glutamicum for the first time.",
+        "result_status": "success",
+        "next_step_reason": "Validate the platform by modulating heme levels.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E03_01",
+            "source_file": "docs/0055/combined.md",
+            "section": "C002",
+            "quote_or_span": "a growth-coupled selection platform based on the detoxification of ZnPPIX was successfully developed in C. glutamicum for the first time"
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "validation",
+        "state_before": "Platform designed but not yet validated for coupling growth to heme levels.",
+        "gap_or_uncertainty": "Does increasing heme production improve growth under ZnPPIX stress?",
+        "hypothesis": "Adding 5-ALA, a heme precursor, will increase intracellular heme and improve growth under ZnPPIX stress.",
+        "decision": "Supplement cultures with 5-ALA and measure growth and heme levels.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "5-ALA supplementation assay",
+          "version": "N/A",
+          "category": "biochemical_assay"
+        },
+        "parameters": {
+          "5-ALA_concentration": "varied",
+          "ZnPPIX_concentration": "32 μg/mL"
+        },
+        "observation": "Adding 5-ALA promoted heme biosynthesis; intracellular and extracellular heme gradually increased, confirming feasibility of growth-coupled selection.",
+        "result_status": "success",
+        "next_step_reason": "Identify which heme biosynthetic enzymes are rate-limiting by overexpression screen.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E06_01",
+            "source_file": "docs/0055/combined.md",
+            "section": "C001",
+            "quote_or_span": "adding 5-ALA promoted heme biosynthesis. With the increase of 5-ALA addition, the concentration of intracellular and extracellular heme gradually increased"
+          },
+          {
+            "evidence_id": "EV_C002_E01_01",
+            "source_file": "docs/0055/combined.md",
+            "section": "C002",
+            "quote_or_span": "adding 5-ALA promoted heme biosynthesis"
+          },
+          {
+            "evidence_id": "EV_C002_E01_02",
+            "source_file": "docs/0055/combined.md",
+            "section": "C002",
+            "quote_or_span": "the concentration of intracellular and extracellular heme gradually increased"
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "experiment",
+        "state_before": "Platform validated; need to identify target enzymes for evolution.",
+        "gap_or_uncertainty": "Which of the seven heme biosynthetic enzymes limits growth under ZnPPIX stress?",
+        "hypothesis": "Overexpressing individual enzymes will reveal which ones improve growth, indicating rate-limiting steps.",
+        "decision": "Overexpress all seven heme biosynthetic enzymes (PbgS, HmbS, UroS, UroD, CgoX, CpfC, ChdC) and measure growth under ZnPPIX stress.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Overexpression screen",
+          "version": "N/A",
+          "category": "genetic_engineering"
+        },
+        "parameters": {
+          "ZnPPIX_concentration": "16 μg/mL",
+          "enzymes": [
+            "PbgS",
+            "HmbS",
+            "UroS",
+            "UroD",
+            "CgoX",
+            "CpfC",
+            "ChdC"
+          ]
+        },
+        "observation": "CpfC overexpression showed the highest growth rate; biomass was 1.81-fold higher than control at 24 h. HmbS, UroS, and ChdC did not improve growth.",
+        "result_status": "partial",
+        "next_step_reason": "Proceed with directed evolution of CpfC; note failure of three enzymes for future optimization.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E04_02",
+            "source_file": "docs/0055/combined.md",
+            "section": "C002",
+            "quote_or_span": "The strain overexpressing cpfC showed the highest growth rate amongst all the tested strains"
+          },
+          {
+            "evidence_id": "EV_C002_E04_03",
+            "source_file": "docs/0055/combined.md",
+            "section": "C002",
+            "quote_or_span": "The biomass was 1.81-fold higher than that of the control strain at 24 h"
+          },
+          {
+            "evidence_id": "EV_C003_E08_01",
+            "source_file": "docs/0055/combined.md",
+            "section": "C003",
+            "quote_or_span": "another three enzymes (HmbS, UroS, ChdC) have not exhibited improved growth tendencies, the selection platform could be optimized by regulating the intensity of gene expression and co-expressing multiple genes to improve the universality."
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "experiment",
+        "state_before": "CpfC identified as best target; need to generate and select improved variants.",
+        "gap_or_uncertainty": "Can random mutagenesis and growth-coupled selection enrich CpfC mutants with higher activity?",
+        "hypothesis": "A random mutation library of CpfC subjected to ZnPPIX selection will enrich mutants that improve growth.",
+        "decision": "Construct a random mutation library of CpfC (size ~10^6) and perform growth-coupled selection under ZnPPIX stress.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Random mutagenesis and selection",
+          "version": "N/A",
+          "category": "directed_evolution"
+        },
+        "parameters": {
+          "library_size": "10^6",
+          "ZnPPIX_concentration": "16 μg/mL",
+          "plasmid": "pXMJ19-hmuTUV"
+        },
+        "observation": "Clones with different sizes were obtained; enriched population showed improved growth.",
+        "result_status": "success",
+        "next_step_reason": "Validate that growth improvement is due to CpfC mutations by reconstructing mutants.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E05_03",
+            "source_file": "docs/0055/combined.md",
+            "section": "C002",
+            "quote_or_span": "clones with different sizes were obtained"
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "validation",
+        "state_before": "Enriched mutants may contain background mutations.",
+        "gap_or_uncertainty": "Are the improved growth phenotypes due to CpfC mutations or other genomic/plasmid changes?",
+        "hypothesis": "Reconstructing identified CpfC mutations in a clean background will confirm causality.",
+        "decision": "Clone identified CpfC mutations (E181G, T194S, E31V/E100D) into fresh plasmid and test growth.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Mutant reconstruction",
+          "version": "N/A",
+          "category": "genetic_engineering"
+        },
+        "parameters": {
+          "mutations": [
+            "E181G",
+            "T194S",
+            "E31V/E100D"
+          ]
+        },
+        "observation": "Reconstructed mutants confirmed improved growth, ruling out background mutations.",
+        "result_status": "success",
+        "next_step_reason": "Characterize the enzymatic activity of mutants to correlate with growth.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E06_01",
+            "source_file": "docs/0055/combined.md",
+            "section": "C002",
+            "quote_or_span": "To remove the possible mutations in the plasmid backbone or the chromosome that were randomly introduced during the evolution process, the e"
+          },
+          {
+            "evidence_id": "EV_AUTO_005",
+            "source_file": "docs/0055/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The results showed that the specific activities of the mutants $CpfC^{E31V,E100D}$ , $CpfC^{E181G}$ , and $CpfC^{T194S}$ were 0.61 U/mg, 0."
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "experiment",
+        "state_before": "Need a method to measure CpfC activity for kinetic characterization.",
+        "gap_or_uncertainty": "No existing fluorescence assay for CpfC activity using its native substrate CPIII.",
+        "hypothesis": "A fluorescence assay can be developed based on the fluorescence of CPIII (product) vs. coproheme (substrate).",
+        "decision": "Develop a fluorescence detection method using CPIII as substrate (excitation 395 nm, emission 611 nm).",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Fluorescence assay",
+          "version": "N/A",
+          "category": "biochemical_assay"
+        },
+        "parameters": {
+          "excitation": "395 nm",
+          "emission": "611 nm",
+          "substrate": "CPIII"
+        },
+        "observation": "A fluorescence detection method was constructed; confirmed CPIII is the native substrate.",
+        "result_status": "success",
+        "next_step_reason": "Use the assay to measure kinetic parameters of CpfC mutants.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E02_01",
+            "source_file": "docs/0055/combined.md",
+            "section": "C003",
+            "quote_or_span": "A fluorescence detection method was firstly constructed based on the fact that CPIII in solution at specific wavelengths is fluorescent, whereas coproheme is not (Porra and Lascelles, 1968)."
+          },
+          {
+            "evidence_id": "EV_AUTO_015",
+            "source_file": "docs/0055/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Subsequently, 200 μL of the supernatant was added to a 96-well microtiter plate and the specific activity was determined using a microplate reader (SpectraMax M5, Molecular Devices, λ excitation = 395 nm, λ emission = 611 nm)."
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "experiment",
+        "state_before": "Fluorescence assay available; mutants reconstructed.",
+        "gap_or_uncertainty": "Do the CpfC mutants have improved kinetic parameters that explain growth enhancement?",
+        "hypothesis": "CpfC mutants will show increased specific activity and catalytic efficiency on CPIII.",
+        "decision": "Perform kinetic characterization of CpfC WT and mutants (E31V, E100D, E31V/E100D, E181G, T194S) using the fluorescence assay.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Enzyme kinetics",
+          "version": "N/A",
+          "category": "biochemical_assay"
+        },
+        "parameters": {
+          "substrate": "CPIII",
+          "measured_parameters": [
+            "specific_activity",
+            "kcat",
+            "KM",
+            "kcat/KM"
+          ]
+        },
+        "observation": "WT specific activity: 0.39 U/mg (CPIII) vs 2.22×10^-3 U/mg (PPIX). E31V had highest kcat/KM of 52.91 mM^-1 s^-1; E31V/E100D kcat/KM 37.01 mM^-1 s^-1 (2.12-fold higher than WT). Mutants showed lower KM and higher catalytic efficiency.",
+        "result_status": "success",
+        "next_step_reason": "Extend the platform to other enzymes (PbgS, UroD, CgoX).",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E07_01",
+            "source_file": "docs/0055/combined.md",
+            "section": "C002",
+            "quote_or_span": "Kinetic characterization of CpfC mutants on CPIII"
+          },
+          {
+            "evidence_id": "EV_AUTO_023",
+            "source_file": "docs/0055/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "39 U/mg using the CPIII as substrate (Figure 2D), while the specific activity of $CpfC^{WT}$ with the PPIX as substrate was only $2.22 \\times 10^{-3}$ U/mg (Figure 2D), which was two orders of magnitude lower than the former."
+          },
+          {
+            "evidence_id": "EV_AUTO_008",
+            "source_file": "docs/0055/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Additionally, the $k_{cat}/K_{M}$ of $CpfC^{E31V}$ was up to 52."
+          },
+          {
+            "evidence_id": "EV_AUTO_021",
+            "source_file": "docs/0055/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Especially, the $k_{cat}/K_{M}$ of $CpfC^{E31V,E100D}$ ( $37.01 \\, mM^{-1}S^{-1}$ ) was 2."
+          },
+          {
+            "evidence_id": "EV_AUTO_005",
+            "source_file": "docs/0055/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The results showed that the specific activities of the mutants $CpfC^{E31V,E100D}$ , $CpfC^{E181G}$ , and $CpfC^{T194S}$ were 0.61 U/mg, 0."
+          },
+          {
+            "evidence_id": "EV_AUTO_001",
+            "source_file": "docs/0055/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The results showed that the specific activities of the mutants $CpfC^{E31V,E100D}$ , $CpfC^{E181G}$ , and $CpfC^{T194S}$ were 0."
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "experiment",
+        "state_before": "CpfC evolution successful; other enzymes (PbgS, UroD, CgoX) showed growth improvement in overexpression screen.",
+        "gap_or_uncertainty": "Can the growth-coupled selection platform be applied to evolve PbgS, UroD, and CgoX?",
+        "hypothesis": "Directed evolution of PbgS, UroD, and CgoX using the same platform will yield mutants with improved growth.",
+        "decision": "Construct random mutation libraries for PbgS, UroD, and CgoX and perform growth-coupled selection under ZnPPIX stress.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Directed evolution",
+          "version": "N/A",
+          "category": "directed_evolution"
+        },
+        "parameters": {
+          "enzymes": [
+            "PbgS",
+            "UroD",
+            "CgoX"
+          ],
+          "ZnPPIX_concentration": "16 μg/mL"
+        },
+        "observation": "Mutants showed 3.05- to 4.17-fold (PbgS), 1.46- to 5.96-fold (UroD), and 1.95- to 3.75-fold (CgoX) higher biomass than wild-type controls at 24 h.",
+        "result_status": "success",
+        "next_step_reason": "Summarize overall effectiveness and limitations.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E06_01",
+            "source_file": "docs/0055/combined.md",
+            "section": "C003",
+            "quote_or_span": "The biomasses of the strains harboring PbgS, UroD, and CgoX mutants were 3.05- to 4.17-fold, 1.46- to 5.96-fold, and 1.95- to 3.75-fold higher than that of the control strains harboring wild-type enzymes at 24 h"
+          },
+          {
+            "evidence_id": "EV_AUTO_018",
+            "source_file": "docs/0055/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "95- to 3.75-fold higher than that of the control strains harboring wild-type enzymes at 24 h, respectively (Figure 3; Supplementary Table S3)."
+          },
+          {
+            "evidence_id": "EV_AUTO_028",
+            "source_file": "docs/0055/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "75-fold higher than that of the control strains harboring wild-type enzymes at 24 h, respectively (Figure 3; Supplementary Table S3)."
+          },
+          {
+            "evidence_id": "EV_AUTO_029",
+            "source_file": "docs/0055/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "59-fold, and 7.31-fold higher than that of the control strains overexpressing the wild-type genes, respectively (Supplementary Figure S7)."
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "validation",
+        "state_before": "Four enzymes evolved successfully; three failed.",
+        "gap_or_uncertainty": "Is the platform generally effective for heme biosynthetic enzymes?",
+        "hypothesis": "The growth-coupled selection system is effective for directed evolution of heme biosynthetic enzymes, but requires optimization for universality.",
+        "decision": "Assess overall results and identify limitations.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Comparative analysis",
+          "version": "N/A",
+          "category": "analysis"
+        },
+        "parameters": {},
+        "observation": "The platform successfully evolved CpfC, PbgS, UroD, and CgoX, providing mutants with improved activity. However, HmbS, UroS, and ChdC did not show improved growth, indicating the need for optimization (e.g., regulating gene expression, co-expressing multiple genes).",
+        "result_status": "partial",
+        "next_step_reason": "Conclude the study.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E07_01",
+            "source_file": "docs/0055/combined.md",
+            "section": "C003",
+            "quote_or_span": "the growth-coupled selection system based on the detoxification of MPs was an effective strategy for directed evolution of enzymes involved in heme biosynthesis or other tetrapyrrole compounds."
+          },
+          {
+            "evidence_id": "EV_C003_E08_01",
+            "source_file": "docs/0055/combined.md",
+            "section": "C003",
+            "quote_or_span": "another three enzymes (HmbS, UroS, ChdC) have not exhibited improved growth tendencies, the selection platform could be optimized by regulating the intensity of gene expression and co-expressing multiple genes to improve the universality."
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "5-ALA supplementation to confirm growth-heme coupling",
+        "Reconstruction of CpfC mutants to rule out background mutations",
+        "Kinetic characterization of mutants using fluorescence assay"
+      ],
+      "metrics": [
+        "Biomass (OD600) under ZnPPIX stress",
+        "Specific activity (U/mg)",
+        "Catalytic efficiency (kcat/KM)"
+      ],
+      "final_conclusion": "The growth-coupled selection platform based on ZnPPIX detoxification effectively evolved four out of seven heme biosynthetic enzymes, yielding mutants with significantly improved growth and catalytic activity. Three enzymes (HmbS, UroS, ChdC) were not evolvable under current conditions, highlighting a need for platform optimization.",
+      "limitations": [
+        "Three enzymes (HmbS, UroS, ChdC) did not show improved growth, indicating the selection platform needs optimization for universality."
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_specific_evidence_backfilled=9",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_specific_evidence_backfilled=3",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 99.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p6\\states\\0055.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p6\\events\\0055.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1,
+          10
+        ],
+        "K02": [
+          1,
+          2
+        ],
+        "K04": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          9,
+          10
+        ],
+        "K05": [
+          1,
+          4,
+          9
+        ],
+        "K06": [
+          4,
+          9,
+          10
+        ],
+        "K07": [
+          5,
+          9
+        ],
+        "K08": [
+          5,
+          6
+        ],
+        "K09": [
+          7,
+          8
+        ],
+        "K10": [
+          5,
+          6,
+          8,
+          9,
+          10
+        ],
+        "K11": [
+          4,
+          8,
+          9,
+          10
+        ],
+        "K12": [
+          1,
+          2,
+          3,
+          4,
+          9,
+          10
+        ],
+        "K13": [
+          4,
+          9,
+          10
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02",
+            "K03",
+            "K04",
+            "K05",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K02",
+            "K03",
+            "K04",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K03",
+            "K04",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K03",
+            "K04",
+            "K05",
+            "K06",
+            "K11",
+            "K12",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K04",
+            "K07",
+            "K08",
+            "K10"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K08",
+            "K10"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K09"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K09",
+            "K10",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K03",
+            "K04",
+            "K05",
+            "K06",
+            "K07",
+            "K10",
+            "K11",
+            "K12",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K01",
+            "K03",
+            "K04",
+            "K06",
+            "K10",
+            "K11",
+            "K12",
+            "K13"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 8,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "-1s",
+          "0.39",
+          "2.12",
+          "37.01mm",
+          "52.91mm"
+        ]
+      }
+    ],
+    "step_count": 10,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 99.0
+  },
+  "api_usage": {
+    "prompt_tokens": 108061,
+    "completion_tokens": 24014,
+    "total_tokens": 132075,
+    "prompt_cache_hit_tokens": 2688,
+    "prompt_cache_miss_tokens": 105373
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 4159,
+        "completion_tokens": 697,
+        "total_tokens": 4856,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 4159
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 14260,
+        "completion_tokens": 3186,
+        "total_tokens": 17446,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 14260
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 8146,
+        "completion_tokens": 1137,
+        "total_tokens": 9283,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7890
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 9573,
+        "completion_tokens": 1409,
+        "total_tokens": 10982,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9317
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 8818,
+        "completion_tokens": 1858,
+        "total_tokens": 10676,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8562
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 6201,
+        "completion_tokens": 45,
+        "total_tokens": 6246,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 5945
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 9577,
+        "completion_tokens": 3218,
+        "total_tokens": 12795,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 9193
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 11080,
+        "completion_tokens": 5582,
+        "total_tokens": 16662,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 10440
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 16730,
+        "completion_tokens": 1136,
+        "total_tokens": 17866,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 16730
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 19517,
+        "completion_tokens": 5746,
+        "total_tokens": 25263,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 18877
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

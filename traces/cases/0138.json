@@ -1,0 +1,864 @@
+{
+  "case": {
+    "case_id": "sci_evo_0138",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Directed evolution of an E. coli inner membrane transporter for improved efflux of biofuel molecules",
+      "doi": "https://doi.org/10.1186/1754-6834-6-81",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0136_10_1186_1754_6834_6_81_directed_evolution_of_an_e_coli_inner_membrane_transporter_for_improved_efflux_of_biofuel_.pdf",
+      "mineru_md": "docs/0138/mineru.md",
+      "combined_md": "docs/0138/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Biofuel toxicity limits microbial production yield; engineering native E. coli efflux pump AcrB via directed evolution to improve efflux of biofuel molecules like n-octane.",
+      "target_object": "AcrB efflux pump",
+      "known_context": "n-Octane lacks chromophore, preventing high-throughput spectroscopic efflux assay. Hypothesis that solvent resistance correlates with growth and efflux rate.",
+      "constraints": [
+        "No high-throughput assay for n-octane efflux",
+        "Need to maintain adequate selection pressure"
+      ],
+      "input_data": [],
+      "quantifiable_goals": [
+        "Increase n-octane efflux rate",
+        "Improve growth under hydrocarbon stress"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "n-Octane lacks chromophore, preventing high-throughput spectroscopic efflux assay.",
+        "gap_or_uncertainty": "How to select for improved AcrB variants without a direct high-throughput efflux assay.",
+        "hypothesis": "Solvent resistance correlates with growth and efflux rate, enabling competitive growth selection.",
+        "decision": "Use competitive growth under hydrocarbon stress to enrich for superior AcrB mutants.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "competitive growth selection",
+          "version": "",
+          "category": "selection"
+        },
+        "parameters": {},
+        "observation": "Hypothesis formulated that cells with better efflux will dominate under n-octane stress.",
+        "result_status": "success",
+        "next_step_reason": "Design selection conditions with n-octane and 1-octanol.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0138/combined.md",
+            "section": "C001",
+            "quote_or_span": "n-octane has no chromophore, thus efflux rate of n-octane from E. coli cannot be conveniently determined spectroscopically in real time."
+          },
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0138/combined.md",
+            "section": "C001",
+            "quote_or_span": "Based on the hypothesis that solvent resistance correlates to increased growth and efflux rate, subjecting E. coli cells expressing a mixture of AcrB variants to the toxicity of n-octane would enable the superior mutants to dominate the population"
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "design",
+        "state_before": "Hypothesis that growth under hydrocarbon stress can select for improved efflux.",
+        "gap_or_uncertainty": "Need to establish selection conditions that apply adequate pressure.",
+        "hypothesis": "Basal AcrB expression with n-octane will provide sufficient selection pressure; 1-octanol with IPTG induction will be a more toxic surrogate.",
+        "decision": "Design two selection schemes: n-octane at basal expression, and 1-octanol with IPTG induction.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "competitive growth enrichment",
+          "version": "",
+          "category": "selection"
+        },
+        "parameters": {
+          "n-octane": "basal expression",
+          "1-octanol": "0.050% with IPTG induction"
+        },
+        "observation": "Selection designs established.",
+        "result_status": "success",
+        "next_step_reason": "Validate selection conditions with a mixed culture experiment.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E03_01",
+            "source_file": "docs/0138/combined.md",
+            "section": "C001",
+            "quote_or_span": "competitive growth enrichment of the mutant libraries with n-octane would be performed at basal expression level. Under this condition, the growth rate of cells with wild-type AcrB n-octane efflux efficiency is sufficiently lower than the maximum growth rate achievable by the cells."
+          },
+          {
+            "evidence_id": "EV_C001_E04_01",
+            "source_file": "docs/0138/combined.md",
+            "section": "C001",
+            "quote_or_span": "competitive growth enrichment of the mutant libraries with 1-octanol was performed using induced cells with 0.050% of the substrate."
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "experiment",
+        "state_before": "Selection designs for n-octane and 1-octanol established.",
+        "gap_or_uncertainty": "Whether the selection conditions can effectively enrich for AcrB-expressing cells.",
+        "hypothesis": "Mixed culture of JA300A/pMW119 and JA300A/pAcrB will enrich to only pAcrB under hydrocarbon stress.",
+        "decision": "Perform mixed culture experiment under hydrocarbon stress.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "mixed culture enrichment",
+          "version": "",
+          "category": "selection"
+        },
+        "parameters": {
+          "strains": "JA300A/pMW119 and JA300A/pAcrB",
+          "stress": "hydrocarbons"
+        },
+        "observation": "Plasmids from control cultures contained both pMW119 and pAcrB; under hydrocarbon stress, only pAcrB was recovered.",
+        "result_status": "success",
+        "next_step_reason": "Develop a quantitative efflux assay to measure n-octane efflux.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E05_01",
+            "source_file": "docs/0138/combined.md",
+            "section": "C001",
+            "quote_or_span": "Plasmids isolated from the control cultures consisted of both pMW119 and pAcrB while those extracted from cultures grown under the selection pressure of the hydrocarbons contained only pAcrB"
+          },
+          {
+            "evidence_id": "EV_C001_E07_01",
+            "source_file": "docs/0138/combined.md",
+            "section": "C001",
+            "quote_or_span": "The efflux rate of n-octane by AcrB was calculated by taking the difference between the n-octane release rate constants of JA300A/pMW119 (expressing no AcrB) and JA300A/pAcrB (expressing wild-type AcrB)"
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "experiment",
+        "state_before": "No high-throughput assay for n-octane efflux.",
+        "gap_or_uncertainty": "Need a method to quantify n-octane efflux rate.",
+        "hypothesis": "A discontinuous GC-based assay can measure intracellular n-octane over time.",
+        "decision": "Develop GC-based assay to determine n-octane efflux rate.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "gas chromatography",
+          "version": "",
+          "category": "assay"
+        },
+        "parameters": {
+          "method": "discontinuous assay",
+          "analyte": "intracellular n-octane"
+        },
+        "observation": "Efflux rate constant calculated as difference between n-octane release rate constants of strains with and without AcrB.",
+        "result_status": "success",
+        "next_step_reason": "Generate mutant libraries for directed evolution.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E06_01",
+            "source_file": "docs/0138/combined.md",
+            "section": "C001",
+            "quote_or_span": "the n-octane efflux rate was determined by a discontinuous assay using gas chromatography to quantify the intracellular n-octane over time"
+          },
+          {
+            "evidence_id": "EV_C001_E07_01",
+            "source_file": "docs/0138/combined.md",
+            "section": "C001",
+            "quote_or_span": "The efflux rate of n-octane by AcrB was calculated by taking the difference between the n-octane release rate constants of JA300A/pMW119 (expressing no AcrB) and JA300A/pAcrB (expressing wild-type AcrB)"
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "experiment",
+        "state_before": "Selection conditions validated and efflux assay developed.",
+        "gap_or_uncertainty": "Need to create genetic diversity in acrB.",
+        "hypothesis": "Error-prone PCR can generate diverse acrB mutant libraries.",
+        "decision": "Generate eight mutant libraries of acrB by mutagenic PCR.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "error-prone PCR",
+          "version": "",
+          "category": "mutagenesis"
+        },
+        "parameters": {
+          "libraries": 8,
+          "variants_per_library": "~20,000"
+        },
+        "observation": "Eight libraries of ~20,000 variants each were generated and cloned into pMW119.",
+        "result_status": "success",
+        "next_step_reason": "Enrich libraries using n-octane selection.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E08_01",
+            "source_file": "docs/0138/combined.md",
+            "section": "C001",
+            "quote_or_span": "Eight mutant libraries of acrB were generated by mutagenic PCR and cloned into pMW119. Each library consisted of approximately 20,000 variants"
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "experiment",
+        "state_before": "Mutant libraries generated.",
+        "gap_or_uncertainty": "Whether n-octane selection can enrich for improved AcrB variants.",
+        "hypothesis": "n-Octane enrichment will select for variants with enhanced efflux.",
+        "decision": "Perform library enrichment using n-octane.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "competitive growth enrichment",
+          "version": "",
+          "category": "selection"
+        },
+        "parameters": {
+          "substrate": "n-octane",
+          "expression": "basal"
+        },
+        "observation": "n-Octane could not apply sufficient selection pressure; enriched libraries dominated by plasmids with mutant lac operator, not improved AcrB mutants.",
+        "result_status": "failure",
+        "next_step_reason": "Switch to 1-octanol enrichment to overcome insufficient selection pressure.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E01_01",
+            "source_file": "docs/0138/combined.md",
+            "section": "C002",
+            "quote_or_span": "Library enrichment was initially performed using n-octane."
+          },
+          {
+            "evidence_id": "EV_C002_E01_02",
+            "source_file": "docs/0138/combined.md",
+            "section": "C002",
+            "quote_or_span": "n-octane could not apply sufficient selection pressure to enable differentiation of variants with good performance from the average ones."
+          },
+          {
+            "evidence_id": "EV_C002_E02_01",
+            "source_file": "docs/0138/combined.md",
+            "section": "C002",
+            "quote_or_span": "Sequencing of five discrete clones isolated from a library revealed mutations in the lac operator in four clones"
+          },
+          {
+            "evidence_id": "EV_C002_E02_02",
+            "source_file": "docs/0138/combined.md",
+            "section": "C002",
+            "quote_or_span": "the libraries were dominated by plasmids with mutant lac operator expressing AcrB variants with average performance"
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "revision",
+        "state_before": "n-Octane enrichment failed due to insufficient selection pressure.",
+        "gap_or_uncertainty": "Need a more stringent selection to isolate improved variants.",
+        "hypothesis": "1-Octanol with IPTG induction will provide stronger selection pressure.",
+        "decision": "Switch to growth enrichment using 1-octanol with IPTG induction.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "competitive growth enrichment",
+          "version": "",
+          "category": "selection"
+        },
+        "parameters": {
+          "substrate": "1-octanol",
+          "induction": "IPTG"
+        },
+        "observation": "Enrichment strategy revised to use 1-octanol.",
+        "result_status": "success",
+        "next_step_reason": "Perform 1-octanol enrichment and screen for improved variants.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E03_01",
+            "source_file": "docs/0138/combined.md",
+            "section": "C002",
+            "quote_or_span": "To overcome this limitation, we directed our effort towards growth enrichment using 1-octanol."
+          },
+          {
+            "evidence_id": "EV_C002_E03_02",
+            "source_file": "docs/0138/combined.md",
+            "section": "C002",
+            "quote_or_span": "AcrB expression was induced with IPTG before and during growth enrichment with 1-octanol"
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "experiment",
+        "state_before": "Revised selection strategy using 1-octanol.",
+        "gap_or_uncertainty": "Whether 1-octanol enrichment can isolate improved AcrB variants.",
+        "hypothesis": "1-Octanol enrichment will yield variants with enhanced n-octane efflux.",
+        "decision": "Enrich libraries with 1-octanol and isolate individual variants.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "competitive growth enrichment",
+          "version": "",
+          "category": "selection"
+        },
+        "parameters": {
+          "substrate": "1-octanol",
+          "induction": "IPTG"
+        },
+        "observation": "Two enriched libraries showed enhanced n-octane efflux; variants 1G1 (N189H, T678S) and 1G2 (L357Q, Q737L, M844L, M987T, V1028M) isolated.",
+        "result_status": "success",
+        "next_step_reason": "Validate improved growth and efflux of 1G1 and 1G2.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E04_01",
+            "source_file": "docs/0138/combined.md",
+            "section": "C002",
+            "quote_or_span": "Two of the eight enriched libraries contained variants with enhanced n-octane efflux efficiency."
+          },
+          {
+            "evidence_id": "EV_C002_E04_02",
+            "source_file": "docs/0138/combined.md",
+            "section": "C002",
+            "quote_or_span": "The mutations in 1G1 are N189H and T678S, and those in 1G2 are L357Q, Q737L, M844L, M987T, V1028M."
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "validation",
+        "state_before": "Variants 1G1 and 1G2 isolated.",
+        "gap_or_uncertainty": "Whether the improved growth and efflux are due to protein function.",
+        "hypothesis": "1G1 and 1G2 will show faster growth in 1-octanol and increased n-octane efflux; similar expression levels indicate functional improvement.",
+        "decision": "Characterize growth, efflux, and expression of 1G1 and 1G2.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "growth assay, GC efflux assay, western blot",
+          "version": "",
+          "category": "characterization"
+        },
+        "parameters": {
+          "substrates": "1-octanol, n-octane",
+          "detection": "anti-hexahistidine antibody"
+        },
+        "observation": "1G1 and 1G2 showed faster growth in 1-octanol and over 40% increase in n-octane efflux; western blot confirmed similar expression levels.",
+        "result_status": "success",
+        "next_step_reason": "Analyze contributions of individual mutations.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E05_02",
+            "source_file": "docs/0138/combined.md",
+            "section": "C002",
+            "quote_or_span": "The variants also exhibited over 40% increase in n-octane efflux rate relative to wild-type AcrB"
+          },
+          {
+            "evidence_id": "EV_C002_E06_01",
+            "source_file": "docs/0138/combined.md",
+            "section": "C002",
+            "quote_or_span": "There was negligible difference in the expression levels of 1G1 and 1G2 compared to wild-type AcrB"
+          },
+          {
+            "evidence_id": "EV_C002_E06_02",
+            "source_file": "docs/0138/combined.md",
+            "section": "C002",
+            "quote_or_span": "indicating that the increased efflux of n-octane and enhanced tolerance of the cells expressing 1G1 and 1G2 were due to improved performance of the mutant proteins."
+          },
+          {
+            "evidence_id": "EV_C004_E01_01",
+            "source_file": "docs/0138/combined.md",
+            "section": "C004",
+            "quote_or_span": "The proteins were transferred to polyvinylidene fluoride membranes (Bio-Rad) electrophoretically and probed using anti-hexahistidine antibody conjugated with horse radish peroxidase."
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "experiment",
+        "state_before": "1G1 and 1G2 validated with improved efflux.",
+        "gap_or_uncertainty": "Which mutations are responsible for the improved phenotype.",
+        "hypothesis": "Single-site mutants will reveal contributions and potential synergy.",
+        "decision": "Construct and assay single-site mutants for all mutations in 1G1 and 1G2.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "site-directed mutagenesis, GC efflux assay",
+          "version": "",
+          "category": "mutagenesis"
+        },
+        "parameters": {
+          "mutations": "N189H, T678S, L357Q, Q737L, M844L, M987T, V1028M"
+        },
+        "observation": "N189H and T678S individually <10% improvement, but together 47%; Q737L and M844L beneficial; L357Q, M987T, V1028M reduced efflux. Synergy between N189H and T678S.",
+        "result_status": "success",
+        "next_step_reason": "Map mutations onto AcrB structure to understand mechanism.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E07_01",
+            "source_file": "docs/0138/combined.md",
+            "section": "C002",
+            "quote_or_span": "N189H and T678S improved efflux of n-octane only slightly (less than 10%) although 1G1, which possess these two mutations, exhibited 47% faster efflux of n-octane."
+          },
+          {
+            "evidence_id": "EV_C002_E07_02",
+            "source_file": "docs/0138/combined.md",
+            "section": "C002",
+            "quote_or_span": "These results suggest that N189H and T678S may work synergistically."
+          },
+          {
+            "evidence_id": "EV_AUTO_004",
+            "source_file": "docs/0138/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Single-site mutants based on the mutations found in the isolated variants were synthesized and the amino acid substitutions N189H, T678S, Q737L and M844L were identified to have conferred improvement in efflux efficiency."
+          },
+          {
+            "evidence_id": "EV_AUTO_007",
+            "source_file": "docs/0138/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Interestingly, N189H and T678S improved efflux of n-octane only slightly (less than 10%) although 1G1, which possess these two mutations, exhibited 47% faster efflux of n-octane."
+          },
+          {
+            "evidence_id": "EV_C002_E04_02",
+            "source_file": "docs/0138/combined.md",
+            "section": "C002",
+            "quote_or_span": "The mutations in 1G1 are N189H and T678S, and those in 1G2 are L357Q, Q737L, M844L, M987T, V1028M."
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "analysis",
+        "state_before": "Key beneficial mutations identified.",
+        "gap_or_uncertainty": "Structural basis for improved efflux.",
+        "hypothesis": "Mutations are located in functionally relevant regions: N189H and Q737L near TolC docking domains; T678S and M844L near substrate entrance.",
+        "decision": "Map mutations onto AcrB crystal structure (PDB: 2DHH).",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "structural analysis",
+          "version": "PyMOL",
+          "category": "computational"
+        },
+        "parameters": {
+          "pdb_id": "2DHH"
+        },
+        "observation": "N189H and Q737L near TolC docking hairpins; T678S and M844L close to each other along proposed transport paths. Mutations distant from substrate path validate directed evolution approach.",
+        "result_status": "success",
+        "next_step_reason": "Propose mechanistic hypotheses for T678S and M844L.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E08_01",
+            "source_file": "docs/0138/combined.md",
+            "section": "C002",
+            "quote_or_span": "N189H and Q737L are located near the hairpins in the TolC docking domains"
+          },
+          {
+            "evidence_id": "EV_C002_E08_02",
+            "source_file": "docs/0138/combined.md",
+            "section": "C002",
+            "quote_or_span": "T678S and M844L occur close to each other along two proposed transport paths i.e. the vestibule between protomers and the cleft in the periplasmic domain"
+          },
+          {
+            "evidence_id": "EV_C004_E03_01",
+            "source_file": "docs/0138/combined.md",
+            "section": "C004",
+            "quote_or_span": "The locations of the mutations were studied on a published structure of AcrB (PDB ID: 2DHH)."
+          },
+          {
+            "evidence_id": "EV_C004_E03_02",
+            "source_file": "docs/0138/combined.md",
+            "section": "C004",
+            "quote_or_span": "Rendered images of protein structures were generated with Pymol [33]."
+          }
+        ]
+      },
+      {
+        "step_index": 12,
+        "phase": "experiment",
+        "state_before": "Structural mapping completed.",
+        "gap_or_uncertainty": "Mechanism of T678S and M844L improvement.",
+        "hypothesis": "T678S and M844L enlarge substrate channel or alter efflux dynamics.",
+        "decision": "Test hypothesis with T678A and M844A variants.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "site-directed mutagenesis, GC efflux assay",
+          "version": "",
+          "category": "mutagenesis"
+        },
+        "parameters": {
+          "variants": "T678A, M844A"
+        },
+        "observation": "T678A and M844A also increased n-octane efflux, supporting channel enlargement hypothesis.",
+        "result_status": "success",
+        "next_step_reason": "Investigate antibiotic resistance of mutants.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E01_01",
+            "source_file": "docs/0138/combined.md",
+            "section": "C003",
+            "quote_or_span": "R717 and L828 such that the channel leading to the binding pocket is enlarged or the dynamics of substrate efflux is altered."
+          },
+          {
+            "evidence_id": "EV_C003_E01_02",
+            "source_file": "docs/0138/combined.md",
+            "section": "C003",
+            "quote_or_span": "these propositions on the roles of the T678S and M844L mutations are supported by the increased n-octane efflux by the T678A and M844A variants"
+          },
+          {
+            "evidence_id": "EV_AUTO_005",
+            "source_file": "docs/0138/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Nevertheless, these propositions on the roles of the T678S and M844L mutations are supported by the increased n-octane efflux by the T678A and M844A variants (Table 1), which have the side chains shortened to a methyl group."
+          },
+          {
+            "evidence_id": "EV_AUTO_012",
+            "source_file": "docs/0138/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Thus, we propose that shortening the side chain of threonine in the T678S mutant would likely widen the entrance at the lower cleft in the"
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "Mixed culture enrichment validation",
+        "GC-based efflux assay",
+        "Western blot for expression levels",
+        "Single-site mutant analysis",
+        "Structural mapping"
+      ],
+      "metrics": [
+        "n-Octane efflux rate constant",
+        "Growth OD600 under 1-octanol stress",
+        "MIC for antibiotics"
+      ],
+      "final_conclusion": "Directed evolution of AcrB yielded variants 1G1 and 1G2 with over 40% increased n-octane efflux. Beneficial mutations N189H, T678S, Q737L, M844L were identified, with N189H and T678S showing synergy. Mutations are distant from the substrate path, validating the directed evolution approach. No increased antibiotic resistance was observed.",
+      "limitations": [
+        "Crystal structures would be required to validate mechanistic hypotheses (EV_C003_E07_01)."
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_phase_action_fixed=2",
+        "v22_specific_evidence_backfilled=5",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_specific_evidence_backfilled=2",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 99.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p1\\states\\0138.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p1\\events\\0138.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1
+        ],
+        "K04": [
+          1,
+          2,
+          7,
+          8
+        ],
+        "K05": [
+          1,
+          2,
+          3
+        ],
+        "K07": [
+          1,
+          3,
+          4
+        ],
+        "K08": [
+          5
+        ],
+        "K09": [
+          6
+        ],
+        "K11": [
+          8,
+          10
+        ],
+        "K12": [
+          9
+        ],
+        "K13": [
+          8,
+          10
+        ],
+        "K15": [
+          12
+        ],
+        "K16": [
+          12
+        ],
+        "K18": [
+          11
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02",
+            "K03",
+            "K04",
+            "K05",
+            "K07"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K02",
+            "K03",
+            "K04",
+            "K05"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K05",
+            "K07"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K06",
+            "K07"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K08"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K03",
+            "K09",
+            "K10"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K03",
+            "K04",
+            "K10"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K02",
+            "K03",
+            "K04",
+            "K10",
+            "K11",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K12"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K11",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K14",
+            "K18"
+          ]
+        },
+        {
+          "step_index": 12,
+          "covered_event_ids": [
+            "K02",
+            "K15",
+            "K16"
+          ]
+        }
+      ]
+    },
+    "warnings": [],
+    "step_count": 12,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 99.0
+  },
+  "api_usage": {
+    "prompt_tokens": 112585,
+    "completion_tokens": 26728,
+    "total_tokens": 139313,
+    "prompt_cache_hit_tokens": 2688,
+    "prompt_cache_miss_tokens": 109897
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 5109,
+        "completion_tokens": 572,
+        "total_tokens": 5681,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 5109
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 9591,
+        "completion_tokens": 2616,
+        "total_tokens": 12207,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 9591
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 7810,
+        "completion_tokens": 1244,
+        "total_tokens": 9054,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7554
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 8345,
+        "completion_tokens": 1580,
+        "total_tokens": 9925,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8089
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 7828,
+        "completion_tokens": 1361,
+        "total_tokens": 9189,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7572
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 6066,
+        "completion_tokens": 963,
+        "total_tokens": 7029,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 5810
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 11827,
+        "completion_tokens": 4320,
+        "total_tokens": 16147,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 11443
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 13917,
+        "completion_tokens": 6333,
+        "total_tokens": 20250,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 13277
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 19374,
+        "completion_tokens": 1309,
+        "total_tokens": 20683,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 19374
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 22718,
+        "completion_tokens": 6430,
+        "total_tokens": 29148,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 22078
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

@@ -1,0 +1,814 @@
+{
+  "case": {
+    "case_id": "sci_evo_0074",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Enhancing the biocatalytic manufacture of the key intermediate of atorvastatin by focused directed evolution of halohydrin dehalogenase",
+      "doi": "https://doi.org/10.1038/srep42064",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0072_10_1038_srep42064_enhancing_the_biocatalytic_manufacture_of_the_key_intermediate_of_atorvastatin_by_focused_.pdf",
+      "mineru_md": "docs/0074/mineru.md",
+      "combined_md": "docs/0074/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "HheC2360 had insufficient activity for cyanolysis of D3 to A7.",
+      "target_object": "HheC2360 halohydrin dehalogenase",
+      "known_context": "HheC2360 was previously reported for HN manufacture but had insufficient activity for cyanolysis production of A7.",
+      "constraints": [
+        "Maintain enzyme stability and selectivity",
+        "Avoid disrupting catalytic triad, halide-binding site, and oligomer-stabilizing residues"
+      ],
+      "input_data": [
+        "Crystal structure of HheC2360",
+        "Substrate D3 and product A7"
+      ],
+      "quantifiable_goals": [
+        "Increase cyanolysis activity of HheC2360",
+        "Improve bioconversion rate for A7 production"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "HheC2360 had insufficient activity for cyanolysis of D3 to A7.",
+        "gap_or_uncertainty": "The active site residues responsible for low activity were unknown.",
+        "hypothesis": "Focused directed evolution of the active site could enhance activity.",
+        "decision": "Perform focused directed evolution using active site mutagenesis.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "Focused directed evolution",
+          "version": "",
+          "category": "protein_engineering"
+        },
+        "parameters": {},
+        "observation": "Strategy defined to target active site residues.",
+        "result_status": "success",
+        "next_step_reason": "Need to identify specific residues for mutagenesis.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0074/combined.md",
+            "section": "C001",
+            "quote_or_span": "the HheC2360 previously reported for HN manufacture, had insufficient activity for the cyanolysis production of tert-butyl (3R,5S)-6-cyano-3,5-dihydroxyhexanoate (A7)"
+          },
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0074/combined.md",
+            "section": "C001",
+            "quote_or_span": "we present the focused directed evolution of HheC2360 with higher activity and enhanced biocatalytic performance using active site mutagenesis"
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "design",
+        "state_before": "Active site residues not identified.",
+        "gap_or_uncertainty": "Which residues interact with the product A7?",
+        "hypothesis": "Docking A7 into HheC2360 structure will reveal key residues.",
+        "decision": "Perform docking of A7 into HheC2360 crystal structure.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "Molecular docking",
+          "version": "",
+          "category": "computational"
+        },
+        "parameters": {
+          "radius": "5 Å (also considered 6 Å)"
+        },
+        "observation": "Six residues (V84, W86, W139, L142, Y186, Y187) were identified within 5 Å of A7; a 6 Å radius was also used in the identification.",
+        "result_status": "success",
+        "next_step_reason": "Select residues for CASTing after excluding essential ones.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E03_01",
+            "source_file": "docs/0074/combined.md",
+            "section": "C001",
+            "quote_or_span": "Through docking of the product, A7, into the crystal structure of HheC2360, 6 residues was selected for combined active sites testing (CASTing)."
+          },
+          {
+            "evidence_id": "EV_C001_E03_02",
+            "source_file": "docs/0074/combined.md",
+            "section": "C001",
+            "quote_or_span": "the residues V84, W86, W139, L142, Y186 and Y187 were found to be located in the 5 Å radius of the compound"
+          },
+          {
+            "evidence_id": "EV_C003_E06_02",
+            "source_file": "docs/0074/combined.md",
+            "section": "C003",
+            "quote_or_span": "The residues interacting with A7 were identified with selection of the amino acids within 6 Å radius of A7."
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "design",
+        "state_before": "Six residues identified but some may be essential.",
+        "gap_or_uncertainty": "Which residues can be mutated without disrupting function?",
+        "hypothesis": "Excluding catalytic, halide-binding, and oligomer-stabilizing residues will leave suitable targets.",
+        "decision": "Choose V84, W86, L142, W139, Y186, Y187 for CASTing.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Residue selection",
+          "version": "",
+          "category": "rational_design"
+        },
+        "parameters": {},
+        "observation": "Six residues selected for CASTing.",
+        "result_status": "success",
+        "next_step_reason": "Analyze steric hindrance to guide library design.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E01_01",
+            "source_file": "docs/0074/combined.md",
+            "section": "C002",
+            "quote_or_span": "the remaining residues in the vicinity of the substrate, namely V84, W86, L142, W139, Y186 and Y187, were then chosen for combinatorial active-site saturation testing (CASTing)"
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "analysis",
+        "state_before": "Residues selected but steric effects unknown.",
+        "gap_or_uncertainty": "How do V84 and W86 interact with the substrate?",
+        "hypothesis": "Steric hindrance between V84/W86 and the t-butyl group limits activity.",
+        "decision": "Analyze docking poses for steric clashes.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Docking analysis",
+          "version": "",
+          "category": "computational"
+        },
+        "parameters": {},
+        "observation": "Strong steric hindrance: W86-A7 distance 3.3 Å, V84-A7 distance 3.5 Å.",
+        "result_status": "success",
+        "next_step_reason": "Construct CASTing libraries focusing on V84-W86.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E02_01",
+            "source_file": "docs/0074/combined.md",
+            "section": "C002",
+            "quote_or_span": "strong steric hindrance between V84, W86 in HheC2360 and the extended t- butyl group of the substrate was observed owing to the 3.3 Å distance between W86 and A7 and 3.5 Å distance of V84"
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "experiment",
+        "state_before": "Steric hindrance identified; libraries not yet constructed.",
+        "gap_or_uncertainty": "Will mutations at V84-W86 improve activity?",
+        "hypothesis": "Saturation mutagenesis at V84-W86 will yield variants with reduced steric clash.",
+        "decision": "Construct and screen V84-W86 CASTing library.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "CASTing",
+          "version": "",
+          "category": "directed_evolution"
+        },
+        "parameters": {
+          "library_size": "3072 colonies"
+        },
+        "observation": "14 beneficial mutants identified; W86V, W86L, W86I gave roughly 5-fold improvement; V84G/W86V and V84G/W86F gave 9- and 15-fold improvement.",
+        "result_status": "success",
+        "next_step_reason": "Characterize single mutants and best double mutant.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E04_01",
+            "source_file": "docs/0074/combined.md",
+            "section": "C001",
+            "quote_or_span": "For the V84-W86 library, 14 beneficial mutants were identified with improvement of biocatalytic efficiency after a comprehensive screen of 3072 colonies"
+          },
+          {
+            "evidence_id": "EV_C001_E04_02",
+            "source_file": "docs/0074/combined.md",
+            "section": "C001",
+            "quote_or_span": "The three single mutants, W86V, W86L, and W86I, exhibited roughly 5- folds higher activity."
+          },
+          {
+            "evidence_id": "EV_C001_E04_03",
+            "source_file": "docs/0074/combined.md",
+            "section": "C001",
+            "quote_or_span": "V84G/W86V and V84G/W86F, which respectively gave 9- and 15- fold higher activity than Hhec2360"
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "experiment",
+        "state_before": "Single mutants identified but not individually characterized.",
+        "gap_or_uncertainty": "What is the exact fold improvement of W86 single mutants?",
+        "hypothesis": "W86V, W86L, W86I each confer 5.0-fold activity increase.",
+        "decision": "Measure activity of purified single mutants.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Activity assay",
+          "version": "",
+          "category": "biochemical_assay"
+        },
+        "parameters": {},
+        "observation": "W86V, W86L, W86I all showed 5.0-fold activity improvement.",
+        "result_status": "success",
+        "next_step_reason": "Evaluate double mutant V84G/W86F.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E03_01",
+            "source_file": "docs/0074/combined.md",
+            "section": "C002",
+            "quote_or_span": "single mutants, W86V, W86L, and W86I had all with 5.0- fold activity improvement"
+          },
+          {
+            "evidence_id": "EV_AUTO_003",
+            "source_file": "docs/0074/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Most of the combined mutants showed similar or lower activity than the single mutants, except for V84G/W86V and V84G/W86F, which respectively gave 9- and 15- fold higher activity than Hhec2360."
+          },
+          {
+            "evidence_id": "EV_AUTO_016",
+            "source_file": "docs/0074/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "After library screening, the variant V84G/W86F was identified to have a 15-fold increase in activity."
+          },
+          {
+            "evidence_id": "EV_AUTO_009",
+            "source_file": "docs/0074/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "After library screening of combined residues, the mutant V84G/W86F was identified with 15- fold increased activity."
+          },
+          {
+            "evidence_id": "EV_AUTO_028",
+            "source_file": "docs/0074/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Although the V84G/W86F mutant exhibited a similar $k_{cat}$ , the still smaller $K_{m}$ value granted it 1.85- fold higher enzymatic efficiency ( $k_{cat}/K_{m}$ , 390 s $^{-1}$ mM $^{-1}$ ) compared to the V84G/W86V mutant ( $k_{cat}/K_{m}$ , 211 s $^{-1}$ mM $^{-1}$ ), and thus 16- fold increased catalytic efficiency was achieved over HheC2360 ( $k_{cat}/K_{m}$ , 24."
+          },
+          {
+            "evidence_id": "EV_AUTO_015",
+            "source_file": "docs/0074/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "By screening of the three resulting libraries, a mutant, V84G/W86F, with 15-fold increased activity was obtained, which improves the volumetric productivity of the cyanation process 2-fold."
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "experiment",
+        "state_before": "Double mutants identified but best variant unknown.",
+        "gap_or_uncertainty": "Which double mutant has the highest activity?",
+        "hypothesis": "V84G/W86F will exhibit the highest activity due to optimal binding pocket.",
+        "decision": "Compare activity of V84G/W86F with other variants.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Activity assay",
+          "version": "",
+          "category": "biochemical_assay"
+        },
+        "parameters": {},
+        "observation": "V84G/W86F exhibited highest activity (15-fold).",
+        "result_status": "success",
+        "next_step_reason": "Perform kinetic analysis to understand improvement.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E04_01",
+            "source_file": "docs/0074/combined.md",
+            "section": "C002",
+            "quote_or_span": "V84G/W86F exhibited highest activity (15- fold)"
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "analysis",
+        "state_before": "Best variant identified but kinetic basis unknown.",
+        "gap_or_uncertainty": "How do mutations affect Km and kcat?",
+        "hypothesis": "Mutations reduce Km and increase kcat, improving catalytic efficiency.",
+        "decision": "Determine kinetic constants for HheC2360, W86V, V84G/W86V, V84G/W86F.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Michaelis-Menten kinetics",
+          "version": "",
+          "category": "biochemical_assay"
+        },
+        "parameters": {},
+        "observation": "Decreasing Km and increasing kcat observed; V84G/W86F kcat/Km = 390 s-1 mM-1, 16-fold over HheC2360.",
+        "result_status": "success",
+        "next_step_reason": "Validate in bioconversion; also note failure of other libraries.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E05_01",
+            "source_file": "docs/0074/combined.md",
+            "section": "C002",
+            "quote_or_span": "The decreasing $K_{m}$ value of HheC2360, W86V, V84G/W86V and V84G/W86F suggested increasing interaction, while the rising $k_{cat}$ value implied the increasing room to accommodate the substrate."
+          },
+          {
+            "evidence_id": "EV_AUTO_028",
+            "source_file": "docs/0074/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Although the V84G/W86F mutant exhibited a similar $k_{cat}$ , the still smaller $K_{m}$ value granted it 1.85- fold higher enzymatic efficiency ( $k_{cat}/K_{m}$ , 390 s $^{-1}$ mM $^{-1}$ ) compared to the V84G/W86V mutant ( $k_{cat}/K_{m}$ , 211 s $^{-1}$ mM $^{-1}$ ), and thus 16- fold increased catalytic efficiency was achieved over HheC2360 ( $k_{cat}/K_{m}$ , 24."
+          },
+          {
+            "evidence_id": "EV_AUTO_029",
+            "source_file": "docs/0074/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The kinetic constants, of the purified HheC2360, W86V, V84G/W86V and V84G/W86F, were determined by fitting the activities of these enzymes towards various concentrations of D3 with the Michaelis -Menten equation and listed in Table 1."
+          },
+          {
+            "evidence_id": "EV_AUTO_030",
+            "source_file": "docs/0074/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The similar $k_{cat}$ value of V84G/W86V and V84G/W86F indicated that W86F had granted the enzyme enough room and higher affinity, which is consistent with our assumption."
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "experiment",
+        "state_before": "Other CASTing libraries not yet screened.",
+        "gap_or_uncertainty": "Will mutations at W139/L142 or Y186/Y187 improve activity?",
+        "hypothesis": "Saturation mutagenesis at these positions may yield beneficial variants.",
+        "decision": "Screen W139/L142 and Y186/Y187 libraries.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "CASTing",
+          "version": "",
+          "category": "directed_evolution"
+        },
+        "parameters": {},
+        "observation": "No mutants with increased activity obtained.",
+        "result_status": "failure",
+        "next_step_reason": "Focus on V84G/W86F for validation.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E06_01",
+            "source_file": "docs/0074/combined.md",
+            "section": "C002",
+            "quote_or_span": "screening of the W139/L142 and Y186/Y187 libraries failed to obtain mutants with increased activity"
+          },
+          {
+            "evidence_id": "EV_AUTO_015",
+            "source_file": "docs/0074/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "By screening of the three resulting libraries, a mutant, V84G/W86F, with 15-fold increased activity was obtained, which improves the volumetric productivity of the cyanation process 2-fold."
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "validation",
+        "state_before": "V84G/W86F shows 15-fold activity in vitro.",
+        "gap_or_uncertainty": "Does improved activity translate to bioconversion productivity?",
+        "hypothesis": "V84G/W86F will achieve faster full conversion of D3 to A7.",
+        "decision": "Perform time-course bioconversion with cell lysates.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Bioconversion time course",
+          "version": "",
+          "category": "bioprocess"
+        },
+        "parameters": {
+          "substrate": "D3 (8.0 g)",
+          "cell_lysate_volume": "50 mL",
+          "NaCN": "10% solution, 20 mL, 1.2 eq",
+          "temperature": "45°C",
+          "time": "24 h"
+        },
+        "observation": "V84G/W86F achieved full conversion in 24 h vs. 44 h for HheC2360; 2-fold productivity increase.",
+        "result_status": "success",
+        "next_step_reason": "Note limitation in consistency with initial activity.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E06_01",
+            "source_file": "docs/0074/combined.md",
+            "section": "C001",
+            "quote_or_span": "Full conversion catalyzed by the mutant was achieved in 24 h, and an additional 20 h was required for HheC2360. The results demonstrated a two-fold elevated bioconversion rate in our variant"
+          },
+          {
+            "evidence_id": "EV_C002_E07_01",
+            "source_file": "docs/0074/combined.md",
+            "section": "C002",
+            "quote_or_span": "The engineered HHDH with mutations of V84G and W86F was then subjected to the cyanolysis reaction. Its 2- fold increase in productivity could cut the costs"
+          },
+          {
+            "evidence_id": "EV_AUTO_008",
+            "source_file": "docs/0074/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Time-course analysis of the biocatalytic cyanolysis catalyzed by V84G/W86F showed a 2- fold increase in productivity compared to HheC2360, making the process more economically feasible."
+          },
+          {
+            "evidence_id": "EV_AUTO_013",
+            "source_file": "docs/0074/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Time Course of HheC2360 (hollow) and the V84G/W86F mutant (solid) catalyzed cyanolysis."
+          },
+          {
+            "evidence_id": "EV_AUTO_015",
+            "source_file": "docs/0074/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "By screening of the three resulting libraries, a mutant, V84G/W86F, with 15-fold increased activity was obtained, which improves the volumetric productivity of the cyanation process 2-fold."
+          },
+          {
+            "evidence_id": "EV_AUTO_003",
+            "source_file": "docs/0074/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Most of the combined mutants showed similar or lower activity than the single mutants, except for V84G/W86V and V84G/W86F, which respectively gave 9- and 15- fold higher activity than Hhec2360."
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "analysis",
+        "state_before": "Bioconversion validated but inconsistency noted.",
+        "gap_or_uncertainty": "Why are bioconversion rates not fully consistent with initial activity differences?",
+        "hypothesis": "Other factors (e.g., enzyme stability, mass transfer) may influence bioconversion.",
+        "decision": "Acknowledge limitation.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Data interpretation",
+          "version": "",
+          "category": "analysis"
+        },
+        "parameters": {},
+        "observation": "Bioconversion rates of cell lysates not fully consistent with initial activity differences.",
+        "result_status": "partial",
+        "next_step_reason": "Conclude study.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E07_01",
+            "source_file": "docs/0074/combined.md",
+            "section": "C001",
+            "quote_or_span": "The phenomenon that bioconversion rates of the cell lysates of the two biocatalysts were not fully consisted with the difference between their initial activities, was also observed in other engineered biocatalysts"
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "Bioconversion time course with HPLC monitoring"
+      ],
+      "metrics": [
+        "Fold activity improvement",
+        "Catalytic efficiency (kcat/Km)",
+        "Full conversion time"
+      ],
+      "final_conclusion": "V84G/W86F mutant achieved 15-fold activity increase and 2-fold productivity improvement in cyanolysis of D3 to A7.",
+      "limitations": [
+        "Bioconversion rates not fully consistent with initial activity differences",
+        "Other CASTing libraries (W139/L142, Y186/Y187) failed to yield improved mutants"
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_specific_evidence_backfilled=8",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_specific_evidence_backfilled=8",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 99.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p1\\states\\0074.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p1\\events\\0074.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1
+        ],
+        "K02": [
+          1
+        ],
+        "K03": [
+          2
+        ],
+        "K04": [
+          2,
+          3,
+          9
+        ],
+        "K05": [
+          4
+        ],
+        "K06": [
+          5,
+          9
+        ],
+        "K07": [
+          5,
+          6
+        ],
+        "K08": [
+          5,
+          6,
+          7
+        ],
+        "K09": [
+          6,
+          8
+        ],
+        "K10": [
+          2,
+          3,
+          5,
+          9
+        ],
+        "K11": [
+          8,
+          10
+        ],
+        "K12": [
+          10,
+          11
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K03",
+            "K04",
+            "K10"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K04",
+            "K10"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K05"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K06",
+            "K07",
+            "K08",
+            "K10"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K07",
+            "K08",
+            "K09"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K08"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K09",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K04",
+            "K06",
+            "K10"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K11",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K12"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 1,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "360h"
+        ]
+      },
+      {
+        "step_index": 2,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "360s"
+        ]
+      },
+      {
+        "step_index": 5,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "6c"
+        ]
+      },
+      {
+        "step_index": 6,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "6s"
+        ]
+      },
+      {
+        "step_index": 8,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "1mm"
+        ]
+      },
+      {
+        "step_index": 10,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "44h"
+        ]
+      }
+    ],
+    "step_count": 11,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 99.0
+  },
+  "api_usage": {
+    "prompt_tokens": 86887,
+    "completion_tokens": 20229,
+    "total_tokens": 107116,
+    "prompt_cache_hit_tokens": 2432,
+    "prompt_cache_miss_tokens": 84455
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 1882,
+        "completion_tokens": 547,
+        "total_tokens": 2429,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 1882
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 8392,
+        "completion_tokens": 2058,
+        "total_tokens": 10450,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 8392
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 7515,
+        "completion_tokens": 1410,
+        "total_tokens": 8925,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7259
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 7384,
+        "completion_tokens": 1370,
+        "total_tokens": 8754,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7128
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 6485,
+        "completion_tokens": 1276,
+        "total_tokens": 7761,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6229
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 9442,
+        "completion_tokens": 2665,
+        "total_tokens": 12107,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 9058
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 11211,
+        "completion_tokens": 5065,
+        "total_tokens": 16276,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 10571
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 16029,
+        "completion_tokens": 698,
+        "total_tokens": 16727,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 16029
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 18547,
+        "completion_tokens": 5140,
+        "total_tokens": 23687,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 17907
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

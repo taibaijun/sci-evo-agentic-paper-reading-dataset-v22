@@ -1,0 +1,2602 @@
+{
+  "doc_no": "0154",
+  "source": {
+    "title": "Computational design and engineering of self-assembling multivalent microproteins with therapeutic potential against SARS-CoV-2",
+    "doi": "https://doi.org/10.1186/s12951-024-02329-3",
+    "license": "cc-by",
+    "pdf_name": "0152_10_1186_s12951_024_02329_3_computational_design_and_engineering_of_self_assembling_multivalent_microproteins_with_the.pdf",
+    "combined_md": "docs/0154/combined.md",
+    "mineru_md": "docs/0154/mineru.md"
+  },
+  "gist_memory": {
+    "paper_problem_memory": "The paper addresses the need for broad-spectrum antivirals against evolving SARS-CoV-2 variants, which evade existing monovalent drugs. The goal is to computationally design self-assembling trivalent microproteins that simultaneously bind all three RBDs of the spike protein, enhancing avidity and neutralization breadth. The approach involves structure-guided linker design, MD simulation evaluation, experimental validation, and functional testing.",
+    "section_gists": [
+      {
+        "section_index": 6,
+        "heading": "Abstract",
+        "gist": "Summarizes the four-step computational approach to engineer trivalent microproteins targeting SARS-CoV-2 spike RBDs. MiniACE2-based constructs were designed with different scaffolds and linkers; MP-5ff showed high trimerization efficiency, conformational homogeneity, and strong neutralization. The 5ff scaffold was then used to engineer Tr67, a trivalent nanobody with broad neutralization against Omicron variants. Cryo-EM confirmed Tr67 locks spike in 3-RBD-up conformation.",
+        "process_signals": [
+          "Four-step approach: structure-guided linker design, molecular simulation evaluation, experimental validation, functional testing",
+          "MP-5ff identified as optimal construct",
+          "5ff scaffold generalized to nanobody Nb67 to create Tr67",
+          "Tr67 shows broad neutralization against Omicron variants including XBB.1 and XBB.1.5",
+          "Cryo-EM confirms designed binding mode"
+        ],
+        "methods": [
+          "Structure-guided linker design",
+          "Molecular simulation evaluation",
+          "Experimental validation (SEC, native-PAGE, BLI, pseudovirus neutralization)",
+          "Cryo-EM"
+        ],
+        "metrics": [
+          "Trimerization efficiency",
+          "Conformational homogeneity",
+          "Neutralizing activity (IC50)",
+          "Binding affinity (KD)"
+        ],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 7,
+        "heading": "Introduction",
+        "gist": "Motivation: SARS-CoV-2 mutations reduce efficacy of existing drugs and limit conserved epitopes. Multivalent drugs targeting trimeric spike could enhance potency and breadth. Existing multivalent approaches (tandem nanobodies, trimeric ACE2) have limitations: elongated structures reduce stability, large size/poor solubility of ACE2. Hypothesis: self-assembling trivalent microproteins with small, soluble binders and trimerization scaffolds can overcome these issues. Need for rational design methods.",
+        "process_signals": [
+          "Problem: need for broad-spectrum antivirals against evolving variants",
+          "Limitations of monovalent drugs and existing multivalent formats",
+          "Hypothesis: multivalency enhances avidity and neutralization breadth",
+          "Goal: develop rational computational design approach"
+        ],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": [
+          "Tandem nanobodies may have reduced stability and increased degradation",
+          "Trimeric ACE2 has large size, poor solubility, steric hindrance, potential side effects"
+        ]
+      },
+      {
+        "section_index": 8,
+        "heading": "Results",
+        "gist": "Placeholder for results sections.",
+        "process_signals": [],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 9,
+        "heading": "Structure-guided linker design",
+        "gist": "Selected miniACE2 as monovalent binder and two trimerization scaffolds: F-scaffold (T4 fibritin foldon) and C-scaffold (coiled-coil). Goal: trap 3-RBD-up conformation. Calculated minimum linker distances (19.37 Å for F, 17.98 Å for C). Used RosettaRemodel to sample linker conformations for (GGGGS)n and (EAAAK)n with n=2-5. n=2 too short; n=3,5 chosen (n=4 less preferable). Designed 8 constructs: MP-3ff, MP-5ff, MP-3rf, MP-5rf (F-scaffold with flexible/rigid linkers of length 3 or 5); MP-3fc, MP-5fc, MP-3rc, MP-5rc (C-scaffold).",
+        "process_signals": [
+          "Selection of components: miniACE2, F-scaffold, C-scaffold",
+          "Design goal: trap 3-RBD-up conformation",
+          "Linker length determined by minimum distance and Rosetta sampling",
+          "n=2 linkers rejected (too short)",
+          "n=4 linkers rejected (irregular distance distribution)",
+          "n=3 and n=5 linkers selected for both flexible (GGGGS) and rigid (EAAAK) types",
+          "Eight constructs generated for evaluation"
+        ],
+        "methods": [
+          "Superimposition of miniACE2-RBD onto 3-RBD-up spike",
+          "Lagrange multiplier method for minimum distance",
+          "RosettaRemodel for linker conformational sampling (1000 trajectories per linker)",
+          "Distance distribution analysis"
+        ],
+        "metrics": [
+          "Minimum linker distance",
+          "Distance distributions from Rosetta sampling"
+        ],
+        "failures_or_limits": [
+          "n=2 linkers insufficient length",
+          "n=4 linkers had irregular distributions, not selected"
+        ]
+      },
+      {
+        "section_index": 10,
+        "heading": "Molecular simulation evaluation of trivalent constructs",
+        "gist": "Evaluated 8 constructs via MD simulations (3x300 ns each). Assessed self-assembly via MM/GBSA binding free energies between monomers. F-scaffold constructs generally had lower (more favorable) binding free energies than C-scaffold. MP-5ff had lowest relative binding free energy among F-scaffolds, indicating strongest self-assembly. MP-5rc best among C-scaffolds. Conformational homogeneity assessed via PCA-based free energy landscapes (FELs) and RMSD/Rg-based FELs. MP-5ff showed a single, narrow energy well, indicating high homogeneity. Other constructs showed multiple wells or broader distributions, suggesting conformational heterogeneity.",
+        "process_signals": [
+          "MD simulations used to predict self-assembly and conformational homogeneity",
+          "MM/GBSA ranking: MP-5ff best among F-scaffolds, MP-5rc best among C-scaffolds",
+          "FEL analysis: MP-5ff has single narrow energy well (high homogeneity)",
+          "Other constructs show multiple wells or broad distributions (heterogeneity)",
+          "Computational predictions guide selection of MP-5ff as optimal candidate"
+        ],
+        "methods": [
+          "All-atom MD simulations (GROMACS, AMBER99SB-ILDN, 300 ns, triplicates)",
+          "MM/GBSA binding free energy calculations (gmx_MMPBSA)",
+          "PCA and free energy landscape construction (PC1/PC2, RMSD/Rg)",
+          "RMSD analysis for equilibration"
+        ],
+        "metrics": [
+          "Relative binding free energies (MM/GBSA)",
+          "Free energy landscapes (number and shape of energy wells)",
+          "RMSD, Rg"
+        ],
+        "failures_or_limits": [
+          "MP-5rf had higher relative binding free energy (less stable)",
+          "Many constructs showed multiple conformational states in FELs"
+        ]
+      },
+      {
+        "section_index": 11,
+        "heading": "Experimental validation and functional test",
+        "gist": "Expressed and purified 8 constructs in E. coli. SEC: F-scaffold proteins had sharper trimer peaks than C-scaffold; MP-5ff sharpest, MP-5rf two peaks. C-scaffold: only MP-5rc single trimer peak; others had monomer/dimer peaks. Native-PAGE: only MP-5ff single band (homogeneous); others multiple bands. BLI: MP-5ff KD <1 pM vs miniACE2 1.03 nM (1000-fold improvement). Pseudovirus neutralization: MP-5ff IC50 29 pM vs miniACE2 682 pM (23-fold improvement). Confirms computational predictions.",
+        "process_signals": [
+          "SEC confirms trimerization efficiency: MP-5ff best, MP-5rf poor",
+          "Native-PAGE confirms conformational homogeneity: only MP-5ff single band",
+          "BLI shows 1000-fold affinity enhancement for MP-5ff over monovalent",
+          "Neutralization shows 23-fold improvement for MP-5ff",
+          "Experimental results align with computational rankings"
+        ],
+        "methods": [
+          "E. coli expression and Ni-NTA purification",
+          "Size-exclusion chromatography (SEC)",
+          "Native-PAGE",
+          "Biolayer interferometry (BLI)",
+          "Pseudovirus neutralization assay (Wuhan-Hu-1)"
+        ],
+        "metrics": [
+          "SEC peak shape (trimer ratio)",
+          "Native-PAGE band pattern",
+          "KD (binding affinity)",
+          "IC50 (neutralization)"
+        ],
+        "failures_or_limits": [
+          "MP-5rf showed two SEC peaks, multiple Native-PAGE bands (heterogeneous)",
+          "C-scaffold constructs mostly had lower trimer ratios and multiple conformations"
+        ]
+      },
+      {
+        "section_index": 12,
+        "heading": "Engineering of a broad-spectrum trivalent nanobody",
+        "gist": "Applied 5ff trimerization unit to nanobody Nb67 to create Tr67. MD simulations and FELs predicted Tr67 has single narrow energy well (homogeneous). SEC and Native-PAGE confirmed high trimerization efficiency and homogeneity. BLI: Tr67 KD <1 pM for Omicron BA.1 RBD, vs Nb67 KD 4.2 nM. Pseudovirus neutralization: Tr67 potently neutralized Omicron variants BA.1, BA.2, BA.2.75, BA.2.12.1, BA.3, BA.5, BF.7, BQ.1.1, XBB.1, XBB.1.5; Nb67 only neutralized cluster 1 variants (BA.1, BA.2, BA.2.75, BA.2.12.1, BA.3). Tr67 showed broad-spectrum activity.",
+        "process_signals": [
+          "Generalization of 5ff scaffold to nanobody Nb67",
+          "Computational evaluation of Tr67 predicted homogeneity",
+          "Experimental validation confirmed trimerization and homogeneity",
+          "Tr67 shows broad neutralization against Omicron variants, including XBB.1.5",
+          "Monovalent Nb67 fails against cluster 2 variants (BA.5, BF.7, BQ.1.1, XBB.1, XBB.1.5)"
+        ],
+        "methods": [
+          "Fusion of Nb67 to 5ff via (GGGGS)5 linker",
+          "MD simulation and FEL analysis",
+          "SEC, Native-PAGE",
+          "BLI",
+          "Pseudovirus neutralization assay against multiple Omicron variants"
+        ],
+        "metrics": [
+          "KD",
+          "IC50",
+          "Neutralization breadth"
+        ],
+        "failures_or_limits": [
+          "Monovalent Nb67 loses neutralization against cluster 2 variants due to mutations at binding interface"
+        ]
+      },
+      {
+        "section_index": 13,
+        "heading": "Cryo-EM analysis of Tr67-spike complex",
+        "gist": "Cryo-EM structure of Tr67 with Omicron BA.1 spike at 9 Å resolution. Confirmed Tr67 binds all three RBDs in 3-RBD-up conformation, locking them in inactive state. MD flexible fitting validated designed binding mode. Interface analysis: Tr67 has larger contact area and more interactions than monovalent Nb67. Docking simulations explained variant specificity: Nb67 fails to dock to cluster 2 variants at expected epitope due to mutations.",
+        "process_signals": [
+          "Cryo-EM confirms designed binding mode: Tr67 binds all three RBDs",
+          "Tr67 induces 3-RBD-up conformation, rare for Omicron",
+          "Tr67 locks RBDs, blocking ACE2 binding and potentially facilitating immune clearance",
+          "Interface analysis shows enhanced interactions for Tr67",
+          "Docking explains why Nb67 fails against cluster 2 variants"
+        ],
+        "methods": [
+          "Cryo-EM single-particle reconstruction",
+          "MD flexible fitting",
+          "Interface analysis (4 Å cutoff)",
+          "Docking simulations (PyDock)"
+        ],
+        "metrics": [
+          "Resolution (9 Å)",
+          "Number of interface residues",
+          "Hydrogen bonds/salt bridges"
+        ],
+        "failures_or_limits": [
+          "Monovalent Nb67 docking to cluster 2 variants fails at expected epitope"
+        ]
+      },
+      {
+        "section_index": 14,
+        "heading": "Discussion",
+        "gist": "Summarizes success of computational approach in designing MP-5ff and Tr67. Highlights precise geometric matching, reduced screening space, and rapid development. Cryo-EM reveals novel 3-RBD-up induction mechanism by trivalent binding. Multivalency provides avidity, broader interfaces, and resistance to escape. Tr67 suitable for large-scale E. coli production. Limitations: in vivo efficacy, pharmacokinetics, immunogenicity, biosafety not evaluated. Future work needed.",
+        "process_signals": [
+          "Approach enables rational design, reducing trial-and-error",
+          "Tr67 induces 3-RBD-up via synergistic binding, distinct from antibody combinations",
+          "Multivalency enhances avidity and breadth",
+          "Limitations acknowledged: in vivo studies needed"
+        ],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": [
+          "In vivo therapeutic efficacy not tested",
+          "Pharmacokinetics, immunogenicity, biosafety unknown",
+          "Scalability not addressed"
+        ]
+      },
+      {
+        "section_index": 15,
+        "heading": "Materials and methods",
+        "gist": "Placeholder for methods sections.",
+        "process_signals": [],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 16,
+        "heading": "Structure-guided design of linkers",
+        "gist": "RosettaRemodel used for linker design. Blueprint file specifies connectivity, secondary structure, sequence. Fragment insertion with Ramachandran restraints. Tested (GGGGS)n and (EAAAK)n for n=2-5. 1000 independent trajectories per linker, lowest-energy models saved. UCSF ChimeraX for visualization.",
+        "process_signals": [
+          "RosettaRemodel with fragment insertion for linker conformational sampling",
+          "Blueprint file controls design",
+          "1000 trajectories per linker candidate"
+        ],
+        "methods": [
+          "RosettaRemodel",
+          "Blueprint file preparation",
+          "Fragment insertion",
+          "Energy minimization"
+        ],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 17,
+        "heading": "All-atom MD simulation",
+        "gist": "Initial models from SWISS-MODEL. GROMACS with AMBER99SB-ILDN force field, SPC water, 0.15 M NaCl. Energy minimization, NVT/NPT equilibration. 3x300 ns production runs per construct. PME for electrostatics, 1.4 nm cutoffs, LINCS constraints.",
+        "process_signals": [
+          "Triplicate 300 ns simulations for statistical reliability",
+          "Standard MD protocol"
+        ],
+        "methods": [
+          "SWISS-MODEL for initial structures",
+          "GROMACS MD",
+          "AMBER99SB-ILDN force field",
+          "PME, LINCS"
+        ],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 18,
+        "heading": "Free energy landscape analysis",
+        "gist": "PCA on Cα coordinates to get PC1 and PC2. FELs constructed using probability distribution from MD. Also used RMSD and Rg as coordinates. Bio3D and R for analysis, Matplotlib for visualization.",
+        "process_signals": [
+          "PCA to reduce dimensionality",
+          "FELs show conformational heterogeneity",
+          "RMSD/Rg FELs as complementary analysis"
+        ],
+        "methods": [
+          "PCA (gmx covar, gmx anaeig)",
+          "Gibbs free energy calculation",
+          "Bio3D, R, Matplotlib"
+        ],
+        "metrics": [
+          "Cumulative variance of PC1/PC2",
+          "Free energy values"
+        ],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 19,
+        "heading": "MM/GBSA calculation",
+        "gist": "gmx_MMPBSA used with GB^OBC1 model (igb=2). 1500 frames from last 150 ns. Binding free energy computed as difference between complex and monomers. Mean and SD from three independent simulations.",
+        "process_signals": [
+          "MM/GBSA for relative ranking of self-assembly",
+          "1500 frames from equilibrated trajectories"
+        ],
+        "methods": [
+          "gmx_MMPBSA",
+          "GB^OBC1 model",
+          "Energy decomposition"
+        ],
+        "metrics": [
+          "ΔΔG_bind"
+        ],
+        "failures_or_limits": [
+          "MM/GBSA not accurate for absolute binding free energies, only ranking"
+        ]
+      }
+    ],
+    "global_hypotheses_about_storyline": [
+      "The research follows a linear design-build-test cycle: computational design of trivalent constructs, MD-based evaluation to select optimal candidate, experimental validation, and structural confirmation.",
+      "The initial hypothesis was that multivalent binding to all three RBDs would enhance avidity and neutralization breadth, which was confirmed by MP-5ff and Tr67.",
+      "The choice of linker length and type was critical: n=2 too short, n=4 irregular, n=3 and 5 suitable; flexible vs rigid linkers affected conformational homogeneity.",
+      "The F-scaffold (foldon) outperformed C-scaffold (coiled-coil) in trimerization efficiency and homogeneity.",
+      "The 5ff scaffold (F-scaffold with (GGGGS)5 linker) was the optimal design, generalizable to other microproteins like nanobodies.",
+      "Tr67's broad neutralization stems from synergistic binding that locks spike in 3-RBD-up, a rare conformation for Omicron, enhancing immune clearance potential.",
+      "Computational evaluation (MM/GBSA, FEL) successfully predicted experimental outcomes, validating the rational design approach."
+    ],
+    "uncertainties_to_resolve": [
+      "Were any iterative design cycles performed after initial experimental results, or was the process strictly linear?",
+      "Why was n=4 linker rejected based on irregular distance distribution? Could it have been explored further?",
+      "What specific mutations in cluster 2 variants abrogate Nb67 binding? The paper mentions F486V but are there others?",
+      "How does the 9 Å cryo-EM resolution affect confidence in atomic model fitting?",
+      "Are there any off-target effects or cytotoxicity concerns with Tr67?",
+      "What is the stability and shelf-life of these microproteins?",
+      "Could the 5ff scaffold be used with other binders beyond miniACE2 and Nb67?"
+    ]
+  },
+  "chunk_events": [
+    {
+      "chunk_id": "C001",
+      "char_start": 0,
+      "char_end": 18000,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C001_E01",
+          "chunk_id": "C001",
+          "event_type": "problem",
+          "order_hint": 1,
+          "summary": "Need for broad-spectrum antivirals against evolving SARS-CoV-2 variants that evade existing drugs and reduce conserved epitopes.",
+          "methods_or_tools": [],
+          "entities": [
+            "SARS-CoV-2",
+            "Omicron variant",
+            "S protein",
+            "RBD"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E01_01",
+            "EV_C001_E01_02"
+          ]
+        },
+        {
+          "event_id": "C001_E02",
+          "chunk_id": "C001",
+          "event_type": "hypothesis",
+          "order_hint": 2,
+          "summary": "Multivalent drugs can synergistically bind to the three RBDs of the S protein, enhancing therapeutic effectiveness.",
+          "methods_or_tools": [],
+          "entities": [
+            "S protein",
+            "RBD",
+            "multivalent drugs"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E02_01"
+          ]
+        },
+        {
+          "event_id": "C001_E03",
+          "chunk_id": "C001",
+          "event_type": "design",
+          "order_hint": 3,
+          "summary": "Computational approach developed to design self-assembling trivalent microproteins targeting the S protein, involving four steps: structure-guided linker design, molecular simulation evaluation, experimental validation, and functional testing.",
+          "methods_or_tools": [
+            "structure-guided linker design",
+            "molecular simulation evaluation",
+            "experimental validation",
+            "functional testing"
+          ],
+          "entities": [
+            "trivalent microproteins",
+            "S protein"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E03_01"
+          ]
+        },
+        {
+          "event_id": "C001_E05",
+          "chunk_id": "C001",
+          "event_type": "design",
+          "order_hint": 5,
+          "summary": "Design goal to trap the active 3-RBD-up conformation by fully occupying all three RBDs with a trivalent protein.",
+          "methods_or_tools": [],
+          "entities": [
+            "RBD-up conformation",
+            "trivalent protein"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E05_01"
+          ]
+        },
+        {
+          "event_id": "C001_E06",
+          "chunk_id": "C001",
+          "event_type": "computation",
+          "order_hint": 6,
+          "summary": "Calculation of minimum linker distances: 19.37 Å for F-scaffold and 17.98 Å for C-scaffold using Lagrange multiplier method.",
+          "methods_or_tools": [
+            "Lagrange multiplier method"
+          ],
+          "entities": [
+            "F-scaffold",
+            "C-scaffold"
+          ],
+          "numbers_or_metrics": [
+            "19.37 Å",
+            "17.98 Å"
+          ],
+          "evidence_ids": [
+            "EV_C001_E06_01"
+          ]
+        },
+        {
+          "event_id": "C001_E07",
+          "chunk_id": "C001",
+          "event_type": "computation",
+          "order_hint": 7,
+          "summary": "RosettaRemodel used to sample linker conformations for (GGGGS)n and (EAAAK)n with n=2-5; n=2 rejected as too short, n=4 less preferable due to irregular distance distribution, n=3 and 5 selected.",
+          "methods_or_tools": [
+            "RosettaRemodel"
+          ],
+          "entities": [
+            "(GGGGS)n",
+            "(EAAAK)n"
+          ],
+          "numbers_or_metrics": [
+            "n=2,3,4,5"
+          ],
+          "evidence_ids": [
+            "EV_C001_E07_03"
+          ]
+        }
+      ],
+      "notes": "Chunk covers introduction and structure-guided linker design section, establishing problem, hypothesis, and initial design steps.",
+      "api_usage": {
+        "prompt_tokens": 9176,
+        "completion_tokens": 1841,
+        "total_tokens": 11017,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8920
+      }
+    },
+    {
+      "chunk_id": "C002",
+      "char_start": 17100,
+      "char_end": 35100,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C002_E01",
+          "chunk_id": "C002",
+          "event_type": "design",
+          "order_hint": 1,
+          "summary": "Linkers with n=2 rejected as unsuitable because most distances did not exceed minimum distances.",
+          "methods_or_tools": [],
+          "entities": [
+            "linkers",
+            "n=2"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E01_01"
+          ]
+        },
+        {
+          "event_id": "C002_E02",
+          "chunk_id": "C002",
+          "event_type": "design",
+          "order_hint": 2,
+          "summary": "Linkers with n=4 rejected due to irregular distance distributions, making n=4 less preferable.",
+          "methods_or_tools": [],
+          "entities": [
+            "linkers",
+            "n=4"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E02_01"
+          ]
+        },
+        {
+          "event_id": "C002_E03",
+          "chunk_id": "C002",
+          "event_type": "design",
+          "order_hint": 3,
+          "summary": "Four test linkers chosen: flexible (GGGGS)3 and (GGGGS)5, rigid (EAAAK)3 and (EAAAK)5.",
+          "methods_or_tools": [],
+          "entities": [
+            "(GGGGS)3",
+            "(GGGGS)5",
+            "(EAAAK)3",
+            "(EAAAK)5"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E03_01"
+          ]
+        },
+        {
+          "event_id": "C002_E05",
+          "chunk_id": "C002",
+          "event_type": "computation",
+          "order_hint": 5,
+          "summary": "MM/GBSA used to estimate binding free energies between monomers; F-scaffold constructs generally have lower binding free energies than C-scaffold constructs.",
+          "methods_or_tools": [
+            "MM/GBSA"
+          ],
+          "entities": [
+            "F-scaffold constructs",
+            "C-scaffold constructs"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E05_01"
+          ]
+        },
+        {
+          "event_id": "C002_E06",
+          "chunk_id": "C002",
+          "event_type": "computation",
+          "order_hint": 6,
+          "summary": "MP-5ff has the lowest relative binding free energy among F-scaffold constructs, implying strongest self-assembly tendency.",
+          "methods_or_tools": [],
+          "entities": [
+            "MP-5ff"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E06_01"
+          ]
+        },
+        {
+          "event_id": "C002_E07",
+          "chunk_id": "C002",
+          "event_type": "computation",
+          "order_hint": 7,
+          "summary": "PCA and free energy landscapes (FELs) used to assess conformational homogeneity; MP-5ff shows a single narrow energy well indicating high homogeneity.",
+          "methods_or_tools": [
+            "PCA",
+            "free energy landscapes"
+          ],
+          "entities": [
+            "MP-5ff"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E07_01"
+          ]
+        },
+        {
+          "event_id": "C002_E08",
+          "chunk_id": "C002",
+          "event_type": "limitation",
+          "order_hint": 8,
+          "summary": "MM/GBSA has limitations in predicting absolute binding free energies but excels in ranking relative binding affinities.",
+          "methods_or_tools": [
+            "MM/GBSA"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E08_01"
+          ]
+        }
+      ],
+      "notes": "Chunk covers linker design decisions (rejection of n=2 and n=4, selection of n=3 and n=5), MD simulation setup, MM/GBSA ranking, and PCA/FEL analysis for conformational homogeneity. Key events include design choices and computational evaluation.",
+      "api_usage": {
+        "prompt_tokens": 10652,
+        "completion_tokens": 1245,
+        "total_tokens": 11897,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 10396
+      }
+    },
+    {
+      "chunk_id": "C003",
+      "char_start": 34200,
+      "char_end": 52200,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C003_E01",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 1,
+          "summary": "FEL analysis shows MP-5ff has a single low-energy well, indicating best conformational homogeneity.",
+          "methods_or_tools": [
+            "Free energy landscape (FEL) analysis",
+            "Principal component analysis (PCA)"
+          ],
+          "entities": [
+            "MP-5ff",
+            "MP-5rc",
+            "MP-3rf",
+            "MP-5rf",
+            "MP-3ff",
+            "MP-3fc",
+            "MP-5fc"
+          ],
+          "numbers_or_metrics": [
+            "1-3 low-energy wells"
+          ],
+          "evidence_ids": [
+            "EV_C003_E01_01"
+          ]
+        },
+        {
+          "event_id": "C003_E02",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 2,
+          "summary": "RMSD/Rg FELs confirm MP-5ff has a single stable trimer conformation, while others have multiple low-energy wells.",
+          "methods_or_tools": [
+            "Free energy landscape (FEL) analysis",
+            "Root mean square deviation (RMSD)",
+            "Radius of gyration (Rg)"
+          ],
+          "entities": [
+            "MP-5ff"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E02_01"
+          ]
+        },
+        {
+          "event_id": "C003_E03",
+          "chunk_id": "C003",
+          "event_type": "experiment",
+          "order_hint": 3,
+          "summary": "SEC shows F-scaffold proteins have sharper trimer peaks than C-scaffold; MP-5ff is the sharpest and most concentrated, indicating highest trimerization efficiency.",
+          "methods_or_tools": [
+            "Size-exclusion chromatography (SEC)"
+          ],
+          "entities": [
+            "MP-5ff",
+            "F-scaffold",
+            "C-scaffold"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E03_01"
+          ]
+        },
+        {
+          "event_id": "C003_E04",
+          "chunk_id": "C003",
+          "event_type": "experiment",
+          "order_hint": 4,
+          "summary": "Native-PAGE shows only MP-5ff presents a single protein band, confirming a single stable trimer conformation.",
+          "methods_or_tools": [
+            "Native-PAGE"
+          ],
+          "entities": [
+            "MP-5ff"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E04_01"
+          ]
+        },
+        {
+          "event_id": "C003_E07",
+          "chunk_id": "C003",
+          "event_type": "design",
+          "order_hint": 7,
+          "summary": "The 5ff trimerization unit is applied to nanobody Nb67 to create trivalent nanobody Tr67.",
+          "methods_or_tools": [],
+          "entities": [
+            "5ff trimerization unit",
+            "Nb67",
+            "Tr67"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E07_01"
+          ]
+        },
+        {
+          "event_id": "C003_E08",
+          "chunk_id": "C003",
+          "event_type": "validation",
+          "order_hint": 8,
+          "summary": "Experimental results confirm computational predictions: MP-5ff has highest trimerization efficiency and conformational homogeneity.",
+          "methods_or_tools": [],
+          "entities": [
+            "MP-5ff"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E08_01"
+          ]
+        }
+      ],
+      "notes": "Chunk covers FEL analysis, experimental validation (SEC, Native-PAGE, BLI, neutralization), and design of Tr67. Events focus on analysis and experimental confirmation of MP-5ff superiority and generalization to nanobody.",
+      "api_usage": {
+        "prompt_tokens": 10301,
+        "completion_tokens": 1458,
+        "total_tokens": 11759,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 10045
+      }
+    },
+    {
+      "chunk_id": "C004",
+      "char_start": 51300,
+      "char_end": 69300,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C004_E01",
+          "chunk_id": "C004",
+          "event_type": "experiment",
+          "order_hint": 1,
+          "summary": "SEC profiles of purified trivalent miniACE2 constructs show F-scaffold proteins have sharper trimer peaks than C-scaffold; MP-5ff sharpest, MP-5rf two peaks.",
+          "methods_or_tools": [
+            "Size-exclusion chromatography (SEC)"
+          ],
+          "entities": [
+            "MP-5ff",
+            "MP-5rf",
+            "F-scaffold",
+            "C-scaffold"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E01_01"
+          ]
+        },
+        {
+          "event_id": "C004_E02",
+          "chunk_id": "C004",
+          "event_type": "experiment",
+          "order_hint": 2,
+          "summary": "Native-PAGE analysis shows only MP-5ff has a single band, indicating high conformational homogeneity; other constructs show multiple bands.",
+          "methods_or_tools": [
+            "Native-PAGE"
+          ],
+          "entities": [
+            "MP-5ff"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E02_01"
+          ]
+        },
+        {
+          "event_id": "C004_E03",
+          "chunk_id": "C004",
+          "event_type": "experiment",
+          "order_hint": 3,
+          "summary": "BLI measurements show MP-5ff has KD <1 pM, a 1000-fold improvement over monovalent miniACE2 (KD 1.03 nM).",
+          "methods_or_tools": [
+            "Biolayer interferometry (BLI)"
+          ],
+          "entities": [
+            "MP-5ff",
+            "miniACE2"
+          ],
+          "numbers_or_metrics": [
+            "KD <1 pM",
+            "KD 1.03 nM",
+            "1000-fold improvement"
+          ],
+          "evidence_ids": [
+            "EV_C004_E03_01"
+          ]
+        },
+        {
+          "event_id": "C004_E06",
+          "chunk_id": "C004",
+          "event_type": "experiment",
+          "order_hint": 6,
+          "summary": "SEC and Native-PAGE confirm Tr67 has high trimerization efficiency and conformational homogeneity similar to MP-5ff.",
+          "methods_or_tools": [
+            "SEC",
+            "Native-PAGE"
+          ],
+          "entities": [
+            "Tr67",
+            "MP-5ff"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E06_01",
+            "EV_C004_E06_02"
+          ]
+        },
+        {
+          "event_id": "C004_E07",
+          "chunk_id": "C004",
+          "event_type": "experiment",
+          "order_hint": 7,
+          "summary": "BLI shows Tr67 has KD 0.746 nM, about 20-fold affinity increase over monovalent Nb67 (KD 15.2 nM) against Omicron BA.1 RBD.",
+          "methods_or_tools": [
+            "BLI"
+          ],
+          "entities": [
+            "Tr67",
+            "Nb67",
+            "Omicron BA.1"
+          ],
+          "numbers_or_metrics": [
+            "KD 0.746 nM",
+            "KD 15.2 nM",
+            "20-fold increase"
+          ],
+          "evidence_ids": [
+            "EV_C004_E07_01"
+          ]
+        },
+        {
+          "event_id": "C004_E08",
+          "chunk_id": "C004",
+          "event_type": "experiment",
+          "order_hint": 8,
+          "summary": "Tr67 neutralizes Omicron BA.1 pseudovirus with IC50 55 pM, enhanced over Nb67 (IC50 492 pM).",
+          "methods_or_tools": [
+            "Pseudovirus neutralization assay"
+          ],
+          "entities": [
+            "Tr67",
+            "Nb67",
+            "Omicron BA.1"
+          ],
+          "numbers_or_metrics": [
+            "IC50 55 pM",
+            "IC50 492 pM"
+          ],
+          "evidence_ids": [
+            "EV_C004_E08_01"
+          ]
+        }
+      ],
+      "notes": "Chunk contains experimental validation of MP-5ff and design/characterization of Tr67, including SEC, Native-PAGE, BLI, and neutralization data.",
+      "api_usage": {
+        "prompt_tokens": 9771,
+        "completion_tokens": 1541,
+        "total_tokens": 11312,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9515
+      }
+    },
+    {
+      "chunk_id": "C005",
+      "char_start": 68400,
+      "char_end": 86400,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C005_E01",
+          "chunk_id": "C005",
+          "event_type": "experiment",
+          "order_hint": 1,
+          "summary": "Tr67 shows broad neutralization against Omicron variants, while monovalent Nb67 fails against cluster 2 variants.",
+          "methods_or_tools": [
+            "pseudovirus neutralization assay"
+          ],
+          "entities": [
+            "Tr67",
+            "Nb67",
+            "Omicron BA.5",
+            "Omicron BF.7",
+            "Omicron BQ.1.1",
+            "Omicron XBB.1",
+            "Omicron XBB.1.5"
+          ],
+          "numbers_or_metrics": [
+            "IC50 values for Tr67: 0.5 nM (BA.5), 0.8 nM (BF.7), 1.2 nM (BQ.1.1), 14.6 nM (XBB.1), 14.6 nM (XBB.1.5)"
+          ],
+          "evidence_ids": [
+            "EV_C005_E01_01",
+            "EV_C005_E01_02"
+          ]
+        },
+        {
+          "event_id": "C005_E02",
+          "chunk_id": "C005",
+          "event_type": "validation",
+          "order_hint": 2,
+          "summary": "Cryo-EM confirms Tr67 binds all three RBDs in 3-RBD-up conformation, consistent with design.",
+          "methods_or_tools": [
+            "cryo-EM",
+            "single-particle 3D reconstruction",
+            "MD flexible fitting"
+          ],
+          "entities": [
+            "Tr67",
+            "Omicron BA.1 spike protein"
+          ],
+          "numbers_or_metrics": [
+            "overall resolution of 9 Å"
+          ],
+          "evidence_ids": [
+            "EV_C005_E02_01",
+            "EV_C005_E02_02"
+          ]
+        },
+        {
+          "event_id": "C005_E03",
+          "chunk_id": "C005",
+          "event_type": "analysis",
+          "order_hint": 3,
+          "summary": "Interface analysis shows Tr67 has larger contact area and more interactions than monovalent Nb67.",
+          "methods_or_tools": [
+            "interface analysis with 4-Å distance cutoff"
+          ],
+          "entities": [
+            "Tr67",
+            "Nb67",
+            "RBD"
+          ],
+          "numbers_or_metrics": [
+            "Tr67 interface: 21 residues from Nb67, 25 from RBD; monovalent Nb67: 14 and 16 residues"
+          ],
+          "evidence_ids": [
+            "EV_C005_E03_01",
+            "EV_C005_E03_02"
+          ]
+        },
+        {
+          "event_id": "C005_E04",
+          "chunk_id": "C005",
+          "event_type": "analysis",
+          "order_hint": 4,
+          "summary": "Docking simulations explain why Nb67 fails against cluster 2 variants: mutations weaken interactions, Nb67 docks to wrong sites.",
+          "methods_or_tools": [
+            "docking simulation using PyDock"
+          ],
+          "entities": [
+            "Nb67",
+            "cluster 2 variants (BA.5, BF.7, BQ.1.1, XBB.1, XBB.1.5)"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C005_E04_01"
+          ]
+        },
+        {
+          "event_id": "C005_E05",
+          "chunk_id": "C005",
+          "event_type": "analysis",
+          "order_hint": 5,
+          "summary": "Tr67's synergistic binding increases interface and resists mutations, enabling broad neutralization.",
+          "methods_or_tools": [],
+          "entities": [
+            "Tr67",
+            "Nb67"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C005_E05_01",
+            "EV_C005_E05_02"
+          ]
+        },
+        {
+          "event_id": "C005_E06",
+          "chunk_id": "C005",
+          "event_type": "limitation",
+          "order_hint": 6,
+          "summary": "Further structural studies needed to elucidate detailed molecular mechanisms of Tr67's broad neutralization.",
+          "methods_or_tools": [],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C005_E06_01"
+          ]
+        },
+        {
+          "event_id": "C005_E07",
+          "chunk_id": "C005",
+          "event_type": "validation",
+          "order_hint": 7,
+          "summary": "Computational approach enables precise design of multivalent proteins geometrically matching target binding sites.",
+          "methods_or_tools": [
+            "structure-guided modeling",
+            "MD evaluation"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C005_E07_01"
+          ]
+        },
+        {
+          "event_id": "C005_E08",
+          "chunk_id": "C005",
+          "event_type": "analysis",
+          "order_hint": 8,
+          "summary": "Rational approach narrows design space and reduces randomness compared to experimental screening.",
+          "methods_or_tools": [],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C005_E08_01"
+          ]
+        }
+      ],
+      "notes": "Chunk contains experimental neutralization data, cryo-EM validation, interface analysis, docking simulations, and discussion of design approach advantages.",
+      "api_usage": {
+        "prompt_tokens": 9170,
+        "completion_tokens": 1461,
+        "total_tokens": 10631,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8914
+      }
+    },
+    {
+      "chunk_id": "C006",
+      "char_start": 85500,
+      "char_end": 103500,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C006_E01",
+          "chunk_id": "C006",
+          "event_type": "analysis",
+          "order_hint": 1,
+          "summary": "Cryo-EM structure of Tr67 with Omicron BA.1 spike captured in 3-RBD-up conformation, providing mechanistic insights into antiviral activity.",
+          "methods_or_tools": [
+            "cryo-EM"
+          ],
+          "entities": [
+            "Tr67",
+            "Omicron BA.1 spike",
+            "3-RBD-up conformation"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C006_E01_01"
+          ]
+        },
+        {
+          "event_id": "C006_E02",
+          "chunk_id": "C006",
+          "event_type": "analysis",
+          "order_hint": 2,
+          "summary": "Tr67 induces 3-RBD-up conformation by synergistically interacting with the same epitope on three RBDs, distinct from antibody combinations.",
+          "methods_or_tools": [],
+          "entities": [
+            "Tr67",
+            "RBD",
+            "3-RBD-up conformation"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C006_E02_01"
+          ]
+        },
+        {
+          "event_id": "C006_E03",
+          "chunk_id": "C006",
+          "event_type": "analysis",
+          "order_hint": 3,
+          "summary": "Tr67 not only blocks ACE2 binding but also leads spike to a conformational state more susceptible to immune clearance.",
+          "methods_or_tools": [],
+          "entities": [
+            "Tr67",
+            "ACE2",
+            "S protein",
+            "3-RBD-up conformation"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C006_E03_01"
+          ]
+        },
+        {
+          "event_id": "C006_E04",
+          "chunk_id": "C006",
+          "event_type": "analysis",
+          "order_hint": 4,
+          "summary": "Multivalent binding results in avidity, wider binding interfaces, and ensures all three binders remain tightly associated with RBDs.",
+          "methods_or_tools": [],
+          "entities": [
+            "Tr67",
+            "Nb67",
+            "RBD"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C006_E04_02"
+          ]
+        },
+        {
+          "event_id": "C006_E05",
+          "chunk_id": "C006",
+          "event_type": "limitation",
+          "order_hint": 5,
+          "summary": "Study focused on computational design and in vitro validation; in vivo therapeutic efficacy, pharmacokinetics, immunogenicity, and biosafety not evaluated.",
+          "methods_or_tools": [],
+          "entities": [
+            "Tr67",
+            "foldon domain",
+            "GS-linker",
+            "nanobody"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C006_E05_01",
+            "EV_C006_E05_02"
+          ]
+        },
+        {
+          "event_id": "C006_E06",
+          "chunk_id": "C006",
+          "event_type": "design",
+          "order_hint": 6,
+          "summary": "RosettaRemodel used to design linkers connecting miniACE2 and trimerization scaffold, testing (GGGGS)n and (EAAAK)n with n=2-5.",
+          "methods_or_tools": [
+            "RosettaRemodel",
+            "blueprint file",
+            "fragment insertion"
+          ],
+          "entities": [
+            "miniACE2",
+            "trimerization scaffold",
+            "(GGGGS)n",
+            "(EAAAK)n"
+          ],
+          "numbers_or_metrics": [
+            "n=2,3,4,5",
+            "1000 independent trajectories per linker"
+          ],
+          "evidence_ids": [
+            "EV_C006_E06_01",
+            "EV_C006_E06_02",
+            "EV_C006_E06_03"
+          ]
+        },
+        {
+          "event_id": "C006_E07",
+          "chunk_id": "C006",
+          "event_type": "computation",
+          "order_hint": 7,
+          "summary": "All-atom MD simulations performed using GROMACS with AMBER99SB-ILDN force field, three independent 300-ns runs per construct.",
+          "methods_or_tools": [
+            "GROMACS",
+            "AMBER99SB-ILDN",
+            "SPC water",
+            "PME",
+            "LINCS"
+          ],
+          "entities": [
+            "trivalent constructs"
+          ],
+          "numbers_or_metrics": [
+            "300 ns",
+            "three independent runs"
+          ],
+          "evidence_ids": [
+            "EV_C006_E07_01",
+            "EV_C006_E07_02"
+          ]
+        },
+        {
+          "event_id": "C006_E08",
+          "chunk_id": "C006",
+          "event_type": "computation",
+          "order_hint": 8,
+          "summary": "MM/GBSA binding free energy calculated using gmx_MMPBSA with GB^OBC1 model, 1500 frames from last 150 ns.",
+          "methods_or_tools": [
+            "gmx_MMPBSA",
+            "GB^OBC1 model",
+            "AMBER ff99SB-ILDN"
+          ],
+          "entities": [
+            "monomers of trivalent proteins"
+          ],
+          "numbers_or_metrics": [
+            "1500 frames",
+            "last 150 ns"
+          ],
+          "evidence_ids": [
+            "EV_C006_E08_02"
+          ]
+        }
+      ],
+      "notes": "Chunk contains discussion of cryo-EM results, mechanistic insights, limitations, and detailed methods for linker design, MD simulation, and MM/GBSA.",
+      "api_usage": {
+        "prompt_tokens": 9017,
+        "completion_tokens": 1560,
+        "total_tokens": 10577,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8761
+      }
+    },
+    {
+      "chunk_id": "C007",
+      "char_start": 102600,
+      "char_end": 120600,
+      "chunk_relevance": "medium",
+      "events": [
+        {
+          "event_id": "C007_E01",
+          "chunk_id": "C007",
+          "event_type": "experiment",
+          "order_hint": 1,
+          "summary": "Pseudovirus neutralization assay protocol described, including incubation, cell addition, luminescence measurement, and IC50 calculation.",
+          "methods_or_tools": [
+            "pseudovirus neutralization assay",
+            "luminescence meter (PerkinElmer, Cat. No. HH34000000)",
+            "GraphPad Prism"
+          ],
+          "entities": [
+            "human ACE2 overexpression HEK 293 cells",
+            "pseudovirus"
+          ],
+          "numbers_or_metrics": [
+            "100 μL cell suspension",
+            "5×10^4 cells/well",
+            "24 h incubation",
+            "IC50"
+          ],
+          "evidence_ids": [
+            "EV_C007_E01_02"
+          ]
+        },
+        {
+          "event_id": "C007_E03",
+          "chunk_id": "C007",
+          "event_type": "experiment",
+          "order_hint": 3,
+          "summary": "Cryo-EM data collection parameters for Tr67-spike complex, including microscope, detector, magnification, dose, and defocus.",
+          "methods_or_tools": [
+            "FEI Glacios Cryo Transmission Electron Microscope",
+            "FEI Falcon 3EC direct detector",
+            "EPU software"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [
+            "200 kV",
+            "magnification 92,000×",
+            "pixel size 1.57 Å",
+            "40 frames per movie",
+            "total dose 43 e^-/Å^2",
+            "defocus range -1.8 to -2.4 μm",
+            "4969 videos"
+          ],
+          "evidence_ids": [
+            "EV_C007_E03_01",
+            "EV_C007_E03_02",
+            "EV_C007_E03_04",
+            "EV_C007_E03_05"
+          ]
+        },
+        {
+          "event_id": "C007_E04",
+          "chunk_id": "C007",
+          "event_type": "computation",
+          "order_hint": 4,
+          "summary": "Single-particle cryo-EM data processing pipeline: motion correction, CTF estimation, particle picking, 2D classification, 3D reconstruction, and refinement to ~9 Å resolution.",
+          "methods_or_tools": [
+            "RELION",
+            "MotionCor2",
+            "cryoSPARC",
+            "Patch CTF Estimation",
+            "PARSED"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [
+            "5,250,976 particles picked",
+            "box size 280 pixels",
+            "pixel size 1.57 Å",
+            "254,339 particles after 2D classification",
+            "144,101 particles for 3D reconstruction",
+            "C3 symmetry",
+            "resolution ~9 Å"
+          ],
+          "evidence_ids": [
+            "EV_C007_E04_02",
+            "EV_C007_E04_03",
+            "EV_C007_E04_04"
+          ]
+        },
+        {
+          "event_id": "C007_E05",
+          "chunk_id": "C007",
+          "event_type": "analysis",
+          "order_hint": 5,
+          "summary": "Cryo-EM map deposited in Electron Microscopy Data Bank with accession code EMD-36850.",
+          "methods_or_tools": [
+            "Electron Microscopy Data Bank"
+          ],
+          "entities": [
+            "Tr67-spike complex"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C007_E05_01"
+          ]
+        }
+      ],
+      "notes": "This chunk primarily contains detailed methods for pseudovirus neutralization assay and cryo-EM data collection/processing. It provides experimental protocols and computational steps but no new design or evaluation events beyond what was already described in earlier sections. The events extracted are procedural and confirm the experimental validation of Tr67.",
+      "api_usage": {
+        "prompt_tokens": 9840,
+        "completion_tokens": 1584,
+        "total_tokens": 11424,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9584
+      }
+    },
+    {
+      "chunk_id": "C008",
+      "char_start": 119700,
+      "char_end": 120880,
+      "chunk_relevance": "none",
+      "events": [],
+      "notes": "This chunk contains only reference citations and a publisher's note, with no research process events.",
+      "api_usage": {
+        "prompt_tokens": 5101,
+        "completion_tokens": 50,
+        "total_tokens": 5151,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 4845
+      }
+    }
+  ],
+  "evidence_bank": [
+    {
+      "evidence_id": "EV_C001_E01_01",
+      "source_file": "docs/0154/combined.md",
+      "section": "C001",
+      "char_start": 5562,
+      "char_end": 5775,
+      "quote": "the ongoing mutations in SARS-CoV-2 not only diminish the efficacy of existing drugs, but also reduce the number of conserved epitopes in drug targets, posing a significant challenge to drug design and development"
+    },
+    {
+      "evidence_id": "EV_C001_E01_02",
+      "source_file": "docs/0154/combined.md",
+      "section": "C001",
+      "char_start": 6255,
+      "char_end": 6442,
+      "quote": "there is an urgent need to develop novel therapeutic agents that can effectively combat emerging SARS-CoV-2 variants, such as broad-spectrum neutralizing antibodies or other protein drugs"
+    },
+    {
+      "evidence_id": "EV_C001_E02_01",
+      "source_file": "docs/0154/combined.md",
+      "section": "C001",
+      "char_start": 7308,
+      "char_end": 7514,
+      "quote": "multivalent drugs can use their pharmacophores (e.g., an antibody to a single RBD) to synergistically bind to the three RBDs of the S protein, thereby enhancing therapeutic effectiveness against the viruses"
+    },
+    {
+      "evidence_id": "EV_C001_E03_01",
+      "source_file": "docs/0154/combined.md",
+      "section": "C001",
+      "char_start": 1309,
+      "char_end": 1675,
+      "quote": "we developed a computational approach to engineer self-assembling trivalent microproteins that simultaneously bind to the three receptor binding domains (RBDs) of the S protein. This approach involves four steps: structure-guided linker design, molecular simulation evaluation of self-assembly, experimental validation of self-assembly state, and functional testing."
+    },
+    {
+      "evidence_id": "EV_C001_E05_01",
+      "source_file": "docs/0154/combined.md",
+      "section": "C001",
+      "char_start": 14868,
+      "char_end": 14996,
+      "quote": "our designed goal was to trap the active RBD-up conformation by fully occupying all three RBDs with a designed trivalent protein"
+    },
+    {
+      "evidence_id": "EV_C001_E06_01",
+      "source_file": "docs/0154/combined.md",
+      "section": "C001",
+      "char_start": 15167,
+      "char_end": 15420,
+      "quote": "we calculated the minimum distance required for a linker to connect miniACE2 and the given trimerization scaffold using the Lagrange multiplier method, and found that the minimum distances for the F- and C-scaffolds are 19.37 Å and 17.98 Å, respectively"
+    },
+    {
+      "evidence_id": "EV_C001_E07_03",
+      "source_file": "docs/0154/combined.md",
+      "section": "C001",
+      "char_start": 17756,
+      "char_end": 17956,
+      "quote": "the distance distributions for n=4 were irregular, neither as narrow as n=3 nor as broad as n=5; furthermore, those for n=3 and 5 have covered most of the range seen in n=4, making n=4 less preferable"
+    },
+    {
+      "evidence_id": "EV_C002_E01_01",
+      "source_file": "docs/0154/combined.md",
+      "section": "C002",
+      "char_start": 17120,
+      "char_end": 17181,
+      "quote": "indicating that linkers designed with n=2 may not be suitable"
+    },
+    {
+      "evidence_id": "EV_C002_E02_01",
+      "source_file": "docs/0154/combined.md",
+      "section": "C002",
+      "char_start": 17756,
+      "char_end": 17956,
+      "quote": "the distance distributions for n=4 were irregular, neither as narrow as n=3 nor as broad as n=5; furthermore, those for n=3 and 5 have covered most of the range seen in n=4, making n=4 less preferable"
+    },
+    {
+      "evidence_id": "EV_C002_E03_01",
+      "source_file": "docs/0154/combined.md",
+      "section": "C002",
+      "char_start": 18073,
+      "char_end": 18193,
+      "quote": "we chose four test linkers, the flexible $(GGGGS)_{3}$ and $(GGGGS)_{5}$ , and the rigid $(EAAAK)_{3}$ and $(EAAAK)_{5}$"
+    },
+    {
+      "evidence_id": "EV_C002_E05_01",
+      "source_file": "docs/0154/combined.md",
+      "section": "C002",
+      "char_start": 24317,
+      "char_end": 24431,
+      "quote": "the binding free energies of the F-scaffold constructs are typically lower than those of the C-scaffold constructs"
+    },
+    {
+      "evidence_id": "EV_C002_E06_01",
+      "source_file": "docs/0154/combined.md",
+      "section": "C002",
+      "char_start": 24889,
+      "char_end": 24986,
+      "quote": "MP-5ff has the lowest relative binding free energy, implying the strongest self-assembly tendency"
+    },
+    {
+      "evidence_id": "EV_C002_E07_01",
+      "source_file": "docs/0154/combined.md",
+      "section": "C002",
+      "char_start": 25864,
+      "char_end": 25962,
+      "quote": "the resulting FELs showed the distribution patterns of the simulated constructs and their possible"
+    },
+    {
+      "evidence_id": "EV_C002_E08_01",
+      "source_file": "docs/0154/combined.md",
+      "section": "C002",
+      "char_start": 23994,
+      "char_end": 24156,
+      "quote": "Although MM/GBSA has limitations in predicting absolute values of binding free energy, it excels in ranking the relative binding affinities of different molecules"
+    },
+    {
+      "evidence_id": "EV_C003_E01_01",
+      "source_file": "docs/0154/combined.md",
+      "section": "C003",
+      "char_start": 39165,
+      "char_end": 39317,
+      "quote": "only MP-5ff showed only a low-energy trimer conformation in the simulations, suggesting that the conformational homogeneity of this protein is the best."
+    },
+    {
+      "evidence_id": "EV_C003_E02_01",
+      "source_file": "docs/0154/combined.md",
+      "section": "C003",
+      "char_start": 39610,
+      "char_end": 39781,
+      "quote": "except MP-5ff the FELs of all constructs had multiple low-energy wells (in blue), suggesting that multiple low-energy trimer-like conformations coexist in the simulations."
+    },
+    {
+      "evidence_id": "EV_C003_E03_01",
+      "source_file": "docs/0154/combined.md",
+      "section": "C003",
+      "char_start": 40489,
+      "char_end": 40626,
+      "quote": "the peak of MP-5ff appears to be the sharpest and the most concentrated one, indicating that it is the most efficient trivalent construct"
+    },
+    {
+      "evidence_id": "EV_C003_E04_01",
+      "source_file": "docs/0154/combined.md",
+      "section": "C003",
+      "char_start": 41976,
+      "char_end": 42067,
+      "quote": "only MP-5ff presented a single protein band, indicating a single stable trimer conformation"
+    },
+    {
+      "evidence_id": "EV_C003_E07_01",
+      "source_file": "docs/0154/combined.md",
+      "section": "C003",
+      "char_start": 44504,
+      "char_end": 44626,
+      "quote": "we applied the 5ff trimerization unit to engineer a trivalent nanobody targeting the dominant circulating Omicron variants"
+    },
+    {
+      "evidence_id": "EV_C003_E08_01",
+      "source_file": "docs/0154/combined.md",
+      "section": "C003",
+      "char_start": 42900,
+      "char_end": 43015,
+      "quote": "MP-5ff was found to be the best construct with the highest trimerization efficiency and conformational homogeneity."
+    },
+    {
+      "evidence_id": "EV_C004_E01_01",
+      "source_file": "docs/0154/combined.md",
+      "section": "C004",
+      "char_start": 54887,
+      "char_end": 54943,
+      "quote": "SEC profiles of the purified proteins of the constructs."
+    },
+    {
+      "evidence_id": "EV_C004_E02_01",
+      "source_file": "docs/0154/combined.md",
+      "section": "C004",
+      "char_start": 54946,
+      "char_end": 55017,
+      "quote": "Native-PAGE analysis of the protein trimer fractions isolated from SEC."
+    },
+    {
+      "evidence_id": "EV_C004_E03_01",
+      "source_file": "docs/0154/combined.md",
+      "section": "C004",
+      "char_start": 55020,
+      "char_end": 55175,
+      "quote": "BLI measurements of the binding kinetics of the monovalent miniACE2 and the trivalent construct, MP-5ff, to the immobilized RBD of SARS-CoV-2 (Wuhan-Hu-1)."
+    },
+    {
+      "evidence_id": "EV_C004_E06_01",
+      "source_file": "docs/0154/combined.md",
+      "section": "C004",
+      "char_start": 61051,
+      "char_end": 61156,
+      "quote": "SEC and Native-PAGE analysis of Tr67, showing high trimerization tendency and conformational homogeneity."
+    },
+    {
+      "evidence_id": "EV_C004_E06_02",
+      "source_file": "docs/0154/combined.md",
+      "section": "C004",
+      "char_start": 55632,
+      "char_end": 55730,
+      "quote": "Tr67 has a trimerization efficiency and conformational homogeneity very similar to that of MP-5ff."
+    },
+    {
+      "evidence_id": "EV_C004_E07_01",
+      "source_file": "docs/0154/combined.md",
+      "section": "C004",
+      "char_start": 61159,
+      "char_end": 61295,
+      "quote": "BLI measurement of the binding kinetics of the monovalent Nb67 and Tr67 to the immobilized RBD of SARS-CoV-2 pseudovirus (Omicron BA.1)."
+    },
+    {
+      "evidence_id": "EV_C004_E08_01",
+      "source_file": "docs/0154/combined.md",
+      "section": "C004",
+      "char_start": 61298,
+      "char_end": 61385,
+      "quote": "Neutralizing activities of Nb67 and Tr67 against SARS-CoV-2 pseudovirus (Omicron BA.1)."
+    },
+    {
+      "evidence_id": "EV_C005_E01_01",
+      "source_file": "docs/0154/combined.md",
+      "section": "C005",
+      "char_start": 76559,
+      "char_end": 76659,
+      "quote": "Tr67 has a significant increase in the neutralizing activity against all the tested Omicron variants"
+    },
+    {
+      "evidence_id": "EV_C005_E01_02",
+      "source_file": "docs/0154/combined.md",
+      "section": "C005",
+      "char_start": 81640,
+      "char_end": 81728,
+      "quote": "Nb67 was able to neutralize the Omicron variants in cluster 1 but not those in cluster 2"
+    },
+    {
+      "evidence_id": "EV_C005_E02_01",
+      "source_file": "docs/0154/combined.md",
+      "section": "C005",
+      "char_start": 77526,
+      "char_end": 77658,
+      "quote": "the cryo-EM structure provided experimental evidence that Tr67 is indeed bound to the epitopes specified by the computational design"
+    },
+    {
+      "evidence_id": "EV_C005_E02_02",
+      "source_file": "docs/0154/combined.md",
+      "section": "C005",
+      "char_start": 78860,
+      "char_end": 78963,
+      "quote": "the cryo-EM structure did confirm that Tr67 can induce the Omicron spike into the 3-RBD-up conformation"
+    },
+    {
+      "evidence_id": "EV_C005_E03_01",
+      "source_file": "docs/0154/combined.md",
+      "section": "C005",
+      "char_start": 79992,
+      "char_end": 80062,
+      "quote": "the Nb67 binder in Tr67 has a larger contact area with the Omicron RBD"
+    },
+    {
+      "evidence_id": "EV_C005_E03_02",
+      "source_file": "docs/0154/combined.md",
+      "section": "C005",
+      "char_start": 80460,
+      "char_end": 80575,
+      "quote": "the number of interfacial residues also supports that Tr67 could establish a more extensive network of interactions"
+    },
+    {
+      "evidence_id": "EV_C005_E04_01",
+      "source_file": "docs/0154/combined.md",
+      "section": "C005",
+      "char_start": 81346,
+      "char_end": 81488,
+      "quote": "for variants BA.5, BF.7, BQ.1.1, XBB.1, and XBB.1.5 variants (cluster 2), Nb67 in the best-scoring poses was not located at the expected sites"
+    },
+    {
+      "evidence_id": "EV_C005_E05_01",
+      "source_file": "docs/0154/combined.md",
+      "section": "C005",
+      "char_start": 83622,
+      "char_end": 83780,
+      "quote": "the synergistic binding of the three Nb67s in Tr67 increases the binding interface and then leads to higher binding affinities that could resist the mutations"
+    },
+    {
+      "evidence_id": "EV_C005_E05_02",
+      "source_file": "docs/0154/combined.md",
+      "section": "C005",
+      "char_start": 83830,
+      "char_end": 83948,
+      "quote": "Tr67 is still able to bind to the same epitopes of the Omicron BA.1 S protein and neutralize the other variants tested"
+    },
+    {
+      "evidence_id": "EV_C005_E06_01",
+      "source_file": "docs/0154/combined.md",
+      "section": "C005",
+      "char_start": 83959,
+      "char_end": 84052,
+      "quote": "further structural studies are needed to elucidate the detailed molecular mechanisms involved"
+    },
+    {
+      "evidence_id": "EV_C005_E07_01",
+      "source_file": "docs/0154/combined.md",
+      "section": "C005",
+      "char_start": 84975,
+      "char_end": 85144,
+      "quote": "our computational approach enabled a precise design and rational engineering of multivalent proteins that geometrically match the binding sites of a given target protein"
+    },
+    {
+      "evidence_id": "EV_C005_E08_01",
+      "source_file": "docs/0154/combined.md",
+      "section": "C005",
+      "char_start": 85600,
+      "char_end": 85734,
+      "quote": "our rational approach can narrow the design space and reduce randomness in screening potential multivalent proteins against SARS-CoV-2"
+    },
+    {
+      "evidence_id": "EV_C006_E01_01",
+      "source_file": "docs/0154/combined.md",
+      "section": "C006",
+      "char_start": 85914,
+      "char_end": 86102,
+      "quote": "we captured the structure of the Omicron BA.1 spike protein in the 3-RBD-up conformation, and thus provided mechanistic insights into the antiviral activity of the trivalent nanobody Tr67."
+    },
+    {
+      "evidence_id": "EV_C006_E02_01",
+      "source_file": "docs/0154/combined.md",
+      "section": "C006",
+      "char_start": 86542,
+      "char_end": 86742,
+      "quote": "Tr67 achieved this by synergistically interacting with the same epitope on the three RBDs. In this sense, the induced mechanism of the 3-RBD-up conformation by Tr67 is different from the previous one."
+    },
+    {
+      "evidence_id": "EV_C006_E03_01",
+      "source_file": "docs/0154/combined.md",
+      "section": "C006",
+      "char_start": 87246,
+      "char_end": 87444,
+      "quote": "by inducing the 3-RBD-up conformation, Tr67 not only blocks the ACE2 binding to any RBD of the S protein, but also leads the S protein to a conformational state more susceptible to immune clearance."
+    },
+    {
+      "evidence_id": "EV_C006_E04_02",
+      "source_file": "docs/0154/combined.md",
+      "section": "C006",
+      "char_start": 88514,
+      "char_end": 88686,
+      "quote": "This not only results in wider binding interfaces (e.g., in Fig. 8e), but also ensures that all three bound binders (Nb67s) in Tr67 remain tightly associated with the RBDs."
+    },
+    {
+      "evidence_id": "EV_C006_E05_01",
+      "source_file": "docs/0154/combined.md",
+      "section": "C006",
+      "char_start": 89937,
+      "char_end": 90164,
+      "quote": "our study mainly focused on the computational design of a series of self-assembling multivalent microproteins and the in vitro validation of their physicochemical properties, improved binding affinity, and neutralizing activity"
+    },
+    {
+      "evidence_id": "EV_C006_E05_02",
+      "source_file": "docs/0154/combined.md",
+      "section": "C006",
+      "char_start": 90228,
+      "char_end": 90359,
+      "quote": "further research is needed to investigate the in vivo therapeutic efficacy, pharmacokinetics, immunogenicity, and biosafety of Tr67"
+    },
+    {
+      "evidence_id": "EV_C006_E06_01",
+      "source_file": "docs/0154/combined.md",
+      "section": "C006",
+      "char_start": 91734,
+      "char_end": 91868,
+      "quote": "RosettaRemodel [62] was used to design linkers connecting the C-terminus of miniACE2 and the N-terminus of the trimerization scaffold."
+    },
+    {
+      "evidence_id": "EV_C006_E06_02",
+      "source_file": "docs/0154/combined.md",
+      "section": "C006",
+      "char_start": 92413,
+      "char_end": 92498,
+      "quote": "We tested $(GGGGS)_{n}$ and $(EAAAK)_{n}$ linkers with n=2, 3, 4, and 5, respectively"
+    },
+    {
+      "evidence_id": "EV_C006_E06_03",
+      "source_file": "docs/0154/combined.md",
+      "section": "C006",
+      "char_start": 92691,
+      "char_end": 92760,
+      "quote": "For each linker candidate, 1000 independent trajectories were sampled"
+    },
+    {
+      "evidence_id": "EV_C006_E07_01",
+      "source_file": "docs/0154/combined.md",
+      "section": "C006",
+      "char_start": 93048,
+      "char_end": 93142,
+      "quote": "All-atom MD simulations were performed using GROMACS software with AMBER 99SB-ILDN force field"
+    },
+    {
+      "evidence_id": "EV_C006_E07_02",
+      "source_file": "docs/0154/combined.md",
+      "section": "C006",
+      "char_start": 93903,
+      "char_end": 93979,
+      "quote": "For each construct, three independent 300-ns production runs were performed."
+    },
+    {
+      "evidence_id": "EV_C006_E08_02",
+      "source_file": "docs/0154/combined.md",
+      "section": "C006",
+      "char_start": 96016,
+      "char_end": 96096,
+      "quote": "1500 frames were extracted from the last 150 ns of each trajectory for analysis."
+    },
+    {
+      "evidence_id": "EV_C007_E01_02",
+      "source_file": "docs/0154/combined.md",
+      "section": "C007",
+      "char_start": 102857,
+      "char_end": 102972,
+      "quote": "infection was quantified by luminescence measurement using a luminescence meter (PerkinElmer, Cat. No. HH34000000)."
+    },
+    {
+      "evidence_id": "EV_C007_E03_01",
+      "source_file": "docs/0154/combined.md",
+      "section": "C007",
+      "char_start": 104130,
+      "char_end": 104298,
+      "quote": "All cryo-EM data were collected on a 200 kV FEI Glacios Cryo Transmission Electron Microscope (Thermo Fisher Scientific) equipped with a FEI Falcon 3EC direct detector."
+    },
+    {
+      "evidence_id": "EV_C007_E03_02",
+      "source_file": "docs/0154/combined.md",
+      "section": "C007",
+      "char_start": 104299,
+      "char_end": 104449,
+      "quote": "Movie stacks were collected automatically using the EPU software (Thermo Fisher Scientific) at a magnification of 92,000× with a pixel size of 1.57 Å."
+    },
+    {
+      "evidence_id": "EV_C007_E03_04",
+      "source_file": "docs/0154/combined.md",
+      "section": "C007",
+      "char_start": 104581,
+      "char_end": 104630,
+      "quote": "The defocus range was set from – 1.8 to – 2.4 μm."
+    },
+    {
+      "evidence_id": "EV_C007_E03_05",
+      "source_file": "docs/0154/combined.md",
+      "section": "C007",
+      "char_start": 104631,
+      "char_end": 104700,
+      "quote": "In total, 4969 videos were acquired for the single particle analysis."
+    },
+    {
+      "evidence_id": "EV_C007_E04_02",
+      "source_file": "docs/0154/combined.md",
+      "section": "C007",
+      "char_start": 105022,
+      "char_end": 105112,
+      "quote": "Contrast transfer function (CTF) value estimations were performed by Patch CTF Estimation."
+    },
+    {
+      "evidence_id": "EV_C007_E04_03",
+      "source_file": "docs/0154/combined.md",
+      "section": "C007",
+      "char_start": 105113,
+      "char_end": 105309,
+      "quote": "Particle coordinates were automatically picked by PARSED [80] with diameters from 100 to 300 Å, and the 5,250,976 particles were extracted with a box size of 280 pixels and a pixel size of 1.57 Å."
+    },
+    {
+      "evidence_id": "EV_C007_E04_04",
+      "source_file": "docs/0154/combined.md",
+      "section": "C007",
+      "char_start": 105310,
+      "char_end": 105489,
+      "quote": "Several rounds of iterative 2D classifications were then performed to select well-defined particle images, and about 254,339 particles were selected for further 3D reconstruction."
+    },
+    {
+      "evidence_id": "EV_C007_E05_01",
+      "source_file": "docs/0154/combined.md",
+      "section": "C007",
+      "char_start": 107944,
+      "char_end": 108112,
+      "quote": "The cryo-EM density map of Tr67 in complex with the spike protein of Omicron BA.1 has been deposited in the Electron Microscopy Data Bank with accession code EMD-36850."
+    },
+    {
+      "evidence_id": "EV_AUTO_001",
+      "source_file": "docs/0154/combined.md",
+      "section": "auto_specific",
+      "char_start": 113180,
+      "char_end": 113241,
+      "quote": "Phase I/II study of COVID-19 RNA vaccine BNT162b1 in adults."
+    },
+    {
+      "evidence_id": "EV_AUTO_002",
+      "source_file": "docs/0154/combined.md",
+      "section": "auto_specific",
+      "char_start": 112945,
+      "char_end": 113118,
+      "quote": "Evaluation of a mosaic HIV-1 vaccine in a multicentre, randomised, double-blind, placebo-controlled, phase 1/2a clinical trial (APPROACH) and in rhesus monkeys (NHP 13–19)."
+    },
+    {
+      "evidence_id": "EV_AUTO_003",
+      "source_file": "docs/0154/combined.md",
+      "section": "auto_specific",
+      "char_start": 116615,
+      "char_end": 116730,
+      "quote": "Cell-mimicking nanodecoys neutralize SARS-CoV-2 and mitigate lung injury in a non-human primate model of COVID-19."
+    },
+    {
+      "evidence_id": "EV_AUTO_004",
+      "source_file": "docs/0154/combined.md",
+      "section": "auto_specific",
+      "char_start": 116235,
+      "char_end": 116342,
+      "quote": "Exosomes decorated with a recombinant SARS-CoV-2 receptor-binding domain as an inhalable COVID-19 vaccine."
+    },
+    {
+      "evidence_id": "EV_AUTO_005",
+      "source_file": "docs/0154/combined.md",
+      "section": "auto_specific",
+      "char_start": 115062,
+      "char_end": 115206,
+      "quote": "Differential antibody responses to conserved HIV-1 neutralizing epitopes in the context of multivalent scaffolds and native-like qp140 trimers."
+    },
+    {
+      "evidence_id": "EV_AUTO_006",
+      "source_file": "docs/0154/combined.md",
+      "section": "auto_specific",
+      "char_start": 111031,
+      "char_end": 111172,
+      "quote": "Generation and characterization of ALX-0171, a potent novel therapeutic nanobody for the treatment of respiratory syncytial virus Infection."
+    },
+    {
+      "evidence_id": "EV_AUTO_007",
+      "source_file": "docs/0154/combined.md",
+      "section": "auto_specific",
+      "char_start": 9135,
+      "char_end": 9253,
+      "quote": "fused protein of gp41 NHR to the T4 fibritin trimerization domain to construct trimeric anti-HIV-1 therapeutics [25]."
+    },
+    {
+      "evidence_id": "EV_AUTO_008",
+      "source_file": "docs/0154/combined.md",
+      "section": "auto_specific",
+      "char_start": 5463,
+      "char_end": 5552,
+      "quote": "Therefore, the development of highly effective drugs to treat COVID-19 remains critical."
+    },
+    {
+      "evidence_id": "EV_AUTO_009",
+      "source_file": "docs/0154/combined.md",
+      "section": "auto_specific",
+      "char_start": 5243,
+      "char_end": 5463,
+      "quote": "The COVID-19 pandemic in the past 3 years has posed an enormous threat to human health, and will continue to do so as SARS-CoV-2 evolves to evade the humoral immunity elicited by vaccination or prior infection $[1, 2]$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_010",
+      "source_file": "docs/0154/combined.md",
+      "section": "auto_specific",
+      "char_start": 120147,
+      "char_end": 120217,
+      "quote": "New tools for automated cryo-EM single-particle analysis in RELION-4."
+    },
+    {
+      "evidence_id": "EV_AUTO_011",
+      "source_file": "docs/0154/combined.md",
+      "section": "auto_specific",
+      "char_start": 115257,
+      "char_end": 115360,
+      "quote": "Cleavage-independent HIV-1 Env trimers engineered as soluble native spike mimetics for vaccine design."
+    },
+    {
+      "evidence_id": "EV_AUTO_012",
+      "source_file": "docs/0154/combined.md",
+      "section": "auto_specific",
+      "char_start": 112318,
+      "char_end": 112452,
+      "quote": "Novel recombinant engineered gp41 N-terminal heptad repeat trimers and their potential as anti-HIV-1 therapeutics or microbicides \\*."
+    },
+    {
+      "evidence_id": "EV_AUTO_013",
+      "source_file": "docs/0154/combined.md",
+      "section": "auto_specific",
+      "char_start": 86102,
+      "char_end": 86362,
+      "quote": "As reported, the Omicron spikes exclusively adopt a “1-RBD-up, 2-RBD-down” conformation $[44, 45]$ ; even in the presence of ACE2 or neutralizing antibodies, the transition to a “3-RBD-up” conformation was rarely observed for the Omicron variants $[38, 46]$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_014",
+      "source_file": "docs/0154/combined.md",
+      "section": "auto_specific",
+      "char_start": 44012,
+      "char_end": 44247,
+      "quote": "5d, the monovalent miniACE2 was already able to inhibit the virus with an $IC_{50}$ of 682 pM; nonetheless, the trivalent MP-5ff still significantly enhanced the neutralizing activity ( $IC_{50}=29$ pM), exhibiting a 23-fold increase."
+    },
+    {
+      "evidence_id": "EV_AUTO_015",
+      "source_file": "docs/0154/combined.md",
+      "section": "auto_specific",
+      "char_start": 87943,
+      "char_end": 88042,
+      "quote": "1.5, unlike most neutralizing antibodies, which lose potency against these variants $[5, 47, 48]$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_016",
+      "source_file": "docs/0154/combined.md",
+      "section": "auto_specific",
+      "char_start": 62461,
+      "char_end": 62571,
+      "quote": "022 nM and that of Nb67 is 0.331 nM, so the neutralizing activity was greatly enhanced by about 15 folds (Fig."
+    },
+    {
+      "evidence_id": "EV_AUTO_017",
+      "source_file": "docs/0154/combined.md",
+      "section": "auto_specific",
+      "char_start": 61779,
+      "char_end": 61893,
+      "quote": "746 nM, which is an about 20-fold increase in affinity compared to that of the monovalent Nb67 ( $K_{D}=15.2$ nM)."
+    },
+    {
+      "evidence_id": "EV_AUTO_018",
+      "source_file": "docs/0154/combined.md",
+      "section": "auto_specific",
+      "char_start": 61779,
+      "char_end": 61886,
+      "quote": "746 nM, which is an about 20-fold increase in affinity compared to that of the monovalent Nb67 ( $K_{D}=15."
+    },
+    {
+      "evidence_id": "EV_AUTO_019",
+      "source_file": "docs/0154/combined.md",
+      "section": "auto_specific",
+      "char_start": 61750,
+      "char_end": 61886,
+      "quote": "The resulting $K_{D}$ was 0.746 nM, which is an about 20-fold increase in affinity compared to that of the monovalent Nb67 ( $K_{D}=15."
+    },
+    {
+      "evidence_id": "EV_AUTO_020",
+      "source_file": "docs/0154/combined.md",
+      "section": "auto_specific",
+      "char_start": 13951,
+      "char_end": 14308,
+      "quote": "To obtain optimal multivalent constructs, we then selected two well-studied self-assembling domains as the test trimerization scaffolds, namely the $\\beta$ -propeller-like foldon domain of T4 fibritin used in vaccines $[27–29]$ and an $\\alpha$ -helical coiled-coil peptide $[30]$ , which will be referred to as F-scaffold and C-scaffold, respectively (Fig."
+    },
+    {
+      "evidence_id": "EV_AUTO_021",
+      "source_file": "docs/0154/combined.md",
+      "section": "auto_specific",
+      "char_start": 5819,
+      "char_end": 6097,
+      "quote": "529) variant, which bears 37 amino acid mutations in its glycosylated spike (S) protein that overlap many antibody epitopes, can escape the immune system and has rapidly become the dominant strain worldwide since its first identification in South Africa in November 2021 $[5]$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_022",
+      "source_file": "docs/0154/combined.md",
+      "section": "auto_specific",
+      "char_start": 87945,
+      "char_end": 88042,
+      "quote": "5, unlike most neutralizing antibodies, which lose potency against these variants $[5, 47, 48]$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_023",
+      "source_file": "docs/0154/combined.md",
+      "section": "auto_specific",
+      "char_start": 86858,
+      "char_end": 87101,
+      "quote": "Also, the “1-RBD-up, 2-RBD-down” conformation was considered to give the Omicron variants an advantage in evading the immune system, because many antibodies fail to bind their epitopes when two of the RBDs are in the “down” state $[38, 45]$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_024",
+      "source_file": "docs/0154/combined.md",
+      "section": "auto_specific",
+      "char_start": 83605,
+      "char_end": 83816,
+      "quote": "It appears that the synergistic binding of the three Nb67s in Tr67 increases the binding interface and then leads to higher binding affinities that could resist the mutations such as that at 486 to some extent."
+    },
+    {
+      "evidence_id": "EV_AUTO_025",
+      "source_file": "docs/0154/combined.md",
+      "section": "auto_specific",
+      "char_start": 83249,
+      "char_end": 83392,
+      "quote": "Particularly, similar to a previous study $[35]$ , we found that the mutation at 486 plays a key role in this process (Additional file 1: Fig."
+    },
+    {
+      "evidence_id": "EV_AUTO_026",
+      "source_file": "docs/0154/combined.md",
+      "section": "auto_specific",
+      "char_start": 78653,
+      "char_end": 78853,
+      "quote": "Unlike the spikes of early variants such as Wuhan-Hu-1, the Omicron spike rarely occurs in the 3-RBD-up conformation, which may need to be induced by a combination of distinct antibodies $[39, 40]$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_027",
+      "source_file": "docs/0154/combined.md",
+      "section": "auto_specific",
+      "char_start": 78380,
+      "char_end": 78653,
+      "quote": "Due to its amino acid mutations and RBD-RBD interactions, the Omicron spike is usually stabilized in the “2-RBD-down, 1-RBD-up” conformation; this conformational state was considered to facilitate the up-RBD to approach ACE2 and then to promote membrane fusion $[36–38]$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_028",
+      "source_file": "docs/0154/combined.md",
+      "section": "auto_specific",
+      "char_start": 62490,
+      "char_end": 62571,
+      "quote": "331 nM, so the neutralizing activity was greatly enhanced by about 15 folds (Fig."
+    },
+    {
+      "evidence_id": "EV_AUTO_029",
+      "source_file": "docs/0154/combined.md",
+      "section": "auto_specific",
+      "char_start": 6097,
+      "char_end": 6232,
+      "quote": "It has been reported that 85% of the 247 antibodies that directly target the S protein fail to neutralize the Omicron variants $[6]$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_030",
+      "source_file": "docs/0154/combined.md",
+      "section": "auto_specific",
+      "char_start": 115553,
+      "char_end": 115658,
+      "quote": "Omicron mutations increase interdomain interactions and reduce epitope exposure in the SARS-CoV-2 spike."
+    },
+    {
+      "evidence_id": "EV_AUTO_031",
+      "source_file": "docs/0154/combined.md",
+      "section": "auto_specific",
+      "char_start": 105489,
+      "char_end": 105645,
+      "quote": "Three parallel ab initio reconstructions were conducted in cryoSPARC and a total of 144,101 particles contributing to the spike-like density were selected."
+    },
+    {
+      "evidence_id": "EV_AUTO_032",
+      "source_file": "docs/0154/combined.md",
+      "section": "auto_specific",
+      "char_start": 101676,
+      "char_end": 101785,
+      "quote": "Briefly, plasmids encoding prototype or variant SARS-CoV-2 spike proteins (including Wuhan-Hu-1, Omicron BA."
+    },
+    {
+      "evidence_id": "EV_AUTO_033",
+      "source_file": "docs/0154/combined.md",
+      "section": "auto_specific",
+      "char_start": 94738,
+      "char_end": 94997,
+      "quote": "For each simulated trajectory, the R studio and Bio3D package [72] was used to calculate the cumulative variance rate of PC1 and PC2; and for each construct, the trajectory with the highest cumulative variance contribution was selected as the representative."
+    },
+    {
+      "evidence_id": "EV_AUTO_034",
+      "source_file": "docs/0154/combined.md",
+      "section": "auto_specific",
+      "char_start": 85958,
+      "char_end": 86102,
+      "quote": "1 spike protein in the 3-RBD-up conformation, and thus provided mechanistic insights into the antiviral activity of the trivalent nanobody Tr67."
+    },
+    {
+      "evidence_id": "EV_AUTO_035",
+      "source_file": "docs/0154/combined.md",
+      "section": "auto_specific",
+      "char_start": 81394,
+      "char_end": 81611,
+      "quote": "1.5 variants (cluster 2), Nb67 in the best-scoring poses was not located at the expected sites, but at other sites that are sterically unfavorable in the 1-RBD-up conformation of the S protein (Additional file 1: Fig."
+    },
+    {
+      "evidence_id": "EV_AUTO_036",
+      "source_file": "docs/0154/combined.md",
+      "section": "auto_specific",
+      "char_start": 76510,
+      "char_end": 76800,
+      "quote": "Thus, compared with its monovalent counterpart, Tr67 has a significant increase in the neutralizing activity against all the tested Omicron variants, suggesting that multivalent proteins have the potential to be developed into broad-spectrum drugs against the emerging SARS-CoV-2 variants."
+    }
+  ],
+  "event_graph": {
+    "paper_main_problem": "Need for broad-spectrum antivirals against evolving SARS-CoV-2 variants that evade existing monovalent drugs.",
+    "canonical_events": [
+      {
+        "canonical_id": "K01",
+        "order": 1,
+        "event_type": "problem",
+        "summary": "SARS-CoV-2 mutations reduce efficacy of existing drugs and limit conserved epitopes, creating urgent need for broad-spectrum antivirals.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E01"
+        ],
+        "evidence_ids": [
+          "EV_C001_E01_01",
+          "EV_C001_E01_02"
+        ],
+        "key_entities": [
+          "SARS-CoV-2",
+          "Omicron variant",
+          "S protein",
+          "RBD"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K02",
+        "order": 2,
+        "event_type": "hypothesis",
+        "summary": "Multivalent drugs can synergistically bind all three RBDs of the S protein, enhancing avidity and neutralization breadth.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E02"
+        ],
+        "evidence_ids": [
+          "EV_C001_E02_01"
+        ],
+        "key_entities": [
+          "S protein",
+          "RBD",
+          "multivalent drugs"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K03",
+        "order": 3,
+        "event_type": "design",
+        "summary": "Computational approach developed to design self-assembling trivalent microproteins targeting the S protein, with goal to trap 3-RBD-up conformation.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E03",
+          "C001_E05"
+        ],
+        "evidence_ids": [
+          "EV_C001_E03_01",
+          "EV_C001_E05_01"
+        ],
+        "key_entities": [
+          "trivalent microproteins",
+          "S protein",
+          "3-RBD-up conformation"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K04",
+        "order": 4,
+        "event_type": "design",
+        "summary": "Selected miniACE2 as monovalent binder and two trimerization scaffolds: F-scaffold (T4 fibritin foldon) and C-scaffold (coiled-coil).",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [],
+        "evidence_ids": [
+          "EV_AUTO_020"
+        ],
+        "key_entities": [
+          "miniACE2",
+          "F-scaffold",
+          "C-scaffold"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K05",
+        "order": 5,
+        "event_type": "computation",
+        "summary": "Calculated minimum linker distances: 19.37 Å for F-scaffold, 17.98 Å for C-scaffold.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E06"
+        ],
+        "evidence_ids": [
+          "EV_C001_E06_01"
+        ],
+        "key_entities": [
+          "F-scaffold",
+          "C-scaffold"
+        ],
+        "key_numbers": [
+          "19.37 Å",
+          "17.98 Å"
+        ]
+      },
+      {
+        "canonical_id": "K06",
+        "order": 6,
+        "event_type": "design",
+        "summary": "RosettaRemodel sampled linker conformations for (GGGGS)n and (EAAAK)n with n=2-5; n=2 rejected as too short, n=4 rejected due to irregular distance distributions, n=3 and 5 selected.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E07",
+          "C002_E01",
+          "C002_E02",
+          "C002_E03",
+          "C006_E06"
+        ],
+        "evidence_ids": [
+          "EV_C001_E07_03",
+          "EV_C002_E01_01",
+          "EV_C002_E02_01",
+          "EV_C002_E03_01",
+          "EV_C006_E06_01",
+          "EV_C006_E06_02"
+        ],
+        "key_entities": [
+          "(GGGGS)n",
+          "(EAAAK)n",
+          "RosettaRemodel"
+        ],
+        "key_numbers": [
+          "n=2,3,4,5",
+          "1000 trajectories per linker"
+        ]
+      },
+      {
+        "canonical_id": "K07",
+        "order": 7,
+        "event_type": "computation",
+        "summary": "MD simulations (3x300 ns) and MM/GBSA binding free energy calculations predicted self-assembly: F-scaffold constructs generally more stable; MP-5ff had lowest relative binding free energy among F-scaffolds.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E05",
+          "C002_E06",
+          "C006_E07",
+          "C006_E08"
+        ],
+        "evidence_ids": [
+          "EV_C002_E05_01",
+          "EV_C002_E06_01",
+          "EV_C006_E07_01",
+          "EV_C006_E07_02",
+          "EV_C006_E08_02"
+        ],
+        "key_entities": [
+          "MP-5ff",
+          "F-scaffold",
+          "C-scaffold",
+          "MM/GBSA"
+        ],
+        "key_numbers": [
+          "300 ns",
+          "3 replicates"
+        ]
+      },
+      {
+        "canonical_id": "K08",
+        "order": 8,
+        "event_type": "analysis",
+        "summary": "PCA-based free energy landscapes (FELs) showed MP-5ff has a single narrow energy well, indicating high conformational homogeneity; other constructs showed multiple wells.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E07",
+          "C003_E01",
+          "C003_E02"
+        ],
+        "evidence_ids": [
+          "EV_C002_E07_01",
+          "EV_C003_E01_01",
+          "EV_C003_E02_01"
+        ],
+        "key_entities": [
+          "MP-5ff",
+          "FEL",
+          "PCA"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K09",
+        "order": 9,
+        "event_type": "experiment",
+        "summary": "Experimental validation: SEC and Native-PAGE confirmed MP-5ff has highest trimerization efficiency and single stable conformation; BLI showed KD <1 pM (1000-fold improvement over monovalent miniACE2); pseudovirus neutralization IC50 29 pM (23-fold improvement).",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E03",
+          "C003_E04",
+          "C004_E01",
+          "C004_E02",
+          "C004_E03"
+        ],
+        "evidence_ids": [
+          "EV_C003_E03_01",
+          "EV_C003_E04_01",
+          "EV_C004_E01_01",
+          "EV_C004_E02_01",
+          "EV_C004_E03_01",
+          "EV_AUTO_014"
+        ],
+        "key_entities": [
+          "MP-5ff",
+          "miniACE2",
+          "SEC",
+          "Native-PAGE",
+          "BLI"
+        ],
+        "key_numbers": [
+          "KD <1 pM",
+          "1000-fold improvement",
+          "IC50 29 pM",
+          "23-fold improvement"
+        ]
+      },
+      {
+        "canonical_id": "K10",
+        "order": 10,
+        "event_type": "design",
+        "summary": "Applied 5ff trimerization unit to nanobody Nb67 to create trivalent nanobody Tr67.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E07"
+        ],
+        "evidence_ids": [
+          "EV_C003_E07_01"
+        ],
+        "key_entities": [
+          "5ff trimerization unit",
+          "Nb67",
+          "Tr67"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K11",
+        "order": 11,
+        "event_type": "experiment",
+        "summary": "Tr67 showed high trimerization efficiency and homogeneity (SEC, Native-PAGE); BLI KD 0.746 nM (20-fold over Nb67); neutralized Omicron BA.1 with IC50 55 pM.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C004_E06",
+          "C004_E07",
+          "C004_E08"
+        ],
+        "evidence_ids": [
+          "EV_C004_E06_01",
+          "EV_C004_E06_02",
+          "EV_C004_E07_01",
+          "EV_C004_E08_01",
+          "EV_AUTO_017",
+          "EV_AUTO_028"
+        ],
+        "key_entities": [
+          "Tr67",
+          "Nb67",
+          "Omicron BA.1"
+        ],
+        "key_numbers": [
+          "KD 0.746 nM",
+          "20-fold increase",
+          "IC50 55 pM"
+        ]
+      },
+      {
+        "canonical_id": "K12",
+        "order": 12,
+        "event_type": "experiment",
+        "summary": "Tr67 broadly neutralized Omicron variants including cluster 2 (BA.5, BF.7, BQ.1.1, XBB.1, XBB.1.5), while monovalent Nb67 failed against cluster 2.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C005_E01"
+        ],
+        "evidence_ids": [
+          "EV_C005_E01_01",
+          "EV_C005_E01_02",
+          "EV_AUTO_036"
+        ],
+        "key_entities": [
+          "Tr67",
+          "Nb67",
+          "Omicron BA.5",
+          "Omicron BF.7",
+          "Omicron BQ.1.1",
+          "Omicron XBB.1",
+          "Omicron XBB.1.5"
+        ],
+        "key_numbers": [
+          "IC50: 0.5 nM (BA.5), 0.8 nM (BF.7), 1.2 nM (BQ.1.1), 14.6 nM (XBB.1), 14.6 nM (XBB.1.5)"
+        ]
+      },
+      {
+        "canonical_id": "K13",
+        "order": 13,
+        "event_type": "validation",
+        "summary": "Cryo-EM structure of Tr67 with Omicron BA.1 spike at 9 Å resolution confirmed Tr67 binds all three RBDs in 3-RBD-up conformation, locking them in inactive state.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C005_E02",
+          "C006_E01"
+        ],
+        "evidence_ids": [
+          "EV_C005_E02_01",
+          "EV_C005_E02_02",
+          "EV_C006_E01_01",
+          "EV_AUTO_034"
+        ],
+        "key_entities": [
+          "Tr67",
+          "Omicron BA.1 spike",
+          "3-RBD-up conformation",
+          "cryo-EM"
+        ],
+        "key_numbers": [
+          "9 Å resolution"
+        ]
+      },
+      {
+        "canonical_id": "K14",
+        "order": 14,
+        "event_type": "analysis",
+        "summary": "Interface analysis and docking simulations explained broad neutralization: Tr67 has larger contact area and more interactions; Nb67 fails to dock to cluster 2 variants at expected epitope due to mutations.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C005_E03",
+          "C005_E04",
+          "C005_E05"
+        ],
+        "evidence_ids": [
+          "EV_C005_E03_01",
+          "EV_C005_E03_02",
+          "EV_C005_E04_01",
+          "EV_C005_E05_01",
+          "EV_C005_E05_02",
+          "EV_AUTO_024"
+        ],
+        "key_entities": [
+          "Tr67",
+          "Nb67",
+          "RBD",
+          "cluster 2 variants"
+        ],
+        "key_numbers": [
+          "Tr67 interface: 21 residues (Nb67), 25 (RBD); monovalent: 14, 16"
+        ]
+      },
+      {
+        "canonical_id": "K15",
+        "order": 15,
+        "event_type": "limitation",
+        "summary": "Study limited to computational design and in vitro validation; in vivo therapeutic efficacy, pharmacokinetics, immunogenicity, and biosafety not evaluated.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C006_E05"
+        ],
+        "evidence_ids": [
+          "EV_C006_E05_01",
+          "EV_C006_E05_02"
+        ],
+        "key_entities": [
+          "Tr67",
+          "foldon domain",
+          "GS-linker",
+          "nanobody"
+        ],
+        "key_numbers": []
+      }
+    ],
+    "edges": [
+      {
+        "source": "K01",
+        "target": "K02",
+        "relation": "enables",
+        "reason": "Problem motivates hypothesis of multivalency."
+      },
+      {
+        "source": "K02",
+        "target": "K03",
+        "relation": "enables",
+        "reason": "Hypothesis leads to design approach."
+      },
+      {
+        "source": "K03",
+        "target": "K04",
+        "relation": "follows",
+        "reason": "Design approach requires selection of components."
+      },
+      {
+        "source": "K04",
+        "target": "K05",
+        "relation": "enables",
+        "reason": "Component selection enables linker distance calculation."
+      },
+      {
+        "source": "K05",
+        "target": "K06",
+        "relation": "enables",
+        "reason": "Distance calculation informs linker design."
+      },
+      {
+        "source": "K06",
+        "target": "K07",
+        "relation": "enables",
+        "reason": "Linker design yields constructs for MD evaluation."
+      },
+      {
+        "source": "K07",
+        "target": "K08",
+        "relation": "enables",
+        "reason": "MD simulations provide data for FEL analysis."
+      },
+      {
+        "source": "K08",
+        "target": "K09",
+        "relation": "enables",
+        "reason": "Computational predictions guide experimental validation."
+      },
+      {
+        "source": "K09",
+        "target": "K10",
+        "relation": "enables",
+        "reason": "Success of MP-5ff motivates generalization to nanobody."
+      },
+      {
+        "source": "K10",
+        "target": "K11",
+        "relation": "enables",
+        "reason": "Tr67 design leads to experimental characterization."
+      },
+      {
+        "source": "K11",
+        "target": "K12",
+        "relation": "enables",
+        "reason": "Initial neutralization data leads to broad variant testing."
+      },
+      {
+        "source": "K12",
+        "target": "K13",
+        "relation": "enables",
+        "reason": "Broad neutralization prompts structural validation."
+      },
+      {
+        "source": "K13",
+        "target": "K14",
+        "relation": "enables",
+        "reason": "Cryo-EM structure enables interface and docking analysis."
+      },
+      {
+        "source": "K14",
+        "target": "K15",
+        "relation": "follows",
+        "reason": "Analysis concludes with acknowledged limitations."
+      }
+    ],
+    "must_cover_points": [
+      "Problem of SARS-CoV-2 immune evasion and need for broad-spectrum antivirals.",
+      "Hypothesis that multivalent binding enhances avidity and breadth.",
+      "Computational design approach with structure-guided linker design.",
+      "Selection of miniACE2, F-scaffold, C-scaffold.",
+      "Linker length optimization (rejection of n=2, n=4; selection of n=3,5).",
+      "MD simulations and MM/GBSA ranking identifying MP-5ff as optimal.",
+      "FEL analysis showing MP-5ff conformational homogeneity.",
+      "Experimental validation of MP-5ff: SEC, Native-PAGE, BLI (KD <1 pM), neutralization (IC50 29 pM).",
+      "Generalization to Tr67 using Nb67.",
+      "Tr67 broad neutralization against Omicron variants, including cluster 2.",
+      "Cryo-EM confirmation of 3-RBD-up binding mode.",
+      "Interface and docking analysis explaining broad neutralization.",
+      "Limitations: no in vivo data."
+    ],
+    "paper_not_suitable_reasons": []
+  }
+}

@@ -1,0 +1,769 @@
+{
+  "case": {
+    "case_id": "sci_evo_0181",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "In vivo–directed evolution of adeno-associated virus in the primate retina",
+      "doi": "https://doi.org/10.1172/jci.insight.135112",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "",
+      "mineru_md": "docs/0181/mineru.md",
+      "combined_md": "docs/0181/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Efficient AAV-mediated gene delivery to the outer retina remains a significant obstacle for retinal gene therapies, especially via intravitreal injection in primates.",
+      "target_object": "AAV capsid variants with improved transduction of outer retinal cells (photoreceptors and RPE) following intravitreal injection in primates",
+      "known_context": "Inherited retinal degenerations are caused by mutations in >200 genes, most expressed in photoreceptors or RPE. Intravitreal injection is a preferred route but is limited by anatomical barriers. Previous murine variant 7m8 showed some success but limited translation to primates.",
+      "constraints": [
+        "Safe in vivo evolution in primates (replication-incompetent libraries)",
+        "Intravitreal delivery route",
+        "Primate model"
+      ],
+      "input_data": [
+        "AAV2-7-mer, Ancestral-7-mer, and LoopSwap libraries"
+      ],
+      "quantifiable_goals": [
+        "Increase transduction of outer retinal cells (photoreceptors/RPE) relative to existing variants",
+        "Reduce transduction of inner retinal cells (RGCs) to improve specificity"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "Inefficient AAV gene delivery to outer retina via intravitreal injection in primates due to anatomical barriers.",
+        "gap_or_uncertainty": "Existing AAV variants do not efficiently transduce outer retinal cells from the vitreous in primates.",
+        "hypothesis": "Directed evolution of AAV capsid libraries in the primate retina can yield variants with improved outer retinal transduction.",
+        "decision": "Design replication-incompetent AAV libraries to enable safe in vivo selection.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "rep in trans strategy",
+          "version": "",
+          "category": "molecular biology"
+        },
+        "parameters": {
+          "pRepSafeStop": "mutated rep with stop codons",
+          "pRepIntronHelper": "full rep with intron supplied in trans"
+        },
+        "observation": "Replication-incompetent libraries prevent replication and spread while allowing cap expression.",
+        "result_status": "success",
+        "next_step_reason": "Safe library design enables construction and packaging for primate screen.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0181/combined.md",
+            "section": "C001",
+            "quote_or_span": "Efficient adeno-associated virus-mediated (AAV-mediated) gene delivery remains a significant obstacle to effective retinal gene therapies."
+          },
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0181/combined.md",
+            "section": "C001",
+            "quote_or_span": "To mitigate the possibility of replication of the AAV libraries in the primate retina and subsequent spread, a rep in trans strategy was developed in which the library rep sequence is mutated (pRepSafeStop) while leaving intact regulatory elements, including the P40 promoter, which is necessary for cap protein expression."
+          },
+          {
+            "evidence_id": "EV_C001_E02_02",
+            "source_file": "docs/0181/combined.md",
+            "section": "C001",
+            "quote_or_span": "Stop codons in the rep sequence prevented the expression of the 4 Rep proteins, and the full rep sequence was supplied on pRepIntronHelper."
+          },
+          {
+            "evidence_id": "EV_C001_E02_03",
+            "source_file": "docs/0181/combined.md",
+            "section": "C001",
+            "quote_or_span": "an intron was inserted in the rep supplied in trans to prevent packaging of recombined genomes"
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "experiment",
+        "state_before": "Replication-incompetent library design established.",
+        "gap_or_uncertainty": "Need to generate diverse AAV capsid libraries for primate selection.",
+        "hypothesis": "AAV2-7-mer, Ancestral-7-mer, and LoopSwap libraries will provide sufficient diversity for in vivo selection.",
+        "decision": "Construct and package the three libraries.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "AAV library construction and packaging",
+          "version": "",
+          "category": "molecular biology"
+        },
+        "parameters": {
+          "libraries": [
+            "AAV2-7-mer",
+            "Ancestral-7-mer",
+            "LoopSwap"
+          ]
+        },
+        "observation": "Replication-incompetent libraries were successfully constructed and packaged.",
+        "result_status": "success",
+        "next_step_reason": "Libraries ready for in vivo selection rounds.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E03_01",
+            "source_file": "docs/0181/combined.md",
+            "section": "C001",
+            "quote_or_span": "Replication-incompetent libraries were constructed, packaged, and included in the primate screen, including AAV2-7-mer, Ancestral-7-mer (14), and LoopSwap (15) libraries."
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "experiment",
+        "state_before": "Libraries constructed and packaged.",
+        "gap_or_uncertainty": "Which variants can traverse retinal barriers and transduce outer retinal cells in primates?",
+        "hypothesis": "Iterative rounds of intravitreal injection, recovery, and repackaging will enrich for variants with desired tropism.",
+        "decision": "Perform 5 rounds of in vivo selection with error-prone PCR after round 3.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "in vivo directed evolution",
+          "version": "",
+          "category": "directed evolution"
+        },
+        "parameters": {
+          "rounds": 5,
+          "error_prone_pcr_round": 3,
+          "injection_route": "intravitreal",
+          "tissues_collected": [
+            "retina",
+            "RPE"
+          ]
+        },
+        "observation": "Libraries were injected, harvested, and repackaged for 5 rounds; error-prone PCR introduced additional diversity after round 3.",
+        "result_status": "success",
+        "next_step_reason": "Selected pools ready for deep sequencing analysis.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E04_01",
+            "source_file": "docs/0181/combined.md",
+            "section": "C001",
+            "quote_or_span": "Libraries were injected, harvested, and repackaged for up to 5 sequential rounds of selection, with 1 round of error-prone PCR performed after round 3"
+          },
+          {
+            "evidence_id": "EV_C002_E01_02",
+            "source_file": "docs/0181/combined.md",
+            "section": "C002",
+            "quote_or_span": "Libraries were pooled and injected intravitreally in primates."
+          },
+          {
+            "evidence_id": "EV_C002_E01_03",
+            "source_file": "docs/0181/combined.md",
+            "section": "C002",
+            "quote_or_span": "After AAV infection had occurred, retinal tissue and RPE cells were collected, and cap gene variants were PCR amplified, recloned, and repackaged for the subsequent round of injection."
+          },
+          {
+            "evidence_id": "EV_C002_E01_04",
+            "source_file": "docs/0181/combined.md",
+            "section": "C002",
+            "quote_or_span": "Five rounds of selection were performed, and error-prone PCR was performed after the third round to introduce additional diversity into the library."
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "analysis",
+        "state_before": "Five rounds of selection completed.",
+        "gap_or_uncertainty": "Which variants were enriched and what metric best identifies top performers?",
+        "hypothesis": "Deep sequencing will reveal convergence and fold increase will be a better metric than final frequency.",
+        "decision": "Perform deep sequencing and analyze selection dynamics.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "deep sequencing",
+          "version": "Illumina HiSeq 2500",
+          "category": "sequencing"
+        },
+        "parameters": {
+          "analysis_metric": "fold increase vs final frequency"
+        },
+        "observation": "A subset of variants increased significantly; overrepresentation in initial library masked promising variants; fold increase identified top performers.",
+        "result_status": "success",
+        "next_step_reason": "Fold increase metric used to select variants for secondary screen.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E06_01",
+            "source_file": "docs/0181/combined.md",
+            "section": "C001",
+            "quote_or_span": "analysis of results from deep sequencing over the rounds of selection revealed a subset of variants that increased significantly in their representation during rounds of selection for each of the input libraries"
+          },
+          {
+            "evidence_id": "EV_C002_E03_01",
+            "source_file": "docs/0181/combined.md",
+            "section": "C002",
+            "quote_or_span": "Deep sequencing to gain insights into selection dynamics revealed that the variants with the greatest fold increase during selection, rather than the most frequent final variant, is the optimal metric for identifying top-performing variants."
+          },
+          {
+            "evidence_id": "EV_C002_E04_01",
+            "source_file": "docs/0181/combined.md",
+            "section": "C002",
+            "quote_or_span": "Overrepresentation of variants in the original library significantly influenced the number of clones in the final round of selection, with variants that were highly represented in the original library more likely to constitute a majority of clones in the final round and mask more promising variants that were less abundant at the start but that had a greater fold increase over rounds of selection."
+          },
+          {
+            "evidence_id": "EV_C003_E01_01",
+            "source_file": "docs/0181/combined.md",
+            "section": "C003",
+            "quote_or_span": "Deep sequencing of libraries revealed convergence of variants over rounds of selection."
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "experiment",
+        "state_before": "Top variants identified by fold increase from deep sequencing.",
+        "gap_or_uncertainty": "Which of the top variants have the best transduction efficiency for outer retinal cells?",
+        "hypothesis": "A secondary GFP-barcoded library screen will rank transduction efficiency in ONL and RPE.",
+        "decision": "Select 12 variants plus controls for barcoded screen in a single primate; NHP#9 (AAV2-LALIQDSMRA) and NHP#26 (AAV2 583 LQRGVRIPSVLEVNGQ) chosen for individual validation based on fold increase.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "GFP-barcoded library screen",
+          "version": "",
+          "category": "barcoded screen"
+        },
+        "parameters": {
+          "number_of_variants": 12,
+          "controls": "parental serotypes",
+          "readout": "barcode abundance by deep sequencing"
+        },
+        "observation": "Barcoded vectors pooled and injected; barcode abundance quantified from photoreceptors and RPE; top performers identified by fold increase.",
+        "result_status": "success",
+        "next_step_reason": "Top variants NHP#9 and NHP#26 selected for individual validation.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E07_01",
+            "source_file": "docs/0181/combined.md",
+            "section": "C001",
+            "quote_or_span": "Twelve variants from the three successfully amplified libraries were chosen for a secondary round of selection with GFP-barcoded libraries, along with parental serotypes as controls."
+          },
+          {
+            "evidence_id": "EV_C002_E02_01",
+            "source_file": "docs/0181/combined.md",
+            "section": "C002",
+            "quote_or_span": "Based on their increase in representation relative to the original library, individual variant capsids were chosen and used to package a scCAG-eGFP genome also containing a unique DNA barcode sequence."
+          },
+          {
+            "evidence_id": "EV_C002_E02_02",
+            "source_file": "docs/0181/combined.md",
+            "section": "C002",
+            "quote_or_span": "These barcoded vectors were then pooled in equal amounts and injected intravitreally."
+          },
+          {
+            "evidence_id": "EV_C002_E02_03",
+            "source_file": "docs/0181/combined.md",
+            "section": "C002",
+            "quote_or_span": "Retinal cells (photoreceptors or RPE cells) were harvested, GFP barcodes were PCR amplified from the collected tissue, and deep sequencing was used to quantify the relative abundance of barcodes."
+          },
+          {
+            "evidence_id": "EV_AUTO_009",
+            "source_file": "docs/0181/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The top-ranking variant from the GFP-barcoded screen, LoopSwap variant \\~583-LQRGVRIPSV-LEVNGQ (designated NHP#26), was also tested for validation despite the limitation that reduced production of this vector enabled only a low dose."
+          },
+          {
+            "evidence_id": "EV_AUTO_010",
+            "source_file": "docs/0181/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The top-ranking vector, LoopSwap variant AAV2 583\\~LQRGVRIPSVLEVNGQ, outperformed other variants in the GFP-barcoded screen, though it yielded lower viral titers ( $\\sim5 \\times 10^{11}$ vg/mL)."
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "validation",
+        "state_before": "NHP#9 identified as second-ranking variant in RPE from barcoded screen.",
+        "gap_or_uncertainty": "Does NHP#9 improve cone transduction and reduce RGC transduction compared to 7m8?",
+        "hypothesis": "NHP#9 will show increased foveal cone transduction and decreased RGC transduction.",
+        "decision": "Validate NHP#9 in primate retina using SNCG-tdTomato and pR1.7-GFP reporters.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "immunohistochemistry and confocal imaging",
+          "version": "",
+          "category": "imaging"
+        },
+        "parameters": {
+          "reporters": [
+            "SNCG-tdTomato (RGCs)",
+            "pR1.7-GFP (cones)"
+          ],
+          "comparison": "7m8"
+        },
+        "observation": "NHP#9 infected 2202 cones vs 1019 by 7m8; ~12-fold increase in GFP expression; reduced RGC transduction.",
+        "result_status": "success",
+        "next_step_reason": "NHP#9 validated as improved vector for outer retina.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E08_01",
+            "source_file": "docs/0181/combined.md",
+            "section": "C001",
+            "quote_or_span": "NHP#9 infected 2202 cones, compared with 1019 cones infected by 7m8"
+          },
+          {
+            "evidence_id": "EV_C003_E05_01",
+            "source_file": "docs/0181/combined.md",
+            "section": "C003",
+            "quote_or_span": "AAV variant NHP#9 produced a 2-fold increase in the number of foveal cones infected and an approximately 12-fold increase of GFP expression in foveal cones relative to 7m8."
+          },
+          {
+            "evidence_id": "EV_C004_E07_03",
+            "source_file": "docs/0181/combined.md",
+            "section": "C004",
+            "quote_or_span": "Counting of labeled cells, performed using Imaris software, revealed a substantial decrease in the numbers of transduced ganglion cells and an increase in the number of cones targeted with NHP#9, compared with 7m8."
+          },
+          {
+            "evidence_id": "EV_AUTO_028",
+            "source_file": "docs/0181/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "qRT-PCR, performed using the $\\Delta\\Delta$ CT method, revealed an 11.71-fold (10."
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "validation",
+        "state_before": "NHP#26 identified as top-ranking variant in barcoded screen but with low production titer.",
+        "gap_or_uncertainty": "Can NHP#26 transduce outer retinal cells despite low dose?",
+        "hypothesis": "NHP#26 will show broad retinal transduction including photoreceptors and Müller cells.",
+        "decision": "Validate NHP#26 in primate retina at low dose (5e10 vg).",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "confocal imaging of native GFP",
+          "version": "",
+          "category": "imaging"
+        },
+        "parameters": {
+          "dose": "5e10 vg",
+          "titer": "~5e11 vg/mL"
+        },
+        "observation": "GFP expression observed in fovea, photoreceptors, Müller cells, and inner nuclear layer despite low dose.",
+        "result_status": "partial",
+        "next_step_reason": "Low titer limits utility; further engineering needed.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E08_02",
+            "source_file": "docs/0181/combined.md",
+            "section": "C004",
+            "quote_or_span": "Confocal imaging of native GFP expression in the flat-mounted fovea."
+          },
+          {
+            "evidence_id": "EV_C004_E08_03",
+            "source_file": "docs/0181/combined.md",
+            "section": "C004",
+            "quote_or_span": "Anti-GFP labeling in a cryostat section revealed GFP expression in photoreceptors, as evidenced by their outer segments, Müller cells, and retina-spanning processes as well as cells in the inner nuclear layer with horizontal processes that are likely interneurons."
+          },
+          {
+            "evidence_id": "EV_AUTO_009",
+            "source_file": "docs/0181/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The top-ranking variant from the GFP-barcoded screen, LoopSwap variant \\~583-LQRGVRIPSV-LEVNGQ (designated NHP#26), was also tested for validation despite the limitation that reduced production of this vector enabled only a low dose."
+          },
+          {
+            "evidence_id": "EV_AUTO_010",
+            "source_file": "docs/0181/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The top-ranking vector, LoopSwap variant AAV2 583\\~LQRGVRIPSVLEVNGQ, outperformed other variants in the GFP-barcoded screen, though it yielded lower viral titers ( $\\sim5 \\times 10^{11}$ vg/mL)."
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "analysis",
+        "state_before": "Validated variants show improved tropism but with limitations.",
+        "gap_or_uncertainty": "What are the key limitations of the study?",
+        "hypothesis": "Small sample size, immune suppression, and low titers limit translatability.",
+        "decision": "Decide to optimize NHP#26 production titer and test immune suppression tapering in future studies.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "critical assessment",
+          "version": "",
+          "category": "analysis"
+        },
+        "parameters": {},
+        "observation": "Secondary screen n=1; immune suppression required; NHP#26 low titer; long-term safety not assessed.",
+        "result_status": "inconclusive",
+        "next_step_reason": "Study provides proof-of-concept but requires further optimization.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C005_E08_01",
+            "source_file": "docs/0181/combined.md",
+            "section": "C005",
+            "quote_or_span": "Analysis was performed on n = 1 primate."
+          },
+          {
+            "evidence_id": "EV_C003_E07_01",
+            "source_file": "docs/0181/combined.md",
+            "section": "C003",
+            "quote_or_span": "Further work is required to determine an optimal regimen and the period during which immune suppression may be required, or if immune suppression may be tapered off after an initial critical period."
+          },
+          {
+            "evidence_id": "EV_C005_E06_01",
+            "source_file": "docs/0181/combined.md",
+            "section": "C005",
+            "quote_or_span": "To prevent any immune response to GFP or viral vectors, which have been previously reported (7), the monkey used for fluorophore expression received daily subcutaneous injections of cyclosporine at a dose of 6 mg/kg for immune suppression, beginning 1 week before AAV injection, and the dosage regimen was adjusted based on blood trough levels to within a 150–200 ng/ml target range."
+          },
+          {
+            "evidence_id": "EV_AUTO_016",
+            "source_file": "docs/0181/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The variant NHP#26 transduced the outer retina at a titer of $5 \\times 10^{10}$ vg, 2 log units lower than the dosage used in a previous study to inject a primate with 7m8 (7)."
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "Deep sequencing of selection rounds",
+        "GFP-barcoded secondary screen",
+        "Immunohistochemistry and confocal imaging of individual variants",
+        "qRT-PCR for GFP expression"
+      ],
+      "metrics": [
+        "Fold increase in variant representation",
+        "Competition index (barcode abundance ratio)",
+        "Number of transduced cones",
+        "GFP expression level"
+      ],
+      "final_conclusion": "In vivo directed evolution in primates yielded AAV variants NHP#9 and NHP#26 with improved outer retinal transduction. NHP#9 showed 2-fold more foveal cones and ~12-fold higher GFP expression vs 7m8, with reduced RGC transduction. NHP#26 transduced photoreceptors and Müller cells despite low titer. Limitations include small sample size, immune suppression, and low production titers for some variants.",
+      "limitations": [
+        "Secondary screen performed on n=1 primate",
+        "Immune suppression used may affect translatability",
+        "NHP#26 had low production titer (~5e11 vg/mL)",
+        "Long-term expression and safety not assessed"
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_specific_evidence_backfilled=2",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_specific_evidence_backfilled=2",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 100.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p4\\states\\0181.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p4\\events\\0181.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1,
+          3
+        ],
+        "K02": [
+          1
+        ],
+        "K03": [
+          1,
+          2,
+          3
+        ],
+        "K04": [
+          3
+        ],
+        "K05": [
+          3,
+          4,
+          5
+        ],
+        "K06": [
+          4
+        ],
+        "K07": [
+          5
+        ],
+        "K08": [
+          5,
+          6,
+          7
+        ],
+        "K09": [
+          5,
+          7,
+          8
+        ],
+        "K10": [
+          5,
+          7,
+          8
+        ],
+        "K11": [
+          1,
+          8
+        ],
+        "K12": [
+          8
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02",
+            "K03",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K03"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K01",
+            "K03",
+            "K04",
+            "K05"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K05",
+            "K06"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K05",
+            "K07",
+            "K08",
+            "K09",
+            "K10"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K08"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K08",
+            "K09",
+            "K10"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K09",
+            "K10",
+            "K11",
+            "K12"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 5,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "12",
+          "26s"
+        ]
+      }
+    ],
+    "step_count": 8,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 100.0
+  },
+  "api_usage": {
+    "prompt_tokens": 112883,
+    "completion_tokens": 25284,
+    "total_tokens": 138167,
+    "prompt_cache_hit_tokens": 2944,
+    "prompt_cache_miss_tokens": 109939
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 1548,
+        "completion_tokens": 494,
+        "total_tokens": 2042,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 1548
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 8450,
+        "completion_tokens": 2401,
+        "total_tokens": 10851,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 8450
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 7360,
+        "completion_tokens": 1463,
+        "total_tokens": 8823,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7104
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 7595,
+        "completion_tokens": 1130,
+        "total_tokens": 8725,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7339
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 8766,
+        "completion_tokens": 1300,
+        "total_tokens": 10066,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8510
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 8399,
+        "completion_tokens": 2276,
+        "total_tokens": 10675,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8143
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C005",
+      "api_usage": {
+        "prompt_tokens": 5969,
+        "completion_tokens": 1438,
+        "total_tokens": 7407,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 5713
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 13021,
+        "completion_tokens": 2928,
+        "total_tokens": 15949,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 12637
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 13817,
+        "completion_tokens": 5720,
+        "total_tokens": 19537,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 13177
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 17499,
+        "completion_tokens": 671,
+        "total_tokens": 18170,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 17499
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 20459,
+        "completion_tokens": 5463,
+        "total_tokens": 25922,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 19819
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

@@ -1,0 +1,2105 @@
+{
+  "doc_no": "0152",
+  "source": {
+    "title": "Biosensor and machine learning-aided engineering of an amaryllidaceae enzyme",
+    "doi": "https://doi.org/10.1038/s41467-024-46356-y",
+    "license": "cc-by",
+    "pdf_name": "0150_10_1038_s41467_024_46356_y_biosensor_and_machine_learning_aided_engineering_of_an_amaryllidaceae_enzyme.pdf",
+    "combined_md": "docs/0152/combined.md",
+    "mineru_md": "docs/0152/mineru.md"
+  },
+  "gist_memory": {
+    "paper_problem_memory": "The paper aims to engineer the amaryllidaceae enzyme norbelladine 4'-O-methyltransferase (Nb4OMT) for improved production of 4'-O-methylnorbelladine (4NB) in E. coli, using a biosensor-machine learning technology stack. The initial problem is the slow process of biocatalyst engineering for therapeutic alkaloids, and the need for high-throughput screening and efficient enzyme design. The biosensor is developed via directed evolution of RamR to specifically detect 4NB, and the enzyme is engineered using MutComputeX, a structure-based residual neural network. The process involves iterative cycles of biosensor evolution, enzyme activity monitoring, ML-guided design, experimental validation, and structural analysis.",
+    "section_gists": [
+      {
+        "section_index": 3,
+        "heading": "Biosensor and machine learning-aided engineering of an amaryllidaceae enzyme",
+        "gist": "Introduction and overview: The paper proposes a biosensor-ML stack to engineer an Amaryllidaceae enzyme in E. coli. A biosensor for 4NB is evolved from RamR, and MutComputeX is developed to design Nb4OMT variants. Improved variants show 60% higher titer, 2-fold higher catalytic activity, and 3-fold lower off-product. A crystal structure explains key mutations.",
+        "process_signals": [
+          "Initial problem: slow biocatalyst engineering for therapeutic alkaloids",
+          "Hypothesis: biosensor and ML can accelerate enzyme engineering",
+          "Goal: improve microbial fermentation of 4NB"
+        ],
+        "methods": [
+          "Directed evolution of RamR into 4NB biosensor",
+          "Development of MutComputeX (structure-based residual neural network)",
+          "Screening of ML-designed Nb4OMT variants with biosensor"
+        ],
+        "metrics": [
+          "EC50 = 20 μM for biosensor",
+          "60% improvement in product titer",
+          "2-fold higher catalytic activity",
+          "3-fold lower off-product regioisomer formation"
+        ],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 4,
+        "heading": "Results",
+        "gist": "Results section heading, no content.",
+        "process_signals": [],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 5,
+        "heading": "Identifying a biosensor for the branchpoint amaryllidaceae alkaloid 4'-O-methylnorbelladine",
+        "gist": "RamR is evolved into a specific biosensor for 4NB. Initial RamR shows slight response to 4NB and norbelladine. Docking suggests key residues. Three site-saturated libraries are generated and screened via SELIS. After round 1, variant 4NB1.2 (K63T, L66M) shows 20-fold selectivity for 4NB. Further evolution with counter-selection against norbelladine yields 4NB2.1 with high specificity and sensitivity (EC50=20 μM).",
+        "process_signals": [
+          "Starting point: RamR, a malleable TetR-family repressor",
+          "Initial observation: RamR slightly responsive to 4NB and norbelladine (3.8-fold and 4.4-fold)",
+          "Hypothesis: docking pose informs rational library design",
+          "Library design: three NNS libraries targeting inward-facing residues",
+          "Screening method: SELIS (growth-based selection then fluorescence screen)",
+          "Round 1: variant 4NB1.2 (K63T, L66M) with 20-fold selectivity, but other variants had higher sensitivity",
+          "Decision: use 4NB1.2 as starting point for further evolution due to selectivity",
+          "Round 2: additional libraries with counter-selection against norbelladine",
+          "Outcome: 4NB2.1 with high specificity and sensitivity (EC50=20 μM)"
+        ],
+        "methods": [
+          "Directed evolution of RamR",
+          "Site-saturated mutagenesis (NNS libraries)",
+          "SELIS (Seamless Enrichment of Ligand Inducible Sensors)",
+          "Molecular docking with GNINA 1.0"
+        ],
+        "metrics": [
+          "Fold induction: 3.8-fold (4NB), 4.4-fold (norbelladine) for WT RamR",
+          "Selectivity: 20-fold for 4NB over norbelladine (4NB1.2)",
+          "EC50: 20 μM for 4NB (4NB2.1)"
+        ],
+        "failures_or_limits": [
+          "Initial RamR promiscuity",
+          "Some variants had higher sensitivity but lower selectivity, not chosen"
+        ]
+      },
+      {
+        "section_index": 6,
+        "heading": "Monitoring norbelladine methyltransferase activity in Escherichia coli",
+        "gist": "The evolved biosensor (pSens4NB2) is used to monitor Nb4OMT activity in E. coli. Fluorescence correlates with enzyme expression, substrate concentration, and 4NB titer. However, HPLC shows significant leftover norbelladine and LC/MS identifies 3'-O-methylnorbelladine off-product, indicating low catalytic efficiency and regiospecificity. Directed evolution via error-prone PCR fails to identify improved variants.",
+        "process_signals": [
+          "Observation: biosensor can monitor Nb4OMT activity in vivo",
+          "Finding: wild-type Nb4OMT has low catalytic efficiency and poor regiospecificity",
+          "Hypothesis: enzyme engineering can improve activity and specificity",
+          "Attempt: directed evolution via error-prone PCR (avg 3 mutations/gene)",
+          "Failure: no variants outperformed wild-type in liquid-based screen",
+          "Decision: pursue ML-guided design as complementary approach"
+        ],
+        "methods": [
+          "Co-transformation of pSens4NB2 and Nb4OMT expression plasmid",
+          "Fluorescence measurement and HPLC/LC-MS analysis",
+          "Error-prone PCR for random mutagenesis",
+          "Plate-based fluorescence screen followed by liquid-based secondary screen"
+        ],
+        "metrics": [
+          "Significant leftover norbelladine even at 50 μM supplementation",
+          "3'-O-methylnorbelladine identified as minor off-product"
+        ],
+        "failures_or_limits": [
+          "Directed evolution (error-prone PCR) failed to find improved variants"
+        ]
+      },
+      {
+        "section_index": 7,
+        "heading": "Developing a machine learning pipeline for structure-based enzyme engineering",
+        "gist": "MutComputeX is developed as an improved structure-based neural network. It is trained on ~2.3M microenvironments from >23,000 structures, including protein-ligand interfaces. It uses a 3DResNet architecture with new atomic channels (phosphorus, halogens). The model achieves ~80% wild-type accuracy on a 250K test set. An ensemble of three models (MutComputeX) is selected based on correlation with FireProtDB ΔTM data. To generate designs, an AlphaFold2 model of Nb4OMT is docked with SAH and norbelladine using GNINA. MutComputeX predicts substitutions; designs are selected based on predicted amino acid probabilities.",
+        "process_signals": [
+          "Problem: previous MutCompute could not handle non-protein atoms",
+          "Solution: rebuild data pipelines, add atomic channels, use residual CNN",
+          "Training: ~2.3M microenvironments, including ~256K protein-ligand interfaces",
+          "Model selection: ensemble of three models based on zero-shot correlation with FireProtDB",
+          "Input structure: AlphaFold2 model of Nb4OMT docked with SAH and norbelladine",
+          "Docking constraints: D155 or K158 as general base, cation-π interaction with K158",
+          "Design generation: MutComputeX predicts amino acid likelihoods; substitutions with high probability for non-wild-type amino acids are selected"
+        ],
+        "methods": [
+          "MutComputeX: self-supervised 3DResNet",
+          "Training on heterogeneous microenvironments",
+          "AlphaFold2 for structure prediction",
+          "GNINA 1.0 for ligand docking",
+          "Ensemble of three models"
+        ],
+        "metrics": [
+          "Wild-type accuracy: ~80% on 250K test set (3DResNet), 67.3% overall for MutComputeX ensemble",
+          "Protein-ligand interface accuracy: 81% (3DResNet), 66% (MutComputeX)",
+          "Previous 3DCNN: 69% on 6K test set, 62.1% on interface"
+        ],
+        "failures_or_limits": [
+          "MutComputeX has lower wild-type accuracy than individual 3DResNets, but better correlation with experimental data"
+        ]
+      },
+      {
+        "section_index": 8,
+        "heading": "Characterization of improved norbelladine methyltransferase variants",
+        "gist": "22 MutComputeX-designed variants are screened using the biosensor at three temperatures and two substrate concentrations. A53M consistently outperforms wild-type; H17K, H17R, S159E, V203E, E36P-G40E show improvement in some conditions. Double/triple mutants with A53M give highest signals. Time course shows faster fluorescence increase for A53M variants. LC/MS confirms 60% increase in 4NB, 17-fold decrease in leftover norbelladine, and 3-fold reduction in 3'-O-methylnorbelladine off-product for E36P-G40E-A53M. A53M is only predicted when docking is included; without docking, A53R is predicted and reduces activity. Kinetic analysis: A53M increases kcat/Km ~2-fold (kcat >2.1-fold increase), Tm +1.7°C; triple mutant Tm +5.6°C.",
+        "process_signals": [
+          "Screening: 22 mutants across 3 temperatures and 2 substrate concentrations",
+          "Key finding: A53M consistently beneficial",
+          "Observation: A53M only predicted with docked ligands; without docking, A53R predicted (detrimental)",
+          "Validation: fluorescence correlates with LC/MS product titer",
+          "Kinetic and thermal characterization confirms improvements"
+        ],
+        "methods": [
+          "Biosensor-based high-throughput fluorescence screen",
+          "LC/MS for product quantification",
+          "Steady-state kinetics",
+          "Thermal shift assay for Tm"
+        ],
+        "metrics": [
+          "60% increase in 4NB titer",
+          "17-fold decrease in leftover norbelladine",
+          "3-fold reduction in 3'-O-methylnorbelladine",
+          "kcat/Km: 2-fold increase (A53M)",
+          "Tm: +1.7°C (A53M), +5.6°C (triple mutant)"
+        ],
+        "failures_or_limits": [
+          "A53R predicted without docking reduced activity",
+          "Some single mutants (H17K, etc.) only improved in certain conditions"
+        ]
+      },
+      {
+        "section_index": 9,
+        "heading": "Crystal structure of an improved norbelladine methyltransferase",
+        "gist": "Crystal structure of Nb4OMT E36P/G40E/A53M with SAH solved at 2.4 Å. The enzyme is a homodimer. Overall fold matches AlphaFold2 except N-terminus: AlphaFold2 predicted Lys13 salt bridge with Asp155, Asp181, Asn182, but crystal structure shows these coordinate a Ca2+ ion and Lys13 interacts with Tyr186 and Tyr194. A53M inserts into hydrophobic pocket (Trp50, Tyr81, Tyr108), stabilizing active site. E36P-G40E shifts glutamate from 36 to 40, preserving salt bridge with Lys118 and capping helix. Docking norbelladine into crystal structure shows Ca2+ positions substrate, and A53M may influence regiospecificity.",
+        "process_signals": [
+          "Goal: understand mechanism of beneficial mutations",
+          "Finding: discrepancy between AlphaFold2 and crystal structure in N-terminus",
+          "Structural basis for thermostability: A53M hydrophobic packing, E36P-G40E salt bridge and helix capping",
+          "Insight: Ca2+ in active site not predicted by AlphaFold2"
+        ],
+        "methods": [
+          "X-ray crystallography",
+          "GNINA docking into crystal structure"
+        ],
+        "metrics": [
+          "Resolution: 2.4 Å"
+        ],
+        "failures_or_limits": [
+          "AlphaFold2 model inaccurate in N-terminal region and missed Ca2+"
+        ]
+      },
+      {
+        "section_index": 10,
+        "heading": "Discussion",
+        "gist": "Summary: evolved biosensor enables precise monitoring of 4NB; MutComputeX is first structure-based model for sequence substitutions trained on non-protein atoms. Limitations: only 22 variants tested; manual curation of designs; reliance on AlphaFold2 and docking. Future: apply to other enzymes and pathways; further improve biosensor and ML pipeline.",
+        "process_signals": [
+          "Biosensor specificity emerged after only four substitutions",
+          "MutComputeX generalizes to protein-ligand interfaces",
+          "Acknowledged limitations: small number of variants, manual design selection, dependence on predicted structure"
+        ],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": [
+          "Only 22 variants tested",
+          "Manual curation of ML predictions",
+          "Reliance on AlphaFold2 and docking accuracy"
+        ]
+      },
+      {
+        "section_index": 11,
+        "heading": "Methods",
+        "gist": "Methods section heading, no content provided.",
+        "process_signals": [],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": []
+      }
+    ],
+    "global_hypotheses_about_storyline": [
+      "The research follows a linear but iterative process: first develop a specific biosensor, then use it to monitor enzyme activity, then apply ML to design improved enzyme variants, and finally validate and structurally characterize the best variants.",
+      "The failure of random mutagenesis (error-prone PCR) motivated the development and application of MutComputeX.",
+      "The inclusion of ligand atoms in MutComputeX training was critical for predicting beneficial active site mutations (A53M vs A53R).",
+      "The crystal structure revealed inaccuracies in the AlphaFold2 model, highlighting the importance of experimental validation."
+    ],
+    "uncertainties_to_resolve": [
+      "What were the exact selection conditions and stringency in each round of biosensor evolution?",
+      "How many variants were screened in the error-prone PCR library, and what was the screening cutoff?",
+      "What were the specific criteria for selecting the 22 MutComputeX designs from the predictions?",
+      "Were any other ML models or design strategies attempted before MutComputeX?",
+      "What is the full kinetic characterization of all variants, and were any compensatory mutations observed?",
+      "How does the biosensor performance compare to other detection methods (e.g., LC/MS) in terms of throughput and accuracy?"
+    ]
+  },
+  "chunk_events": [
+    {
+      "chunk_id": "C001",
+      "char_start": 0,
+      "char_end": 18000,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C001_E01",
+          "chunk_id": "C001",
+          "event_type": "problem",
+          "order_hint": 1,
+          "summary": "Slow biocatalyst engineering is a major challenge for industry-scale biomanufacturing of therapeutic alkaloids.",
+          "methods_or_tools": [],
+          "entities": [
+            "therapeutic alkaloids",
+            "biocatalyst engineering"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E01_01"
+          ]
+        },
+        {
+          "event_id": "C001_E02",
+          "chunk_id": "C001",
+          "event_type": "hypothesis",
+          "order_hint": 2,
+          "summary": "Proposing a biosensor-machine learning technology stack can accelerate biocatalyst development for Amaryllidaceae enzymes.",
+          "methods_or_tools": [
+            "biosensor",
+            "machine learning"
+          ],
+          "entities": [
+            "Amaryllidaceae enzyme",
+            "Escherichia coli"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E02_01"
+          ]
+        },
+        {
+          "event_id": "C001_E04",
+          "chunk_id": "C001",
+          "event_type": "design",
+          "order_hint": 4,
+          "summary": "Development of MutComputeX, a structure-based residual neural network, to generate activity-enriched variants of a plant methyltransferase.",
+          "methods_or_tools": [
+            "MutComputeX",
+            "structure-based residual neural network"
+          ],
+          "entities": [
+            "plant methyltransferase"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E04_01"
+          ]
+        },
+        {
+          "event_id": "C001_E05",
+          "chunk_id": "C001",
+          "event_type": "experiment",
+          "order_hint": 5,
+          "summary": "Screening of MutComputeX-guided Nb4OMT designs with the evolved biosensor, identifying variants with improved product titer, catalytic activity, and reduced off-product.",
+          "methods_or_tools": [
+            "biosensor screening"
+          ],
+          "entities": [
+            "Nb4OMT",
+            "4NB"
+          ],
+          "numbers_or_metrics": [
+            "60% improvement in product titer",
+            "2-fold higher catalytic activity",
+            "3-fold lower off-product regioisomer formation"
+          ],
+          "evidence_ids": [
+            "EV_C001_E05_01"
+          ]
+        },
+        {
+          "event_id": "C001_E06",
+          "chunk_id": "C001",
+          "event_type": "analysis",
+          "order_hint": 6,
+          "summary": "Crystal structure of engineered enzyme elucidates mechanism behind key beneficial mutations and highlights discrepancies with AlphaFold2 model.",
+          "methods_or_tools": [
+            "X-ray crystallography"
+          ],
+          "entities": [
+            "engineered enzyme",
+            "AlphaFold2"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E06_01"
+          ]
+        },
+        {
+          "event_id": "C001_E07",
+          "chunk_id": "C001",
+          "event_type": "experiment",
+          "order_hint": 7,
+          "summary": "Wild-type RamR shows slight responsiveness to 4NB and norbelladine, with 3.8-fold and 4.4-fold fluorescence increases.",
+          "methods_or_tools": [
+            "fluorescence assay"
+          ],
+          "entities": [
+            "RamR",
+            "4NB",
+            "norbelladine"
+          ],
+          "numbers_or_metrics": [
+            "3.8-fold",
+            "4.4-fold"
+          ],
+          "evidence_ids": [
+            "EV_C001_E07_01"
+          ]
+        }
+      ],
+      "notes": "Chunk covers introduction and early results, establishing the problem, hypothesis, and initial design steps for biosensor and ML pipeline.",
+      "api_usage": {
+        "prompt_tokens": 9010,
+        "completion_tokens": 1322,
+        "total_tokens": 10332,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8754
+      }
+    },
+    {
+      "chunk_id": "C002",
+      "char_start": 17100,
+      "char_end": 35100,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C002_E01",
+          "chunk_id": "C002",
+          "event_type": "experiment",
+          "order_hint": 1,
+          "summary": "The 4NB2.1 sensor was highly selective for 4NB over norbelladine, displaying an over 80-fold preference.",
+          "methods_or_tools": [
+            "AlphaFold2",
+            "GNINA 1.0",
+            "fluorescence assay"
+          ],
+          "entities": [
+            "4NB2.1 sensor",
+            "4NB",
+            "norbelladine"
+          ],
+          "numbers_or_metrics": [
+            "80-fold preference"
+          ],
+          "evidence_ids": [
+            "EV_C002_E01_01"
+          ]
+        },
+        {
+          "event_id": "C002_E02",
+          "chunk_id": "C002",
+          "event_type": "analysis",
+          "order_hint": 2,
+          "summary": "Docking suggests K63T repositions hydroxyl to hydrogen bond with Y59, L66M strengthens hydrophobic pocket around 4'-O-methyl group.",
+          "methods_or_tools": [
+            "AlphaFold2",
+            "GNINA 1.0"
+          ],
+          "entities": [
+            "K63T",
+            "L66M",
+            "Y59",
+            "4NB"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E02_01"
+          ]
+        },
+        {
+          "event_id": "C002_E03",
+          "chunk_id": "C002",
+          "event_type": "validation",
+          "order_hint": 3,
+          "summary": "The 4NB2.1 sensor is approximately 10-fold more sensitive than the HPLC method, making it well-suited for screening.",
+          "methods_or_tools": [
+            "HPLC",
+            "4NB2.1 sensor"
+          ],
+          "entities": [
+            "4NB2.1 sensor",
+            "HPLC"
+          ],
+          "numbers_or_metrics": [
+            "10-fold more sensitive"
+          ],
+          "evidence_ids": [
+            "EV_C002_E03_01"
+          ]
+        },
+        {
+          "event_id": "C002_E04",
+          "chunk_id": "C002",
+          "event_type": "problem",
+          "order_hint": 4,
+          "summary": "Wild-type Nb4OMT has low catalytic efficiency and poor regiospecificity, with significant leftover norbelladine and off-product 3'-O-methylnorbelladine.",
+          "methods_or_tools": [
+            "HPLC",
+            "LC/MS"
+          ],
+          "entities": [
+            "Nb4OMT",
+            "norbelladine",
+            "3'-O-Methylnorbelladine"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E04_01",
+            "EV_C002_E04_02"
+          ]
+        },
+        {
+          "event_id": "C002_E05",
+          "chunk_id": "C002",
+          "event_type": "failure",
+          "order_hint": 5,
+          "summary": "Directed evolution via error-prone PCR failed to identify variants outperforming wild-type Nb4OMT in liquid-based screen.",
+          "methods_or_tools": [
+            "error-prone PCR",
+            "pSens4NB2.1 plasmid",
+            "liquid-based fluorescence screen"
+          ],
+          "entities": [
+            "Nb4OMT"
+          ],
+          "numbers_or_metrics": [
+            "average of three mutations per gene"
+          ],
+          "evidence_ids": [
+            "EV_C002_E05_01"
+          ]
+        },
+        {
+          "event_id": "C002_E06",
+          "chunk_id": "C002",
+          "event_type": "design",
+          "order_hint": 6,
+          "summary": "MutComputeX was developed to handle non-protein atoms, using a 3DResNet architecture and new atomic channels, achieving ~80% wild-type accuracy.",
+          "methods_or_tools": [
+            "MutComputeX",
+            "3DResNet",
+            "FireProtDB"
+          ],
+          "entities": [
+            "MutComputeX",
+            "3DResNet"
+          ],
+          "numbers_or_metrics": [
+            "~80% wild-type accuracy on ~250K test set",
+            "67.3% overall wild-type accuracy"
+          ],
+          "evidence_ids": [
+            "EV_C002_E06_02"
+          ]
+        },
+        {
+          "event_id": "C002_E08",
+          "chunk_id": "C002",
+          "event_type": "experiment",
+          "order_hint": 8,
+          "summary": "22 MutComputeX-designed variants screened across three temperatures and two substrate concentrations; A53M consistently outperformed wild-type.",
+          "methods_or_tools": [
+            "biosensor-enabled high-throughput screen",
+            "LC/MS"
+          ],
+          "entities": [
+            "A53M",
+            "H17K",
+            "H17R",
+            "S159E",
+            "V203E",
+            "E36P-G40E"
+          ],
+          "numbers_or_metrics": [
+            "22 mutants",
+            "three temperatures (25°C, 30°C, 37°C)",
+            "two substrate concentrations (100 μM, 1 mM)"
+          ],
+          "evidence_ids": [
+            "EV_C002_E08_02"
+          ]
+        }
+      ],
+      "notes": "This chunk covers biosensor validation, monitoring of Nb4OMT activity, failure of directed evolution, development of MutComputeX, and initial screening of ML-designed variants.",
+      "api_usage": {
+        "prompt_tokens": 8381,
+        "completion_tokens": 1670,
+        "total_tokens": 10051,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8125
+      }
+    },
+    {
+      "chunk_id": "C003",
+      "char_start": 34200,
+      "char_end": 52200,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C003_E01",
+          "chunk_id": "C003",
+          "event_type": "experiment",
+          "order_hint": 1,
+          "summary": "LC/MS analysis confirms that the E36P-G40E-A53M variant increases 4NB product by 60% and decreases remnant norbelladine 17-fold.",
+          "methods_or_tools": [
+            "LC/MS"
+          ],
+          "entities": [
+            "E36P-G40E-A53M variant",
+            "4NB",
+            "norbelladine"
+          ],
+          "numbers_or_metrics": [
+            "60% increase",
+            "17-fold decrease"
+          ],
+          "evidence_ids": [
+            "EV_C003_E01_01"
+          ]
+        },
+        {
+          "event_id": "C003_E02",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 2,
+          "summary": "The A53M mutation reduces the 3'-O-methylnorbelladine off-product by about 3-fold.",
+          "methods_or_tools": [],
+          "entities": [
+            "A53M mutation",
+            "3'-O-methylnorbelladine"
+          ],
+          "numbers_or_metrics": [
+            "3-fold reduction"
+          ],
+          "evidence_ids": [
+            "EV_C003_E02_01"
+          ]
+        },
+        {
+          "event_id": "C003_E03",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 3,
+          "summary": "The beneficial A53M substitution was only predicted by MutComputeX when the structure model was docked with SAH and norbelladine; without docking, A53R was predicted and reduced activity.",
+          "methods_or_tools": [
+            "MutComputeX",
+            "docking"
+          ],
+          "entities": [
+            "A53M",
+            "A53R",
+            "SAH",
+            "norbelladine"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E03_01"
+          ]
+        },
+        {
+          "event_id": "C003_E04",
+          "chunk_id": "C003",
+          "event_type": "experiment",
+          "order_hint": 4,
+          "summary": "Steady-state kinetics show A53M increases kcat/Km by about 2-fold due to >2.1-fold increase in kcat, and Tm by 1.7°C.",
+          "methods_or_tools": [
+            "steady-state kinetics",
+            "thermal shift assay"
+          ],
+          "entities": [
+            "A53M",
+            "kcat/Km",
+            "kcat",
+            "Tm"
+          ],
+          "numbers_or_metrics": [
+            "2-fold increase",
+            ">2.1-fold increase",
+            "1.7°C increase"
+          ],
+          "evidence_ids": [
+            "EV_C003_E04_01"
+          ]
+        },
+        {
+          "event_id": "C003_E05",
+          "chunk_id": "C003",
+          "event_type": "experiment",
+          "order_hint": 5,
+          "summary": "The triple mutant E36P/G40E/A53M shows a 5.6°C increase in Tm relative to wild-type.",
+          "methods_or_tools": [
+            "thermal shift assay"
+          ],
+          "entities": [
+            "E36P/G40E/A53M",
+            "Tm"
+          ],
+          "numbers_or_metrics": [
+            "5.6°C increase"
+          ],
+          "evidence_ids": [
+            "EV_C003_E05_01"
+          ]
+        },
+        {
+          "event_id": "C003_E06",
+          "chunk_id": "C003",
+          "event_type": "experiment",
+          "order_hint": 6,
+          "summary": "Crystal structure of Nb4OMT E36P/G40E/A53M with SAH solved at 2.4 Å reveals a homodimer and discrepancies with AlphaFold2 in the N-terminal region.",
+          "methods_or_tools": [
+            "X-ray crystallography"
+          ],
+          "entities": [
+            "Nb4OMT E36P/G40E/A53M",
+            "SAH",
+            "AlphaFold2"
+          ],
+          "numbers_or_metrics": [
+            "2.4 Å resolution"
+          ],
+          "evidence_ids": [
+            "EV_C003_E06_01",
+            "EV_C003_E06_02"
+          ]
+        },
+        {
+          "event_id": "C003_E07",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 7,
+          "summary": "Structural analysis shows A53M inserts into a hydrophobic pocket, stabilizing the active site, and E36P-G40E preserves a salt bridge while capping an alpha helix.",
+          "methods_or_tools": [],
+          "entities": [
+            "A53M",
+            "E36P-G40E",
+            "Trp50",
+            "Tyr81",
+            "Tyr108",
+            "Lys118"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E07_01",
+            "EV_C003_E07_02"
+          ]
+        },
+        {
+          "event_id": "C003_E08",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 8,
+          "summary": "Docking norbelladine into the crystal structure suggests Ca2+ positions the substrate and a sulfur-π interaction with Met53 may improve regiospecificity.",
+          "methods_or_tools": [
+            "GNINA 1.0 docking"
+          ],
+          "entities": [
+            "Ca2+",
+            "norbelladine",
+            "Met53"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E08_02"
+          ]
+        }
+      ],
+      "notes": "This chunk contains key experimental validation and structural characterization of ML-designed variants, directly supporting the paper's core narrative of enzyme engineering.",
+      "api_usage": {
+        "prompt_tokens": 9306,
+        "completion_tokens": 1565,
+        "total_tokens": 10871,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9050
+      }
+    },
+    {
+      "chunk_id": "C004",
+      "char_start": 51300,
+      "char_end": 69300,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C004_E01",
+          "chunk_id": "C004",
+          "event_type": "analysis",
+          "order_hint": 1,
+          "summary": "Crystal structure of engineered Nb4OMT solved at 2.4 Å reveals dimeric assembly and active site details.",
+          "methods_or_tools": [
+            "X-ray crystallography"
+          ],
+          "entities": [
+            "Nb4OMT E36P/G40E/A53M",
+            "SAH",
+            "Ca2+"
+          ],
+          "numbers_or_metrics": [
+            "2.4 Å resolution"
+          ],
+          "evidence_ids": [
+            "EV_C004_E01_01"
+          ]
+        },
+        {
+          "event_id": "C004_E02",
+          "chunk_id": "C004",
+          "event_type": "analysis",
+          "order_hint": 2,
+          "summary": "Comparison of N-termini shows discrepancy between crystal structure and AlphaFold2 model.",
+          "methods_or_tools": [
+            "AlphaFold2",
+            "X-ray crystallography"
+          ],
+          "entities": [
+            "Nb4OMT",
+            "N-terminus"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E02_01"
+          ]
+        },
+        {
+          "event_id": "C004_E03",
+          "chunk_id": "C004",
+          "event_type": "analysis",
+          "order_hint": 3,
+          "summary": "A53M mutation inserts into hydrophobic pocket, stabilizing active site.",
+          "methods_or_tools": [],
+          "entities": [
+            "A53M",
+            "Trp50",
+            "Tyr81",
+            "Tyr108"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E03_01"
+          ]
+        },
+        {
+          "event_id": "C004_E05",
+          "chunk_id": "C004",
+          "event_type": "analysis",
+          "order_hint": 5,
+          "summary": "Active site with SAH and docked norbelladine shows Ca2+ positioning substrate and A53M influencing regiospecificity.",
+          "methods_or_tools": [
+            "GNINA docking"
+          ],
+          "entities": [
+            "SAH",
+            "norbelladine",
+            "Ca2+",
+            "A53M"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E05_01"
+          ]
+        },
+        {
+          "event_id": "C004_E07",
+          "chunk_id": "C004",
+          "event_type": "limitation",
+          "order_hint": 7,
+          "summary": "Active site of solved structure differs from AlphaFold2 models due to lack of metal ions, ligands, and cofactors.",
+          "methods_or_tools": [
+            "AlphaFold2"
+          ],
+          "entities": [
+            "Nb4OMT"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E07_01"
+          ]
+        },
+        {
+          "event_id": "C004_E08",
+          "chunk_id": "C004",
+          "event_type": "limitation",
+          "order_hint": 8,
+          "summary": "AlphaFill tool did not incorporate norbelladine substrate or provide more accurate model.",
+          "methods_or_tools": [
+            "AlphaFill"
+          ],
+          "entities": [
+            "Nb4OMT",
+            "norbelladine"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E08_01"
+          ]
+        }
+      ],
+      "notes": "Chunk contains crystal structure analysis and discussion of MutComputeX validation and limitations.",
+      "api_usage": {
+        "prompt_tokens": 8287,
+        "completion_tokens": 1262,
+        "total_tokens": 9549,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8031
+      }
+    },
+    {
+      "chunk_id": "C005",
+      "char_start": 68400,
+      "char_end": 86400,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C005_E01",
+          "chunk_id": "C005",
+          "event_type": "design",
+          "order_hint": 1,
+          "summary": "MutComputeX model architecture and training details are described, including dataset generation and benchmarking.",
+          "methods_or_tools": [
+            "MutComputeX",
+            "3DResNet",
+            "Tensorflow 2.7",
+            "FireProtDB"
+          ],
+          "entities": [
+            "MutComputeX",
+            "3DResNet",
+            "FireProtDB"
+          ],
+          "numbers_or_metrics": [
+            "2,569,256 microenvironments",
+            "22,584 protein sequences",
+            "90:10 train/test split",
+            "Pearson 0.367, Spearman 0.425 for ΔTM"
+          ],
+          "evidence_ids": [
+            "EV_C005_E01_01"
+          ]
+        },
+        {
+          "event_id": "C005_E02",
+          "chunk_id": "C005",
+          "event_type": "design",
+          "order_hint": 2,
+          "summary": "Mutations were designed with two goals: stabilizing the protein away from the active site and investigating point mutations where predictions differed between docked and apo structures.",
+          "methods_or_tools": [
+            "MutComputeX",
+            "docking"
+          ],
+          "entities": [
+            "MutComputeX"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C005_E02_01"
+          ]
+        },
+        {
+          "event_id": "C005_E05",
+          "chunk_id": "C005",
+          "event_type": "experiment",
+          "order_hint": 5,
+          "summary": "LC-MS method for analyzing products and residual substrate from whole-cell biotransformation.",
+          "methods_or_tools": [
+            "LC-MS",
+            "Agilent 6530 Q-TOF",
+            "Agilent MassHunter"
+          ],
+          "entities": [
+            "norbelladine",
+            "4'-O-methylnorbelladine",
+            "3'-O-methylnorbelladine"
+          ],
+          "numbers_or_metrics": [
+            "m/z 260.1281 and 274.1438"
+          ],
+          "evidence_ids": [
+            "EV_C005_E05_01",
+            "EV_C005_E05_02"
+          ]
+        },
+        {
+          "event_id": "C005_E06",
+          "chunk_id": "C005",
+          "event_type": "analysis",
+          "order_hint": 6,
+          "summary": "Kinetic data were fit using KinTek Explorer with a minimal model; substrate inhibition was observed for A53M and triple mutant.",
+          "methods_or_tools": [
+            "KinTek Explorer",
+            "confidence contour analysis"
+          ],
+          "entities": [
+            "A53M",
+            "triple mutant"
+          ],
+          "numbers_or_metrics": [
+            "k4=0.00547 min-1",
+            "95% confidence limits"
+          ],
+          "evidence_ids": [
+            "EV_C005_E06_02"
+          ]
+        },
+        {
+          "event_id": "C005_E08",
+          "chunk_id": "C005",
+          "event_type": "experiment",
+          "order_hint": 8,
+          "summary": "X-ray crystallography of Nb4OMT triple mutant (E36P+G40E+A53M) with SAH solved at 2.4 Å.",
+          "methods_or_tools": [
+            "X-ray crystallography",
+            "HKL2000",
+            "Phenix",
+            "Coot",
+            "MolProbity"
+          ],
+          "entities": [
+            "Nb4OMT E36P+G40E+A53M",
+            "SAH"
+          ],
+          "numbers_or_metrics": [
+            "2.4 Å resolution",
+            "PDB 8UKE"
+          ],
+          "evidence_ids": [
+            "EV_C005_E08_01"
+          ]
+        }
+      ],
+      "notes": "This chunk contains detailed methods for model training, mutational design, HPLC, LC-MS, kinetics, protein purification, and crystallography, which are essential for understanding the experimental and computational processes.",
+      "api_usage": {
+        "prompt_tokens": 8471,
+        "completion_tokens": 1699,
+        "total_tokens": 10170,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8215
+      }
+    },
+    {
+      "chunk_id": "C006",
+      "char_start": 85500,
+      "char_end": 98774,
+      "chunk_relevance": "none",
+      "events": [],
+      "notes": "This chunk contains only references, acknowledgements, author contributions, competing interests, and additional information. No research evolution events are described.",
+      "api_usage": {
+        "prompt_tokens": 7634,
+        "completion_tokens": 59,
+        "total_tokens": 7693,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7378
+      }
+    }
+  ],
+  "evidence_bank": [
+    {
+      "evidence_id": "EV_C001_E01_01",
+      "source_file": "docs/0152/combined.md",
+      "section": "C001",
+      "char_start": 1005,
+      "char_end": 1140,
+      "quote": "A major challenge to achieving industry-scale biomanufacturing of therapeutic alkaloids is the slow process of biocatalyst engineering."
+    },
+    {
+      "evidence_id": "EV_C001_E02_01",
+      "source_file": "docs/0152/combined.md",
+      "section": "C001",
+      "char_start": 1439,
+      "char_end": 1614,
+      "quote": "Here, we propose an efficient biosensor-machine learning technology stack for biocatalyst development, which we apply to engineer an Amaryllidaceae enzyme in Escherichia coli."
+    },
+    {
+      "evidence_id": "EV_C001_E04_01",
+      "source_file": "docs/0152/combined.md",
+      "section": "C001",
+      "char_start": 1789,
+      "char_end": 1995,
+      "quote": "A structure-based residual neural network (MutComputeX) is subsequently developed and used to generate activity-enriched variants of a plant methyltransferase, which are rapidly screened with the biosensor."
+    },
+    {
+      "evidence_id": "EV_C001_E05_01",
+      "source_file": "docs/0152/combined.md",
+      "section": "C001",
+      "char_start": 1996,
+      "char_end": 2170,
+      "quote": "Functional enzyme variants are identified that yield a 60% improvement in product titer, 2-fold higher catalytic activity, and 3-fold lower off-product regioisomer formation."
+    },
+    {
+      "evidence_id": "EV_C001_E06_01",
+      "source_file": "docs/0152/combined.md",
+      "section": "C001",
+      "char_start": 2171,
+      "char_end": 2255,
+      "quote": "A solved crystal structure elucidates the mechanism behind key beneficial mutations."
+    },
+    {
+      "evidence_id": "EV_C001_E07_01",
+      "source_file": "docs/0152/combined.md",
+      "section": "C001",
+      "char_start": 7183,
+      "char_end": 7348,
+      "quote": "RamR was found to be slightly responsive to both 4NB and its immediate precursor norbelladine, yielding 3.8-fold and 4.4-fold increases in fluorescence, respectively"
+    },
+    {
+      "evidence_id": "EV_C002_E01_01",
+      "source_file": "docs/0152/combined.md",
+      "section": "C002",
+      "char_start": 18927,
+      "char_end": 19045,
+      "quote": "the 4NB2.1 sensor was highly selective for 4NB over norbelladine, displaying an over 80-fold preference for the former"
+    },
+    {
+      "evidence_id": "EV_C002_E02_01",
+      "source_file": "docs/0152/combined.md",
+      "section": "C002",
+      "char_start": 19355,
+      "char_end": 19574,
+      "quote": "the K63T substitution repositions the hydroxyl group at position 3 of 4NB to hydrogen bond with the wild-type Y59 residue, while the L66M substitution strengthens a hydrophobic pocket around the 4'-O-Methyl group of 4NB"
+    },
+    {
+      "evidence_id": "EV_C002_E03_01",
+      "source_file": "docs/0152/combined.md",
+      "section": "C002",
+      "char_start": 20805,
+      "char_end": 20966,
+      "quote": "the 4NB2.1 sensor is approximately 10-fold more sensitive than the HPLC method, making it well-suited for screening transplanted biosynthetic enzymes from plants"
+    },
+    {
+      "evidence_id": "EV_C002_E04_01",
+      "source_file": "docs/0152/combined.md",
+      "section": "C002",
+      "char_start": 22690,
+      "char_end": 22802,
+      "quote": "HPLC analysis indicated that a significant amount of supplemented norbelladine remained after culturing for 24 h"
+    },
+    {
+      "evidence_id": "EV_C002_E04_02",
+      "source_file": "docs/0152/combined.md",
+      "section": "C002",
+      "char_start": 22978,
+      "char_end": 23122,
+      "quote": "LC/MS analysis identified 3'-O-Methylnorbelladine as a minor component, indicating that the wild-type Nb4OMT enzyme was not highly regiospecific"
+    },
+    {
+      "evidence_id": "EV_C002_E05_01",
+      "source_file": "docs/0152/combined.md",
+      "section": "C002",
+      "char_start": 23820,
+      "char_end": 23933,
+      "quote": "this approach was not able to identify variants that outperformed the wild-type enzyme in the liquid-based screen"
+    },
+    {
+      "evidence_id": "EV_C002_E06_02",
+      "source_file": "docs/0152/combined.md",
+      "section": "C002",
+      "char_start": 26616,
+      "char_end": 26701,
+      "quote": "The ensembled 3DResNet model (MutComputeX) had an overall wild-type accuracy of 67.3%"
+    },
+    {
+      "evidence_id": "EV_C002_E08_02",
+      "source_file": "docs/0152/combined.md",
+      "section": "C002",
+      "char_start": 33445,
+      "char_end": 33572,
+      "quote": "In all tested conditions, the A53M mutation consistently produced a fluorescent signal significantly above the wild-type enzyme"
+    },
+    {
+      "evidence_id": "EV_C003_E01_01",
+      "source_file": "docs/0152/combined.md",
+      "section": "C003",
+      "char_start": 38050,
+      "char_end": 38149,
+      "quote": "the level of 4NB product increased by 60% while the level of remnant norbelladine decreased 17-fold"
+    },
+    {
+      "evidence_id": "EV_C003_E02_01",
+      "source_file": "docs/0152/combined.md",
+      "section": "C003",
+      "char_start": 38196,
+      "char_end": 38288,
+      "quote": "the A53M mutation reduced levels of the 3'-O-Methyl-norbelladine off-product by about 3-fold"
+    },
+    {
+      "evidence_id": "EV_C003_E03_01",
+      "source_file": "docs/0152/combined.md",
+      "section": "C003",
+      "char_start": 38343,
+      "char_end": 38580,
+      "quote": "the beneficial A53M substitution was only predicted by MutComputeX when the Nb4OMT structure model was docked with SAH and norbelladine; in contrast, A53R was predicted when docking was not performed, a substitution that reduced activity"
+    },
+    {
+      "evidence_id": "EV_C003_E04_01",
+      "source_file": "docs/0152/combined.md",
+      "section": "C003",
+      "char_start": 39064,
+      "char_end": 39214,
+      "quote": "The A53M substitution increased $k_{cat}/K_{m}$ by a factor of about 2, due to a >2.1-fold increase in $k_{cat}$ , and increased the $T_{m}$ by 1.7 °C"
+    },
+    {
+      "evidence_id": "EV_C003_E05_01",
+      "source_file": "docs/0152/combined.md",
+      "section": "C003",
+      "char_start": 39431,
+      "char_end": 39499,
+      "quote": "a 5.6 °C increase in $T_{m}$ relative to the wild-type Nb4OMT enzyme"
+    },
+    {
+      "evidence_id": "EV_C003_E06_01",
+      "source_file": "docs/0152/combined.md",
+      "section": "C003",
+      "char_start": 39984,
+      "char_end": 40121,
+      "quote": "we determined the structure of the Nb4OMT $^{E36P/G40E/A53M}$ variant in complex with S-adenosyl-L-homocysteine (SAH) at 2.4 Å resolution"
+    },
+    {
+      "evidence_id": "EV_C003_E06_02",
+      "source_file": "docs/0152/combined.md",
+      "section": "C003",
+      "char_start": 40272,
+      "char_end": 40396,
+      "quote": "The overall fold of the protein was almost identical to the predicted AlphaFold2 structure, except for the N-terminal region"
+    },
+    {
+      "evidence_id": "EV_C003_E07_01",
+      "source_file": "docs/0152/combined.md",
+      "section": "C003",
+      "char_start": 45252,
+      "char_end": 45378,
+      "quote": "The A53M substitution inserts a larger hydrophobic methionine inside the hydrophobic pocket formed by Trp50, Tyr81, and Tyr108"
+    },
+    {
+      "evidence_id": "EV_C003_E07_02",
+      "source_file": "docs/0152/combined.md",
+      "section": "C003",
+      "char_start": 45429,
+      "char_end": 45607,
+      "quote": "The E36P-G40E double mutant shifts a glutamate from position 36 to position 40 and thereby preserves the salt bridge interaction with Lys118 while proline capping the alpha helix"
+    },
+    {
+      "evidence_id": "EV_C003_E08_02",
+      "source_file": "docs/0152/combined.md",
+      "section": "C003",
+      "char_start": 47193,
+      "char_end": 47419,
+      "quote": "A sulfur- $\\pi$ interaction between the catechol group of norbelladine and Methionine 53 may also restrict the rotation of the catechol group, thereby reducing the cross-methylation of the 3' position and improving specificity"
+    },
+    {
+      "evidence_id": "EV_C004_E01_01",
+      "source_file": "docs/0152/combined.md",
+      "section": "C004",
+      "char_start": 52785,
+      "char_end": 52859,
+      "quote": "Global structure of Nb4OMT $^{E36P/G40E/A53M}$ solved in 2.4 A resolution."
+    },
+    {
+      "evidence_id": "EV_C004_E02_01",
+      "source_file": "docs/0152/combined.md",
+      "section": "C004",
+      "char_start": 52926,
+      "char_end": 53036,
+      "quote": "Comparison of N-termini of Nb4OMT crystal structure (orange) and wild-type Nb4OMT AlphaFold2 structure (blue)."
+    },
+    {
+      "evidence_id": "EV_C004_E03_01",
+      "source_file": "docs/0152/combined.md",
+      "section": "C004",
+      "char_start": 53039,
+      "char_end": 53080,
+      "quote": "Local context of the A53M mutant residue."
+    },
+    {
+      "evidence_id": "EV_C004_E05_01",
+      "source_file": "docs/0152/combined.md",
+      "section": "C004",
+      "char_start": 53218,
+      "char_end": 53345,
+      "quote": "Active site context of Nb4OMT $^{E36P/G40E/A53M}$ in complex with S-Adenosyl-L-homocysteine (SAH) and docked with norbelladine."
+    },
+    {
+      "evidence_id": "EV_C004_E07_01",
+      "source_file": "docs/0152/combined.md",
+      "section": "C004",
+      "char_start": 54476,
+      "char_end": 54624,
+      "quote": "Interestingly, the active site of the solved structure differs from AlphaFold2 models, likely due to lack of the metal ions, ligands, and cofactors."
+    },
+    {
+      "evidence_id": "EV_C004_E08_01",
+      "source_file": "docs/0152/combined.md",
+      "section": "C004",
+      "char_start": 54625,
+      "char_end": 54815,
+      "quote": "While the recently described AlphaFill tool could potentially address this issue for some models, it did not incorporate the norbelladine substrate or provide a more accurate model of Nb4OMT"
+    },
+    {
+      "evidence_id": "EV_C005_E01_01",
+      "source_file": "docs/0152/combined.md",
+      "section": "C005",
+      "char_start": 70321,
+      "char_end": 70463,
+      "quote": "A total of 2,569,256 microenvironments were sampled from 22,584 protein sequences and split 90:10 to generate our training and test set splits"
+    },
+    {
+      "evidence_id": "EV_C005_E02_01",
+      "source_file": "docs/0152/combined.md",
+      "section": "C005",
+      "char_start": 72527,
+      "char_end": 72724,
+      "quote": "Mutations were designed with two goals: stabilizing the protein away from the active site and investigating point mutations where predictions differed between the docked and apo protein structures."
+    },
+    {
+      "evidence_id": "EV_C005_E05_01",
+      "source_file": "docs/0152/combined.md",
+      "section": "C005",
+      "char_start": 75262,
+      "char_end": 75397,
+      "quote": "Samples were analyzed using an Agilent 6530 Q-TOF LC–MS with a dual Agilent Jet Stream electrospray ionization source in positive mode."
+    },
+    {
+      "evidence_id": "EV_C005_E05_02",
+      "source_file": "docs/0152/combined.md",
+      "section": "C005",
+      "char_start": 76246,
+      "char_end": 76377,
+      "quote": "Both products and the residual substrate of the wild-type reactions were identified with MS/MS with a collision cell energy of 5 V."
+    },
+    {
+      "evidence_id": "EV_C005_E06_02",
+      "source_file": "docs/0152/combined.md",
+      "section": "C005",
+      "char_start": 78685,
+      "char_end": 78853,
+      "quote": "there was evidence for substrate inhibition at the highest norbelladine concentration for the two variants (A53M and triple mutant) that this model did not account for."
+    },
+    {
+      "evidence_id": "EV_C005_E08_01",
+      "source_file": "docs/0152/combined.md",
+      "section": "C005",
+      "char_start": 82770,
+      "char_end": 82831,
+      "quote": "X-ray diffraction data were processed to 2.4 Å using HKL2000."
+    },
+    {
+      "evidence_id": "EV_AUTO_001",
+      "source_file": "docs/0152/combined.md",
+      "section": "auto_specific",
+      "char_start": 33444,
+      "char_end": 33723,
+      "quote": "In all tested conditions, the A53M mutation consistently produced a fluorescent signal significantly above the wild-type enzyme, while the H17K, H17R, S159E, V203E, and E36P-G40E substitutions produced signals above wild-type in at least one tested condition (Supplementary Fig."
+    },
+    {
+      "evidence_id": "EV_AUTO_002",
+      "source_file": "docs/0152/combined.md",
+      "section": "auto_specific",
+      "char_start": 33920,
+      "char_end": 34147,
+      "quote": "Double and triple mutants incorporating the H17K, A53M, S159E, V203E, and E36P-G40E substitutions were generated and screened; as with the initial screens, variants bearing the A53M mutation produced the greatest signals (Fig."
+    },
+    {
+      "evidence_id": "EV_AUTO_003",
+      "source_file": "docs/0152/combined.md",
+      "section": "auto_specific",
+      "char_start": 37916,
+      "char_end": 38155,
+      "quote": "carried out on supernatants from the E36P-G40E, A53M, and E36P-G40E-A53M variants, and in agreement with our fluorescence-based assay the level of 4NB product increased by 60% while the level of remnant norbelladine decreased 17-fold (Fig."
+    },
+    {
+      "evidence_id": "EV_AUTO_004",
+      "source_file": "docs/0152/combined.md",
+      "section": "auto_specific",
+      "char_start": 82508,
+      "char_end": 82696,
+      "quote": "Individual Nb4OMT variant (E36P + G40E + A53M) crystals were flash-frozen directly in liquid nitrogen after brief incubation with a reservoir solution supplemented with 30% (v/v) glycerol."
+    },
+    {
+      "evidence_id": "EV_AUTO_005",
+      "source_file": "docs/0152/combined.md",
+      "section": "auto_specific",
+      "char_start": 81864,
+      "char_end": 82048,
+      "quote": "To identify crystallization conditions of the Nb4OMT variant with triple mutations (E36P + G40E + A53M), 20 mg/ml purified enzyme samples were directly used in sparse matrix screening."
+    },
+    {
+      "evidence_id": "EV_AUTO_006",
+      "source_file": "docs/0152/combined.md",
+      "section": "auto_specific",
+      "char_start": 80020,
+      "char_end": 80119,
+      "quote": "For bacterial overexpression of Nb4OMT wild type and its variants (A53M and E36P + G40E + A53M), E."
+    },
+    {
+      "evidence_id": "EV_AUTO_007",
+      "source_file": "docs/0152/combined.md",
+      "section": "auto_specific",
+      "char_start": 54250,
+      "char_end": 54475,
+      "quote": "The solved crystal structure of the engineered Nb4OMT enzyme provides insights into the stabilization afforded by the E36P/G40E substitutions, and the increased activity and regiospecificity afforded by the A53M substitution."
+    },
+    {
+      "evidence_id": "EV_AUTO_008",
+      "source_file": "docs/0152/combined.md",
+      "section": "auto_specific",
+      "char_start": 45428,
+      "char_end": 45613,
+      "quote": "The E36P-G40E double mutant shifts a glutamate from position 36 to position 40 and thereby preserves the salt bridge interaction with Lys118 while proline capping the alpha helix (Fig."
+    },
+    {
+      "evidence_id": "EV_AUTO_009",
+      "source_file": "docs/0152/combined.md",
+      "section": "auto_specific",
+      "char_start": 39860,
+      "char_end": 40107,
+      "quote": "To better understand the mechanism underlying the three beneficial substitutions in the Nb4OMT $^{E36P/G40E/A53M}$ variant, we determined the structure of the Nb4OMT $^{E36P/G40E/A53M}$ variant in complex with S-adenosyl-L-homocysteine (SAH) at 2."
+    },
+    {
+      "evidence_id": "EV_AUTO_010",
+      "source_file": "docs/0152/combined.md",
+      "section": "auto_specific",
+      "char_start": 39500,
+      "char_end": 39666,
+      "quote": "Steady state kinetic data suggested that the Nb4OMT $^{A53M}$ and Nb4OMT $^{E36P/G40E/A53M}$ mutant enzymes were affected by substrate inhibition (Supplementary Fig."
+    },
+    {
+      "evidence_id": "EV_AUTO_011",
+      "source_file": "docs/0152/combined.md",
+      "section": "auto_specific",
+      "char_start": 39281,
+      "char_end": 39435,
+      "quote": "The Nb4OMT $^{E36P/G40E/A53M}$ triple substitutions appeared to have $k_{cat}$ and $K_{m}$ values similar to the Nb4OMT $^{A53M}$ single mutant, but a 5."
+    },
+    {
+      "evidence_id": "EV_AUTO_012",
+      "source_file": "docs/0152/combined.md",
+      "section": "auto_specific",
+      "char_start": 38833,
+      "char_end": 39063,
+      "quote": "To further understand the mechanism behind beneficial mutations, we characterized the steady state kinetic and thermal properties of NbOMT bearing the A53M substitution alone or in combination with the E36P and G40E substitutions."
+    },
+    {
+      "evidence_id": "EV_AUTO_013",
+      "source_file": "docs/0152/combined.md",
+      "section": "auto_specific",
+      "char_start": 34152,
+      "char_end": 34417,
+      "quote": "In time course reactions, after media supplementation with norbelladine the rate of fluorescence increase for the E36P-G40E variant was similar to that of the wild-type enzyme, but the rates produced by the two A53M-bearing variants were significantly higher (Fig."
+    },
+    {
+      "evidence_id": "EV_AUTO_014",
+      "source_file": "docs/0152/combined.md",
+      "section": "auto_specific",
+      "char_start": 9072,
+      "char_end": 9167,
+      "quote": "2: K63T and L66M) displayed a 20-fold selectivity for 4NB over norbelladine (Supplementary Fig."
+    },
+    {
+      "evidence_id": "EV_AUTO_015",
+      "source_file": "docs/0152/combined.md",
+      "section": "auto_specific",
+      "char_start": 53080,
+      "char_end": 53134,
+      "quote": "d Local context of the E36P and G40E mutant residues."
+    },
+    {
+      "evidence_id": "EV_AUTO_016",
+      "source_file": "docs/0152/combined.md",
+      "section": "auto_specific",
+      "char_start": 38313,
+      "char_end": 38628,
+      "quote": "Interestingly, we found that the beneficial A53M substitution was only predicted by MutComputeX when the Nb4OMT structure model was docked with SAH and norbelladine; in contrast, A53R was predicted when docking was not performed, a substitution that reduced activity under all tested conditions (Supplementary Fig."
+    },
+    {
+      "evidence_id": "EV_AUTO_017",
+      "source_file": "docs/0152/combined.md",
+      "section": "auto_specific",
+      "char_start": 19631,
+      "char_end": 19823,
+      "quote": "This analysis is in agreement with the fluorescence assay data, since only RamR variants bearing the K63T and L66M mutations are highly selective for 4NB over norbelladine (Supplementary Fig."
+    },
+    {
+      "evidence_id": "EV_AUTO_018",
+      "source_file": "docs/0152/combined.md",
+      "section": "auto_specific",
+      "char_start": 19827,
+      "char_end": 19997,
+      "quote": "The model also positions the new aspartate at position 134 (C134D) to hydrogen bond with the amine of 4NB; several other RamR variants also placed a hydrogen bond donor"
+    },
+    {
+      "evidence_id": "EV_AUTO_019",
+      "source_file": "docs/0152/combined.md",
+      "section": "auto_specific",
+      "char_start": 45083,
+      "char_end": 45236,
+      "quote": "The experimental structure of Nb4OMT $^{E36P/G40E/A53M}$ provides a basis for the improved thermostability of the enzyme (an increase in $T_{m}$ from 52."
+    },
+    {
+      "evidence_id": "EV_AUTO_020",
+      "source_file": "docs/0152/combined.md",
+      "section": "auto_specific",
+      "char_start": 15461,
+      "char_end": 15573,
+      "quote": "Molecular interaction diagram showing protein-ligand binding with labeled residues C134D, S137G, F155, and D152"
+    },
+    {
+      "evidence_id": "EV_AUTO_021",
+      "source_file": "docs/0152/combined.md",
+      "section": "auto_specific",
+      "char_start": 84904,
+      "char_end": 85068,
+      "quote": "Coordinates for the complex structure of Nb4OMT $^{E36P/G40E/A53M}$ with S-adenosyl-L-homocysteine (SAH) has been deposited in the Protein Data Bank (PDB) as 8UKE."
+    },
+    {
+      "evidence_id": "EV_AUTO_022",
+      "source_file": "docs/0152/combined.md",
+      "section": "auto_specific",
+      "char_start": 78535,
+      "char_end": 78853,
+      "quote": "While the model described above is the simplest model that could describe the data and gave reasonable estimates for $k_{cat}$ and $k_{cat}/K_{m}$ , there was evidence for substrate inhibition at the highest norbelladine concentration for the two variants (A53M and triple mutant) that this model did not account for."
+    },
+    {
+      "evidence_id": "EV_AUTO_023",
+      "source_file": "docs/0152/combined.md",
+      "section": "auto_specific",
+      "char_start": 54078,
+      "char_end": 54248,
+      "quote": "As validation, we show that the ability of MutComputeX to recognize ligand atoms was crucial to predicting the key beneficial A53M mutation in the active site of Nb4OMT."
+    },
+    {
+      "evidence_id": "EV_AUTO_024",
+      "source_file": "docs/0152/combined.md",
+      "section": "auto_specific",
+      "char_start": 53215,
+      "char_end": 53345,
+      "quote": "e Active site context of Nb4OMT $^{E36P/G40E/A53M}$ in complex with S-Adenosyl-L-homocysteine (SAH) and docked with norbelladine."
+    },
+    {
+      "evidence_id": "EV_AUTO_025",
+      "source_file": "docs/0152/combined.md",
+      "section": "auto_specific",
+      "char_start": 53036,
+      "char_end": 53080,
+      "quote": "c Local context of the A53M mutant residue."
+    },
+    {
+      "evidence_id": "EV_AUTO_026",
+      "source_file": "docs/0152/combined.md",
+      "section": "auto_specific",
+      "char_start": 52782,
+      "char_end": 52844,
+      "quote": "a Global structure of Nb4OMT $^{E36P/G40E/A53M}$ solved in 2."
+    },
+    {
+      "evidence_id": "EV_AUTO_027",
+      "source_file": "docs/0152/combined.md",
+      "section": "auto_specific",
+      "char_start": 46812,
+      "char_end": 46993,
+      "quote": "Due to the weak substrate inhibition term for the A53M and triple mutation variants, general upper and lower limits on steady state kinetic parameters are reported (see “Methods”)."
+    },
+    {
+      "evidence_id": "EV_AUTO_028",
+      "source_file": "docs/0152/combined.md",
+      "section": "auto_specific",
+      "char_start": 45719,
+      "char_end": 45912,
+      "quote": "0 was used to dock norbelladine into the crystal structure of Nb4OMT $^{E36P/G40E/A53M}$ with SAH and $Ca^{2+}$ already in the active site (based on Fo-Fc electron densities; Supplementary Fig."
+    },
+    {
+      "evidence_id": "EV_AUTO_029",
+      "source_file": "docs/0152/combined.md",
+      "section": "auto_specific",
+      "char_start": 42761,
+      "char_end": 42861,
+      "quote": "| E36P + G40E + A53M | 2 | 6 |"
+    },
+    {
+      "evidence_id": "EV_AUTO_030",
+      "source_file": "docs/0152/combined.md",
+      "section": "auto_specific",
+      "char_start": 38182,
+      "char_end": 38308,
+      "quote": "Furthermore, the A53M mutation reduced levels of the 3'-O-Methyl-norbelladine off-product by about 3-fold (Supplementary Fig."
+    },
+    {
+      "evidence_id": "EV_AUTO_031",
+      "source_file": "docs/0152/combined.md",
+      "section": "auto_specific",
+      "char_start": 19325,
+      "char_end": 19626,
+      "quote": "The docked pose suggests that the K63T substitution repositions the hydroxyl group at position 3 of 4NB to hydrogen bond with the wild-type Y59 residue, while the L66M substitution strengthens a hydrophobic pocket around the 4'-O-Methyl group of 4NB (along with the native I106 and L156 residues; Fig."
+    },
+    {
+      "evidence_id": "EV_AUTO_032",
+      "source_file": "docs/0152/combined.md",
+      "section": "auto_specific",
+      "char_start": 18798,
+      "char_end": 18869,
+      "quote": "1 (C134D and S137G), achieving a limit of detection of approximately 2."
+    },
+    {
+      "evidence_id": "EV_AUTO_033",
+      "source_file": "docs/0152/combined.md",
+      "section": "auto_specific",
+      "char_start": 51954,
+      "char_end": 52056,
+      "quote": "Protein secondary structure diagram showing G40E, E36P, and K118 residues with labeled hydrogen bonds"
+    },
+    {
+      "evidence_id": "EV_AUTO_034",
+      "source_file": "docs/0152/combined.md",
+      "section": "auto_specific",
+      "char_start": 14847,
+      "char_end": 14962,
+      "quote": "Molecular interaction diagram showing amino acid residues (L66M, L156, K63T, Y59) in a protein-ligand binding site"
+    },
+    {
+      "evidence_id": "EV_AUTO_035",
+      "source_file": "docs/0152/combined.md",
+      "section": "auto_specific",
+      "char_start": 60367,
+      "char_end": 60641,
+      "quote": "The following day, 20 $\\mu$ L of each culture was then used to inoculate six separate wells in a 2-mL 96-deep-well plate (Corning, P-DW-20-C-S) sealed with an AeraSeal film (Excel Scientific) containing 900 $\\mu$ L LB medium, one for each test ligand and a solvent control."
+    },
+    {
+      "evidence_id": "EV_AUTO_036",
+      "source_file": "docs/0152/combined.md",
+      "section": "auto_specific",
+      "char_start": 52555,
+      "char_end": 52690,
+      "quote": "Molecular interaction diagram showing interactions between protein residues (SAH, K158, Ca²⁺, A53M, S52) and Norbelladine binding site"
+    }
+  ],
+  "event_graph": {
+    "paper_main_problem": "Slow biocatalyst engineering for therapeutic alkaloids; need for high-throughput screening and efficient enzyme design.",
+    "canonical_events": [
+      {
+        "canonical_id": "K01",
+        "order": 1,
+        "event_type": "problem",
+        "summary": "Slow biocatalyst engineering is a major challenge for industry-scale biomanufacturing of therapeutic alkaloids.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E01"
+        ],
+        "evidence_ids": [
+          "EV_C001_E01_01"
+        ],
+        "key_entities": [
+          "therapeutic alkaloids",
+          "biocatalyst engineering"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K02",
+        "order": 2,
+        "event_type": "hypothesis",
+        "summary": "Proposing a biosensor-machine learning technology stack can accelerate biocatalyst development for Amaryllidaceae enzymes.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E02"
+        ],
+        "evidence_ids": [
+          "EV_C001_E02_01"
+        ],
+        "key_entities": [
+          "biosensor",
+          "machine learning",
+          "Amaryllidaceae enzyme",
+          "Escherichia coli"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K03",
+        "order": 3,
+        "event_type": "experiment",
+        "summary": "Wild-type RamR shows slight responsiveness to 4NB and norbelladine (3.8-fold and 4.4-fold fluorescence increases).",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E07"
+        ],
+        "evidence_ids": [
+          "EV_C001_E07_01"
+        ],
+        "key_entities": [
+          "RamR",
+          "4NB",
+          "norbelladine"
+        ],
+        "key_numbers": [
+          "3.8-fold",
+          "4.4-fold"
+        ]
+      },
+      {
+        "canonical_id": "K04",
+        "order": 4,
+        "event_type": "design",
+        "summary": "Directed evolution of RamR into a specific 4NB biosensor via site-saturated mutagenesis and SELIS screening.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E07"
+        ],
+        "evidence_ids": [
+          "EV_C001_E07_01"
+        ],
+        "key_entities": [
+          "RamR",
+          "4NB",
+          "SELIS",
+          "site-saturated mutagenesis"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K05",
+        "order": 5,
+        "event_type": "experiment",
+        "summary": "Round 1 yields variant 4NB1.2 (K63T, L66M) with 20-fold selectivity for 4NB over norbelladine.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E01",
+          "C002_E02"
+        ],
+        "evidence_ids": [
+          "EV_C002_E01_01",
+          "EV_C002_E02_01",
+          "EV_AUTO_014"
+        ],
+        "key_entities": [
+          "4NB1.2",
+          "K63T",
+          "L66M",
+          "4NB",
+          "norbelladine"
+        ],
+        "key_numbers": [
+          "20-fold selectivity"
+        ]
+      },
+      {
+        "canonical_id": "K06",
+        "order": 6,
+        "event_type": "experiment",
+        "summary": "Further evolution with counter-selection yields 4NB2.1 with high specificity and sensitivity (EC50=20 μM, >80-fold preference for 4NB).",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E01",
+          "C002_E03"
+        ],
+        "evidence_ids": [
+          "EV_C002_E01_01",
+          "EV_C002_E03_01"
+        ],
+        "key_entities": [
+          "4NB2.1",
+          "4NB",
+          "norbelladine"
+        ],
+        "key_numbers": [
+          "EC50=20 μM",
+          ">80-fold preference"
+        ]
+      },
+      {
+        "canonical_id": "K07",
+        "order": 7,
+        "event_type": "problem",
+        "summary": "Wild-type Nb4OMT has low catalytic efficiency and poor regiospecificity, with significant leftover norbelladine and off-product 3'-O-methylnorbelladine.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E04"
+        ],
+        "evidence_ids": [
+          "EV_C002_E04_01",
+          "EV_C002_E04_02"
+        ],
+        "key_entities": [
+          "Nb4OMT",
+          "norbelladine",
+          "3'-O-methylnorbelladine"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K08",
+        "order": 8,
+        "event_type": "failure",
+        "summary": "Directed evolution via error-prone PCR fails to identify variants outperforming wild-type Nb4OMT.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E05"
+        ],
+        "evidence_ids": [
+          "EV_C002_E05_01"
+        ],
+        "key_entities": [
+          "Nb4OMT",
+          "error-prone PCR"
+        ],
+        "key_numbers": [
+          "average of three mutations per gene"
+        ]
+      },
+      {
+        "canonical_id": "K09",
+        "order": 9,
+        "event_type": "design",
+        "summary": "Development of MutComputeX, a structure-based residual neural network trained on ~2.3M microenvironments including protein-ligand interfaces, achieving ~80% wild-type accuracy.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E04",
+          "C002_E06",
+          "C005_E01"
+        ],
+        "evidence_ids": [
+          "EV_C001_E04_01",
+          "EV_C002_E06_02",
+          "EV_C005_E01_01"
+        ],
+        "key_entities": [
+          "MutComputeX",
+          "3DResNet",
+          "protein-ligand interfaces"
+        ],
+        "key_numbers": [
+          "~2.3M microenvironments",
+          "~80% wild-type accuracy"
+        ]
+      },
+      {
+        "canonical_id": "K10",
+        "order": 10,
+        "event_type": "design",
+        "summary": "MutComputeX designs 22 Nb4OMT variants using AlphaFold2 structure docked with SAH and norbelladine; designs include A53M and E36P-G40E.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C005_E02"
+        ],
+        "evidence_ids": [
+          "EV_C005_E02_01"
+        ],
+        "key_entities": [
+          "MutComputeX",
+          "Nb4OMT",
+          "AlphaFold2",
+          "SAH",
+          "norbelladine",
+          "A53M",
+          "E36P-G40E"
+        ],
+        "key_numbers": [
+          "22 variants"
+        ]
+      },
+      {
+        "canonical_id": "K11",
+        "order": 11,
+        "event_type": "experiment",
+        "summary": "Screening of 22 MutComputeX-designed variants with biosensor across three temperatures and two substrate concentrations; A53M consistently outperforms wild-type.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E08"
+        ],
+        "evidence_ids": [
+          "EV_C002_E08_02",
+          "EV_AUTO_001",
+          "EV_AUTO_002"
+        ],
+        "key_entities": [
+          "A53M",
+          "H17K",
+          "H17R",
+          "S159E",
+          "V203E",
+          "E36P-G40E"
+        ],
+        "key_numbers": [
+          "22 mutants",
+          "three temperatures",
+          "two substrate concentrations"
+        ]
+      },
+      {
+        "canonical_id": "K12",
+        "order": 12,
+        "event_type": "experiment",
+        "summary": "LC/MS confirms E36P-G40E-A53M variant increases 4NB product by 60%, decreases remnant norbelladine 17-fold, and reduces 3'-O-methylnorbelladine off-product by 3-fold.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E01",
+          "C003_E02"
+        ],
+        "evidence_ids": [
+          "EV_C003_E01_01",
+          "EV_C003_E02_01",
+          "EV_AUTO_003",
+          "EV_AUTO_030"
+        ],
+        "key_entities": [
+          "E36P-G40E-A53M",
+          "4NB",
+          "norbelladine",
+          "3'-O-methylnorbelladine"
+        ],
+        "key_numbers": [
+          "60% increase",
+          "17-fold decrease",
+          "3-fold reduction"
+        ]
+      },
+      {
+        "canonical_id": "K13",
+        "order": 13,
+        "event_type": "analysis",
+        "summary": "A53M substitution only predicted by MutComputeX with docked ligands; without docking, A53R predicted and reduces activity.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E03"
+        ],
+        "evidence_ids": [
+          "EV_C003_E03_01",
+          "EV_AUTO_016",
+          "EV_AUTO_023"
+        ],
+        "key_entities": [
+          "A53M",
+          "A53R",
+          "MutComputeX",
+          "docking"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K14",
+        "order": 14,
+        "event_type": "experiment",
+        "summary": "Steady-state kinetics show A53M increases kcat/Km ~2-fold (kcat >2.1-fold increase) and Tm by 1.7°C; triple mutant Tm increases by 5.6°C.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E04",
+          "C003_E05"
+        ],
+        "evidence_ids": [
+          "EV_C003_E04_01",
+          "EV_C003_E05_01",
+          "EV_AUTO_011",
+          "EV_AUTO_012"
+        ],
+        "key_entities": [
+          "A53M",
+          "E36P/G40E/A53M",
+          "kcat/Km",
+          "Tm"
+        ],
+        "key_numbers": [
+          "~2-fold increase in kcat/Km",
+          ">2.1-fold increase in kcat",
+          "1.7°C increase in Tm",
+          "5.6°C increase in Tm"
+        ]
+      },
+      {
+        "canonical_id": "K15",
+        "order": 15,
+        "event_type": "validation",
+        "summary": "Crystal structure of Nb4OMT E36P/G40E/A53M with SAH solved at 2.4 Å reveals homodimer and discrepancies with AlphaFold2 in N-terminal region.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E06",
+          "C004_E01",
+          "C004_E02"
+        ],
+        "evidence_ids": [
+          "EV_C003_E06_01",
+          "EV_C003_E06_02",
+          "EV_C004_E01_01",
+          "EV_C004_E02_01",
+          "EV_AUTO_009",
+          "EV_AUTO_026"
+        ],
+        "key_entities": [
+          "Nb4OMT E36P/G40E/A53M",
+          "SAH",
+          "AlphaFold2"
+        ],
+        "key_numbers": [
+          "2.4 Å resolution"
+        ]
+      },
+      {
+        "canonical_id": "K16",
+        "order": 16,
+        "event_type": "analysis",
+        "summary": "Structural analysis shows A53M inserts into hydrophobic pocket stabilizing active site; E36P-G40E preserves salt bridge and caps helix; Ca2+ positions substrate.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E07",
+          "C003_E08",
+          "C004_E03",
+          "C004_E05"
+        ],
+        "evidence_ids": [
+          "EV_C003_E07_01",
+          "EV_C003_E07_02",
+          "EV_C003_E08_02",
+          "EV_C004_E03_01",
+          "EV_C004_E05_01",
+          "EV_AUTO_007"
+        ],
+        "key_entities": [
+          "A53M",
+          "E36P-G40E",
+          "Ca2+",
+          "norbelladine"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K17",
+        "order": 17,
+        "event_type": "limitation",
+        "summary": "Only 22 variants tested; manual curation of ML predictions; reliance on AlphaFold2 and docking accuracy; AlphaFold2 model inaccurate in N-terminal region and missed Ca2+.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C004_E07",
+          "C004_E08"
+        ],
+        "evidence_ids": [
+          "EV_C004_E07_01",
+          "EV_C004_E08_01"
+        ],
+        "key_entities": [
+          "AlphaFold2",
+          "Ca2+",
+          "norbelladine"
+        ],
+        "key_numbers": []
+      }
+    ],
+    "edges": [
+      {
+        "source": "K01",
+        "target": "K02",
+        "relation": "enables",
+        "reason": "The problem motivates the hypothesis of using a biosensor-ML stack."
+      },
+      {
+        "source": "K02",
+        "target": "K03",
+        "relation": "enables",
+        "reason": "The hypothesis leads to testing RamR as a starting point for biosensor development."
+      },
+      {
+        "source": "K03",
+        "target": "K04",
+        "relation": "enables",
+        "reason": "Initial responsiveness of RamR justifies directed evolution to improve specificity."
+      },
+      {
+        "source": "K04",
+        "target": "K05",
+        "relation": "enables",
+        "reason": "Directed evolution round 1 produces 4NB1.2 with improved selectivity."
+      },
+      {
+        "source": "K05",
+        "target": "K06",
+        "relation": "enables",
+        "reason": "4NB1.2 is further evolved to yield 4NB2.1 with higher specificity and sensitivity."
+      },
+      {
+        "source": "K06",
+        "target": "K07",
+        "relation": "enables",
+        "reason": "The evolved biosensor enables monitoring of Nb4OMT activity, revealing its poor performance."
+      },
+      {
+        "source": "K07",
+        "target": "K08",
+        "relation": "enables",
+        "reason": "Low catalytic efficiency motivates directed evolution attempt."
+      },
+      {
+        "source": "K08",
+        "target": "K09",
+        "relation": "enables",
+        "reason": "Failure of random mutagenesis motivates development of MutComputeX for ML-guided design."
+      },
+      {
+        "source": "K09",
+        "target": "K10",
+        "relation": "enables",
+        "reason": "MutComputeX is used to design Nb4OMT variants."
+      },
+      {
+        "source": "K10",
+        "target": "K11",
+        "relation": "enables",
+        "reason": "Designed variants are screened using the biosensor."
+      },
+      {
+        "source": "K11",
+        "target": "K12",
+        "relation": "enables",
+        "reason": "Promising variants are validated by LC/MS for product titer and specificity."
+      },
+      {
+        "source": "K12",
+        "target": "K13",
+        "relation": "enables",
+        "reason": "The beneficial A53M mutation is analyzed to understand the importance of docking in ML predictions."
+      },
+      {
+        "source": "K13",
+        "target": "K14",
+        "relation": "enables",
+        "reason": "Kinetic and thermal characterization quantifies the improvements."
+      },
+      {
+        "source": "K14",
+        "target": "K15",
+        "relation": "enables",
+        "reason": "Crystal structure is solved to elucidate the mechanism of beneficial mutations."
+      },
+      {
+        "source": "K15",
+        "target": "K16",
+        "relation": "enables",
+        "reason": "Structural analysis explains the molecular basis for improved activity and stability."
+      },
+      {
+        "source": "K16",
+        "target": "K17",
+        "relation": "enables",
+        "reason": "Structural insights highlight limitations of the computational models used."
+      }
+    ],
+    "must_cover_points": [
+      "Biosensor evolution from RamR to 4NB2.1",
+      "Failure of error-prone PCR for Nb4OMT",
+      "Development of MutComputeX with ligand-aware training",
+      "ML-guided design and screening of Nb4OMT variants",
+      "Identification of A53M as key beneficial mutation",
+      "Importance of docking for predicting A53M",
+      "Quantitative improvements in titer, kinetics, and thermostability",
+      "Crystal structure validation and mechanistic insights",
+      "Limitations of AlphaFold2 and manual design curation"
+    ],
+    "paper_not_suitable_reasons": []
+  }
+}

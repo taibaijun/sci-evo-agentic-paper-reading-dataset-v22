@@ -1,0 +1,972 @@
+{
+  "case": {
+    "case_id": "sci_evo_0036",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Design and structural validation of peptide–drug conjugate ligands of the kappa-opioid receptor",
+      "doi": "https://doi.org/10.1038/s41467-023-43718-w",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0034_10_1038_s41467_023_43718_w_design_and_structural_validation_of_peptide_drug_conjugate_ligands_of_the_kappa_opioid_rec.pdf",
+      "mineru_md": "docs/0036/mineru.md",
+      "combined_md": "docs/0036/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Rational design of high-affinity peptide ligands for single GPCRs remains an unmet challenge.",
+      "target_object": "kappa-opioid receptor (KOR)",
+      "known_context": "Small molecule ligands penetrate deeply into GPCR binding clefts; peptides make extensive target interactions for specificity.",
+      "constraints": [
+        "Achieve high affinity and selectivity for KOR",
+        "Achieve biased signaling (G protein over β-arrestin) to reduce side effects"
+      ],
+      "input_data": [
+        "Known experimental structure of KOR"
+      ],
+      "quantifiable_goals": [
+        "High affinity (low nM EC50)",
+        "Selectivity over DOR, NOP, MOR",
+        "G protein bias factor > 1",
+        "In vivo antinociception with reduced side effects"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "Rational design of high-affinity peptide ligands for single GPCRs is an unmet challenge.",
+        "gap_or_uncertainty": "How to combine the advantages of small molecules (deep binding) and peptides (extensive interactions) for GPCR targeting.",
+        "hypothesis": "Combining small molecule and peptide advantages via computational design of peptide–small molecule conjugates can yield ligands with unique pharmacological properties.",
+        "decision": "Proceed with computational design of peptide–drug conjugates targeting KOR.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "literature analysis",
+          "version": "",
+          "category": "reasoning"
+        },
+        "parameters": {},
+        "observation": "Small molecules penetrate deeply into GPCR binding clefts; peptides make extensive target interactions for specificity.",
+        "result_status": "success",
+        "next_step_reason": "Design constraints for peptide–drug conjugates need to be established.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0036/combined.md",
+            "section": "C001",
+            "quote_or_span": "the development of efficient technologies allowing rational design of high-affinity peptide ligands for single GPCRs remains an unmet challenge"
+          },
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0036/combined.md",
+            "section": "C001",
+            "quote_or_span": "We reason that the advantages of small molecule ligands in penetrating deeply into GPCR binding clefts and of peptides in making more extensive target interactions for specificity could be combined by computational design of peptide–small molecule conjugates."
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "design",
+        "state_before": "Hypothesis formulated; need to define molecular scaffold for conjugates.",
+        "gap_or_uncertainty": "What peptide scaffold allows conjugation while maintaining structural integrity?",
+        "hypothesis": "Lariat peptides cyclized via sidechain and N-terminus, with C-terminus available for conjugation, will provide a suitable scaffold.",
+        "decision": "Use lariat peptides with 5-6 residue thioether macrocycle.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "molecular design",
+          "version": "",
+          "category": "design"
+        },
+        "parameters": {
+          "macrocycle_size": "5-6 residues",
+          "cyclization": "thioether"
+        },
+        "observation": "Lariat peptides allow C-terminal conjugation while maintaining cyclic structure.",
+        "result_status": "success",
+        "next_step_reason": "Implement design constraints in computational workflow.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E04_01",
+            "source_file": "docs/0036/combined.md",
+            "section": "C001",
+            "quote_or_span": "we decided to use lariat peptides cyclized through a sidechain and the N-terminus, with the C-terminus thus available for covalent modification"
+          },
+          {
+            "evidence_id": "EV_C001_E04_02",
+            "source_file": "docs/0036/combined.md",
+            "section": "C001",
+            "quote_or_span": "we chose to employ the cyclic component of the lariat 5-6 residues closed by thioether macrocyclization"
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "design",
+        "state_before": "Scaffold defined; need to computationally design conjugates.",
+        "gap_or_uncertainty": "How to computationally generate and filter peptide–drug conjugates targeting KOR?",
+        "hypothesis": "Rosetta-based workflow with dipeptide extension, backbone generation, docking, and filtering by binding energy, shape complementarity, and interface area will yield high-quality designs.",
+        "decision": "Execute computational design pipeline.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "Rosetta",
+          "version": "",
+          "category": "computational_design"
+        },
+        "parameters": {
+          "dipeptide_extension": "D-Phe-L-Thr, D-Phe-L-Ser, D-Phe-L-Gln, D-Phe-L-Ala",
+          "filtering": "90th percentile cut-off on binding energy, shape complementarity, interface area",
+          "final_selection": "50 structures"
+        },
+        "observation": "Generated and filtered designs; selected 50 structures for visual inspection.",
+        "result_status": "success",
+        "next_step_reason": "Select conjugates for synthesis based on ECL2/3 interactions and diversity.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E05_01",
+            "source_file": "docs/0036/combined.md",
+            "section": "C001",
+            "quote_or_span": "we chose four solutions (i.e., dipeptides D-Phe-L-Thr; D-Phe-L-Ser; D-Phe-L-Gln and D-Phe-L-Ala) with the lowest Rosetta binding energy for KOR"
+          },
+          {
+            "evidence_id": "EV_C001_E06_01",
+            "source_file": "docs/0036/combined.md",
+            "section": "C001",
+            "quote_or_span": "We performed iterative sequence design rounds on the peptide backbone to optimize interactions with the KOR pocket using the Rosetta FastDesign protocol"
+          },
+          {
+            "evidence_id": "EV_C001_E06_02",
+            "source_file": "docs/0036/combined.md",
+            "section": "C001",
+            "quote_or_span": "a 90th percentile cut-off on all three properties was used to filter the designs down to 50 structures"
+          },
+          {
+            "evidence_id": "EV_C002_E01_02",
+            "source_file": "docs/0036/combined.md",
+            "section": "C002",
+            "quote_or_span": "Generation of small molecules with two additional amino acids, which were sampled and scored for optimal dimer sequence"
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "design",
+        "state_before": "50 computationally designed structures available.",
+        "gap_or_uncertainty": "Which designs to synthesize?",
+        "hypothesis": "Designs with favorable ECL2/3 interactions and diversity will yield functional conjugates.",
+        "decision": "Select six thioether cyclized hexamer conjugates for synthesis.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "visual inspection",
+          "version": "",
+          "category": "selection"
+        },
+        "parameters": {
+          "number_selected": 6
+        },
+        "observation": "Six conjugates selected based on ECL2/3 interactions and diversity.",
+        "result_status": "success",
+        "next_step_reason": "Synthesize selected conjugates; initial synthesis with MP1104 derivative failed, leading to design revision.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E07_01",
+            "source_file": "docs/0036/combined.md",
+            "section": "C001",
+            "quote_or_span": "Six thioether cyclized hexamer conjugates were selected for synthesis"
+          },
+          {
+            "evidence_id": "EV_AUTO_031",
+            "source_file": "docs/0036/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "While the small molecule portion of DNCP- $\\beta$ -NalA(1) adopts a similar conformation to U50,488 and MP1104, the peptide ring forms extensive interactions with ECL2/3 and TM6/7 residues, suggesting that these additional interactions may account for DNCP- $\\beta$ -NalA(1)'s G protein-biased or partial agonist activity."
+          },
+          {
+            "evidence_id": "EV_AUTO_008",
+            "source_file": "docs/0036/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "For synthesis of the peptide–drug conjugates, we chose $\\beta$ -NalA, distinguished by a less rigid morphinan structure and featuring an N-17 allyl group over the N-cyclopropylmethyl group of the MP1104 derivative (i."
+          },
+          {
+            "evidence_id": "EV_AUTO_017",
+            "source_file": "docs/0036/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Subtype selectivity on the morphinan template is difficult to achieve (MP1104 is a pan opioid binder) $^{42}$ ; DNCP- $\\beta$ -NalA(1) exhibits \\~80-and \\~330-fold selectivity for KOR over DOR, and for KOR over NOP receptor, respectively, but is equipotent at MOR."
+          },
+          {
+            "evidence_id": "EV_C002_E06_01",
+            "source_file": "docs/0036/combined.md",
+            "section": "C002",
+            "quote_or_span": "Intriguingly, in contrast to U50,488 and MP1104, but similar to the mixed-action KOR agonist pentazocine, DNCP-β-NalA(1) exhibited"
+          },
+          {
+            "evidence_id": "EV_AUTO_019",
+            "source_file": "docs/0036/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The increase in [ $^{35}$ S]GTPγS binding above the basal activity was used to determine potency ( $EC_{50}$ , in nM) and efficacy (as $E_{\\text{max}}$ in %, as maximum stimulation relative to the reference full KOR agonist U69,593) from concentration-response curves by nonlinear regression analysis."
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "revision",
+        "state_before": "Initial synthesis attempts with MP1104 derivative failed.",
+        "gap_or_uncertainty": "MP1104 derivative synthesis unsuccessful; need alternative small molecule anchor.",
+        "hypothesis": "β-NalA, with less rigid morphinan structure and N-17 allyl group, will be easier to synthesize and provide flexibility.",
+        "decision": "Replace MP1104 derivative with β-NalA.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "chemical synthesis",
+          "version": "",
+          "category": "synthesis"
+        },
+        "parameters": {
+          "new_anchor": "β-NalA"
+        },
+        "observation": "β-NalA chosen for simpler synthesis and flexibility.",
+        "result_status": "success",
+        "next_step_reason": "Synthesize and test β-NalA conjugates.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_008",
+            "source_file": "docs/0036/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "For synthesis of the peptide–drug conjugates, we chose $\\beta$ -NalA, distinguished by a less rigid morphinan structure and featuring an N-17 allyl group over the N-cyclopropylmethyl group of the MP1104 derivative (i."
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "experiment",
+        "state_before": "β-NalA conjugates synthesized; need pharmacological profiling.",
+        "gap_or_uncertainty": "Do β-NalA conjugates exhibit high affinity and selectivity for KOR?",
+        "hypothesis": "DNCP-β-NalA(1) will be a potent KOR agonist with selectivity over other opioid receptors.",
+        "decision": "Test DNCP-β-NalA(1) in [35S]GTPγS binding assay and selectivity panel.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "[35S]GTPγS binding assay",
+          "version": "",
+          "category": "pharmacology"
+        },
+        "parameters": {
+          "receptor": "KOR",
+          "assay": "G protein activation"
+        },
+        "observation": "DNCP-β-NalA(1) is a full agonist at KOR (EC50 = 5.5 nM, Emax = 83%), ~80-fold selective over DOR, ~330-fold over NOP, but equipotent at MOR.",
+        "result_status": "partial",
+        "next_step_reason": "Assess β-arrestin recruitment to determine bias.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_017",
+            "source_file": "docs/0036/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Subtype selectivity on the morphinan template is difficult to achieve (MP1104 is a pan opioid binder) $^{42}$ ; DNCP- $\\beta$ -NalA(1) exhibits \\~80-and \\~330-fold selectivity for KOR over DOR, and for KOR over NOP receptor, respectively, but is equipotent at MOR."
+          },
+          {
+            "evidence_id": "EV_AUTO_026",
+            "source_file": "docs/0036/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Herein, DNCP-β-NalA(1) bound to mouse MOR and DOR with $K_{i}$ values of 5.4 and 318 nM, respectively, supporting an \\~80- fold selectivity for KOR over DOR (Fig."
+          },
+          {
+            "evidence_id": "EV_AUTO_019",
+            "source_file": "docs/0036/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The increase in [ $^{35}$ S]GTPγS binding above the basal activity was used to determine potency ( $EC_{50}$ , in nM) and efficacy (as $E_{\\text{max}}$ in %, as maximum stimulation relative to the reference full KOR agonist U69,593) from concentration-response curves by nonlinear regression analysis."
+          },
+          {
+            "evidence_id": "EV_C002_E07_01",
+            "source_file": "docs/0036/combined.md",
+            "section": "C002",
+            "quote_or_span": "the conjugation of DNCP (35) and DNCP (36) was unsuccessful"
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "experiment",
+        "state_before": "DNCP-β-NalA(1) is a potent KOR agonist but equipotent at MOR.",
+        "gap_or_uncertainty": "Does DNCP-β-NalA(1) exhibit biased signaling?",
+        "hypothesis": "DNCP-β-NalA(1) will show impaired β-arrestin recruitment, indicating G protein bias.",
+        "decision": "Perform β-arrestin-2 recruitment assay.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "β-arrestin-2 recruitment assay",
+          "version": "",
+          "category": "pharmacology"
+        },
+        "parameters": {
+          "receptor": "KOR",
+          "assay": "β-arrestin-2 recruitment"
+        },
+        "observation": "DNCP-β-NalA(1) is a partial agonist for β-arrestin-2 (Emax = 25%) with bias factor ~30 for G protein over β-arrestin.",
+        "result_status": "success",
+        "next_step_reason": "Test in vivo antinociception.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E05_02",
+            "source_file": "docs/0036/combined.md",
+            "section": "C002",
+            "quote_or_span": "DNCP-β-NalA(1) demonstrated impaired β-arrestin recruitment, established to be associated with reduced side effects"
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "experiment",
+        "state_before": "DNCP-β-NalA(1) is a biased KOR agonist in vitro.",
+        "gap_or_uncertainty": "Does DNCP-β-NalA(1) produce antinociception in vivo?",
+        "hypothesis": "DNCP-β-NalA(1) will reduce pain in the formalin test.",
+        "decision": "Administer DNCP-β-NalA(1) s.c. in male mice and assess pain behavior.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "formalin test",
+          "version": "",
+          "category": "in_vivo"
+        },
+        "parameters": {
+          "species": "male mice",
+          "route": "s.c.",
+          "doses": "various"
+        },
+        "observation": "DNCP-β-NalA(1) dose-dependently reduced pain (ED50 = 1.89 μmol/kg), equipotent to U50,488, reversed by nor-BNI.",
+        "result_status": "success",
+        "next_step_reason": "Evaluate side effect profile.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E07_01",
+            "source_file": "docs/0036/combined.md",
+            "section": "C003",
+            "quote_or_span": "s.c. administration of DNCP-β-NalA(1) produced a dose-dependent reduction in the pain behavior of formalin-injected ma"
+          },
+          {
+            "evidence_id": "EV_C004_E01_01",
+            "source_file": "docs/0036/combined.md",
+            "section": "C004",
+            "quote_or_span": "DNCP-β-NalA(1) produced a dose-dependent reduction in the pain behavior of formalin-injected male mice"
+          },
+          {
+            "evidence_id": "EV_C002_E06_01",
+            "source_file": "docs/0036/combined.md",
+            "section": "C002",
+            "quote_or_span": "Intriguingly, in contrast to U50,488 and MP1104, but similar to the mixed-action KOR agonist pentazocine, DNCP-β-NalA(1) exhibited"
+          },
+          {
+            "evidence_id": "EV_AUTO_031",
+            "source_file": "docs/0036/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "While the small molecule portion of DNCP- $\\beta$ -NalA(1) adopts a similar conformation to U50,488 and MP1104, the peptide ring forms extensive interactions with ECL2/3 and TM6/7 residues, suggesting that these additional interactions may account for DNCP- $\\beta$ -NalA(1)'s G protein-biased or partial agonist activity."
+          },
+          {
+            "evidence_id": "EV_AUTO_018",
+            "source_file": "docs/0036/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "8 Å) with DNCP-β-NalA(1) and the D138 $^{3.32}$ N mutation caused an 8-fold loss of potency for DNCP-β-NalA(1), but a 1,000-fold for U50,488 (Fig."
+          },
+          {
+            "evidence_id": "EV_C006_E01_02",
+            "source_file": "docs/0036/combined.md",
+            "section": "C006",
+            "quote_or_span": "For KOR D138N mutant, the reference ligand is salvinorin A because U50,488 is inactive at this mutant."
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "experiment",
+        "state_before": "DNCP-β-NalA(1) is antinociceptive in vivo.",
+        "gap_or_uncertainty": "Does DNCP-β-NalA(1) cause motor impairment or other side effects?",
+        "hypothesis": "DNCP-β-NalA(1) will have reduced side effects compared to U50,488.",
+        "decision": "Perform rotarod test and assess paw edema.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "rotarod test",
+          "version": "",
+          "category": "in_vivo"
+        },
+        "parameters": {
+          "species": "male mice",
+          "comparator": "U50,488"
+        },
+        "observation": "DNCP-β-NalA(1) showed no motor impairment, unlike U50,488; reduced paw edema (12 ± 2% and 17 ± 3% reduction).",
+        "result_status": "success",
+        "next_step_reason": "Validate binding mode structurally.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E04_02",
+            "source_file": "docs/0036/combined.md",
+            "section": "C004",
+            "quote_or_span": "U50,488 did not affect paw oedema formation at any of the tested doses"
+          },
+          {
+            "evidence_id": "EV_C004_E05_01",
+            "source_file": "docs/0036/combined.md",
+            "section": "C004",
+            "quote_or_span": "DNCP-β-NalA(1) produced no changes in the motor behavior of male mice with no significant alterations in rotarod latencies at any time point and tested doses"
+          },
+          {
+            "evidence_id": "EV_C004_E05_02",
+            "source_file": "docs/0036/combined.md",
+            "section": "C004",
+            "quote_or_span": "U50,488 caused a significant deficit in the rotarod performance at 30 min"
+          },
+          {
+            "evidence_id": "EV_AUTO_033",
+            "source_file": "docs/0036/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The Y312 $^{7.35}$ A mutant activated by DNCP-β-NalA(1) was devoid of arrestin recruitment while only a 4-fold loss of potency in G protein activation (Fig."
+          },
+          {
+            "evidence_id": "EV_AUTO_008",
+            "source_file": "docs/0036/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "For synthesis of the peptide–drug conjugates, we chose $\\beta$ -NalA, distinguished by a less rigid morphinan structure and featuring an N-17 allyl group over the N-cyclopropylmethyl group of the MP1104 derivative (i."
+          },
+          {
+            "evidence_id": "EV_AUTO_034",
+            "source_file": "docs/0036/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Another residue, Y312 $^{7.35}$ (TM7) has been reported to affect KOR's functional selectivity by affecting arrestin signaling $^{8}$ ."
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "validation",
+        "state_before": "Favorable in vivo profile obtained.",
+        "gap_or_uncertainty": "What is the structural basis for DNCP-β-NalA(1) activity?",
+        "hypothesis": "Cryo-EM structure will reveal binding mode and explain biased signaling.",
+        "decision": "Solve cryo-EM structure of KOR–DNCP-β-NalA(1)–Gi1 complex.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "cryo-EM",
+          "version": "",
+          "category": "structural_biology"
+        },
+        "parameters": {
+          "resolution": "2.6 Å",
+          "complex": "KOR–DNCP-β-NalA(1)–Gi1"
+        },
+        "observation": "Structure at 2.6 Å validated overall binding mode but revealed D-Tyr interacts with ECL3 instead of predicted ECL2.",
+        "result_status": "partial",
+        "next_step_reason": "Identify limitations for future optimization.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E08_01",
+            "source_file": "docs/0036/combined.md",
+            "section": "C004",
+            "quote_or_span": "We found that the residue D-Tyr (R₃) interacted with the ECL3 versus the predicted interaction with ECL2"
+          },
+          {
+            "evidence_id": "EV_C008_E01_01",
+            "source_file": "docs/0036/combined.md",
+            "section": "C008",
+            "quote_or_span": "Cryo-EM imaging was performed on a Talos Artica operated at 200 kV at a nominal magnification of 45,000-times using a Gatan K3 direct electron detector at a physical pixel size of 0.88 Å."
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "analysis",
+        "state_before": "Structural and pharmacological data available.",
+        "gap_or_uncertainty": "What are the limitations of the current design?",
+        "hypothesis": "Equipotent MOR activity, short in vivo duration, and use of only male mice are key limitations.",
+        "decision": "Acknowledge limitations and suggest future improvements.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "data interpretation",
+          "version": "",
+          "category": "analysis"
+        },
+        "parameters": {},
+        "observation": "Limitations: equipotent MOR activity, short in vivo duration, only tested in male mice, need for further optimization.",
+        "result_status": "inconclusive",
+        "next_step_reason": "Case complete.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C006_E04_01",
+            "source_file": "docs/0036/combined.md",
+            "section": "C006",
+            "quote_or_span": "Here, we only utilize the known experimental structure of KOR, which biased the designs toward that conformation; the design protocol can likely be improved by sampling alternative states of the flexible ECLs and peptide using molecular dynamics simulation or other approaches, or by utilizing predicted conformational states of the full receptor."
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "Cryo-EM structure determination",
+        "In vitro pharmacological assays",
+        "In vivo behavioral tests"
+      ],
+      "metrics": [
+        "EC50",
+        "Emax",
+        "Bias factor",
+        "ED50",
+        "Rotarod latency",
+        "Paw edema reduction"
+      ],
+      "final_conclusion": "DNCP-β-NalA(1) is a high-affinity, G protein-biased KOR agonist with in vivo antinociceptive efficacy and reduced side effects, but equipotent MOR activity and short duration limit its translational potential.",
+      "limitations": [
+        "Equipotent MOR activity",
+        "Short in vivo duration",
+        "Only tested in male mice",
+        "Design biased by single KOR conformation"
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_quote_align_repaired=3",
+        "v22_specific_evidence_backfilled=14",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_specific_evidence_backfilled=14",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 100.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p3\\states\\0036.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p3\\events\\0036.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1
+        ],
+        "K02": [
+          1,
+          2
+        ],
+        "K03": [
+          1,
+          2
+        ],
+        "K04": [
+          3
+        ],
+        "K05": [
+          2,
+          3,
+          4
+        ],
+        "K07": [
+          4,
+          5,
+          9
+        ],
+        "K09": [
+          4,
+          6,
+          7
+        ],
+        "K10": [
+          6,
+          7
+        ],
+        "K11": [
+          7,
+          8,
+          9
+        ],
+        "K12": [
+          8,
+          9
+        ],
+        "K13": [
+          10
+        ],
+        "K14": [
+          11
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02",
+            "K03"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K02",
+            "K03",
+            "K05"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K04",
+            "K05"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K05",
+            "K07",
+            "K09"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K07"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K09",
+            "K10"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K09",
+            "K10",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K11",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K07",
+            "K11",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K13",
+            "K3"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K14"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 6,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "5.5nm",
+          "83%"
+        ]
+      },
+      {
+        "step_index": 7,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "25%",
+          "30"
+        ]
+      },
+      {
+        "step_index": 8,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "1.89"
+        ]
+      },
+      {
+        "step_index": 9,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "2%",
+          "3%"
+        ]
+      },
+      {
+        "step_index": 10,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "2.6"
+        ]
+      }
+    ],
+    "step_count": 11,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 100.0
+  },
+  "api_usage": {
+    "prompt_tokens": 157841,
+    "completion_tokens": 30730,
+    "total_tokens": 188571,
+    "prompt_cache_hit_tokens": 4224,
+    "prompt_cache_miss_tokens": 153617
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 6672,
+        "completion_tokens": 471,
+        "total_tokens": 7143,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 6672
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 12486,
+        "completion_tokens": 2256,
+        "total_tokens": 14742,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 12486
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 7705,
+        "completion_tokens": 1197,
+        "total_tokens": 8902,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7449
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 8596,
+        "completion_tokens": 1806,
+        "total_tokens": 10402,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8340
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 8740,
+        "completion_tokens": 1396,
+        "total_tokens": 10136,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8484
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 8031,
+        "completion_tokens": 1739,
+        "total_tokens": 9770,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7775
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C005",
+      "api_usage": {
+        "prompt_tokens": 8721,
+        "completion_tokens": 1788,
+        "total_tokens": 10509,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8465
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C006",
+      "api_usage": {
+        "prompt_tokens": 8060,
+        "completion_tokens": 1626,
+        "total_tokens": 9686,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7804
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C007",
+      "api_usage": {
+        "prompt_tokens": 7699,
+        "completion_tokens": 2049,
+        "total_tokens": 9748,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7443
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C008",
+      "api_usage": {
+        "prompt_tokens": 7684,
+        "completion_tokens": 1383,
+        "total_tokens": 9067,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7428
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C009",
+      "api_usage": {
+        "prompt_tokens": 7911,
+        "completion_tokens": 61,
+        "total_tokens": 7972,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7655
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C010",
+      "api_usage": {
+        "prompt_tokens": 3197,
+        "completion_tokens": 48,
+        "total_tokens": 3245,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 2941
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 11636,
+        "completion_tokens": 3222,
+        "total_tokens": 14858,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 11252
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 12218,
+        "completion_tokens": 5296,
+        "total_tokens": 17514,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 11578
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 17720,
+        "completion_tokens": 1020,
+        "total_tokens": 18740,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 17720
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 20765,
+        "completion_tokens": 5372,
+        "total_tokens": 26137,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 20125
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

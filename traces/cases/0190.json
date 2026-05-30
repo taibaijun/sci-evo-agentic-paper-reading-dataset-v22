@@ -1,0 +1,836 @@
+{
+  "case": {
+    "case_id": "sci_evo_0190",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Engineered bidirectional promoters enable rapid multi-gene co-expression optimization",
+      "doi": "https://doi.org/10.1038/s41467-018-05915-w",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0188_10_1038_s41467_018_05915_w_engineered_bidirectional_promoters_enable_rapid_multi_gene_co_expression_optimization.pdf",
+      "mineru_md": "docs/0190/mineru.md",
+      "combined_md": "docs/0190/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Efficient and tunable co-expression of multiple genes is limited by monodirectional promoters; natural bidirectional promoters are scarce and lack diverse expression profiles.",
+      "target_object": "bidirectional promoters (BDPs) for multi-gene co-expression in P. pastoris",
+      "known_context": "Monodirectional promoters (MDPs) are limited for multi-gene co-expression. Natural bidirectional promoters (nBDPs) exist but are scarce and poorly characterized.",
+      "constraints": [
+        "Must function in P. pastoris",
+        "Need diverse expression strengths and ratios",
+        "Should maintain regulatory profiles"
+      ],
+      "input_data": [
+        "P. pastoris genome sequence",
+        "1462 putative BDPs identified bioinformatically"
+      ],
+      "quantifiable_goals": [
+        "Create a library of synthetic BDPs with wide expression range",
+        "Achieve variable expression ratios between sides",
+        "Surpass natural BDP efficiency"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "Monodirectional promoters (MDPs) are limited for multi-gene co-expression.",
+        "gap_or_uncertainty": "Lack of diverse, tunable bidirectional promoters for multi-gene co-expression.",
+        "hypothesis": "Natural BDPs can serve as a parts repository for engineering synthetic BDPs.",
+        "decision": "Leverage naturally occurring BDPs as a starting point.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "literature review and bioinformatics",
+          "version": "",
+          "category": "sequence analysis"
+        },
+        "parameters": {},
+        "observation": "Natural BDPs exist and could be mined for parts.",
+        "result_status": "success",
+        "next_step_reason": "Identify and characterize natural BDPs in P. pastoris.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0190/combined.md",
+            "section": "C001",
+            "quote_or_span": "Classically, monodirectional promoters (MDPs) have been used for such applications, but MDPs are limited in terms of multi-gene co-expression capabilities."
+          },
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0190/combined.md",
+            "section": "C001",
+            "quote_or_span": "we generate a library of 168 synthetic BDPs in the yeast Komagataella phaffii (syn. Pichia pastoris), leveraging naturally occurring BDPs as a parts repository."
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "design",
+        "state_before": "Hypothesis that natural BDPs can be used as parts.",
+        "gap_or_uncertainty": "Which natural BDPs are suitable for engineering?",
+        "hypothesis": "Bioinformatics can identify putative BDPs in P. pastoris genome.",
+        "decision": "Perform bioinformatics search and select a subset for characterization.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "bioinformatics pipeline",
+          "version": "",
+          "category": "sequence analysis"
+        },
+        "parameters": {
+          "genome": "P. pastoris",
+          "putative BDPs identified": 1462,
+          "selected for characterization": 40
+        },
+        "observation": "1462 putative BDPs identified; 40 selected for detailed characterization.",
+        "result_status": "success",
+        "next_step_reason": "Characterize the 40 selected natural BDPs.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E03_01",
+            "source_file": "docs/0190/combined.md",
+            "section": "C001",
+            "quote_or_span": "Bioinformatics approaches (Supplementary Data 1, Supplementary Note 1) identified 1462 putative BDPs in P. pastoris' genome (Fig. 1b), with a subset of 40 BDPs selected for detailed characterization"
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "experiment",
+        "state_before": "40 natural BDPs selected for characterization.",
+        "gap_or_uncertainty": "Do the selected natural BDPs have suitable expression properties?",
+        "hypothesis": "Some natural BDPs will show bidirectional activity with useful expression strengths.",
+        "decision": "Characterize the 40 natural BDPs experimentally.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "fluorescence reporter assay",
+          "version": "",
+          "category": "promoter characterization"
+        },
+        "parameters": {
+          "reporters": "eGFP and dTomato",
+          "host": "P. pastoris"
+        },
+        "observation": "Majority of natural BDPs had limited engineering applicability (weak or monodirectional).",
+        "result_status": "failure",
+        "next_step_reason": "Need alternative strategy; focus on histone core promoters.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E06_01",
+            "source_file": "docs/0190/combined.md",
+            "section": "C001",
+            "quote_or_span": "Though the majority of nBDPs mined provided limited engineering applicability"
+          },
+          {
+            "evidence_id": "EV_C001_E03_01",
+            "source_file": "docs/0190/combined.md",
+            "section": "C001",
+            "quote_or_span": "Bioinformatics approaches (Supplementary Data 1, Supplementary Note 1) identified 1462 putative BDPs in P. pastoris' genome (Fig. 1b), with a subset of 40 BDPs selected for detailed characterization"
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "design",
+        "state_before": "Most natural BDPs unsuitable.",
+        "gap_or_uncertainty": "How to create synthetic BDPs with diverse expression?",
+        "hypothesis": "Short histone core promoters can be used as parts for bidirectionalization and creation of synthetic hybrid promoters.",
+        "decision": "Use histone core promoters as engineering templates.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "promoter engineering",
+          "version": "",
+          "category": "synthetic biology"
+        },
+        "parameters": {},
+        "observation": "Histone core promoters identified as excellent parts repository.",
+        "result_status": "success",
+        "next_step_reason": "Design truncation/deletion strategies on histone promoter P_HHX2.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E02_01",
+            "source_file": "docs/0190/combined.md",
+            "section": "C002",
+            "quote_or_span": "these short histone core promoters turned out to be an excellent repository of parts for promoter bidirectionalization and the creation of synthetic hybrid promoters"
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "design",
+        "state_before": "Histone core promoters chosen as parts.",
+        "gap_or_uncertainty": "How to diversify expression strengths and ratios from a single histone BDP?",
+        "hypothesis": "Truncation and deletion of P_HHX2 will create variants with varied expression.",
+        "decision": "Construct a synthetic BDP library by truncating/deleting P_HHX2.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "truncation and deletion mutagenesis",
+          "version": "",
+          "category": "molecular cloning"
+        },
+        "parameters": {
+          "template": "P_HHX2",
+          "variants generated": 31
+        },
+        "observation": "Library of 31 variants constructed.",
+        "result_status": "success",
+        "next_step_reason": "Characterize expression of the variants.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E03_01",
+            "source_file": "docs/0190/combined.md",
+            "section": "C002",
+            "quote_or_span": "we utilized truncation and deletion strategies of $P_{HHX2}$ (Fig. 2c, d) to construct a synthetic BDP (sBDP) library with diversified expression strengths and ratios"
+          },
+          {
+            "evidence_id": "EV_C002_E05_01",
+            "source_file": "docs/0190/combined.md",
+            "section": "C002",
+            "quote_or_span": "The 31 variants generated from HHX2 histone promoter deletions (Fig. 2c, d) spanned a >15-fold range in cumulative expression levels and up to 39-fold expression ratio between sides."
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "analysis",
+        "state_before": "31 HHX2 variants constructed.",
+        "gap_or_uncertainty": "What is the expression range of the variants?",
+        "hypothesis": "Variants will show a range of cumulative expression and expression ratios.",
+        "decision": "Measure fluorescence of reporter genes driven by each variant.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "fluorescence quantification",
+          "version": "",
+          "category": "promoter characterization"
+        },
+        "parameters": {
+          "reporters": "eGFP and dTomato"
+        },
+        "observation": "Variants spanned >15-fold range in cumulative expression and up to 39-fold expression ratio between sides.",
+        "result_status": "success",
+        "next_step_reason": "Use insights to hypothesize bidirectionalization of MDPs.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E05_01",
+            "source_file": "docs/0190/combined.md",
+            "section": "C002",
+            "quote_or_span": "The 31 variants generated from HHX2 histone promoter deletions (Fig. 2c, d) spanned a >15-fold range in cumulative expression levels and up to 39-fold expression ratio between sides."
+          },
+          {
+            "evidence_id": "EV_AUTO_012",
+            "source_file": "docs/0190/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "2c, d) spanned a >15-fold range in cumulative expression levels and up to 39-fold expression ratio between sides."
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "hypothesis",
+        "state_before": "Histone BDP variants show tunable expression.",
+        "gap_or_uncertainty": "Can monodirectional promoters be converted to bidirectional?",
+        "hypothesis": "Adding a short, non-regulated core promoter in reverse orientation upstream of an MDP could duplicate the expression and regulation of the native orientation.",
+        "decision": "Test bidirectionalization by fusing histone core promoters to MDPs.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "promoter fusion design",
+          "version": "",
+          "category": "synthetic biology"
+        },
+        "parameters": {},
+        "observation": "Hypothesis formulated for experimental testing.",
+        "result_status": "success",
+        "next_step_reason": "Perform fusion experiments.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E06_01",
+            "source_file": "docs/0190/combined.md",
+            "section": "C002",
+            "quote_or_span": "We hypothesized that adding a short, non-regulated core promoter in reverse orientation upstream of an MDP could duplicate the expression and regulation of the native orientation"
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "experiment",
+        "state_before": "Hypothesis for bidirectionalization of MDPs.",
+        "gap_or_uncertainty": "Does fusing core promoters to MDPs create functional BDPs?",
+        "hypothesis": "Fusion of histone core promoters to MDPs will yield bidirectional promoters.",
+        "decision": "Fuse 6 histone core promoters to 12 MDPs with varying lengths.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "promoter fusion cloning",
+          "version": "",
+          "category": "molecular cloning"
+        },
+        "parameters": {
+          "core promoters": 6,
+          "MDPs": 12,
+          "total constructs": 30
+        },
+        "observation": "Two thirds of the 30 constructs were successfully bidirectionalized.",
+        "result_status": "partial",
+        "next_step_reason": "Analyze expression properties of successful fusions.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E07_01",
+            "source_file": "docs/0190/combined.md",
+            "section": "C002",
+            "quote_or_span": "we fused 6 histone core promoters to 12 monodirectional P. pastoris promoters, partly varying the lengths of the core promoters and the MDPs (Fig. 3a). Two thirds of the 30 constructs were successfully bidirectionalized"
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "analysis",
+        "state_before": "Fusion promoters created.",
+        "gap_or_uncertainty": "Do fusion promoters maintain original regulation and expression levels?",
+        "hypothesis": "Fusion promoters will retain each side's original regulation and expression.",
+        "decision": "Measure expression ratios and regulatory profiles.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "fluorescence quantification",
+          "version": "",
+          "category": "promoter characterization"
+        },
+        "parameters": {
+          "reporters": "eGFP and dTomato"
+        },
+        "observation": "Fusion promoters generally maintained each side's original regulation and expression levels, with expression ratios between sides ranging from 0.16 to 0.96.",
+        "result_status": "success",
+        "next_step_reason": "Investigate synergistic/antagonistic effects.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E02_01",
+            "source_file": "docs/0190/combined.md",
+            "section": "C003",
+            "quote_or_span": "These fusions generally maintained each side's original regulation and individual expression levels, allowing for the creation of variably regulated BDPs with a range of expression ratios between sides (0.16–0.96)."
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "analysis",
+        "state_before": "Fusion promoters show maintained regulation.",
+        "gap_or_uncertainty": "Are there interactions between the fused promoters?",
+        "hypothesis": "Some fusions may exhibit synergistic or antagonistic effects.",
+        "decision": "Compare expression of fusion promoters to individual promoters.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "comparative expression analysis",
+          "version": "",
+          "category": "promoter characterization"
+        },
+        "parameters": {},
+        "observation": "Some fusion variants showed synergistic effects (e.g., 1.8-fold increase for GAP-DAS2), while others showed antagonistic effects (e.g., 40% repression of HTA1-TAL2), suggesting transcriptional spillover.",
+        "result_status": "partial",
+        "next_step_reason": "Evaluate overall efficiency of hybrid BDPs.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E03_01",
+            "source_file": "docs/0190/combined.md",
+            "section": "C003",
+            "quote_or_span": "Some fusion variants showed synergistic effects, such as the 1.8-fold increase in the expression for a GAP-DAS2 fusion promoter. Others showed antagonistic effects, such as the 40% repression of a HTA1-TAL2 fusion promoter, suggesting a transcriptional “spillover” between promoters"
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "analysis",
+        "state_before": "Fusion promoters show variable interactions.",
+        "gap_or_uncertainty": "How do hybrid BDPs compare to natural BDPs and MDPs?",
+        "hypothesis": "Hybrid BDPs will be more efficient per bp than natural BDPs.",
+        "decision": "Calculate expression strength per bp of promoter length.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "expression strength normalization",
+          "version": "",
+          "category": "promoter characterization"
+        },
+        "parameters": {},
+        "observation": "Hybrid BDPs showed up to 3.3-fold higher expression strength per bp than nMDPs and 2.1-fold more efficient than the most efficient nBDP.",
+        "result_status": "success",
+        "next_step_reason": "Compile final library and validate overall performance.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E06_01",
+            "source_file": "docs/0190/combined.md",
+            "section": "C003",
+            "quote_or_span": "Hybrid BDPs showed up to 3.3-fold higher expression strengths per bp of promoter length than typically used nMDPs and were 2.1-fold more efficient than the most efficient nBDP"
+          },
+          {
+            "evidence_id": "EV_AUTO_033",
+            "source_file": "docs/0190/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "1-fold and nMDPs up to 3.3-fold."
+          },
+          {
+            "evidence_id": "EV_AUTO_034",
+            "source_file": "docs/0190/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "c Expression strengths per bp of promoter length of sBDPs exceed nBDPs up to 2.1-fold and nMDPs up to 3."
+          }
+        ]
+      },
+      {
+        "step_index": 12,
+        "phase": "validation",
+        "state_before": "Hybrid BDPs show improved efficiency.",
+        "gap_or_uncertainty": "Does the final library meet design goals?",
+        "hypothesis": "The library of 168 BDPs provides a wide range of expression and ratios.",
+        "decision": "Characterize the complete library of 168 BDPs.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "library characterization",
+          "version": "",
+          "category": "promoter characterization"
+        },
+        "parameters": {
+          "library size": 168,
+          "reporters": "eGFP and dTomato"
+        },
+        "observation": "The library covers a 79-fold range of cumulative expression, variable expression ratios from parity to 61-fold difference, and different regulatory profiles per side.",
+        "result_status": "success",
+        "next_step_reason": "Library ready for application testing.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_011",
+            "source_file": "docs/0190/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "2b–d, 3, and 4) produced a versatile library of 168 BDPs offering (1) different regulatory profiles, (2) providing a 79-fold range of"
+          },
+          {
+            "evidence_id": "EV_AUTO_013",
+            "source_file": "docs/0190/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Our library covers a 79-fold range of cumulative expression, has variable expression ratios ranging from parity to a 61-fold difference between sides, and combines different regulatory profiles per side including the possibility for consecutive induction."
+          },
+          {
+            "evidence_id": "EV_AUTO_032",
+            "source_file": "docs/0190/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "cumulative expression, and (3) up to 61-fold expression ratio between sides, meeting the intended design requirements for our library (Fig."
+          },
+          {
+            "evidence_id": "EV_AUTO_035",
+            "source_file": "docs/0190/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "b The library of BDPs offers different ratios between the two sides of the promoters, ranging from equal expression to a 61-fold difference."
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "Fluorescence reporter assays (eGFP and dTomato)",
+        "Expression ratio quantification",
+        "Comparison to natural BDPs and MDPs"
+      ],
+      "metrics": [
+        "Cumulative expression range (79-fold)",
+        "Expression ratio range (parity to 61-fold)",
+        "Expression strength per bp (up to 3.3-fold over nMDPs)"
+      ],
+      "final_conclusion": "A library of 168 synthetic BDPs was created, providing a 79-fold range of cumulative expression, variable expression ratios up to 61-fold, and different regulatory profiles, surpassing natural BDPs in efficiency.",
+      "limitations": [
+        "Properties of fusion promoters are difficult to predict due to potential transcriptional spillover and unknown insulator effects."
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_specific_evidence_backfilled=2",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_specific_evidence_backfilled=2",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 99.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p6\\states\\0190.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p6\\events\\0190.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1,
+          2,
+          3,
+          7,
+          8,
+          10
+        ],
+        "K02": [
+          1,
+          2,
+          4
+        ],
+        "K03": [
+          2,
+          3
+        ],
+        "K04": [
+          1,
+          3
+        ],
+        "K06": [
+          4,
+          5
+        ],
+        "K07": [
+          5,
+          6,
+          12
+        ],
+        "K08": [
+          7
+        ],
+        "K09": [
+          3,
+          7,
+          8
+        ],
+        "K10": [
+          9
+        ],
+        "K11": [
+          10
+        ],
+        "K12": [
+          11,
+          12
+        ],
+        "K14": [
+          11,
+          12
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02",
+            "K04"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K01",
+            "K02",
+            "K03"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K01",
+            "K03",
+            "K04",
+            "K09"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K02",
+            "K05",
+            "K06"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K05",
+            "K06",
+            "K07"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K07"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K01",
+            "K05",
+            "K08",
+            "K09"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K01",
+            "K09"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K10"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K01",
+            "K11",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K12",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 12,
+          "covered_event_ids": [
+            "K07",
+            "K12",
+            "K14"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 2,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "40s"
+        ]
+      }
+    ],
+    "step_count": 12,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 99.0
+  },
+  "api_usage": {
+    "prompt_tokens": 114727,
+    "completion_tokens": 25414,
+    "total_tokens": 140141,
+    "prompt_cache_hit_tokens": 3456,
+    "prompt_cache_miss_tokens": 111271
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 1971,
+        "completion_tokens": 456,
+        "total_tokens": 2427,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 1971
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 7289,
+        "completion_tokens": 1681,
+        "total_tokens": 8970,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 7289
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 6668,
+        "completion_tokens": 1374,
+        "total_tokens": 8042,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6412
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 7857,
+        "completion_tokens": 1385,
+        "total_tokens": 9242,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7601
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 6901,
+        "completion_tokens": 1419,
+        "total_tokens": 8320,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6645
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 6886,
+        "completion_tokens": 1692,
+        "total_tokens": 8578,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6630
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C005",
+      "api_usage": {
+        "prompt_tokens": 6744,
+        "completion_tokens": 1443,
+        "total_tokens": 8187,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6488
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C006",
+      "api_usage": {
+        "prompt_tokens": 7313,
+        "completion_tokens": 1267,
+        "total_tokens": 8580,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7057
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C007",
+      "api_usage": {
+        "prompt_tokens": 3743,
+        "completion_tokens": 1076,
+        "total_tokens": 4819,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 3487
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 12446,
+        "completion_tokens": 2721,
+        "total_tokens": 15167,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 12062
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 12153,
+        "completion_tokens": 5006,
+        "total_tokens": 17159,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 11513
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 15895,
+        "completion_tokens": 787,
+        "total_tokens": 16682,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 15895
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 18861,
+        "completion_tokens": 5107,
+        "total_tokens": 23968,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 18221
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

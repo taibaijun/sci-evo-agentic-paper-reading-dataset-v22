@@ -1,0 +1,819 @@
+{
+  "case": {
+    "case_id": "sci_evo_0003",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Enzyme engineering: A synthetic biology approach for more effective library generation and automated high-throughput screening.",
+      "doi": "10.1371/journal.pone.0171741",
+      "url": "",
+      "license": "cc by",
+      "publication_date": "",
+      "raw_file": "0003_PMC5298319_enzyme_engineering_a_synthetic_biology_approach_for_more_effective_library_gener.pdf",
+      "mineru_md": "docs/0003/mineru.md",
+      "combined_md": "docs/0003/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Develop a versatile method for generating and screening smart enzyme libraries to engineer Candida antarctica lipase A (Cal-A) for altered substrate selectivity between short-chain and long-chain fatty acid triglycerides.",
+      "target_object": "Candida antarctica lipase A (Cal-A)",
+      "known_context": "Existing smart library methods suffer from high cost, experimental demand, time consumption, and lack of flexibility in recombining mutations.",
+      "constraints": [],
+      "input_data": [],
+      "quantifiable_goals": []
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "Existing smart library methods are costly, experimentally demanding, time-consuming, and inflexible for recombining mutations.",
+        "gap_or_uncertainty": "Need for a flexible, cost-effective method to generate and screen smart libraries for enzyme engineering.",
+        "hypothesis": "A synthetic biology approach using Golden Gate assembly can enable rapid generation of recombined functional diversity in Cal-A.",
+        "decision": "Divide Cal-A gene into three parts for independent mutagenesis.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "Golden Gate assembly",
+          "version": "",
+          "category": "molecular biology"
+        },
+        "parameters": {},
+        "observation": "Gene divided into part 1 (N-terminal), part 2 (tunnel region), part 3 (C-terminal).",
+        "result_status": "success",
+        "next_step_reason": "Design mutagenesis strategies for each part.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0003/combined.md",
+            "section": "C001",
+            "quote_or_span": "These methods typically suffer from one or more disadvantage including high cost, being experimentally demanding, requiring time consuming steps or, importantly, not providing flexibility in recombining mutations."
+          },
+          {
+            "evidence_id": "EV_C001_E03_01",
+            "source_file": "docs/0003/combined.md",
+            "section": "C001",
+            "quote_or_span": "The three ‘parts’ of Cal-A were synthesized in a codon-optimized form"
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "design",
+        "state_before": "Cal-A gene divided into three parts.",
+        "gap_or_uncertainty": "Which mutagenesis strategies to apply to each part to explore substrate selectivity.",
+        "hypothesis": "Targeted NDT saturation mutagenesis at Tyr93, Tyr183, Phe431 and random mutagenesis of the tunnel region will generate functional diversity.",
+        "decision": "Apply NDT saturation mutagenesis to Tyr93, Tyr183, Phe431; error-prone PCR to tunnel region (part 2).",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "NDT saturation mutagenesis",
+          "version": "",
+          "category": "mutagenesis"
+        },
+        "parameters": {
+          "positions": [
+            "Tyr93",
+            "Tyr183",
+            "Phe431"
+          ],
+          "degeneracy": "NDT"
+        },
+        "observation": "NDT degeneracy chosen for three positions; error-prone PCR for tunnel region.",
+        "result_status": "success",
+        "next_step_reason": "Design assembly method to recombine mutated parts.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E04_01",
+            "source_file": "docs/0003/combined.md",
+            "section": "C001",
+            "quote_or_span": "We chose NDT degeneracy at these three positions"
+          },
+          {
+            "evidence_id": "EV_C001_E04_02",
+            "source_file": "docs/0003/combined.md",
+            "section": "C001",
+            "quote_or_span": "the entire tunnel region (residues 211-350) was targeted for random mutagenesis"
+          },
+          {
+            "evidence_id": "EV_AUTO_006",
+            "source_file": "docs/0003/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Based on further structural analysis (PDB identification code: 2VEO)[26] and proximity to the catalytic triad (within 5 Å from the hydroxyl oxygen of Ser183), residues Tyr93, Tyr183 and Phe431 were selected as potential hot-spots for mutagenesis."
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "design",
+        "state_before": "Mutagenesis strategies defined.",
+        "gap_or_uncertainty": "Need a seamless method to recombine mutated parts into expression vector.",
+        "hypothesis": "Golden Gate assembly with BsaI and SapI will allow seamless recombination of parts.",
+        "decision": "Design junctions with BsaI and SapI sites for Golden Gate assembly into daughter vector pD441pelB.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "Golden Gate assembly",
+          "version": "",
+          "category": "molecular biology"
+        },
+        "parameters": {
+          "enzymes": [
+            "BsaI",
+            "SapI"
+          ],
+          "vector": "pD441pelB"
+        },
+        "observation": "Junctions designed with unique BsaI site; two SapI sites for ligation into daughter vector.",
+        "result_status": "success",
+        "next_step_reason": "Generate libraries using the designed assembly.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E05_01",
+            "source_file": "docs/0003/combined.md",
+            "section": "C001",
+            "quote_or_span": "The junctions between parts were designed with a unique BsaI restriction site while two unique SapI restriction sites were designed to ligate the assembled gene into the daughter vector"
+          },
+          {
+            "evidence_id": "EV_AUTO_027",
+            "source_file": "docs/0003/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "When ready to be recombined, for example upon library generation, the parts were reassembled into the complete gene in an Electra daughter vector (pD441pelB, DNA2."
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "experiment",
+        "state_before": "Golden Gate assembly designed.",
+        "gap_or_uncertainty": "Whether the assembly strategy can generate diverse libraries.",
+        "hypothesis": "Golden Gate assembly will yield at least 10^3 transformants per library with various combinations.",
+        "decision": "Generate ten libraries with combinations of mutated and native parts.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Golden Gate assembly",
+          "version": "",
+          "category": "molecular biology"
+        },
+        "parameters": {
+          "libraries": 10
+        },
+        "observation": "Ten libraries obtained with at least 10^3 transformants each; one library (Tyr93-Phe431) initially failed with circularized plasmid.",
+        "result_status": "partial",
+        "next_step_reason": "Assess library quality and resolve failure.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E06_01",
+            "source_file": "docs/0003/combined.md",
+            "section": "C001",
+            "quote_or_span": "We thus rapidly obtained a variety of complex, mutated libraries, ready to bring forward to screening (Table 1)."
+          },
+          {
+            "evidence_id": "EV_C001_E08_01",
+            "source_file": "docs/0003/combined.md",
+            "section": "C001",
+            "quote_or_span": "In one instance (construction of library Tyr93-Phe431), use of the circularized daughter plasmid afforded no transformants. This issue was resolved by using the commercial, pre-cut daughter plasmid"
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "validation",
+        "state_before": "Libraries generated with one failure resolved.",
+        "gap_or_uncertainty": "Whether libraries have expected diversity and quality.",
+        "hypothesis": "Sequencing will confirm expected diversity for NDT libraries and mutational load for random library.",
+        "decision": "Sequence pooled clones from NDT libraries and 20 clones from random library.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "DNA sequencing",
+          "version": "",
+          "category": "sequencing"
+        },
+        "parameters": {
+          "clones_sequenced": 20
+        },
+        "observation": "NDT libraries showed expected codon degeneracy; random library had total mutational load 34, 25% wild-type, average 1.65 mutations/clone, max 4.",
+        "result_status": "success",
+        "next_step_reason": "Proceed to screening of libraries.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E07_01",
+            "source_file": "docs/0003/combined.md",
+            "section": "C001",
+            "quote_or_span": "The quality of each of the degenerate NDT libraries, whether resulting from mutation of one part or assembly of more than one mutated part, was routinely assessed by sequencing pooled clones."
+          },
+          {
+            "evidence_id": "EV_C002_E01_01",
+            "source_file": "docs/0003/combined.md",
+            "section": "C002",
+            "quote_or_span": "codon degeneracy can be clearly visible in the DNA sequencing electropherogram (Fig 3), confirming the expected distribution of nucleotides instead of the original codon."
+          },
+          {
+            "evidence_id": "EV_C002_E02_01",
+            "source_file": "docs/0003/combined.md",
+            "section": "C002",
+            "quote_or_span": "The quality of the randomly mutated library was assessed by sequencing 20 clones (Table 2)."
+          },
+          {
+            "evidence_id": "EV_C002_E02_02",
+            "source_file": "docs/0003/combined.md",
+            "section": "C002",
+            "quote_or_span": "The 20 clones carried a total mutational load of 34, with approximately 25% of the clones being wild-type and the majority of clones carrying two mutations (average = 1.65), for a maximum of 4 mutations per clone."
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "experiment",
+        "state_before": "Library quality validated.",
+        "gap_or_uncertainty": "Whether variants show altered substrate selectivity between short-chain (C4) and long-chain (C18) triglycerides.",
+        "hypothesis": "Automated whole-cell screening against tributyrin and olive oil/rhodamine will identify variants with altered selectivity.",
+        "decision": "Screen 735 clones from Cal-A libraries using liquid handler robot for halo-based assays.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "automated whole-cell assay",
+          "version": "",
+          "category": "screening"
+        },
+        "parameters": {
+          "substrates": [
+            "tributyrin",
+            "olive oil/rhodamine"
+          ],
+          "clones_screened": 735,
+          "inoculum_volume": "8 μL"
+        },
+        "observation": "Screening performed; wild-type active on both substrates without distinction.",
+        "result_status": "success",
+        "next_step_reason": "Analyze screening results to identify selectivity patterns.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E04_01",
+            "source_file": "docs/0003/combined.md",
+            "section": "C002",
+            "quote_or_span": "The resulting Cal-A libraries expressed in E. coli BL21 (DE3) were screened to evaluate selectivity of hydrolase activity toward long versus short-chain triglycerides."
+          },
+          {
+            "evidence_id": "EV_C003_E02_02",
+            "source_file": "docs/0003/combined.md",
+            "section": "C003",
+            "quote_or_span": "For the olive/oil rhodamine plates, the tributyrin was replaced with 2.5 g olive oil, and rhodamine was added at a concentration of 0.001% w/v."
+          },
+          {
+            "evidence_id": "EV_C003_E03_01",
+            "source_file": "docs/0003/combined.md",
+            "section": "C003",
+            "quote_or_span": "A script was designed to pick up 20 μL of culture, column by column, from the inoculum plates and spot 8 μL of inoculum by lightly touching the agar surface."
+          },
+          {
+            "evidence_id": "EV_AUTO_021",
+            "source_file": "docs/0003/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "A total of 735 clones were screened (Table 1)."
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "analysis",
+        "state_before": "Screening completed.",
+        "gap_or_uncertainty": "Which variants show altered selectivity and what are the mutation effects.",
+        "hypothesis": "Variants with mutations at specific positions will show distinct selectivity profiles.",
+        "decision": "Analyze halo patterns to classify variants as long-chain preferring, short-chain preferring, or non-discriminating.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "halo analysis",
+          "version": "",
+          "category": "image analysis"
+        },
+        "parameters": {},
+        "observation": "Variant B6 prefers olive oil; D4, D6, G9 prefer tributyrin; majority show no improved selectivity or lose activity.",
+        "result_status": "success",
+        "next_step_reason": "Correlate mutations with activity and selectivity.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E05_01",
+            "source_file": "docs/0003/combined.md",
+            "section": "C002",
+            "quote_or_span": "variant B6 hydrolyzes olive oil preferentially over tributyrin, while variants D4, D6 and G9 show the inverse selectivity."
+          },
+          {
+            "evidence_id": "EV_C002_E05_02",
+            "source_file": "docs/0003/combined.md",
+            "section": "C002",
+            "quote_or_span": "the wild-type was active with tributyrin and olive oil without distinction."
+          },
+          {
+            "evidence_id": "EV_C002_E06_01",
+            "source_file": "docs/0003/combined.md",
+            "section": "C002",
+            "quote_or_span": "The majority of the variants do not show any improved selectivity compared to the wild-type Cal-A (e.g. A2, A3, the majority of row B, etc, relative to wild-type A11, starred) or they lose the ability to hydrolyze both of the substrates (A1, A4, A5, and so on)."
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "analysis",
+        "state_before": "Variants with altered selectivity identified.",
+        "gap_or_uncertainty": "How mutations at Tyr93, Tyr183, Phe431 affect activity and selectivity.",
+        "hypothesis": "Tyr93 mutation retains activity with long-chain preference; Tyr183 is crucial for activity; Phe431 tolerates mutation without selectivity change.",
+        "decision": "Calculate activity retention and selectivity preference for each position.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "statistical analysis",
+          "version": "",
+          "category": "data analysis"
+        },
+        "parameters": {},
+        "observation": "Tyr93: 89% active, long-chain preference; Tyr183: 10% active, short-chain preference; Phe431: 90% active, no discrimination.",
+        "result_status": "success",
+        "next_step_reason": "Validate assembly method and note limitations.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E07_01",
+            "source_file": "docs/0003/combined.md",
+            "section": "C002",
+            "quote_or_span": "When Tyr93 was mutated, 89% of the clones retained activity and discriminated preferentially towards long-chain fatty acids."
+          },
+          {
+            "evidence_id": "EV_C002_E07_02",
+            "source_file": "docs/0003/combined.md",
+            "section": "C002",
+            "quote_or_span": "In contrast, Tyr183 was crucial for activity: when mutated, only 10% of the variants retained activity, with a preference for the hydrolysis of short-chain fatty acids."
+          },
+          {
+            "evidence_id": "EV_AUTO_012",
+            "source_file": "docs/0003/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Phe431 tolerated mutation without little effect, as activity was maintained in 90% of the variants and no increased discrimination was found."
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "experiment",
+        "state_before": "Standard Golden Gate assembly used for library generation.",
+        "gap_or_uncertainty": "Whether a simplified one-pot assembly strategy could be used for recombining mutant parts.",
+        "hypothesis": "A simplified one-pot assembly strategy might streamline the process.",
+        "decision": "Test simplified one-pot assembly for recombining mutant parts.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "one-pot Golden Gate assembly",
+          "version": "",
+          "category": "molecular biology"
+        },
+        "parameters": {},
+        "observation": "Simplified one-pot assembly had reduced success rate for mutant parts; standard method was used instead.",
+        "result_status": "failure",
+        "next_step_reason": "Validate standard method with colony PCR and sequencing.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E06_01",
+            "source_file": "docs/0003/combined.md",
+            "section": "C003",
+            "quote_or_span": "when we applied this simplified strategy to achieve the recombination of the mutant parts, a reduced success rate of ligation was achieved."
+          },
+          {
+            "evidence_id": "EV_C003_E06_02",
+            "source_file": "docs/0003/combined.md",
+            "section": "C003",
+            "quote_or_span": "the use of our standard method (Fig 2 in main article) solved the problem."
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "validation",
+        "state_before": "Standard method used after one-pot failure.",
+        "gap_or_uncertainty": "Whether the standard Golden Gate assembly produces correct ligation products in recombined libraries.",
+        "hypothesis": "Colony PCR and sequencing will confirm correct assembly.",
+        "decision": "Perform colony PCR and sequencing on more than 15 randomly-selected clones from each recombined library.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "colony PCR and sequencing",
+          "version": "",
+          "category": "molecular biology"
+        },
+        "parameters": {
+          "clones_screened": "more than 15"
+        },
+        "observation": "100% correct ligation products observed for recombined libraries.",
+        "result_status": "success",
+        "next_step_reason": "Proceed to overall validation of the Golden Gate strategy.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E08_01",
+            "source_file": "docs/0003/combined.md",
+            "section": "C003",
+            "quote_or_span": "Upon screening more than 15 randomly-selected clones for each recombined library, we observed 100% correct ligation products by colony PCR."
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "validation",
+        "state_before": "Mutation effects analyzed and assembly validated.",
+        "gap_or_uncertainty": "Whether the Golden Gate strategy is suitable for rapid generation of functional diversity.",
+        "hypothesis": "The successful alteration of Cal-A selectivity validates the Golden Gate approach.",
+        "decision": "Conclude that Golden Gate strategy enables rapid generation of recombined functional diversity.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "conclusion",
+          "version": "",
+          "category": "reasoning"
+        },
+        "parameters": {},
+        "observation": "Results demonstrate suitability of Golden Gate strategy for rapid generation of recombined functional diversity.",
+        "result_status": "success",
+        "next_step_reason": "Note limitations of screening method.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E08_01",
+            "source_file": "docs/0003/combined.md",
+            "section": "C002",
+            "quote_or_span": "These results demonstrate the suitability of the Golden Gate strategy to achieve rapid generation of readily recombined functional diversity."
+          }
+        ]
+      },
+      {
+        "step_index": 12,
+        "phase": "analysis",
+        "state_before": "Proof of concept validated.",
+        "gap_or_uncertainty": "Limitations of the screening assay.",
+        "hypothesis": "Halo analysis is qualitative and not quantitative due to variability in colony size.",
+        "decision": "Acknowledge that the method is qualitatively robust but not quantitative.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "halo analysis",
+          "version": "",
+          "category": "screening"
+        },
+        "parameters": {},
+        "observation": "Halo analysis gives yes/no activity response; robust qualitatively but not quantitative due to cell number variability.",
+        "result_status": "inconclusive",
+        "next_step_reason": "Complete trajectory.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E04_01",
+            "source_file": "docs/0003/combined.md",
+            "section": "C003",
+            "quote_or_span": "Halo analysis is qualitative, giving a yes/no response as to activity of a variant toward a specific substrate."
+          },
+          {
+            "evidence_id": "EV_C003_E04_02",
+            "source_file": "docs/0003/combined.md",
+            "section": "C003",
+            "quote_or_span": "The method is qualitatively robust, in that an active variant consistently shows a halo and a negative variant consistently does not"
+          },
+          {
+            "evidence_id": "EV_C003_E04_03",
+            "source_file": "docs/0003/combined.md",
+            "section": "C003",
+            "quote_or_span": "the current method does not lend itself to quantitative activity measurements because of factors including insufficient precision in the number of cells inoculated which affects colony size and thus appearance of the halo"
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "DNA sequencing of pooled clones",
+        "Colony PCR and sequencing of recombined libraries"
+      ],
+      "metrics": [
+        "Percentage of active variants",
+        "Selectivity preference (long-chain vs short-chain)",
+        "Mutational load and distribution"
+      ],
+      "final_conclusion": "The Golden Gate strategy successfully generated recombined functional diversity, enabling identification of Cal-A variants with altered substrate selectivity, though the screening method is qualitative.",
+      "limitations": [
+        "Halo analysis is qualitative, not quantitative",
+        "One library construction initially failed with circularized plasmid",
+        "Simplified one-pot assembly had reduced success rate for mutant parts"
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_specific_evidence_backfilled=6",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_specific_evidence_backfilled=2",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 99.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p4\\states\\0003.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p4\\events\\0003.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1
+        ],
+        "K04": [
+          1,
+          3,
+          4,
+          9
+        ],
+        "K05": [
+          4
+        ],
+        "K06": [
+          4
+        ],
+        "K07": [
+          5
+        ],
+        "K08": [
+          6
+        ],
+        "K09": [
+          6,
+          7,
+          8
+        ],
+        "K10": [
+          6,
+          7,
+          8
+        ],
+        "K11": [
+          9,
+          10
+        ],
+        "K12": [
+          9,
+          10
+        ],
+        "K13": [
+          12
+        ],
+        "K14": [
+          1,
+          11
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02",
+            "K04",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K02",
+            "K03"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K04"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K04",
+            "K05",
+            "K06"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K07"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K08",
+            "K09",
+            "K10"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K09",
+            "K10"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K09",
+            "K10"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K04",
+            "K11",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K11",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K14"
+          ]
+        },
+        {
+          "step_index": 12,
+          "covered_event_ids": [
+            "K13"
+          ]
+        }
+      ]
+    },
+    "warnings": [],
+    "step_count": 12,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 99.0
+  },
+  "api_usage": {
+    "prompt_tokens": 92786,
+    "completion_tokens": 21668,
+    "total_tokens": 114454,
+    "prompt_cache_hit_tokens": 2688,
+    "prompt_cache_miss_tokens": 90098
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 2954,
+        "completion_tokens": 647,
+        "total_tokens": 3601,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 2954
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 8241,
+        "completion_tokens": 2509,
+        "total_tokens": 10750,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 8241
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 7011,
+        "completion_tokens": 1348,
+        "total_tokens": 8359,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6755
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 7798,
+        "completion_tokens": 1429,
+        "total_tokens": 9227,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7542
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 7779,
+        "completion_tokens": 1537,
+        "total_tokens": 9316,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7523
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 3314,
+        "completion_tokens": 44,
+        "total_tokens": 3358,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 3058
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 10008,
+        "completion_tokens": 3037,
+        "total_tokens": 13045,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 9624
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 11447,
+        "completion_tokens": 4778,
+        "total_tokens": 16225,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 10807
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 15801,
+        "completion_tokens": 739,
+        "total_tokens": 16540,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 15801
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 18433,
+        "completion_tokens": 5600,
+        "total_tokens": 24033,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 17793
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

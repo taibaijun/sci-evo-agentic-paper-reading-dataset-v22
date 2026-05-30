@@ -1,0 +1,871 @@
+{
+  "case": {
+    "case_id": "sci_evo_0134",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Development and validation of a high density SNP genotyping array for Atlantic salmon (Salmo salar)",
+      "doi": "https://doi.org/10.1186/1471-2164-15-90",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0132_10_1186_1471_2164_15_90_development_and_validation_of_a_high_density_snp_genotyping_array_for_atlantic_salmon_salm.pdf",
+      "mineru_md": "docs/0134/mineru.md",
+      "combined_md": "docs/0134/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Atlantic salmon lacks a high-density SNP genotyping array, limiting genetic studies and breeding programs. The genome's recent duplication complicates SNP discovery due to paralogous variants.",
+      "target_object": "High-density SNP genotyping array for Atlantic salmon",
+      "known_context": "Existing low-density SNP panels and microsatellite markers are insufficient for genome-wide association studies and genomic selection in Atlantic salmon.",
+      "constraints": [
+        "Must exclude paralogous sequence variants (PSVs) arising from salmonid-specific whole genome duplication",
+        "Must achieve high conversion rate from candidate SNPs to working assays on the array"
+      ],
+      "input_data": [
+        "RR-Seq data from 56 fish",
+        "RAD-Seq data from 160 fish",
+        "RNA-Seq data from 72 fish",
+        "Haploid embryo RR-Seq data for PSV exclusion"
+      ],
+      "quantifiable_goals": [
+        "Develop an array with >100,000 high-quality polymorphic SNPs",
+        "Achieve genome-wide coverage with average spacing <20 kb"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "No high-density SNP genotyping platform exists for Atlantic salmon, hampering genetic studies and breeding programs.",
+        "gap_or_uncertainty": "How to discover a large set of reliable SNPs given the salmonid-specific whole genome duplication that generates paralogous sequence variants (PSVs).",
+        "hypothesis": "A multi-faceted SNP discovery approach using RR-Seq, RAD-Seq, and RNA-Seq, combined with strategies for PSV exclusion including RR-Seq of haploid material, can yield a dense, reliable SNP array.",
+        "decision": "Proceed with multi-faceted SNP discovery and PSV exclusion strategies.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "Multi-faceted SNP discovery",
+          "version": "N/A",
+          "category": "experimental design"
+        },
+        "parameters": {},
+        "observation": "Hypothesis formulated based on known challenges of salmonid genome duplication and previous SNP discovery efforts.",
+        "result_status": "success",
+        "next_step_reason": "Design and execute SNP discovery experiments using RR-Seq, RAD-Seq, and RNA-Seq on diverse samples.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0134/combined.md",
+            "section": "C001",
+            "quote_or_span": "In Atlantic salmon (Salmo salar), these goals are currently hampered by the lack of a high-density SNP genotyping platform."
+          },
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0134/combined.md",
+            "section": "C001",
+            "quote_or_span": "a multi-faceted approach to SNP discovery was applied using a combination of RR-Seq, RAD-Seq and RNA-Seq alongside several strategies for exclusion of paralogous sequence variants (PSV) including RR-Seq of haploid material."
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "design",
+        "state_before": "Hypothesis formulated; need to generate sequencing data from diverse Atlantic salmon samples.",
+        "gap_or_uncertainty": "Which samples and sequencing strategies will maximize SNP discovery while enabling PSV exclusion?",
+        "hypothesis": "Using RR-Seq on farmed and wild fish plus a haploid embryo, RAD-Seq on families, and RNA-Seq on whole fry will provide a comprehensive SNP set.",
+        "decision": "Perform RR-Seq on 56 fish (including haploid embryo), RAD-Seq on 160 fish, and RNA-Seq on 72 fish.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "RR-Seq, RAD-Seq, RNA-Seq",
+          "version": "N/A",
+          "category": "sequencing"
+        },
+        "parameters": {
+          "RR-Seq samples": "56 fish (farmed and wild, plus haploid embryo)",
+          "RAD-Seq samples": "160 fish (families)",
+          "RNA-Seq samples": "72 fish (whole fry)"
+        },
+        "observation": "Sequencing libraries prepared and sequenced on Illumina HiSeq 2000.",
+        "result_status": "success",
+        "next_step_reason": "Align reads to reference genome and call putative SNPs.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E03_01",
+            "source_file": "docs/0134/combined.md",
+            "section": "C001",
+            "quote_or_span": "three main Illumina – based sequencing strategies were applied; RR-Seq (56 fish), RAD-Seq (160 fish) and RNA-Seq (72 fish)."
+          },
+          {
+            "evidence_id": "EV_C001_E03_02",
+            "source_file": "docs/0134/combined.md",
+            "section": "C001",
+            "quote_or_span": "the RR-Seq also included a pool of wild fish from diverse geographical sources and a single haploid Atlantic salmon embryo for the purpose of PSV exclusion"
+          },
+          {
+            "evidence_id": "EV_AUTO_001",
+            "source_file": "docs/0134/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Libraries were checked for quality and quantified using the Bioanalyzer 2100 (Agilent, USA), before being sequenced in barcoded pools of 12 individual fish on the Illumina Hiseq 2000 instrument (100 base paired-end sequencing, v3 chemistry) and all sequence data were deposited in the ENA under accession number ERP003968."
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "simulation",
+        "state_before": "Sequencing data generated; need to identify candidate SNPs.",
+        "gap_or_uncertainty": "How many putative SNPs can be discovered and how to filter them for array design?",
+        "hypothesis": "Alignment to the draft Atlantic salmon reference genome will yield >400K putative SNPs, and quality-control filtering will remove unreliable candidates.",
+        "decision": "Align reads to reference genome (GCA_000233375.1), call variants, and apply filters (allele frequency, read depth, Mendelian errors, repeat masking).",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Variant calling and filtering pipeline",
+          "version": "N/A",
+          "category": "bioinformatics"
+        },
+        "parameters": {
+          "reference": "GCA_000233375.1",
+          "filters": "allele frequency ≤0.1, read depth ≤10, Mendelian errors, repeat masking"
+        },
+        "observation": "Initial putative SNPs: >400K. After QC: 99,097 (RR-Seq), 83,151 (RAD-Seq), 229,754 (RNA-Seq).",
+        "result_status": "success",
+        "next_step_reason": "Submit candidate SNPs to Affymetrix for array design.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_010",
+            "source_file": "docs/0134/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Results: SNP discovery was performed using extensive deep sequencing of Reduced Representation (RR-Seq), Restriction site-Associated DNA (RAD-Seq) and mRNA (RNA-Seq) libraries derived from farmed and wild Atlantic salmon samples (n = 283) resulting in the discovery of > 400 K putative SNPs."
+          },
+          {
+            "evidence_id": "EV_C001_E04_02",
+            "source_file": "docs/0134/combined.md",
+            "section": "C001",
+            "quote_or_span": "Following the quality-control filtering of these putative SNPs (described in 'Methods'), 99,097 (RR-Seq), 83,151 (RAD-Seq) and 229,754 (RNA-Seq) candidate SNPs remained"
+          },
+          {
+            "evidence_id": "EV_C004_E01_03",
+            "source_file": "docs/0134/combined.md",
+            "section": "C004",
+            "quote_or_span": "Of the putative SNPs remaining, those with an allele frequency of ≤0.1 or a read depth of ≤10 (n = 172,501) were removed."
+          },
+          {
+            "evidence_id": "EV_C004_E02_02",
+            "source_file": "docs/0134/combined.md",
+            "section": "C004",
+            "quote_or_span": "Duplicated reads originating from PCR were marked using Picard and subsequently ignored."
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "design",
+        "state_before": "Filtered candidate SNPs available; need to design the physical array.",
+        "gap_or_uncertainty": "Which candidate SNPs will convert to reliable assays on the Affymetrix Axiom platform?",
+        "hypothesis": "Using Affymetrix's p-convert score to select SNPs will maximize the number of working assays.",
+        "decision": "Submit 411,308 candidate SNPs to Affymetrix for in silico p-convert prediction; tile probes for 266,105 SNPs with recommended or neutral scores.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "Affymetrix Axiom myDesign Custom Array",
+          "version": "N/A",
+          "category": "microarray design"
+        },
+        "parameters": {
+          "candidate SNPs submitted": 411308,
+          "SNPs tiled": 266105,
+          "probes": 443627,
+          "array capacity used": "93%"
+        },
+        "observation": "Final array (ssalar01) contains 286,021 putative SNPs assayed by 443,627 probes.",
+        "result_status": "success",
+        "next_step_reason": "Genotype a diverse panel of 96 Atlantic salmon samples to validate array performance.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_009",
+            "source_file": "docs/0134/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "All candidate SNPs (total of 411,308; 4,139 of which were detected in more than one SNP discovery category) were submitted to Affymetrix for in silico prediction of their probability of conversion to a reliable assay on the Axiom array (p-convert score)."
+          },
+          {
+            "evidence_id": "EV_C004_E05_03",
+            "source_file": "docs/0134/combined.md",
+            "section": "C004",
+            "quote_or_span": "All 'recommended' probes were included and 'neutral' probes were included if paired with a 'recommended' or a 'neutral' probe, resulting in the tiling of probes for 266,105 putative SNPs, this being 93% of the capacity of the array."
+          },
+          {
+            "evidence_id": "EV_C001_E05_01",
+            "source_file": "docs/0134/combined.md",
+            "section": "C001",
+            "quote_or_span": "the final array contained 286,021 putative SNPs assayed by 443,627 probes."
+          },
+          {
+            "evidence_id": "EV_C004_E05_01",
+            "source_file": "docs/0134/combined.md",
+            "section": "C004",
+            "quote_or_span": "The candidate SNPs were provided to Affymetrix as 71-mer nucleotide sequences from the forward strand with the alleles at the target SNP highlighted at position 36."
+          },
+          {
+            "evidence_id": "EV_C001_E06_01",
+            "source_file": "docs/0134/combined.md",
+            "section": "C001",
+            "quote_or_span": "The ssalar01 array was used to genotype 96 Atlantic salmon samples of diverse origin"
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "experiment",
+        "state_before": "Array manufactured; need to test on real samples.",
+        "gap_or_uncertainty": "How many of the tiled SNPs will be polymorphic and high quality?",
+        "hypothesis": "Genotyping 96 diverse Atlantic salmon samples will identify a large set of high-quality polymorphic SNPs.",
+        "decision": "Genotype 96 samples on the ssalar01 array and classify SNPs using Axiom GT1 algorithm.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Affymetrix Axiom array genotyping",
+          "version": "N/A",
+          "category": "microarray"
+        },
+        "parameters": {
+          "samples": 96,
+          "algorithm": "Axiom GT1"
+        },
+        "observation": "135,682 SNPs designated high quality polymorphic; 110,910 monomorphic.",
+        "result_status": "partial",
+        "next_step_reason": "Apply Mendelian error filtering to remove remaining unreliable SNPs.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E06_01",
+            "source_file": "docs/0134/combined.md",
+            "section": "C001",
+            "quote_or_span": "The ssalar01 array was used to genotype 96 Atlantic salmon samples of diverse origin"
+          },
+          {
+            "evidence_id": "EV_C001_E06_02",
+            "source_file": "docs/0134/combined.md",
+            "section": "C001",
+            "quote_or_span": "a total of 135,682 SNPs were designated as high quality and polymorphic. The main reason for discarding SNPs at this stage was the high rate of monomorphism, with 110,910 SNPs designated as monomorphic"
+          },
+          {
+            "evidence_id": "EV_C004_E06_02",
+            "source_file": "docs/0134/combined.md",
+            "section": "C004",
+            "quote_or_span": "The SNPs were split into categories according to their clustering performance with respect to various Axiom-generated quality-control criteria; (i) ‘polymorphic high resolution’ where the SNP passes all QC, (ii) ‘monomorphic high resolution’ where the SNP passes all QC except the presence of a minor allele in two or more samples, (iii) ‘call rate below threshold’ where genotype call rate is under 97%, (iv) ‘no minor homozygote’ where the SNP passes all QC but only two clusters are observed, (v) ‘off-target variant’ (OTV) where atypical cluster properties arise from variants in the SNP flanking region, and (vi) ‘other’ where the SNP does not fall into any of the previous categories."
+          },
+          {
+            "evidence_id": "EV_C004_E06_03",
+            "source_file": "docs/0134/combined.md",
+            "section": "C004",
+            "quote_or_span": "In this study, only SNPs from categories (i) and (iv) were included in further analyses."
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "analysis",
+        "state_before": "135,682 high-quality polymorphic SNPs identified; need to remove those with Mendelian errors.",
+        "gap_or_uncertainty": "Some SNPs may still be unreliable due to genotyping errors or paralogy.",
+        "hypothesis": "Filtering out SNPs showing Mendelian errors in pedigreed samples will yield a robust final SNP set.",
+        "decision": "Remove 3,649 SNPs with apparent Mendelian errors, resulting in 132,033 QC-filtered SNPs.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Mendelian error filtering",
+          "version": "N/A",
+          "category": "quality control"
+        },
+        "parameters": {
+          "SNPs removed": 3649
+        },
+        "observation": "Final set of 132,033 QC-filtered SNPs retained for downstream analyses.",
+        "result_status": "success",
+        "next_step_reason": "Assess performance of final SNP set in population segregation, genomic distribution, and linkage mapping.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E07_01",
+            "source_file": "docs/0134/combined.md",
+            "section": "C001",
+            "quote_or_span": "Following a final filtering stage based on exclusion of any genotyped SNPs showing an apparent Mendelian error in the pedigreed samples, the final set of 132,033 QC-filtered SNPs were used for further analysis"
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "analysis",
+        "state_before": "Final SNP set defined; need to evaluate SNP discovery method efficiency.",
+        "gap_or_uncertainty": "Which discovery method contributed most to the final array, and what were the dropout rates?",
+        "hypothesis": "RNA-Seq contributed the most candidate SNPs but also had the highest dropout rate.",
+        "decision": "Calculate dropout rates per discovery method.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Dropout rate calculation",
+          "version": "N/A",
+          "category": "statistics"
+        },
+        "parameters": {},
+        "observation": "Dropout rate for RNA-Seq: 68%. RNA-Seq particularly susceptible to false positives.",
+        "result_status": "failure",
+        "next_step_reason": "Despite high dropout, RNA-Seq still contributed many SNPs; proceed to population analyses.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E08_01",
+            "source_file": "docs/0134/combined.md",
+            "section": "C001",
+            "quote_or_span": "the majority of candidate SNPs provided to Affymetrix were derived from RNA-Seq, reflecting the high discrepancy between candidate and verified RNA-Seq-derived SNPs (68% drop out)."
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "analysis",
+        "state_before": "Final SNP set available; need to assess genomic distribution.",
+        "gap_or_uncertainty": "How are the SNPs distributed across the genome?",
+        "hypothesis": "SNPs will be widely distributed across reference genome contigs, with many contigs containing only one SNP.",
+        "decision": "Map QC-filtered SNPs to reference genome contigs and calculate spacing.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Genomic distribution analysis",
+          "version": "N/A",
+          "category": "bioinformatics"
+        },
+        "parameters": {},
+        "observation": "~71K contigs contain SNPs; 59% have only one SNP.",
+        "result_status": "success",
+        "next_step_reason": "Validate chromosome assignments via linkage mapping.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E02_01",
+            "source_file": "docs/0134/combined.md",
+            "section": "C002",
+            "quote_or_span": "The distribution of the ssalar01 array QC-filtered SNPs across the reference genome contigs was investigated."
+          },
+          {
+            "evidence_id": "EV_C002_E02_02",
+            "source_file": "docs/0134/combined.md",
+            "section": "C002",
+            "quote_or_span": "Approximately 71 K contigs contained one or more SNPs with the majority of those (59%) containing only one SNP."
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "validation",
+        "state_before": "SNPs mapped to contigs; need to assign to chromosomes.",
+        "gap_or_uncertainty": "Can the SNPs be placed on the 29 Atlantic salmon chromosomes?",
+        "hypothesis": "Linkage mapping using families with known pedigrees and exploiting lack of male recombination will assign SNPs to chromosomes.",
+        "decision": "Perform linkage mapping in SalMap families Br5 and Br6 using 10 offspring per family; assign SNPs to linkage groups at LOD 2.5.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Linkage mapping",
+          "version": "N/A",
+          "category": "genetics"
+        },
+        "parameters": {
+          "families": "Br5, Br6",
+          "offspring": 10,
+          "LOD threshold": 2.5
+        },
+        "observation": "40,214 SNPs mapped across all 29 chromosomes.",
+        "result_status": "success",
+        "next_step_reason": "Validate chromosome assignment by comparing with previous linkage map.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E07_02",
+            "source_file": "docs/0134/combined.md",
+            "section": "C004",
+            "quote_or_span": "This analysis relied on the lack of male recombination in centromeric regions of the male salmonid genome, and this feature facilitated mapping of markers to linkage groups according to identical or near-identical sire-based inheritance patterns."
+          },
+          {
+            "evidence_id": "EV_AUTO_005",
+            "source_file": "docs/0134/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Secondly, a 'two-point' linkage analysis was performed to determine the LOD scores between all pairs of markers in randomly selected pools of \\~5,000 SNPs including anchor markers from each of the 29 pairs of Atlantic salmon chromosomes (Additional file 1: Table S2)."
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "validation",
+        "state_before": "SNPs assigned to chromosomes; need to confirm accuracy.",
+        "gap_or_uncertainty": "Does the chromosome assignment agree with existing maps?",
+        "hypothesis": "The number of SNPs per chromosome will correlate with the Lien et al. linkage map.",
+        "decision": "Calculate correlation between SNP counts per chromosome and Lien et al. map.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Correlation analysis",
+          "version": "N/A",
+          "category": "statistics"
+        },
+        "parameters": {},
+        "observation": "High positive correlation (r = 0.84) with Lien et al. map, validating chromosome assignments.",
+        "result_status": "success",
+        "next_step_reason": "Test sex prediction capability using Y-specific probes.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E04_01",
+            "source_file": "docs/0134/combined.md",
+            "section": "C002",
+            "quote_or_span": "The number of SNPs per chromosome showed a high positive correlation (r = 0.84, Figure 3B) with the SNP linkage map of Lien et al."
+          },
+          {
+            "evidence_id": "EV_C002_E04_02",
+            "source_file": "docs/0134/combined.md",
+            "section": "C002",
+            "quote_or_span": "These results are indicative of the validity of the chromosome assignment for the SNPs, and suggestive of their genome-wide distribution."
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "validation",
+        "state_before": "Array includes Y-specific probes; need to test sex prediction accuracy.",
+        "gap_or_uncertainty": "Can the array accurately determine genetic sex?",
+        "hypothesis": "Y-specific probes based on sdY gene will predict phenotypic sex with high concordance.",
+        "decision": "Genotype 63 samples of known sex and compare probe results to phenotype.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Sex prediction using sdY probes",
+          "version": "N/A",
+          "category": "genotyping"
+        },
+        "parameters": {
+          "samples": 63,
+          "Y-specific probes": 87
+        },
+        "observation": "100% concordance between probe-based sex prediction and phenotypic sex in 63 samples.",
+        "result_status": "success",
+        "next_step_reason": "Acknowledge limitations and suggest future work.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E04_02",
+            "source_file": "docs/0134/combined.md",
+            "section": "C004",
+            "quote_or_span": "Using PCR primer sets designed from both these sequences, partial sequences from the SRY gene in Atlantic salmon were obtained by direct sequencing of amplicons."
+          }
+        ]
+      },
+      {
+        "step_index": 12,
+        "phase": "revision",
+        "state_before": "Array validated for SNP quality, genomic distribution, linkage mapping, and sex prediction.",
+        "gap_or_uncertainty": "Are there limitations in the current study that need addressing?",
+        "hypothesis": "Small sample sizes for population structure analysis may limit generalizability.",
+        "decision": "Note that further validation with larger sample sizes is needed for population structure applications.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Limitation assessment",
+          "version": "N/A",
+          "category": "review"
+        },
+        "parameters": {},
+        "observation": "The number of fish per population was relatively small, particularly for wild samples, suggesting additional genotyping would be advantageous.",
+        "result_status": "partial",
+        "next_step_reason": "Conclude with overall assessment of array utility.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E07_01",
+            "source_file": "docs/0134/combined.md",
+            "section": "C002",
+            "quote_or_span": "The number of fish included per population was relatively small, particularly for the wild samples, and genotyping additional unrelated samples from each of these (and other) populations would be advantageous to fully evaluate the utility of the array to detect population structure."
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "Linkage mapping to assign SNPs to chromosomes",
+        "Correlation with previous linkage map (r=0.84)",
+        "Sex prediction concordance (100% in 63 samples)"
+      ],
+      "metrics": [
+        "Number of high-quality polymorphic SNPs: 132,033",
+        "Genome-wide average spacing: ~18 kb",
+        "SNP-containing contig average spacing: ~6 kb",
+        "Dropout rates: RNA-Seq 68%, RAD-Seq 50%, RR-Seq 32%"
+      ],
+      "final_conclusion": "The ssalar01 array provides a high-density SNP genotyping platform for Atlantic salmon with 132,033 QC-filtered SNPs, validated by linkage mapping and sex prediction, though population structure analysis requires larger sample sizes.",
+      "limitations": [
+        "Small sample sizes for population structure analysis, especially wild samples",
+        "High dropout rate for RNA-Seq-derived SNPs (68%)",
+        "Ascertainment bias due to SNP discovery in farmed populations"
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "Population segregation analysis (K09) not explicitly included as a separate step due to limited evidence; merged into limitation step.",
+        "Some evidence quotes are from methods sections and may lack direct result statements.",
+        "v22_specific_evidence_backfilled=5",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_specific_evidence_backfilled=1",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 100.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p5\\states\\0134.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p5\\events\\0134.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1
+        ],
+        "K02": [
+          1,
+          2,
+          3
+        ],
+        "K04": [
+          1,
+          3,
+          4
+        ],
+        "K05": [
+          4
+        ],
+        "K06": [
+          4,
+          5
+        ],
+        "K07": [
+          5,
+          6
+        ],
+        "K08": [
+          7
+        ],
+        "K10": [
+          8
+        ],
+        "K11": [
+          9
+        ],
+        "K12": [
+          8,
+          9,
+          10,
+          12
+        ],
+        "K14": [
+          11
+        ],
+        "K15": [
+          12
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02",
+            "K03",
+            "K04"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K02",
+            "K03"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K02",
+            "K04"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K04",
+            "K05",
+            "K06"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K06",
+            "K07"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K07"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K08"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K10",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K11",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K12"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K14"
+          ]
+        },
+        {
+          "step_index": 12,
+          "covered_event_ids": [
+            "K12",
+            "K15"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 3,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "000233375.1"
+        ]
+      },
+      {
+        "step_index": 5,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "96s"
+        ]
+      },
+      {
+        "step_index": 6,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "135682h",
+          "3649"
+        ]
+      },
+      {
+        "step_index": 9,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "2.5",
+          "40214"
+        ]
+      },
+      {
+        "step_index": 11,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "100%",
+          "63s"
+        ]
+      }
+    ],
+    "step_count": 12,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 100.0
+  },
+  "api_usage": {
+    "prompt_tokens": 119165,
+    "completion_tokens": 29001,
+    "total_tokens": 148166,
+    "prompt_cache_hit_tokens": 2944,
+    "prompt_cache_miss_tokens": 116221
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 5619,
+        "completion_tokens": 986,
+        "total_tokens": 6605,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 5619
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 10951,
+        "completion_tokens": 3428,
+        "total_tokens": 14379,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 10951
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 8149,
+        "completion_tokens": 1679,
+        "total_tokens": 9828,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7893
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 8695,
+        "completion_tokens": 1732,
+        "total_tokens": 10427,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8439
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 7371,
+        "completion_tokens": 953,
+        "total_tokens": 8324,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7115
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 8135,
+        "completion_tokens": 2674,
+        "total_tokens": 10809,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7879
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C005",
+      "api_usage": {
+        "prompt_tokens": 7662,
+        "completion_tokens": 50,
+        "total_tokens": 7712,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7406
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 12129,
+        "completion_tokens": 3525,
+        "total_tokens": 15654,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 11745
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 11976,
+        "completion_tokens": 6238,
+        "total_tokens": 18214,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 11336
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 17800,
+        "completion_tokens": 1083,
+        "total_tokens": 18883,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 17800
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 20678,
+        "completion_tokens": 6653,
+        "total_tokens": 27331,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 20038
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

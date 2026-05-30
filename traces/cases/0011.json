@@ -1,0 +1,836 @@
+{
+  "case": {
+    "case_id": "sci_evo_0011",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Integrating continuous hypermutation with high‐throughput screening for optimization of cis,cis ‐muconic acid production in yeast",
+      "doi": "https://doi.org/10.1111/1751-7915.13774",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0009_10_1111_1751_7915_13774_integrating_continuous_hypermutation_with_high_throughput_screening_for_optimization_of_ci.pdf",
+      "mineru_md": "docs/0011/mineru.md",
+      "combined_md": "docs/0011/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "PCA accumulation limits CCM production due to rate-limiting PCA decarboxylase.",
+      "target_object": "PCA decarboxylase (AroY.B and AroY.Ciso)",
+      "known_context": "The CCM pathway intermediate PCA builds up and is secreted, limiting CCM yield. OrthoRep provides continuous targeted mutagenesis, and a BenM-based biosensor can detect CCM.",
+      "constraints": [
+        "No growth coupling available for PCA decarboxylase activity",
+        "PCA secretion/diffusion may limit intracellular PCA availability"
+      ],
+      "input_data": [
+        "Parental strain Sc-105 with CCM pathway, BenM biosensor, and OrthoRep targeting AroY.B and AroY.Ciso on p1 plasmid"
+      ],
+      "quantifiable_goals": [
+        "Increase CCM titer",
+        "Reduce PCA accumulation"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "PCA accumulation limits CCM production due to rate-limiting PCA decarboxylase.",
+        "gap_or_uncertainty": "Can PCA decarboxylase be evolved without growth coupling?",
+        "hypothesis": "Combining OrthoRep continuous mutagenesis with a CCM biosensor and FACS can rapidly evolve PCA decarboxylase without growth coupling.",
+        "decision": "Proceed with OrthoRep-based directed evolution of PCA decarboxylase using a CCM biosensor and FACS.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "OrthoRep",
+          "version": "TP-DNAP1-4-2",
+          "category": "in_vivo_mutagenesis"
+        },
+        "parameters": {},
+        "observation": "OrthoRep enables continuous targeted mutagenesis; BenM biosensor provides a fluorescence readout for CCM.",
+        "result_status": "success",
+        "next_step_reason": "Design parental strain with OrthoRep and biosensor.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0011/combined.md",
+            "section": "C001",
+            "quote_or_span": "the build-up and secretion of the CCM pathway intermediate PCA remain rate-limiting for high CCM production"
+          },
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0011/combined.md",
+            "section": "C001",
+            "quote_or_span": "we combine the power of targeted in vivo mutagenesis using OrthoRep with high-throughput biosensing for the rapid evolution of rate-limiting metabolic reactions of the cis,cis-muconic acid (CCM) pathway"
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "design",
+        "state_before": "Hypothesis formulated; need a strain with OrthoRep and biosensor.",
+        "gap_or_uncertainty": "How to construct a strain that enables continuous mutagenesis of PCA decarboxylase and fluorescence-based selection?",
+        "hypothesis": "Parental strain Sc-105 with integrated CCM pathway, BenM biosensor, and OrthoRep targeting AroY.B and AroY.Ciso on p1 plasmid will allow evolution.",
+        "decision": "Construct Sc-105 by integrating CCM pathway, BenM biosensor, and OrthoRep components.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Strain engineering",
+          "version": "Sc-105",
+          "category": "genetic_engineering"
+        },
+        "parameters": {
+          "strain": "Sc-105",
+          "components": [
+            "CCM pathway",
+            "BenM biosensor",
+            "OrthoRep with TP-DNAP1-4-2",
+            "p1 plasmid encoding AroY.B and AroY.Ciso"
+          ]
+        },
+        "observation": "Sc-105 successfully constructed with all components.",
+        "result_status": "success",
+        "next_step_reason": "Estimate mutation rate to plan selection rounds.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_017",
+            "source_file": "docs/0011/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": ", 2014) and selected in synthetic complete histidine and uracil dropout medium to give Sc-105."
+          },
+          {
+            "evidence_id": "EV_AUTO_005",
+            "source_file": "docs/0011/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": ", 2013) was transformed with gRNA plasmid pEDJ366 and URA3-KO-90-mer to completely remove ura3-52 (Sc-62)."
+          },
+          {
+            "evidence_id": "EV_AUTO_006",
+            "source_file": "docs/0011/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Ciso (Sc-194) were synthesized as gene blocks by IDT and integrated with overlapping homology into Easyclone site XII-5 (Jensen et al."
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "simulation",
+        "state_before": "Strain Sc-105 constructed; need to determine number of FACS rounds.",
+        "gap_or_uncertainty": "How many mutations accumulate per sort round?",
+        "hypothesis": "Mutation rate of ~1e-4 per base and gene length of 2.1 kb will yield ~1 additional mutation per cell per sort round.",
+        "decision": "Use mutation rate estimate to design five iterative FACS rounds.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Mutation rate estimation",
+          "version": "TP-DNAP1-4-2",
+          "category": "computational"
+        },
+        "parameters": {
+          "mutation_rate": "~1e-4 per base",
+          "gene_length": "2.1 kb",
+          "expected_mutations_per_sort": "~1"
+        },
+        "observation": "Estimated ~1 mutation per cell per sort round, guiding five rounds of selection.",
+        "result_status": "success",
+        "next_step_reason": "Perform iterative FACS selection.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E04_01",
+            "source_file": "docs/0011/combined.md",
+            "section": "C002",
+            "quote_or_span": "the actual mutation-rate per cell approximates $1 \\times 10^{-4}$ substitutions per base."
+          },
+          {
+            "evidence_id": "EV_AUTO_021",
+            "source_file": "docs/0011/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": ", 2018), the actual mutation-rate per cell approximates $1 \\times 10^{-4}$ substitutions per base."
+          },
+          {
+            "evidence_id": "EV_AUTO_022",
+            "source_file": "docs/0011/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The number and duration of the iterative cycles were selected based on (i) the mutation-rate and copy number of TP-DNAP1-4-2, (ii) the sequence length of the bait genes encoding AroY."
+          },
+          {
+            "evidence_id": "EV_AUTO_017",
+            "source_file": "docs/0011/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": ", 2014) and selected in synthetic complete histidine and uracil dropout medium to give Sc-105."
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "experiment",
+        "state_before": "Mutation rate estimated; ready for selection.",
+        "gap_or_uncertainty": "Will iterative FACS selection enrich cells with improved PCA decarboxylase activity?",
+        "hypothesis": "Five rounds of OrthoRep mutagenesis and FACS selection (top 2% fluorescent cells) will increase population fluorescence.",
+        "decision": "Perform five iterative rounds of OrthoRep mutagenesis and FACS, sorting top 2% fluorescent cells each round.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "FACS",
+          "version": "SH800S cell sorter",
+          "category": "high_throughput_screening"
+        },
+        "parameters": {
+          "rounds": 5,
+          "sort_percentage": "top 2%",
+          "events_per_sort": 10000,
+          "recovery": "24 h in synthetic complete medium"
+        },
+        "observation": "Five rounds of FACS selection completed.",
+        "result_status": "success",
+        "next_step_reason": "Compare with bulk control to assess selection effect.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E02_01",
+            "source_file": "docs/0011/combined.md",
+            "section": "C002",
+            "quote_or_span": "we coupled continuous mutagenesis using OrthoRep with selection using the BenM-based biosensor output as a proxy for CCM accumulation respectively."
+          },
+          {
+            "evidence_id": "EV_C002_E02_02",
+            "source_file": "docs/0011/combined.md",
+            "section": "C002",
+            "quote_or_span": "We iterated culturing and FACS five times, where each sort collected 10 000 events"
+          },
+          {
+            "evidence_id": "EV_AUTO_008",
+            "source_file": "docs/0011/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Using a SH800S cell sorter (Sony Biotechnology), 1 million events were analysed with a blue laser at 488 nm, and 10 000 cells of the top 2% fluorescent output were sorted into 2 ml of fresh synthetic complete medium and grown for 24 h at 30 °C with shaking."
+          },
+          {
+            "evidence_id": "EV_AUTO_023",
+            "source_file": "docs/0011/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "We iterated culturing and FACS five times, where each sort collected 10 000 events and was followed by a 24-h recovery cultivation in synthetic complete medium, after which propagated cells were harvested for both glycerol stock and"
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "experiment",
+        "state_before": "FACS selection ongoing; need control for genetic drift.",
+        "gap_or_uncertainty": "How does fluorescence change without selection?",
+        "hypothesis": "Bulk passaging without FACS will show minimal fluorescence change.",
+        "decision": "Perform 15 bulk passages without FACS selection as a control.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Bulk passaging",
+          "version": "15 passages",
+          "category": "control_experiment"
+        },
+        "parameters": {
+          "passages": 15,
+          "passaging_ratio": "20% of cells",
+          "cultivation": "24 h each"
+        },
+        "observation": "Control experiment completed; fluorescence data collected.",
+        "result_status": "success",
+        "next_step_reason": "Analyze fluorescence increase in sorted vs. bulk populations.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E03_01",
+            "source_file": "docs/0011/combined.md",
+            "section": "C002",
+            "quote_or_span": "As a control evolution experiment, we cultured the parental starting strain over 15 consecutive 24 h cultivations without FACS selection by bulk passaging 20% of cells between each cultivation."
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "analysis",
+        "state_before": "FACS and bulk control experiments completed.",
+        "gap_or_uncertainty": "Did FACS selection increase fluorescence?",
+        "hypothesis": "Population fluorescence will increase over sorts and exceed bulk control.",
+        "decision": "Compare fluorescence of sorted populations across rounds and against bulk control.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Flow cytometry analysis",
+          "version": "BD LSRFortessa",
+          "category": "fluorescence_measurement"
+        },
+        "parameters": {
+          "metric": "mean fluorescence intensity",
+          "events_analyzed": 10000
+        },
+        "observation": "Fluorescence increased 2.5-fold from sort 1 to 4, plateauing at sort 4-5; 3.9-fold increase vs. bulk 15.",
+        "result_status": "partial",
+        "next_step_reason": "Plateau suggests selection limit; screen colonies for improved variants.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E05_01",
+            "source_file": "docs/0011/combined.md",
+            "section": "C002",
+            "quote_or_span": "the population-level fluorescence outputs increased following each round of sorting from the first to the fourth sort, reaching a total increase of 2.5-fold."
+          },
+          {
+            "evidence_id": "EV_C002_E05_02",
+            "source_file": "docs/0011/combined.md",
+            "section": "C002",
+            "quote_or_span": "a maximum of 3.9-fold increase was observed when comparing mean fluorescence outputs following five rounds of sorting versus fifteen rounds of neutral drifting"
+          },
+          {
+            "evidence_id": "EV_AUTO_010",
+            "source_file": "docs/0011/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Importantly, and corroborating the conservative selection regime, more than 96% (309/319) of the colonies from sorted populations ('Sort4 + 5') had cells with higher fluorescence than cells from colonies undergoing neutral drifting ('Bulk 15') (Fig."
+          },
+          {
+            "evidence_id": "EV_AUTO_032",
+            "source_file": "docs/0011/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Data represent means of 4-5 biological replicates, and error bars represent standard deviation of the mean (D) Extracellular protocatechuic acid (PCA) concentrations in cultivation broth from the same as in (B) and (C) eight evolved PCA decarboxylase subunit variants KpAroY."
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "validation",
+        "state_before": "Fluorescence increase observed; need to identify causative mutations.",
+        "gap_or_uncertainty": "Which mutations are responsible for improved fluorescence?",
+        "hypothesis": "Colonies from sorted populations will have higher fluorescence and harbor mutations in AroY.B and AroY.Ciso.",
+        "decision": "Screen colonies from sorted populations and sequence AroY.B and AroY.Ciso.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Colony screening and Sanger sequencing",
+          "version": "",
+          "category": "genotyping"
+        },
+        "parameters": {
+          "colonies_screened": 319,
+          "sequencing_targets": [
+            "AroY.B",
+            "AroY.Ciso"
+          ]
+        },
+        "observation": "96% (309/319) of colonies had higher fluorescence than bulk; 11 amino acid changes found.",
+        "result_status": "success",
+        "next_step_reason": "Reconstruct identified variants to validate CCM improvement.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E06_01",
+            "source_file": "docs/0011/combined.md",
+            "section": "C002",
+            "quote_or_span": "more than 96% (309/319) of the colonies from sorted populations ('Sort4 + 5') had cells with higher fluorescence than cells from colonies undergoing neutral drifting"
+          },
+          {
+            "evidence_id": "EV_C002_E06_02",
+            "source_file": "docs/0011/combined.md",
+            "section": "C002",
+            "quote_or_span": "we found 11 amino acid changes, two deletion and nine silent mutations"
+          },
+          {
+            "evidence_id": "EV_AUTO_010",
+            "source_file": "docs/0011/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Importantly, and corroborating the conservative selection regime, more than 96% (309/319) of the colonies from sorted populations ('Sort4 + 5') had cells with higher fluorescence than cells from colonies undergoing neutral drifting ('Bulk 15') (Fig."
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "validation",
+        "state_before": "Mutations identified; need to confirm effect on CCM production.",
+        "gap_or_uncertainty": "Do the identified mutations increase CCM titer and reduce PCA?",
+        "hypothesis": "Reconstructed variants will show increased CCM and decreased PCA.",
+        "decision": "Reconstruct eight variants and measure CCM and PCA titers.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "HPLC",
+          "version": "Aminex HPX-87H column",
+          "category": "metabolite_quantification"
+        },
+        "parameters": {
+          "variants_tested": 8,
+          "metrics": [
+            "CCM titer",
+            "PCA titer"
+          ]
+        },
+        "observation": "AroY.B_P146T gave 13.7-fold higher CCM titer and 77% PCA reduction.",
+        "result_status": "success",
+        "next_step_reason": "Evaluate limitations and false-discovery rate.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E07_01",
+            "source_file": "docs/0011/combined.md",
+            "section": "C002",
+            "quote_or_span": "KpAroY. B\\_P146T performing the best with a 13.7-fold higher CCM titer"
+          },
+          {
+            "evidence_id": "EV_C002_E07_02",
+            "source_file": "docs/0011/combined.md",
+            "section": "C002",
+            "quote_or_span": "KpAroY. B\\_P146T also showed significantly reduced PCA titers (77%, P < 0.01)"
+          },
+          {
+            "evidence_id": "EV_AUTO_020",
+            "source_file": "docs/0011/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "B\\_P146T performing the best with a 13.7-fold higher CCM titer when expressed together with wild-type KpAroY."
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "analysis",
+        "state_before": "Best variant identified; need to assess overall success and limitations.",
+        "gap_or_uncertainty": "What are the limitations of the approach?",
+        "hypothesis": "High false-discovery rate and low mutation count limit efficiency; PCA secretion remains a bottleneck.",
+        "decision": "Analyze false-discovery rate and mutation distribution; note PCA secretion issue.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Statistical analysis",
+          "version": "",
+          "category": "data_analysis"
+        },
+        "parameters": {
+          "false_discovery_rate": ">0.45",
+          "mutations_per_variant": "low"
+        },
+        "observation": "False-discovery rate >0.45; only 5 of 8 variants showed significant fluorescence increase; PCA secretion still limits CCM production.",
+        "result_status": "partial",
+        "next_step_reason": "Propose future directions.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E04_01",
+            "source_file": "docs/0011/combined.md",
+            "section": "C003",
+            "quote_or_span": "increase the relatively low number of mutations observed per evolved PCA decarboxylase variant"
+          },
+          {
+            "evidence_id": "EV_C003_E04_02",
+            "source_file": "docs/0011/combined.md",
+            "section": "C003",
+            "quote_or_span": "limit the false-discovery rate observed in this study (>9/22, >0.45)"
+          },
+          {
+            "evidence_id": "EV_C003_E01_01",
+            "source_file": "docs/0011/combined.md",
+            "section": "C003",
+            "quote_or_span": "One strategy to consider further is the need to limit the secretion or passive diffusion, of PCA across the cellular membrane as is often observed in yeast engineered to produce PCA-derived chemicals"
+          },
+          {
+            "evidence_id": "EV_AUTO_036",
+            "source_file": "docs/0011/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Here, we found that only 5 of the 8 variants showed significantly higher fluorescence outputs compared with the wild-type KpAroY reference strain (P-value < 0.01), with KpAroY."
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "revision",
+        "state_before": "Limitations identified; need to propose improvements.",
+        "gap_or_uncertainty": "How to scale up and improve selection?",
+        "hypothesis": "Moving to genome-wide adaptive evolution with growth-coupled selection could overcome current limitations.",
+        "decision": "Propose future direction: genome-wide adaptive laboratory evolution with growth-coupled biosensor readout.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "Adaptive laboratory evolution",
+          "version": "",
+          "category": "evolutionary_engineering"
+        },
+        "parameters": {},
+        "observation": "Growth-coupled selection could improve scalability and reduce false-discovery rate.",
+        "result_status": "inconclusive",
+        "next_step_reason": "Conclude with first demonstration claim.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E02_01",
+            "source_file": "docs/0011/combined.md",
+            "section": "C003",
+            "quote_or_span": "a logical next step could be to move from in vivo directed evolution of predefined target genes towards genome-wide adaptive laboratory evolution"
+          },
+          {
+            "evidence_id": "EV_C003_E02_02",
+            "source_file": "docs/0011/combined.md",
+            "section": "C003",
+            "quote_or_span": "transferring the biosensor read-out from fluorescence to growth would be beneficial from a technical and scalability point of view"
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "validation",
+        "state_before": "Overall approach demonstrated; need to assert novelty.",
+        "gap_or_uncertainty": "Is this the first demonstration of evolving metabolic enzymes without fitness advantage?",
+        "hypothesis": "This study is the first to rapidly evolve metabolic enzymes without direct fitness advantage using continuous hypermutation.",
+        "decision": "Claim first demonstration of rapid evolution of metabolic enzymes without direct fitness advantage.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Literature comparison",
+          "version": "",
+          "category": "conceptual"
+        },
+        "parameters": {},
+        "observation": "Study serves as first demonstration of rapid evolution of metabolic enzymes without direct fitness advantage using continuous hypermutation.",
+        "result_status": "success",
+        "next_step_reason": "Trajectory complete.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E06_01",
+            "source_file": "docs/0011/combined.md",
+            "section": "C003",
+            "quote_or_span": "our study serves as a first demonstration of rapid evolution of metabolic enzymes without any direct fitness advantage using continuous hypermutation"
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "Reconstruction of identified variants and measurement of CCM and PCA titers via HPLC",
+        "Comparison of fluorescence in sorted vs. bulk populations"
+      ],
+      "metrics": [
+        "CCM titer (13.7-fold increase for best variant)",
+        "PCA titer (77% reduction for best variant)",
+        "Population fluorescence (2.5-fold increase over sorts, 3.9-fold vs. bulk)"
+      ],
+      "final_conclusion": "OrthoRep-driven continuous hypermutation combined with biosensor-based FACS successfully evolved PCA decarboxylase, yielding a variant with 13.7-fold higher CCM titer and 77% lower PCA. However, high false-discovery rate and PCA secretion remain limitations.",
+      "limitations": [
+        "High false-discovery rate (>0.45)",
+        "Low number of mutations per variant",
+        "PCA secretion/diffusion still limits CCM production",
+        "Biosensor operational range cannot discriminate CCM titers >80 mg/L"
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_specific_evidence_backfilled=4",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_specific_evidence_backfilled=1",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 99.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p2\\states\\0011.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p2\\events\\0011.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1
+        ],
+        "K02": [
+          1,
+          2,
+          4
+        ],
+        "K04": [
+          3
+        ],
+        "K05": [
+          3,
+          4
+        ],
+        "K06": [
+          5
+        ],
+        "K07": [
+          6
+        ],
+        "K08": [
+          6,
+          7
+        ],
+        "K09": [
+          7,
+          8,
+          9
+        ],
+        "K10": [
+          6,
+          9
+        ],
+        "K11": [
+          3,
+          9
+        ],
+        "K13": [
+          1,
+          10
+        ],
+        "K14": [
+          11
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02",
+            "K03",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K02",
+            "K03"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K03",
+            "K04",
+            "K05",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K02",
+            "K05"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K06"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K07",
+            "K08",
+            "K10"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K08",
+            "K09"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K09"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K09",
+            "K10",
+            "K11",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K13"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K14"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 2,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "105s"
+        ]
+      },
+      {
+        "step_index": 3,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "2.1kb"
+        ]
+      }
+    ],
+    "step_count": 11,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 99.0
+  },
+  "api_usage": {
+    "prompt_tokens": 99258,
+    "completion_tokens": 22216,
+    "total_tokens": 121474,
+    "prompt_cache_hit_tokens": 2688,
+    "prompt_cache_miss_tokens": 96570
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 3782,
+        "completion_tokens": 643,
+        "total_tokens": 4425,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 3782
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 12000,
+        "completion_tokens": 2278,
+        "total_tokens": 14278,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 12000
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 8320,
+        "completion_tokens": 1262,
+        "total_tokens": 9582,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8064
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 7794,
+        "completion_tokens": 1467,
+        "total_tokens": 9261,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7538
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 7890,
+        "completion_tokens": 951,
+        "total_tokens": 8841,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7634
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 6060,
+        "completion_tokens": 60,
+        "total_tokens": 6120,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 5804
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 8363,
+        "completion_tokens": 2902,
+        "total_tokens": 11265,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 7979
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 10785,
+        "completion_tokens": 5765,
+        "total_tokens": 16550,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 10145
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 15857,
+        "completion_tokens": 811,
+        "total_tokens": 16668,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 15857
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 18407,
+        "completion_tokens": 6077,
+        "total_tokens": 24484,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 17767
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

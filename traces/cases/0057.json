@@ -1,0 +1,746 @@
+{
+  "case": {
+    "case_id": "sci_evo_0057",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Optimizing the downstream MVA pathway using a combination optimization strategy to increase lycopene yield in Escherichia coli",
+      "doi": "https://doi.org/10.1186/s12934-022-01843-z",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0055_10_1186_s12934_022_01843_z_optimizing_the_downstream_mva_pathway_using_a_combination_optimization_strategy_to_increas.pdf",
+      "mineru_md": "docs/0057/mineru.md",
+      "combined_md": "docs/0057/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Low lycopene yield in E. coli due to metabolic imbalance in the downstream MVA pathway (MVK, PMK, MVD, IDI). Previous in vitro optimization improved conversion but not directly applicable in vivo. Need for in vivo fine-tuning to balance upstream and downstream modules and reduce intermediate accumulation.",
+      "target_object": "Lycopene synthesis pathway in E. coli",
+      "known_context": "Simple overexpression of enzymes in multienzyme pathways can cause imbalance, growth inhibition, or poor yield due to intermediate cytotoxicity. Previous in vitro optimization of MVA enzyme ratios improved conversion but is not directly applicable in vivo due to cellular complexity.",
+      "constraints": [
+        "Must use glucose as carbon source",
+        "Must maintain cell growth while increasing lycopene production"
+      ],
+      "input_data": [
+        "Plasmid pCLES containing upstream MVA pathway",
+        "Plasmid pTrc-lyc containing lycopene pathway genes (CrtE, CrtB, CrtI)"
+      ],
+      "quantifiable_goals": [
+        "Increase lycopene yield over reference strains",
+        "Achieve balanced expression of MVK, PMK, MVD, IDI"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "Simple overexpression of MVA pathway enzymes risks imbalance and intermediate cytotoxicity, and in vitro optimization does not translate to in vivo.",
+        "gap_or_uncertainty": "How to fine-tune expression of MVK, PMK, MVD, IDI in vivo to balance the pathway and increase lycopene yield.",
+        "hypothesis": "Combinatorial RBS library optimization of the downstream MVA module across different plasmid backbones will identify expression levels that balance the pathway and improve lycopene production.",
+        "decision": "Divide lycopene pathway into three modules; target downstream MVA module (MPMI) for RBS library optimization using three plasmid backbones with different copy numbers and promoters.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "Modular pathway design",
+          "version": "",
+          "category": "metabolic engineering"
+        },
+        "parameters": {
+          "modules": [
+            "ESE (upstream MVA)",
+            "MPMI (midstream MVA: MVK, PMK, MVD, IDI)",
+            "EBI (lycopene synthesis)"
+          ],
+          "plasmid_backbones": [
+            "pHM (p15A ori, T7 promoter)",
+            "pMM (p15A ori, Trc promoter)",
+            "pLM (pSC101 ori, Trc promoter)"
+          ],
+          "library_size": "10,000 combinations per library"
+        },
+        "observation": "Design established three libraries (HM, MM, LM) to screen optimal expression levels.",
+        "result_status": "success",
+        "next_step_reason": "Need to construct RBS libraries with defined TIR for the four genes.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0057/combined.md",
+            "section": "C001",
+            "quote_or_span": "the simple overexpression of one or more enzymes risks causing an imbalance between enzymes and upstream and downstream pathway modules, resulting in growth inhibition or poor yield owing to the cytotoxicity of accumulated intermediates"
+          },
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0057/combined.md",
+            "section": "C001",
+            "quote_or_span": "the results of in vitro are not appropriate to intracellular"
+          },
+          {
+            "evidence_id": "EV_C001_E04_01",
+            "source_file": "docs/0057/combined.md",
+            "section": "C001",
+            "quote_or_span": "the lycopene synthesis pathway was divided into three modules: module ESE and module MPMI and module EBI"
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "design",
+        "state_before": "Three plasmid backbones selected for RBS library construction.",
+        "gap_or_uncertainty": "Need specific RBS sequences with defined translation initiation rates (TIR) for MVK, PMK, MVD, IDI.",
+        "hypothesis": "RBS sequences with a range of TIR values will create diverse expression levels for screening.",
+        "decision": "Design RBS sequences with TIR values ranging from ~1000 to ~63000 for each gene.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "RBS calculator",
+          "version": "",
+          "category": "synthetic biology"
+        },
+        "parameters": {
+          "genes": [
+            "MVK",
+            "PMK",
+            "MVD",
+            "IDI"
+          ],
+          "TIR_range": "~1000 to ~63000"
+        },
+        "observation": "RBS sequences with defined TIR were designed for library construction.",
+        "result_status": "success",
+        "next_step_reason": "Construct the three RBS libraries using OLMA method.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E01_01",
+            "source_file": "docs/0057/combined.md",
+            "section": "C004",
+            "quote_or_span": "Table 2 RBS sequences for RBS libraries with defined TIR"
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "experiment",
+        "state_before": "RBS sequences designed.",
+        "gap_or_uncertainty": "Whether the libraries can be successfully assembled and produce diverse lycopene phenotypes.",
+        "hypothesis": "OLMA assembly will generate functional libraries with varying lycopene production.",
+        "decision": "Construct pHM, pMM, pLM libraries using OLMA and co-transform with upstream and lycopene modules into E. coli BL21(DE3).",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "OLMA (Oligonucleotide Linker Mediated Assembly)",
+          "version": "",
+          "category": "DNA assembly"
+        },
+        "parameters": {
+          "host": "E. coli BL21(DE3)",
+          "co-transformed_plasmids": [
+            "pCLES (upstream MVA)",
+            "pTrc-lyc (lycopene pathway)"
+          ],
+          "induction": "0.1 mmol IPTG"
+        },
+        "observation": "Red colonies with varying intensity appeared, indicating diverse lycopene production. PCR of ten random red colonies showed 100% positive rate, confirming successful assembly.",
+        "result_status": "success",
+        "next_step_reason": "Proceed to high-throughput screening of the libraries.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E05_01",
+            "source_file": "docs/0057/combined.md",
+            "section": "C001",
+            "quote_or_span": "Three libraries of 10,000 combinations (HM, MM, and LM) were constructed using OLMA method"
+          },
+          {
+            "evidence_id": "EV_C004_E02_01",
+            "source_file": "docs/0057/combined.md",
+            "section": "C004",
+            "quote_or_span": "Two microliter of the resultant reaction solution was transformed into the E. coli BL21(DE3) with the plasmid pCLES [38] of the upstream MVA pathway and the plasmid pTrc-lyc of the lycopene pathway to assemble the complete metabolic pathway of lycopene using glucose as a carbon source."
+          },
+          {
+            "evidence_id": "EV_C001_E06_01",
+            "source_file": "docs/0057/combined.md",
+            "section": "C001",
+            "quote_or_span": "PCR analysis was performed on ten randomly selected red colonies of various intensities, and the gel electrophoresis revealed a 100% positive rate"
+          },
+          {
+            "evidence_id": "EV_C004_E07_01",
+            "source_file": "docs/0057/combined.md",
+            "section": "C004",
+            "quote_or_span": "Ten colonies were randomly picked and analyzed by colony PCR to determine ratio of successfully assembled pHM-library, pMM-library, and pLM-library."
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "experiment",
+        "state_before": "Libraries constructed and validated.",
+        "gap_or_uncertainty": "Which strains produce the highest lycopene and what expression patterns are beneficial.",
+        "hypothesis": "High-throughput screening will identify strains with improved lycopene production, and lower midstream expression may be favorable.",
+        "decision": "Visually select 500 colonies per library, culture in 96-deep-well plates with M9 minimal medium, and measure lycopene after 48h.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "96-deep-well plate screening",
+          "version": "",
+          "category": "high-throughput screening"
+        },
+        "parameters": {
+          "colonies_per_library": 500,
+          "medium": "M9 minimal medium",
+          "induction": "0.1 mmol IPTG",
+          "culture_time": "48 h",
+          "measurement": "ABS472/OD600"
+        },
+        "observation": "Lycopene production varied widely: pHM-library 30-fold, pMM-library 14-fold, pLM-library 40-fold. More than 25% of strains outperformed controls. LM library (low copy, medium promoter) gave highest lycopene accumulation (ABS472/OD600=0.9).",
+        "result_status": "success",
+        "next_step_reason": "Analyze correlation between RBS strengths and lycopene production.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E07_01",
+            "source_file": "docs/0057/combined.md",
+            "section": "C001",
+            "quote_or_span": "500 colonies from the pHM-library, 500 colonies from the pMM-library, and 500 colonies from the pLM-library, all of which were classified according to varying degrees of redness, were chosen using the visual selection method"
+          },
+          {
+            "evidence_id": "EV_C004_E03_01",
+            "source_file": "docs/0057/combined.md",
+            "section": "C004",
+            "quote_or_span": "room temperature for 48 h to accumulate lycopene for screening."
+          },
+          {
+            "evidence_id": "EV_C004_E04_01",
+            "source_file": "docs/0057/combined.md",
+            "section": "C004",
+            "quote_or_span": "According to the color of colonies, 500 individual colonies were randomly selected from each library and inoculated into a sterile 96-deep-plate containing 1 ML M9 minimal medium per well with appropriate antibiotic and 0.1 mmol IPTG to induce the MVA pathway."
+          },
+          {
+            "evidence_id": "EV_C002_E02_01",
+            "source_file": "docs/0057/combined.md",
+            "section": "C002",
+            "quote_or_span": "More than a quarter of the strains screened from the three libraries with various plasmid backbones were capable of producing more lycopene than the control strain."
+          },
+          {
+            "evidence_id": "EV_AUTO_007",
+            "source_file": "docs/0057/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "2A–C, the relative lycopene production of the selected strains in 96-deep-well showed a 14\\~40-fold range (pHM-library 30-fold, pMM-library 14-fold, and pLM-library 40-fold), which indicated the combinatorial RBS library yield a large number of functional constructs with different lycopene production level."
+          },
+          {
+            "evidence_id": "EV_AUTO_005",
+            "source_file": "docs/0057/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The highest one showed 2.5 times higher than MM-CT in the pMM-library and 14 times stronger than the lowest sample with $ABS_{472}/OD_{600}$ of \\`0."
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "analysis",
+        "state_before": "Screening data collected.",
+        "gap_or_uncertainty": "Which specific genes drive lycopene improvement and whether a clear ratio relationship exists.",
+        "hypothesis": "RBS strengths of IDI and MVK may correlate with lycopene production, but a simple proportional relationship may not exist.",
+        "decision": "Perform correlation analysis between RBS strengths and lycopene accumulation.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Correlation analysis",
+          "version": "",
+          "category": "statistical analysis"
+        },
+        "parameters": {
+          "variables": [
+            "RBS_MVK",
+            "RBS_PMK",
+            "RBS_MVD",
+            "RBS_IDI"
+          ],
+          "response": "lycopene accumulation"
+        },
+        "observation": "RBS_IDI showed strong positive correlation with lycopene; RBS_MVK had modest positive correlation; RBS_PMK and RBS_MVD showed no clear correlation. No clear proportional relationship among the four genes was found. Small sample size (500 out of 10,000) limited detection of associations.",
+        "result_status": "partial",
+        "next_step_reason": "Despite unclear ratio, top strains should be validated in shake flasks.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E05_01",
+            "source_file": "docs/0057/combined.md",
+            "section": "C002",
+            "quote_or_span": "there was no clear proportion relationship involving these four genes, indicating that optimizing the MVA pathway by entirely rational design is challenging"
+          },
+          {
+            "evidence_id": "EV_C002_E05_02",
+            "source_file": "docs/0057/combined.md",
+            "section": "C002",
+            "quote_or_span": "the small sample size resulted in the absence of a clear association between the RBS strengths and lycopene accumulation"
+          },
+          {
+            "evidence_id": "EV_AUTO_023",
+            "source_file": "docs/0057/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Given that there were 10,000 possible combinations, but only 500 colonies were selected for analysis, the small sample size resulted in the absence of a clear association between the RBS strengths and lycopene accumulation."
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "validation",
+        "state_before": "Top strains identified from screening.",
+        "gap_or_uncertainty": "Whether high-throughput results translate to shake-flask fermentation.",
+        "hypothesis": "Top strains will maintain improved lycopene production in shake flasks, but some may underperform due to screening/fermentation inconsistency.",
+        "decision": "Validate top strains from each library in shake flasks with M9 medium.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Shake-flask fermentation",
+          "version": "",
+          "category": "fermentation"
+        },
+        "parameters": {
+          "medium": "M9 minimal medium",
+          "induction": "0.1 mmol IPTG",
+          "measurement": "mg lycopene/g DCW"
+        },
+        "observation": "Best yields: pHM25 120 mg/g DCW, MM35 143.6 mg/g DCW, LM22 219.7 mg/g DCW. Replacing native RBSs with library RBSs increased lycopene yield by over 120% in all three libraries. However, 20-30% of selected strains performed worse than controls, possibly due to inconsistency between high-throughput screening and fermentation conditions.",
+        "result_status": "partial",
+        "next_step_reason": "Analyze overall effectiveness of the strategy.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E03_01",
+            "source_file": "docs/0057/combined.md",
+            "section": "C003",
+            "quote_or_span": "the sample pHM25 with the highest yield of 120 mg/g DCW in pHM-library was 250% stronger than the control strain HM-CT (48.3 mg/g DCW)"
+          },
+          {
+            "evidence_id": "EV_C003_E03_02",
+            "source_file": "docs/0057/combined.md",
+            "section": "C003",
+            "quote_or_span": "the lycopene yield of sample MM35 (143.6 mg/g DCW) in MM-library and LM22 (219.7 mg/g DCW) in LM-Library increased by 140% and 120% compared to the reference strain"
+          },
+          {
+            "evidence_id": "EV_C003_E02_01",
+            "source_file": "docs/0057/combined.md",
+            "section": "C003",
+            "quote_or_span": "replacing RBSs with native ones increased lycopene yield by over 120 percent in all three libraries without changing any other sequence in the operon"
+          },
+          {
+            "evidence_id": "EV_AUTO_002",
+            "source_file": "docs/0057/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "While 70%-80% of the selected samples accumulated more lycopene than the control strain containing natural RBS in shake flask fermentation, 20% \\~ 30% samples in each library perform worse than the control strains, which could be the inconsistency between high-throughput"
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "analysis",
+        "state_before": "Shake-flask validation completed.",
+        "gap_or_uncertainty": "Overall effectiveness and limitations of the RBS library approach.",
+        "hypothesis": "Coordinating expression of all midstream module genes via RBS library is effective, but no clear gene ratio relationship exists.",
+        "decision": "Summarize findings: downregulation of midstream module enhances flux, but excessive flux harms accumulation. Combination optimization achieved yields from 20.3 to 219.7 mg/g DCW, improving lycopene accumulation by 120-250% over reference strains.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Comparative analysis",
+          "version": "",
+          "category": "data analysis"
+        },
+        "parameters": {},
+        "observation": "Coordinating expression of all midstream module genes via RBS library was effective, improving lycopene accumulation by 120-250% over reference strains. No clear proportion relationship between the four genes and lycopene metabolic flux was found, but combination optimization achieved yields from 20.3 to 219.7 mg/g DCW.",
+        "result_status": "success",
+        "next_step_reason": "Conclude the study.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E07_01",
+            "source_file": "docs/0057/combined.md",
+            "section": "C003",
+            "quote_or_span": "coordinating the expression of all the genes of the midstream module was an effective strategy for optimizing the lycopene synthesis pathway"
+          },
+          {
+            "evidence_id": "EV_C003_E08_01",
+            "source_file": "docs/0057/combined.md",
+            "section": "C003",
+            "quote_or_span": "there was no clear proportion relationship between these four genes and lycopene metabolic flux"
+          },
+          {
+            "evidence_id": "EV_C003_E08_02",
+            "source_file": "docs/0057/combined.md",
+            "section": "C003",
+            "quote_or_span": "there was a difference in lycopene output between the ten best-ranked samples from each of the three libraries for shaker flask fermentation, ranging from 20.3 to 219.7 mg/g DCW"
+          },
+          {
+            "evidence_id": "EV_AUTO_019",
+            "source_file": "docs/0057/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The four genes of the midstream module were fine-tuned based on these foundations by the construction of the RBS library, which further optimized the lycopene metabolic pathway and improved lycopene accumulation by 120%\\~250% over the reference strains."
+          },
+          {
+            "evidence_id": "EV_C003_E02_01",
+            "source_file": "docs/0057/combined.md",
+            "section": "C003",
+            "quote_or_span": "replacing RBSs with native ones increased lycopene yield by over 120 percent in all three libraries without changing any other sequence in the operon"
+          },
+          {
+            "evidence_id": "EV_AUTO_022",
+            "source_file": "docs/0057/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Figure 4 shows that replacing RBSs with native ones increased lycopene yield by over 120 percent in all three libraries without changing any other sequence in the operon."
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "Shake-flask fermentation",
+        "96-deep-well plate screening",
+        "PCR validation"
+      ],
+      "metrics": [
+        "Lycopene yield (mg/g DCW)",
+        "ABS472/OD600",
+        "Fold improvement over control"
+      ],
+      "final_conclusion": "Combinatorial RBS library optimization of the downstream MVA module across three plasmid backbones successfully improved lycopene yield. The best strain LM22 achieved 219.7 mg/g DCW, representing a 120% increase over the reference strain. Coordinating expression of all midstream module genes was effective, improving lycopene accumulation by 120-250% over reference strains. However, no clear proportional relationship among the four genes was found, and 20-30% of selected strains underperformed in shake flasks, indicating screening/fermentation inconsistency.",
+      "limitations": [
+        "No clear proportion relationship between MVK, PMK, MVD, IDI and lycopene flux",
+        "Small sample size (500 out of 10,000) limited detection of associations",
+        "20-30% of selected strains performed worse than controls in shake flasks",
+        "Yield lower than previously reported 448 mg/g DCW"
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "All coverage requirements met with direct evidence quotes.",
+        "v22_specific_evidence_backfilled=6",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_specific_evidence_backfilled=4",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 93.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p3\\states\\0057.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p3\\events\\0057.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 11,
+      "covered_event_count": 11,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1
+        ],
+        "K03": [
+          1
+        ],
+        "K05": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "K06": [
+          3
+        ],
+        "K07": [
+          4,
+          6
+        ],
+        "K08": [
+          4,
+          6
+        ],
+        "K11": [
+          6
+        ],
+        "K12": [
+          1,
+          6,
+          7
+        ],
+        "K15": [
+          4,
+          7
+        ],
+        "K16": [
+          5,
+          6,
+          7
+        ],
+        "K17": [
+          4,
+          6
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02",
+            "K03",
+            "K04",
+            "K05",
+            "K12",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K04",
+            "K05"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K04",
+            "K05",
+            "K06"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K05",
+            "K07",
+            "K08",
+            "K15",
+            "K17"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K09",
+            "K10",
+            "K16"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K07",
+            "K08",
+            "K11",
+            "K12",
+            "K16",
+            "K17"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K10",
+            "K12",
+            "K13",
+            "K14",
+            "K15",
+            "K16"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 2,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "1000",
+          "63000"
+        ]
+      },
+      {
+        "step_index": 4,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "0.9",
+          "00",
+          "25%",
+          "72"
+        ]
+      },
+      {
+        "step_index": 6,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "-30%",
+          "20"
+        ]
+      },
+      {
+        "step_index": 7,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "-250%"
+        ]
+      }
+    ],
+    "step_count": 7,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 93.0
+  },
+  "api_usage": {
+    "prompt_tokens": 108789,
+    "completion_tokens": 24209,
+    "total_tokens": 132998,
+    "prompt_cache_hit_tokens": 2688,
+    "prompt_cache_miss_tokens": 106101
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 4811,
+        "completion_tokens": 689,
+        "total_tokens": 5500,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 4811
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 10594,
+        "completion_tokens": 2728,
+        "total_tokens": 13322,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 10594
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 7643,
+        "completion_tokens": 1411,
+        "total_tokens": 9054,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7387
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 9324,
+        "completion_tokens": 1496,
+        "total_tokens": 10820,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9068
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 8382,
+        "completion_tokens": 1529,
+        "total_tokens": 9911,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8126
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 9208,
+        "completion_tokens": 1268,
+        "total_tokens": 10476,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8952
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 10597,
+        "completion_tokens": 3466,
+        "total_tokens": 14063,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 10213
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 12195,
+        "completion_tokens": 4991,
+        "total_tokens": 17186,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 11555
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 16526,
+        "completion_tokens": 1274,
+        "total_tokens": 17800,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 16526
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 19509,
+        "completion_tokens": 5357,
+        "total_tokens": 24866,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 18869
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

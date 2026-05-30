@@ -1,0 +1,884 @@
+{
+  "case": {
+    "case_id": "sci_evo_0014",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Machine learning-guided co-optimization of fitness and diversity facilitates combinatorial library design in enzyme engineering",
+      "doi": "https://doi.org/10.1038/s41467-024-50698-y",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0012_10_1038_s41467_024_50698_y_machine_learning_guided_co_optimization_of_fitness_and_diversity_facilitates_combinatorial.pdf",
+      "mineru_md": "docs/0014/mineru.md",
+      "combined_md": "docs/0014/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Designing effective starting combinatorial libraries for new-to-nature enzyme functions without experimental fitness data, balancing fitness and diversity to enable functional variant discovery and efficient downstream ML-guided directed evolution.",
+      "target_object": "Rma cytochrome c (Rma cyt c) for new-to-nature C-B and C-Si bond formation",
+      "known_context": "Previous directed evolution yielded RDT (borylation) and TDE (silylation) triple mutants. Unsupervised ML models (ESM-1v, ESM-2, EVmutation, EVE, MSA Transformer) can predict mutation effects zero-shot.",
+      "constraints": [
+        "No experimental fitness data for new-to-nature functions",
+        "Library must be synthesizable via oligo-pool technology",
+        "Must exclude M100 to free Fe center"
+      ],
+      "input_data": [
+        "ProteinGym DMS benchmark (87 datasets)",
+        "GB1 four-site fitness landscape",
+        "Rma cyt c structure (PDB: 6XK4)"
+      ],
+      "quantifiable_goals": [
+        "Higher mean experimental fitness and diversity than NNK library",
+        "Enable MLDE to achieve high mean/max fitness and recall of top variants",
+        "Identify variants with improved TTN and e.r. for C-B and C-Si bond formation"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "No effective method to design starting libraries for new-to-nature enzyme functions without experimental fitness data.",
+        "gap_or_uncertainty": "How to design a starting library that balances high fitness and rich diversity to enable discovery of functional variants and efficient downstream MLDE.",
+        "hypothesis": "An effective starting library should achieve high fitness and rich diversity; co-optimizing both using zero-shot fitness predictions and diversity metrics will yield superior libraries.",
+        "decision": "Develop a method that uses ensemble zero-shot fitness prediction and Pareto optimization to balance fitness and diversity.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "Literature analysis",
+          "version": "",
+          "category": "reasoning"
+        },
+        "parameters": {},
+        "observation": "Prior work shows that diverse libraries enriched with functional variants improve MLDE efficiency, but no method jointly optimizes fitness and diversity for cold-start scenarios.",
+        "result_status": "success",
+        "next_step_reason": "Need to design an algorithm that implements this hypothesis.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0014/combined.md",
+            "section": "C001",
+            "quote_or_span": "Due to the scarcity of fitness data for new-to-nature enzyme functions, training of supervised ML models to guide such directed evolution efforts is challenging."
+          },
+          {
+            "evidence_id": "EV_C001_E01_02",
+            "source_file": "docs/0014/combined.md",
+            "section": "C001",
+            "quote_or_span": "central to the successful engineering of new-to-nature enzymes is the design of effective starting libraries without relying on experimentally determined enzyme fitness"
+          },
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0014/combined.md",
+            "section": "C001",
+            "quote_or_span": "an effective starting library should achieve two desiderata–high fitness and rich diversity."
+          },
+          {
+            "evidence_id": "EV_C001_E02_02",
+            "source_file": "docs/0014/combined.md",
+            "section": "C001",
+            "quote_or_span": "a diverse starting library enriched with distinct functional variants will allow ML models to more efficiently map out the fitness landscape, ultimately enhancing the efficiency of downstream ML-guided directed evolution (MLDE)."
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "design",
+        "state_before": "Hypothesis formulated but no concrete algorithm.",
+        "gap_or_uncertainty": "How to computationally model fitness and diversity and optimize them jointly.",
+        "hypothesis": "An ensemble of unsupervised models can provide robust zero-shot fitness predictions, and Pareto optimization can balance expected fitness and site-wise entropy-based diversity.",
+        "decision": "Design MODIFY: ensemble predictor (ESM-1v, ESM-2, EVmutation, EVE, MSA Transformer) with z-score normalization and averaging; library design as maximizing expected fitness plus weighted diversity with residue-level control via α_i hyperparameters.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "MODIFY algorithm",
+          "version": "1.0",
+          "category": "computational_design"
+        },
+        "parameters": {
+          "ensemble_models": [
+            "ESM-1v",
+            "ESM-2",
+            "EVmutation",
+            "EVE",
+            "MSA Transformer"
+          ],
+          "normalization": "z-score",
+          "diversity_metric": "site-wise entropy",
+          "optimization": "Pareto optimization with α_i hyperparameters"
+        },
+        "observation": "Formulated optimization objective: maximize expected fitness + weighted sum of site-wise entropies. Residue-level diversity control allows tuning per site.",
+        "result_status": "success",
+        "next_step_reason": "Validate ensemble predictor on benchmark datasets.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E03_01",
+            "source_file": "docs/0014/combined.md",
+            "section": "C001",
+            "quote_or_span": "MODIFY applies a novel ensemble ML model that leverages protein language models (PLMs) and sequence density models to make zero-shot fitness predictions and employs a Pareto optimization scheme to design libraries with both high expected fitness and high diversity."
+          },
+          {
+            "evidence_id": "EV_C005_E01_01",
+            "source_file": "docs/0014/combined.md",
+            "section": "C005",
+            "quote_or_span": "we formulate the library design problem as an optimization problem of maximizing the expected fitness of sequences sampled by the library and the library's sequence diversity."
+          },
+          {
+            "evidence_id": "EV_C005_E02_01",
+            "source_file": "docs/0014/combined.md",
+            "section": "C005",
+            "quote_or_span": "we delineate the sequence-level diversity into residue-level resolution."
+          },
+          {
+            "evidence_id": "EV_C005_E02_02",
+            "source_file": "docs/0014/combined.md",
+            "section": "C005",
+            "quote_or_span": "the library diversity diversity(p) in our framework is defined as the sum of site-wise entropy of the distribution over AAs"
+          },
+          {
+            "evidence_id": "EV_AUTO_004",
+            "source_file": "docs/0014/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The ensemble ML model of MODIFY was compared with five state-of-the-art unsupervised protein fitness predictors (ESM-1v, ESM-2, EVmutation, EVE, and MSA Transformer) for zero-shot protein fitness predictions."
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "simulation",
+        "state_before": "MODIFY ensemble predictor designed but not validated.",
+        "gap_or_uncertainty": "Does the ensemble outperform individual models on zero-shot fitness prediction?",
+        "hypothesis": "The ensemble will be more robust and accurate than any single model across diverse proteins.",
+        "decision": "Evaluate on 87 ProteinGym DMS datasets using Spearman correlation.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "ProteinGym benchmark",
+          "version": "v1.0",
+          "category": "benchmark"
+        },
+        "parameters": {
+          "datasets": 87,
+          "metric": "Spearman correlation"
+        },
+        "observation": "MODIFY achieved best Spearman correlation in 34/87 datasets and consistently outperformed at least one baseline in all datasets. Ensemble including all models performed best.",
+        "result_status": "success",
+        "next_step_reason": "Further validate on high-order mutants and across MSA depths.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E04_01",
+            "source_file": "docs/0014/combined.md",
+            "section": "C001",
+            "quote_or_span": "MODIFY's ensemble predictor stood out by delivering accurate and robust predictions (Fig. 2a) and achieving the best Spearman correlation for the largest number of times (34/87; Fig. 2b)."
+          },
+          {
+            "evidence_id": "EV_C001_E04_02",
+            "source_file": "docs/0014/combined.md",
+            "section": "C001",
+            "quote_or_span": "Across ProteinGym, MODIFY consistently outperformed at least one of the baselines in all 87 DMS datasets"
+          },
+          {
+            "evidence_id": "EV_C006_E02_01",
+            "source_file": "docs/0014/combined.md",
+            "section": "C006",
+            "quote_or_span": "we found that, while none of these existing models consistently prevails, our ensemble model is a robust predictor and outperforms others most of the time"
+          },
+          {
+            "evidence_id": "EV_C006_E02_02",
+            "source_file": "docs/0014/combined.md",
+            "section": "C006",
+            "quote_or_span": "including all individual models led to the best prediction performance"
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "analysis",
+        "state_before": "Ensemble validated on single mutants.",
+        "gap_or_uncertainty": "How does MODIFY perform on high-order mutants and across MSA depths?",
+        "hypothesis": "MODIFY will generalize to high-order mutants and be robust across MSA depths.",
+        "decision": "Analyze performance on GB1, ParD3, CreiLOV high-order landscapes and stratify ProteinGym by MSA depth.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "High-order mutant analysis",
+          "version": "",
+          "category": "analysis"
+        },
+        "parameters": {
+          "proteins": [
+            "GB1",
+            "ParD3",
+            "CreiLOV"
+          ],
+          "msa_depth_categories": [
+            "low",
+            "medium",
+            "high"
+          ]
+        },
+        "observation": "MODIFY outperformed baselines on high-order mutants and across all MSA depths, indicating robustness.",
+        "result_status": "success",
+        "next_step_reason": "Proceed to in silico library evaluation on GB1.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E05_01",
+            "source_file": "docs/0014/combined.md",
+            "section": "C001",
+            "quote_or_span": "stratifying results based on the MSA depth of parent sequences in ProteinGym indicated that MODIFY outperformed all baselines for proteins across low, medium, and high MSA depths (Fig. 2c; Supplementary Information A.1)."
+          },
+          {
+            "evidence_id": "EV_C001_E06_01",
+            "source_file": "docs/0014/combined.md",
+            "section": "C001",
+            "quote_or_span": "MODIFY achieved notable performance improvements over other baselines, suggesting its generalizability in predicting the fitness of high-order mutants (Supplementary Fig. 3)."
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "simulation",
+        "state_before": "MODIFY predictor validated, but library design not tested.",
+        "gap_or_uncertainty": "Does MODIFY-designed library achieve higher fitness and diversity than NNK and other methods on a known landscape?",
+        "hypothesis": "MODIFY library will have higher mean experimental fitness and comparable diversity to NNK, while exploitation-only library will have lower diversity.",
+        "decision": "Design libraries for GB1 four-site landscape using MODIFY, Exploitation, NNK, FoldX, FuncLib, and compare fitness and diversity metrics.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "MODIFY library design",
+          "version": "1.0",
+          "category": "computational_design"
+        },
+        "parameters": {
+          "target": "GB1 four-site landscape",
+          "library_size": "varying",
+          "methods_compared": [
+            "MODIFY",
+            "Exploitation",
+            "NNK",
+            "FoldX",
+            "FuncLib"
+          ]
+        },
+        "observation": "MODIFY library exhibited higher mean experimental fitness and preserved diversity (average entropy) compared to NNK. Exploitation library had lower diversity. Improvements consistent across library sizes.",
+        "result_status": "success",
+        "next_step_reason": "Investigate failure at position D40 where zero-shot predictions misalign.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E01_01",
+            "source_file": "docs/0014/combined.md",
+            "section": "C002",
+            "quote_or_span": "the MODIFY library exhibited higher mean experimental fitness (Fig. 3c) and preserved library diversity as indicated by average entropy (Fig. 3d)"
+          },
+          {
+            "evidence_id": "EV_C002_E03_01",
+            "source_file": "docs/0014/combined.md",
+            "section": "C002",
+            "quote_or_span": "Exploitation, a variation of MODIFY that only prioritized variants by zero-shot fitness prediction with no consideration of diversity, resulted in a less diverse library (Fig. 3c,d)"
+          },
+          {
+            "evidence_id": "EV_C002_E05_01",
+            "source_file": "docs/0014/combined.md",
+            "section": "C002",
+            "quote_or_span": "MODIFY's improvements were consistently observed across varying library sizes (Fig. 3e)"
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "analysis",
+        "state_before": "MODIFY library outperforms on GB1 overall, but local mispredictions exist.",
+        "gap_or_uncertainty": "At GB1 position D40, MODIFY predicted all mutations deleterious, but experiments showed many beneficial. How to correct this?",
+        "hypothesis": "Incorporating single-mutant experimental data via residue-level diversity control can correct zero-shot mispredictions.",
+        "decision": "Develop MODIFY-informed setting: use experimental single-mutant data to adjust α_i at D40, allowing beneficial mutations.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "MODIFY-informed",
+          "version": "1.0",
+          "category": "computational_design"
+        },
+        "parameters": {
+          "site": "D40",
+          "data": "single-mutant experimental fitness"
+        },
+        "observation": "MODIFY-informed setting corrected the misprediction at D40, improving fitness at that site.",
+        "result_status": "success",
+        "next_step_reason": "Evaluate impact on MLDE simulation.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E06_01",
+            "source_file": "docs/0014/combined.md",
+            "section": "C002",
+            "quote_or_span": "MODIFY predicted all 19 possible substitutions at this site to be disadvantageous, while experiment data indicated the opposite for most mutations (Fig. 3f, g)"
+          },
+          {
+            "evidence_id": "EV_C002_E07_01",
+            "source_file": "docs/0014/combined.md",
+            "section": "C002",
+            "quote_or_span": "we explored MODIFY's informed setting (denoted as MODIFY-informed; Fig. 1b) and showed how prior knowledge of a protein's fitness can be incorporated through MODIFY's residue-level diversity control"
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "simulation",
+        "state_before": "MODIFY and MODIFY-informed libraries designed, but downstream MLDE performance unknown.",
+        "gap_or_uncertainty": "Does the MODIFY library enable better MLDE than other library design methods?",
+        "hypothesis": "MODIFY library, with balanced fitness and diversity, will yield ML models with higher mean/max fitness and recall of top variants compared to NNK, FoldX, FuncLib, and Exploitation.",
+        "decision": "Simulate MLDE on GB1: train ML models on each library and evaluate mean/max fitness and recall of top 100 variants.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "MLDE simulation",
+          "version": "",
+          "category": "simulation"
+        },
+        "parameters": {
+          "libraries": [
+            "MODIFY",
+            "NNK",
+            "FoldX",
+            "FuncLib",
+            "Exploitation"
+          ],
+          "ml_model": "unspecified",
+          "metrics": [
+            "mean fitness",
+            "max fitness",
+            "recall of top 100 variants"
+          ]
+        },
+        "observation": "MODIFY library yielded ML models with highest mean/max fitness and recall. FoldX and FuncLib had high fraction of better-than-wildtype variants but low diversity, leading to poor MLDE performance.",
+        "result_status": "success",
+        "next_step_reason": "Validate experimentally on a real enzyme system.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E01_01",
+            "source_file": "docs/0014/combined.md",
+            "section": "C003",
+            "quote_or_span": "the MODIFY library contained variants enriched for multiple fitness peaks (Fig. 4f), suggesting a Pareto optimal library with higher mean fitness than the NNK library (Fig. 4b) and higher diversity than the FoldX, FuncLib, and Exploitation libraries (Fig. 4c–e)."
+          },
+          {
+            "evidence_id": "EV_C003_E02_01",
+            "source_file": "docs/0014/combined.md",
+            "section": "C003",
+            "quote_or_span": "The ML model trained on the MODIFY library outperformed all others, exhibiting the highest mean/max fitness and recall for high-fitness variants (Fig. 4h–j)."
+          },
+          {
+            "evidence_id": "EV_C003_E03_01",
+            "source_file": "docs/0014/combined.md",
+            "section": "C003",
+            "quote_or_span": "although the FoldX library and the FuncLib library contained a higher fraction of better-than-wildtype variants (Fig. 4g), the ML model trained on the libraries performed consistently the worst with regard to mean/max fitness and recall (Fig. 4h–j)."
+          },
+          {
+            "evidence_id": "EV_AUTO_011",
+            "source_file": "docs/0014/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Moreover, functional double-proline mutants with a proline at residues 99, 100, 101, and 102, including MLYPPT, MPQPNQ, VQFPPQ, KPWPNY, and SPIPAM, were uncovered from this MODIFY library."
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "experiment",
+        "state_before": "In silico success on GB1, but no experimental validation on new-to-nature reactions.",
+        "gap_or_uncertainty": "Can MODIFY design an effective library for Rma cyt c to catalyze new-to-nature C-B and C-Si bond formation?",
+        "hypothesis": "MODIFY-designed library targeting residues 75, 99-103 (excluding M100) will yield variants with improved activity and selectivity.",
+        "decision": "Design a 1000-variant MODIFY library for Rma cyt c, synthesize via oligo-pool, and screen for C-B and C-Si activity.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Oligo-pool synthesis and screening",
+          "version": "",
+          "category": "experimental"
+        },
+        "parameters": {
+          "target_residues": [
+            75,
+            99,
+            100,
+            101,
+            102,
+            103
+          ],
+          "excluded": "M100",
+          "library_size": 1000
+        },
+        "observation": "Library constructed and screened. For C-B, MODIFY library gave 2.2-fold higher averaged yield and 4-fold higher e.r. vs NNK. For C-Si, 1.9-fold higher yield and 1.3-fold higher e.r.",
+        "result_status": "success",
+        "next_step_reason": "Identify top variants and generalist.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E04_02",
+            "source_file": "docs/0014/combined.md",
+            "section": "C003",
+            "quote_or_span": "we leveraged MODIFY's residue-level diversity control and eliminated M100 from our designed library"
+          },
+          {
+            "evidence_id": "EV_C006_E03_01",
+            "source_file": "docs/0014/combined.md",
+            "section": "C006",
+            "quote_or_span": "A DNA oligo pool (141 bp) containing 1000 sequences designed by MODIFY was ordered from Twist Bioscience"
+          },
+          {
+            "evidence_id": "EV_C003_E05_01",
+            "source_file": "docs/0014/combined.md",
+            "section": "C003",
+            "quote_or_span": "in biocatalytic C-B bond formation, MODIFY library afforded a 2.2-fold higher averaged yield and a fourfold higher averaged enantiomeric ratio (Fig. 5i)."
+          },
+          {
+            "evidence_id": "EV_C003_E06_01",
+            "source_file": "docs/0014/combined.md",
+            "section": "C003",
+            "quote_or_span": "In C-Si bond formation, MODIFY library provided a 1.9-fold higher averaged yield and a 1.3-fold higher averaged enantiomeric ratio (Fig. 5j)."
+          },
+          {
+            "evidence_id": "EV_AUTO_009",
+            "source_file": "docs/0014/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "5a) $^{42,45}$ , we constructed a MODIFY library focusing on sequence optimizations for the $\\alpha$ -helix residue 75 proximal to the heme cofactor and five flexible loop residues 99, 100, 101, 102, and 103 (Fig."
+          },
+          {
+            "evidence_id": "EV_AUTO_010",
+            "source_file": "docs/0014/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The six targeted residues 75, 99, 100, 101, 102, and 103 to create combinatorial libraries are colored in blue."
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "validation",
+        "state_before": "Library screening showed improved average performance, but top variants not characterized.",
+        "gap_or_uncertainty": "What are the best individual variants for each reaction, and is there a generalist?",
+        "hypothesis": "Top variants will outperform previously evolved RDT and TDE variants, and a generalist may exist.",
+        "decision": "Characterize top borylation variant MGAANQ, top silylation variant SFLTNQ, and generalist MLYPPT.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Variant characterization",
+          "version": "",
+          "category": "experimental"
+        },
+        "parameters": {
+          "variants": [
+            "MGAANQ",
+            "SFLTNQ",
+            "MLYPPT"
+          ],
+          "reactions": [
+            "C-B borylation",
+            "C-Si silylation"
+          ]
+        },
+        "observation": "MGAANQ: TTN 2880, e.r. 95:5 (borylation), outperforming RDT. SFLTNQ: TTN 3320, e.r. 98:2 (silylation), outperforming TDE. MLYPPT: generalist with 2880 TTN, 94:6 e.r. (borylation) and 2740 TTN, 97:3 e.r. (silylation).",
+        "result_status": "success",
+        "next_step_reason": "Conclude with limitations and future work.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E07_01",
+            "source_file": "docs/0014/combined.md",
+            "section": "C003",
+            "quote_or_span": "the MGAANQ variant displayed a TTN of 2880 and an e.r. of 95:5 (Fig. 5g, entry 2) outperforming the experimentally evolved RDT variant (Fig. 5g, entry 1)."
+          },
+          {
+            "evidence_id": "EV_C003_E08_01",
+            "source_file": "docs/0014/combined.md",
+            "section": "C003",
+            "quote_or_span": "the SFLTNQ variant displayed a TTN of 3,320 and an e.r. of 98:2 (Fig. 5h, entry 2), outperforming the experimentally evolved TDE variant (Fig. 5h, entry 1)."
+          },
+          {
+            "evidence_id": "EV_C004_E01_01",
+            "source_file": "docs/0014/combined.md",
+            "section": "C004",
+            "quote_or_span": "we identified a generalist Rma cyt c variant MLYPPT, which is highly active and enantioselective for both the borylation (2880 TTN, 94:6 e.r. (Fig. 5g, entry 3)) and the silylation (2,740 TTN, 97:3 e.r. (Fig. 5h, entry 6)) reactions"
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "In silico evaluation on GB1 fitness landscape",
+        "MLDE simulation on GB1",
+        "Experimental screening of MODIFY library for C-B and C-Si bond formation",
+        "Characterization of top variants (MGAANQ, SFLTNQ, MLYPPT)"
+      ],
+      "metrics": [
+        "Mean experimental fitness",
+        "Average entropy (diversity)",
+        "Mean/max fitness and recall of top variants in MLDE",
+        "Total turnover number (TTN)",
+        "Enantiomeric ratio (e.r.)"
+      ],
+      "final_conclusion": "MODIFY successfully designs starting libraries that balance fitness and diversity, enabling discovery of highly active and enantioselective variants for new-to-nature reactions, including a generalist variant MLYPPT.",
+      "limitations": [
+        "Cold-start setting relies solely on zero-shot predictions, which can mispredict at certain sites (e.g., GB1 D40).",
+        "Single-round screening may not capture full potential; iterative MLDE could further improve.",
+        "Library size limited to 1000 variants; larger libraries may yield better results.",
+        "Structure-based filtering (pLDDT, ΔΔG) adds computational cost and may discard functional variants."
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_specific_evidence_backfilled=4",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_specific_evidence_backfilled=4",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 98.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_mainline_batch30\\states\\0014.json",
+  "events_path": "outputs\\agentic_v22\\v22_mainline_batch30\\events\\0014.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1
+        ],
+        "K04": [
+          2,
+          5,
+          6,
+          7
+        ],
+        "K05": [
+          3
+        ],
+        "K09": [
+          5,
+          7,
+          8
+        ],
+        "K11": [
+          6
+        ],
+        "K12": [
+          5,
+          7
+        ],
+        "K13": [
+          8
+        ],
+        "K14": [
+          8
+        ],
+        "K15": [
+          5,
+          8
+        ],
+        "K16": [
+          9
+        ],
+        "K17": [
+          9
+        ],
+        "K18": [
+          9
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02",
+            "K03",
+            "K07"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K03",
+            "K04"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K03",
+            "K05",
+            "K06",
+            "K07"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K06",
+            "K07"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K04",
+            "K07",
+            "K09",
+            "K10",
+            "K12",
+            "K15"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K04",
+            "K10",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K02",
+            "K04",
+            "K09",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K09",
+            "K13",
+            "K14",
+            "K15"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K16",
+            "K17",
+            "K18"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 8,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "-103",
+          "1000"
+        ]
+      }
+    ],
+    "step_count": 9,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 98.0
+  },
+  "api_usage": {
+    "prompt_tokens": 152000,
+    "completion_tokens": 30502,
+    "total_tokens": 182502,
+    "prompt_cache_hit_tokens": 7168,
+    "prompt_cache_miss_tokens": 144832
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 3789,
+        "completion_tokens": 530,
+        "total_tokens": 4319,
+        "prompt_tokens_details": {
+          "cached_tokens": 3712
+        },
+        "prompt_cache_hit_tokens": 3712,
+        "prompt_cache_miss_tokens": 77
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 15701,
+        "completion_tokens": 3464,
+        "total_tokens": 19165,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 15701
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 8100,
+        "completion_tokens": 1517,
+        "total_tokens": 9617,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7844
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 10849,
+        "completion_tokens": 1227,
+        "total_tokens": 12076,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 10593
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 8566,
+        "completion_tokens": 1639,
+        "total_tokens": 10205,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8310
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 9202,
+        "completion_tokens": 1027,
+        "total_tokens": 10229,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8946
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C005",
+      "api_usage": {
+        "prompt_tokens": 8019,
+        "completion_tokens": 1288,
+        "total_tokens": 9307,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7763
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C006",
+      "api_usage": {
+        "prompt_tokens": 9092,
+        "completion_tokens": 1246,
+        "total_tokens": 10338,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8836
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C007",
+      "api_usage": {
+        "prompt_tokens": 5192,
+        "completion_tokens": 59,
+        "total_tokens": 5251,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 4936
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 15522,
+        "completion_tokens": 4516,
+        "total_tokens": 20038,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 15138
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 14953,
+        "completion_tokens": 6358,
+        "total_tokens": 21311,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 14313
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 19784,
+        "completion_tokens": 1092,
+        "total_tokens": 20876,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 19784
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 23231,
+        "completion_tokens": 6539,
+        "total_tokens": 29770,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 22591
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

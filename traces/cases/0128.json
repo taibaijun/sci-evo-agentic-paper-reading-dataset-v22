@@ -1,0 +1,890 @@
+{
+  "case": {
+    "case_id": "sci_evo_0128",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Design and application of a lactulose biosensor",
+      "doi": "https://doi.org/10.1038/srep45994",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0126_10_1038_srep45994_design_and_application_of_a_lactulose_biosensor.pdf",
+      "mineru_md": "docs/0128/mineru.md",
+      "combined_md": "docs/0128/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Lack of regulatory proteins for desired small molecules limits biosensor applications; existing lactulose biosensors are in vitro and not suitable for in vivo high-throughput screening.",
+      "target_object": "LacI repressor",
+      "known_context": "LacI is a well-characterized transcriptional regulator that responds to IPTG and native sugars; its effector-binding pocket can potentially be engineered for new specificities.",
+      "constraints": [
+        "Must retain repressor function",
+        "Must not respond to lactose or other common disaccharides",
+        "Must function in E. coli whole-cell context"
+      ],
+      "input_data": [
+        "LacI crystal structure",
+        "Known effector-binding residues"
+      ],
+      "quantifiable_goals": [
+        "Achieve specific induction by lactulose",
+        "Enable high-throughput screening of lactulose-producing enzymes"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "No regulatory protein available for lactulose detection; existing biosensors are in vitro.",
+        "gap_or_uncertainty": "Can LacI effector-binding pocket be engineered to recognize lactulose?",
+        "hypothesis": "Engineering the effector specificities of regulatory proteins is an efficient way to develop customized small-molecule biosensors.",
+        "decision": "Proceed to design a saturation library targeting key residues in the LacI effector-binding pocket.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "rational design",
+          "version": "",
+          "category": "protein engineering"
+        },
+        "parameters": {},
+        "observation": "LacI is a suitable scaffold due to its well-characterized structure and effector-binding pocket.",
+        "result_status": "success",
+        "next_step_reason": "Hypothesis supported by literature; design saturation library to test.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0128/combined.md",
+            "section": "C001",
+            "quote_or_span": "the lack of available regulatory proteins that respond to small molecules of interest has limited the applications of these biosensors"
+          },
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0128/combined.md",
+            "section": "C001",
+            "quote_or_span": "Engineering the effector specificities of regulatory proteins is an efficient way to develop customized small-molecule biosensors"
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "design",
+        "state_before": "Hypothesis formulated; need to create library to test LacI variants.",
+        "gap_or_uncertainty": "Which residues in the effector-binding pocket should be targeted?",
+        "hypothesis": "Mutating residues I79, F161, N246, L296 will alter effector specificity.",
+        "decision": "Construct site-directed saturation library at these four positions using overlap extension PCR and MEGAWHOP cloning.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "overlap extension PCR",
+          "version": "",
+          "category": "molecular biology"
+        },
+        "parameters": {
+          "target_residues": [
+            "I79",
+            "F161",
+            "N246",
+            "L296"
+          ],
+          "library_size": "1.08 × 10^6 transformants"
+        },
+        "observation": "Library constructed with sufficient diversity.",
+        "result_status": "success",
+        "next_step_reason": "Library ready for FACS screening.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E01_01",
+            "source_file": "docs/0128/combined.md",
+            "section": "C002",
+            "quote_or_span": "LacI site-directed saturation library was constructed with overlap extension PCR method."
+          },
+          {
+            "evidence_id": "EV_AUTO_009",
+            "source_file": "docs/0128/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "After four rounds of the dual screening, eight mutants displaying responses to lactulose were selected, among which the mutant LacI-L5, carrying one amino acid substitution (F161K), showed \\~2."
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "experiment",
+        "state_before": "Saturation library constructed; need to isolate lactulose-responsive variants.",
+        "gap_or_uncertainty": "How to screen for specific lactulose induction while eliminating leaky and lactose-responsive variants?",
+        "hypothesis": "Dual FACS screening (negative without inducer, negative with lactose, positive with lactulose) will enrich desired mutants.",
+        "decision": "Perform four rounds of dual FACS screening.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "FACS",
+          "version": "",
+          "category": "high-throughput screening"
+        },
+        "parameters": {
+          "negative_screens": [
+            "no inducer",
+            "lactose"
+          ],
+          "positive_screen": "lactulose",
+          "rounds": 4,
+          "cells_collected": "8.0 × 10^5",
+          "cells_sorted": "8.0 × 10^3"
+        },
+        "observation": "Enrichment of lactulose-responsive clones after four rounds.",
+        "result_status": "success",
+        "next_step_reason": "Selected clones to be characterized.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E02_03",
+            "source_file": "docs/0128/combined.md",
+            "section": "C002",
+            "quote_or_span": "This dual screening was repeated four times, followed by a final round of negative screening in the absence of inducer."
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "analysis",
+        "state_before": "FACS screening completed; eight mutants selected.",
+        "gap_or_uncertainty": "What are the induction properties and specificity of the best mutant?",
+        "hypothesis": "Mutant LacI-L5 (F161K) will show specific induction by lactulose.",
+        "decision": "Characterize LacI-L5 induction profile and specificity.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "GFP fluorescence assay",
+          "version": "",
+          "category": "characterization"
+        },
+        "parameters": {
+          "inducer": "lactulose",
+          "tested_sugars": [
+            "lactose",
+            "maltose",
+            "sucrose",
+            "cellobiose",
+            "melibiose",
+            "epilactose"
+          ]
+        },
+        "observation": "LacI-L5 shows ~2.7-fold induction by lactulose, half-maximal at 0.13 mM, and no response to other disaccharides.",
+        "result_status": "success",
+        "next_step_reason": "Validate binding and assess limitations.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E06_02",
+            "source_file": "docs/0128/combined.md",
+            "section": "C001",
+            "quote_or_span": "Half-maximal induction occurs at 0.13 mM lactulose."
+          },
+          {
+            "evidence_id": "EV_C001_E06_03",
+            "source_file": "docs/0128/combined.md",
+            "section": "C001",
+            "quote_or_span": "almost no induction in LacI-L5"
+          },
+          {
+            "evidence_id": "EV_AUTO_009",
+            "source_file": "docs/0128/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "After four rounds of the dual screening, eight mutants displaying responses to lactulose were selected, among which the mutant LacI-L5, carrying one amino acid substitution (F161K), showed \\~2."
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "validation",
+        "state_before": "LacI-L5 characterized; need to confirm direct binding.",
+        "gap_or_uncertainty": "Does LacI-L5 directly bind lactulose?",
+        "hypothesis": "SPR will show binding of lactulose to LacI-L5 but not wild-type LacI.",
+        "decision": "Perform SPR analysis.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "SPR",
+          "version": "",
+          "category": "biophysical"
+        },
+        "parameters": {
+          "analyte": "lactulose",
+          "ligand": "LacI-L5"
+        },
+        "observation": "LacI-L5 binds lactulose with KD=17 mM; wild-type LacI shows no binding.",
+        "result_status": "success",
+        "next_step_reason": "Binding confirmed, but affinity is weak; note limitation.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_009",
+            "source_file": "docs/0128/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "After four rounds of the dual screening, eight mutants displaying responses to lactulose were selected, among which the mutant LacI-L5, carrying one amino acid substitution (F161K), showed \\~2."
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "analysis",
+        "state_before": "LacI-L5 validated; need to assess remaining IPTG response.",
+        "gap_or_uncertainty": "Does LacI-L5 still respond to IPTG?",
+        "hypothesis": "LacI-L5 may retain some IPTG responsiveness.",
+        "decision": "Test IPTG induction of LacI-L5.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "GFP fluorescence assay",
+          "version": "",
+          "category": "characterization"
+        },
+        "parameters": {
+          "inducer": "IPTG"
+        },
+        "observation": "LacI-L5 remained responsive to IPTG, though less than wild-type.",
+        "result_status": "partial",
+        "next_step_reason": "IPTG response is a limitation; proceed to apply biosensor anyway.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E08_01",
+            "source_file": "docs/0128/combined.md",
+            "section": "C001",
+            "quote_or_span": "LacI-L5 remained responsive to IPTG induction, although to a less extent than wild-type LacI"
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "design",
+        "state_before": "LacI-L5 biosensor characterized; need to engineer C2E for improved lactulose production.",
+        "gap_or_uncertainty": "Can the biosensor be used to screen a C2E mutant library?",
+        "hypothesis": "Random mutagenesis of C2E will yield variants with enhanced lactulose production detectable by the biosensor.",
+        "decision": "Construct C2E random mutagenesis library via error-prone PCR and MEGAWHOP.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "error-prone PCR",
+          "version": "",
+          "category": "molecular biology"
+        },
+        "parameters": {
+          "template": "pN25-C2E",
+          "library_size": "1 × 10^6 transformants",
+          "mutation_rate": "average 3 nucleotide mutations per clone"
+        },
+        "observation": "Library constructed with desired diversity.",
+        "result_status": "success",
+        "next_step_reason": "Library ready for screening with biosensor.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E03_01",
+            "source_file": "docs/0128/combined.md",
+            "section": "C002",
+            "quote_or_span": "The random mutagenesis library of C2E was constructed through error-prone PCR."
+          },
+          {
+            "evidence_id": "EV_C002_E03_03",
+            "source_file": "docs/0128/combined.md",
+            "section": "C002",
+            "quote_or_span": "Ten randomly picked clones from the library were sequenced and contained an average of 3 nucleotide mutations per clone."
+          },
+          {
+            "evidence_id": "EV_AUTO_013",
+            "source_file": "docs/0128/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Construction of the random mutagenesis library of C2E."
+          },
+          {
+            "evidence_id": "EV_AUTO_034",
+            "source_file": "docs/0128/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Then the PCR products obtained, containing randomly mutated C2E gene, were used as megaprimer to perform MEGAWHOP PCR using plasmid pN25-C2E as template."
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "experiment",
+        "state_before": "C2E library constructed; need to screen for improved lactulose producers.",
+        "gap_or_uncertainty": "Which colonies show enhanced lactulose production?",
+        "hypothesis": "Co-expression with LacI-L5 biosensor on lactose-containing agar will yield brighter GFP fluorescence in better producers.",
+        "decision": "Screen library on LB agar with 10 mM lactose; select colonies with stronger GFP fluorescence.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "agar plate screening",
+          "version": "",
+          "category": "high-throughput screening"
+        },
+        "parameters": {
+          "medium": "LB agar",
+          "lactose_concentration": "10 mM",
+          "detection": "GFP fluorescence under UV 302 nm"
+        },
+        "observation": "Colonies with stronger fluorescence identified.",
+        "result_status": "success",
+        "next_step_reason": "Selected colonies to be verified by HPLC.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E04_01",
+            "source_file": "docs/0128/combined.md",
+            "section": "C002",
+            "quote_or_span": "The C2E random mutagenesis library was transformed into the BLGR strain harboring the plasmid pLac7-L5."
+          },
+          {
+            "evidence_id": "EV_C002_E04_02",
+            "source_file": "docs/0128/combined.md",
+            "section": "C002",
+            "quote_or_span": "The cells were then grown on LB agar plates containing 10 mM lactose."
+          },
+          {
+            "evidence_id": "EV_C002_E04_03",
+            "source_file": "docs/0128/combined.md",
+            "section": "C002",
+            "quote_or_span": "mutant strains showing stronger GFP fluorescence than colonies expressing wild-type C2E were selected for rescreening in the test tubes."
+          },
+          {
+            "evidence_id": "EV_AUTO_003",
+            "source_file": "docs/0128/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "(a) The BLGR strains co-expressing LacI-L5 and the C2E random mutagenesis library grown on LB agar supplemented with 10 mM lactose under UV 302 nm."
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "analysis",
+        "state_before": "Fluorescent colonies selected; need to quantify lactulose production.",
+        "gap_or_uncertainty": "Do selected mutants actually produce more lactulose?",
+        "hypothesis": "HPLC will confirm enhanced lactulose production.",
+        "decision": "Quantify lactulose production by HPLC for selected variants.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "HPLC",
+          "version": "",
+          "category": "analytical chemistry"
+        },
+        "parameters": {},
+        "observation": "Mutant C2 (E272D, F339S) shows ~22-fold increase in lactulose production at 37°C.",
+        "result_status": "success",
+        "next_step_reason": "Investigate mechanism of improvement.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_001",
+            "source_file": "docs/0128/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The best of the variants, C2(E272D, F339S), displayed \\~22-fold increase in lactulose production at 37°C (Fig."
+          },
+          {
+            "evidence_id": "EV_AUTO_008",
+            "source_file": "docs/0128/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "(b) Lactulose productions of the selected variants expressing the C2E mutants at 37°C, compared with that of strain expressing the wild-type C2E (C2E-WT)."
+          },
+          {
+            "evidence_id": "EV_AUTO_018",
+            "source_file": "docs/0128/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "HPLC analyses verified enhanced lactulose production by these selected variants compared with that of the strain expressing wild-type C2E."
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "analysis",
+        "state_before": "C2 mutant identified; need to understand basis of improvement.",
+        "gap_or_uncertainty": "Is increased production due to higher expression or higher specific activity?",
+        "hypothesis": "Western blot and specific activity assays will reveal the mechanism.",
+        "decision": "Perform Western blot and specific activity measurements.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Western blot",
+          "version": "",
+          "category": "protein analysis"
+        },
+        "parameters": {},
+        "observation": "~32-fold higher expression of C2 vs wild-type; specific activity only 1.3-fold higher (11 U/mg vs 14 U/mg at 37°C).",
+        "result_status": "success",
+        "next_step_reason": "Expression increase is main driver; check codon bias.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E07_01",
+            "source_file": "docs/0128/combined.md",
+            "section": "C002",
+            "quote_or_span": "Western-blot analysis of mutant C2 expression as compared with the wild-type enzyme."
+          },
+          {
+            "evidence_id": "EV_C002_E08_01",
+            "source_file": "docs/0128/combined.md",
+            "section": "C002",
+            "quote_or_span": "Specific activities of wild-type C2E (C2E-WT) and mutant C2 at 37°C and 80°C."
+          },
+          {
+            "evidence_id": "EV_AUTO_002",
+            "source_file": "docs/0128/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "(d) Specific activities of wild-type C2E (C2E-WT) and mutant C2 at 37°C and 80°C."
+          },
+          {
+            "evidence_id": "EV_AUTO_005",
+            "source_file": "docs/0128/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "1-fold at 37°C and 80°C (optimum reaction temperature of wild-type C2E), respectively, indicating that the significantly elevated expression level of mutant C2 was the main factor underlying the enhanced lactulose production in the selected hyper-producing strain (Fig."
+          },
+          {
+            "evidence_id": "EV_AUTO_004",
+            "source_file": "docs/0128/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Interestingly, for C2E mutant C2, the $\\sim$ 32-fold increase in expression level seemed not to be due to its higher codon usage bias, which is thought to affect expression levels via the abundance of various tRNA molecules $^{34,35}$ ."
+          },
+          {
+            "evidence_id": "EV_AUTO_010",
+            "source_file": "docs/0128/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The mutant C2E enzyme with \\~32-fold enhanced expression level was selected, demonstrating the high efficiency of the lactulose biosensor."
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "analysis",
+        "state_before": "Expression increase observed; need to rule out codon bias.",
+        "gap_or_uncertainty": "Is the expression increase due to codon optimization?",
+        "hypothesis": "Codon usage bias is not responsible for the expression increase.",
+        "decision": "Analyze codon usage of C2 mutant.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "codon usage analysis",
+          "version": "",
+          "category": "bioinformatics"
+        },
+        "parameters": {},
+        "observation": "Increased expression not due to codon usage bias; mechanism not fully elucidated.",
+        "result_status": "inconclusive",
+        "next_step_reason": "Limitation noted; overall biosensor validation remains.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_004",
+            "source_file": "docs/0128/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Interestingly, for C2E mutant C2, the $\\sim$ 32-fold increase in expression level seemed not to be due to its higher codon usage bias, which is thought to affect expression levels via the abundance of various tRNA molecules $^{34,35}$ ."
+          }
+        ]
+      },
+      {
+        "step_index": 12,
+        "phase": "validation",
+        "state_before": "Biosensor applied; limitations identified.",
+        "gap_or_uncertainty": "Does the biosensor concept work despite limitations?",
+        "hypothesis": "The whole-cell biosensor successfully enabled high-throughput screening, demonstrating potential for engineering LacI for various small-molecule sensors.",
+        "decision": "Conclude on biosensor utility and note limitations.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "summary",
+          "version": "",
+          "category": "conclusion"
+        },
+        "parameters": {},
+        "observation": "Biosensor enabled selection of C2 mutant with ~32-fold expression increase; moderate induction (2.7-fold), weak affinity (KD=17 mM), and IPTG response remain limitations.",
+        "result_status": "success",
+        "next_step_reason": "Case complete.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_010",
+            "source_file": "docs/0128/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The mutant C2E enzyme with \\~32-fold enhanced expression level was selected, demonstrating the high efficiency of the lactulose biosensor."
+          },
+          {
+            "evidence_id": "EV_AUTO_016",
+            "source_file": "docs/0128/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "As a whole-cell biosensor, strain BLGR harboring plasmid pLac7-L5 was successfully used for high-throughput screening of the C2E mutagenesis library for lactulose hyper-producers."
+          },
+          {
+            "evidence_id": "EV_AUTO_033",
+            "source_file": "docs/0128/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "LacI-L5 has been successfully applied as a lactulose biosensor in engineering cellobiose 2-epimerase (C2E) $^{32}$ for enhanced lactulose synthesis efficiency."
+          },
+          {
+            "evidence_id": "EV_C001_E06_02",
+            "source_file": "docs/0128/combined.md",
+            "section": "C001",
+            "quote_or_span": "Half-maximal induction occurs at 0.13 mM lactulose."
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "SPR for binding affinity",
+        "HPLC for lactulose quantification",
+        "Western blot for expression level",
+        "Specific activity assays"
+      ],
+      "metrics": [
+        "Induction fold (2.7-fold)",
+        "Half-maximal induction concentration (0.13 mM)",
+        "Binding affinity KD (17 mM)",
+        "Production increase (22-fold)",
+        "Expression increase (32-fold)",
+        "Specific activity (11 U/mg vs 14 U/mg)"
+      ],
+      "final_conclusion": "LacI-L5 biosensor enabled high-throughput screening of C2E library, yielding a mutant with ~32-fold expression increase and 22-fold production increase, though with moderate induction, weak affinity, and residual IPTG response.",
+      "limitations": [
+        "Moderate induction fold (2.7-fold)",
+        "Weak binding affinity (KD=17 mM)",
+        "Residual IPTG response",
+        "C2E improvement mainly from expression, not catalytic efficiency",
+        "Mechanism of expression increase not fully elucidated"
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_specific_evidence_backfilled=3",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_specific_evidence_backfilled=3",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 100.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p4\\states\\0128.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p4\\events\\0128.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1
+        ],
+        "K03": [
+          2
+        ],
+        "K04": [
+          3
+        ],
+        "K05": [
+          2,
+          4,
+          5,
+          12
+        ],
+        "K06": [
+          2,
+          4,
+          5
+        ],
+        "K08": [
+          7
+        ],
+        "K09": [
+          8
+        ],
+        "K10": [
+          9
+        ],
+        "K11": [
+          10
+        ],
+        "K12": [
+          10,
+          11
+        ],
+        "K13": [
+          2,
+          4,
+          5,
+          6,
+          10,
+          12
+        ],
+        "K14": [
+          10,
+          12
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K03",
+            "K05",
+            "K06",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K04"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K05",
+            "K06",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K05",
+            "K06",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K07",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K08"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K09"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K10"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K11",
+            "K12",
+            "K13",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K12"
+          ]
+        },
+        {
+          "step_index": 12,
+          "covered_event_ids": [
+            "K05",
+            "K13",
+            "K14"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 2,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "46",
+          "96"
+        ]
+      },
+      {
+        "step_index": 4,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "2.7"
+        ]
+      },
+      {
+        "step_index": 5,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "17mm"
+        ]
+      },
+      {
+        "step_index": 10,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "1.3",
+          "11",
+          "14"
+        ]
+      },
+      {
+        "step_index": 12,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "17mm",
+          "2.7"
+        ]
+      }
+    ],
+    "step_count": 12,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 100.0
+  },
+  "api_usage": {
+    "prompt_tokens": 80324,
+    "completion_tokens": 21515,
+    "total_tokens": 101839,
+    "prompt_cache_hit_tokens": 2432,
+    "prompt_cache_miss_tokens": 77892
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 1811,
+        "completion_tokens": 293,
+        "total_tokens": 2104,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 1811
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 7028,
+        "completion_tokens": 1825,
+        "total_tokens": 8853,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 7028
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 6815,
+        "completion_tokens": 1403,
+        "total_tokens": 8218,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6559
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 7447,
+        "completion_tokens": 1783,
+        "total_tokens": 9230,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7191
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 3583,
+        "completion_tokens": 56,
+        "total_tokens": 3639,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 3327
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 7314,
+        "completion_tokens": 3340,
+        "total_tokens": 10654,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 6930
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 11124,
+        "completion_tokens": 6018,
+        "total_tokens": 17142,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 10484
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 16414,
+        "completion_tokens": 745,
+        "total_tokens": 17159,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 16414
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 18788,
+        "completion_tokens": 6052,
+        "total_tokens": 24840,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 18148
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

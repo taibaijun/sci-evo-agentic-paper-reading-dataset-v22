@@ -1,0 +1,718 @@
+{
+  "case": {
+    "case_id": "sci_evo_0005",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "directed evolution of a cyclodipeptide synthase with new activities via label fr",
+      "doi": "",
+      "url": "",
+      "license": "",
+      "publication_date": "",
+      "raw_file": "0004_PMC9241961_directed_evolution_of_a_cyclodipeptide_synthase_with_new_activities_via_label_fr.pdf",
+      "mineru_md": "docs/0005/mineru.md",
+      "combined_md": "docs/0005/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Directed evolution of enzymes is limited by the lack of high-throughput screening (HTS) assays for new catalytic activities. Mass spectrometry (MS) is label-free and suitable for untargeted discovery but traditionally slow. The goal is to develop an automated, label-free MS screening workflow for directed evolution of new enzymatic activities, demonstrated by engineering a cyclodipeptide synthase (CDPS) to produce new diketopiperazine (DKP) products.",
+      "target_object": "AlbC cyclodipeptide synthase (CDPS)",
+      "known_context": "CDPSs are recalcitrant targets for rational engineering, and large-scale screening of CDPS variants has not been reported due to lack of HTS assays.",
+      "constraints": [
+        "High-throughput screening assay must be label-free and automated.",
+        "Must detect new DKP products not produced by wild-type AlbC."
+      ],
+      "input_data": [
+        "Wild-type AlbC sequence and structure",
+        "List of 190 possible DKP molecules with theoretical m/z values (115–373 Da)"
+      ],
+      "quantifiable_goals": [
+        "Screen ~4500 epPCR clones within a week.",
+        "Identify at least one AlbC mutant producing a new DKP product."
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "No high-throughput screening assay exists for new catalytic activities of CDPSs.",
+        "gap_or_uncertainty": "Lack of HTS assays limits directed evolution of CDPSs for new DKP products.",
+        "hypothesis": "An automated, label-free MS screening workflow can enable high-throughput directed evolution of CDPSs to produce new DKP products.",
+        "decision": "Develop an automated workflow integrating library creation, robotic cultivation, MALDI-ToF MS, and custom computational analysis.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "Literature review and experimental design",
+          "version": "N/A",
+          "category": "conceptual"
+        },
+        "parameters": {},
+        "observation": "Assay development for high-throughput mutant screening remains challenging, particularly for new catalytic activities. CDPSs are recalcitrant targets for rational engineering, and large-scale screening of CDPS variants has not been reported due to lack of HTS assays.",
+        "result_status": "success",
+        "next_step_reason": "Design an automated workflow to address the screening bottleneck.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0005/combined.md",
+            "section": "C001",
+            "quote_or_span": "assay development for high-throughput mutant screening remains challenging, particularly for new catalytic activities."
+          },
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0005/combined.md",
+            "section": "C001",
+            "quote_or_span": "CDPSs are recognized as recalcitrant targets for rational engineering."
+          },
+          {
+            "evidence_id": "EV_C001_E02_02",
+            "source_file": "docs/0005/combined.md",
+            "section": "C001",
+            "quote_or_span": "large-scale screening of CDPS variants has not been reported, possibly due to the lack of applicable HTS assays."
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "design",
+        "state_before": "No automated MS screening workflow exists for CDPS directed evolution.",
+        "gap_or_uncertainty": "Need to design a workflow that can create libraries, cultivate mutants, and perform label-free MS screening at high throughput.",
+        "hypothesis": "An integrated robotic workcell can automate library creation, cultivation, and MALDI-ToF MS analysis at 5 s per sample, enabling screening of thousands of clones.",
+        "decision": "Design workflow with SSM and epPCR libraries, robotic cultivation, and MALDI-ToF MS analysis; choose AlbC as proof-of-concept target.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "Automated workflow design",
+          "version": "N/A",
+          "category": "robotic_workcell"
+        },
+        "parameters": {
+          "target_enzyme": "AlbC CDPS",
+          "library_types": [
+            "SSM",
+            "epPCR"
+          ],
+          "ms_method": "MALDI-ToF",
+          "sample_throughput": "5 s per sample"
+        },
+        "observation": "Workflow designed to automatically create and cultivate SSM and epPCR libraries, robotically process culture supernatants for MALDI-ToF MS at 5 s per sample, and analyze data with custom algorithms.",
+        "result_status": "success",
+        "next_step_reason": "Implement the workflow and validate with wild-type AlbC.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E03_01",
+            "source_file": "docs/0005/combined.md",
+            "section": "C001",
+            "quote_or_span": "Here we report an automated workflow for directed evolution of new enzymatic activities via high-throughput library creation and label-free MS screening."
+          },
+          {
+            "evidence_id": "EV_C001_E04_01",
+            "source_file": "docs/0005/combined.md",
+            "section": "C001",
+            "quote_or_span": "For a proof of concept, we chose to engineer a cyclodipeptide synthase (CDPS) that synthesizes diketopiperazine (DKP) compounds with therapeutic potential."
+          },
+          {
+            "evidence_id": "EV_C001_E05_01",
+            "source_file": "docs/0005/combined.md",
+            "section": "C001",
+            "quote_or_span": "site-saturation mutagenesis (SSM) and error-prone PCR (epPCR) libraries expressing CDPS mutants were automatically created and cultivated on an integrated work cell."
+          },
+          {
+            "evidence_id": "EV_C001_E05_02",
+            "source_file": "docs/0005/combined.md",
+            "section": "C001",
+            "quote_or_span": "Culture supernatants were then robotically processed for matrix-assisted laser desorption/ionization time-of-flight (MALDI-ToF) MS analysis at a rate of 5 s per sample."
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "experiment",
+        "state_before": "Workflow designed but not yet validated with actual samples.",
+        "gap_or_uncertainty": "Need to confirm that the automated MS workflow can detect known CDP products from wild-type AlbC.",
+        "hypothesis": "The automated workflow will detect the expected CDP products from WT AlbC-expressing E. coli, consistent with literature.",
+        "decision": "Run WT AlbC-expressing E. coli through the automated workflow and analyze MS data.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "MALDI-ToF MS",
+          "version": "N/A",
+          "category": "mass_spectrometry"
+        },
+        "parameters": {
+          "sample": "WT AlbC-expressing E. coli culture supernatant",
+          "ms_mode": "MALDI-ToF"
+        },
+        "observation": "Known CDP products were detected, validating the workflow.",
+        "result_status": "success",
+        "next_step_reason": "Proceed to screen mutant libraries for new products.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E07_01",
+            "source_file": "docs/0005/combined.md",
+            "section": "C001",
+            "quote_or_span": "These results validated our workflow to detect CDP products from microplate cultures of AlbC-expressing E. coli using MALDI-ToF MS."
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "experiment",
+        "state_before": "Workflow validated with WT, but no new products identified yet.",
+        "gap_or_uncertainty": "SSM libraries targeting binding pocket residues may yield new DKP products.",
+        "hypothesis": "Mutating binding pocket residues via SSM will alter substrate specificity and produce new DKP products.",
+        "decision": "Create and screen 14 SSM libraries targeting binding pocket residues and some external residues.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Site-saturation mutagenesis (SSM) and MALDI-ToF MS",
+          "version": "N/A",
+          "category": "mutagenesis_and_screening"
+        },
+        "parameters": {
+          "library_type": "SSM",
+          "number_of_libraries": 14,
+          "target_residues": "L33, V65, L119, L185, L200, M152, M159, I204, T206, P207, R99, R101, R102, D205"
+        },
+        "observation": "No new CDP molecules were observed from the 14 SSM library mutants.",
+        "result_status": "failure",
+        "next_step_reason": "SSM limited to predefined residues failed; need random mutagenesis across the whole protein.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E08_01",
+            "source_file": "docs/0005/combined.md",
+            "section": "C001",
+            "quote_or_span": "Unfortunately, we did not observe any new CDP molecules produced from the 14 SSM library mutants."
+          },
+          {
+            "evidence_id": "EV_C002_E01_01",
+            "source_file": "docs/0005/combined.md",
+            "section": "C002",
+            "quote_or_span": "Unfortunately, we did not observe any new CDP molecules produced from the 14 SSM library mutants."
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "design",
+        "state_before": "SSM libraries failed to produce new products.",
+        "gap_or_uncertainty": "Random mutations throughout the whole protein may uncover new specificity determinants not predictable by rational design.",
+        "hypothesis": "epPCR libraries with random mutations will generate variants with altered substrate specificity, including new DKP products.",
+        "decision": "Design epPCR libraries with an average of 2 nucleotide changes per gene to introduce random mutations across the entire AlbC sequence.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "Error-prone PCR (epPCR) library design",
+          "version": "Agilent GeneMorph II Random Mutagenesis Kit",
+          "category": "mutagenesis"
+        },
+        "parameters": {
+          "mutation_rate": "on average 2 nucleotides per gene variant"
+        },
+        "observation": "epPCR libraries created with random mutations throughout the whole protein sequence.",
+        "result_status": "success",
+        "next_step_reason": "Screen the epPCR libraries using the automated MS workflow.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E03_01",
+            "source_file": "docs/0005/combined.md",
+            "section": "C002",
+            "quote_or_span": "Therefore, we further turned to profile epPCR libraries that contain random mutations throughout the whole protein sequence."
+          },
+          {
+            "evidence_id": "EV_C002_E03_02",
+            "source_file": "docs/0005/combined.md",
+            "section": "C002",
+            "quote_or_span": "Under optimized conditions using the Agilent GeneMorph II Random Mutagenesis Kit, on average 2 nucleotides were introduced per gene variant so that most epPCR library members contain no more than one amino acid change."
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "experiment",
+        "state_before": "epPCR libraries designed but not yet screened.",
+        "gap_or_uncertainty": "Need to screen a large number of epPCR clones to find rare variants with new activities.",
+        "hypothesis": "Screening ~4500 epPCR clones will identify mutants producing new DKP products.",
+        "decision": "Screen around 4500 independent epPCR clones using the automated MS workflow.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Automated MS screening workflow",
+          "version": "N/A",
+          "category": "high_throughput_screening"
+        },
+        "parameters": {
+          "number_of_clones": "~4500",
+          "screening_method": "MALDI-ToF MS with custom computational analysis"
+        },
+        "observation": "In total around 4500 independent clones were screened using the above workflow.",
+        "result_status": "success",
+        "next_step_reason": "Analyze MS data to identify clones with new peaks.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E04_01",
+            "source_file": "docs/0005/combined.md",
+            "section": "C002",
+            "quote_or_span": "In total around 4500 independent clones were screened using the above workflow."
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "analysis",
+        "state_before": "MS data collected from ~4500 epPCR clones.",
+        "gap_or_uncertainty": "Need to statistically identify new m/z peaks corresponding to new DKP products.",
+        "hypothesis": "One-way ANOVA with Tukey's multiple comparison test will reveal clones with significantly different peak intensities at theoretical m/z values of possible DKP molecules.",
+        "decision": "Perform multivariant analysis of 108 theoretical m/z values of 190 possible DKP molecules (mass window 115–373 Da) using one-way ANOVA with Tukey's test.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Custom computational algorithms for MS data analysis",
+          "version": "N/A",
+          "category": "data_analysis"
+        },
+        "parameters": {
+          "statistical_test": "one-way ANOVA with Tukey's multiple comparison test",
+          "mz_values_analyzed": 108,
+          "possible_dkp_molecules": 190,
+          "mass_window": "115–373 Da"
+        },
+        "observation": "A new peak corresponding to a new cyclopeptide product was identified.",
+        "result_status": "success",
+        "next_step_reason": "Isolate and validate the mutant producing the new peak.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E06_01",
+            "source_file": "docs/0005/combined.md",
+            "section": "C001",
+            "quote_or_span": "The resulting mass spectral data were processed via custom computational algorithms, which performed a multivariant analysis of 108 theoretical mass-to-charge (m/z) values of 190 possible DKP molecules within a mass window of 115–373 Da."
+          },
+          {
+            "evidence_id": "EV_C002_E05_01",
+            "source_file": "docs/0005/combined.md",
+            "section": "C002",
+            "quote_or_span": "The peak intensities at the theoretical m/z values of predicted cyclodipeptide ions in each MALDI mass spectrum were analyzed by the one-way ANOVA with Tukey's multiple comparison test."
+          },
+          {
+            "evidence_id": "EV_AUTO_030",
+            "source_file": "docs/0005/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Notably, by creating and screening $\\sim$ 4500 epPCR library members within a week using unlabeled MS on an integrated, robotic workcell, an AlbC mutant producing a new cyclopeptide product was identified, revealing a previously unknown residue (F186) that exerts a substantial impact on substrate specificity."
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "validation",
+        "state_before": "A new peak detected in some epPCR clones.",
+        "gap_or_uncertainty": "Need to confirm the identity of the mutant and the new product.",
+        "hypothesis": "The clone producing the new peak harbors a specific mutation (F186L) that enables synthesis of cyclo(L-Phe-L-Val) (cFV).",
+        "decision": "Isolate the clone, perform Sanger sequencing to identify the mutation, and confirm cFV production by LC-MS/MS.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Sanger sequencing and LC-MS/MS",
+          "version": "N/A",
+          "category": "sequencing_and_mass_spectrometry"
+        },
+        "parameters": {
+          "sequencing_method": "Sanger sequencing",
+          "confirmation_method": "LC-MS/MS"
+        },
+        "observation": "An F186L CDPS mutant was isolated to produce cyclo(L-Phe-L-Val) (cFV), undetectable in wild-type. Sanger sequencing confirmed the F186L mutation.",
+        "result_status": "success",
+        "next_step_reason": "Investigate the structural mechanism of the F186L mutation.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_013",
+            "source_file": "docs/0005/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "An F186L CDPS mutant was isolated to produce cyclo(L-Phe-L-Val), which is undetectable in the product profile of the wild-type enzyme."
+          },
+          {
+            "evidence_id": "EV_AUTO_010",
+            "source_file": "docs/0005/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "4A), all of which harbored the F186L mutation as revealed by Sanger sequencing results."
+          },
+          {
+            "evidence_id": "EV_AUTO_007",
+            "source_file": "docs/0005/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "(B) LC-MS traces of WT and F186L mutant."
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "analysis",
+        "state_before": "F186L mutant validated to produce cFV.",
+        "gap_or_uncertainty": "The structural basis for the altered substrate specificity is unknown.",
+        "hypothesis": "The F186L mutation increases the binding cavity volume and alters substrate binding energy, favoring cFV production.",
+        "decision": "Perform computational modeling (docking and MD simulations) of WT and F186L with cFL and cFV substrates.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Computational modeling (docking and MD simulations)",
+          "version": "N/A",
+          "category": "computational_modeling"
+        },
+        "parameters": {
+          "simulation_time": "100 ns",
+          "substrates_docked": [
+            "cFL",
+            "cFV"
+          ],
+          "variants_modeled": [
+            "WT",
+            "F186L"
+          ]
+        },
+        "observation": "F186L mutation increases the binding cavity volume and significantly increases binding energy when docking with cFV.",
+        "result_status": "success",
+        "next_step_reason": "Conclude the study and note limitations.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E08_03",
+            "source_file": "docs/0005/combined.md",
+            "section": "C002",
+            "quote_or_span": "The results showed that the binding energy of F186L was significantly increased when docking with the substrate cFV (Table 2)."
+          },
+          {
+            "evidence_id": "EV_AUTO_002",
+            "source_file": "docs/0005/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Moreover, cFL and the new derivative cFV were separately docked into the binding pockets of the WT and F186L variant for 100 ns MD simulations (Fig."
+          },
+          {
+            "evidence_id": "EV_AUTO_006",
+            "source_file": "docs/0005/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Then, we investigated possible mechanisms underlying new substrate specificity of the F186L variant from structural aspects using computational modeling."
+          },
+          {
+            "evidence_id": "EV_AUTO_020",
+            "source_file": "docs/0005/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Overall, it is possible that an increase in the production of cFV occurs precisely due to the larger volume of the substrate-binding cavity in F186L."
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "analysis",
+        "state_before": "Mechanism of F186L elucidated.",
+        "gap_or_uncertainty": "The study has limitations: only one new-activity mutant reported, and untargeted MS screening requires careful optimization.",
+        "hypothesis": "The workflow is effective but may miss weakly active variants; further optimization could improve sensitivity.",
+        "decision": "Acknowledge limitations and suggest future improvements.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Critical assessment",
+          "version": "N/A",
+          "category": "conceptual"
+        },
+        "parameters": {},
+        "observation": "Only one mutant (F186L) reported with new activity; other variants not detailed; untargeted MS screening requires careful optimization to detect weak signals.",
+        "result_status": "partial",
+        "next_step_reason": "Study completed; limitations noted for future work.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_030",
+            "source_file": "docs/0005/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Notably, by creating and screening $\\sim$ 4500 epPCR library members within a week using unlabeled MS on an integrated, robotic workcell, an AlbC mutant producing a new cyclopeptide product was identified, revealing a previously unknown residue (F186) that exerts a substantial impact on substrate specificity."
+          },
+          {
+            "evidence_id": "EV_AUTO_009",
+            "source_file": "docs/0005/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "When comparing LC-MS/MS traces, we also noticed substantial reduction of the native main product cFL in the F186L variant relative to WT, and a slight enhancement in production of other products including cFM, cFF, and cFY, indicating a shift towards more bulky substrates with the F186L mutant (Fig."
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "MALDI-ToF MS screening",
+        "LC-MS/MS confirmation",
+        "Sanger sequencing"
+      ],
+      "metrics": [
+        "Detection of new DKP product (cFV)",
+        "Binding energy change (F186L-cFV significantly increased)",
+        "Binding cavity volume increase"
+      ],
+      "final_conclusion": "An automated, label-free MS screening workflow successfully identified an F186L AlbC mutant producing a new DKP product (cFV), demonstrating the feasibility of high-throughput directed evolution for new enzymatic activities.",
+      "limitations": [
+        "Only one mutant (F186L) reported with new activity; other variants not detailed.",
+        "Untargeted MS screening requires careful optimization to detect weak signals."
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_specific_evidence_backfilled=3",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_specific_evidence_backfilled=1",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 94.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p3\\states\\0005.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p3\\events\\0005.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 11,
+      "covered_event_count": 11,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1
+        ],
+        "K03": [
+          1,
+          2
+        ],
+        "K05": [
+          2
+        ],
+        "K06": [
+          7
+        ],
+        "K07": [
+          3,
+          4
+        ],
+        "K08": [
+          4
+        ],
+        "K09": [
+          4,
+          5
+        ],
+        "K10": [
+          2,
+          5,
+          6
+        ],
+        "K12": [
+          8
+        ],
+        "K13": [
+          9
+        ],
+        "K14": [
+          7,
+          10
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02",
+            "K03"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K03",
+            "K04",
+            "K05",
+            "K10"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K07"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K07",
+            "K08",
+            "K09"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K09",
+            "K10"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K10"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K06",
+            "K11",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K12"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K13"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K14"
+          ]
+        }
+      ]
+    },
+    "warnings": [],
+    "step_count": 10,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 94.0
+  },
+  "api_usage": {
+    "prompt_tokens": 66503,
+    "completion_tokens": 18959,
+    "total_tokens": 85462,
+    "prompt_cache_hit_tokens": 2176,
+    "prompt_cache_miss_tokens": 64327
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 1556,
+        "completion_tokens": 541,
+        "total_tokens": 2097,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 1556
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 2834,
+        "completion_tokens": 1320,
+        "total_tokens": 4154,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 2834
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 6258,
+        "completion_tokens": 1331,
+        "total_tokens": 7589,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6002
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 7764,
+        "completion_tokens": 1525,
+        "total_tokens": 9289,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7508
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 7040,
+        "completion_tokens": 2878,
+        "total_tokens": 9918,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 6656
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 9837,
+        "completion_tokens": 5375,
+        "total_tokens": 15212,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 9197
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 14558,
+        "completion_tokens": 438,
+        "total_tokens": 14996,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 14558
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 16656,
+        "completion_tokens": 5551,
+        "total_tokens": 22207,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 16016
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

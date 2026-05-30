@@ -1,0 +1,836 @@
+{
+  "case": {
+    "case_id": "sci_evo_0193",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Engineering a vitamin B12 high-throughput screening system by riboswitch sensor in Sinorhizobium meliloti",
+      "doi": "https://doi.org/10.1186/s12896-018-0441-2",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0192_10_1186_s12896_018_0441_2_engineering_a_vitamin_b12_high_throughput_screening_system_by_riboswitch_sensor_in_sinorhi.pdf",
+      "mineru_md": "docs/0193/mineru.md",
+      "combined_md": "docs/0193/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Low vitamin B12 yield in Sinorhizobium meliloti despite gene overexpression; need for a high-throughput screening method to identify hyperproducing mutants from random mutagenesis libraries.",
+      "target_object": "Vitamin B12 production in Sinorhizobium meliloti",
+      "known_context": "Previous efforts overexpressed VB12 pathway genes but yield remained low; riboswitches can act as metabolite-responsive genetic sensors.",
+      "constraints": [
+        "Need for high-throughput screening compatible with FACS",
+        "Sensor must respond specifically to intracellular VB12 levels"
+      ],
+      "input_data": [
+        "Engineered strains Sm320, Sm320-N8, Sm320-L6 with different VB12 production capacities"
+      ],
+      "quantifiable_goals": [
+        "Identify a riboswitch that responds to VB12 concentration",
+        "Develop a FACS-based screening system",
+        "Isolate mutants with >10% increase in VB12 yield"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "experiment",
+        "state_before": "No high-throughput screening method for VB12 in S. meliloti; existing strains have low yield.",
+        "gap_or_uncertainty": "Which riboswitch can function as a VB12 sensor in S. meliloti?",
+        "hypothesis": "A riboswitch from a known VB12-responsive element can be coupled to GFP to report intracellular VB12 levels.",
+        "decision": "Screen eight candidate riboswitches in three engineered strains with different VB12 production capacities.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Riboswitch-GFP reporter assay",
+          "version": "",
+          "category": "flow_cytometry"
+        },
+        "parameters": {
+          "riboswitches_tested": 8,
+          "strains": [
+            "Sm320",
+            "Sm320-N8",
+            "Sm320-L6"
+          ],
+          "culture_conditions": "30°C, 12h growth, 3-day shake flask fermentation, 10% inoculant"
+        },
+        "observation": "Five riboswitches showed no differential response; three (including SY-btuB) showed VB12-dependent repression.",
+        "result_status": "partial",
+        "next_step_reason": "SY-btuB showed the most sensitive response but acts as a repressor (high VB12 → low GFP), requiring signal inversion.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E04_01",
+            "source_file": "docs/0193/combined.md",
+            "section": "C001",
+            "quote_or_span": "Eight riboswitches were selected based on the sequence reported by Vitreschak et al."
+          },
+          {
+            "evidence_id": "EV_C001_E04_02",
+            "source_file": "docs/0193/combined.md",
+            "section": "C001",
+            "quote_or_span": "The plasmids were then separately transferred into Sm320, Sm320-N8 and Sm320-L6 (engineered mutants with different production capacities)"
+          },
+          {
+            "evidence_id": "EV_C002_E04_02",
+            "source_file": "docs/0193/combined.md",
+            "section": "C002",
+            "quote_or_span": "The strains containing the plasmids were grown at 30 °C for 12 h and were used to provide shake flask fermentation for 3 days with 10% (v/v) inoculant and then tested for GFP expression by flow cytometry"
+          },
+          {
+            "evidence_id": "EV_AUTO_005",
+            "source_file": "docs/0193/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The mutant MC5–2 showed $VB_{12}$ production of $156 \\pm 4.2$ mg/L, which was 21."
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "analysis",
+        "state_before": "Three riboswitches showed VB12-dependent repression; SY-btuB is a candidate.",
+        "gap_or_uncertainty": "Which riboswitch is the most sensitive and suitable for a screening system?",
+        "hypothesis": "SY-btuB from Salmonella typhimurium is the best regulatory device due to its sensitivity.",
+        "decision": "Select SY-btuB as the sensor element.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Comparative fluorescence analysis",
+          "version": "",
+          "category": "flow_cytometry"
+        },
+        "parameters": {},
+        "observation": "SY-btuB was identified as the most sensitive VB12-responsive riboswitch, but it acts as a repressor (high VB12 → low GFP).",
+        "result_status": "success",
+        "next_step_reason": "Need to invert the signal so that high VB12 yields high fluorescence for FACS enrichment.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E05_01",
+            "source_file": "docs/0193/combined.md",
+            "section": "C001",
+            "quote_or_span": "the btuB element from Salmonella typhimurium was identified as the best regulatory device"
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "design",
+        "state_before": "SY-btuB represses GFP when VB12 is high.",
+        "gap_or_uncertainty": "How to convert the repressive response into a positive fluorescence signal for FACS?",
+        "hypothesis": "A dual-repression system can invert the signal: VB12 represses a repressor of GFP, so high VB12 leads to high GFP.",
+        "decision": "Design a genetic circuit where SY-btuB controls a repressor of GFP.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "Genetic circuit design",
+          "version": "",
+          "category": "synthetic_biology"
+        },
+        "parameters": {},
+        "observation": "Dual-repression system designed to yield high GFP when VB12 is high.",
+        "result_status": "success",
+        "next_step_reason": "Validate the sensor by sorting a mixed population of strains with known VB12 levels.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_029",
+            "source_file": "docs/0193/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "To identify a sensitive element that allows efficient screening of positive mutants with high $VB_{12}$ production, eight different potential riboswitches (Table 2) were selected according to the criteria described above, plasmids containing $VB_{12}$ -dependent riboswitches coupled to a GFP reporter were separately transformed into Sm320, Sm320-L6 and Sm320-N8, then the expression levels of GFP under the control of the eight riboswitches were compared."
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "validation",
+        "state_before": "Dual-repression sensor constructed but not tested with mixed populations.",
+        "gap_or_uncertainty": "Can the sensor enrich high-producing cells from a mixture?",
+        "hypothesis": "FACS sorting of the top 1% fluorescent cells will enrich the high-producing Sm320 strain.",
+        "decision": "Mix Sm320, Sm320-L6, Sm320-N8, apply sensor, sort top 1% GFP, and identify sorted cells.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "FACS",
+          "version": "",
+          "category": "flow_cytometry"
+        },
+        "parameters": {
+          "sort_gate": "top 1% fluorescence"
+        },
+        "observation": "84% of sorted cells were the high-producing Sm320 strain.",
+        "result_status": "success",
+        "next_step_reason": "Sensor validated; proceed to mutagenesis and screening of a mutant library.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E05_01",
+            "source_file": "docs/0193/combined.md",
+            "section": "C003",
+            "quote_or_span": "nearly 84% of sorted cells were identified as the high-producing Sm320 strain (Fig. 5c)."
+          },
+          {
+            "evidence_id": "EV_AUTO_028",
+            "source_file": "docs/0193/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "As expected, nearly 84% of sorted cells were identified as the high-producing Sm320 strain (Fig."
+          },
+          {
+            "evidence_id": "EV_AUTO_029",
+            "source_file": "docs/0193/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "To identify a sensitive element that allows efficient screening of positive mutants with high $VB_{12}$ production, eight different potential riboswitches (Table 2) were selected according to the criteria described above, plasmids containing $VB_{12}$ -dependent riboswitches coupled to a GFP reporter were separately transformed into Sm320, Sm320-L6 and Sm320-N8, then the expression levels of GFP under the control of the eight riboswitches were compared."
+          },
+          {
+            "evidence_id": "EV_C001_E04_02",
+            "source_file": "docs/0193/combined.md",
+            "section": "C001",
+            "quote_or_span": "The plasmids were then separately transferred into Sm320, Sm320-N8 and Sm320-L6 (engineered mutants with different production capacities)"
+          },
+          {
+            "evidence_id": "EV_AUTO_022",
+            "source_file": "docs/0193/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Genome-scale gene expression analysis of Sm320 and Sm320MC5–2 revealed that the mutant genes were located in the $VB_{12}$ metabolic pathway, heme branch pathway, ABC transporters, $VB_{12}$ precursor synthesis pathway, tricarboxylic acid cycle and other metabolic pathways."
+          },
+          {
+            "evidence_id": "EV_AUTO_020",
+            "source_file": "docs/0193/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "sources “2% CSL” by “2% AYP, 1% peptone” in the fermentation medium when the strains were screened by FACS, and the comparison was shown in Additional file 1: Figure S5."
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "experiment",
+        "state_before": "Sensor validated; need to generate genetic diversity for screening.",
+        "gap_or_uncertainty": "What ARTP mutagenesis conditions yield optimal mutation frequency?",
+        "hypothesis": "60 s ARTP exposure will give 80-85% lethality, suitable for generating a diverse mutant library.",
+        "decision": "Optimize ARTP treatment time by measuring lethality; use 60 s for library generation.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "ARTP mutagenesis",
+          "version": "",
+          "category": "mutagenesis"
+        },
+        "parameters": {
+          "exposure_time": "60 s",
+          "lethality_range": "80-85%",
+          "plasma_gas": "helium",
+          "rf_power": "100 W",
+          "distance": "4 mm",
+          "temperature": "<30°C"
+        },
+        "observation": "60 s exposure gave 80-85% lethality; mutant library of ~6×10^7 mutants generated.",
+        "result_status": "success",
+        "next_step_reason": "Screen the mutant library using the validated FACS sensor.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E07_01",
+            "source_file": "docs/0193/combined.md",
+            "section": "C001",
+            "quote_or_span": "To determine the optimal treatment time, S. meliloti was cultured for 72 h (mid-log phase) and then subjected to ARTP treatment"
+          },
+          {
+            "evidence_id": "EV_C001_E07_02",
+            "source_file": "docs/0193/combined.md",
+            "section": "C001",
+            "quote_or_span": "Lethality rate was calculated for determining the appropriate treatment time"
+          },
+          {
+            "evidence_id": "EV_C003_E06_01",
+            "source_file": "docs/0193/combined.md",
+            "section": "C003",
+            "quote_or_span": "the optimal exposure time used in subsequent studies was set at 60 s with lethality ranged from 80 to 85%."
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "experiment",
+        "state_before": "Mutant library generated; sensor ready.",
+        "gap_or_uncertainty": "Can the FACS sensor enrich VB12 hyperproducers from the mutant library?",
+        "hypothesis": "Sorting the top fluorescent population will yield mutants with increased VB12 production.",
+        "decision": "Apply FACS screening to the ARTP mutant library; select top fluorescent cells.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "FACS",
+          "version": "",
+          "category": "flow_cytometry"
+        },
+        "parameters": {
+          "sort_gate": "top fluorescence"
+        },
+        "observation": "144 mutants selected; after 24-well plate fermentation, 58.3% (84/144) produced higher VB12 than wild-type; six mutants showed >10% increase.",
+        "result_status": "success",
+        "next_step_reason": "Validate top mutants in flask fermentation and identify the best producer.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_006",
+            "source_file": "docs/0193/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "After fermentation in 24-well plates, 58.3% (84/144) of the mutants produced higher $VB_{12}$ levels than the initial strains (Fig."
+          },
+          {
+            "evidence_id": "EV_AUTO_008",
+            "source_file": "docs/0193/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "3% (84/144) of the mutants produced higher $VB_{12}$ levels than the initial strains (Fig."
+          },
+          {
+            "evidence_id": "EV_AUTO_027",
+            "source_file": "docs/0193/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Six mutants (MD1–6, MB3–5, MD3–2 MC4–5, MB5–1, and MC5–2) showed a significant enhancement of 10% in their $VB_{12}$ content compared with the initial strains."
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "experiment",
+        "state_before": "Six mutants with >10% increase identified from 24-well plate screen.",
+        "gap_or_uncertainty": "Which mutant has the highest VB12 yield in flask fermentation and is genetically stable?",
+        "hypothesis": "MC5-2 will show the highest yield and maintain stability over generations.",
+        "decision": "Perform flask fermentation of top mutants; assess yield and stability of MC5-2.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Flask fermentation",
+          "version": "",
+          "category": "fermentation"
+        },
+        "parameters": {
+          "culture_volume": "250 mL flasks",
+          "temperature": "30°C",
+          "duration": "7 days",
+          "generations_tested": 7
+        },
+        "observation": "MC5-2 produced 156±4.2 mg/L VB12, a 21.82% increase over wild-type; after 7 generations, yield was 154±3.2 mg/L.",
+        "result_status": "success",
+        "next_step_reason": "Sequence MC5-2 genome to identify mutations responsible for hyperproduction.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_005",
+            "source_file": "docs/0193/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The mutant MC5–2 showed $VB_{12}$ production of $156 \\pm 4.2$ mg/L, which was 21."
+          },
+          {
+            "evidence_id": "EV_AUTO_007",
+            "source_file": "docs/0193/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "After 7-generation cultivation, mutant MC5–2 still maintained high $VB_{12}$ yield reaching to $154 \\pm 3.2$ mg/L."
+          },
+          {
+            "evidence_id": "EV_AUTO_010",
+            "source_file": "docs/0193/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Numerous mutants were obtained, and Sm320MC5–2 exhibited 21.82% higher $VB_{12}$ yield than the wild type strain."
+          },
+          {
+            "evidence_id": "EV_AUTO_011",
+            "source_file": "docs/0193/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "In this study, $156 \\pm 4.2$ mg/L of $VB_{12}$ was produced by the selected mutant MC5–2."
+          },
+          {
+            "evidence_id": "EV_AUTO_009",
+            "source_file": "docs/0193/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The wild type strain and the mutants were cultured in LB/MC medium in a 96-well microtiter plate at 30 °C for 12 h and then transferred to fresh medium for fermentation in 24-well deep plate at 30 °C with shaking for 7 days."
+          },
+          {
+            "evidence_id": "EV_C002_E04_02",
+            "source_file": "docs/0193/combined.md",
+            "section": "C002",
+            "quote_or_span": "The strains containing the plasmids were grown at 30 °C for 12 h and were used to provide shake flask fermentation for 3 days with 10% (v/v) inoculant and then tested for GFP expression by flow cytometry"
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "analysis",
+        "state_before": "MC5-2 identified as stable hyperproducer.",
+        "gap_or_uncertainty": "What genetic changes underlie the increased VB12 production?",
+        "hypothesis": "Whole genome sequencing will reveal mutations in VB12 pathway and related metabolism.",
+        "decision": "Sequence genomic DNA of MC5-2 and compare to wild-type.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Whole genome sequencing",
+          "version": "",
+          "category": "sequencing"
+        },
+        "parameters": {},
+        "observation": "17 SNPs and 1 Indel identified in genes of VB12 pathway, heme branch, ABC transporters, precursor synthesis, and TCA cycle.",
+        "result_status": "success",
+        "next_step_reason": "Mutations suggest mechanisms but causal links not experimentally validated; note limitations.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E08_01",
+            "source_file": "docs/0193/combined.md",
+            "section": "C003",
+            "quote_or_span": "A total of 17 SNP (single nucleotide polymorphism) and 1 Indel (insertion and deletion) were identified in the Sm320MC5–2 genome"
+          },
+          {
+            "evidence_id": "EV_C004_E02_01",
+            "source_file": "docs/0193/combined.md",
+            "section": "C004",
+            "quote_or_span": "we sequenced the genomic DNA of the mutant Sm320MC5–2"
+          },
+          {
+            "evidence_id": "EV_AUTO_017",
+            "source_file": "docs/0193/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Many gene mutations in Sm320MC5–2 genome may play key roles in the $VB_{12}$ hyperproduction."
+          },
+          {
+            "evidence_id": "EV_AUTO_018",
+            "source_file": "docs/0193/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "In order to identify gene mutations that contributed to the high production of $VB_{12}$ , we sequenced the genomic DNA of the mutant Sm320MC5–2."
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "analysis",
+        "state_before": "Mutations identified but not functionally validated; sensor specificity and host range unknown.",
+        "gap_or_uncertainty": "What are the limitations of the current sensor and screening system?",
+        "hypothesis": "The sensor may have limited specificity and require medium optimization; causal mutations need validation.",
+        "decision": "Acknowledge limitations: causal links not proven, medium optimization needed for FACS.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Critical assessment",
+          "version": "",
+          "category": "literature_reasoning"
+        },
+        "parameters": {},
+        "observation": "Causal link between specific mutations and phenotype not experimentally validated; medium optimization required for FACS compatibility.",
+        "result_status": "inconclusive",
+        "next_step_reason": "Despite limitations, the study demonstrates a new paradigm for HTS in S. meliloti.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_019",
+            "source_file": "docs/0193/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "But when the strains were screened by FACS, the amount of intracellular $VB_{12}$ was only about 1.06 $\\mu$ g/mL (micromolar levels of $B_{12}$ )."
+          },
+          {
+            "evidence_id": "EV_AUTO_020",
+            "source_file": "docs/0193/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "sources “2% CSL” by “2% AYP, 1% peptone” in the fermentation medium when the strains were screened by FACS, and the comparison was shown in Additional file 1: Figure S5."
+          },
+          {
+            "evidence_id": "EV_AUTO_034",
+            "source_file": "docs/0193/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "But when the strains were screened by FACS, the amount of intracellular $VB_{12}$ was only about 1."
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "validation",
+        "state_before": "Sensor and screening workflow demonstrated; limitations noted.",
+        "gap_or_uncertainty": "Does this study provide a new paradigm for metabolite screening in S. meliloti?",
+        "hypothesis": "The riboswitch-based FACS screening is a novel and effective approach for VB12 hyperproducer isolation.",
+        "decision": "Conclude that the study validates the riboswitch sensor for HTS and reveals unexpected mutations for metabolic engineering.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Summary and outlook",
+          "version": "",
+          "category": "literature_reasoning"
+        },
+        "parameters": {},
+        "observation": "First application of riboswitch sensor for metabolite screening in S. meliloti, providing a new paradigm for HTS and guiding metabolic engineering.",
+        "result_status": "success",
+        "next_step_reason": "Future work should validate causal mutations and expand sensor host range.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E08_02",
+            "source_file": "docs/0193/combined.md",
+            "section": "C004",
+            "quote_or_span": "This study provides a new paradigm in high throughput screening and elucidating the unexpected gene mutations"
+          },
+          {
+            "evidence_id": "EV_AUTO_031",
+            "source_file": "docs/0193/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "This study provides a new paradigm in high throughput screening and elucidating the unexpected gene mutations which would be helpful for rewiring metabolic pathway to raise the yield of $VB_{12}$ ."
+          },
+          {
+            "evidence_id": "EV_AUTO_035",
+            "source_file": "docs/0193/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "We validated the applicability of this riboswitch by screening higher $VB_{12}$ producers from a genetic DNA library."
+          },
+          {
+            "evidence_id": "EV_AUTO_036",
+            "source_file": "docs/0193/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "This study demonstrates a new paradigm of revealing unexpected gene mutations to guide metabolic engineering for increasing $VB_{12}$ yield."
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "FACS enrichment of high-producer from mixed strains",
+        "Flask fermentation yield comparison",
+        "Genetic stability over 7 generations"
+      ],
+      "metrics": [
+        "VB12 titer (mg/L)",
+        "Fold increase over wild-type",
+        "Percentage of high-producers in sorted population"
+      ],
+      "final_conclusion": "A riboswitch-based FACS screening system was successfully developed and applied to isolate MC5-2, a mutant with 21.82% higher VB12 yield and stable production. Genome sequencing revealed mutations in relevant pathways, though causal links remain to be validated.",
+      "limitations": [
+        "Sensor specificity and host range not tested",
+        "Causal link between specific mutations and phenotype not experimentally validated",
+        "Medium optimization required for FACS compatibility"
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "Step 3 (dual-repression design) lacks direct evidence in the provided bank; inferred from context.",
+        "Some evidence quotes are truncated (e.g., EV_AUTO_005, EV_AUTO_008); full context may be needed.",
+        "v22_quote_align_repaired=1",
+        "v22_specific_evidence_backfilled=7",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_quote_align_repaired=1",
+        "v22_specific_evidence_backfilled=7",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 99.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p5\\states\\0193.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p5\\events\\0193.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 9,
+      "covered_event_count": 9,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K04": [
+          1,
+          4,
+          7
+        ],
+        "K05": [
+          1,
+          2
+        ],
+        "K07": [
+          3,
+          4,
+          6
+        ],
+        "K08": [
+          5
+        ],
+        "K10": [
+          6,
+          7
+        ],
+        "K11": [
+          1,
+          6,
+          7
+        ],
+        "K12": [
+          4,
+          8
+        ],
+        "K13": [
+          4,
+          9,
+          10
+        ],
+        "K14": [
+          9,
+          10
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K04",
+            "K05",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K05"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K07"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K04",
+            "K07",
+            "K12",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K08"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K07",
+            "K10",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K04",
+            "K10",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K12"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K13",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K13",
+            "K14"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 5,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "-85%"
+        ]
+      },
+      {
+        "step_index": 6,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "2h"
+        ]
+      },
+      {
+        "step_index": 7,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "-2"
+        ]
+      },
+      {
+        "step_index": 8,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "-2"
+        ]
+      },
+      {
+        "step_index": 10,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "2h"
+        ]
+      }
+    ],
+    "step_count": 10,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 99.0
+  },
+  "api_usage": {
+    "prompt_tokens": 99667,
+    "completion_tokens": 24919,
+    "total_tokens": 124586,
+    "prompt_cache_hit_tokens": 7424,
+    "prompt_cache_miss_tokens": 92243
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 4848,
+        "completion_tokens": 876,
+        "total_tokens": 5724,
+        "prompt_tokens_details": {
+          "cached_tokens": 4736
+        },
+        "prompt_cache_hit_tokens": 4736,
+        "prompt_cache_miss_tokens": 112
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 11003,
+        "completion_tokens": 3051,
+        "total_tokens": 14054,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 11003
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 8346,
+        "completion_tokens": 1371,
+        "total_tokens": 9717,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8090
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 9686,
+        "completion_tokens": 1591,
+        "total_tokens": 11277,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9430
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 8960,
+        "completion_tokens": 1447,
+        "total_tokens": 10407,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8704
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 7137,
+        "completion_tokens": 1257,
+        "total_tokens": 8394,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6881
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 8558,
+        "completion_tokens": 3157,
+        "total_tokens": 11715,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 8174
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 9202,
+        "completion_tokens": 5545,
+        "total_tokens": 14747,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 8562
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 14629,
+        "completion_tokens": 1062,
+        "total_tokens": 15691,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 14629
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 17298,
+        "completion_tokens": 5562,
+        "total_tokens": 22860,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 16658
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

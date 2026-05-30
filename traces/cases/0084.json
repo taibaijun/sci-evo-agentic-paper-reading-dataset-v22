@@ -1,0 +1,918 @@
+{
+  "case": {
+    "case_id": "sci_evo_0084",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Identification of Sequence Variants in Genetic Disease-Causing Genes Using Targeted Next-Generation Sequencing",
+      "doi": "https://doi.org/10.1371/journal.pone.0029500",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0082_10_1371_journal_pone_0029500_identification_of_sequence_variants_in_genetic_disease_causing_genes_using_targeted_next_g.pdf",
+      "mineru_md": "docs/0084/mineru.md",
+      "combined_md": "docs/0084/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Develop and validate a targeted NGS method for efficient, low-cost identification of sequence variants in genetic disease-causing genes, overcoming limitations of Sanger sequencing and whole-genome NGS.",
+      "target_object": "193 genes involved in 103 genetic diseases",
+      "known_context": "Sanger sequencing is laborious, expensive, and time-consuming for multiple genes; whole-genome NGS is too costly for routine resequencing.",
+      "constraints": [
+        "Low cost",
+        "High throughput",
+        "High sensitivity and specificity"
+      ],
+      "input_data": [
+        "DNA from 7 patients with 6 genetic diseases",
+        "DNA from 100 normal controls",
+        "YH DNA for accuracy estimation"
+      ],
+      "quantifiable_goals": [
+        "High coverage of targeted regions (≥30×)",
+        "High concordance with known variants (≥95%)",
+        "Identification of disease-causing mutations"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "Sanger sequencing is laborious and expensive for multiple genes; whole-genome NGS is too costly for routine resequencing.",
+        "gap_or_uncertainty": "Need for a cost-effective, high-throughput method to sequence multiple disease genes simultaneously.",
+        "hypothesis": "A custom targeted capture array combined with NGS can efficiently enrich and sequence 193 disease genes, enabling variant detection at lower cost.",
+        "decision": "Design a custom NimbleGen solid-phase capture array targeting 3382 exons of 193 genes, with sample barcoding for multiplexing.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "Custom capture array design",
+          "version": "NimbleGen",
+          "category": "target_enrichment"
+        },
+        "parameters": {
+          "target_genes": 193,
+          "target_exons": 3382,
+          "multiplexing": "10 libraries per lane"
+        },
+        "observation": "Designed array to capture 1.54 Mb of target sequence.",
+        "result_status": "success",
+        "next_step_reason": "Proceed to sequencing of patient and control samples to evaluate performance.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0084/combined.md",
+            "section": "C001",
+            "quote_or_span": "When multiple genes need to be analyzed for mutations simultaneously, the gathering of information becomes laborious, expensive and time consuming using the Sanger method."
+          },
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0084/combined.md",
+            "section": "C001",
+            "quote_or_span": "Although NGS technology can be used to analyze gene variants with high throughput screening, its high cost still prevents its application in whole human genome resequencing projects."
+          },
+          {
+            "evidence_id": "EV_C001_E03_01",
+            "source_file": "docs/0084/combined.md",
+            "section": "C001",
+            "quote_or_span": "we have designed a custom high-density, solid-phase array (Roche NimbleGen, Inc., Madison, WI, USA) to capture 193 distinct genes involved in 103 different genetic diseases."
+          },
+          {
+            "evidence_id": "EV_C001_E04_01",
+            "source_file": "docs/0084/combined.md",
+            "section": "C001",
+            "quote_or_span": "the DNA adapter-ligated and indexed fragments from 10 libraries were pooled and hybridized to the capture array for 72 h."
+          },
+          {
+            "evidence_id": "EV_AUTO_027",
+            "source_file": "docs/0084/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "To discover DNA variants of disease-causing genes involved in genetic disorders, we designed a unique high-density capture array to capture the 3382 exons and adjacent intron sequences of 193 genes causing distinct hereditary diseases (approximately 1.54 Mb, Table S1) that have a higher incidence in the Chinese population."
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "experiment",
+        "state_before": "Custom capture array designed; no sequencing data yet.",
+        "gap_or_uncertainty": "Whether the targeted capture and sequencing will yield sufficient coverage and uniformity across all exons.",
+        "hypothesis": "Targeted DNA-HiSeq on Illumina HiSeq2000 will produce high enrichment and coverage for the 193 genes.",
+        "decision": "Sequence 7 patient samples and 100 controls using the capture array and HiSeq2000 (paired-end 90bp).",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Targeted DNA-HiSeq",
+          "version": "Illumina HiSeq2000",
+          "category": "next_generation_sequencing"
+        },
+        "parameters": {
+          "read_length": "90bp paired-end",
+          "samples": "7 patients, 100 controls"
+        },
+        "observation": "74% uniquely mapped reads; 99.54% of target covered at ≥30×; average exon depth 410×.",
+        "result_status": "success",
+        "next_step_reason": "High coverage enables accurate variant calling; proceed to accuracy estimation using YH DNA.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E05_01",
+            "source_file": "docs/0084/combined.md",
+            "section": "C001",
+            "quote_or_span": "we selected 7 samples from seven patients with six different genetic diseases resulting from six disease-causing genes and 100 samples from normal human adults as controls."
+          },
+          {
+            "evidence_id": "EV_C001_E06_01",
+            "source_file": "docs/0084/combined.md",
+            "section": "C001",
+            "quote_or_span": "99.54% of the targeted region was covered in at least a 30-fold depth in each sample"
+          },
+          {
+            "evidence_id": "EV_C001_E07_01",
+            "source_file": "docs/0084/combined.md",
+            "section": "C001",
+            "quote_or_span": "The average coverage depth for exons was 410-fold, and the highest coverage depth for exons was 1000-fold"
+          },
+          {
+            "evidence_id": "EV_AUTO_026",
+            "source_file": "docs/0084/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "74% of the yielded clean reads could be uniquely matched to target regions, and 99.54% of the targeted region was covered in at least a 30-fold depth in each sample (Figure 2)."
+          },
+          {
+            "evidence_id": "EV_C002_E06_01",
+            "source_file": "docs/0084/combined.md",
+            "section": "C002",
+            "quote_or_span": "we sequenced 193 genes in DNA from 100 blood samples from 100 human adults and constructed our own polymorphism database for these 193 genes. We then considered the variants that did not overlap with our annotated SNPs (with an allele frequency more than 5%) for the 193 genes as candidate novel mutations for further analysis"
+          },
+          {
+            "evidence_id": "EV_AUTO_027",
+            "source_file": "docs/0084/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "To discover DNA variants of disease-causing genes involved in genetic disorders, we designed a unique high-density capture array to capture the 3382 exons and adjacent intron sequences of 193 genes causing distinct hereditary diseases (approximately 1.54 Mb, Table S1) that have a higher incidence in the Chinese population."
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "analysis",
+        "state_before": "High coverage achieved; variant calling accuracy unknown.",
+        "gap_or_uncertainty": "Need to establish variant calling criteria and estimate accuracy against a known reference.",
+        "hypothesis": "Using criteria of ≥10 reads, >14% variant reads, Q>20 will yield high concordance with dbYH for YH DNA.",
+        "decision": "Apply initial variant calling criteria to YH DNA and compare with dbYH.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Variant calling",
+          "version": "BWA, SOAPsnp, GATK",
+          "category": "bioinformatics"
+        },
+        "parameters": {
+          "min_reads": 10,
+          "min_variant_ratio": "14%",
+          "min_quality": 20
+        },
+        "observation": "Found 1301 SNVs; 95.70% (1245/1301) concordance with dbYH.",
+        "result_status": "partial",
+        "next_step_reason": "Concordance is high but can be improved; investigate variant ratio distribution to refine heterozygous threshold.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E02_01",
+            "source_file": "docs/0084/combined.md",
+            "section": "C002",
+            "quote_or_span": "we found 1301 SNVs of 193 genes in YH DNA using Targeted DNA-HiSeq, of which 95.70% (1245/1301) were also identified in dbYH"
+          },
+          {
+            "evidence_id": "EV_AUTO_025",
+            "source_file": "docs/0084/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The variants were considered to be candidate variants according to the following criteria: (1) the sites were supported by at least 10 reads; (2) the variant sequence was supported by more than $14\\%$ of the total reads; and (3) the quality value was greater than 20 per base [18]."
+          },
+          {
+            "evidence_id": "EV_AUTO_030",
+            "source_file": "docs/0084/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Figure S1 Estimation of the accuracy of Targeted DNA-HiSeq according to the following criteria: (1) sites are supported by at least 10 reads; (2) variant sequences are supported by more than 14% of the total reads for the heterozygous genotype; and (3) a quality value of more than 20 per base was obtained."
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "revision",
+        "state_before": "Initial accuracy 95.70% with >14% variant ratio threshold.",
+        "gap_or_uncertainty": "Some discordant variants may be due to suboptimal heterozygous threshold.",
+        "hypothesis": "Raising the heterozygous variant ratio threshold to >20% will improve concordance by reducing false positives.",
+        "decision": "Analyze variant ratio distribution; set new threshold at >20% for heterozygous calls.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Threshold optimization",
+          "version": "",
+          "category": "statistical_analysis"
+        },
+        "parameters": {
+          "new_heterozygous_threshold": ">20%"
+        },
+        "observation": "With >20% threshold, found 1281 SNVs; concordance improved to 96.8% (1240/1281).",
+        "result_status": "success",
+        "next_step_reason": "Refined criteria will be applied to patient samples for variant calling.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E03_02",
+            "source_file": "docs/0084/combined.md",
+            "section": "C002",
+            "quote_or_span": "a new criterion was used to identify candidate variants. Based on these new standards, we found 1281 SNVs of 193 genes in YH DNA (C1) using Targeted DNA-HiSeq, of which 96.8% (1240/1281) were also identified in dbYH"
+          },
+          {
+            "evidence_id": "EV_AUTO_003",
+            "source_file": "docs/0084/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "6\\%$ (1240/1245) of common variants (Figure S1B), suggesting that candidate variants should be supported by more than $20\\%$ of the total reads"
+          },
+          {
+            "evidence_id": "EV_AUTO_005",
+            "source_file": "docs/0084/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "To further ascertain the appropriate ratio of candidate variants in heterozygous genotypes, we compared the distribution ratio of candidate variants in heterozygous genotypes between common variants (1245 variants) and specific variants (56 variants) (Figure S1A)."
+          },
+          {
+            "evidence_id": "EV_AUTO_010",
+            "source_file": "docs/0084/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The results showed that the ratio of candidate variants in heterozygous genotypes was more than $20\\%$ in $99.6\\%$ (1240/1245) of common variants (Figure S1B), suggesting that candidate variants should be supported by more than $20\\%$ of the total reads"
+          },
+          {
+            "evidence_id": "EV_AUTO_030",
+            "source_file": "docs/0084/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Figure S1 Estimation of the accuracy of Targeted DNA-HiSeq according to the following criteria: (1) sites are supported by at least 10 reads; (2) variant sequences are supported by more than 14% of the total reads for the heterozygous genotype; and (3) a quality value of more than 20 per base was obtained."
+          },
+          {
+            "evidence_id": "EV_AUTO_013",
+            "source_file": "docs/0084/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "(B) The distribution of ratio of candidate variants with heterozygous genotypes between common variants (1245 variants) and specific variants (56 variants) showed that the ratio of candidate variants with heterozygous genotypes was greater than 20% in 99."
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "analysis",
+        "state_before": "Refined variant calling criteria established.",
+        "gap_or_uncertainty": "Need to identify variants in patient samples and filter for disease-causing mutations.",
+        "hypothesis": "Applying refined criteria and a filtering strategy will identify candidate disease mutations.",
+        "decision": "Call variants in 7 patients using BWA, SOAPsnp, GATK; filter against known databases and custom control polymorphism database.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Variant calling and filtering",
+          "version": "BWA, SOAPsnp, GATK",
+          "category": "bioinformatics"
+        },
+        "parameters": {
+          "databases": [
+            "dbSNP",
+            "HGMD",
+            "LSMD",
+            "1000 Genomes"
+          ],
+          "custom_control_db": "100 normal controls, AF>5% excluded"
+        },
+        "observation": "Identified 6317 variants (5734 SNVs, 583 indels); after filtering, 79 candidate mutations (29 known, 41 novel, 9 indels).",
+        "result_status": "success",
+        "next_step_reason": "Examine candidate mutations for disease relevance.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E05_01",
+            "source_file": "docs/0084/combined.md",
+            "section": "C002",
+            "quote_or_span": "We finally identified 6317 variants, including 583 indels and 5734 substitutes."
+          },
+          {
+            "evidence_id": "EV_C002_E06_01",
+            "source_file": "docs/0084/combined.md",
+            "section": "C002",
+            "quote_or_span": "we sequenced 193 genes in DNA from 100 blood samples from 100 human adults and constructed our own polymorphism database for these 193 genes. We then considered the variants that did not overlap with our annotated SNPs (with an allele frequency more than 5%) for the 193 genes as candidate novel mutations for further analysis"
+          },
+          {
+            "evidence_id": "EV_C002_E06_02",
+            "source_file": "docs/0084/combined.md",
+            "section": "C002",
+            "quote_or_span": "Out of the 79 total candidate mutations, 7 mutations occurred in 6 disease-causing genes"
+          },
+          {
+            "evidence_id": "EV_AUTO_016",
+            "source_file": "docs/0084/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "We then considered the variants that did not overlap with our annotated SNPs (with an allele frequency more than 5%) for the 193 genes as candidate novel mutations for further analysis, including 29 known substitutions, 41 novel substitutions and 9 novel indels."
+          },
+          {
+            "evidence_id": "EV_AUTO_017",
+            "source_file": "docs/0084/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Among these variants, 84.4% (4841/5734) were termed as “known SNVs”, which were well known SNPs that had been deposited in the dbSNP database, HGMD, LSMD, and 1000 human genome dataset."
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "analysis",
+        "state_before": "79 candidate mutations identified.",
+        "gap_or_uncertainty": "Which of these are true disease-causing mutations?",
+        "hypothesis": "Mutations in known disease genes for the patients' phenotypes are likely causative.",
+        "decision": "Correlate candidate mutations with patient phenotypes; identify known and novel mutations.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Mutation interpretation",
+          "version": "",
+          "category": "clinical_annotation"
+        },
+        "parameters": {},
+        "observation": "Identified 7 disease-causing mutations in 6 genes: 6 known (SPG11 insT, ATP7B 2810detT, HBB delTTCT, HBB IVS2+654C>T) and 2 novel (STS G367R, FBN1 C59R), plus DMD exon 1 deletion detected by read depth.",
+        "result_status": "success",
+        "next_step_reason": "Validate mutations with orthogonal methods.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E01_01",
+            "source_file": "docs/0084/combined.md",
+            "section": "C003",
+            "quote_or_span": "the median read depth for the first exon of the DMD gene was 0 in P7, whereas the median depth for first exon of the DMD gene in the proband's mother (C3) was 334 fold"
+          },
+          {
+            "evidence_id": "EV_C003_E03_01",
+            "source_file": "docs/0084/combined.md",
+            "section": "C003",
+            "quote_or_span": "A homozygous substitution mutation (c.1099G>A; p.G367R) was found in exon 8 of the STS gene"
+          },
+          {
+            "evidence_id": "EV_C003_E03_02",
+            "source_file": "docs/0084/combined.md",
+            "section": "C003",
+            "quote_or_span": "A substitution mutation (c.175T>C, p.C59R) was found in exon 3 of the FBN1 gene"
+          },
+          {
+            "evidence_id": "EV_C003_E03_03",
+            "source_file": "docs/0084/combined.md",
+            "section": "C003",
+            "quote_or_span": "SIFT prediction demonstrated that these two mutations were in fact damaging mutations"
+          },
+          {
+            "evidence_id": "EV_AUTO_009",
+            "source_file": "docs/0084/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "In the two patients suffering from $\\beta$ -thalassemia, we identified two different mutations in the $\\beta$ -subunit of the hemoglobin gene (HBB, MIM# 141900): 126\\_129delCTTT (269 variants and 421 wild types reads) in patient P5 and IVS2+654C>T (130 of 255 reads) in patient P6 [23,24]."
+          },
+          {
+            "evidence_id": "EV_C002_E06_02",
+            "source_file": "docs/0084/combined.md",
+            "section": "C002",
+            "quote_or_span": "Out of the 79 total candidate mutations, 7 mutations occurred in 6 disease-causing genes"
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "validation",
+        "state_before": "7 candidate disease mutations identified.",
+        "gap_or_uncertainty": "Need to confirm mutations are not artifacts.",
+        "hypothesis": "Sanger sequencing and real-time PCR will confirm the mutations.",
+        "decision": "Validate all 7 mutations by Sanger sequencing; validate DMD deletion by real-time PCR.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Sanger sequencing and real-time PCR",
+          "version": "",
+          "category": "validation"
+        },
+        "parameters": {},
+        "observation": "Sanger sequencing confirmed all 7 mutations with 100% concordance; real-time PCR confirmed DMD exon 1 deletion (P7 RA~0, mother C3 RA~0.444).",
+        "result_status": "success",
+        "next_step_reason": "Method validated; assess limitations.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E02_01",
+            "source_file": "docs/0084/combined.md",
+            "section": "C003",
+            "quote_or_span": "the relative amplification level (RA level) was almost zero (0.032%) in P7, while the RA level was 444 (44.4%) in C2 when the value of C2 was normalized to 1000 (100%)"
+          },
+          {
+            "evidence_id": "EV_C003_E02_02",
+            "source_file": "docs/0084/combined.md",
+            "section": "C003",
+            "quote_or_span": "There were significant differences between C2 and P7 as well as between C3 and P7 (p<0.001)"
+          },
+          {
+            "evidence_id": "EV_C003_E04_01",
+            "source_file": "docs/0084/combined.md",
+            "section": "C003",
+            "quote_or_span": "The results showed complete consistency between the two methods"
+          },
+          {
+            "evidence_id": "EV_C004_E07_01",
+            "source_file": "docs/0084/combined.md",
+            "section": "C004",
+            "quote_or_span": "Figure 6. Verification of identified disease-causing mutations by the classical Sanger sequencing method."
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "analysis",
+        "state_before": "7 disease mutations validated; 72 additional candidate mutations remain.",
+        "gap_or_uncertainty": "Why are there many candidate mutations not linked to disease?",
+        "hypothesis": "Incomplete polymorphism database leads to false positives.",
+        "decision": "Analyze remaining candidate mutations; assess database completeness.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "False positive analysis",
+          "version": "",
+          "category": "quality_control"
+        },
+        "parameters": {},
+        "observation": "72 additional candidate mutations in 49 other genes suggest incomplete polymorphism database; average 13.1 potential mutations per patient.",
+        "result_status": "partial",
+        "next_step_reason": "Highlight limitation for future improvement.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E07_01",
+            "source_file": "docs/0084/combined.md",
+            "section": "C002",
+            "quote_or_span": "there were an additional 72 candidate mutations in 49 genes unrelated to the six diseases"
+          },
+          {
+            "evidence_id": "EV_C003_E05_01",
+            "source_file": "docs/0084/combined.md",
+            "section": "C003",
+            "quote_or_span": "72 potential mutations in 43 genes were identified in the same seven specimens by our method"
+          },
+          {
+            "evidence_id": "EV_C003_E05_02",
+            "source_file": "docs/0084/combined.md",
+            "section": "C003",
+            "quote_or_span": "our annotated genetic polymorphism database does not present the highest possible level of representativeness and comprehensiveness"
+          },
+          {
+            "evidence_id": "EV_AUTO_031",
+            "source_file": "docs/0084/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Each patient carried 10 to 17 (average 13.1) potential mutations that were not in the seven disease-causing genes according to the OMIM database."
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "analysis",
+        "state_before": "High overall coverage, but some exons may have low coverage.",
+        "gap_or_uncertainty": "GC content may cause coverage bias.",
+        "hypothesis": "Exons with extreme GC content will have reduced coverage due to PCR amplification bias.",
+        "decision": "Analyze coverage vs. GC content; identify poorly covered exons.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "GC bias analysis",
+          "version": "",
+          "category": "quality_control"
+        },
+        "parameters": {},
+        "observation": "36% of exons with GC>75% or <25% had depth <30×; only 14% of exons with GC>80% captured well; 29 exons consistently low coverage. Likely due to PCR amplification efficiency.",
+        "result_status": "partial",
+        "next_step_reason": "Note limitation for future optimization.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E06_02",
+            "source_file": "docs/0084/combined.md",
+            "section": "C003",
+            "quote_or_span": "When the GC content was greater than 80%, only 14% of the exons could be successfully captured and/or sequenced to a median depth of greater than 30 fold"
+          },
+          {
+            "evidence_id": "EV_C005_E01_01",
+            "source_file": "docs/0084/combined.md",
+            "section": "C005",
+            "quote_or_span": "ike behavior and decreased whenever the GC content of the exon was too high or low."
+          },
+          {
+            "evidence_id": "EV_C005_E02_01",
+            "source_file": "docs/0084/combined.md",
+            "section": "C005",
+            "quote_or_span": "Table S4 The list of 29 exons with a median depth of less than 30-fold across the ten samples."
+          },
+          {
+            "evidence_id": "EV_AUTO_001",
+            "source_file": "docs/0084/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "More than 36% of exons with a high GC content ( $>75\\%$ ) or low GC content ( $<25\\%$ ) presented a sequencing depth less than 30 fold (Figure S2A and S2B)."
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "analysis",
+        "state_before": "Array-based capture method used successfully but with practical drawbacks.",
+        "gap_or_uncertainty": "The solid-phase array hybridization process is time-consuming and inflexible.",
+        "hypothesis": "Array-based hybridization is slower and less adaptable than solution-based methods.",
+        "decision": "Note the limitation of array-based hybridization for clinical and optimization purposes.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Limitation assessment",
+          "version": "",
+          "category": "quality_control"
+        },
+        "parameters": {},
+        "observation": "Hybridization to solid-phase array takes 65-72 hours, slower than solution-based (~24h); array redesign is required for probe changes, hindering optimization.",
+        "result_status": "partial",
+        "next_step_reason": "Acknowledge limitation for future method development.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E04_01",
+            "source_file": "docs/0084/combined.md",
+            "section": "C004",
+            "quote_or_span": "Hybridization to a solid-phase array takes almost three days (65–72 hours) and is a time-consuming process, making array-based hybridization technology slightly slower for clinical diagnoses compared with solution-based approaches, which require approximately 24 hours."
+          },
+          {
+            "evidence_id": "EV_C004_E05_01",
+            "source_file": "docs/0084/combined.md",
+            "section": "C004",
+            "quote_or_span": "array-based methods are hampered with regard to further optimization due to their technological complexity. If a probe has to be added or changed, the whole array must be synthesized de novo."
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "Sanger sequencing",
+        "Real-time PCR"
+      ],
+      "metrics": [
+        "Concordance with dbYH: 96.8%",
+        "Coverage: 99.54% at ≥30×",
+        "Sanger validation: 100% concordance"
+      ],
+      "final_conclusion": "Targeted DNA-HiSeq successfully identified 7 disease-causing mutations with high accuracy, but false positives from incomplete polymorphism database, GC bias, and array-based hybridization limitations remain.",
+      "limitations": [
+        "Incomplete polymorphism database leads to false positives (72 additional candidates)",
+        "GC content bias reduces coverage in extreme GC exons (36% with depth <30×)",
+        "Array-based hybridization is time-consuming (65-72h) and less flexible"
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_specific_evidence_backfilled=8",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_specific_evidence_backfilled=8",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 99.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p2\\states\\0084.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p2\\events\\0084.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1
+        ],
+        "K04": [
+          2,
+          3
+        ],
+        "K05": [
+          2,
+          3,
+          4
+        ],
+        "K06": [
+          3,
+          4
+        ],
+        "K07": [
+          5
+        ],
+        "K08": [
+          2,
+          5,
+          6
+        ],
+        "K09": [
+          6
+        ],
+        "K10": [
+          7
+        ],
+        "K11": [
+          8
+        ],
+        "K12": [
+          9
+        ],
+        "K13": [
+          9
+        ],
+        "K14": [
+          10
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K02",
+            "K03",
+            "K04",
+            "K05",
+            "K08"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K04",
+            "K05",
+            "K06"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K05",
+            "K06"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K07",
+            "K08"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K08",
+            "K09"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K10"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K11"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K12",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K14"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 2,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "000",
+          "90bp"
+        ]
+      },
+      {
+        "step_index": 4,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "95.70%"
+        ]
+      },
+      {
+        "step_index": 6,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "2810"
+        ]
+      },
+      {
+        "step_index": 7,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "0.444"
+        ]
+      },
+      {
+        "step_index": 9,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "25%",
+          "75%"
+        ]
+      },
+      {
+        "step_index": 10,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "-72h"
+        ]
+      }
+    ],
+    "step_count": 10,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 99.0
+  },
+  "api_usage": {
+    "prompt_tokens": 128464,
+    "completion_tokens": 27001,
+    "total_tokens": 155465,
+    "prompt_cache_hit_tokens": 2944,
+    "prompt_cache_miss_tokens": 125520
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 3300,
+        "completion_tokens": 895,
+        "total_tokens": 4195,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 3300
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 13861,
+        "completion_tokens": 3397,
+        "total_tokens": 17258,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 13861
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 8227,
+        "completion_tokens": 1109,
+        "total_tokens": 9336,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7971
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 8827,
+        "completion_tokens": 1350,
+        "total_tokens": 10177,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8571
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 9281,
+        "completion_tokens": 1272,
+        "total_tokens": 10553,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9025
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 10151,
+        "completion_tokens": 1246,
+        "total_tokens": 11397,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9895
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C005",
+      "api_usage": {
+        "prompt_tokens": 5808,
+        "completion_tokens": 368,
+        "total_tokens": 6176,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 5552
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 12742,
+        "completion_tokens": 3246,
+        "total_tokens": 15988,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 12358
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 14015,
+        "completion_tokens": 6436,
+        "total_tokens": 20451,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 13375
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 19694,
+        "completion_tokens": 773,
+        "total_tokens": 20467,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 19694
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 22558,
+        "completion_tokens": 6909,
+        "total_tokens": 29467,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 21918
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

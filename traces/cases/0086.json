@@ -1,0 +1,850 @@
+{
+  "case": {
+    "case_id": "sci_evo_0086",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Rapid response to fast viral evolution using AlphaFold 3-assisted topological deep learning",
+      "doi": "https://doi.org/10.1093/ve/veaf026",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0084_10_1093_ve_veaf026_rapid_response_to_fast_viral_evolution_using_alphafold_3_assisted_topological_deep_learnin.pdf",
+      "mineru_md": "docs/0086/mineru.md",
+      "combined_md": "docs/0086/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Fast viral evolution outpaces experimental DMS and 3D structure determination, hindering timely forecasting of dominant variants.",
+      "target_object": "SARS-CoV-2 RBD-ACE2 binding free energy changes upon mutation",
+      "known_context": "Experimental DMS and 3D structures are bottlenecks for rapid response to viral evolution. The earliest experimental DMS on SARS-CoV-2 RBD mutations was not available until September 2020, nine months after the outbreak.",
+      "constraints": [
+        "High-quality 3D structures are required for TDL-based predictions, but are often delayed during pandemics."
+      ],
+      "input_data": [
+        "Four experimental SARS-CoV-2 RBD-ACE2 DMS datasets (6M0J-RBD-1, 6M0J-RBD-2, 7T9L-RBD, 7XB0-RBD)",
+        "SKEMPI 2.0 database for multi-task training"
+      ],
+      "quantifiable_goals": [
+        "Maintain predictive performance (PCC, RMSE) when substituting experimental structures with AF3-predicted structures",
+        "Extend to new variants (e.g., HK.3) with acceptable accuracy"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "Experimental DMS and 3D structures are bottlenecks for rapid response to viral evolution.",
+        "gap_or_uncertainty": "Can AF3-predicted structures substitute experimental structures for TDL-based DMS prediction without significant performance loss?",
+        "hypothesis": "AF3-predicted structures can substitute experimental structures for TDL-based DMS prediction.",
+        "decision": "Propose an AF3-assisted multi-task topological Laplacian (MT-TopLap) strategy to bypass experimental structure determination.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "AlphaFold 3",
+          "version": "Server",
+          "category": "structure_prediction"
+        },
+        "parameters": {},
+        "observation": "AF3 can predict 3D structures of RBD-ACE2 complexes, enabling feature extraction without experimental structures.",
+        "result_status": "success",
+        "next_step_reason": "Design the MT-TopLap model integrating features from AF3 structures.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0086/combined.md",
+            "section": "C001",
+            "quote_or_span": "the DMS experiments are typically a bottleneck in response to fast evolving viruses"
+          },
+          {
+            "evidence_id": "EV_C001_E01_02",
+            "source_file": "docs/0086/combined.md",
+            "section": "C001",
+            "quote_or_span": "the earliest experimental DMS on the SARS-CoV-2 spike protein RBD mutations was not available until September 2020, nine months after the outbreak"
+          },
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0086/combined.md",
+            "section": "C001",
+            "quote_or_span": "We propose an AlphaFold 3 (AF3)-assisted multi-task topological Laplacian (MT-TopLap) strategy to address this need."
+          },
+          {
+            "evidence_id": "EV_C001_E02_02",
+            "source_file": "docs/0086/combined.md",
+            "section": "C001",
+            "quote_or_span": "we leverage AF3's predicted structures to extract persistent Laplacian features. As such, we can speed up in-silico DMS predictions by bypassing the experimental determination of PPI complex structures."
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "design",
+        "state_before": "Hypothesis formulated; need a model that can use AF3 structures for DMS prediction.",
+        "gap_or_uncertainty": "How to integrate topological, auxiliary, and sequence features for multi-task learning of BFE changes?",
+        "hypothesis": "Integrating persistent Laplacian, auxiliary, and pre-trained transformer features in a multi-task deep learning framework will accurately predict BFE changes upon mutation.",
+        "decision": "Design MT-TopLap with persistent Laplacian features from AF3 structures, auxiliary features, and ESM-2 transformer embeddings, trained on SKEMPI 2.0 with multi-task learning.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "MT-TopLap",
+          "version": "1.0",
+          "category": "deep_learning"
+        },
+        "parameters": {
+          "architecture": "six hidden layers, 15,000 neurons each",
+          "features": "persistent Laplacian (0D: 1872, higher-D: 420), auxiliary, ESM-2 transformer",
+          "training_data": "SKEMPI 2.0",
+          "learning_rate": 0.0001,
+          "epochs": "500 pre-training, 200 validation"
+        },
+        "observation": "Model architecture defined; features extracted from AF3-generated complexes.",
+        "result_status": "success",
+        "next_step_reason": "Validate the model on four experimental DMS datasets.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E03_01",
+            "source_file": "docs/0086/combined.md",
+            "section": "C001",
+            "quote_or_span": "MT-TopLap integrates persistent Laplacian, auxiliary, and pre-trained transformer features to predict BFE changes upon RBD DMS mutations."
+          },
+          {
+            "evidence_id": "EV_C001_E03_02",
+            "source_file": "docs/0086/combined.md",
+            "section": "C001",
+            "quote_or_span": "SKEMPI 2.0 is used as training data with a multi-task deep learning approach that simultaneously learns single-site mutational patterns with experimental BFE changes and DMS profiles with experimental enrichment ratios."
+          },
+          {
+            "evidence_id": "EV_C003_E02_01",
+            "source_file": "docs/0086/combined.md",
+            "section": "C003",
+            "quote_or_span": "the AF3 generated 3D SARS-CoV-2 RBD-ACE2 complex is used to generate persistent Laplacian features and auxiliary features. Persistent Laplacian features provide a topological representation, using element-and site-specific atom sets to simplify the structural complexity of protein–protein complexes and encode vital biological information into topological invariants."
+          },
+          {
+            "evidence_id": "EV_C003_E03_01",
+            "source_file": "docs/0086/combined.md",
+            "section": "C003",
+            "quote_or_span": "The ESM-2 pre-trained transformer is used to convert amino acid sequence of the PPI into a pre-trained transformer embedding. All these features are concatenated and fed into MT-TopLap to predict the BFE change upon mutation."
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "experiment",
+        "state_before": "MT-TopLap designed; need to test on SARS-CoV-2 DMS data.",
+        "gap_or_uncertainty": "How does AF3-assisted MT-TopLap perform compared to using experimental structures on multiple DMS datasets?",
+        "hypothesis": "AF3-assisted MT-TopLap will maintain performance close to that using experimental structures.",
+        "decision": "Validate on four experimental RBD-ACE2 DMS datasets (6M0J-RBD-1, 6M0J-RBD-2, 7T9L-RBD, 7XB0-RBD) using both AF3 and PDB structures with 10-fold cross-validation.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "MT-TopLap",
+          "version": "1.0",
+          "category": "deep_learning"
+        },
+        "parameters": {
+          "datasets": [
+            "6M0J-RBD-1",
+            "6M0J-RBD-2",
+            "7T9L-RBD",
+            "7XB0-RBD"
+          ],
+          "validation": "10-fold cross-validation",
+          "learning_rate": 0.0001,
+          "epochs": "500 pre-training, 200 validation"
+        },
+        "observation": "AF3-assisted MT-TopLap achieved PCC and RMSE values close to those using PDB structures across all datasets.",
+        "result_status": "success",
+        "next_step_reason": "Quantify the performance difference between AF3 and experimental structures.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E04_01",
+            "source_file": "docs/0086/combined.md",
+            "section": "C001",
+            "quote_or_span": "We validate our AF3-assisted MT-TopLap approach with four experimental RBD-ACE2 DMS datasets of SARS-CoV-2 and its variants"
+          },
+          {
+            "evidence_id": "EV_C001_E04_02",
+            "source_file": "docs/0086/combined.md",
+            "section": "C001",
+            "quote_or_span": "we first collected four experimental RBD-ACE2 DMS datasets, each paired with an experimental 3D SARS-CoV-2 RBD-ACE2 complex structure. Meanwhile, we also create alternative AF3 3D RBD-ACE2 complex structures from the AlphaFold 3 Server."
+          },
+          {
+            "evidence_id": "EV_C003_E05_01",
+            "source_file": "docs/0086/combined.md",
+            "section": "C003",
+            "quote_or_span": "we perform dataset-level 10-fold cross-validation on four experimental SARS-CoV-2 RBD-ACE2 datasets. The learning rate is set to 0.0001 and 500 epochs are used for the pre-training while 200 epochs are used for the validation step."
+          },
+          {
+            "evidence_id": "EV_AUTO_010",
+            "source_file": "docs/0086/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The four experimental DMS datasets comprise of two datasets from the original SARS-CoV-2 RBD-ACE2 DMSs (6M0J-RBD-1, 6M0J-RBD-2) [7, 45], and datasets from the BA."
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "analysis",
+        "state_before": "Validation completed; need to assess the impact of using AF3 structures.",
+        "gap_or_uncertainty": "What is the quantitative performance drop when using AF3 structures instead of experimental ones?",
+        "hypothesis": "The performance drop will be minimal, justifying the use of AF3 structures for rapid response.",
+        "decision": "Compute average PCC decrease and RMSE increase across the four datasets.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "statistical_analysis",
+          "version": "N/A",
+          "category": "analysis"
+        },
+        "parameters": {
+          "metrics": [
+            "PCC",
+            "RMSE"
+          ]
+        },
+        "observation": "Average PCC decreased by 1.1% and RMSE increased by 9.3% compared to using PDB structures.",
+        "result_status": "success",
+        "next_step_reason": "Highlight best-performing dataset and consider fine-tuning for new variants.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E05_01",
+            "source_file": "docs/0086/combined.md",
+            "section": "C001",
+            "quote_or_span": "AF3-assisted MT-TopLap maintains strong performance in predicting BFE changes upon DMS mutations, with an average decrease of only 1.1% in Pearson correlation coefficient (PCC) and an average increase of only 9.3% in RMSE, compared to the use of experimental RBD-ACE2 structures."
+          },
+          {
+            "evidence_id": "EV_C002_E01_01",
+            "source_file": "docs/0086/combined.md",
+            "section": "C002",
+            "quote_or_span": "AF3-assisted MT-TopLap only displayed an average decrease of 1.1% in PCC when compared to using Protein Data Bank (PDB) structures."
+          },
+          {
+            "evidence_id": "EV_C002_E01_02",
+            "source_file": "docs/0086/combined.md",
+            "section": "C002",
+            "quote_or_span": "the four SARS-CoV-2 RBD-ACE2 datasets displayed an average of 9.3% increase in RMSE when validated with AF3-assisted MT-TopLap."
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "validation",
+        "state_before": "Overall performance quantified; best dataset identified.",
+        "gap_or_uncertainty": "Which dataset shows the best performance with AF3 structures?",
+        "hypothesis": "The 7XB0-RBD dataset will yield the highest PCC and lowest RMSE.",
+        "decision": "Report best performance on 7XB0-RBD with AF3 structures.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "MT-TopLap",
+          "version": "1.0",
+          "category": "deep_learning"
+        },
+        "parameters": {
+          "dataset": "7XB0-RBD"
+        },
+        "observation": "PCC of 0.968 and RMSE of 0.338 kcal/mol, only 0.6% lower PCC than using PDB structures.",
+        "result_status": "success",
+        "next_step_reason": "Extend to new variant HK.3 via transfer learning.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E02_01",
+            "source_file": "docs/0086/combined.md",
+            "section": "C002",
+            "quote_or_span": "AF3-assisted MT-TopLap also achieved the best performance in the validation test for 7XB0-RBD with a PCC of 0.968, only 0.6% lower than the performance using PDB complexes."
+          },
+          {
+            "evidence_id": "EV_C002_E02_02",
+            "source_file": "docs/0086/combined.md",
+            "section": "C002",
+            "quote_or_span": "AF3-assisted MT-TopLap's predicted BFE changes for 7XB0-RBD obtained the lowest RMSE of 0.338 kcal/mol"
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "revision",
+        "state_before": "Model validated on existing variants; need to adapt to emerging variant HK.3.",
+        "gap_or_uncertainty": "Can AF3-assisted MT-TopLap be fine-tuned with limited experimental DMS data for a new variant?",
+        "hypothesis": "Transfer learning with latest experimental DMS data will enable accurate prediction for HK.3.",
+        "decision": "Use transfer learning to fine-tune AF3-assisted MT-TopLap with HK.3 DMS data and AF3-predicted structure.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "MT-TopLap",
+          "version": "1.0",
+          "category": "deep_learning"
+        },
+        "parameters": {
+          "fine_tuning_data": "HK.3 experimental DMS",
+          "structure_source": "AlphaFold Server"
+        },
+        "observation": "Model updated with HK.3 data; ready for validation.",
+        "result_status": "success",
+        "next_step_reason": "Validate fine-tuned model on HK.3 DMS.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E03_01",
+            "source_file": "docs/0086/combined.md",
+            "section": "C002",
+            "quote_or_span": "To enhance AF3-assisted MT-TopLap's capabilities using experimental DMS data, we use transfer learning to update AF3-assisted MT-TopLap by training it with latest experimental DMS data."
+          },
+          {
+            "evidence_id": "EV_C002_E03_02",
+            "source_file": "docs/0086/combined.md",
+            "section": "C002",
+            "quote_or_span": "we use the AlphaFold Server to predict the 3D structure of HK.3 variant RBD-ACE2 complex."
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "validation",
+        "state_before": "Fine-tuned model for HK.3; need to assess prediction accuracy.",
+        "gap_or_uncertainty": "How well does the fine-tuned model predict BFE changes for HK.3 mutations?",
+        "hypothesis": "The fine-tuned model will achieve acceptable accuracy.",
+        "decision": "Perform 10-fold cross-validation on HK.3 DMS data.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "MT-TopLap",
+          "version": "1.0",
+          "category": "deep_learning"
+        },
+        "parameters": {
+          "validation": "10-fold cross-validation",
+          "pre-training": "SARS-CoV-2 RBD-ACE2 datasets and S8338 dataset"
+        },
+        "observation": "PCC of 0.81 and RMSE of 1.10 achieved.",
+        "result_status": "success",
+        "next_step_reason": "Analyze predictions by structural regions and mutation types.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E06_01",
+            "source_file": "docs/0086/combined.md",
+            "section": "C001",
+            "quote_or_span": "AF3-assisted MT-TopLap achieves a PCC of 0.81 and RMSE of 1.10 for this fine-tuning validation."
+          },
+          {
+            "evidence_id": "EV_C002_E04_01",
+            "source_file": "docs/0086/combined.md",
+            "section": "C002",
+            "quote_or_span": "The predicted BFE changes are obtained by performing a 10-fold cross-validation after MT-TopLap has been pre-trained with the SARS-CoV-2 RBD-ACE2 datasets and the S8338 dataset."
+          },
+          {
+            "evidence_id": "EV_C002_E04_02",
+            "source_file": "docs/0086/combined.md",
+            "section": "C002",
+            "quote_or_span": "The patterns of the predicted DMS is observed to resemble the patterns of the converted BFE changes with a PCC of 0.81 and an RMSE of 1.10."
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "analysis",
+        "state_before": "HK.3 validation completed; further analysis of predictions.",
+        "gap_or_uncertainty": "How do predictions vary across structural regions and mutation types?",
+        "hypothesis": "Predictions will be more accurate for binding interface mutations and will align with experimental patterns across amino acid types.",
+        "decision": "Analyze BFE changes by structural regions (support, core, rim) and by mutation types (20 amino acid types, charged, polar, hydrophobic).",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "statistical_analysis",
+          "version": "N/A",
+          "category": "analysis"
+        },
+        "parameters": {
+          "regions": [
+            "support",
+            "core",
+            "rim"
+          ],
+          "mutation_types": [
+            "20 amino acid types",
+            "charged",
+            "polar",
+            "hydrophobic"
+          ]
+        },
+        "observation": "High PCCs for binding interface regions (0.947, 0.943, 0.931); predicted BFE changes by mutation types align with experimental data, though predicted variance is lower.",
+        "result_status": "success",
+        "next_step_reason": "Track variant evolution using predicted BFE changes.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E05_01",
+            "source_file": "docs/0086/combined.md",
+            "section": "C002",
+            "quote_or_span": "The combined prediction results for different residue region types for four AF3-assisted SARS-CoV-2 RBD-ACE2 datasets according to Fig. 1(a) with PCCs of 0.947, 0.943, and 0.931 for the binding interfaces: support, core, and rim respectively."
+          },
+          {
+            "evidence_id": "EV_C002_E06_02",
+            "source_file": "docs/0086/combined.md",
+            "section": "C002",
+            "quote_or_span": "the variance of the predicted BFE changes are generally lower than the variance of the experimental values"
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "analysis",
+        "state_before": "Regional and mutation type analysis done; apply to variant tracking.",
+        "gap_or_uncertainty": "Can predicted BFE changes explain the emergence of new variants like KP.3?",
+        "hypothesis": "Predicted BFE changes will reflect mutational effects that drive variant dominance.",
+        "decision": "Analyze BFE changes for key mutations in KP.3 (Q493E, L455S, F456L).",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "MT-TopLap",
+          "version": "1.0",
+          "category": "deep_learning"
+        },
+        "parameters": {
+          "mutations": [
+            "Q493E",
+            "L455S",
+            "F456L"
+          ]
+        },
+        "observation": "Q493E alone decreases BFE, but combined with L455S and F456L reverses effect, increasing BFE by 0.455 kcal/mol.",
+        "result_status": "success",
+        "next_step_reason": "Conclude overall validation and limitations.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E07_01",
+            "source_file": "docs/0086/combined.md",
+            "section": "C002",
+            "quote_or_span": "in the current KP.3 variant, when Q493E is combined with L455S and F456L mutations, the effect has reversed thus promoting an increase in BFE changes"
+          },
+          {
+            "evidence_id": "EV_AUTO_016",
+            "source_file": "docs/0086/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "This is consistent with Figure 4 where a positive BFE change of $0.455\\mathrm{kcal / mol}$ due to Q493E mutation led to the KP."
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "validation",
+        "state_before": "All analyses completed; need to summarize overall performance and limitations.",
+        "gap_or_uncertainty": "Does AF3-assisted MT-TopLap provide a robust and rapid alternative to experimental structure-based prediction?",
+        "hypothesis": "AF3-assisted MT-TopLap achieves robust performance with minimal deviation from experimental structures and extends to new variants.",
+        "decision": "Conclude that AF3-assisted MT-TopLap is effective, but note the limitation of requiring high-quality structures.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "summary",
+          "version": "N/A",
+          "category": "analysis"
+        },
+        "parameters": {},
+        "observation": "Robust performance on four DMS datasets (avg. 1.1% PCC drop, 9.3% RMSE increase) and successful extension to HK.3 (PCC 0.81). Limitation: still requires 3D structures, which may be delayed.",
+        "result_status": "success",
+        "next_step_reason": "Finalize case.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E08_01",
+            "source_file": "docs/0086/combined.md",
+            "section": "C003",
+            "quote_or_span": "With 3D PPI complexes generated by AF3, AF3-assisted MT-TopLap achieves robust predictive performance, showing minimal deviation from results obtained using high-quality experimental 3D structures."
+          },
+          {
+            "evidence_id": "EV_C003_E08_02",
+            "source_file": "docs/0086/combined.md",
+            "section": "C003",
+            "quote_or_span": "Our model's success extends to new variants, including the SARS-CoV-2 HK.3 variant, where it achieved a Pearson correlation coefficient (PCC) of 0.81."
+          },
+          {
+            "evidence_id": "EV_C001_E07_01",
+            "source_file": "docs/0086/combined.md",
+            "section": "C001",
+            "quote_or_span": "MT-TopLap requires the 3D structures of new viral variants to achieve accurate predictions. Such structures are typically not available until many months later during pandemics."
+          },
+          {
+            "evidence_id": "EV_C001_E05_01",
+            "source_file": "docs/0086/combined.md",
+            "section": "C001",
+            "quote_or_span": "AF3-assisted MT-TopLap maintains strong performance in predicting BFE changes upon DMS mutations, with an average decrease of only 1.1% in Pearson correlation coefficient (PCC) and an average increase of only 9.3% in RMSE, compared to the use of experimental RBD-ACE2 structures."
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "10-fold cross-validation on four experimental DMS datasets",
+        "Comparison of AF3-assisted vs. PDB structure-based predictions",
+        "Transfer learning and validation on HK.3 variant"
+      ],
+      "metrics": [
+        "Pearson correlation coefficient (PCC)",
+        "Root mean square error (RMSE)"
+      ],
+      "final_conclusion": "AF3-assisted MT-TopLap maintains robust predictive performance with only a 1.1% average PCC decrease and 9.3% RMSE increase compared to experimental structures, and successfully extends to the HK.3 variant with PCC 0.81, demonstrating its potential for rapid response to viral evolution.",
+      "limitations": [
+        "TDL requires high-quality 3D structures, which may still be delayed during pandemics.",
+        "Predicted BFE changes have lower variance than experimental values.",
+        "Performance on HK.3 (PCC 0.81) is lower than on training variants."
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_specific_evidence_backfilled=3",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 89.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p4\\states\\0086.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p4\\events\\0086.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1,
+          2,
+          4,
+          10
+        ],
+        "K02": [
+          1,
+          2,
+          6
+        ],
+        "K03": [
+          1,
+          2
+        ],
+        "K04": [
+          1,
+          2,
+          3,
+          4,
+          10
+        ],
+        "K05": [
+          3,
+          4,
+          5,
+          10
+        ],
+        "K06": [
+          3,
+          4,
+          5,
+          10
+        ],
+        "K07": [
+          1,
+          2,
+          3,
+          6,
+          8,
+          10
+        ],
+        "K08": [
+          2,
+          3,
+          5,
+          6,
+          7,
+          10
+        ],
+        "K09": [
+          7,
+          8,
+          9
+        ],
+        "K11": [
+          8,
+          9
+        ],
+        "K12": [
+          10
+        ],
+        "K13": [
+          1,
+          2,
+          3,
+          4,
+          10
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02",
+            "K03",
+            "K04",
+            "K07",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K01",
+            "K02",
+            "K03",
+            "K04",
+            "K07",
+            "K08",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K04",
+            "K05",
+            "K06",
+            "K07",
+            "K08",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K01",
+            "K04",
+            "K05",
+            "K06",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K05",
+            "K06",
+            "K08"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K02",
+            "K07",
+            "K08"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K08",
+            "K09"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K07",
+            "K09",
+            "K10",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K09",
+            "K10",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K01",
+            "K04",
+            "K05",
+            "K06",
+            "K07",
+            "K08",
+            "K12",
+            "K13"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 8,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "20"
+        ]
+      }
+    ],
+    "step_count": 10,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 89.0
+  },
+  "api_usage": {
+    "prompt_tokens": 96573,
+    "completion_tokens": 23422,
+    "total_tokens": 119995,
+    "prompt_cache_hit_tokens": 2688,
+    "prompt_cache_miss_tokens": 93885
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 3126,
+        "completion_tokens": 692,
+        "total_tokens": 3818,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 3126
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 6039,
+        "completion_tokens": 1781,
+        "total_tokens": 7820,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 6039
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 6811,
+        "completion_tokens": 1322,
+        "total_tokens": 8133,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6555
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 7063,
+        "completion_tokens": 1730,
+        "total_tokens": 8793,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6807
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 6852,
+        "completion_tokens": 1650,
+        "total_tokens": 8502,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6596
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 5995,
+        "completion_tokens": 44,
+        "total_tokens": 6039,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 5739
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 10419,
+        "completion_tokens": 2997,
+        "total_tokens": 13416,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 10035
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 12505,
+        "completion_tokens": 6129,
+        "total_tokens": 18634,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 11865
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 17565,
+        "completion_tokens": 629,
+        "total_tokens": 18194,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 17565
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 20198,
+        "completion_tokens": 6448,
+        "total_tokens": 26646,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 19558
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

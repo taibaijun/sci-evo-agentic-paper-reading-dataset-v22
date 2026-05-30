@@ -1,0 +1,663 @@
+{
+  "case": {
+    "case_id": "sci_evo_0047",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Hydrogen overproducing nitrogenases obtained by random mutagenesis and high-throughput screening",
+      "doi": "https://doi.org/10.1038/srep38291",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0045_10_1038_srep38291_hydrogen_overproducing_nitrogenases_obtained_by_random_mutagenesis_and_high_throughput_scr.pdf",
+      "mineru_md": "docs/0047/mineru.md",
+      "combined_md": "docs/0047/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Engineering nitrogenase for enhanced H2 production is limited by the lack of high-throughput screening methods.",
+      "target_object": "Nitrogenase Fe protein (NifH)",
+      "known_context": "Nitrogenase produces H2 as a byproduct; previous genetic approaches have targeted hydrogenase and nitrogenase genes to improve H2 yield.",
+      "constraints": [
+        "High-throughput screening method needed",
+        "Must work in Rhodobacter capsulatus"
+      ],
+      "input_data": [],
+      "quantifiable_goals": [
+        "Increase H2 production",
+        "Retain N2 fixation activity in some variants"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "design",
+        "state_before": "No high-throughput screening method for nitrogenase H2 production exists.",
+        "gap_or_uncertainty": "Need a sensor strain that can report H2 production via fluorescence.",
+        "hypothesis": "Deleting hupAB (uptake hydrogenase) and nifH will reduce background H2 consumption and nitrogenase activity, allowing a fluorescent reporter to detect H2 produced by variant nitrogenases.",
+        "decision": "Construct sensor strain S3 by deleting hupAB and nifH in R. capsulatus.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Gene deletion",
+          "version": "",
+          "category": "molecular biology"
+        },
+        "parameters": {
+          "deleted_genes": [
+            "hupAB",
+            "nifH"
+          ]
+        },
+        "observation": "Deletion of hupAB eliminated uptake hydrogenase activity; S2 strain showed 15-fold higher β-galactosidase activity under diazotrophic conditions.",
+        "result_status": "success",
+        "next_step_reason": "Optimized sensor strain enables screening of nifH variants.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_008",
+            "source_file": "docs/0047/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The deletion of hupAB genes in the RC25 strain completely eliminated its in vivo uptake hydrogenase activity (nil compared to $2504 \\pm 450$ nmol $\\mathrm{H}_2\\mathrm{h}^{-1}\\mathrm{OD}_{600}^{-1}$ in the wild-type strain)."
+          },
+          {
+            "evidence_id": "EV_AUTO_032",
+            "source_file": "docs/0047/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "First, the response to 10% exogenous $H_{2}$ improved 5-fold in the $\\Delta$ hupAB strain S2 compared to in S1; second, the constitutive activation of PhupA was observed in the $\\Delta$ hupT strain RC24-S1; and third, no response to $H_{2}$ was observed in the $\\Delta$ hupR strain RC54-S1."
+          },
+          {
+            "evidence_id": "EV_AUTO_017",
+            "source_file": "docs/0047/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Figure 1C shows that the $\\beta$ -galactosidase activity in S2 was 15-fold higher under diazotrophic conditions compared to non-diazotrophic conditions, validating its use as a biosensor."
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "experiment",
+        "state_before": "Sensor strain S3 is available but no variant library exists.",
+        "gap_or_uncertainty": "Need a diverse library of nifH variants to screen for enhanced H2 production.",
+        "hypothesis": "Error-prone PCR can generate random nifH variants with an average of 5 amino acid changes.",
+        "decision": "Generate random nifH variant library by error-prone PCR.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Error-prone PCR",
+          "version": "",
+          "category": "molecular biology"
+        },
+        "parameters": {
+          "average_mutations": 5,
+          "library_size": "~4×10^6 clones"
+        },
+        "observation": "Library of ~4×10^6 clones generated with no obvious mutational hotspots.",
+        "result_status": "success",
+        "next_step_reason": "Library enables high-throughput screening.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_030",
+            "source_file": "docs/0047/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Random nifH variants (nifHv) having an average of 5 amino acid changes (Table S1) were generated by error-prone PCR, ligated into pRHB602, and introduced into E."
+          },
+          {
+            "evidence_id": "EV_AUTO_029",
+            "source_file": "docs/0047/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "No obvious mutational hotspots were observed after sequencing 20 nifH variants per library."
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "experiment",
+        "state_before": "nifH variant library is ready for screening.",
+        "gap_or_uncertainty": "Need to identify variants with high fluorescence indicating high H2 production.",
+        "hypothesis": "FACS can sort cells with high fluorescence from the sensor strain expressing nifH variants.",
+        "decision": "Screen ~10^5 variants by FACS and sort high-fluorescence cells into 96-well plates.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "FACS",
+          "version": "",
+          "category": "flow cytometry"
+        },
+        "parameters": {
+          "variants_screened": "~10^5"
+        },
+        "observation": "Five H2-overproducing clones (V1-V5) identified.",
+        "result_status": "success",
+        "next_step_reason": "Hits need secondary confirmation.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_020",
+            "source_file": "docs/0047/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Cells exhibiting high fluorescence levels were sorted and recovered in 96-well microplates containing YPS medium supplemented with Tc."
+          },
+          {
+            "evidence_id": "EV_AUTO_028",
+            "source_file": "docs/0047/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "2A) were sorted by the cytometer into separate wells of 96-well microplates containing growth medium."
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "experiment",
+        "state_before": "FACS hits need validation.",
+        "gap_or_uncertainty": "FACS fluorescence may not accurately reflect β-galactosidase activity.",
+        "hypothesis": "MUG-based fluorescence assay will confirm higher β-galactosidase activity in sorted clones.",
+        "decision": "Perform secondary MUG screen on sorted clones.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "MUG assay",
+          "version": "",
+          "category": "fluorescence assay"
+        },
+        "parameters": {},
+        "observation": "β-galactosidase activity was 2 to 12-fold higher in nifHv-S3 cultures; 85% of clones harbored nifHv gene.",
+        "result_status": "success",
+        "next_step_reason": "Correlation validates screening method.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E01_02",
+            "source_file": "docs/0047/combined.md",
+            "section": "C002",
+            "quote_or_span": "85% of the nifHv-S3 clones harbored an expression vector with a nifHv gene, as determined by PCR analysis."
+          },
+          {
+            "evidence_id": "EV_AUTO_015",
+            "source_file": "docs/0047/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The $\\beta$ -galactosidase activity was 2 to 12-fold higher in the nifHv-S3 cultures than in the pRHB576-S3 strain (carrying wild-type nifH)."
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "validation",
+        "state_before": "Secondary screen results available.",
+        "gap_or_uncertainty": "Need to confirm that FACS primary screening correlates with secondary MUG screening.",
+        "hypothesis": "Strong correlation between FACS and MUG results validates the high-throughput method.",
+        "decision": "Compare FACS and MUG data.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Correlation analysis",
+          "version": "",
+          "category": "statistical analysis"
+        },
+        "parameters": {},
+        "observation": "Strong correlation observed, validating FACS as a high-throughput screening method.",
+        "result_status": "success",
+        "next_step_reason": "Validated method can be used for further screening.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E02_01",
+            "source_file": "docs/0047/combined.md",
+            "section": "C002",
+            "quote_or_span": "The strong correlation of the results from the FACS primary screening and the secondary MUG screening in the 96-well format validates the use of flow cytometry as a high-throughput method to screen nifHv-S3 libraries."
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "experiment",
+        "state_before": "Validated hits V1-V5 available.",
+        "gap_or_uncertainty": "Need to characterize H2 production and N2 fixation of variants.",
+        "hypothesis": "Variants will show enhanced H2 production, possibly with trade-offs in N2 fixation.",
+        "decision": "Measure H2 and ethylene production in variants.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Gas chromatography",
+          "version": "",
+          "category": "analytical chemistry"
+        },
+        "parameters": {},
+        "observation": "Variants show up to 4-fold higher H2 production; V3, V5, V7 lose N2 fixation; V7 has 6000-fold higher H2:ethylene ratio.",
+        "result_status": "success",
+        "next_step_reason": "V7's unique properties warrant further investigation.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_014",
+            "source_file": "docs/0047/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The ratio of $H_{2}$ to ethylene production in V7 strain was 6000-fold higher than in pRHB576-S3."
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "experiment",
+        "state_before": "V7 identified as a highly H2-overproducing variant.",
+        "gap_or_uncertainty": "Need to understand the genetic basis of V7's phenotype.",
+        "hypothesis": "V7 contains a frameshift mutation causing C-terminal truncation.",
+        "decision": "Sequence nifH-V7 and analyze mutations.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "DNA sequencing",
+          "version": "",
+          "category": "molecular biology"
+        },
+        "parameters": {},
+        "observation": "Frameshift at codon 172 results in a NifH protein lacking 124 amino acids at its C-terminus; also G32C and A107T substitutions.",
+        "result_status": "success",
+        "next_step_reason": "Truncation may affect structure and function; modeling needed.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E05_01",
+            "source_file": "docs/0047/combined.md",
+            "section": "C002",
+            "quote_or_span": "A frame shift mutation was found in codon 172 of nifH-V7 that would result in a NifH protein lacking 124 amino acids at its C-terminus."
+          },
+          {
+            "evidence_id": "EV_C002_E05_02",
+            "source_file": "docs/0047/combined.md",
+            "section": "C002",
+            "quote_or_span": "NifH-V7 would carry G32C and A107T amino acid substitutions."
+          },
+          {
+            "evidence_id": "EV_AUTO_003",
+            "source_file": "docs/0047/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "In addition, NifH-V7 would carry G32C and A107T amino acid substitutions."
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "simulation",
+        "state_before": "V7 mutation known.",
+        "gap_or_uncertainty": "Need to assess structural impact of truncation.",
+        "hypothesis": "Homology modeling can predict if V7 still forms a homodimer capable of ligating [4Fe-4S] clusters.",
+        "decision": "Generate 3-D models of wild-type and V7 NifH by homology modeling.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "SWISS-MODEL",
+          "version": "",
+          "category": "homology modeling"
+        },
+        "parameters": {
+          "templates": "1NIP (wild-type), 1G5P (V7)"
+        },
+        "observation": "Both models form homodimers capable of ligating [4Fe-4S] clusters; RMSD 0.900 Å.",
+        "result_status": "success",
+        "next_step_reason": "Modeling does not explain mechanism; limitations remain.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E01_01",
+            "source_file": "docs/0047/combined.md",
+            "section": "C003",
+            "quote_or_span": "3-D model of R. capsulatus NifH and the V7 variant were generated by homology modeling (http://swissmodel.expasy.org/) using the A. vinelandii NifH structures as template (1NIP for wild-type NifH and 1G5P for NifH-V7, respectively)."
+          },
+          {
+            "evidence_id": "EV_C003_E02_01",
+            "source_file": "docs/0047/combined.md",
+            "section": "C003",
+            "quote_or_span": "Both models yielded NifH homodimer with capability to ligate $[4Fe-4S]$ clusters."
+          },
+          {
+            "evidence_id": "EV_C002_E05_03",
+            "source_file": "docs/0047/combined.md",
+            "section": "C002",
+            "quote_or_span": "The overall protein overlap (4–171 amino acid residues) and an RMSD value of 0.900 Angstroms for the protein backbone atoms indicate very similar model architectures."
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "analysis",
+        "state_before": "Structural models available.",
+        "gap_or_uncertainty": "Mechanism of V7's H+ reduction despite lacking ATP-binding residues is unknown; method limited to R. capsulatus.",
+        "hypothesis": "V7's truncation may enable H+ reduction without ATP hydrolysis, but mechanism is not elucidated.",
+        "decision": "Acknowledge limitations and need for further study.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Literature reasoning",
+          "version": "",
+          "category": "reasoning"
+        },
+        "parameters": {},
+        "observation": "V7 lacks 40% of wild-type sequence, a surprising finding; method not yet applied to other organisms.",
+        "result_status": "partial",
+        "next_step_reason": "Limitations highlight future directions.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_024",
+            "source_file": "docs/0047/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Perhaps the most interesting was the V7 variant, which lacks 124 amino acid residues at the C-terminus of the protein (Fig."
+          },
+          {
+            "evidence_id": "EV_AUTO_034",
+            "source_file": "docs/0047/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "One of the selected $H_{2}$ -overproducing Fe protein variants lacked 40% of the wild-type amino acid sequence, a surprising finding for a protein that is highly conserved in nature."
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "revision",
+        "state_before": "The paper has been published with a typographical error in the Conclusions section.",
+        "gap_or_uncertainty": "A typographical error in the Conclusions section needs correction.",
+        "hypothesis": "A corrigendum can correct the typographical error.",
+        "decision": "Issue a corrigendum to correct the typographical error in the Conclusions section.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Corrigendum",
+          "version": "",
+          "category": "revision"
+        },
+        "parameters": {},
+        "observation": "The corrigendum corrects a typographical error in the Conclusions section.",
+        "result_status": "success",
+        "next_step_reason": "The correction ensures accuracy of the published article.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E03_01",
+            "source_file": "docs/0047/combined.md",
+            "section": "C003",
+            "quote_or_span": "This Article contains a typographical error in the Conclusions section."
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "FACS-MUG correlation",
+        "Gas chromatography for H2 and ethylene",
+        "Immunoblot for truncated NifH"
+      ],
+      "metrics": [
+        "β-galactosidase activity",
+        "H2 production rate",
+        "H2:ethylene ratio"
+      ],
+      "final_conclusion": "A high-throughput screening method was developed and validated, yielding H2-overproducing nitrogenase variants, including V7 with a large C-terminal truncation.",
+      "limitations": [
+        "Mechanism of V7's H+ reduction not elucidated",
+        "Method limited to R. capsulatus"
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_phase_action_fixed=2",
+        "v22_specific_evidence_backfilled=1",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 99.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p6\\states\\0047.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p6\\events\\0047.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 10,
+      "covered_event_count": 10,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K04": [
+          1,
+          3
+        ],
+        "K05": [
+          2,
+          3
+        ],
+        "K06": [
+          3
+        ],
+        "K07": [
+          1,
+          4
+        ],
+        "K08": [
+          4,
+          5
+        ],
+        "K10": [
+          6
+        ],
+        "K11": [
+          7
+        ],
+        "K12": [
+          8
+        ],
+        "K13": [
+          9
+        ],
+        "K14": [
+          10
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K04",
+            "K07"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K05"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K04",
+            "K05",
+            "K06"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K07",
+            "K08"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K08"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K10"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K11"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K12"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K13"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K14"
+          ]
+        }
+      ]
+    },
+    "warnings": [],
+    "step_count": 10,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 99.0
+  },
+  "api_usage": {
+    "prompt_tokens": 75318,
+    "completion_tokens": 19256,
+    "total_tokens": 94574,
+    "prompt_cache_hit_tokens": 2432,
+    "prompt_cache_miss_tokens": 72886
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 2224,
+        "completion_tokens": 620,
+        "total_tokens": 2844,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 2224
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 7132,
+        "completion_tokens": 2366,
+        "total_tokens": 9498,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 7132
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 7686,
+        "completion_tokens": 1356,
+        "total_tokens": 9042,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7430
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 7716,
+        "completion_tokens": 1719,
+        "total_tokens": 9435,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7460
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 7530,
+        "completion_tokens": 615,
+        "total_tokens": 8145,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7274
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 6953,
+        "completion_tokens": 2706,
+        "total_tokens": 9659,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 6569
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 8876,
+        "completion_tokens": 4254,
+        "total_tokens": 13130,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 8236
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 12398,
+        "completion_tokens": 930,
+        "total_tokens": 13328,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 12398
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 14803,
+        "completion_tokens": 4690,
+        "total_tokens": 19493,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 14163
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

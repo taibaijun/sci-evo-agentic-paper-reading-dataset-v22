@@ -1,0 +1,820 @@
+{
+  "case": {
+    "case_id": "sci_evo_0079",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Predictive combinatorial design of mRNA translation initiation regions for systematic optimization of gene expression levels",
+      "doi": "https://doi.org/10.1038/srep04515",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0077_10_1038_srep04515_predictive_combinatorial_design_of_mrna_translation_initiation_regions_for_systematic_opti.pdf",
+      "mineru_md": "docs/0079/mineru.md",
+      "combined_md": "docs/0079/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Systematic optimization of gene expression levels for metabolic pathway efficiency is challenging because random mutagenesis requires large libraries and often yields narrow expression ranges.",
+      "target_object": "5'-UTR sequences for translation initiation regions",
+      "known_context": "Balancing enzyme amounts is crucial for metabolic pathway performance. Random mutagenesis is impractical due to large library requirements and narrow expression ranges.",
+      "constraints": [
+        "Limited number of mutations",
+        "Desired expression range must be covered"
+      ],
+      "input_data": [
+        "Template 25-bp 5'-UTR sequences",
+        "At least 35-bp of coding sequence after start codon"
+      ],
+      "quantifiable_goals": [
+        "Achieve broad expression range (e.g., 5,000-fold changes)",
+        "Cover desired expression range with minimal variants"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "Random mutagenesis is the standard approach for generating expression diversity, but it is inefficient.",
+        "gap_or_uncertainty": "Random mutagenesis requires large libraries and often yields narrow expression ranges, making systematic optimization difficult.",
+        "hypothesis": "A thermodynamic model of translation initiation can predict expression levels from 5'-UTR sequences, enabling rational design of libraries with desired expression ranges.",
+        "decision": "Develop a computational method (UTR Library Designer) based on a thermodynamic model to design 5'-UTR variants covering a broad expression range with minimal mutations.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "Thermodynamic model of translation initiation",
+          "version": "",
+          "category": "computational_model"
+        },
+        "parameters": {},
+        "observation": "The random mutagenesis approach is impractical since it requires searching an unnecessarily large number of variants and often results in searching a narrow range of expression levels which are out of optimal level.",
+        "result_status": "success",
+        "next_step_reason": "The identified problem motivates the design of a rational library design method.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0079/combined.md",
+            "section": "C001",
+            "quote_or_span": "the random mutagenesis approach is impractical since it requires searching an unnecessarily large number of variants and often results in searching a narrow range of expression levels which are out of optimal level"
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "design",
+        "state_before": "No method exists to rationally design 5'-UTR libraries covering a desired expression range with few variants.",
+        "gap_or_uncertainty": "How to design a small set of 5'-UTR sequences that collectively span a wide, predefined expression range?",
+        "hypothesis": "A genetic algorithm can optimize 5'-UTR sequences to achieve a desired range of expression levels by introducing limited mutations.",
+        "decision": "Implement UTR Library Designer, a genetic algorithm that uses the thermodynamic model to generate 5'-UTR variants covering a specified expression range.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "UTR Library Designer",
+          "version": "",
+          "category": "computational_design"
+        },
+        "parameters": {
+          "algorithm": "genetic algorithm",
+          "input": "template 5'-UTR sequence, desired expression range",
+          "constraints": "limited number of mutations"
+        },
+        "observation": "UTR Library Designer also utilized this energy model to generate 5'-UTR variants to achieve a desired range of gene expression levels. The algorithm has been optimized to find sequences that can change its expression level from desired maximum to minimum expression levels by the limited number of mutations.",
+        "result_status": "success",
+        "next_step_reason": "The designed algorithm needs to be tested in silico to evaluate its performance.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E03_01",
+            "source_file": "docs/0079/combined.md",
+            "section": "C001",
+            "quote_or_span": "UTR Library Designer also utilized this energy model to generate 5'-UTR variants to achieve a desired range of gene expression levels."
+          },
+          {
+            "evidence_id": "EV_C001_E03_02",
+            "source_file": "docs/0079/combined.md",
+            "section": "C001",
+            "quote_or_span": "The algorithm has been optimized to find sequences that can change its expression level from desired maximum to minimum expression levels by the limited number of mutations"
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "simulation",
+        "state_before": "UTR Library Designer is implemented but its performance relative to random mutagenesis is unknown.",
+        "gap_or_uncertainty": "Can UTR Library Designer achieve large expression changes with few intermediates compared to random sequence generation?",
+        "hypothesis": "UTR Library Designer can achieve 5,000-fold expression changes with only 16 intermediates, far outperforming random sequences.",
+        "decision": "Perform in silico comparison of UTR Library Designer against random sequence generation for a model gene.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "UTR Library Designer",
+          "version": "",
+          "category": "computational_design"
+        },
+        "parameters": {
+          "target_fold_change": 5000,
+          "intermediates": 16,
+          "random_trials": 50000
+        },
+        "observation": "UTR Library Designer easily achieved 5'-UTR variants yielding 5,000-fold changes in expression level with 16 expression-level intermediates, which is an extremely rare event (4 in 50,000 trials) using random sequences.",
+        "result_status": "success",
+        "next_step_reason": "The in silico success motivates in vivo validation with a fluorescent reporter.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E04_01",
+            "source_file": "docs/0079/combined.md",
+            "section": "C001",
+            "quote_or_span": "UTR Library Designer easily achieved 5'-UTR variants yielding 5,000-fold changes in expression level with 16 expression-level intermediates, which is an extremely rare event (4 in 50,000 trials) using random sequences"
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "experiment",
+        "state_before": "In silico results are promising, but in vivo performance is unverified.",
+        "gap_or_uncertainty": "Do the designed 5'-UTR variants produce the predicted expression levels in living cells?",
+        "hypothesis": "In vivo fluorescence levels of designed sgfp libraries will match predicted expression levels.",
+        "decision": "Construct and test a library of sgfp 5'-UTR variants in E. coli and measure fluorescence.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Fluorescence measurement",
+          "version": "",
+          "category": "in_vivo_assay"
+        },
+        "parameters": {
+          "reporter": "sgfp"
+        },
+        "observation": "We could observe that the fluorescence level in vivo was matched well with the predicted expression level in silico.",
+        "result_status": "success",
+        "next_step_reason": "Validation with sgfp supports broader testing with other fluorescent proteins and codon optimization.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E05_01",
+            "source_file": "docs/0079/combined.md",
+            "section": "C001",
+            "quote_or_span": "We could observe that the fluorescence level in vivo was matched well with the predicted expression level in silico"
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "validation",
+        "state_before": "Initial validation with sgfp is positive, but the method's generality and potential for further improvement are unclear.",
+        "gap_or_uncertainty": "Does the designed library outperform random libraries for other reporters, and can codon optimization enhance the expression range?",
+        "hypothesis": "Designed libraries for gfp and rfp will cover broader expression ranges than random libraries, and codon optimization will further increase maximum expression.",
+        "decision": "Design 5'-UTR libraries for gfp and rfp, compare with random libraries, and test codon-optimized versions.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Fluorescence measurement",
+          "version": "",
+          "category": "in_vivo_assay"
+        },
+        "parameters": {
+          "reporters": [
+            "gfp",
+            "rfp"
+          ],
+          "codon_optimization": true
+        },
+        "observation": "The maximum expression level covered by these libraries (designed library) was predicted to be 3- to 10-fold higher than that of libraries generated by consecutive random mutations. Combinatorial design after additional codon optimization of the N-terminal region of each reporter gene further increased the predicted maximum expression level of the libraries (reoptimized codon-based designed library) by 3- to 5-fold compared to that of designed library. Consequently, the difference was 10- to 50-fold higher than that of random library.",
+        "result_status": "success",
+        "next_step_reason": "The method is validated for fluorescent reporters; next, apply to metabolic pathway optimization.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E06_01",
+            "source_file": "docs/0079/combined.md",
+            "section": "C001",
+            "quote_or_span": "The maximum expression level covered by these libraries (designed library) was predicted to be 3- to 10-fold higher than that of libraries generated by consecutive random mutations"
+          },
+          {
+            "evidence_id": "EV_C001_E06_02",
+            "source_file": "docs/0079/combined.md",
+            "section": "C001",
+            "quote_or_span": "combinatorial design after additional codon optimization of the N-terminal region of each reporter gene further increased the predicted maximum expression level of the libraries (reoptimized codon-based designed library) by 3- to 5-fold compared to that of designed library"
+          },
+          {
+            "evidence_id": "EV_C001_E06_03",
+            "source_file": "docs/0079/combined.md",
+            "section": "C001",
+            "quote_or_span": "the difference was 10- to 50-fold higher than that of random library"
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "experiment",
+        "state_before": "The method is validated for fluorescent proteins, but its utility for metabolic engineering is untested.",
+        "gap_or_uncertainty": "Can UTR Library Designer optimize expression of a metabolic enzyme to improve product yield?",
+        "hypothesis": "A designed 256-variant 5'-UTR library for ppc will yield a >10^5-fold expression range, and screening will identify a variant that increases lysine production.",
+        "decision": "Design a 256-variant 5'-UTR library for ppc in a lysine-producing E. coli strain and screen for increased lysine production.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Lysine production assay",
+          "version": "",
+          "category": "metabolic_engineering"
+        },
+        "parameters": {
+          "target_gene": "ppc",
+          "library_size": 256,
+          "screening_rounds": 3
+        },
+        "observation": "This enriched strain (WLREU) showed a dramatic increase in lysine production compared to the parental strain (WL3).",
+        "result_status": "success",
+        "next_step_reason": "Success in lysine production encourages application to another metabolic pathway (hydrogen production).",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E05_02",
+            "source_file": "docs/0079/combined.md",
+            "section": "C002",
+            "quote_or_span": "this enriched strain (WLREU) showed a dramatic increase in lysine production compared to the parental strain (WL3)"
+          },
+          {
+            "evidence_id": "EV_AUTO_029",
+            "source_file": "docs/0079/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "To achieve this, we attempted to determine the expression level of ppc for increased lysine production by combinatorially designing 5'-UTR libraries (256 variants) of ppc encoding PEP carboxylase, a key anaplerotic enzyme, yielding more than a $10^{5}$ -fold range of expression levels (Fig."
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "experiment",
+        "state_before": "The method succeeded for lysine, but its applicability to other products and smaller libraries is unknown.",
+        "gap_or_uncertainty": "Can a small designed library (8 variants) for gapA achieve a >100-fold expression range and improve hydrogen production?",
+        "hypothesis": "An 8-variant 5'-UTR library for gapA will yield >100-fold expression range, and a variant (H5) will increase hydrogen production yield and total output.",
+        "decision": "Design an 8-variant 5'-UTR library for gapA in a hydrogen-producing E. coli strain and measure hydrogen production.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Hydrogen production assay",
+          "version": "",
+          "category": "metabolic_engineering"
+        },
+        "parameters": {
+          "target_gene": "gapA",
+          "library_size": 8
+        },
+        "observation": "The designed 5'-UTR library (8 variants) was predicted to yield more than a 100-fold range of expression levels. The one variant (H5) showed a 2.5-fold increase in the yield of hydrogen production. The total amount of hydrogen evolved in the H5 strain was also about 4-fold higher than that of the control strain (H0).",
+        "result_status": "success",
+        "next_step_reason": "The experimental successes warrant a rigorous in silico comparison with random libraries to quantify the advantage.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E06_01",
+            "source_file": "docs/0079/combined.md",
+            "section": "C002",
+            "quote_or_span": "The designed 5'-UTR library (8 variants) was predicted to yield more than a 100-fold range of expression levels"
+          },
+          {
+            "evidence_id": "EV_C002_E07_01",
+            "source_file": "docs/0079/combined.md",
+            "section": "C002",
+            "quote_or_span": "The one variant (H5) showed a 2.5-fold increase in the yield of hydrogen production."
+          },
+          {
+            "evidence_id": "EV_C002_E07_02",
+            "source_file": "docs/0079/combined.md",
+            "section": "C002",
+            "quote_or_span": "The total amount of hydrogen evolved in the H5 strain was also about 4-fold higher than that of the control strain (H0)"
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "analysis",
+        "state_before": "Experimental results show the method works, but a statistical comparison with random libraries is needed to demonstrate significance.",
+        "gap_or_uncertainty": "Is the performance of UTR Library Designer statistically superior to random library generation for ppc and gapA?",
+        "hypothesis": "UTR Library Designer achieves 10^5- and 10^2-fold expression changes for ppc and gapA, while random libraries with the same number of intermediates cannot (P-value < 10^-4).",
+        "decision": "Perform in silico analysis comparing UTR Library Designer libraries to 10,000 random library pools for ppc and gapA.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Statistical comparison",
+          "version": "",
+          "category": "computational_analysis"
+        },
+        "parameters": {
+          "target_genes": [
+            "ppc",
+            "gapA"
+          ],
+          "random_pools": 10000,
+          "intermediates": {
+            "ppc": 256,
+            "gapA": 8
+          }
+        },
+        "observation": "UTR Library Designer generated sequence libraries that achieved 10^5- and 10^2-fold expression changes for ppc and gapA, respectively. A random approach that generated 10,000 different sets of library pools was largely unable to achieve such expression changes from in silico analysis (P-value < 10^-4).",
+        "result_status": "success",
+        "next_step_reason": "The statistical advantage is clear; next, quantify the probability of random libraries achieving optimal expression.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E02_01",
+            "source_file": "docs/0079/combined.md",
+            "section": "C003",
+            "quote_or_span": "UTR Library Designer generated sequence libraries that achieved $10^{5}$ - and $10^{2}$ -fold expression changes for ppc and gapA, respectively."
+          },
+          {
+            "evidence_id": "EV_C003_E02_02",
+            "source_file": "docs/0079/combined.md",
+            "section": "C003",
+            "quote_or_span": "a random approach that generated 10,000 different sets of library pools was largely unable to achieve such expression changes from in silico analysis (P-value $< 10^{-4}$"
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "analysis",
+        "state_before": "The method outperforms random, but the practical likelihood of random success is not quantified.",
+        "gap_or_uncertainty": "What is the probability that a random library contains a variant with expression similar to the optimal?",
+        "hypothesis": "The probability is approximately 10% (11.31% for ppc, 5.25% for gapA), indicating the efficiency of the designed approach.",
+        "decision": "Calculate the probability from the in silico random library pools.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Probability calculation",
+          "version": "",
+          "category": "statistical_analysis"
+        },
+        "parameters": {
+          "similarity_range": "95-105% of optimal",
+          "pools": 10000
+        },
+        "observation": "The probability of the random library including a variant with an expression level similar (95%–105%) to that of the optimal value obtained was approximately 10% (11.31% for ppc and 5.25% for gapA out of 10,000 library pools).",
+        "result_status": "success",
+        "next_step_reason": "The low probability motivates a grid search strategy for efficient optimization.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E03_01",
+            "source_file": "docs/0079/combined.md",
+            "section": "C003",
+            "quote_or_span": "the probability of the random library including a variant with an expression level similar (95%–105%) to that of the optimal value obtained was approximately 10% (11.31% for ppc and 5.25% for gapA out of 10,000 library pools)"
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "design",
+        "state_before": "The low probability of random libraries achieving optimal expression highlights the need for a more efficient screening strategy.",
+        "gap_or_uncertainty": "How can the designed libraries be used in a practical screening process to efficiently find optimal expression levels?",
+        "hypothesis": "A grid search strategy using UTR Library Designer can first find a sub-optimal expression level over a broad range, then narrow the range in subsequent rounds.",
+        "decision": "Propose a grid search strategy where the first screening round identifies a sub-optimal expression level, and subsequent rounds refine the search by narrowing the expression range.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Grid search strategy",
+          "version": "",
+          "category": "experimental_design"
+        },
+        "parameters": {},
+        "observation": "Our method could be used for a grid search with a broad range of expression levels to find a sub-optimal expression level in the first round of the screening process, while providing an opportunity for additional search by further narrowing the range of expression levels to be explored in subsequent screening rounds.",
+        "result_status": "success",
+        "next_step_reason": "The grid search strategy provides a practical framework for applying the method in metabolic engineering.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E04_01",
+            "source_file": "docs/0079/combined.md",
+            "section": "C003",
+            "quote_or_span": "our method could be used for a grid search with a broad range of expression levels to find a sub-optimal expression level in the first round of the screening process, while providing an opportunity for additional search by further narrowing the range of expression levels to be explored in subsequent screening rounds."
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "revision",
+        "state_before": "The method is validated, but limitations exist: only one variant was isolated from the lysine library.",
+        "gap_or_uncertainty": "Why was only one variant isolated from the lysine library despite a large expression range?",
+        "hypothesis": "Possible reasons include the small library size (256 variants) compared to a larger library (10^7) and model inaccuracy.",
+        "decision": "Acknowledge the limitation and suggest that larger libraries or model refinement may be needed.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Limitation analysis",
+          "version": "",
+          "category": "reasoning"
+        },
+        "parameters": {},
+        "observation": "There are two possible reasons why we could isolate only one variant out of library. However, in that case, we used 10^7 size of library that might cover the range of expression level in a finer way than these 256 variants from 5'-UTR modifications, and thus there could be only one candidate clone that can satisfy the cutoff level of lysine production.",
+        "result_status": "partial",
+        "next_step_reason": "Despite this limitation, the method is effective; future work could address library size and model accuracy.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E08_01",
+            "source_file": "docs/0079/combined.md",
+            "section": "C002",
+            "quote_or_span": "There are two possible reasons why we could isolate only one variant out of library."
+          },
+          {
+            "evidence_id": "EV_AUTO_028",
+            "source_file": "docs/0079/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "However, in that case, we used $10^{7}$ size of library that might cover the range of expression level in a finer way than these 256 variants from 5'-UTR modifications, and thus there could be only one candidate clone that can satisfy the cutoff level of lysine production."
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "In silico comparison with random libraries",
+        "In vivo fluorescence measurement of sgfp, gfp, rfp, mCherry",
+        "Lysine production assay",
+        "Hydrogen production assay",
+        "Statistical analysis (P-value)"
+      ],
+      "metrics": [
+        "Fold change in expression",
+        "Fluorescence intensity",
+        "Lysine titer",
+        "Hydrogen yield and total production",
+        "Probability of random library achieving similar expression"
+      ],
+      "final_conclusion": "UTR Library Designer efficiently generates small 5'-UTR libraries that cover broad expression ranges, outperforming random mutagenesis. It successfully optimized lysine and hydrogen production in E. coli, demonstrating its utility for metabolic engineering.",
+      "limitations": [
+        "Only one variant isolated from lysine library, possibly due to small library size (256 variants) compared to larger library (10^7) and model inaccuracy",
+        "Codon optimization recommended if designed variants fail to cover desired range"
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "Some evidence quotes are from auto_specific sections and may be less reliable; primary evidence from C001-C003 is used where possible.",
+        "The trajectory covers all must_cover_points, but some steps combine multiple events for conciseness.",
+        "v22_specific_evidence_backfilled=2",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 100.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p3\\states\\0079.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p3\\events\\0079.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1,
+          5,
+          10
+        ],
+        "K03": [
+          1,
+          2,
+          5
+        ],
+        "K04": [
+          1,
+          2,
+          3,
+          5,
+          7,
+          8,
+          10
+        ],
+        "K06": [
+          5,
+          7
+        ],
+        "K07": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          7,
+          8,
+          10
+        ],
+        "K08": [
+          5,
+          6,
+          7,
+          10
+        ],
+        "K09": [
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "K10": [
+          1,
+          3,
+          5,
+          7,
+          8,
+          9,
+          10
+        ],
+        "K11": [
+          1,
+          5,
+          7,
+          8,
+          9,
+          10
+        ],
+        "K12": [
+          10
+        ],
+        "K13": [
+          7,
+          11
+        ],
+        "K14": [
+          1,
+          2
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K03",
+            "K04",
+            "K07",
+            "K10",
+            "K11",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K03",
+            "K04",
+            "K07",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K04",
+            "K07",
+            "K10"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K05",
+            "K07"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K01",
+            "K03",
+            "K04",
+            "K05",
+            "K06",
+            "K07",
+            "K08",
+            "K09",
+            "K10",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K08",
+            "K09"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K04",
+            "K05",
+            "K06",
+            "K07",
+            "K08",
+            "K09",
+            "K10",
+            "K11",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K04",
+            "K07",
+            "K09",
+            "K10",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K09",
+            "K10",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K01",
+            "K04",
+            "K07",
+            "K08",
+            "K09",
+            "K10",
+            "K11",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K09",
+            "K13"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 11,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "7s"
+        ]
+      }
+    ],
+    "step_count": 11,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 100.0
+  },
+  "api_usage": {
+    "prompt_tokens": 88129,
+    "completion_tokens": 21499,
+    "total_tokens": 109628,
+    "prompt_cache_hit_tokens": 2688,
+    "prompt_cache_miss_tokens": 85441
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 1630,
+        "completion_tokens": 399,
+        "total_tokens": 2029,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 1630
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 5707,
+        "completion_tokens": 1636,
+        "total_tokens": 7343,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 5707
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 6244,
+        "completion_tokens": 1291,
+        "total_tokens": 7535,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 5988
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 7035,
+        "completion_tokens": 1667,
+        "total_tokens": 8702,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6779
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 6864,
+        "completion_tokens": 1353,
+        "total_tokens": 8217,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6608
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 3984,
+        "completion_tokens": 442,
+        "total_tokens": 4426,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 3728
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 9689,
+        "completion_tokens": 2792,
+        "total_tokens": 12481,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 9305
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 11764,
+        "completion_tokens": 5203,
+        "total_tokens": 16967,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 11124
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 16298,
+        "completion_tokens": 767,
+        "total_tokens": 17065,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 16298
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 18914,
+        "completion_tokens": 5949,
+        "total_tokens": 24863,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 18274
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

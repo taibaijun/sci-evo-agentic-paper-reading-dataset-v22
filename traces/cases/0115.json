@@ -1,0 +1,850 @@
+{
+  "case": {
+    "case_id": "sci_evo_0115",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "An automated workflow to screen alkene reductases using high-throughput thin layer chromatography",
+      "doi": "https://doi.org/10.1186/s13068-020-01821-w",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0113_10_1186_s13068_020_01821_w_an_automated_workflow_to_screen_alkene_reductases_using_high_throughput_thin_layer_chromat.pdf",
+      "mineru_md": "docs/0115/mineru.md",
+      "combined_md": "docs/0115/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Develop a high-throughput, accessible screening method for alkene reductase activity to enable enzyme engineering of SaGGR.",
+      "target_object": "SaGGR alkene reductase",
+      "known_context": "Current screening methods (LC/GC-MS) are low-throughput, costly, and require technical expertise.",
+      "constraints": [
+        "High enzyme loading required due to low SaGGR specific activity",
+        "Need for high-throughput compatible with 96-well format"
+      ],
+      "input_data": [
+        "SaGGR enzyme",
+        "farnesol substrate"
+      ],
+      "quantifiable_goals": [
+        "Achieve detectable product bands on TLC",
+        "Correlate TLC band intensity with GC-MS specific activity",
+        "Identify mutants with improved activity over wild-type"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "Current screening methods (LC/GC-MS) are low-throughput, costly, and require technical expertise.",
+        "gap_or_uncertainty": "Need for a high-throughput, accessible screening method for alkene reductase activity.",
+        "hypothesis": "TLC can be adapted for high-throughput screening of alkene reductase activity using epoxidation and NBP derivatization.",
+        "decision": "Pursue TLC-based screening approach.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "Thin layer chromatography (TLC)",
+          "version": "",
+          "category": "analytical_chemistry"
+        },
+        "parameters": {},
+        "observation": "TLC is routinely used for rapid separation and analysis of small molecules.",
+        "result_status": "success",
+        "next_step_reason": "Proceed to design and optimize the TLC-based workflow.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0115/combined.md",
+            "section": "C001",
+            "quote_or_span": "Current methodologies utilized for screening alkene reductase activity typically involve traditional, low-throughput methods including liquid chromatography (LC) or gas chromatography (GC) coupled to mass spectrometry."
+          },
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0115/combined.md",
+            "section": "C001",
+            "quote_or_span": "To this end, we turned to thin layer chromatography (TLC), an analytical technique routinely employed to rapidly separate and analyze small molecules from complex mixtures."
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "experiment",
+        "state_before": "High enzyme loading required; heat treatment attempted for purification.",
+        "gap_or_uncertainty": "Heat treatment may cause protein precipitation at low pH.",
+        "hypothesis": "Heat treatment at pH 5.5 will purify SaGGR without precipitation.",
+        "decision": "Test heat treatment purification.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Heat treatment purification",
+          "version": "",
+          "category": "protein_purification"
+        },
+        "parameters": {
+          "pH": 5.5
+        },
+        "observation": "Recovered protein largely precipitated upon buffering to pH 5.5.",
+        "result_status": "failure",
+        "next_step_reason": "Switch to IMAC tips with EDTA elution at pH 7.4.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E06_01",
+            "source_file": "docs/0115/combined.md",
+            "section": "C001",
+            "quote_or_span": "However, the recovered protein largely precipitated upon buffering to the enzyme pH optimum of 5.5."
+          },
+          {
+            "evidence_id": "EV_C001_E07_02",
+            "source_file": "docs/0115/combined.md",
+            "section": "C001",
+            "quote_or_span": "Since imidazole-based elution interfered with downstream derivatization and isoprenoid recovery steps, SaGGR was eluted using ethylenediaminetetraacetic acid (EDTA) adjusted to pH 7.4."
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "revision",
+        "state_before": "Heat treatment caused precipitation; need alternative purification method.",
+        "gap_or_uncertainty": "Imidazole elution interferes with downstream steps.",
+        "hypothesis": "IMAC tips with EDTA elution at pH 7.4 will yield pure, active SaGGR.",
+        "decision": "Switch to 96-well IMAC tips with EDTA elution.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "IMAC tips",
+          "version": "",
+          "category": "protein_purification"
+        },
+        "parameters": {
+          "elution_buffer": "EDTA, pH 7.4"
+        },
+        "observation": "Yielded 38±3 µM SaGGR at >90% purity.",
+        "result_status": "success",
+        "next_step_reason": "Proceed to product recovery optimization.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E07_02",
+            "source_file": "docs/0115/combined.md",
+            "section": "C001",
+            "quote_or_span": "Since imidazole-based elution interfered with downstream derivatization and isoprenoid recovery steps, SaGGR was eluted using ethylenediaminetetraacetic acid (EDTA) adjusted to pH 7.4."
+          },
+          {
+            "evidence_id": "EV_C003_E06_01",
+            "source_file": "docs/0115/combined.md",
+            "section": "C003",
+            "quote_or_span": "Because of the inherently low specific activity of SaGGR, several process-oriented steps required significant optimization for execution on a 96-well scale. Several micrograms of SaGGR enzyme per well were needed to produce a detectable amount of reduced farnesol products."
+          },
+          {
+            "evidence_id": "EV_AUTO_010",
+            "source_file": "docs/0115/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "coli clones producing a L377X variant of SaGGR were randomly selected and inoculated in a 96-deep well plate along with 3 negative controls (E."
+          },
+          {
+            "evidence_id": "EV_AUTO_005",
+            "source_file": "docs/0115/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "L377M and WT exhibited significantly lower product band intensities relative to L377G, L377D, L377R, L377T, and L377N, and were unaffected by biases based on 96-well plate position."
+          },
+          {
+            "evidence_id": "EV_C004_E04_01",
+            "source_file": "docs/0115/combined.md",
+            "section": "C004",
+            "quote_or_span": "This workflow could enable a throughput to analyze approximately ten 96-well plates per day and can be generally developed to screen a range of various reductase libraries."
+          },
+          {
+            "evidence_id": "EV_C002_E04_01",
+            "source_file": "docs/0115/combined.md",
+            "section": "C002",
+            "quote_or_span": "We circumvented this issue by performing the reaction in glass-coated 96-well plates using vigorous stirring at an increased temperature of 50 °C."
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "experiment",
+        "state_before": "Purified enzyme available; need to recover reduced isoprenoid products.",
+        "gap_or_uncertainty": "Solid-phase extraction may have low recovery.",
+        "hypothesis": "Solid-phase extraction will efficiently recover reduced isoprenoids.",
+        "decision": "Test solid-phase extraction.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Solid-phase extraction",
+          "version": "",
+          "category": "sample_preparation"
+        },
+        "parameters": {},
+        "observation": "Low extraction efficiencies (<30%) were insufficient for subsequent steps.",
+        "result_status": "failure",
+        "next_step_reason": "Switch to automated liquid-liquid extraction.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E01_01",
+            "source_file": "docs/0115/combined.md",
+            "section": "C002",
+            "quote_or_span": "the low extraction efficiencies (<30%) using a solid-phase approach were insufficient for subsequent derivatization and recovery steps"
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "revision",
+        "state_before": "Solid-phase extraction failed; need higher recovery method.",
+        "gap_or_uncertainty": "Liquid-liquid extraction may improve recovery.",
+        "hypothesis": "Automated liquid-liquid extraction will increase product recovery to ~70%.",
+        "decision": "Switch to automated liquid-liquid extraction in 384-well plates.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Automated liquid-liquid extraction",
+          "version": "",
+          "category": "sample_preparation"
+        },
+        "parameters": {
+          "plate_format": "384-well"
+        },
+        "observation": "Product recovery efficiencies increased to nearly 70%.",
+        "result_status": "success",
+        "next_step_reason": "Proceed to epoxidation step.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E02_01",
+            "source_file": "docs/0115/combined.md",
+            "section": "C002",
+            "quote_or_span": "Automated liquid–liquid extractions of the organic phase performed in 384-well plates was successfully achieved without disturbing precipitated mass accumulated at the organic–aqueous interface, subsequently increasing product recovery efficiencies to nearly 70%"
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "revision",
+        "state_before": "Polypropylene plates caused farnesol adsorption; need inert surface.",
+        "gap_or_uncertainty": "Glass-coated plates may prevent adsorption.",
+        "hypothesis": "Glass-coated 96-well plates at 50°C with vigorous stirring will enable successful epoxidation.",
+        "decision": "Switch to glass-coated plates with increased temperature and stirring.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Epoxidation in glass-coated plates",
+          "version": "",
+          "category": "chemical_derivatization"
+        },
+        "parameters": {
+          "plate_material": "glass-coated",
+          "temperature": "50°C",
+          "stirring": "vigorous"
+        },
+        "observation": "Epoxidation successfully performed without adsorption.",
+        "result_status": "success",
+        "next_step_reason": "Develop acoustic droplet ejection for TLC application.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E04_01",
+            "source_file": "docs/0115/combined.md",
+            "section": "C002",
+            "quote_or_span": "We circumvented this issue by performing the reaction in glass-coated 96-well plates using vigorous stirring at an increased temperature of 50 °C."
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "experiment",
+        "state_before": "Epoxidized products on TLC; need to visualize via NBP staining.",
+        "gap_or_uncertainty": "Initial NBP ligation at 100°C may give faint color.",
+        "hypothesis": "NBP ligation at 100°C will produce visible product bands.",
+        "decision": "Test NBP staining at 100°C.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "NBP staining",
+          "version": "",
+          "category": "chemical_derivatization"
+        },
+        "parameters": {
+          "temperature": "100°C"
+        },
+        "observation": "Product bands had faint color intensity.",
+        "result_status": "failure",
+        "next_step_reason": "Optimize staining by increasing temperature and adding triethylamine.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E06_01",
+            "source_file": "docs/0115/combined.md",
+            "section": "C002",
+            "quote_or_span": "Preliminary attempts to ligate epoxides with NBP at 100 °C afforded product bands with faint color intensity"
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "revision",
+        "state_before": "Faint NBP staining; need stronger color development.",
+        "gap_or_uncertainty": "Higher temperature and base may enhance NBP ligation.",
+        "hypothesis": "Heating to 150°C for 10 min with triethylamine will markedly improve color intensity.",
+        "decision": "Optimize NBP staining to 150°C for 10 min with triethylamine.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "NBP staining",
+          "version": "",
+          "category": "chemical_derivatization"
+        },
+        "parameters": {
+          "temperature": "150°C",
+          "time": "10 min",
+          "additive": "triethylamine"
+        },
+        "observation": "Markedly improved color intensity.",
+        "result_status": "success",
+        "next_step_reason": "Apply optimized workflow to screen L377X mutant library.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E07_01",
+            "source_file": "docs/0115/combined.md",
+            "section": "C002",
+            "quote_or_span": "plates were treated with NBP and heated to 150 °C for 10 min and treated with triethylamine to markedly improved color intensity"
+          },
+          {
+            "evidence_id": "EV_AUTO_017",
+            "source_file": "docs/0115/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "This difference was attributed to differences in headspace saturation within the TLC chamber after running the E–H plate, as similar shifts were not observed in preliminary attempts to screen the L377X library using this workflow (Additional file 1: Figure S5)."
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "experiment",
+        "state_before": "Optimized TLC workflow ready; need to screen mutant library.",
+        "gap_or_uncertainty": "L377X library may contain variants with altered activity.",
+        "hypothesis": "TLC screening will reveal activity variations among L377X mutants.",
+        "decision": "Screen randomly selected clones from L377X codon-saturation library plus controls.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "TLC-based screening",
+          "version": "",
+          "category": "analytical_chemistry"
+        },
+        "parameters": {
+          "library": "L377X"
+        },
+        "observation": "TLC band intensities varied; some mutants (C7, C10, H9) showed robust product intensities with low protein expression, suggesting improved activity.",
+        "result_status": "success",
+        "next_step_reason": "Validate TLC results with GC-MS specific activity measurements.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E03_01",
+            "source_file": "docs/0115/combined.md",
+            "section": "C003",
+            "quote_or_span": "some mutants (C7, C10, and H9) produce robust product intensities while having low levels of protein expression, suggesting improved reductase activity"
+          },
+          {
+            "evidence_id": "EV_C004_E06_01",
+            "source_file": "docs/0115/combined.md",
+            "section": "C004",
+            "quote_or_span": "Site-saturation mutagenesis minilibraries at position Leu377 in SaGGR (L377X) were generated using the forward 5'-GATTAT AAAAGAAGAGGATCTGNNKGAAGCAAGTGAA AAAGGAGATC-3' and reverse 5'-GATCTCCTTTTT CACTTGCTTCMNNCAGATCCTCTTCTTTTAT AATC-3' degenerate primers utilized for codon-saturation mutagenesis (IDT)."
+          },
+          {
+            "evidence_id": "EV_AUTO_010",
+            "source_file": "docs/0115/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "coli clones producing a L377X variant of SaGGR were randomly selected and inoculated in a 96-deep well plate along with 3 negative controls (E."
+          },
+          {
+            "evidence_id": "EV_AUTO_011",
+            "source_file": "docs/0115/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "L377X mutants were generated by implementing the thermal cycling protocols for single-site mutations within the QuikChange II site-directed mutagenesis kit (Agilent)."
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "validation",
+        "state_before": "TLC screening showed activity variations; need quantitative validation.",
+        "gap_or_uncertainty": "TLC is semi-quantitative; GC-MS can provide specific activities.",
+        "hypothesis": "TLC band intensities will correlate with GC-MS specific activities.",
+        "decision": "Measure specific activities of selected mutants by GC-MS and compare with TLC.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "GC-MS",
+          "version": "",
+          "category": "analytical_chemistry"
+        },
+        "parameters": {
+          "substrate": "500 µM farnesol",
+          "enzyme_concentration": "30 µM",
+          "pH": 5.5,
+          "temperature": "37°C",
+          "incubation_time": "80 min"
+        },
+        "observation": "All sense mutants except L377M showed 2–3× increase in activity over WT (3.6±0.7 nmol/h); TLC band intensities correlated with GC-MS activities.",
+        "result_status": "success",
+        "next_step_reason": "Analyze structural basis for activity changes.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E04_01",
+            "source_file": "docs/0115/combined.md",
+            "section": "C003",
+            "quote_or_span": "these activities measured by traditional assay methods have validated the utility of a semi-quantitative protein screen for prenyl reductase activity, as increased product band intensity appears to correlate with increased enzyme activity"
+          },
+          {
+            "evidence_id": "EV_C004_E02_01",
+            "source_file": "docs/0115/combined.md",
+            "section": "C004",
+            "quote_or_span": "We successfully demonstrated that this novel TLC-based screening can distinguish fourfold differences in enzyme activity for a select L377 mutant library of SaGGR and quantitatively validated those results by GC–MS."
+          },
+          {
+            "evidence_id": "EV_AUTO_016",
+            "source_file": "docs/0115/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "All sense-coding mutants except for the E1 (L377M) mutant exhibited a modest 2–3× increase in prenyl reductase activity relative to wild type (3."
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "analysis",
+        "state_before": "Activity data obtained; need structural explanation.",
+        "gap_or_uncertainty": "Why does L377M decrease activity while other mutants increase it?",
+        "hypothesis": "In silico models will reveal structural changes affecting substrate binding.",
+        "decision": "Perform in silico mutagenesis and structural analysis using Chimera.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Chimera",
+          "version": "",
+          "category": "computational_modeling"
+        },
+        "parameters": {
+          "template": "SaGGR ternary complex crystal structure (RCSB: 4OPD)"
+        },
+        "observation": "L377M partially seals substrate-binding cavity via interaction with Val89; other mutants expand tunnel or add charges enhancing solvent interactions.",
+        "result_status": "success",
+        "next_step_reason": "Acknowledge limitations of the workflow.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E08_01",
+            "source_file": "docs/0115/combined.md",
+            "section": "C003",
+            "quote_or_span": "L377M, the only residue that exhibited decreased activity relative to WT, appears to partially seal this proposed cavity by its increased size and enhanced interaction with Val89"
+          },
+          {
+            "evidence_id": "EV_C004_E01_01",
+            "source_file": "docs/0115/combined.md",
+            "section": "C004",
+            "quote_or_span": "Leu377 from the substrate-binding domain and Val89 from the catalytic domain in WT SaGGR form van der Waals interactions between methylene groups (grey) that comprise the tunnel's native contacts."
+          },
+          {
+            "evidence_id": "EV_C004_E01_02",
+            "source_file": "docs/0115/combined.md",
+            "section": "C004",
+            "quote_or_span": "This tunnel appears to be occluded in the L377M mutant, which is the only mutant shown to decrease reductase activity toward farnesol."
+          },
+          {
+            "evidence_id": "EV_C004_E01_03",
+            "source_file": "docs/0115/combined.md",
+            "section": "C004",
+            "quote_or_span": "In the remaining mutants enhancing reductase activity, they either expand the substrate-binding tunnel (L377G or L377T) or provide charges that could enhance protein–solvent interactions via hydrogen-bonding oxygens (red) or nitrogens (blue) (L377N, L377R, L377D, L377H)"
+          }
+        ]
+      },
+      {
+        "step_index": 12,
+        "phase": "analysis",
+        "state_before": "Workflow validated; need to acknowledge limitations.",
+        "gap_or_uncertainty": "The TLC-based workflow is semi-quantitative and requires imaging software for quantitation; manual TLC steps limit throughput.",
+        "hypothesis": "The workflow can be adapted for quantitative applications with appropriate visualization software.",
+        "decision": "Note limitations and potential for future quantitation.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "TLC-based screening",
+          "version": "",
+          "category": "analytical_chemistry"
+        },
+        "parameters": {},
+        "observation": "The screen is semi-quantitative; requires imaging software for quantitation; manual TLC steps limit throughput.",
+        "result_status": "partial",
+        "next_step_reason": "Conclude the study.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E07_01",
+            "source_file": "docs/0115/combined.md",
+            "section": "C003",
+            "quote_or_span": "this screen can be adapted for quantitative applications with the appropriate visualization software packages to quantify the amounts of each product present within each mutant well"
+          },
+          {
+            "evidence_id": "EV_C004_E05_01",
+            "source_file": "docs/0115/combined.md",
+            "section": "C004",
+            "quote_or_span": "Also, with appropriate quantitation methods, it could enable a faster, quantitative analysis of the products at a higher throughput than traditional liquid or gas chromatography approaches."
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "GC-MS specific activity measurements"
+      ],
+      "metrics": [
+        "Specific activity (nmol/h)",
+        "Fold increase over wild-type"
+      ],
+      "final_conclusion": "The TLC-based screening workflow successfully identified L377X mutants with 2–3× increased activity over wild-type, validated by GC-MS. L377M was the only mutant with decreased activity, explained by in silico modeling.",
+      "limitations": [
+        "Workflow is semi-quantitative; requires imaging software for quantitation",
+        "Manual TLC steps limit throughput"
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_step_trimmed=14_to_12",
+        "v22_specific_evidence_backfilled=8",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_step_trimmed=13_to_12",
+        "v22_specific_evidence_backfilled=7",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 96.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_mainline_batch30_p4\\states\\0115.json",
+  "events_path": "outputs\\agentic_v22\\v22_mainline_batch30_p4\\events\\0115.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1
+        ],
+        "K02": [
+          1,
+          10
+        ],
+        "K04": [
+          2,
+          3
+        ],
+        "K05": [
+          2,
+          3
+        ],
+        "K06": [
+          4
+        ],
+        "K07": [
+          5
+        ],
+        "K11": [
+          7,
+          8
+        ],
+        "K12": [
+          8
+        ],
+        "K13": [
+          3,
+          9,
+          10
+        ],
+        "K14": [
+          9,
+          10
+        ],
+        "K15": [
+          11
+        ],
+        "K16": [
+          12
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K03",
+            "K04",
+            "K05"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K03",
+            "K04",
+            "K05",
+            "K09",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K06"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K07"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K09",
+            "K10"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K11"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K11",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K13",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K02",
+            "K13",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K15"
+          ]
+        },
+        {
+          "step_index": 12,
+          "covered_event_ids": [
+            "K16"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 3,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "38",
+          "90%"
+        ]
+      },
+      {
+        "step_index": 10,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "0.7",
+          "3.6"
+        ]
+      }
+    ],
+    "step_count": 12,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 96.0
+  },
+  "api_usage": {
+    "prompt_tokens": 129811,
+    "completion_tokens": 27244,
+    "total_tokens": 157055,
+    "prompt_cache_hit_tokens": 2944,
+    "prompt_cache_miss_tokens": 126867
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 4837,
+        "completion_tokens": 1084,
+        "total_tokens": 5921,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 4837
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 16947,
+        "completion_tokens": 4092,
+        "total_tokens": 21039,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 16947
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 9474,
+        "completion_tokens": 1265,
+        "total_tokens": 10739,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9218
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 9632,
+        "completion_tokens": 1429,
+        "total_tokens": 11061,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9376
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 9151,
+        "completion_tokens": 1262,
+        "total_tokens": 10413,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8895
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 9704,
+        "completion_tokens": 1889,
+        "total_tokens": 11593,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9448
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C005",
+      "api_usage": {
+        "prompt_tokens": 8258,
+        "completion_tokens": 536,
+        "total_tokens": 8794,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8002
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 12784,
+        "completion_tokens": 3051,
+        "total_tokens": 15835,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 12400
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 12106,
+        "completion_tokens": 5982,
+        "total_tokens": 18088,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 11466
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 17010,
+        "completion_tokens": 961,
+        "total_tokens": 17971,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 17010
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 19908,
+        "completion_tokens": 5693,
+        "total_tokens": 25601,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 19268
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

@@ -1,0 +1,924 @@
+{
+  "case": {
+    "case_id": "sci_evo_0119",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Computer-Aided Saturation Mutagenesis of Arabidopsis thaliana Ent-Copalyl Diphosphate Synthase",
+      "doi": "https://doi.org/10.1007/s12539-019-00342-x",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0117_10_1007_s12539_019_00342_x_computer_aided_saturation_mutagenesis_of_arabidopsis_thaliana_ent_copalyl_diphosphate_synt.pdf",
+      "mineru_md": "docs/0119/mineru.md",
+      "combined_md": "docs/0119/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Computationally design improved variants of Arabidopsis thaliana ent-copalyl diphosphate synthase (ent-CPS) to enhance gibberellin biosynthesis and potentially boost tanshinone production, without experimental validation.",
+      "target_object": "Arabidopsis thaliana ent-copalyl diphosphate synthase (ent-CPS)",
+      "known_context": "ent-CPS catalyzes the conversion of geranylgeranyl diphosphate (GGPS) to ent-copalyl diphosphate, a key step in gibberellin biosynthesis. Improved ent-CPS activity could increase endogenous hormone levels and boost tanshinone yield in transformed plants.",
+      "constraints": [
+        "No experimental validation performed",
+        "Computational predictions only"
+      ],
+      "input_data": [
+        "A. thaliana ent-CPS protein sequence (803 residues)",
+        "Crystal structure of ent-CPS (PDB: 3PYA)"
+      ],
+      "quantifiable_goals": [
+        "Identify single and double mutants with improved stability (ΔΔG_FOLD < -0.50 kcal/mol)",
+        "Identify mutants with improved binding affinity (K_A lower than WT 292.88 nM)"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "Wild-type A. thaliana ent-CPS has baseline activity; need to improve catalytic efficiency for higher gibberellin/tanshinone production.",
+        "gap_or_uncertainty": "Which amino acid substitutions could enhance ent-CPS stability and substrate binding?",
+        "hypothesis": "In silico saturation mutagenesis can identify non-neutral variants with potentially improved properties.",
+        "decision": "Use SNAP2 tool to generate all possible non-synonymous single mutants of ent-CPS.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "SNAP2",
+          "version": "",
+          "category": "variant effect predictor"
+        },
+        "parameters": {
+          "input": "A. thaliana ent-CPS protein sequence",
+          "output": "15,257 non-synonymous variants"
+        },
+        "observation": "15,257 non-synonymous variants were generated.",
+        "result_status": "success",
+        "next_step_reason": "Need to filter variants to those with high predicted functional impact.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0119/combined.md",
+            "section": "C001",
+            "quote_or_span": "15,257 non-synonymous variants of Arabidopsis thaliana ent-copalyl diphosphate synthase were obtained using the SNAP2 tool."
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "design",
+        "state_before": "15,257 variants generated; most are likely neutral or deleterious.",
+        "gap_or_uncertainty": "How to select a manageable subset of variants with high probability of functional impact?",
+        "hypothesis": "Applying stringent SNAP2 effect and probability thresholds will enrich for non-neutral variants.",
+        "decision": "Set thresholds: effect score >85 and probability ≥91%.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "SNAP2",
+          "version": "",
+          "category": "variant effect predictor"
+        },
+        "parameters": {
+          "effect_threshold": ">85",
+          "probability_threshold": "≥91%"
+        },
+        "observation": "455 mutants passed the thresholds.",
+        "result_status": "success",
+        "next_step_reason": "Selected 455 mutants will undergo multi-step screening for stability, binding, and structural integrity.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E03_01",
+            "source_file": "docs/0119/combined.md",
+            "section": "C001",
+            "quote_or_span": "Mutant selection criteria were assigned to “effect” scores higher than 85 and a probability of at least 91%."
+          },
+          {
+            "evidence_id": "EV_C001_E04_01",
+            "source_file": "docs/0119/combined.md",
+            "section": "C001",
+            "quote_or_span": "A group of 455 mutants with potentially improved stability was isolated"
+          },
+          {
+            "evidence_id": "EV_C002_E01_02",
+            "source_file": "docs/0119/combined.md",
+            "section": "C002",
+            "quote_or_span": "The application of these threshold scores allowed 455 A. thaliana ent-CPS variants to be isolated from the population of 15257 initially produced by the SNAP2 tool"
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "design",
+        "state_before": "455 mutants selected; need to further screen for stability, binding, and structural integrity.",
+        "gap_or_uncertainty": "Which of the 455 mutants have improved stability, binding affinity, and maintain proper secondary structure and active site geometry?",
+        "hypothesis": "A multi-step computational pipeline (FoldX stability, PsiPred secondary structure, AutoDock Vina binding, distance analysis) can identify the most promising mutants.",
+        "decision": "Implement screening pipeline: (1) FoldX ΔΔG_FOLD, (2) PsiPred secondary structure check, (3) AutoDock Vina binding affinity, (4) active site distance analysis.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "FoldX, PsiPred, AutoDock Vina, YASARA",
+          "version": "",
+          "category": "computational pipeline"
+        },
+        "parameters": {
+          "stability_threshold": "ΔΔG_FOLD < -0.50 kcal/mol",
+          "binding_threshold": "ΔΔG_BIND < -0.50 kcal/mol"
+        },
+        "observation": "Pipeline defined; ready to apply to 455 mutants.",
+        "result_status": "success",
+        "next_step_reason": "Apply stability screening first.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E05_01",
+            "source_file": "docs/0119/combined.md",
+            "section": "C001",
+            "quote_or_span": "subjected to further screening on the basis of ligand–substrate affinity, and both secondary structure and active site structure stability."
+          },
+          {
+            "evidence_id": "EV_C001_E04_01",
+            "source_file": "docs/0119/combined.md",
+            "section": "C001",
+            "quote_or_span": "A group of 455 mutants with potentially improved stability was isolated"
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "experiment",
+        "state_before": "455 mutants ready for stability screening.",
+        "gap_or_uncertainty": "Which mutants have improved thermodynamic stability?",
+        "hypothesis": "FoldX can predict stabilizing mutations (ΔΔG_FOLD < -0.50 kcal/mol).",
+        "decision": "Calculate ΔΔG_FOLD for all 455 mutants using FoldX.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "FoldX",
+          "version": "",
+          "category": "stability prediction"
+        },
+        "parameters": {
+          "threshold": "ΔΔG_FOLD < -0.50 kcal/mol"
+        },
+        "observation": "14 mutants had ΔΔG_FOLD < -0.50 kcal/mol. However, 5 of these showed secondary structure changes by PsiPred and were removed, leaving 9 mutants.",
+        "result_status": "partial",
+        "next_step_reason": "Remove mutants with secondary structure alterations; proceed to binding affinity screening for remaining 9.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_035",
+            "source_file": "docs/0119/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "thaliana ent-CPS variants to be selected from the entire population of 15,257 mutants; of these, 14 mutants with potentially stabilizing properties were identified using $\\Delta\\Delta G_{FOLD}$ ."
+          },
+          {
+            "evidence_id": "EV_C003_E04_01",
+            "source_file": "docs/0119/combined.md",
+            "section": "C003",
+            "quote_or_span": "five variants, i.e., two minor (H391L, H391M), two moderate (H793L, H793M) and one strong (H793F), showed changes in secondary structure that could negatively affect the catalytic properties of the enzyme"
+          },
+          {
+            "evidence_id": "EV_C003_E04_02",
+            "source_file": "docs/0119/combined.md",
+            "section": "C003",
+            "quote_or_span": "Three of the five mutants (H793F, H793L, H793M) are localized on the C-terminal segment of the protein"
+          },
+          {
+            "evidence_id": "EV_C001_E04_01",
+            "source_file": "docs/0119/combined.md",
+            "section": "C001",
+            "quote_or_span": "A group of 455 mutants with potentially improved stability was isolated"
+          },
+          {
+            "evidence_id": "EV_AUTO_027",
+            "source_file": "docs/0119/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "00 kcal/mol < $\\Delta\\Delta G_{FOLD}$ < -0.50 kcal/mol (minor stabilization changes), -2."
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "experiment",
+        "state_before": "9 mutants passed stability and secondary structure filters.",
+        "gap_or_uncertainty": "Do these mutants have improved binding affinity for the substrate GGPS?",
+        "hypothesis": "Docking with AutoDock Vina can identify mutants with ΔΔG_BIND < -0.50 kcal/mol.",
+        "decision": "Perform docking and calculate binding affinities for the 9 mutants.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "AutoDock Vina",
+          "version": "",
+          "category": "molecular docking"
+        },
+        "parameters": {
+          "threshold": "ΔΔG_BIND < -0.50 kcal/mol"
+        },
+        "observation": "3 mutants (D377K, G422M, K778W) had ΔΔG_BIND > -0.50 kcal/mol and were removed. 6 single mutants (T114F, D336L, D377L, G422L, S597W, K778F) showed improved affinity (K_A 79.99–119.32 nM vs WT 292.88 nM).",
+        "result_status": "success",
+        "next_step_reason": "Analyze active site distances for the 6 final single mutants.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E04_02",
+            "source_file": "docs/0119/combined.md",
+            "section": "C002",
+            "quote_or_span": "These six forms also showed improved affinity for the physiology ligand GGPS, ranging from 79.99 nM (T114F) to 119.32 nM (G422L). By comparison, the value for wild-type (WT) A. thaliana ent-CPS was 292.88 nM"
+          },
+          {
+            "evidence_id": "EV_AUTO_008",
+            "source_file": "docs/0119/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The mutants D377K, G422M and K778W of A."
+          },
+          {
+            "evidence_id": "EV_AUTO_021",
+            "source_file": "docs/0119/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "99 nM (T114F) to 119.32 nM (G422L)."
+          },
+          {
+            "evidence_id": "EV_AUTO_003",
+            "source_file": "docs/0119/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Three of these seven double mutants (T114F/S597W, D336L/S597W and D336L/K778F) demonstrated moderately improved stability; however, another three (D377L/G422, D377L/S597W and D377L/K778F) displayed considerably greater enzyme stability, as measured by $\\Delta\\Delta G_{FOLD}$ values (Table 3)."
+          },
+          {
+            "evidence_id": "EV_AUTO_002",
+            "source_file": "docs/0119/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "K778F, D377L/G422L, D377L/K778F) and antagonistic (T114F/S597W, D336L/S597W, D377L/S597W) interactions between aa residues constituting the double mutant (Table 4, Fig."
+          },
+          {
+            "evidence_id": "EV_AUTO_005",
+            "source_file": "docs/0119/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "In addition, the double mutant cycle analysis for $\\Delta\\Delta G_{FOLD}$ indicated the presence of antagonistic (T114F/S597W, D336L/S597W, D377L/S597W) interactions between aa residues constituting the double mutant."
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "analysis",
+        "state_before": "6 single mutants with improved binding identified.",
+        "gap_or_uncertainty": "How do mutations affect active site geometry, particularly distances between catalytic residues and substrate?",
+        "hypothesis": "Mutations may bring key catalytic residues (e.g., D379) closer to the substrate, enhancing catalysis.",
+        "decision": "Measure distances between D379, T421, N425, and GGPS in mutant and WT structures.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "YASARA",
+          "version": "",
+          "category": "structural analysis"
+        },
+        "parameters": {},
+        "observation": "D379:OD2–GGPS:C15 distance significantly shorter in mutants (3.24–3.32 Å) vs WT (4.02 Å). Other distances not statistically significant. D379 interacts more closely with ligand; N425 may have weaker influence.",
+        "result_status": "success",
+        "next_step_reason": "Validate the screening pipeline with known deleterious mutants.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E05_01",
+            "source_file": "docs/0119/combined.md",
+            "section": "C002",
+            "quote_or_span": "Only differences in the distances between D379:OD2 and GGPS:C15 were statistically significant."
+          },
+          {
+            "evidence_id": "EV_C003_E05_01",
+            "source_file": "docs/0119/combined.md",
+            "section": "C003",
+            "quote_or_span": "D379 seems to interact more closely with the ligand in the mutated forms than in the WT"
+          },
+          {
+            "evidence_id": "EV_C003_E05_02",
+            "source_file": "docs/0119/combined.md",
+            "section": "C003",
+            "quote_or_span": "N425 may have a weaker influence on D379 in mutants than in the WT"
+          },
+          {
+            "evidence_id": "EV_C003_E05_03",
+            "source_file": "docs/0119/combined.md",
+            "section": "C003",
+            "quote_or_span": "The 4.02 Å distance between D379:OD2 and GGPS-C15 therefore suggests a weak interaction"
+          },
+          {
+            "evidence_id": "EV_AUTO_016",
+            "source_file": "docs/0119/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Mutant forms were also found to demonstrate some tendencies regarding the distances between the ligand and the aa residues playing a crucial role in a catalytic reaction: D379 seems to interact more closely with the ligand in the mutated forms than in the WT, and T421 may stabilize D379 more strongly in six mutant variants, while N425 may have a weaker influence on D379 in mutants than in the WT."
+          },
+          {
+            "evidence_id": "EV_AUTO_023",
+            "source_file": "docs/0119/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": ", while D379 tends to be closer to the substrate and T421 in mutated forms, N425 is found to be further from D379 in mutants than in wild type (Table S5)."
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "validation",
+        "state_before": "Pipeline identified 6 promising single mutants; need to ensure it does not select deleterious variants.",
+        "gap_or_uncertainty": "Can the pipeline correctly eliminate known deleterious mutants?",
+        "hypothesis": "The computational filters (SNAP2, FoldX, PsiPred, docking) will reject experimentally verified loss-of-function mutants.",
+        "decision": "Test 11 known deleterious mutants (e.g., H331A, D377A, D379A, D380A) through the pipeline.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "SNAP2, FoldX, PsiPred, AutoDock Vina",
+          "version": "",
+          "category": "validation pipeline"
+        },
+        "parameters": {},
+        "observation": "None of the 11 mutants passed SNAP2 thresholds. Only D380A passed ΔΔG_FOLD test, but it was eliminated by other filters. Pipeline successfully eliminated all unfavorable variants.",
+        "result_status": "success",
+        "next_step_reason": "Proceed to design double mutants from the 6 single mutants.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E08_01",
+            "source_file": "docs/0119/combined.md",
+            "section": "C001",
+            "quote_or_span": "the procedure was validated by in silico assessment of the experimentally verified enzyme mutants with reduced enzymatic activity."
+          },
+          {
+            "evidence_id": "EV_C002_E06_01",
+            "source_file": "docs/0119/combined.md",
+            "section": "C002",
+            "quote_or_span": "None of the 11 tested mutants passed the threshold SNAP2 scores (85% effect and 91% probability)"
+          },
+          {
+            "evidence_id": "EV_C003_E06_01",
+            "source_file": "docs/0119/combined.md",
+            "section": "C003",
+            "quote_or_span": "The tools used in the study were successfully validated on a group of 11 available A. thaliana ent-CPS mutants of decreased catalytic activity. This procedure efficiently eliminated all variants with unfavorable catalytic properties."
+          },
+          {
+            "evidence_id": "EV_AUTO_011",
+            "source_file": "docs/0119/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "None of the 11 tested mutants passed the threshold SNAP2 scores (85% effect and 91% probability) (Table 2), and only 1 of them passed the $\\Delta\\Delta G_{FOLD}$ test (D380A) (Table 2)."
+          },
+          {
+            "evidence_id": "EV_AUTO_001",
+            "source_file": "docs/0119/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "thaliana ent-CPS with decreased catalytic function, such as H331A, H331R, D377A, D379A and D380A are relatively well characterized $[2, 4]$ , while E211A, R340A, T421A, T421S, N425A and D503A are known to have negative kinetic properties $[3]$ ."
+          },
+          {
+            "evidence_id": "EV_AUTO_014",
+            "source_file": "docs/0119/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "In addition, in D377A, the distance D379:OD1-N425:HD2 (6."
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "experiment",
+        "state_before": "6 validated single mutants available.",
+        "gap_or_uncertainty": "Can combining mutations further improve stability and affinity?",
+        "hypothesis": "Double mutants may exhibit synergistic or additive effects.",
+        "decision": "Construct all 15 possible double mutants from the 6 single mutants and screen with the same pipeline.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "FoldX, AutoDock Vina, PsiPred",
+          "version": "",
+          "category": "double mutant screening"
+        },
+        "parameters": {},
+        "observation": "7 out of 15 double mutants passed all quality tests. They showed improved affinity (K_A 77.33–116.14 nM).",
+        "result_status": "success",
+        "next_step_reason": "Perform double mutant cycle analysis to understand interactions.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E07_01",
+            "source_file": "docs/0119/combined.md",
+            "section": "C001",
+            "quote_or_span": "double mutants were prepared and subsequently evaluated by double mutant cycle analysis to find potential interactions between the aa residues constituting the double mutants."
+          },
+          {
+            "evidence_id": "EV_C002_E07_01",
+            "source_file": "docs/0119/combined.md",
+            "section": "C002",
+            "quote_or_span": "The selected 6 single mutants of A. thaliana ent-CPS were used to build 15 double mutants."
+          },
+          {
+            "evidence_id": "EV_C002_E07_02",
+            "source_file": "docs/0119/combined.md",
+            "section": "C002",
+            "quote_or_span": "A group of seven double mutants passing all quality tests was obtained"
+          },
+          {
+            "evidence_id": "EV_AUTO_018",
+            "source_file": "docs/0119/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "33 nM (D377L/S597W) and 116.14 nM."
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "analysis",
+        "state_before": "7 double mutants identified.",
+        "gap_or_uncertainty": "What are the energetic interactions between the paired mutations?",
+        "hypothesis": "Double mutant cycle analysis can reveal synergistic or antagonistic effects on stability and binding.",
+        "decision": "Calculate coupling energies (ΔΔΔG) for ΔΔG_FOLD and ΔΔG_BIND.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Double mutant cycle analysis",
+          "version": "",
+          "category": "energetic coupling analysis"
+        },
+        "parameters": {},
+        "observation": "ΔΔG_FOLD: 4 synergistic (T114F/D377L, D336L/K778F, D377L/G422L, D377L/K778F), 3 antagonistic (T114F/S597W, D336L/S597W, D377L/S597W) but two very weak, possibly additive. ΔΔG_BIND interactions were analyzed.",
+        "result_status": "success",
+        "next_step_reason": "Acknowledge limitations and suggest future experimental validation.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_002",
+            "source_file": "docs/0119/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "K778F, D377L/G422L, D377L/K778F) and antagonistic (T114F/S597W, D336L/S597W, D377L/S597W) interactions between aa residues constituting the double mutant (Table 4, Fig."
+          },
+          {
+            "evidence_id": "EV_AUTO_004",
+            "source_file": "docs/0119/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The next four double mutants (T114F/D377L, D336L/K778F, D377L/G422L, D377L/K778F) showed a synergistic effect on protein $\\Delta\\Delta G_{FOLD}$ , suggesting the presence of anti-cooperatively interacting residues."
+          },
+          {
+            "evidence_id": "EV_AUTO_005",
+            "source_file": "docs/0119/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "In addition, the double mutant cycle analysis for $\\Delta\\Delta G_{FOLD}$ indicated the presence of antagonistic (T114F/S597W, D336L/S597W, D377L/S597W) interactions between aa residues constituting the double mutant."
+          },
+          {
+            "evidence_id": "EV_AUTO_006",
+            "source_file": "docs/0119/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "As the antagonistic effect was very weak, it is possible that both double mutants (T114F/S597W, D336L/S597W) are in fact formed from single mutants, suggesting an additive effect takes place rather than an antagonistic one."
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "analysis",
+        "state_before": "Double mutant analysis complete; overall pipeline appears robust.",
+        "gap_or_uncertainty": "How reliable are the FoldX predictions?",
+        "hypothesis": "FoldX has known accuracy limitations that should be considered when interpreting results.",
+        "decision": "Discuss FoldX performance metrics from literature.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "FoldX",
+          "version": "",
+          "category": "stability prediction"
+        },
+        "parameters": {},
+        "observation": "FoldX correlation with experiment is 0.81, SD 0–1.78 kcal/mol; better for destabilizing mutations. Highly stabilizing predictions are more reliable.",
+        "result_status": "success",
+        "next_step_reason": "Conclude with limitations and future directions.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E03_01",
+            "source_file": "docs/0119/combined.md",
+            "section": "C003",
+            "quote_or_span": "A correlation of 0.81 was calculated between predicted and experimental values for more than 1000 point mutations with an accuracy of 0.46 kcal/mol"
+          },
+          {
+            "evidence_id": "EV_AUTO_017",
+            "source_file": "docs/0119/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "81 was calculated between predicted and experimental values for more than 1000 point mutations with an accuracy of 0.46 kcal/mol [29]."
+          },
+          {
+            "evidence_id": "EV_AUTO_031",
+            "source_file": "docs/0119/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "78 kcal/mol; hence, mutants with highly stabilizing properties are also highly likely to demonstrate these stabilization properties in vivo [31]."
+          },
+          {
+            "evidence_id": "EV_AUTO_032",
+            "source_file": "docs/0119/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "0–1.78 kcal/mol; hence, mutants with highly stabilizing properties are also highly likely to demonstrate these stabilization properties in vivo [31]."
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "revision",
+        "state_before": "Computational predictions suggest improved mutants, but no experimental data.",
+        "gap_or_uncertainty": "The study lacks experimental validation; predictions may not translate to in vivo activity.",
+        "hypothesis": "Future experimental work should validate the predicted mutants, especially D336L, which may have a reprotonation defect.",
+        "decision": "State limitation and propose experimental validation.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "None",
+          "version": "",
+          "category": "limitation"
+        },
+        "parameters": {},
+        "observation": "No experimental validation performed. D336L mutation could decrease D379 reprotonation efficiency, potentially diminishing activity despite improved binding.",
+        "result_status": "inconclusive",
+        "next_step_reason": "End of trajectory; final conclusion.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E07_01",
+            "source_file": "docs/0119/combined.md",
+            "section": "C003",
+            "quote_or_span": "Future research should attempt to validate the properties of the obtained single and double mutants, particularly D336L and the four double mutants containing this substitution."
+          },
+          {
+            "evidence_id": "EV_C003_E08_01",
+            "source_file": "docs/0119/combined.md",
+            "section": "C003",
+            "quote_or_span": "The exchange of the acidic, polar side chain of D336 into a hydrophobic L336 could strongly decrease the efficiency of this D379 reprotonation, potentially leading to diminished enzyme activity."
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "In silico validation using 11 known deleterious mutants"
+      ],
+      "metrics": [
+        "ΔΔG_FOLD (kcal/mol)",
+        "ΔΔG_BIND (kcal/mol)",
+        "Binding affinity K_A (nM)",
+        "SNAP2 effect score and probability",
+        "Secondary structure changes (PsiPred)",
+        "Active site distances (Å)"
+      ],
+      "final_conclusion": "A computational pipeline identified 6 single mutants (T114F, D336L, D377L, G422L, S597W, K778F) and 7 double mutants with predicted improved stability and binding affinity for GGPS. The pipeline was validated by correctly rejecting 11 known deleterious mutants. However, no experimental validation was performed, and the D336L mutation may impair reprotonation of D379, potentially reducing catalytic activity.",
+      "limitations": [
+        "No experimental validation of predicted improved mutants",
+        "FoldX predictions have SD 0–1.78 kcal/mol",
+        "D336L may have a mechanistic drawback (reprotonation)",
+        "Only one distance (D379:OD2–GGPS:C15) was statistically significant"
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "All coverage requirements met with direct evidence.",
+        "No experimental data; purely computational study.",
+        "v22_specific_evidence_backfilled=10",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_specific_evidence_backfilled=8",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 100.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p5\\states\\0119.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p5\\events\\0119.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1
+        ],
+        "K02": [
+          1
+        ],
+        "K03": [
+          2
+        ],
+        "K04": [
+          2,
+          3,
+          4
+        ],
+        "K05": [
+          3,
+          4,
+          5,
+          6
+        ],
+        "K06": [
+          3,
+          4,
+          5
+        ],
+        "K07": [
+          4,
+          5
+        ],
+        "K08": [
+          6
+        ],
+        "K09": [
+          7
+        ],
+        "K10": [
+          1,
+          4,
+          5,
+          7,
+          8
+        ],
+        "K12": [
+          6,
+          9,
+          11
+        ],
+        "K14": [
+          4,
+          10
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02",
+            "K10"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K03",
+            "K04"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K04",
+            "K05",
+            "K06"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K04",
+            "K05",
+            "K06",
+            "K07",
+            "K10",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K05",
+            "K06",
+            "K07",
+            "K10",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K05",
+            "K08",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K09",
+            "K10"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K10",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K11",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K14"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K12",
+            "K13"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 5,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "-0.50",
+          "6s",
+          "79.99"
+        ]
+      },
+      {
+        "step_index": 6,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "3.24",
+          "3.32",
+          "6s"
+        ]
+      },
+      {
+        "step_index": 7,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "6s"
+        ]
+      },
+      {
+        "step_index": 8,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "77.33"
+        ]
+      },
+      {
+        "step_index": 9,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "4s"
+        ]
+      }
+    ],
+    "step_count": 11,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 100.0
+  },
+  "api_usage": {
+    "prompt_tokens": 112794,
+    "completion_tokens": 26788,
+    "total_tokens": 139582,
+    "prompt_cache_hit_tokens": 2688,
+    "prompt_cache_miss_tokens": 110106
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 3575,
+        "completion_tokens": 742,
+        "total_tokens": 4317,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 3575
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 13070,
+        "completion_tokens": 3747,
+        "total_tokens": 16817,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 13070
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 8443,
+        "completion_tokens": 1097,
+        "total_tokens": 9540,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8187
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 9947,
+        "completion_tokens": 1554,
+        "total_tokens": 11501,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9691
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 9284,
+        "completion_tokens": 1537,
+        "total_tokens": 10821,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9028
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 5284,
+        "completion_tokens": 44,
+        "total_tokens": 5328,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 5028
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 11034,
+        "completion_tokens": 3390,
+        "total_tokens": 14424,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 10650
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 12032,
+        "completion_tokens": 6391,
+        "total_tokens": 18423,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 11392
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 18388,
+        "completion_tokens": 1500,
+        "total_tokens": 19888,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 18388
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 21737,
+        "completion_tokens": 6786,
+        "total_tokens": 28523,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 21097
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

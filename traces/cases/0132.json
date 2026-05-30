@@ -1,0 +1,864 @@
+{
+  "case": {
+    "case_id": "sci_evo_0132",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Structural Rigidity and Protein Thermostability in Variants of Lipase A from Bacillus subtilis",
+      "doi": "https://doi.org/10.1371/journal.pone.0130289",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0130_10_1371_journal_pone_0130289_structural_rigidity_and_protein_thermostability_in_variants_of_lipase_a_from_bacillus_subt.pdf",
+      "mineru_md": "docs/0132/mineru.md",
+      "combined_md": "docs/0132/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Resolve conflicting views on whether increased or decreased structural rigidity correlates with higher protein thermostability by analyzing static properties of 16 BsLipA mutants using Constraint Network Analysis (CNA).",
+      "target_object": "Lipase A from Bacillus subtilis (BsLipA) and its 16 mutants",
+      "known_context": "Opposing views exist on whether increased or decreased structural rigidity of the folded state leads to higher protein thermostability, related to differences in temporal resolution of methods.",
+      "constraints": [
+        "Use static properties to avoid time-dependent biases",
+        "Analyze a well-characterized set of 16 BsLipA mutants"
+      ],
+      "input_data": [
+        "Crystal structures of BsLipA wild type and mutants (where available)",
+        "Modeled structures for mutants without crystal structures",
+        "Experimental thermostability data (Tm, Ti, T50)"
+      ],
+      "quantifiable_goals": [
+        "Establish a quantitative correlation between structural rigidity and thermodynamic thermostability",
+        "Explain outliers and improve prediction accuracy"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "Conflicting views on rigidity-thermostability relationship due to differences in temporal resolution of methods.",
+        "gap_or_uncertainty": "Whether static analysis of structural rigidity can reveal a clear correlation with thermostability.",
+        "hypothesis": "Analyzing static properties directly with CNA will reveal a correlation between structural rigidity and thermodynamic thermostability.",
+        "decision": "Use CNA to analyze static properties of 16 BsLipA mutants.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "Constraint Network Analysis (CNA)",
+          "version": "",
+          "category": "computational_analysis"
+        },
+        "parameters": {},
+        "observation": "CNA avoids time-dependent biases by considering proteins in static equilibrium.",
+        "result_status": "success",
+        "next_step_reason": "Design the study with specific mutants and methods.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0132/combined.md",
+            "section": "C001",
+            "quote_or_span": "Opposing views on increased or decreased structural rigidity of the folded state have been put forward in this context."
+          },
+          {
+            "evidence_id": "EV_C001_E01_02",
+            "source_file": "docs/0132/combined.md",
+            "section": "C001",
+            "quote_or_span": "They have been related to differences in the temporal resolution of experiments and computations that probe atomic mobility."
+          },
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0132/combined.md",
+            "section": "C001",
+            "quote_or_span": "Here, we address the question of the relation between protein thermostability and structural rigidity by analyzing directly the static properties of a well-characterized set of 16 mutants of lipase A from Bacillus subtilis (BsLipA)."
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "design",
+        "state_before": "Hypothesis formulated; need to select mutants and methods.",
+        "gap_or_uncertainty": "Need to define the set of mutants and computational protocol.",
+        "hypothesis": "A set of 16 BsLipA mutants with known thermostability data, combined with CNA-based rigidity analysis including thermal unfolding simulation and ENT^FNC ensemble, will allow testing the hypothesis.",
+        "decision": "Select 16 mutants (13 from Rao et al. with Tm data and 3 from Reetz et al. with Ti/T50 data); model missing structures; apply CNA with ENT^FNC ensemble.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "SCWRL, REDUCE, Amber11, FIRST, CNA, ENT^FNC",
+          "version": "",
+          "category": "computational_modeling"
+        },
+        "parameters": {
+          "E_cut range": "-0.1 to -6.0 kcal/mol",
+          "temperature range": "302–420 K",
+          "ensemble size": 2000
+        },
+        "observation": "Study design includes 16 mutants, modeled structures, and CNA with thermal unfolding simulation.",
+        "result_status": "success",
+        "next_step_reason": "Compute phase transition temperatures Tp from global index H_type2.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E03_02",
+            "source_file": "docs/0132/combined.md",
+            "section": "C001",
+            "quote_or_span": "Models of mutant structures for which crystal structures were not available in the PDB were generated with the SCWRL program [58]"
+          },
+          {
+            "evidence_id": "EV_C001_E03_03",
+            "source_file": "docs/0132/combined.md",
+            "section": "C001",
+            "quote_or_span": "For all structures, hydrogen atoms were added using REDUCE [59]"
+          },
+          {
+            "evidence_id": "EV_C002_E01_01",
+            "source_file": "docs/0132/combined.md",
+            "section": "C002",
+            "quote_or_span": "thermal unfolding trajectory of 60 network states was generated for each input network by decreasing $E_{cut}$ from -0.1 kcal mol $^{-1}$ to -6.0 kcal mol $^{-1}$ with a step size of 0.1 kcal mol $^{-1}$"
+          },
+          {
+            "evidence_id": "EV_C002_E01_02",
+            "source_file": "docs/0132/combined.md",
+            "section": "C002",
+            "quote_or_span": "the range of $E_{cut}$ used in this study is equivalent to increasing the temperature of the system from 302 K to 420 K with a step size of 2 K"
+          },
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0132/combined.md",
+            "section": "C001",
+            "quote_or_span": "Here, we address the question of the relation between protein thermostability and structural rigidity by analyzing directly the static properties of a well-characterized set of 16 mutants of lipase A from Bacillus subtilis (BsLipA)."
+          },
+          {
+            "evidence_id": "EV_AUTO_023",
+            "source_file": "docs/0132/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "46$ correlation between the structural rigidity of a well-characterized set of 16 mutants of lipase A from Bacillus subtilis (BsLipA) and their thermodynamic thermostability."
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "simulation",
+        "state_before": "Study designed; need to compute Tp from H_type2.",
+        "gap_or_uncertainty": "Whether Tp from H_type2 correlates with experimental Tm.",
+        "hypothesis": "Tp derived from H_type2 using ENT^FNC ensemble will correlate with Tm.",
+        "decision": "Compute Tp from H_type2 for all variants using ENT^FNC ensemble of 2000 network topologies.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "CNA with ENT^FNC ensemble",
+          "version": "",
+          "category": "computational_analysis"
+        },
+        "parameters": {
+          "ensemble size": 2000
+        },
+        "observation": "Tp values computed; initial correlation with Tm is poor.",
+        "result_status": "partial",
+        "next_step_reason": "Evaluate correlation and identify outliers.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E05_02",
+            "source_file": "docs/0132/combined.md",
+            "section": "C001",
+            "quote_or_span": "That way, thermal fluctuations of a protein are considered without actually sampling conformations."
+          },
+          {
+            "evidence_id": "EV_C002_E02_02",
+            "source_file": "docs/0132/combined.md",
+            "section": "C002",
+            "quote_or_span": "An ensemble of 2000 network configurations was generated using these definitions of fuzzy noncovalent constraints for all BsLipA variants"
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "analysis",
+        "state_before": "Tp computed; initial correlation results available.",
+        "gap_or_uncertainty": "Poor correlation and outliers (wild type and mutant 6B) need explanation.",
+        "hypothesis": "The false predictions for wild type and 6B are due to distinct unfolding pathways.",
+        "decision": "Investigate unfolding pathway differences using p_i profiles and clustering.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Manhattan distance, Partitioning Around Medoids",
+          "version": "",
+          "category": "statistical_analysis"
+        },
+        "parameters": {
+          "clusters": 10
+        },
+        "observation": "Wild type and 6B have distinct pathway distributions; wild type correlation coefficients r range from -0.69 to 0.54.",
+        "result_status": "failure",
+        "next_step_reason": "Develop a new measure less sensitive to pathway differences.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E03_01",
+            "source_file": "docs/0132/combined.md",
+            "section": "C003",
+            "quote_or_span": "the false predictions for wild type BsLipA and mutant 6B are dissatisfying"
+          },
+          {
+            "evidence_id": "EV_AUTO_015",
+            "source_file": "docs/0132/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "58$ only if the two structures with the lowest (wild type) and highest (mutant 6B) $T_{m}$ were considered outliers (Fig 4A; see below for an explanation regarding the outliers; note that removing the two outliers in the case of using single network topologies only marginally improved $R^{2}$ from 0.22 to 0."
+          },
+          {
+            "evidence_id": "EV_AUTO_016",
+            "source_file": "docs/0132/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "002) correlation between $T_{p}$ and $T_{m}$ with $R^{2} = 0.58$ only if the two structures with the lowest (wild type) and highest (mutant 6B) $T_{m}$ were considered outliers (Fig 4A; see below for an explanation regarding the outliers; note that removing the two outliers in the case of using single network topologies only marginally improved $R^{2}$ from 0."
+          },
+          {
+            "evidence_id": "EV_C003_E04_01",
+            "source_file": "docs/0132/combined.md",
+            "section": "C003",
+            "quote_or_span": "the wild type enzyme shows an unfolding pathway distribution very distinct from other BsLipA variants from Rao et al. with correlation coefficients r ranging from -0.69 to 0.54"
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "revision",
+        "state_before": "Tp-based prediction fails due to pathway sensitivity.",
+        "gap_or_uncertainty": "Need a measure less sensitive to unfolding pathway differences.",
+        "hypothesis": "A local measure based on median stability of rigid contacts between residue neighbors (rc_ij,neighbor) will be less pathway-sensitive.",
+        "decision": "Develop rc_ij,neighbor as a new local measure.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "rc_ij,neighbor",
+          "version": "",
+          "category": "computational_metric"
+        },
+        "parameters": {},
+        "observation": "New measure defined; it is less sensitive to unfolding pathway differences, ready for validation.",
+        "result_status": "success",
+        "next_step_reason": "Validate rc_ij,neighbor against Tm.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C005_E08_01",
+            "source_file": "docs/0132/combined.md",
+            "section": "C005",
+            "quote_or_span": "we introduced the median stability of rigid contacts as a new local measure for predicting thermodynamic thermostability and showed that this measure is less sensitive to details of the unfolding pathway"
+          },
+          {
+            "evidence_id": "EV_C005_E08_02",
+            "source_file": "docs/0132/combined.md",
+            "section": "C005",
+            "quote_or_span": "The measure is thus recommended for comparing thermostabilities of mutants the underlying unfolding pathways of which are dissimilar"
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "validation",
+        "state_before": "New measure rc_ij,neighbor developed.",
+        "gap_or_uncertainty": "Whether rc_ij,neighbor correlates with Tm and correctly predicts Reetz mutants.",
+        "hypothesis": "rc_ij,neighbor will show significant correlation with Tm and correctly predict Reetz mutants as less thermostable than wild type.",
+        "decision": "Compute rc_ij,neighbor for all variants and correlate with Tm.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "rc_ij,neighbor",
+          "version": "",
+          "category": "computational_metric"
+        },
+        "parameters": {},
+        "observation": "R^2=0.46, p=0.004, no outliers; Reetz mutants correctly predicted less thermostable.",
+        "result_status": "success",
+        "next_step_reason": "Analyze impact of structure quality on correlation.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E01_01",
+            "source_file": "docs/0132/combined.md",
+            "section": "C004",
+            "quote_or_span": "ith $T_{\\mathrm{m}}$ values of the thermodynamically stable mutants from Rao et al. is obtained ( $R^2 = 0.46$ , $p = 0.004$ ; Fig 4B). No outlier is observed now"
+          },
+          {
+            "evidence_id": "EV_C004_E04_01",
+            "source_file": "docs/0132/combined.md",
+            "section": "C004",
+            "quote_or_span": "the mutants from Reetz et al. are found to have a lower thermodynamic thermostability than the wild type, in very good agreement with experimental findings"
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "analysis",
+        "state_before": "rc_ij,neighbor validated on full set.",
+        "gap_or_uncertainty": "Effect of input structure quality on correlation.",
+        "hypothesis": "Correlation will be stronger for X-ray structures than for modeled structures.",
+        "decision": "Separate analysis for X-ray and modeled structures.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "rc_ij,neighbor",
+          "version": "",
+          "category": "computational_metric"
+        },
+        "parameters": {},
+        "observation": "R^2=0.87 (p=0.007) for X-ray structures; R^2=0.33 (p=0.07) for modeled structures.",
+        "result_status": "partial",
+        "next_step_reason": "Provide recommendations for measure selection.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E03_01",
+            "source_file": "docs/0132/combined.md",
+            "section": "C004",
+            "quote_or_span": "When only considering the six X-ray structures in the dataset of Rao et al., a good correlation of $\\widetilde{r}\\widetilde{c}_{ij,neighbor}$ with $T_{\\mathrm{m}}$ values of $R^2 = 0.87$ ( $p = 0.007$ ) is found"
+          },
+          {
+            "evidence_id": "EV_C004_E03_02",
+            "source_file": "docs/0132/combined.md",
+            "section": "C004",
+            "quote_or_span": "a weaker correlation ( $R^2 = 0.33$ , $p = 0.07$ ) is obtained for the eight variants that were modeled using SCWRL"
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "analysis",
+        "state_before": "Differential performance of rc_ij,neighbor based on structure quality.",
+        "gap_or_uncertainty": "When to use H_type2 vs rc_ij,neighbor.",
+        "hypothesis": "rc_ij,neighbor is less sensitive to pathway differences; H_type2 is suitable for similar pathways.",
+        "decision": "Recommend H_type2 for similar pathways, rc_ij,neighbor for dissimilar pathways.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "H_type2, rc_ij,neighbor",
+          "version": "",
+          "category": "computational_metric"
+        },
+        "parameters": {},
+        "observation": "Clear recommendation formulated.",
+        "result_status": "success",
+        "next_step_reason": "Further validate with multiple crystal structures.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E05_01",
+            "source_file": "docs/0132/combined.md",
+            "section": "C004",
+            "quote_or_span": "The $\\widetilde{rc}_{ij,neighbor}$ -based measure is apparently less sensitive to differences in the unfolding pathway"
+          },
+          {
+            "evidence_id": "EV_C004_E05_02",
+            "source_file": "docs/0132/combined.md",
+            "section": "C004",
+            "quote_or_span": "we thus recommend using $H_{\\mathrm{type2}}$ -derived $T_{\\mathrm{p}}$ values for comparing thermostabilities of variants of a protein unless the underlying unfolding pathways are dissimilar; in that case, we recommend using $\\widetilde{rc}_{ij,neighbor}$"
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "validation",
+        "state_before": "Recommendations made; additional validation possible.",
+        "gap_or_uncertainty": "Whether using multiple crystal structures improves correlation.",
+        "hypothesis": "Averaging rc_ij,neighbor over multiple crystal structures will improve correlation.",
+        "decision": "Compute average rc_ij,neighbor over six crystal structures and correlate with Tm.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "rc_ij,neighbor, ENT^FNC",
+          "version": "",
+          "category": "computational_metric"
+        },
+        "parameters": {},
+        "observation": "R^2=0.55, p=0.001, improved correlation.",
+        "result_status": "success",
+        "next_step_reason": "Analyze mutation effects on rigid contacts.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E06_01",
+            "source_file": "docs/0132/combined.md",
+            "section": "C004",
+            "quote_or_span": "if the average $\\widetilde{rc}_{ij,neighbor}$ over all six crystal structures (315.9 K; see horizontal line in Fig 4B; Table 1) is considered for the $\\widetilde{rc}_{ij,neighbor}$ versus $T_{m}$ correlation, the quality of the correlation improves considerably to $R^{2}=0.55$ (p=0.001)"
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "analysis",
+        "state_before": "Correlation established; mechanistic insights needed.",
+        "gap_or_uncertainty": "How mutations affect rigid contacts in thermostable vs. destabilized variants.",
+        "hypothesis": "Mutations in thermostable variants strengthen rigid contacts, especially between peripheral helices and central β-sheet; Reetz mutant X shows destabilization.",
+        "decision": "Compare stability maps of mutants 1-14F5, 6B, and X with wild type.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "stability maps",
+          "version": "",
+          "category": "computational_analysis"
+        },
+        "parameters": {},
+        "observation": "Mutations generally improve rigid contacts; 6B shows stronger contacts between peripheral helices and β-sheet; mutant X shows destabilization.",
+        "result_status": "success",
+        "next_step_reason": "Note limitations and finalize conclusions.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E07_01",
+            "source_file": "docs/0132/combined.md",
+            "section": "C004",
+            "quote_or_span": "mutations in general improve the strength of rigid contacts to and in between neighboring residues of the mutations"
+          },
+          {
+            "evidence_id": "EV_C004_E07_02",
+            "source_file": "docs/0132/combined.md",
+            "section": "C004",
+            "quote_or_span": "contacts between peripheral helices and the central $\\beta$ -sheet region are stronger in 6B than in 1-14F5"
+          },
+          {
+            "evidence_id": "EV_C004_E08_01",
+            "source_file": "docs/0132/combined.md",
+            "section": "C004",
+            "quote_or_span": "this mutant showed a destabilization of rigid contacts both locally and globally"
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "analysis",
+        "state_before": "Mechanistic insights gained; limitations exist.",
+        "gap_or_uncertainty": "Prediction weaker for modeled structures.",
+        "hypothesis": "Modeled structures introduce uncertainty, leading to weaker correlation.",
+        "decision": "Acknowledge limitation of weaker correlation for modeled structures.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "rc_ij,neighbor",
+          "version": "",
+          "category": "computational_metric"
+        },
+        "parameters": {},
+        "observation": "R^2=0.33 for modeled structures indicates need for better structure modeling.",
+        "result_status": "partial",
+        "next_step_reason": "State main outcome confirming overall correlation.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E03_02",
+            "source_file": "docs/0132/combined.md",
+            "section": "C004",
+            "quote_or_span": "a weaker correlation ( $R^2 = 0.33$ , $p = 0.07$ ) is obtained for the eight variants that were modeled using SCWRL"
+          }
+        ]
+      },
+      {
+        "step_index": 12,
+        "phase": "validation",
+        "state_before": "All analyses complete; final conclusion needed.",
+        "gap_or_uncertainty": "Overall significance of the rigidity-thermostability correlation.",
+        "hypothesis": "There is a significant correlation between structural rigidity and thermodynamic thermostability for all BsLipA variants.",
+        "decision": "Conclude that the main outcome is a significant correlation (p=0.004, R^2=0.46), complementing previous studies.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "rc_ij,neighbor",
+          "version": "",
+          "category": "computational_metric"
+        },
+        "parameters": {},
+        "observation": "Significant and good correlation found, complementing previous studies.",
+        "result_status": "success",
+        "next_step_reason": "End of trajectory.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E07_01",
+            "source_file": "docs/0132/combined.md",
+            "section": "C001",
+            "quote_or_span": "The main outcome of this work is the finding of a significant and good correlation between the structural rigidity of all BsLipA variants and their thermodynamic thermostability."
+          },
+          {
+            "evidence_id": "EV_C005_E02_01",
+            "source_file": "docs/0132/combined.md",
+            "section": "C005",
+            "quote_or_span": "The main outcome of this work is the finding of a good correlation between the structural rigidity of all BsLipA variants and their thermodynamic thermostability."
+          },
+          {
+            "evidence_id": "EV_C005_E02_02",
+            "source_file": "docs/0132/combined.md",
+            "section": "C005",
+            "quote_or_span": "This finding of a quantitative relation between structural rigidity and thermodynamic thermostability within a series of closely related protein variants complements a previous study"
+          },
+          {
+            "evidence_id": "EV_C004_E01_01",
+            "source_file": "docs/0132/combined.md",
+            "section": "C004",
+            "quote_or_span": "ith $T_{\\mathrm{m}}$ values of the thermodynamically stable mutants from Rao et al. is obtained ( $R^2 = 0.46$ , $p = 0.004$ ; Fig 4B). No outlier is observed now"
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "Correlation analysis between rc_ij,neighbor and experimental Tm",
+        "Comparison with experimental thermostability data for Reetz mutants",
+        "Analysis of mutation effects on rigid contacts"
+      ],
+      "metrics": [
+        "R^2",
+        "p-value"
+      ],
+      "final_conclusion": "A significant correlation (p=0.004, R^2=0.46) between structural rigidity and thermodynamic thermostability was found for all BsLipA variants, with the new local measure rc_ij,neighbor overcoming pathway sensitivity issues.",
+      "limitations": [
+        "Prediction weaker for modeled structures (R^2=0.33) compared to X-ray structures (R^2=0.87)"
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_specific_evidence_backfilled=4",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_specific_evidence_backfilled=2",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 96.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p3\\states\\0132.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p3\\events\\0132.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1
+        ],
+        "K03": [
+          1,
+          2,
+          3
+        ],
+        "K04": [
+          2,
+          3
+        ],
+        "K05": [
+          4
+        ],
+        "K06": [
+          4
+        ],
+        "K08": [
+          6,
+          12
+        ],
+        "K09": [
+          7,
+          11
+        ],
+        "K10": [
+          4,
+          5,
+          8
+        ],
+        "K11": [
+          2,
+          3,
+          8,
+          9
+        ],
+        "K12": [
+          10
+        ],
+        "K13": [
+          7,
+          11
+        ],
+        "K14": [
+          1,
+          12
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02",
+            "K03",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K02",
+            "K03",
+            "K04",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K03",
+            "K04",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K05",
+            "K06",
+            "K10"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K07",
+            "K10"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K08"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K09",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K10",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K11"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K12"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K09",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 12,
+          "covered_event_ids": [
+            "K02",
+            "K08",
+            "K14"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 2,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "13"
+        ]
+      }
+    ],
+    "step_count": 12,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 96.0
+  },
+  "api_usage": {
+    "prompt_tokens": 139787,
+    "completion_tokens": 29423,
+    "total_tokens": 169210,
+    "prompt_cache_hit_tokens": 11520,
+    "prompt_cache_miss_tokens": 128267
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 3961,
+        "completion_tokens": 1022,
+        "total_tokens": 4983,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 3961
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 14889,
+        "completion_tokens": 3765,
+        "total_tokens": 18654,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 14889
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 9223,
+        "completion_tokens": 1639,
+        "total_tokens": 10862,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8967
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 8637,
+        "completion_tokens": 1778,
+        "total_tokens": 10415,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8381
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 8608,
+        "completion_tokens": 1291,
+        "total_tokens": 9899,
+        "prompt_tokens_details": {
+          "cached_tokens": 8576
+        },
+        "prompt_cache_hit_tokens": 8576,
+        "prompt_cache_miss_tokens": 32
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 9162,
+        "completion_tokens": 1614,
+        "total_tokens": 10776,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8906
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C005",
+      "api_usage": {
+        "prompt_tokens": 8982,
+        "completion_tokens": 1394,
+        "total_tokens": 10376,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8726
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C006",
+      "api_usage": {
+        "prompt_tokens": 8666,
+        "completion_tokens": 50,
+        "total_tokens": 8716,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8410
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 13266,
+        "completion_tokens": 3383,
+        "total_tokens": 16649,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 12882
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 13831,
+        "completion_tokens": 6145,
+        "total_tokens": 19976,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 13191
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 18769,
+        "completion_tokens": 933,
+        "total_tokens": 19702,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 18769
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 21793,
+        "completion_tokens": 6409,
+        "total_tokens": 28202,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 21153
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

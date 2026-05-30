@@ -1,0 +1,821 @@
+{
+  "case": {
+    "case_id": "sci_evo_0200",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Machine learning-assisted directed protein evolution with combinatorial libraries",
+      "doi": "https://doi.org/10.1073/pnas.1901979116",
+      "url": "",
+      "license": "",
+      "publication_date": "",
+      "raw_file": "",
+      "mineru_md": "docs/0200/mineru.md",
+      "combined_md": "docs/0200/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Directed protein evolution is limited by the high experimental cost of screening large combinatorial libraries. The paper proposes integrating machine learning to predict protein fitness in silico, reducing the number of variants that need to be tested experimentally.",
+      "target_object": "Protein fitness landscape (GB1 binding protein) and enzyme enantioselectivity (Rma NOD)",
+      "known_context": "Combinatorial sequence space is expensive to sample experimentally. Machine learning models trained on tested variants can provide a fast method for testing sequence space computationally.",
+      "constraints": [
+        "Equal screening burden compared to traditional directed evolution methods",
+        "Use of shallow neural networks",
+        "Training on random samples of combinatorial libraries"
+      ],
+      "input_data": [
+        "GB1 fitness landscape (149,361 out of 160,000 variants)",
+        "Rma NOD sequence-function data"
+      ],
+      "quantifiable_goals": [
+        "Reach global optimum fitness more often than single-mutant walk or recombination",
+        "Reduce number of variants needed for similar results",
+        "Achieve high enantioselectivity in enzyme variants"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "Combinatorial sequence space is expensive to sample experimentally.",
+        "gap_or_uncertainty": "How to reduce experimental effort while exploring combinatorial sequence space effectively.",
+        "hypothesis": "Machine learning models trained on tested variants can computationally test sequence space, reducing experimental effort.",
+        "decision": "Use machine learning to predict protein fitness in silico and guide library design.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "Machine learning-assisted directed evolution",
+          "version": "",
+          "category": "computational"
+        },
+        "parameters": {},
+        "observation": "Machine learning models trained on tested variants provide a fast method for testing sequence space computationally.",
+        "result_status": "success",
+        "next_step_reason": "Design an approach to train models on random samples and predict enriched libraries.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0200/combined.md",
+            "section": "C001",
+            "quote_or_span": "Combinatorial sequence space can be quite expensive to sample experimentally"
+          },
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0200/combined.md",
+            "section": "C001",
+            "quote_or_span": "machine learning models trained on tested variants provide a fast method for testing sequence space computationally"
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "design",
+        "state_before": "Hypothesis that ML can reduce experimental effort.",
+        "gap_or_uncertainty": "How to implement ML-assisted evolution with random sampling and library prediction.",
+        "hypothesis": "Training on a random sample of a combinatorial library and predicting a restricted library enriched in high fitness will reduce experimental burden.",
+        "decision": "Use random sample of combinatorial library to train models, then predict a smaller set of variants encoded with degenerate codons.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "ML-assisted library design",
+          "version": "",
+          "category": "computational"
+        },
+        "parameters": {},
+        "observation": "Data from a random sample of the combinatorial library are used to train machine learning models, which predict a smaller set of variants encoded with degenerate codons.",
+        "result_status": "success",
+        "next_step_reason": "Implement the design with specific numbers: train shallow neural networks on 470 variants and predict 100.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E03_01",
+            "source_file": "docs/0200/combined.md",
+            "section": "C001",
+            "quote_or_span": "data from a random sample of the combinatorial library, the input library, are used to train machine learning models. These models are used to predict a smaller set of variants, the predicted library, which can be encoded with degenerate codons to test experimentally"
+          },
+          {
+            "evidence_id": "EV_C001_E04_01",
+            "source_file": "docs/0200/combined.md",
+            "section": "C001",
+            "quote_or_span": "shallow neural networks were trained with 470 randomly-selected input variants, from which 100 predictions were tested"
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "simulation",
+        "state_before": "Design requires specific implementation.",
+        "gap_or_uncertainty": "Need to set up computational experiment with concrete numbers.",
+        "hypothesis": "Shallow neural networks trained with 470 randomly-selected input variants can predict 100 variants for testing.",
+        "decision": "Use shallow neural networks, 470 training variants, 100 predictions.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "Shallow neural networks",
+          "version": "",
+          "category": "machine_learning"
+        },
+        "parameters": {
+          "training_variants": 470,
+          "predicted_variants": 100
+        },
+        "observation": "Shallow neural networks were trained with 470 randomly-selected input variants, from which 100 predictions were tested.",
+        "result_status": "success",
+        "next_step_reason": "Test the approach in simulated directed evolution on GB1 fitness landscape.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E04_01",
+            "source_file": "docs/0200/combined.md",
+            "section": "C001",
+            "quote_or_span": "shallow neural networks were trained with 470 randomly-selected input variants, from which 100 predictions were tested"
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "experiment",
+        "state_before": "Computational setup ready.",
+        "gap_or_uncertainty": "Does ML-assisted evolution outperform traditional methods under equal screening burden?",
+        "hypothesis": "ML-assisted evolution will reach higher fitness than single-mutant walk or recombination when testing the same number of variants.",
+        "decision": "Simulate directed evolution on GB1 landscape comparing ML, single-mutant walk, and recombination with 570 variants each.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "Simulated directed evolution",
+          "version": "",
+          "category": "simulation"
+        },
+        "parameters": {
+          "total_variants": 570,
+          "landscape": "GB1 fitness landscape"
+        },
+        "observation": "Simulations compared final fitnesses reached by ML-assisted evolution, single-mutant walk, and recombination with equal screening burden.",
+        "result_status": "success",
+        "next_step_reason": "Analyze results: frequency of reaching global optimum.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E05_01",
+            "source_file": "docs/0200/combined.md",
+            "section": "C001",
+            "quote_or_span": "we compare the final fitnesses reached by simulated directed evolution with and without machine learning, based on testing the same number of variants"
+          },
+          {
+            "evidence_id": "EV_AUTO_012",
+            "source_file": "docs/0200/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Assuming each amino acid occurs with equal frequency and that the library has complete coverage, applying the 3-fold oversampling rule to obtain roughly 95% library coverage (18, 19) results in a total of 570 variants screened (SI Appendix, Library Coverage)."
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "analysis",
+        "state_before": "Simulation results obtained.",
+        "gap_or_uncertainty": "Quantify advantage of ML over traditional methods in reaching global optimum.",
+        "hypothesis": "ML-assisted evolution reaches global optimum more often.",
+        "decision": "Calculate percentage of simulations reaching global optimum for each method.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Statistical analysis",
+          "version": "",
+          "category": "statistics"
+        },
+        "parameters": {},
+        "observation": "ML-assisted evolution reaches global optimum in 8.2% of simulations vs. 4.9% for single-mutant walk and 4.0% for recombination.",
+        "result_status": "success",
+        "next_step_reason": "Further analyze efficiency: how many fewer variants does ML need?",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E01_01",
+            "source_file": "docs/0200/combined.md",
+            "section": "C002",
+            "quote_or_span": "machine learning-assisted evolution reaches the global optimum fitness value in 8.2% of 600 simulations, compared to 4.9% of all starting sequences reaching the same value through a single-mutant walk and 4.0% of simulated recombination runs."
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "analysis",
+        "state_before": "ML reaches global optimum more often.",
+        "gap_or_uncertainty": "How many fewer variants does ML require for similar results?",
+        "hypothesis": "ML approach requires fewer variants to achieve results similar to single-mutant walk.",
+        "decision": "Compare number of variants needed for similar final fitness.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Comparative analysis",
+          "version": "",
+          "category": "statistics"
+        },
+        "parameters": {},
+        "observation": "The machine-learning approach requires about 30% fewer variants to achieve final results similar to the single-mutant walk.",
+        "result_status": "success",
+        "next_step_reason": "Compare expected fitness values.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E02_01",
+            "source_file": "docs/0200/combined.md",
+            "section": "C002",
+            "quote_or_span": "the machine-learning approach requires about 30% fewer variants to achieve final results similar to the single-mutant walk with this analysis."
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "analysis",
+        "state_before": "ML requires fewer variants.",
+        "gap_or_uncertainty": "What is the expected fitness of each method?",
+        "hypothesis": "ML approach has higher expected fitness.",
+        "decision": "Calculate expected fitness values for each method.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Expected fitness calculation",
+          "version": "",
+          "category": "statistics"
+        },
+        "parameters": {},
+        "observation": "ML approach expected fitness 6.42 vs. single-mutant walk 5.41 and recombination 5.93.",
+        "result_status": "success",
+        "next_step_reason": "Assess model accuracy needed for effective guidance.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E03_01",
+            "source_file": "docs/0200/combined.md",
+            "section": "C002",
+            "quote_or_span": "the machine learning approach has an expected fitness value of 6.42, compared to 5.41 and 5.93 for the single step walk and recombination, respectively."
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "experiment",
+        "state_before": "Method validated on GB1 simulations.",
+        "gap_or_uncertainty": "Can ML-assisted evolution improve enzyme enantioselectivity experimentally?",
+        "hypothesis": "Training on random sequence-function pairs can predict libraries with improved enantioselectivity.",
+        "decision": "Round 1: Train models on 124 sequence-function pairs, predict libraries, screen 90 variants each for (S)- and (R)-enantiomers.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "ML-assisted directed evolution",
+          "version": "",
+          "category": "experimental"
+        },
+        "parameters": {
+          "training_pairs": 124,
+          "screened_variants_per_enantiomer": 90
+        },
+        "observation": "Identified VCHV (93% ee (S)) and GSSG (62% ee (R)).",
+        "result_status": "success",
+        "next_step_reason": "Use best variants as parents for Round 2.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E05_01",
+            "source_file": "docs/0200/combined.md",
+            "section": "C002",
+            "quote_or_span": "From 124 sequence–function relationships sampled randomly, models were trained to predict a restricted set of selective variants."
+          },
+          {
+            "evidence_id": "EV_C002_E05_02",
+            "source_file": "docs/0200/combined.md",
+            "section": "C002",
+            "quote_or_span": "From the predicted libraries for both enantiomers, two variants, called VCHV (93 % ee) and GSSG (62 % ee) for their amino acids at positions 32, 46, 56, and 97, were identified by screening 90 variants for each."
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "experiment",
+        "state_before": "Round 1 identified VCHV and GSSG.",
+        "gap_or_uncertainty": "Can further improvement be achieved by recombining beneficial mutations?",
+        "hypothesis": "Using VCHV and GSSG as parents, predicted libraries will yield variants with higher enantioselectivity.",
+        "decision": "Round 2: Train models on new data, predict libraries, screen variants.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "ML-assisted directed evolution",
+          "version": "",
+          "category": "experimental"
+        },
+        "parameters": {},
+        "observation": "Obtained variants with 93% ee (S) and 79% ee (R).",
+        "result_status": "success",
+        "next_step_reason": "Summarize total experimental effort.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E06_01",
+            "source_file": "docs/0200/combined.md",
+            "section": "C002",
+            "quote_or_span": "From those predicted libraries, we obtained two variants with measured enantioselectivities of 93% and 79% ee for the (S)- and (R)-enantiomers, respectively."
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "revision",
+        "state_before": "VCHV was most selective in initial screen.",
+        "gap_or_uncertainty": "VCHV's selectivity decreased in final validation.",
+        "hypothesis": "Initial screen may overestimate selectivity due to screening conditions.",
+        "decision": "Acknowledge limitation: VCHV less selective in final validation.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Limitation analysis",
+          "version": "",
+          "category": "analysis"
+        },
+        "parameters": {},
+        "observation": "VCHV was the most selective variant in the initial screen, but was less selective in final validation.",
+        "result_status": "partial",
+        "next_step_reason": "Highlight diverse solutions found, e.g., position 49 tolerance.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E08_01",
+            "source_file": "docs/0200/combined.md",
+            "section": "C002",
+            "quote_or_span": "VCHV was the most selective variant in the initial screen, but was less selective in final validation."
+          },
+          {
+            "evidence_id": "EV_AUTO_019",
+            "source_file": "docs/0200/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "However, the 49P 51V 53I variant from VCHV has higher total activity under screening conditions."
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "analysis",
+        "state_before": "Evolution identified multiple solutions.",
+        "gap_or_uncertainty": "Does ML-assisted evolution find diverse solutions?",
+        "hypothesis": "ML-assisted evolution can identify diverse solutions in protein space.",
+        "decision": "Analyze amino acid tolerance at position 49.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Sequence analysis",
+          "version": "",
+          "category": "bioinformatics"
+        },
+        "parameters": {},
+        "observation": "Proline conserved in two most (S)-selective variants; tyrosine and arginine tolerated with <1% loss in enantioselectivity.",
+        "result_status": "success",
+        "next_step_reason": "Note limitation: predictive accuracy could be improved.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E06_01",
+            "source_file": "docs/0200/combined.md",
+            "section": "C003",
+            "quote_or_span": "proline is conserved at residue 49 in two of the most (S)-selective variants."
+          },
+          {
+            "evidence_id": "EV_C003_E06_02",
+            "source_file": "docs/0200/combined.md",
+            "section": "C003",
+            "quote_or_span": "tyrosine and arginine are also tolerated at position 49 with less than 1% loss in enantioselectivity."
+          },
+          {
+            "evidence_id": "EV_C003_E06_03",
+            "source_file": "docs/0200/combined.md",
+            "section": "C003",
+            "quote_or_span": "This suggests that there are diverse solutions in protein space for specific properties"
+          }
+        ]
+      },
+      {
+        "step_index": 12,
+        "phase": "revision",
+        "state_before": "Method successful but has limitations.",
+        "gap_or_uncertainty": "Predictive accuracy could be improved.",
+        "hypothesis": "More data or computationally expensive simulations could improve accuracy.",
+        "decision": "Acknowledge limitation and suggest future improvements.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Limitation analysis",
+          "version": "",
+          "category": "analysis"
+        },
+        "parameters": {},
+        "observation": "Predictive accuracy could be improved by more data or simulations, but improved variants can already be identified.",
+        "result_status": "partial",
+        "next_step_reason": "Conclude trajectory.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E07_01",
+            "source_file": "docs/0200/combined.md",
+            "section": "C003",
+            "quote_or_span": "While predictive accuracy could be improved by more computationally-expensive simulations or by collecting more data for machine learning, improved variants can already be identified by sampling from a space predicted to be dense in higher fitness variants."
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "Simulated directed evolution on GB1 fitness landscape",
+        "Experimental validation with enzyme enantioselectivity assays"
+      ],
+      "metrics": [
+        "Percentage of simulations reaching global optimum",
+        "Expected fitness value",
+        "Enantiomeric excess (ee)"
+      ],
+      "final_conclusion": "Machine learning-assisted directed evolution can efficiently explore combinatorial sequence space, reaching higher fitness with fewer variants than traditional methods, and successfully engineered enantioselective enzymes.",
+      "limitations": [
+        "VCHV selectivity decreased in final validation",
+        "Predictive accuracy could be improved with more data or simulations"
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_step_trimmed=14_to_12",
+        "v22_specific_evidence_backfilled=2",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_step_trimmed=13_to_12",
+        "v22_specific_evidence_backfilled=2",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 97.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_mainline_batch30\\states\\0200.json",
+  "events_path": "outputs\\agentic_v22\\v22_mainline_batch30\\events\\0200.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1
+        ],
+        "K04": [
+          1,
+          2,
+          3
+        ],
+        "K05": [
+          2,
+          3,
+          4
+        ],
+        "K06": [
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "K07": [
+          5,
+          6,
+          7
+        ],
+        "K08": [
+          4,
+          6,
+          7
+        ],
+        "K10": [
+          8,
+          9
+        ],
+        "K11": [
+          8,
+          9
+        ],
+        "K12": [
+          1,
+          8,
+          9
+        ],
+        "K13": [
+          10
+        ],
+        "K14": [
+          11
+        ],
+        "K15": [
+          12
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02",
+            "K03",
+            "K04",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K02",
+            "K03",
+            "K04",
+            "K05"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K04",
+            "K05"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K05",
+            "K06",
+            "K08"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K06",
+            "K07"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K06",
+            "K07",
+            "K08"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K06",
+            "K07",
+            "K08"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K06",
+            "K10",
+            "K11",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K10",
+            "K11",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K13"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K14"
+          ]
+        },
+        {
+          "step_index": 12,
+          "covered_event_ids": [
+            "K15"
+          ]
+        }
+      ]
+    },
+    "warnings": [],
+    "step_count": 12,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 97.0
+  },
+  "api_usage": {
+    "prompt_tokens": 165771,
+    "completion_tokens": 28697,
+    "total_tokens": 194468,
+    "prompt_cache_hit_tokens": 9856,
+    "prompt_cache_miss_tokens": 155915
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 6508,
+        "completion_tokens": 865,
+        "total_tokens": 7373,
+        "prompt_tokens_details": {
+          "cached_tokens": 6400
+        },
+        "prompt_cache_hit_tokens": 6400,
+        "prompt_cache_miss_tokens": 108
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 11759,
+        "completion_tokens": 4811,
+        "total_tokens": 16570,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 11759
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 8920,
+        "completion_tokens": 1017,
+        "total_tokens": 9937,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8664
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 10101,
+        "completion_tokens": 1358,
+        "total_tokens": 11459,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9845
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 9206,
+        "completion_tokens": 1636,
+        "total_tokens": 10842,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8950
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 10755,
+        "completion_tokens": 1638,
+        "total_tokens": 12393,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 10499
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C005",
+      "api_usage": {
+        "prompt_tokens": 10970,
+        "completion_tokens": 963,
+        "total_tokens": 11933,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 10714
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C006",
+      "api_usage": {
+        "prompt_tokens": 12223,
+        "completion_tokens": 1831,
+        "total_tokens": 14054,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 11967
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C007",
+      "api_usage": {
+        "prompt_tokens": 11842,
+        "completion_tokens": 560,
+        "total_tokens": 12402,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 11586
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C008",
+      "api_usage": {
+        "prompt_tokens": 6064,
+        "completion_tokens": 50,
+        "total_tokens": 6114,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 6064
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 17792,
+        "completion_tokens": 3073,
+        "total_tokens": 20865,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 17408
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 13600,
+        "completion_tokens": 5119,
+        "total_tokens": 18719,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 12960
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 16331,
+        "completion_tokens": 728,
+        "total_tokens": 17059,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 16331
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 19700,
+        "completion_tokens": 5048,
+        "total_tokens": 24748,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 19060
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

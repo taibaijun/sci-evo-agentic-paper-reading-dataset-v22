@@ -1,0 +1,986 @@
+{
+  "case": {
+    "case_id": "sci_evo_0085",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Accelerated enzyme engineering by machine-learning guided cell-free expression",
+      "doi": "https://doi.org/10.1038/s41467-024-55399-0",
+      "url": "",
+      "license": "cc-by-nc-nd",
+      "publication_date": "",
+      "raw_file": "0083_10_1038_s41467_024_55399_0_accelerated_enzyme_engineering_by_machine_learning_guided_cell_free_expression.pdf",
+      "mineru_md": "docs/0085/mineru.md",
+      "combined_md": "docs/0085/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Enzyme engineering is limited by low-throughput directed evolution that misses epistatic interactions and focuses on single transformations.",
+      "target_object": "McbA amide synthetase",
+      "known_context": "Traditional directed evolution methods are low-throughput and often miss epistatic interactions. Selection methods focus on single transformations, limiting the collection of positive and negative sequence-function relationships.",
+      "constraints": [
+        "Screening throughput is limited",
+        "Need to capture epistatic interactions",
+        "Must handle multiple distinct chemical reactions"
+      ],
+      "input_data": [
+        "Wild-type McbA sequence",
+        "Substrate libraries for amidation reactions"
+      ],
+      "quantifiable_goals": [
+        "Improve activity over wild-type McbA for multiple amide products",
+        "Demonstrate ML-guided platform can outperform traditional ISM"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "Enzyme engineering is limited by low-throughput directed evolution that misses epistatic interactions and focuses on single transformations.",
+        "gap_or_uncertainty": "How to rapidly generate and use large datasets of sequence-function relationships for predictive design.",
+        "hypothesis": "A high-throughput, ML-guided platform integrating cell-free DNA assembly, cell-free gene expression, and functional assays can rapidly map fitness landscapes and optimize enzymes for multiple reactions.",
+        "decision": "Develop an ML-guided cell-free platform to address the limitations of traditional directed evolution.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "ML-guided cell-free platform",
+          "version": "N/A",
+          "category": "conceptual"
+        },
+        "parameters": {},
+        "observation": "The platform concept is proposed to overcome low throughput and capture epistatic interactions.",
+        "result_status": "success",
+        "next_step_reason": "Need to explore the reaction space of McbA to identify target reactions for engineering.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0085/combined.md",
+            "section": "C001",
+            "quote_or_span": "Enzyme engineering is limited by the challenge of rapidly generating and using large datasets of sequence-function relationships for predictive design."
+          },
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0085/combined.md",
+            "section": "C001",
+            "quote_or_span": "screening strategies are generally low throughput, which constrains resampling mutations in iterative site saturation mutagenesis campaigns and can miss epistatic interactions"
+          },
+          {
+            "evidence_id": "EV_C001_E02_02",
+            "source_file": "docs/0085/combined.md",
+            "section": "C001",
+            "quote_or_span": "selection methods for directed evolution focus on “winning” enzymes for a single transformation, which limits the ability to collect positive and negative sequence-function relationships"
+          },
+          {
+            "evidence_id": "EV_C001_E03_01",
+            "source_file": "docs/0085/combined.md",
+            "section": "C001",
+            "quote_or_span": "we develop a machine learning (ML)-guided platform that integrates cell-free DNA assembly, cell-free gene expression, and functional assays to rapidly map fitness landscapes across protein sequence space and optimize enzymes for multiple, distinct chemical reactions."
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "design",
+        "state_before": "Hypothesis of ML-guided cell-free platform proposed.",
+        "gap_or_uncertainty": "Which amidation reactions can McbA catalyze, and which should be targeted for engineering?",
+        "hypothesis": "McbA has broad substrate promiscuity that can be exploited for pharmaceutical amide synthesis.",
+        "decision": "Explore the amidation reaction space of wild-type McbA by evaluating enzymatic substrate promiscuity with 1100 unique reactions.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Substrate promiscuity screening",
+          "version": "N/A",
+          "category": "experimental"
+        },
+        "parameters": {
+          "unique_reactions": 1100
+        },
+        "observation": "McbA showed activity on a wide range of substrates, identifying target reactions for engineering.",
+        "result_status": "success",
+        "next_step_reason": "Need to implement a cell-free workflow to rapidly generate mutant libraries for the identified targets.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E05_01",
+            "source_file": "docs/0085/combined.md",
+            "section": "C001",
+            "quote_or_span": "We apply this platform to engineer amide synthetases by evaluating substrate preference for 1217 enzyme variants in 10,953 unique reactions."
+          },
+          {
+            "evidence_id": "EV_AUTO_022",
+            "source_file": "docs/0085/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Through efforts to build ML models and all ISM rounds, we explored the sequence-function landscape of McbA by assessing 2856 variants of McbA (1217 variants of which were for ML models), 1100 possible amide products, and 12,584 substrate pair-mutant reactions."
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "design",
+        "state_before": "Target reactions identified from McbA substrate promiscuity screen.",
+        "gap_or_uncertainty": "How to rapidly generate sequence-defined protein libraries for McbA without laborious cloning?",
+        "hypothesis": "Cell-free DNA assembly and cell-free gene expression can streamline mutant library generation.",
+        "decision": "Implement a cell-free protein synthesis workflow to rapidly generate sequence-defined protein libraries for McbA.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Cell-free DNA assembly and gene expression",
+          "version": "N/A",
+          "category": "experimental"
+        },
+        "parameters": {},
+        "observation": "Cell-free workflow successfully generated McbA mutant libraries, avoiding laborious cloning steps.",
+        "result_status": "success",
+        "next_step_reason": "With the library generation method in place, conduct a hot spot screen of single mutants for initial target reactions.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_014",
+            "source_file": "docs/0085/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "$^{38}$ . The cell-free DNA library generation was performed as follows: (1) the first PCR was performed in a 10- $\\mu$ L reaction with 1 ng of plasmid template added, (2) 1 $\\mu$ L of DpnI was added and incubated at 37 ${}^{\\circ}$ C for 2 h, (3) the PCR was diluted 1:4 by the addition of 29 $\\mu$ L of nuclease-free (NF) water, (4) 1 $\\mu$ L of diluted DNA was added to a 3- $\\mu$ L Gibson assembly reaction (self-made) $^{60}$ and incubated for 50 ${}^{\\circ}$ C for 1 h, (5) the assembly reaction was diluted 1:10"
+          },
+          {
+            "evidence_id": "EV_AUTO_015",
+            "source_file": "docs/0085/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "ag $^{38}$ . The cell-free DNA library generation was performed as follows: (1) the first PCR was performed in a 10- $\\mu$ L reaction with 1 ng of plasmid template added, (2) 1 $\\mu$ L of DpnI was added and incubated at 37 ${}^{\\circ}$ C for 2 h, (3) the PCR was diluted 1:4 by the addition of 29 $\\mu$ L of nuclease-free (NF) water, (4) 1 $\\mu$ L of diluted DNA was added to a 3- $\\mu$ L Gibson assembly reaction (self-made) $^{60}$ and incubated for 50 ${}^{\\circ}$ C for 1 h, (5) the assembly reaction was diluted 1:"
+          },
+          {
+            "evidence_id": "EV_AUTO_016",
+            "source_file": "docs/0085/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "plasmid without a purification tag $^{38}$ . The cell-free DNA library generation was performed as follows: (1) the first PCR was performed in a 10- $\\mu$ L reaction with 1 ng of plasmid template added, (2) 1 $\\mu$ L of DpnI was added and incubated at 37 ${}^{\\circ}$ C for 2 h, (3) the PCR was diluted 1:4 by the addition of 29 $\\mu$ L of nuclease-free (NF) water, (4) 1 $\\mu$ L of diluted DNA was added to a 3- $\\mu$ L Gibson assembly reaction (self-made) $^{60}$ and incubated for 50 ${}^{\\circ}$ C for 1 h, (5) the"
+          },
+          {
+            "evidence_id": "EV_AUTO_017",
+            "source_file": "docs/0085/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "i and cloned into the pJL1 plasmid without a purification tag $^{38}$ . The cell-free DNA library generation was performed as follows: (1) the first PCR was performed in a 10- $\\mu$ L reaction with 1 ng of plasmid template added, (2) 1 $\\mu$ L of DpnI was added and incubated at 37 ${}^{\\circ}$ C for 2 h, (3) the PCR was diluted 1:4 by the addition of 29 $\\mu$ L of nuclease-free (NF) water, (4) 1 $\\mu$ L of diluted DNA was added to a 3- $\\mu$ L Gibson assembly reaction (self-made) $^{60}$ and incubated for 50 ${}^{"
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "experiment",
+        "state_before": "Cell-free workflow established for mutant library generation.",
+        "gap_or_uncertainty": "Which single mutations are beneficial for the target reactions moclobemide, metoclopramide, and cinchocaine?",
+        "hypothesis": "A hot spot screen of single mutants across key residues will identify beneficial mutations.",
+        "decision": "Conduct hot spot screen (HSS) of 1216 single mutants across 64 residues for three target reactions.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Hot spot screen (HSS)",
+          "version": "N/A",
+          "category": "experimental"
+        },
+        "parameters": {
+          "residues_screened": 64,
+          "single_mutants": 1216,
+          "target_reactions": [
+            "moclobemide",
+            "metoclopramide",
+            "cinchocaine"
+          ]
+        },
+        "observation": "Multiple residues with positive impact on each target reaction were identified.",
+        "result_status": "success",
+        "next_step_reason": "In parallel, run traditional ISM campaigns for benchmarking and to generate higher-order mutants.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_029",
+            "source_file": "docs/0085/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Our HSS of these residues (64 residues × 19 amino acids = 1216 total single mutants) revealed multiple residues that had a positive impact on moclobemide (Fig."
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "experiment",
+        "state_before": "HSS data collected for three target reactions.",
+        "gap_or_uncertainty": "How do traditional ISM campaigns perform on these targets, and can they provide higher-order mutants for benchmarking?",
+        "hypothesis": "ISM can iteratively accumulate beneficial mutations to generate improved variants.",
+        "decision": "Run traditional iterative saturation mutagenesis (ISM) campaigns for moclobemide, metoclopramide, and cinchocaine.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Iterative saturation mutagenesis (ISM)",
+          "version": "N/A",
+          "category": "experimental"
+        },
+        "parameters": {
+          "targets": [
+            "moclobemide",
+            "metoclopramide",
+            "cinchocaine"
+          ]
+        },
+        "observation": "ISM campaigns for moclobemide and metoclopramide yielded higher-order mutants with improved activity, but cinchocaine campaign failed to find beneficial mutations beyond a double mutant.",
+        "result_status": "partial",
+        "next_step_reason": "The failure for cinchocaine motivates the need for ML models to capture epistatic interactions.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E05_01",
+            "source_file": "docs/0085/combined.md",
+            "section": "C002",
+            "quote_or_span": "In parallel, we conducted a more traditional directed evolution campaign on each amide product (moclobemide, metoclopramide, and cinchocaine) via iterative saturation mutagenesis (ISM)."
+          },
+          {
+            "evidence_id": "EV_C002_E05_02",
+            "source_file": "docs/0085/combined.md",
+            "section": "C002",
+            "quote_or_span": "This would provide valuable higher order mutations to validate and benchmark model performance given our objective of extrapolating from single to higher order mutations."
+          },
+          {
+            "evidence_id": "EV_C002_E01_01",
+            "source_file": "docs/0085/combined.md",
+            "section": "C002",
+            "quote_or_span": "The campaign for cinchocaine was more difficult to navigate and we failed to observe beneficial mutations beyond a double mutant, despite taking multiple ISM paths (Fig. S14)."
+          },
+          {
+            "evidence_id": "EV_C002_E01_02",
+            "source_file": "docs/0085/combined.md",
+            "section": "C002",
+            "quote_or_span": "This result (i.e., running into dead ends during ISM) supported the need to include ML models in our framework that might capture epistatic interactions."
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "design",
+        "state_before": "ISM failure for cinchocaine and availability of HSS single mutant data.",
+        "gap_or_uncertainty": "How to predict higher-order mutants that capture epistatic interactions using only single mutant data?",
+        "hypothesis": "Augmented ridge regression models using single mutant data and zero-shot fitness predictions can extrapolate to higher-order mutants.",
+        "decision": "Design augmented ridge regression ML models with variant features concatenating site-specific amino acid encodings and zero-shot fitness predictions.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Augmented ridge regression",
+          "version": "N/A",
+          "category": "machine_learning"
+        },
+        "parameters": {
+          "feature_components": [
+            "site-specific amino acid encodings",
+            "zero-shot fitness predictions"
+          ]
+        },
+        "observation": "Model architecture designed to leverage single mutant data for predicting higher-order mutants.",
+        "result_status": "success",
+        "next_step_reason": "Train and evaluate the models retrospectively on moclobemide and metoclopramide data to select the best configuration.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E02_01",
+            "source_file": "docs/0085/combined.md",
+            "section": "C002",
+            "quote_or_span": "The key idea was to use single mutant data from the HSS to extrapolate higher order mutants with increased activity (Fig. 3A)."
+          },
+          {
+            "evidence_id": "EV_C002_E02_02",
+            "source_file": "docs/0085/combined.md",
+            "section": "C002",
+            "quote_or_span": "To achieve this goal, we chose to fit augmented ridge regression models with our data—as such models are simple and have been previously shown to outperform more sophisticated models for protein engineering"
+          },
+          {
+            "evidence_id": "EV_C002_E03_01",
+            "source_file": "docs/0085/combined.md",
+            "section": "C002",
+            "quote_or_span": "McbA variant feature representations consisted of site-specific amino acid encodings concatenated with a zero-shot fitness prediction"
+          },
+          {
+            "evidence_id": "EV_C006_E01_01",
+            "source_file": "docs/0085/combined.md",
+            "section": "C006",
+            "quote_or_span": "Ridge regression models were augmented following the code accompanying the elegant work of Hsu et al."
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "simulation",
+        "state_before": "Augmented ridge regression models designed.",
+        "gap_or_uncertainty": "Which zero-shot predictor and encoding strategy yields the best predictive performance?",
+        "hypothesis": "EVmutation with Georgiev encodings will provide the best augmentation for ridge regression.",
+        "decision": "Train and evaluate ML models retrospectively on moclobemide and metoclopramide data, using NDCG and Spearman correlation to select best zero-shot predictor (EVmutation) and encoding (Georgiev).",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Retrospective model evaluation",
+          "version": "N/A",
+          "category": "computational"
+        },
+        "parameters": {
+          "training_data_size": 77,
+          "test_data_size": "~200",
+          "metrics": [
+            "NDCG",
+            "Spearman correlation"
+          ],
+          "zero_shot_predictors_tested": [
+            "ESM-1b",
+            "EVmutation",
+            "MAESTRO"
+          ],
+          "encodings_tested": [
+            "Georgiev",
+            "others"
+          ]
+        },
+        "observation": "Augmented models outperformed ridge regression alone; EVmutation with Georgiev encodings selected as best configuration.",
+        "result_status": "success",
+        "next_step_reason": "Analyze whether full site saturation data (n=77) provides more predictive power than reduced libraries.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E04_01",
+            "source_file": "docs/0085/combined.md",
+            "section": "C002",
+            "quote_or_span": "Training and hyperparameter tuning were performed using single mutant data (n=77) from the HSS (top four hot spots; Fig. 3B, C)."
+          },
+          {
+            "evidence_id": "EV_C002_E08_02",
+            "source_file": "docs/0085/combined.md",
+            "section": "C002",
+            "quote_or_span": "The augmented models outperformed the ridge regression model alone when evaluated with NDCG."
+          },
+          {
+            "evidence_id": "EV_C006_E03_01",
+            "source_file": "docs/0085/combined.md",
+            "section": "C006",
+            "quote_or_span": "Model evaluation and selection were first performed retrospectively by using the assay-labeled datasets from our moclobemide and metoclopramide engineering campaigns."
+          },
+          {
+            "evidence_id": "EV_C006_E06_01",
+            "source_file": "docs/0085/combined.md",
+            "section": "C006",
+            "quote_or_span": "Spearman correlation coefficient and NDCG were used to select the best zero-shot predictor and encoding strategy, with a preference given to NDCG."
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "analysis",
+        "state_before": "Best model configuration selected (EVmutation + Georgiev).",
+        "gap_or_uncertainty": "Does using the full site saturation dataset (n=77) improve predictive power compared to reduced libraries?",
+        "hypothesis": "Full site saturation data provides more predictive power than reduced libraries.",
+        "decision": "Compare model performance using full site saturation dataset vs. reduced libraries; confirm augmented models outperform ridge regression alone.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Comparative analysis",
+          "version": "N/A",
+          "category": "computational"
+        },
+        "parameters": {
+          "dataset_sizes": [
+            "full (n=77)",
+            "reduced libraries"
+          ]
+        },
+        "observation": "Full site saturation dataset (n=77) provides more predictive power; augmented models outperform ridge regression alone.",
+        "result_status": "success",
+        "next_step_reason": "Proceed to experimentally test top ML predictions for the three target reactions.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E01_01",
+            "source_file": "docs/0085/combined.md",
+            "section": "C003",
+            "quote_or_span": "this analysis indicated that utilizing all the data gathered from the site saturation dataset provides more predictive power"
+          },
+          {
+            "evidence_id": "EV_C003_E02_01",
+            "source_file": "docs/0085/combined.md",
+            "section": "C003",
+            "quote_or_span": "we decided to use the site saturation dataset and the augmented EVmutation model with Georgiev encodings given the strong predictive performance"
+          },
+          {
+            "evidence_id": "EV_C002_E04_01",
+            "source_file": "docs/0085/combined.md",
+            "section": "C002",
+            "quote_or_span": "Training and hyperparameter tuning were performed using single mutant data (n=77) from the HSS (top four hot spots; Fig. 3B, C)."
+          },
+          {
+            "evidence_id": "EV_AUTO_023",
+            "source_file": "docs/0085/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "This can likely be attributed to the nature of the rich datasets mostly containing mutants with non-zero activity (64/77 for moclobemide and 62/77 for metoclopramide), preventing “holes” in training sets $^{14}$ ."
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "validation",
+        "state_before": "ML model trained and validated retrospectively.",
+        "gap_or_uncertainty": "Can the ML model predict higher-order mutants with improved activity for moclobemide, metoclopramide, and cinchocaine?",
+        "hypothesis": "Top 25 ML predictions will be enriched in high-activity variants, some surpassing ISM quadruple mutants.",
+        "decision": "Experimentally test top 25 ML predictions for moclobemide, metoclopramide, and cinchocaine.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Experimental validation of ML predictions",
+          "version": "N/A",
+          "category": "experimental"
+        },
+        "parameters": {
+          "num_predictions_tested": 25,
+          "targets": [
+            "moclobemide",
+            "metoclopramide",
+            "cinchocaine"
+          ]
+        },
+        "observation": "ML-predicted variants enriched in high activity; some surpassed ISM quadruple mutants.",
+        "result_status": "success",
+        "next_step_reason": "Analyze specific mutants to understand how ML outperforms ISM.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E04_01",
+            "source_file": "docs/0085/combined.md",
+            "section": "C003",
+            "quote_or_span": "the augmented ML model was able to predict McbA variants enriched in high activity for each amide product when tested experimentally, some even surpassing qm-McbA from both moclobemide and metoclopramide ISM campaigns"
+          },
+          {
+            "evidence_id": "EV_AUTO_013",
+            "source_file": "docs/0085/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "3 mM NADH, 50 mM 4-chlorobenzoic acid, 15 U/mL pyruvate kinase and lactate dehydrogenase enzyme mix (Sigma-Aldrich P0294), 25 U/mL myokinase (Sigma-Aldrich 475941), and various concentrations (50–200 μg/mL) of the studied McbA variant."
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "analysis",
+        "state_before": "Experimental validation of ML predictions completed.",
+        "gap_or_uncertainty": "Why did ML predictions outperform ISM in some cases?",
+        "hypothesis": "ML models can identify superior mutants overlooked by ISM and avoid path dependencies.",
+        "decision": "Analyze specific mutants (e.g., A424S for metoclopramide, A205L for cinchocaine) to understand ML advantages.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Mutant analysis",
+          "version": "N/A",
+          "category": "analysis"
+        },
+        "parameters": {
+          "mutants_analyzed": [
+            "A424S",
+            "A205L"
+          ]
+        },
+        "observation": "ML model identified superior mutants overlooked by ISM (e.g., A424S for metoclopramide) and avoided path dependencies (e.g., A205L for cinchocaine).",
+        "result_status": "success",
+        "next_step_reason": "Apply the ML-guided framework to six additional pharmaceutical compounds to test generalization.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E05_01",
+            "source_file": "docs/0085/combined.md",
+            "section": "C003",
+            "quote_or_span": "the best predicted mutant for metoclopramide contained a mutation (A424S) that was superseded in the HSS by a more active mutation (A424T) carried forward in ISM, indicating the model found a superior mutant that would have been overlooked using ISM alone"
+          },
+          {
+            "evidence_id": "EV_C003_E06_01",
+            "source_file": "docs/0085/combined.md",
+            "section": "C003",
+            "quote_or_span": "The best predicted variant for cinchocaine had significantly higher activity than the best single mutation on its own and surprisingly contained a mutation (A205L) that decreased activity compared to wt-McbA in the HSS"
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "validation",
+        "state_before": "ML-guided framework validated on initial three targets.",
+        "gap_or_uncertainty": "Does the ML-guided framework generalize to other pharmaceutical compounds?",
+        "hypothesis": "The framework can be applied to new targets by selecting hot spots, training ML models, and testing top predictions.",
+        "decision": "Apply ML-guided framework to six additional pharmaceutical compounds: select four hot spots, train ML model, test top 24 predictions, and compare best variant to wild-type.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "ML-guided framework application",
+          "version": "N/A",
+          "category": "experimental"
+        },
+        "parameters": {
+          "num_compounds": 6,
+          "num_predictions_tested": 24,
+          "hot_spots_selected": 4
+        },
+        "observation": "Best predicted mutant always outperformed best rational design, with 1.6- to 34-fold improvement over wild-type.",
+        "result_status": "success",
+        "next_step_reason": "Identify limitations of the approach, including screening bottlenecks and low signal-to-noise issues.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E08_01",
+            "source_file": "docs/0085/combined.md",
+            "section": "C003",
+            "quote_or_span": "For each compound, the best predicted mutant always outperformed the best rational design"
+          },
+          {
+            "evidence_id": "EV_C004_E02_01",
+            "source_file": "docs/0085/combined.md",
+            "section": "C004",
+            "quote_or_span": "select four hot spots, and train our ML model to predict higher order mutants with increased activity"
+          },
+          {
+            "evidence_id": "EV_C004_E03_01",
+            "source_file": "docs/0085/combined.md",
+            "section": "C004",
+            "quote_or_span": "For each reaction, the top 24 predictions were tested, and the best variant was expressed, purified, and compared to wt-McbA activity."
+          },
+          {
+            "evidence_id": "EV_C004_E04_01",
+            "source_file": "docs/0085/combined.md",
+            "section": "C004",
+            "quote_or_span": "We observed increases in yields ranging from 1.6-fold to 34-fold over wt-McbA for the six compounds we tested"
+          }
+        ]
+      },
+      {
+        "step_index": 12,
+        "phase": "analysis",
+        "state_before": "Framework successfully applied to six additional compounds.",
+        "gap_or_uncertainty": "What are the limitations of the current approach?",
+        "hypothesis": "Screening remains a bottleneck, and low signal-to-noise in HSS can lead to flat fitness landscapes that are difficult to model.",
+        "decision": "Acknowledge limitations: screening bottleneck (LC-MS throughput may not suit all enzymes), and some mutants show modest improvements due to low signal-to-noise in HSS.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Limitation analysis",
+          "version": "N/A",
+          "category": "analysis"
+        },
+        "parameters": {},
+        "observation": "Screening remains a bottleneck; LC-MS provides manageable solution but may not suit all enzymes. Some mutants show modest improvements due to low signal-to-noise in HSS.",
+        "result_status": "inconclusive",
+        "next_step_reason": "These limitations inform future improvements to the platform.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E05_01",
+            "source_file": "docs/0085/combined.md",
+            "section": "C004",
+            "quote_or_span": "Some mutants gave only modest improvements, which may be an artifact of low signal-to-noise in the hot spot screens for some of the target compounds that were only detectable by MS. This can lead to flat fitness landscapes that are more difficult to model."
+          },
+          {
+            "evidence_id": "EV_C004_E08_01",
+            "source_file": "docs/0085/combined.md",
+            "section": "C004",
+            "quote_or_span": "experimental screening methods for biocatalytic reactions remain a bottleneck"
+          },
+          {
+            "evidence_id": "EV_C004_E08_02",
+            "source_file": "docs/0085/combined.md",
+            "section": "C004",
+            "quote_or_span": "LC-MS provided a manageable solution, as has been found in other examples"
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "Experimental testing of top ML predictions",
+        "Comparison with ISM-derived mutants",
+        "Application to six additional pharmaceutical compounds"
+      ],
+      "metrics": [
+        "Fold improvement over wild-type (1.6- to 34-fold)",
+        "NDCG",
+        "Spearman correlation"
+      ],
+      "final_conclusion": "The ML-guided cell-free platform successfully engineered McbA variants with improved activity for multiple amide products, outperforming traditional ISM in several cases and demonstrating generalization to new targets.",
+      "limitations": [
+        "Screening remains a bottleneck; LC-MS throughput may not suit all enzymes",
+        "Low signal-to-noise in HSS can lead to flat fitness landscapes and modest improvements",
+        "Model rank correlation with experimental results is low (average Spearman's 0.21 ± 0.15), indicating incomplete capture of sequence-fitness landscape"
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_specific_evidence_backfilled=6",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_specific_evidence_backfilled=1",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 99.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_mainline_batch30\\states\\0085.json",
+  "events_path": "outputs\\agentic_v22\\v22_mainline_batch30\\events\\0085.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1
+        ],
+        "K03": [
+          1,
+          2,
+          3
+        ],
+        "K05": [
+          3,
+          4,
+          5
+        ],
+        "K06": [
+          4,
+          5,
+          6,
+          9
+        ],
+        "K07": [
+          4,
+          5,
+          6
+        ],
+        "K08": [
+          6,
+          7
+        ],
+        "K09": [
+          6,
+          7,
+          8
+        ],
+        "K10": [
+          7,
+          8
+        ],
+        "K11": [
+          5,
+          6,
+          9,
+          10
+        ],
+        "K12": [
+          4,
+          5,
+          6,
+          9,
+          10
+        ],
+        "K13": [
+          10,
+          11
+        ],
+        "K14": [
+          12
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02",
+            "K03"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K03",
+            "K04"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K02",
+            "K03",
+            "K04",
+            "K05"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K05",
+            "K06",
+            "K07",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K05",
+            "K06",
+            "K07",
+            "K11",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K06",
+            "K07",
+            "K08",
+            "K09",
+            "K11",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K08",
+            "K09",
+            "K10"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K09",
+            "K10"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K06",
+            "K11",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K11",
+            "K12",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K13"
+          ]
+        },
+        {
+          "step_index": 12,
+          "covered_event_ids": [
+            "K14"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 4,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "1216s"
+        ]
+      }
+    ],
+    "step_count": 12,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 99.0
+  },
+  "api_usage": {
+    "prompt_tokens": 155653,
+    "completion_tokens": 33336,
+    "total_tokens": 188989,
+    "prompt_cache_hit_tokens": 9856,
+    "prompt_cache_miss_tokens": 145797
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 4796,
+        "completion_tokens": 579,
+        "total_tokens": 5375,
+        "prompt_tokens_details": {
+          "cached_tokens": 4736
+        },
+        "prompt_cache_hit_tokens": 4736,
+        "prompt_cache_miss_tokens": 60
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 10948,
+        "completion_tokens": 4775,
+        "total_tokens": 15723,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 10692
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 10091,
+        "completion_tokens": 1119,
+        "total_tokens": 11210,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 9707
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 9300,
+        "completion_tokens": 1488,
+        "total_tokens": 10788,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 8916
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 9631,
+        "completion_tokens": 1431,
+        "total_tokens": 11062,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 9247
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 9956,
+        "completion_tokens": 1234,
+        "total_tokens": 11190,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 9572
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C005",
+      "api_usage": {
+        "prompt_tokens": 9895,
+        "completion_tokens": 1718,
+        "total_tokens": 11613,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 9511
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C006",
+      "api_usage": {
+        "prompt_tokens": 10072,
+        "completion_tokens": 1470,
+        "total_tokens": 11542,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 9688
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C007",
+      "api_usage": {
+        "prompt_tokens": 6399,
+        "completion_tokens": 59,
+        "total_tokens": 6458,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 6015
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 16011,
+        "completion_tokens": 3271,
+        "total_tokens": 19282,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 15627
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 14048,
+        "completion_tokens": 7275,
+        "total_tokens": 21323,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 13408
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 20540,
+        "completion_tokens": 1247,
+        "total_tokens": 21787,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 20284
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 23966,
+        "completion_tokens": 7670,
+        "total_tokens": 31636,
+        "prompt_tokens_details": {
+          "cached_tokens": 896
+        },
+        "prompt_cache_hit_tokens": 896,
+        "prompt_cache_miss_tokens": 23070
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

@@ -1,0 +1,843 @@
+{
+  "case": {
+    "case_id": "sci_evo_0137",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "A new method to customize protein expression vectors for fast, efficient and background free parallel cloning",
+      "doi": "https://doi.org/10.1186/1472-6750-13-12",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "",
+      "mineru_md": "docs/0137/mineru.md",
+      "combined_md": "docs/0137/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Need for a fast, efficient, and background-free parallel cloning method to customize protein expression vectors for screening across multiple hosts (E. coli, insect cells, HEK293E cells).",
+      "target_object": "protein expression vectors",
+      "known_context": "Existing parallel cloning methods often suffer from background colonies and limited flexibility in tag and host combinations.",
+      "constraints": [
+        "Must work across E. coli, insect cells, and HEK293E cells",
+        "Must achieve zero background colonies",
+        "Must support high-throughput parallel cloning"
+      ],
+      "input_data": [],
+      "quantifiable_goals": [
+        "100% counterselection efficiency",
+        ">95% cloning efficiency",
+        "Zero background colonies"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "Need for an efficient parallel cloning method to screen constructs, tags, and hosts for protein production.",
+        "gap_or_uncertainty": "Existing cloning methods produce background colonies, reducing throughput and reliability.",
+        "hypothesis": "Strong constitutive expression of ccdB can provide 100% counterselection, eliminating background colonies.",
+        "decision": "Design a ccdB cassette with strong constitutive promoter for counterselection.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "ccdB counterselection",
+          "version": "",
+          "category": "genetic_selection"
+        },
+        "parameters": {},
+        "observation": "ccdB introduced into the vector series was designed for strong constitutive expression in order to suppress growth in non-resistant cells at 100% efficiency.",
+        "result_status": "success",
+        "next_step_reason": "Hypothesis leads to design of ccdB cassette.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0137/combined.md",
+            "section": "C001",
+            "quote_or_span": "In order to handle all these different expression constructs, an efficient parallel cloning method was required."
+          },
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0137/combined.md",
+            "section": "C001",
+            "quote_or_span": "ccdB introduced into the vector series was designed for strong constitutive expression in order to suppress growth in non-resistant cells at 100% efficiency."
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "design",
+        "state_before": "Hypothesis that strong constitutive ccdB expression can provide 100% counterselection.",
+        "gap_or_uncertainty": "Need to achieve strong constitutive expression of ccdB in E. coli.",
+        "hypothesis": "Using the OmpA promoter (llp5 variant) and a Shine-Dalgarno sequence will drive strong constitutive ccdB expression.",
+        "decision": "Insert llp5 promoter variant and Shine-Dalgarno sequence upstream of ccdB coding sequence.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "promoter engineering",
+          "version": "",
+          "category": "molecular_cloning"
+        },
+        "parameters": {
+          "promoter": "OmpA (llp5 variant)",
+          "ribosome_binding_site": "Shine-Dalgarno"
+        },
+        "observation": "We inserted the respective llp5 promoter variant and a Shine-Dalgarno sequence upstream of the ccdB coding sequence (Figure 2A) to ensure translation.",
+        "result_status": "success",
+        "next_step_reason": "Design enables construction of first vectors.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_012",
+            "source_file": "docs/0137/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "We inserted the respective $llp5$ promoter variant and a Shine-Dalgarno sequence upstream of the $ccdB$ coding sequence (Figure 2A) to ensure translation."
+          },
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0137/combined.md",
+            "section": "C001",
+            "quote_or_span": "ccdB introduced into the vector series was designed for strong constitutive expression in order to suppress growth in non-resistant cells at 100% efficiency."
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "experiment",
+        "state_before": "Designed ccdB cassette with llp5 promoter and Shine-Dalgarno sequence.",
+        "gap_or_uncertainty": "Need to construct actual vectors with the ccdB cassette for counterselection.",
+        "hypothesis": "Cloning Llp5-ccdB into pETM vectors will generate functional pCoofy vectors.",
+        "decision": "Ligate Llp5-ccdB HindIII fragment into HindIII-linearized pETM14, pETM22, pETM33, pETM44.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "restriction enzyme cloning",
+          "version": "",
+          "category": "molecular_cloning"
+        },
+        "parameters": {
+          "enzymes": "HindIII",
+          "vectors": [
+            "pETM14",
+            "pETM22",
+            "pETM33",
+            "pETM44"
+          ]
+        },
+        "observation": "We first cloned Llp5-ccdB into pETM14, pETM22, pETM33 and pETM44 to generate pCoofy1, 2, 3 and 4.",
+        "result_status": "success",
+        "next_step_reason": "Vectors enable establishment of cloning procedure.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E06_01",
+            "source_file": "docs/0137/combined.md",
+            "section": "C001",
+            "quote_or_span": "We first cloned Llp5-ccdB into pETM14, pETM22, pETM33 and pETM44 to generate pCoofy1, 2, 3 and 4"
+          },
+          {
+            "evidence_id": "EV_C004_E02_01",
+            "source_file": "docs/0137/combined.md",
+            "section": "C004",
+            "quote_or_span": "pCoofy E.coli expression vectors were generated by ligating the Llp5-ccdB HindIII restriction enzyme fragment from pPCRSript-ccdB into HindIII linearized pETM vectors."
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "experiment",
+        "state_before": "First pCoofy vectors (pCoofy1, 2, 3 and 4) constructed.",
+        "gap_or_uncertainty": "Need to establish a parallel cloning procedure with high efficiency.",
+        "hypothesis": "SLIC cloning with recA protein will achieve >95% cloning efficiency.",
+        "decision": "Test SLIC cloning using eGFP with recA protein addition.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "SLIC cloning",
+          "version": "",
+          "category": "molecular_cloning"
+        },
+        "parameters": {
+          "insert": "eGFP",
+          "additive": "recA protein"
+        },
+        "observation": "Addition of recA raised overall cloning efficiency to >95%.",
+        "result_status": "success",
+        "next_step_reason": "High-throughput cloning validates the method.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E07_02",
+            "source_file": "docs/0137/combined.md",
+            "section": "C001",
+            "quote_or_span": "Addition of recA raised overall cloning efficiency to >95%."
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "analysis",
+        "state_before": "SLIC cloning procedure established with >95% efficiency.",
+        "gap_or_uncertainty": "Attempts to further optimize the protocol did not improve efficiency.",
+        "hypothesis": "Variations in PCR cycles, primer length, vector/insert ratio, and denaturation/renaturation steps may improve cloning efficiency.",
+        "decision": "Test several variations to the basic SLIC protocol.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "protocol optimization",
+          "version": "",
+          "category": "molecular_cloning"
+        },
+        "parameters": {
+          "variations": [
+            "number of PCR cycles",
+            "PCR without extension step",
+            "extended LP1 and LP2 primer length",
+            "amount of vector and insert",
+            "molar ratio of vector and insert",
+            "5 min 95°C denaturation followed by slow renaturation"
+          ]
+        },
+        "observation": "We tested several other variations to the basic protocol, however none of these further improved cloning efficiency.",
+        "result_status": "failure",
+        "next_step_reason": "Proceed with high-throughput cloning using established protocol.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E08_01",
+            "source_file": "docs/0137/combined.md",
+            "section": "C001",
+            "quote_or_span": "We tested several other variations to the basic protocol, however none of these further improved cloning efficiency"
+          },
+          {
+            "evidence_id": "EV_C002_E01_01",
+            "source_file": "docs/0137/combined.md",
+            "section": "C002",
+            "quote_or_span": "We tested several other variations to the basic protocol, however none of these further improved cloning efficiency: number of PCR cycles, PCR without extension step, extended LP1 and LP2 primer length for vector and insert PCR amplification, amount of vector and insert, molar ratio of vector and insert, 5 min 95°C denaturation of vector and insert mix followed by slow renaturation at 22° (data not shown)."
+          },
+          {
+            "evidence_id": "EV_C001_E07_02",
+            "source_file": "docs/0137/combined.md",
+            "section": "C001",
+            "quote_or_span": "Addition of recA raised overall cloning efficiency to >95%."
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "experiment",
+        "state_before": "SLIC cloning protocol finalized with >95% efficiency.",
+        "gap_or_uncertainty": "Need to validate the method with a large number of diverse inserts.",
+        "hypothesis": "The pCoofy vectors with ccdB counterselection will enable high-throughput cloning with zero background.",
+        "decision": "Clone more than 250 inserts into various pCoofy vectors.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "SLIC cloning",
+          "version": "",
+          "category": "molecular_cloning"
+        },
+        "parameters": {
+          "inserts": ">250",
+          "vectors": "pCoofy series",
+          "insert_sizes": "150-3939 bp"
+        },
+        "observation": "We have effectively cloned more than 250 inserts into all different vectors of the pCoofy series. As we never observed any background, we were not concerned if clone numbers were low, as the clone was correct in almost all cases.",
+        "result_status": "success",
+        "next_step_reason": "Validate vectors with eGFP before target protein expression.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E03_01",
+            "source_file": "docs/0137/combined.md",
+            "section": "C002",
+            "quote_or_span": "We have effectively cloned more than 250 inserts into all different vectors of the pCoofy series."
+          },
+          {
+            "evidence_id": "EV_C002_E03_02",
+            "source_file": "docs/0137/combined.md",
+            "section": "C002",
+            "quote_or_span": "As we never observed any background, we were not concerned if clone numbers were low, as the clone was correct in almost all cases (Figure 4)."
+          },
+          {
+            "evidence_id": "EV_C001_E07_02",
+            "source_file": "docs/0137/combined.md",
+            "section": "C001",
+            "quote_or_span": "Addition of recA raised overall cloning efficiency to >95%."
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "validation",
+        "state_before": "High-throughput cloning demonstrated with >250 inserts.",
+        "gap_or_uncertainty": "Some vectors may yield unexpectedly low expression.",
+        "hypothesis": "Validating each new vector with eGFP will identify and remove low-expression vectors.",
+        "decision": "Validate every new vector with eGFP for cloning and small-scale expression; remove vectors with unexpectedly low expression.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "eGFP expression assay",
+          "version": "",
+          "category": "protein_expression"
+        },
+        "parameters": {
+          "reporter": "eGFP",
+          "hosts": [
+            "E. coli",
+            "insect cells",
+            "HEK293E"
+          ]
+        },
+        "observation": "Prior to use for requested target proteins, every new vector was validated with eGFP for cloning and small scale expression in the respective host. In case the expression level was unexpectedly low, we removed the vector from the list.",
+        "result_status": "partial",
+        "next_step_reason": "Use validated vectors for target protein expression in E. coli.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E04_01",
+            "source_file": "docs/0137/combined.md",
+            "section": "C002",
+            "quote_or_span": "Prior to use for requested target proteins, every new vector was validated with eGFP for cloning and small scale expression in the respective host. In case the expression level was unexpectedly low, we removed the vector from the list."
+          },
+          {
+            "evidence_id": "EV_C002_E03_01",
+            "source_file": "docs/0137/combined.md",
+            "section": "C002",
+            "quote_or_span": "We have effectively cloned more than 250 inserts into all different vectors of the pCoofy series."
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "experiment",
+        "state_before": "Validated pCoofy vectors available for E. coli expression.",
+        "gap_or_uncertainty": "Need to assess solubility and expression levels of target proteins with different tags.",
+        "hypothesis": "MBP tag will have a major impact on protein solubility.",
+        "decision": "Express target proteins (e.g., Pil mutants) in pCoofy1, 2, 3, and 4 vectors in E. coli.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "small-scale protein expression",
+          "version": "",
+          "category": "protein_expression"
+        },
+        "parameters": {
+          "host": "E. coli BL21 Rosetta (DE3)",
+          "temperature": "30°C",
+          "vectors": [
+            "pCoofy1 (His6)",
+            "pCoofy2 (His6Trx)",
+            "pCoofy3 (His6GST)",
+            "pCoofy4 (His6MBP)"
+          ]
+        },
+        "observation": "In agreement with the eGFP expression data, MBP had a major impact on protein solubility. Pil mutants expression levels range between 50% and 80%, but only His6-MBP-Pil was soluble after tag removal.",
+        "result_status": "partial",
+        "next_step_reason": "Parallel screening enables host switching to insect cells for problematic proteins.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E08_01",
+            "source_file": "docs/0137/combined.md",
+            "section": "C002",
+            "quote_or_span": "In agreement with the eGFP expression data, MBP had a major impact on protein solubility (Figure 5B)."
+          },
+          {
+            "evidence_id": "EV_AUTO_007",
+            "source_file": "docs/0137/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "coli expression of two Pil protein mutants in pCoofy1, 2, 3, and 4 (Figure 5C): expression levels range between 50% - and 80%, of target protein in E."
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "experiment",
+        "state_before": "E. coli expression showed MBP improves solubility, but some proteins (e.g., Vasp) degraded.",
+        "gap_or_uncertainty": "Some proteins require eukaryotic expression hosts for proper folding or to avoid degradation.",
+        "hypothesis": "Insect cell expression will rescue proteins that fail in E. coli.",
+        "decision": "Express Vasp, ODC, and Top1 in insect cells (SF9, High Five) using baculovirus vectors.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "baculovirus expression system",
+          "version": "",
+          "category": "protein_expression"
+        },
+        "parameters": {
+          "hosts": [
+            "SF9 cells",
+            "High Five cells"
+          ],
+          "proteins": [
+            "Vasp",
+            "ODC",
+            "Top1"
+          ],
+          "tags": [
+            "His6-GST",
+            "His6-MBP"
+          ]
+        },
+        "observation": "Vasp expressed in SF9 cells without degradation. ODC required insect cells for co-expression. Top1 showed higher expression with His6-MBP than His6-GST.",
+        "result_status": "success",
+        "next_step_reason": "Moving to HEK293E cells reveals purification problem.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E01_01",
+            "source_file": "docs/0137/combined.md",
+            "section": "C003",
+            "quote_or_span": "expressed both constructs in SF9 cells without any signs of degradation"
+          },
+          {
+            "evidence_id": "EV_AUTO_002",
+            "source_file": "docs/0137/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "-Vasp (lanes 6 to 10) (UniProt: P50552) in HighFive cells after infection with P2 virus stock; 48 h expression, 2000 fold virus dilution (lanes 1 and 6); 72 h expression at 20.000 (lanes 2 and 7), 2000 (lanes 3 and 8), 200 (lanes 4 and 9) and 40-fold (lanes 5 and 10) virus dilution, respectively; coomassie stained (B) Expression of His $_{6}$ -ODC (NCBI RefSeq NP\\_002530) in HighFive cells after infection with BLIC; lanes 1–4 BLIC at 1:500, 1:1000, 1:2000, 1:4000 dilution respectively; coomassie stained (C) Express"
+          },
+          {
+            "evidence_id": "EV_AUTO_003",
+            "source_file": "docs/0137/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "000 (lanes 2 and 7), 2000 (lanes 3 and 8), 200 (lanes 4 and 9) and 40-fold (lanes 5 and 10) virus dilution, respectively; coomassie stained (B) Expression of His $_{6}$ -ODC (NCBI RefSeq NP\\_002530) in HighFive cells after infection with BLIC; lanes 1–4 BLIC at 1:500, 1:1000, 1:2000, 1:4000 dilution respectively; coomassie stained (C) Expression of Topoisomerase I (UniProt P04786) fused to His $_{6}$ GST-topisomerase I (lanes 1 to 4) and His $_{6}$ MBP (lanes 5 to 7) in High Five cells."
+          },
+          {
+            "evidence_id": "EV_C003_E04_01",
+            "source_file": "docs/0137/combined.md",
+            "section": "C003",
+            "quote_or_span": "Protein purification from HEK293E cells in our hands is not very efficient using standard immobilized metal affinity purification."
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "design",
+        "state_before": "Successful expression in insect cells, but need to extend to HEK293E cells.",
+        "gap_or_uncertainty": "Standard IMAC purification is not efficient in HEK293E cells.",
+        "hypothesis": "Alternative C-terminal purification tags will improve purification from HEK293E cells.",
+        "decision": "Introduce alternative C-terminal purification tags (S, His10, HPC, CBP, OneStrep) into pTT5 via ccdB-C-tag cassette.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "vector engineering",
+          "version": "",
+          "category": "molecular_cloning"
+        },
+        "parameters": {
+          "base_vector": "pTT5",
+          "tags": [
+            "S",
+            "His10",
+            "HPC",
+            "CBP",
+            "OneStrep"
+          ],
+          "cloning_method": "ccdB-C-tag cassette ligation"
+        },
+        "observation": "We therefore have introduced alternative C-terminal purification tags into pTT5. The pCoofy HEK expression vector was derived from pTT5 by ligating the ccdB-C-tag cassette.",
+        "result_status": "success",
+        "next_step_reason": "Validate purification tags in HEK293E cells.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E04_01",
+            "source_file": "docs/0137/combined.md",
+            "section": "C003",
+            "quote_or_span": "Protein purification from HEK293E cells in our hands is not very efficient using standard immobilized metal affinity purification."
+          },
+          {
+            "evidence_id": "EV_C003_E05_01",
+            "source_file": "docs/0137/combined.md",
+            "section": "C003",
+            "quote_or_span": "We therefore have introduced alternative C-terminal purification tags into pTT5"
+          },
+          {
+            "evidence_id": "EV_C004_E05_01",
+            "source_file": "docs/0137/combined.md",
+            "section": "C004",
+            "quote_or_span": "The pCoofy HEK expression vector was derived from pTT5. The vector was linearized with EcoRI / NotI and ligated to the ccdB - C - tag cassette, which was PCR amplified with EcoRI / NotI primer extensions."
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "validation",
+        "state_before": "Alternative C-terminal tags introduced into pTT5-based pCoofy vectors.",
+        "gap_or_uncertainty": "Need to identify the best purification tag for yield and purity in HEK293E cells.",
+        "hypothesis": "OneStrep and His10 tags with stringent imidazole washes will give best yield and purity.",
+        "decision": "Test purification of eGFP fusions with different C-terminal tags from HEK293E cells.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "affinity purification",
+          "version": "",
+          "category": "protein_purification"
+        },
+        "parameters": {
+          "tags": [
+            "OneStrep",
+            "His10"
+          ],
+          "wash_conditions": "50mM and 80mM imidazole"
+        },
+        "observation": "Best yield and purity were obtained for eGFP-One Strep and eGFP-His10 when washed stringently with 50mM and 80mM imidazole. We have shown effective protein expression and purification from pCoofy40 vectors.",
+        "result_status": "success",
+        "next_step_reason": "Method ready for parallel cloning strategy across hosts.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E08_01",
+            "source_file": "docs/0137/combined.md",
+            "section": "C003",
+            "quote_or_span": "we have shown effective protein expression and purification from pCoofy40 vectors that can now be included in our parallel cloning strategy"
+          },
+          {
+            "evidence_id": "EV_AUTO_008",
+            "source_file": "docs/0137/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Best yield and purity were obtained for eGFP-One Strep and eGFP-His $_{10}$ when washed stringently with 50mM and 80mM imidazole (Figure 7B)."
+          },
+          {
+            "evidence_id": "EV_C003_E04_01",
+            "source_file": "docs/0137/combined.md",
+            "section": "C003",
+            "quote_or_span": "Protein purification from HEK293E cells in our hands is not very efficient using standard immobilized metal affinity purification."
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "eGFP expression assay for each new vector",
+        "Small-scale test expression in appropriate host",
+        "Sequencing of clones",
+        "Affinity purification with stringent washes"
+      ],
+      "metrics": [
+        "Cloning efficiency >95%",
+        "Zero background colonies",
+        "Expression levels (e.g., 50-80% for Pil mutants)",
+        "Solubility after tag removal",
+        "Yield and purity after purification"
+      ],
+      "final_conclusion": "The pCoofy vector series with ccdB counterselection enables fast, efficient, and background-free parallel cloning for protein expression screening across E. coli, insect cells, and HEK293E cells. MBP tag improves solubility; OneStrep and His10 tags enable effective purification from HEK293E cells.",
+      "limitations": [
+        "ccdB survival strains required for vector propagation",
+        "Vector size increase due to ccdB cassette",
+        "Occasional ccdB inactivation observed",
+        "Standard IMAC inefficient in HEK293E cells without optimized tags"
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_specific_evidence_backfilled=6",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_specific_evidence_backfilled=5",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 100.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p2\\states\\0137.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p2\\events\\0137.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 11,
+      "covered_event_count": 11,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1,
+          4,
+          8,
+          11
+        ],
+        "K02": [
+          1,
+          2
+        ],
+        "K03": [
+          1,
+          2,
+          3
+        ],
+        "K04": [
+          3
+        ],
+        "K07": [
+          1,
+          4,
+          5,
+          6,
+          11
+        ],
+        "K09": [
+          6,
+          7
+        ],
+        "K11": [
+          6,
+          7,
+          8
+        ],
+        "K12": [
+          8
+        ],
+        "K13": [
+          9
+        ],
+        "K15": [
+          10,
+          11
+        ],
+        "K17": [
+          9,
+          11
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02",
+            "K03",
+            "K07"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K02",
+            "K03"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K03",
+            "K04"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K01",
+            "K07"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K07",
+            "K08"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K07",
+            "K09",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K09",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K01",
+            "K11",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K13",
+            "K14",
+            "K17"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K14",
+            "K15"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K01",
+            "K07",
+            "K14",
+            "K15",
+            "K17"
+          ]
+        }
+      ]
+    },
+    "warnings": [],
+    "step_count": 11,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 100.0
+  },
+  "api_usage": {
+    "prompt_tokens": 107604,
+    "completion_tokens": 26890,
+    "total_tokens": 134494,
+    "prompt_cache_hit_tokens": 2688,
+    "prompt_cache_miss_tokens": 104916
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 3990,
+        "completion_tokens": 884,
+        "total_tokens": 4874,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 3990
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 14541,
+        "completion_tokens": 3732,
+        "total_tokens": 18273,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 14541
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 8890,
+        "completion_tokens": 1307,
+        "total_tokens": 10197,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8634
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 10805,
+        "completion_tokens": 1472,
+        "total_tokens": 12277,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 10549
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 9676,
+        "completion_tokens": 1166,
+        "total_tokens": 10842,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9420
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 8884,
+        "completion_tokens": 1609,
+        "total_tokens": 10493,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8628
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 9152,
+        "completion_tokens": 3783,
+        "total_tokens": 12935,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 8768
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 9228,
+        "completion_tokens": 5921,
+        "total_tokens": 15149,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 8588
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 15196,
+        "completion_tokens": 881,
+        "total_tokens": 16077,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 15196
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 17242,
+        "completion_tokens": 6135,
+        "total_tokens": 23377,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 16602
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

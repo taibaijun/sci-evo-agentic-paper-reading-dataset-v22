@@ -1,0 +1,925 @@
+{
+  "case": {
+    "case_id": "sci_evo_0004",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Active learning-assisted directed evolution.",
+      "doi": "10.1038/s41467-025-55987-8",
+      "url": "",
+      "license": "cc by",
+      "publication_date": "",
+      "raw_file": "0004_PMC11739421_active_learning_assisted_directed_evolution.pdf",
+      "mineru_md": "docs/0004/mineru.md",
+      "combined_md": "docs/0004/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Directed evolution (DE) is inefficient when mutations exhibit epistasis, limiting exploration to local regions and causing local optima.",
+      "target_object": "ParPgb protoglobin for non-native cyclopropanation reaction",
+      "known_context": "DE can be inefficient when mutations exhibit non-additive, or epistatic, behavior. DE is limited because screening for performance can only explore a small, local region of sequence space. Taking one mutational step at a time can cause the experiment to become stuck at a local optimum, especially on rugged protein fitness landscapes where mutation effects exhibit epistasis.",
+      "constraints": [
+        "Combinatorial design space on five active-site residues (W56, Y57, L59, Q60, F89)",
+        "Objective: high total cyclopropanation yield and cis:trans selectivity for cis-2a product"
+      ],
+      "input_data": [
+        "Single-site saturation mutagenesis (SSM) data at five positions",
+        "Recombination data of best single mutants (DAYFW, DGMDW, DGMVW)"
+      ],
+      "quantifiable_goals": [
+        "Improve total cyclopropanation yield beyond 12% (parent ParLQ)",
+        "Achieve high cis:trans selectivity for cis-2a"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "DE is inefficient when mutations exhibit epistasis, limiting exploration to local regions and causing local optima.",
+        "gap_or_uncertainty": "How to explore protein sequence space more efficiently than standard DE when epistasis is present.",
+        "hypothesis": "Active learning with uncertainty quantification can explore protein sequence space more efficiently than DE.",
+        "decision": "Develop Active Learning-assisted Directed Evolution (ALDE) workflow.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "Active Learning-assisted Directed Evolution (ALDE)",
+          "version": "N/A",
+          "category": "machine_learning_assisted_directed_evolution"
+        },
+        "parameters": {},
+        "observation": "Active learning has the potential to unlock improved engineering outcomes by leveraging uncertainty quantification to choose which variants should be tested at each step.",
+        "result_status": "success",
+        "next_step_reason": "Design the ALDE workflow to test the hypothesis.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0004/combined.md",
+            "section": "C001",
+            "quote_or_span": "DE can be inefficient when mutations exhibit non-additive, or epistatic, behavior."
+          },
+          {
+            "evidence_id": "EV_C001_E01_02",
+            "source_file": "docs/0004/combined.md",
+            "section": "C001",
+            "quote_or_span": "DE is limited because screening for performance can only explore a small, local region of sequence space."
+          },
+          {
+            "evidence_id": "EV_C001_E01_03",
+            "source_file": "docs/0004/combined.md",
+            "section": "C001",
+            "quote_or_span": "taking one mutational step at a time can cause the experiment to become stuck at a local optimum, especially on rugged protein fitness landscapes where mutation effects exhibit epistasis"
+          },
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0004/combined.md",
+            "section": "C001",
+            "quote_or_span": "active learning has the potential to unlock improved engineering outcomes"
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "design",
+        "state_before": "Hypothesis that active learning can improve DE efficiency.",
+        "gap_or_uncertainty": "Need a concrete workflow to implement active learning for protein engineering.",
+        "hypothesis": "ALDE workflow: define combinatorial design space on k residues, start with simultaneous mutagenesis and initial screening, train ML model, use acquisition function to propose new variants, repeat.",
+        "decision": "Adopt ALDE workflow for experimental campaign.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "ALDE workflow",
+          "version": "N/A",
+          "category": "workflow"
+        },
+        "parameters": {},
+        "observation": "Workflow steps: simultaneously mutate k residues, collect initial sequence-fitness data, train supervised ML model, apply acquisition function to rank sequences, repeat cycle until fitness optimized.",
+        "result_status": "success",
+        "next_step_reason": "Apply ALDE to ParPgb system, starting with SSM to assess landscape.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E03_02",
+            "source_file": "docs/0004/combined.md",
+            "section": "C001",
+            "quote_or_span": "First, those k residues are simultaneously mutated, and an initial round of sequence-fitness data is collected in the wet lab."
+          },
+          {
+            "evidence_id": "EV_C001_E03_03",
+            "source_file": "docs/0004/combined.md",
+            "section": "C001",
+            "quote_or_span": "The collected sequence-fitness data are then used to computationally train a supervised ML model that can predict sequence from fitness."
+          },
+          {
+            "evidence_id": "EV_C001_E03_04",
+            "source_file": "docs/0004/combined.md",
+            "section": "C001",
+            "quote_or_span": "an acquisition function is applied to the trained model to rank all sequences in the design space"
+          },
+          {
+            "evidence_id": "EV_C001_E03_05",
+            "source_file": "docs/0004/combined.md",
+            "section": "C001",
+            "quote_or_span": "the cycle is repeated until fitness is sufficiently optimized"
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "experiment",
+        "state_before": "ALDE workflow designed; need to assess ParPgb active-site landscape.",
+        "gap_or_uncertainty": "Whether single-site mutations can improve the objective (total yield and cis selectivity).",
+        "hypothesis": "Single-site saturation mutagenesis (SSM) at five active-site residues (W56, Y57, L59, Q60, F89) may identify beneficial mutations.",
+        "decision": "Perform SSM and screen variants by gas chromatography.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Single-site saturation mutagenesis (SSM)",
+          "version": "N/A",
+          "category": "mutagenesis"
+        },
+        "parameters": {
+          "residues": [
+            "W56",
+            "Y57",
+            "L59",
+            "Q60",
+            "F89"
+          ],
+          "screening_method": "gas chromatography"
+        },
+        "observation": "None of the screened mutants demonstrated a significant, desirable shift in the value of the objective.",
+        "result_status": "failure",
+        "next_step_reason": "SSM failed; attempt recombination of best single mutants.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E04_01",
+            "source_file": "docs/0004/combined.md",
+            "section": "C001",
+            "quote_or_span": "Single-site saturation mutagenesis (SSM) was performed at these sites, and variants were screened by gas chromatography for their cyclopropanation products."
+          },
+          {
+            "evidence_id": "EV_C001_E04_02",
+            "source_file": "docs/0004/combined.md",
+            "section": "C001",
+            "quote_or_span": "None of the screened mutants demonstrated a significant, desirable shift in the value of the objective"
+          },
+          {
+            "evidence_id": "EV_C002_E01_01",
+            "source_file": "docs/0004/combined.md",
+            "section": "C002",
+            "quote_or_span": "None of the screened mutants demonstrated a significant, desirable shift in the value of the objective (Fig. 2C)"
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "experiment",
+        "state_before": "SSM failed to improve objective; best single mutants identified.",
+        "gap_or_uncertainty": "Whether recombination of best single mutants can yield effective proteins.",
+        "hypothesis": "Recombination of best single mutants (DAYFW, DGMDW, DGMVW) may produce variants with high yield and cis selectivity.",
+        "decision": "Test recombination variants for cyclopropanation activity.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Recombination of single mutants",
+          "version": "N/A",
+          "category": "recombination"
+        },
+        "parameters": {
+          "variants": [
+            "DAYFW",
+            "DGMDW",
+            "DGMVW"
+          ]
+        },
+        "observation": "Various recombinations of ideal single mutations are not effective proteins for the desired objective (cis-trans Yield); no variant generated cis-2a with high yield and selectivity.",
+        "result_status": "failure",
+        "next_step_reason": "Recombination failure confirms epistasis; proceed with ALDE initial library.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E05_01",
+            "source_file": "docs/0004/combined.md",
+            "section": "C001",
+            "quote_or_span": "in our recombination studies of the single-site mutants with the highest fold-"
+          },
+          {
+            "evidence_id": "EV_C001_E05_02",
+            "source_file": "docs/0004/combined.md",
+            "section": "C001",
+            "quote_or_span": "Various recombinations of ideal single mutations are not effective proteins for the desired objective (cis-trans Yield)"
+          },
+          {
+            "evidence_id": "EV_C002_E02_01",
+            "source_file": "docs/0004/combined.md",
+            "section": "C002",
+            "quote_or_span": "we did not observe a variant which generated cis-2a with high yield and selectivity (Fig. 2D)"
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "design",
+        "state_before": "Challenging epistatic landscape confirmed; need initial library for ALDE.",
+        "gap_or_uncertainty": "How to construct initial library when zero-shot predictors are not correlated with objective.",
+        "hypothesis": "Random selection from NNK library is appropriate because zero-shot predictors may not enrich useful variants.",
+        "decision": "Construct initial library via NNK mutagenesis at all five positions and randomly select 384 variants for screening.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "NNK mutagenesis",
+          "version": "N/A",
+          "category": "mutagenesis"
+        },
+        "parameters": {
+          "positions": [
+            "W56",
+            "Y57",
+            "L59",
+            "Q60",
+            "F89"
+          ],
+          "library_size": "216 unique variants without stop codons",
+          "screened": "384 random variants"
+        },
+        "observation": "Retrospective analysis showed objective not strongly correlated with conventional zero-shot predictors.",
+        "result_status": "success",
+        "next_step_reason": "Screen initial library to gather sequence-fitness data.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E03_01",
+            "source_file": "docs/0004/combined.md",
+            "section": "C002",
+            "quote_or_span": "We elected to use random selection from this library because we did not know if any zero-shot predictors might enrich the starting library with useful variants"
+          },
+          {
+            "evidence_id": "EV_C002_E03_02",
+            "source_file": "docs/0004/combined.md",
+            "section": "C002",
+            "quote_or_span": "retrospective analysis of the initial library revealed that our objective is not strongly correlated with conventional zero-shot predictors"
+          },
+          {
+            "evidence_id": "EV_AUTO_034",
+            "source_file": "docs/0004/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The optimization campaign started with (A) constructing an initial library with mutations at all five sites under study using NNK degenerate codons, randomly selecting 384 for screening for product formation, and mapping to sequences using LevSeq."
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "experiment",
+        "state_before": "Initial library constructed; need sequence-fitness data.",
+        "gap_or_uncertainty": "What sequence-fitness relationships exist in the initial library.",
+        "hypothesis": "Screening will reveal variants with varying activity and selectivity; F89Y may be important for cis selectivity.",
+        "decision": "Screen 384 random variants for cyclopropanation activity and sequence via LevSeq.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "LevSeq long-read pooled sequencing",
+          "version": "N/A",
+          "category": "sequencing"
+        },
+        "parameters": {
+          "screening_method": "gas chromatography",
+          "sequencing_method": "LevSeq"
+        },
+        "observation": "Most variants active but trans-selective; F89Y mutation critical for cis selectivity in specific contexts.",
+        "result_status": "success",
+        "next_step_reason": "Use initial screening data to train ML model for ALDE Round 1.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E04_01",
+            "source_file": "docs/0004/combined.md",
+            "section": "C002",
+            "quote_or_span": "the F89Y mutation was particularly important for inverting selectivity to favor the cis-2a, but only in the context of certain mutations at positions 56, 57, 59, and 60"
+          },
+          {
+            "evidence_id": "EV_AUTO_034",
+            "source_file": "docs/0004/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The optimization campaign started with (A) constructing an initial library with mutations at all five sites under study using NNK degenerate codons, randomly selecting 384 for screening for product formation, and mapping to sequences using LevSeq."
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "simulation",
+        "state_before": "Initial screening data available; need to select ML model and acquisition function.",
+        "gap_or_uncertainty": "Which model and acquisition function perform best for ALDE.",
+        "hypothesis": "DNN ensemble with one-hot encoding and Thompson sampling will be most consistent based on computational simulations.",
+        "decision": "Use DNN ensemble with one-hot encoding and Thompson sampling for wet-lab campaign.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "ALDE computational package",
+          "version": "N/A",
+          "category": "machine_learning"
+        },
+        "parameters": {
+          "model": "DNN ensemble",
+          "encoding": "one-hot",
+          "acquisition_function": "Thompson sampling",
+          "ensemble_size": 5,
+          "bootstrap_fraction": 0.9
+        },
+        "observation": "Based on extensive computational simulations, DNN ensemble with one-hot and Thompson sampling is the most consistent strategy.",
+        "result_status": "success",
+        "next_step_reason": "Train model on initial library and propose Round 1 sequences.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E05_01",
+            "source_file": "docs/0004/combined.md",
+            "section": "C002",
+            "quote_or_span": "Based on our extensive computational simulations (described in the following section), we decided to use the DNN ensemble with one-hot encoding of the five targeted residues for model training and Thompson sampling as the acquisition function"
+          },
+          {
+            "evidence_id": "EV_C004_E01_01",
+            "source_file": "docs/0004/combined.md",
+            "section": "C004",
+            "quote_or_span": "For the wet-lab campaign, we trained the model with onehot encodings, the DNN ensemble with 5 models and bootstrapping using 90% of the available training data for each model, and Thompson sampling as the acquisition function."
+          },
+          {
+            "evidence_id": "EV_C004_E02_01",
+            "source_file": "docs/0004/combined.md",
+            "section": "C004",
+            "quote_or_span": "These design choices correspond to the most consistent strategy based on the computational simulations."
+          },
+          {
+            "evidence_id": "EV_AUTO_029",
+            "source_file": "docs/0004/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Subsequent activity screening of these sequences in triplicate showed that nearly a third of Round 1 sequences met the objective better than the best variant in the initial, randomly selected set (Fig."
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "experiment",
+        "state_before": "Model trained on initial library; Round 1 sequences proposed.",
+        "gap_or_uncertainty": "Whether ALDE can identify improved variants in Round 1.",
+        "hypothesis": "Top predicted sequences will show improved yield and selectivity.",
+        "decision": "Synthesize and screen top 90 predicted sequences.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Gene synthesis and screening",
+          "version": "N/A",
+          "category": "synthesis_and_screening"
+        },
+        "parameters": {
+          "sequences_screened": 90,
+          "screening_method": "gas chromatography"
+        },
+        "observation": "Best variant MKFNY (W56M Y57K L59F Q60N F89Y) achieved 93% total yield and 12:1 cis:trans selectivity.",
+        "result_status": "success",
+        "next_step_reason": "Use Round 1 data to retrain model for Round 2.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E06_01",
+            "source_file": "docs/0004/combined.md",
+            "section": "C002",
+            "quote_or_span": "The best variant in the Round 1 library, MKFNY (W56M Y57K L59F Q60N F89Y), demonstrated a total cyclopropanation yield of 93% and a cis:trans selectivity ratio of 12:1"
+          },
+          {
+            "evidence_id": "EV_AUTO_029",
+            "source_file": "docs/0004/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Subsequent activity screening of these sequences in triplicate showed that nearly a third of Round 1 sequences met the objective better than the best variant in the initial, randomly selected set (Fig."
+          },
+          {
+            "evidence_id": "EV_AUTO_028",
+            "source_file": "docs/0004/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The top 90 predicted sequences were again synthesized and tested exactly as before (Round 2, Fig."
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "experiment",
+        "state_before": "Round 1 successful; model retrained with additional data.",
+        "gap_or_uncertainty": "Whether further rounds can improve yield and selectivity.",
+        "hypothesis": "Round 2 will explore more sequence space and find even better variants.",
+        "decision": "Synthesize and screen top 90 predicted sequences for Round 2.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Gene synthesis and screening",
+          "version": "N/A",
+          "category": "synthesis_and_screening"
+        },
+        "parameters": {
+          "sequences_screened": 90,
+          "screening_method": "gas chromatography"
+        },
+        "observation": "Top variant MPFDY achieved 99% total yield and 14:1 cis:trans selectivity; mutations not individually beneficial, demonstrating epistasis.",
+        "result_status": "success",
+        "next_step_reason": "Validate best variant on substrate scope.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E07_01",
+            "source_file": "docs/0004/combined.md",
+            "section": "C002",
+            "quote_or_span": "the top-performing variant among these sequences (MPFDY) displayed a total cyclopropane yield of 99% and a 14:1 cis:trans selectivity ratio"
+          },
+          {
+            "evidence_id": "EV_C002_E07_02",
+            "source_file": "docs/0004/combined.md",
+            "section": "C002",
+            "quote_or_span": "None of the mutations in MPFDY obviously optimized the objective in the single-site mutagenesis studies (Fig. 2C); they work together, however, to deliver an optimal variant"
+          },
+          {
+            "evidence_id": "EV_AUTO_028",
+            "source_file": "docs/0004/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The top 90 predicted sequences were again synthesized and tested exactly as before (Round 2, Fig."
+          },
+          {
+            "evidence_id": "EV_AUTO_006",
+            "source_file": "docs/0004/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "After performing three rounds of ALDE (exploring only \\~0.01% of the design space), the optimal variant has 99% total yield and 14:1 selectivity for the desired diastereomer of the cyclopropane product."
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "validation",
+        "state_before": "MPFDY identified as top variant; need to assess broader applicability.",
+        "gap_or_uncertainty": "Whether Round 2 variants perform well across different substrates.",
+        "hypothesis": "Round 2 variants will outperform parent ParLQ across multiple styrene derivatives.",
+        "decision": "Screen Round 2 variants against eight styrene derivatives.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Substrate scope screening",
+          "version": "N/A",
+          "category": "screening"
+        },
+        "parameters": {
+          "substrates": "8 styrene derivatives"
+        },
+        "observation": "Nearly all Round 2 variants higher yielding and more selective than ParLQ; top variants differ per substrate.",
+        "result_status": "success",
+        "next_step_reason": "Validate ALDE performance via simulations on other proteins.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E08_01",
+            "source_file": "docs/0004/combined.md",
+            "section": "C002",
+            "quote_or_span": "for every substrate, nearly all of the Round 2 variants were higher yielding and more selective for their respective cis- diastereomers than the parent protein, ParLQ"
+          },
+          {
+            "evidence_id": "EV_C002_E08_02",
+            "source_file": "docs/0004/combined.md",
+            "section": "C002",
+            "quote_or_span": "the top-performing variants for each substrate differed in sequence from MPFDY"
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "validation",
+        "state_before": "Wet-lab success; need computational validation of ALDE over DE.",
+        "gap_or_uncertainty": "Whether ALDE consistently outperforms DE and random sampling across different proteins.",
+        "hypothesis": "ALDE significantly outperforms average DE and random sampling on GB1 and TrpB datasets.",
+        "decision": "Run simulations comparing ALDE, DE, and random sampling on GB1 and TrpB fitness landscapes.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "ALDE simulations",
+          "version": "N/A",
+          "category": "simulation"
+        },
+        "parameters": {
+          "datasets": [
+            "GB1",
+            "TrpB"
+          ],
+          "simulation_rounds": 4,
+          "batch_size": 96
+        },
+        "observation": "Active learning significantly outperforms average DE and random sampling; DNN ensemble with one-hot and Thompson sampling most consistent.",
+        "result_status": "success",
+        "next_step_reason": "Analyze role of uncertainty quantification.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E02_01",
+            "source_file": "docs/0004/combined.md",
+            "section": "C003",
+            "quote_or_span": "We conclude that active learning can significantly outperform the average performance of DE and random sampling, and results are consistent across the two different protein datasets."
+          },
+          {
+            "evidence_id": "EV_C003_E04_01",
+            "source_file": "docs/0004/combined.md",
+            "section": "C003",
+            "quote_or_span": "Overall, the frequentist ensemble models perform the most consistently across different encodings."
+          }
+        ]
+      },
+      {
+        "step_index": 12,
+        "phase": "analysis",
+        "state_before": "ALDE validated; need to understand role of uncertainty quantification.",
+        "gap_or_uncertainty": "Whether calibrated uncertainty quantification is necessary for ALDE performance.",
+        "hypothesis": "Classical uncertainty quantification plays a more limited role than expected; calibration does not necessarily correlate with ALDE performance.",
+        "decision": "Analyze miscalibration areas and correlation with max fitness achieved.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Uncertainty calibration analysis",
+          "version": "N/A",
+          "category": "analysis"
+        },
+        "parameters": {
+          "metrics": [
+            "MAE",
+            "miscalibration area",
+            "Spearman correlation"
+          ]
+        },
+        "observation": "DNN ensembles have lowest miscalibration areas, but performance in ALDE simulations is not necessarily correlated to calibration; classical uncertainty quantification plays limited role.",
+        "result_status": "partial",
+        "next_step_reason": "Conclude ALDE effectiveness and limitations.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E05_01",
+            "source_file": "docs/0004/combined.md",
+            "section": "C003",
+            "quote_or_span": "DNN ensembles have the lowest miscalibration areas, suggesting that they are the most calibrated and best models overall."
+          },
+          {
+            "evidence_id": "EV_C003_E05_02",
+            "source_file": "docs/0004/combined.md",
+            "section": "C003",
+            "quote_or_span": "However, in this study, we find that performance in ALDE simulations (by max fitness achieved) is not necessarily correlated to how calibrated the uncertainties are for each model."
+          },
+          {
+            "evidence_id": "EV_C003_E06_01",
+            "source_file": "docs/0004/combined.md",
+            "section": "C003",
+            "quote_or_span": "Overall, classical notions of uncertainty quantification seem to play a more limited role than expected in these real-world applications."
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "Wet-lab screening of Round 1 and Round 2 variants",
+        "Substrate scope screening on eight styrene derivatives",
+        "Computational simulations on GB1 and TrpB fitness landscapes"
+      ],
+      "metrics": [
+        "Total cyclopropanation yield (%)",
+        "Cis:trans selectivity ratio"
+      ],
+      "final_conclusion": "ALDE successfully improved total yield from 12% to 99% and cis:trans selectivity to 14:1 after exploring only ~0.01% of the design space. Simulations confirm ALDE outperforms average DE and random sampling.",
+      "limitations": [
+        "Classical uncertainty quantification plays a more limited role than expected; calibration does not necessarily correlate with ALDE performance."
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_step_trimmed=13_to_12",
+        "v22_specific_evidence_backfilled=11",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_specific_evidence_backfilled=3",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 96.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_mainline_batch30\\states\\0004.json",
+  "events_path": "outputs\\agentic_v22\\v22_mainline_batch30\\events\\0004.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1
+        ],
+        "K02": [
+          1,
+          2,
+          9,
+          11,
+          12
+        ],
+        "K03": [
+          2,
+          6,
+          7
+        ],
+        "K05": [
+          4
+        ],
+        "K07": [
+          5,
+          6
+        ],
+        "K08": [
+          6,
+          8
+        ],
+        "K09": [
+          7,
+          11
+        ],
+        "K10": [
+          3,
+          4,
+          8,
+          9
+        ],
+        "K11": [
+          3,
+          4,
+          8,
+          9
+        ],
+        "K12": [
+          10
+        ],
+        "K13": [
+          7,
+          11
+        ],
+        "K14": [
+          12
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02",
+            "K06"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K02",
+            "K03",
+            "K06"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K04",
+            "K10",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K05",
+            "K10",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K07"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K03",
+            "K07",
+            "K08"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K03",
+            "K09",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K08",
+            "K10",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K02",
+            "K10",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K12"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K02",
+            "K09",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 12,
+          "covered_event_ids": [
+            "K02",
+            "K14"
+          ]
+        }
+      ]
+    },
+    "warnings": [],
+    "step_count": 12,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 96.0
+  },
+  "api_usage": {
+    "prompt_tokens": 119013,
+    "completion_tokens": 26192,
+    "total_tokens": 145205,
+    "prompt_cache_hit_tokens": 7808,
+    "prompt_cache_miss_tokens": 111205
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 3528,
+        "completion_tokens": 677,
+        "total_tokens": 4205,
+        "prompt_tokens_details": {
+          "cached_tokens": 3456
+        },
+        "prompt_cache_hit_tokens": 3456,
+        "prompt_cache_miss_tokens": 72
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 12928,
+        "completion_tokens": 3389,
+        "total_tokens": 16317,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 12672
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 7890,
+        "completion_tokens": 1119,
+        "total_tokens": 9009,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 7506
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 8613,
+        "completion_tokens": 1419,
+        "total_tokens": 10032,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 8229
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 7955,
+        "completion_tokens": 1201,
+        "total_tokens": 9156,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 7571
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 8181,
+        "completion_tokens": 1338,
+        "total_tokens": 9519,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 7797
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C005",
+      "api_usage": {
+        "prompt_tokens": 7366,
+        "completion_tokens": 59,
+        "total_tokens": 7425,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 6982
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 12056,
+        "completion_tokens": 3015,
+        "total_tokens": 15071,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 11672
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 12039,
+        "completion_tokens": 6413,
+        "total_tokens": 18452,
+        "prompt_tokens_details": {
+          "cached_tokens": 768
+        },
+        "prompt_cache_hit_tokens": 768,
+        "prompt_cache_miss_tokens": 11271
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 17640,
+        "completion_tokens": 1020,
+        "total_tokens": 18660,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 17384
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 20817,
+        "completion_tokens": 6542,
+        "total_tokens": 27359,
+        "prompt_tokens_details": {
+          "cached_tokens": 768
+        },
+        "prompt_cache_hit_tokens": 768,
+        "prompt_cache_miss_tokens": 20049
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

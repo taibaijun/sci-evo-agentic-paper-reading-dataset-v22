@@ -1,0 +1,742 @@
+{
+  "case": {
+    "case_id": "sci_evo_0050",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "WISDOM-II: Screening against multiple targets implicated in malaria using computational grid infrastructures",
+      "doi": "https://doi.org/10.1186/1475-2875-8-88",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0048_10_1186_1475_2875_8_88_wisdom_ii_screening_against_multiple_targets_implicated_in_malaria_using_computational_gri.pdf",
+      "mineru_md": "docs/0050/mineru.md",
+      "combined_md": "docs/0050/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Malaria drug resistance necessitates discovery of new drugs targeting multiple proteins. Virtual high-throughput screening (vHTS) is cost-effective but computationally intensive. WISDOM-II extends to multiple targets (PfGST, PfDHFR, PvDHFR) to counteract resistance, leveraging grid computing for large-scale docking of 4.3M compounds from ZINC.",
+      "target_object": "Multiple malaria targets: PfGST, PfDHFR (wild-type and quadruple mutant), PvDHFR (wild-type and double mutant)",
+      "known_context": "WISDOM-I successfully screened 42 million compounds against plasmepsins, identifying novel scaffolds confirmed in vitro. Drug resistance in DHFR arises from point mutations. GST inhibition impairs detoxification and antioxidant capacity.",
+      "constraints": [
+        "Computational intensity of large-scale virtual screening",
+        "Need for validated target structures and docking parameters"
+      ],
+      "input_data": [
+        "ZINC database of 4.3 million compounds",
+        "Crystal structures: PfGST (1Q4J), PfDHFR (1J3I, 1J3K), PvDHFR (2BL9, 2BLC)"
+      ],
+      "quantifiable_goals": [
+        "Identify novel inhibitors against multiple malaria targets",
+        "Achieve successful re-docking (RMSD < 2 Å for PfDHFR)"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "Malaria drug resistance is a major problem; single-target drugs are insufficient.",
+        "gap_or_uncertainty": "Need to target multiple proteins and pathways to counteract resistance.",
+        "hypothesis": "Virtual screening against multiple validated targets from P. falciparum and P. vivax will identify novel inhibitors and interfere with resistance.",
+        "decision": "Design WISDOM-II to screen against PfGST, PfDHFR, and PvDHFR.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "Literature-based target selection",
+          "version": "",
+          "category": "literature_reasoning"
+        },
+        "parameters": {},
+        "observation": "Targets selected: PfGST (detoxification), PfDHFR (folate pathway, mutations cause resistance), PvDHFR (also important for vivax malaria).",
+        "result_status": "success",
+        "next_step_reason": "Need to prepare target structures and optimize docking parameters.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0050/combined.md",
+            "section": "C001",
+            "quote_or_span": "due to complexity of the life cycle and drug resistance more targets and more metabolic pathways have to be targeted to counteract the disease"
+          },
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0050/combined.md",
+            "section": "C001",
+            "quote_or_span": "in the current project: WISDOM-II, different validated targets involved in diverse metabolic activities of the parasite were selected"
+          },
+          {
+            "evidence_id": "EV_C001_E02_02",
+            "source_file": "docs/0050/combined.md",
+            "section": "C001",
+            "quote_or_span": "proteins not only from Plasmodium falciparum, but also from the Plasmodium vivax were embattled"
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "design",
+        "state_before": "Targets selected; need computational resources for large-scale docking.",
+        "gap_or_uncertainty": "Virtual screening of millions of compounds is computationally intensive.",
+        "hypothesis": "Grid computing can provide the necessary computational power.",
+        "decision": "Use EGEE grid infrastructure and other grids for WISDOM-II.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Grid computing",
+          "version": "EGEE, AuverGrid, EELA, EUChinaGrid, EUMedGrid",
+          "category": "computational_infrastructure"
+        },
+        "parameters": {},
+        "observation": "Grid infrastructures successfully used in WISDOM-I for large-scale dockings.",
+        "result_status": "success",
+        "next_step_reason": "Proceed to target preparation and docking parameter optimization.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E03_01",
+            "source_file": "docs/0050/combined.md",
+            "section": "C001",
+            "quote_or_span": "Computational grid infrastructures are the best attempt to solving this problem thus far."
+          },
+          {
+            "evidence_id": "EV_C001_E03_02",
+            "source_file": "docs/0050/combined.md",
+            "section": "C001",
+            "quote_or_span": "The computing resources from EGEE grid infrastructure were utilized extensively"
+          },
+          {
+            "evidence_id": "EV_C001_E04_02",
+            "source_file": "docs/0050/combined.md",
+            "section": "C001",
+            "quote_or_span": "three scaffolds were identified, one of them is guanidino scaffold, which is likely to be novel"
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "design",
+        "state_before": "Grid infrastructure ready; need to prepare target structures for docking.",
+        "gap_or_uncertainty": "Accurate active site definition and protein structure preparation required.",
+        "hypothesis": "Defining active site around co-crystallized ligands and refining structures will enable reliable docking.",
+        "decision": "Prepare PfGST, PfDHFR, and PvDHFR structures: define active site, model missing residues, minimize, and retain conserved waters.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "Structure preparation",
+          "version": "Modeller, AMBER9",
+          "category": "molecular_modeling"
+        },
+        "parameters": {
+          "active_site_radius": "8-10 Å",
+          "minimization": "500 steps H-only, 5000 steps all-atom, 50 ps MD at 300K, 5000 steps final minimization"
+        },
+        "observation": "Structures prepared: PfGST (1Q4J, active site 8 Å around GTX), PfDHFR (missing residues modeled, two conserved waters kept), PvDHFR (similarly prepared).",
+        "result_status": "success",
+        "next_step_reason": "Need to select compound database and docking software.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E01_01",
+            "source_file": "docs/0050/combined.md",
+            "section": "C002",
+            "quote_or_span": "active site is defined as 8.0 - 10 around the co-crystallized ligands."
+          },
+          {
+            "evidence_id": "EV_C002_E02_01",
+            "source_file": "docs/0050/combined.md",
+            "section": "C002",
+            "quote_or_span": "The active site is defined as 8 around the co-crystallized ligand: GTX"
+          },
+          {
+            "evidence_id": "EV_C002_E03_01",
+            "source_file": "docs/0050/combined.md",
+            "section": "C002",
+            "quote_or_span": "the position of missing residues from Asp87 to Asn90 was modelled with Modeller software"
+          },
+          {
+            "evidence_id": "EV_C002_E03_02",
+            "source_file": "docs/0050/combined.md",
+            "section": "C002",
+            "quote_or_span": "All water molecules in the crystal structure were removed except for two conserved waters"
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "design",
+        "state_before": "Targets prepared; need compound library and docking software.",
+        "gap_or_uncertainty": "Selection of appropriate compound database and docking parameters.",
+        "hypothesis": "ZINC database of 4.3 million compounds is suitable; FlexX with optimized parameters will yield accurate docking poses.",
+        "decision": "Use ZINC database and FlexX; optimize parameters per target via re-docking.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "FlexX",
+          "version": "",
+          "category": "docking_software"
+        },
+        "parameters": {
+          "compound_library": "ZINC 4.3 million",
+          "docking_parameters": "Place particles, Maximum overlap volume"
+        },
+        "observation": "ZINC database downloaded; FlexX selected; parameter optimization initiated.",
+        "result_status": "success",
+        "next_step_reason": "Validate docking parameters through re-docking experiments.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E04_01",
+            "source_file": "docs/0050/combined.md",
+            "section": "C002",
+            "quote_or_span": "The ZINC database is a collection of 4.3 million chemical compounds"
+          },
+          {
+            "evidence_id": "EV_C002_E04_02",
+            "source_file": "docs/0050/combined.md",
+            "section": "C002",
+            "quote_or_span": "A total of 4.3 million compounds were downloaded from the ZINC database and screened against targets"
+          },
+          {
+            "evidence_id": "EV_C002_E05_02",
+            "source_file": "docs/0050/combined.md",
+            "section": "C002",
+            "quote_or_span": "Initial optimization experiments were done to arrive at a parameter set which gave best results in redocking experiment for a particular target."
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "validation",
+        "state_before": "Docking parameters need validation.",
+        "gap_or_uncertainty": "Whether FlexX parameters can reproduce known binding modes.",
+        "hypothesis": "Re-docking co-crystallized ligands will validate parameter sets.",
+        "decision": "Perform re-docking for PfGST, PfDHFR, and PvDHFR with various parameter sets.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "Re-docking",
+          "version": "FlexX",
+          "category": "docking_validation"
+        },
+        "parameters": {
+          "parameter_sets": "1-8, varying overlap volume",
+          "targets": "PfGST, PfDHFR, PvDHFR"
+        },
+        "observation": "PfGST: convincing binding mode but RMSD not optimal. PfDHFR: after minimization, parameter 8 (overlap 100 Å³) gave RMSD <2 Å. PvDHFR: re-docking failed due to clashes.",
+        "result_status": "partial",
+        "next_step_reason": "Proceed with validated parameters for PfGST and PfDHFR; PvDHFR excluded from further screening.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E06_04",
+            "source_file": "docs/0050/combined.md",
+            "section": "C002",
+            "quote_or_span": "Parameter 8 (maximum allowed overlap volume between protein and ligand surface: 100 Å³) gave the best results"
+          },
+          {
+            "evidence_id": "EV_C002_E07_01",
+            "source_file": "docs/0050/combined.md",
+            "section": "C002",
+            "quote_or_span": "This is due to clashes between the protein and ligand atom surfaces."
+          },
+          {
+            "evidence_id": "EV_C003_E01_01",
+            "source_file": "docs/0050/combined.md",
+            "section": "C003",
+            "quote_or_span": "Re-docking against minimized structures with the same parameter sets gave best results. All the parameter sets reproduced the actual binding mode of the ligand, further made interactions to key amino acids and RMS deviation were less than 2 Å."
+          },
+          {
+            "evidence_id": "EV_C003_E02_01",
+            "source_file": "docs/0050/combined.md",
+            "section": "C003",
+            "quote_or_span": "Parameter 8 (maximum allowed overlap volume between protein and ligand surface: 100 Å³) gave the best results in terms of docking score, docking conformation and interactions to key amino acids."
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "experiment",
+        "state_before": "Validated parameters for PfGST and PfDHFR; PvDHFR excluded.",
+        "gap_or_uncertainty": "Need to perform large-scale virtual screening.",
+        "hypothesis": "Grid-based screening of 4.3 million compounds will identify top-scoring hits.",
+        "decision": "Deploy virtual screening on EGEE grid using improved WISDOM production environment with automatic resubmission.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Virtual screening",
+          "version": "WISDOM production environment",
+          "category": "computational_screening"
+        },
+        "parameters": {
+          "compounds": "4.3 million",
+          "targets": "PfGST, PfDHFR (wild-type and mutant)"
+        },
+        "observation": "Screening completed successfully; top compounds selected for analysis.",
+        "result_status": "success",
+        "next_step_reason": "Analyze top hits for diversity and interactions.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E03_01",
+            "source_file": "docs/0050/combined.md",
+            "section": "C003",
+            "quote_or_span": "virtual screening was performed on 4.3 million compounds against the targets specified in Table 1."
+          },
+          {
+            "evidence_id": "EV_C003_E04_01",
+            "source_file": "docs/0050/combined.md",
+            "section": "C003",
+            "quote_or_span": "The significant achievement on the grid side is the improved WISDOM production environment, which enabled smooth and successful deployment of docking jobs on the grid. The major difference between our previous deployments (WISDOM-I and the data challenge on avian flu) is the automatic resubmission of the docking jobs on the grid."
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "analysis",
+        "state_before": "Top scoring compounds identified.",
+        "gap_or_uncertainty": "Need to assess chemical diversity of hits.",
+        "hypothesis": "Diversity analysis using Tanimoto coefficient will reveal if hits are clustered or diverse.",
+        "decision": "Perform diversity analysis on top 5,000 PfGST and 15,000 PfDHFR compounds using MOE software.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "MOE",
+          "version": "",
+          "category": "cheminformatics"
+        },
+        "parameters": {
+          "similarity_cutoff": "Tanimoto coefficient 0.7",
+          "compounds_analyzed": "PfGST: 5,000; PfDHFR: 15,000"
+        },
+        "observation": "PfGST: 3,394 clusters identified. Compounds are diverse.",
+        "result_status": "success",
+        "next_step_reason": "Model interactions of top PfGST hits.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E01_01",
+            "source_file": "docs/0050/combined.md",
+            "section": "C004",
+            "quote_or_span": "diversity analysis against the PfGST best 5,000 compounds and PfDHFR best 15,000 compounds by docking score was performed by using MOE software"
+          },
+          {
+            "evidence_id": "EV_C004_E01_02",
+            "source_file": "docs/0050/combined.md",
+            "section": "C004",
+            "quote_or_span": "At similarity cut off of Tanimoto coefficient 0.7, out of 5,000 compounds of PfGST, 3,394 different clusters were identified"
+          },
+          {
+            "evidence_id": "EV_C004_E02_01",
+            "source_file": "docs/0050/combined.md",
+            "section": "C004",
+            "quote_or_span": "For PfDHFR diversity analysis is performed against 15,000 top scoring compounds."
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "analysis",
+        "state_before": "Diverse hits identified for PfGST.",
+        "gap_or_uncertainty": "Need to understand binding interactions of top PfGST hits.",
+        "hypothesis": "Ligand interaction plots will reveal key interactions and similarity to co-crystallized ligand GTX.",
+        "decision": "Generate ligand plots and manually visualize interactions for top PfGST compounds.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Ligand interaction analysis",
+          "version": "",
+          "category": "visualization"
+        },
+        "parameters": {},
+        "observation": "Compounds ZINC03533756, ZINC03830430, ZINC03580546, ZINC02305869 showed interaction patterns similar to GTX.",
+        "result_status": "success",
+        "next_step_reason": "Address data handling bottleneck for future improvements.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E03_01",
+            "source_file": "docs/0050/combined.md",
+            "section": "C004",
+            "quote_or_span": "To understand the interactions between PfGST and final hits, the ligand plots for each complex (PfGST and the compound) were generated and further visualized manually."
+          },
+          {
+            "evidence_id": "EV_C004_E03_02",
+            "source_file": "docs/0050/combined.md",
+            "section": "C004",
+            "quote_or_span": "Especially compounds ZINC03533756, ZINC03830430, ZINC03580546, ZINC02305869 generated interaction patterns very similar to the one observed with GTX"
+          },
+          {
+            "evidence_id": "EV_C004_E04_01",
+            "source_file": "docs/0050/combined.md",
+            "section": "C004",
+            "quote_or_span": "The hydrogen bonding information along with their distances is listed in Table 6."
+          },
+          {
+            "evidence_id": "EV_C004_E04_02",
+            "source_file": "docs/0050/combined.md",
+            "section": "C004",
+            "quote_or_span": "Table 6: PfGST interactions against best compounds are displayed"
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "analysis",
+        "state_before": "Large data output from screening poses challenges.",
+        "gap_or_uncertainty": "Handling and analyzing massive docking results is a bottleneck.",
+        "hypothesis": "Storing results in a MySQL database will facilitate post-processing.",
+        "decision": "Parse docking results into MySQL database storing scores and atom-to-atom interactions.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "MySQL",
+          "version": "",
+          "category": "database"
+        },
+        "parameters": {},
+        "observation": "Data handling bottleneck addressed; future work aims at tighter integration with experimental validation and predictive toxicology.",
+        "result_status": "partial",
+        "next_step_reason": "Conclude study and outline future directions.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E05_01",
+            "source_file": "docs/0050/combined.md",
+            "section": "C004",
+            "quote_or_span": "One major bottleneck in large scale screening experiments is the handling of large data output of these experiments."
+          },
+          {
+            "evidence_id": "EV_C004_E05_02",
+            "source_file": "docs/0050/combined.md",
+            "section": "C004",
+            "quote_or_span": "this problem is addressed by parsing the results into a MySQL database, storing the docking score as well as atom-to-atom interaction between the protein and ligand."
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "Re-docking of co-crystallized ligands to validate docking parameters",
+        "Diversity analysis using Tanimoto coefficient",
+        "Manual visualization of ligand-protein interactions"
+      ],
+      "metrics": [
+        "RMSD for re-docking (PfDHFR < 2 Å)",
+        "Tanimoto coefficient for diversity",
+        "Hydrogen bond distances"
+      ],
+      "final_conclusion": "WISDOM-II successfully screened 4.3 million compounds against multiple malaria targets, identifying diverse hits with promising interactions for PfGST. PvDHFR re-docking failed, excluding it from screening. Data handling remains a bottleneck, addressed by MySQL database.",
+      "limitations": [
+        "PvDHFR re-docking failed due to clashes, preventing screening against this target",
+        "No experimental validation of hits performed in this study",
+        "Data handling and analysis methods need significant improvement for future large-scale screens"
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "No wet-lab validation; all results are computational predictions.",
+        "PvDHFR failure limits multi-target coverage.",
+        "Some evidence quotes are from auto-generated sections but match paper content.",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 99.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p4\\states\\0050.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p4\\events\\0050.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 11,
+      "covered_event_count": 11,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1
+        ],
+        "K02": [
+          1,
+          2
+        ],
+        "K03": [
+          2
+        ],
+        "K04": [
+          2
+        ],
+        "K07": [
+          3
+        ],
+        "K10": [
+          4
+        ],
+        "K12": [
+          5
+        ],
+        "K13": [
+          5
+        ],
+        "K14": [
+          1,
+          2,
+          6
+        ],
+        "K17": [
+          8
+        ],
+        "K18": [
+          9
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02",
+            "K06",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K02",
+            "K03",
+            "K04",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K07",
+            "K08",
+            "K09"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K10",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K11",
+            "K12",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K14",
+            "K15",
+            "K16"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K16"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K17"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K18"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 8,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "2305869s"
+        ]
+      }
+    ],
+    "step_count": 9,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 99.0
+  },
+  "api_usage": {
+    "prompt_tokens": 112043,
+    "completion_tokens": 25415,
+    "total_tokens": 137458,
+    "prompt_cache_hit_tokens": 2944,
+    "prompt_cache_miss_tokens": 109099
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 4598,
+        "completion_tokens": 1314,
+        "total_tokens": 5912,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 4598
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 12113,
+        "completion_tokens": 2378,
+        "total_tokens": 14491,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 12113
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 6932,
+        "completion_tokens": 1250,
+        "total_tokens": 8182,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6676
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 8216,
+        "completion_tokens": 1507,
+        "total_tokens": 9723,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7960
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 8893,
+        "completion_tokens": 1355,
+        "total_tokens": 10248,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8637
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 8332,
+        "completion_tokens": 1551,
+        "total_tokens": 9883,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8076
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C005",
+      "api_usage": {
+        "prompt_tokens": 6405,
+        "completion_tokens": 53,
+        "total_tokens": 6458,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6149
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 10736,
+        "completion_tokens": 4337,
+        "total_tokens": 15073,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 10352
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 11612,
+        "completion_tokens": 5429,
+        "total_tokens": 17041,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 10972
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 15687,
+        "completion_tokens": 974,
+        "total_tokens": 16661,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 15687
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 18519,
+        "completion_tokens": 5267,
+        "total_tokens": 23786,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 17879
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

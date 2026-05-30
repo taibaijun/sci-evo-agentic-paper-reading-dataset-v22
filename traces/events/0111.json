@@ -1,0 +1,1753 @@
+{
+  "doc_no": "0111",
+  "source": {
+    "title": "Ensemble-based enzyme design can recapitulate the effects of laboratory directed evolution in silico",
+    "doi": "https://doi.org/10.1038/s41467-020-18619-x",
+    "license": "cc-by",
+    "pdf_name": "0109_10_1038_s41467_020_18619_x_ensemble_based_enzyme_design_can_recapitulate_the_effects_of_laboratory_directed_evolution.pdf",
+    "combined_md": "docs/0111/combined.md",
+    "mineru_md": "docs/0111/mineru.md"
+  },
+  "gist_memory": {
+    "paper_problem_memory": "De novo enzymes designed computationally have low catalytic efficiencies, requiring directed evolution to improve activity. The study aims to understand how directed evolution alters conformational ensembles to enhance catalysis, and to use these insights to improve computational enzyme design by incorporating ensemble modeling of crystallographic data.",
+    "section_gists": [
+      {
+        "section_index": 3,
+        "heading": "Ensemble-based enzyme design can recapitulate the effects of laboratory directed evolution in silico",
+        "gist": "The paper presents a study on the Kemp eliminase HG3, evolved from a computationally designed enzyme. Using room-temperature X-ray crystallography, the authors observed that directed evolution rigidified catalytic residues, pre-organized the active site, and widened its entrance. Based on these observations, they engineered HG4, a variant with 700-fold higher activity (kcat/KM 103,000 M-1 s-1) by incorporating key first- and second-shell mutations. They show that HG4 can be designed using an ensemble of backbone templates from crystallographic data, but not with the single template used for HG3, suggesting improvements to enzyme design methodologies.",
+        "process_signals": [
+          "Initial problem: de novo enzymes have low catalytic efficiencies and require directed evolution.",
+          "Hypothesis: understanding conformational ensemble changes during evolution can inform better design.",
+          "Observation: evolution rigidifies catalytic residues, pre-organizes active site, widens entrance.",
+          "Design decision: engineer HG4 by combining mutations that establish these structural features.",
+          "Validation: HG4 is highly active; ensemble-based design recapitulates HG4, single-template design does not."
+        ],
+        "methods": [
+          "Room-temperature X-ray crystallography",
+          "Computational enzyme design using Triad software",
+          "Ensemble generation from crystallographic data"
+        ],
+        "metrics": [
+          "kcat/KM (catalytic efficiency)",
+          "Structural features: rigidity, pre-organization, active-site entrance width"
+        ],
+        "failures_or_limits": [
+          "De novo enzymes have low catalytic efficiencies (several orders of magnitude lower than natural enzymes).",
+          "Computational design methods have deficiencies, resulting in inaccurate predictions and low success rates.",
+          "HG4 could not be designed using the single template used for HG3."
+        ]
+      },
+      {
+        "section_index": 4,
+        "heading": "Results",
+        "gist": "The HG series of Kemp eliminases were evolved from HG3, with intermediates HG3.3b, HG3.7, HG3.14, and HG3.17, accumulating 17 mutations. Kinetic parameters show progressive improvement in catalytic efficiency from 146 to 126,000 M-1 s-1. HG4, containing 8 first- and second-shell mutations, achieves 103,000 M-1 s-1. Structural analysis reveals that evolution rigidified the catalytic Gln50, pre-organized 6NT-binding residues, and widened the active-site entrance. Ensemble refinement of crystallographic data shows that HG3.17 has a more homogeneous ensemble with enriched catalytically competent sub-states. Computational design using an ensemble of backbone templates from HG3 crystal structures successfully recapitulates HG4, while design on the original 1GOR template fails.",
+        "process_signals": [
+          "Evolutionary trajectory: HG3 → HG3.3b → HG3.7 → HG3.14 → HG3.17, with increasing activity.",
+          "Key observation: catalytic residue Gln50 becomes more rigid, active site pre-organized, entrance widened.",
+          "Design of HG4: combined 8 mutations (K50Q, G82A, M84C, Q90F, A125T, F267M, W275A, R276F) that are first/second-shell.",
+          "Computational design test: ensemble-based design on HG3 structures yields HG4-like models; single-template design on 1GOR fails.",
+          "Negative result: HG4 design on 1GOR template fails because the Asp127/Gln50 dyad with productive TS binding pose scores poorly."
+        ],
+        "methods": [
+          "Room-temperature X-ray crystallography",
+          "Ensemble refinement (phenix.ensemble_refinement)",
+          "Computational design with Triad using single template (1GOR) and ensemble of HG3 structures",
+          "Steady-state kinetics",
+          "Multi-conformer models"
+        ],
+        "metrics": [
+          "kcat/KM",
+          "B-factors and alternative conformations",
+          "RMSD",
+          "Active-site volume and entrance width",
+          "Hydrogen bonding geometry"
+        ],
+        "failures_or_limits": [
+          "HG4 design on 1GOR template fails due to poor scoring of catalytic dyad/TS pose.",
+          "Saturation kinetics not possible due to substrate solubility limit; only kcat/KM reported.",
+          "Some mutations (e.g., N47E, S89N) not included in HG4 because they are not first/second-shell or not observed to contribute to key structural features."
+        ]
+      },
+      {
+        "section_index": 5,
+        "heading": "Discussion",
+        "gist": "The study shows that directed evolution in the HG series primarily causes dynamic changes: rigidification of catalytic residues and enrichment of pre-existing catalytically productive conformations, rather than large active-site remodeling. These subtle ensemble shifts can drive large catalytic improvements. The results suggest that de novo enzymes with native-like efficiencies can be designed without directed evolution by using an iterative approach: first design a low-activity enzyme, obtain its experimental structure, generate a backbone ensemble, and redesign. This ensemble approach accounts for conformational plasticity and should be more accurate than single-template design. Future improvements could include flexible backbone design or multistate design to model entire energy landscapes.",
+        "process_signals": [
+          "Key insight: evolution enriches catalytically competent sub-states rather than remodeling active site.",
+          "Design implication: iterative design using experimental ensemble from initial low-activity enzyme can bypass directed evolution.",
+          "Validation: ensemble design on HG3 structures recapitulates HG4.",
+          "Limitation: for more complex reactions, holistic multistate design may be needed.",
+          "Future direction: benchmark new design protocols using HG3/HG4 structures."
+        ],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": [
+          "Subtle ensemble changes are difficult to predict computationally.",
+          "Current design may not suffice for complex reactions requiring multistate approaches."
+        ]
+      },
+      {
+        "section_index": 6,
+        "heading": "Methods",
+        "gist": "Proteins were expressed in E. coli and purified via Ni-NTA and size-exclusion chromatography. Steady-state kinetics were measured spectrophotometrically at 380 nm using 5-nitrobenzisoxazole as substrate; kcat/KM was derived from the linear portion of Michaelis-Menten due to solubility limits. Crystallization was performed by hanging-drop vapor diffusion with ammonium sulfate as precipitant; microseeding was used for some variants. Room-temperature X-ray diffraction data were collected at ALS beamline 8.3.1, processed with Xia2/XDS, and merged with careful resolution cutoff based on CC1/2 and I/σI.",
+        "process_signals": [
+          "Kinetic assays limited to kcat/KM because saturation not achievable.",
+          "Crystallization required optimization and microseeding for some variants.",
+          "Data collection at room temperature to capture conformational ensembles.",
+          "Multiple data sets merged to improve statistics."
+        ],
+        "methods": [
+          "Protein expression and purification (IMAC, SEC)",
+          "Steady-state kinetics (spectrophotometric)",
+          "Crystallization (hanging-drop, microseeding)",
+          "Room-temperature X-ray data collection and processing (Xia2, XDS, CCP4)"
+        ],
+        "metrics": [
+          "kcat/KM",
+          "Resolution, CC1/2, I/σI"
+        ],
+        "failures_or_limits": [
+          "Substrate solubility prevents determination of individual KM and kcat.",
+          "Crystallization required optimization and microseeding."
+        ]
+      }
+    ],
+    "global_hypotheses_about_storyline": [
+      "The research trajectory moves from observing that directed evolution improves activity by shifting conformational ensembles, to hypothesizing that these ensemble shifts can be captured by experimental structures and used to redesign enzymes computationally.",
+      "The failure of single-template design to recapitulate HG4 supports the hypothesis that backbone flexibility must be accounted for in enzyme design.",
+      "The success of ensemble-based design suggests an iterative design–structure–redesign cycle could replace directed evolution for some enzymes."
+    ],
+    "uncertainties_to_resolve": [
+      "Whether the iterative ensemble design approach generalizes to other enzyme systems and more complex reactions.",
+      "How to computationally predict which conformational sub-states are catalytically competent without experimental structures.",
+      "The extent to which distal mutations contribute to ensemble shifts versus active-site preorganization.",
+      "The role of dynamics on faster timescales not captured by room-temperature crystallography."
+    ]
+  },
+  "chunk_events": [
+    {
+      "chunk_id": "C001",
+      "char_start": 0,
+      "char_end": 18000,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C001_E01",
+          "chunk_id": "C001",
+          "event_type": "problem",
+          "order_hint": 1,
+          "summary": "De novo enzymes have low catalytic efficiencies, requiring directed evolution to improve activity.",
+          "methods_or_tools": [],
+          "entities": [
+            "de novo enzymes",
+            "directed evolution"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E01_01"
+          ]
+        },
+        {
+          "event_id": "C001_E03",
+          "chunk_id": "C001",
+          "event_type": "experiment",
+          "order_hint": 3,
+          "summary": "Room-temperature crystal structures of all HG-series Kemp eliminases were solved, both with and without bound 6NT.",
+          "methods_or_tools": [
+            "room-temperature X-ray crystallography"
+          ],
+          "entities": [
+            "HG-series Kemp eliminases",
+            "6NT"
+          ],
+          "numbers_or_metrics": [
+            "resolutions of 1.35–1.99 Å"
+          ],
+          "evidence_ids": [
+            "EV_C001_E03_01",
+            "EV_C001_E03_02"
+          ]
+        },
+        {
+          "event_id": "C001_E04",
+          "chunk_id": "C001",
+          "event_type": "analysis",
+          "order_hint": 4,
+          "summary": "Observation that catalytic residues are increasingly rigidified, active site becomes better pre-organized, and its entrance is widened during evolution.",
+          "methods_or_tools": [],
+          "entities": [
+            "catalytic residues",
+            "active site"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E04_01"
+          ]
+        },
+        {
+          "event_id": "C001_E05",
+          "chunk_id": "C001",
+          "event_type": "design",
+          "order_hint": 5,
+          "summary": "Engineering of HG4, a variant containing 8 first- and second-shell mutations found during evolution, resulting in >700-fold higher activity.",
+          "methods_or_tools": [],
+          "entities": [
+            "HG4",
+            "first- and second-shell mutations"
+          ],
+          "numbers_or_metrics": [
+            "kcat/KM 103,000 M−1 s−1",
+            ">700-fold more active"
+          ],
+          "evidence_ids": [
+            "EV_C001_E05_02"
+          ]
+        },
+        {
+          "event_id": "C001_E06",
+          "chunk_id": "C001",
+          "event_type": "validation",
+          "order_hint": 6,
+          "summary": "HG4 structures reveal that its active site is pre-organized and rigidified for efficient catalysis.",
+          "methods_or_tools": [],
+          "entities": [
+            "HG4",
+            "active site"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E06_01"
+          ]
+        },
+        {
+          "event_id": "C001_E07",
+          "chunk_id": "C001",
+          "event_type": "limitation",
+          "order_hint": 7,
+          "summary": "Structures of HG2 and HG3.17-E47N/N300D were solved at cryogenic temperatures, limiting evaluation of conformational landscape changes.",
+          "methods_or_tools": [],
+          "entities": [
+            "HG2",
+            "HG3.17-E47N/N300D",
+            "cryogenic temperatures"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E07_01"
+          ]
+        }
+      ],
+      "notes": "Chunk contains introduction and early results, establishing problem, hypothesis, key experiments, and design of HG4.",
+      "api_usage": {
+        "prompt_tokens": 7100,
+        "completion_tokens": 1130,
+        "total_tokens": 8230,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6844
+      }
+    },
+    {
+      "chunk_id": "C002",
+      "char_start": 17100,
+      "char_end": 35100,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C002_E01",
+          "chunk_id": "C002",
+          "event_type": "analysis",
+          "order_hint": 1,
+          "summary": "Analysis of B-factors shows that catalytic residue Gln50 becomes increasingly rigidified during evolution, while Asp127 rigidity does not change significantly.",
+          "methods_or_tools": [
+            "B-factor Z-score analysis"
+          ],
+          "entities": [
+            "Gln50",
+            "Asp127",
+            "HG3",
+            "HG3.3b",
+            "HG3.7",
+            "HG3.14",
+            "HG3.17"
+          ],
+          "numbers_or_metrics": [
+            "Z-scores"
+          ],
+          "evidence_ids": [
+            "EV_C002_E01_01",
+            "EV_C002_E01_02"
+          ]
+        },
+        {
+          "event_id": "C002_E02",
+          "chunk_id": "C002",
+          "event_type": "analysis",
+          "order_hint": 2,
+          "summary": "Loop 87-90 becomes increasingly rigidified during evolution, contributing to Gln50 rigidity via pi-stacking interaction with Phe90.",
+          "methods_or_tools": [
+            "B-factor Z-score analysis",
+            "structural comparison"
+          ],
+          "entities": [
+            "loop 87-90",
+            "Gln50",
+            "Phe90"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E02_01",
+            "EV_C002_E02_02"
+          ]
+        },
+        {
+          "event_id": "C002_E03",
+          "chunk_id": "C002",
+          "event_type": "analysis",
+          "order_hint": 3,
+          "summary": "Active site pre-organization improves during evolution: in HG3.17, ~40% of molecules have catalytically productive unbound state, unlike earlier variants.",
+          "methods_or_tools": [
+            "crystallographic analysis",
+            "occupancy refinement"
+          ],
+          "entities": [
+            "HG3.17",
+            "Trp44",
+            "Met237",
+            "Gln50",
+            "Asp127"
+          ],
+          "numbers_or_metrics": [
+            "~40% pre-organized",
+            "62% occupancy non-productive Trp44"
+          ],
+          "evidence_ids": [
+            "EV_C002_E03_01",
+            "EV_C002_E03_02"
+          ]
+        },
+        {
+          "event_id": "C002_E04",
+          "chunk_id": "C002",
+          "event_type": "analysis",
+          "order_hint": 4,
+          "summary": "Active-site entrance bottleneck radius increases during evolution, potentially reducing barriers to substrate entry and product release.",
+          "methods_or_tools": [
+            "Caver 3.0",
+            "bottleneck radius calculation"
+          ],
+          "entities": [
+            "active-site entrance",
+            "residues 50 and 267",
+            "Arg275",
+            "Trp276"
+          ],
+          "numbers_or_metrics": [
+            "bottleneck radius"
+          ],
+          "evidence_ids": [
+            "EV_C002_E04_01",
+            "EV_C002_E04_02"
+          ]
+        },
+        {
+          "event_id": "C002_E05",
+          "chunk_id": "C002",
+          "event_type": "design",
+          "order_hint": 5,
+          "summary": "HG4 designed by combining 8 first- and second-shell mutations from HG3.17, excluding N47E and including W275A/R276F.",
+          "methods_or_tools": [
+            "site-directed mutagenesis"
+          ],
+          "entities": [
+            "HG4",
+            "HG3",
+            "HG3.17",
+            "N47E",
+            "W275A",
+            "R276F"
+          ],
+          "numbers_or_metrics": [
+            "8 mutations",
+            ">700-fold higher activity"
+          ],
+          "evidence_ids": [
+            "EV_C002_E05_01",
+            "EV_C002_E05_02"
+          ]
+        },
+        {
+          "event_id": "C002_E06",
+          "chunk_id": "C002",
+          "event_type": "validation",
+          "order_hint": 6,
+          "summary": "HG4 catalytic efficiency is >700-fold higher than HG3, equivalent to average natural enzyme (~10^5 M-1 s-1).",
+          "methods_or_tools": [
+            "kinetic analysis"
+          ],
+          "entities": [
+            "HG4",
+            "HG3"
+          ],
+          "numbers_or_metrics": [
+            ">700-fold",
+            "~10^5 M-1 s-1"
+          ],
+          "evidence_ids": [
+            "EV_C002_E06_01"
+          ]
+        },
+        {
+          "event_id": "C002_E07",
+          "chunk_id": "C002",
+          "event_type": "computation",
+          "order_hint": 7,
+          "summary": "Computational design on HG4 backbone recapitulates crystal structure; design on 1GOR template fails, yielding destabilized model.",
+          "methods_or_tools": [
+            "Triad software",
+            "rotamer optimization",
+            "energy function"
+          ],
+          "entities": [
+            "HG4",
+            "1GOR",
+            "HG3"
+          ],
+          "numbers_or_metrics": [
+            "~45 kcal/mol destabilization"
+          ],
+          "evidence_ids": [
+            "EV_C002_E07_02"
+          ]
+        },
+        {
+          "event_id": "C002_E08",
+          "chunk_id": "C002",
+          "event_type": "computation",
+          "order_hint": 8,
+          "summary": "Ensemble refinement using HG3 crystallographic data yields backbone templates that recapitulate correct transition-state binding mode for HG4.",
+          "methods_or_tools": [
+            "ensemble refinement",
+            "phenix.ensemble_refinement",
+            "Triad"
+          ],
+          "entities": [
+            "HG3",
+            "HG4",
+            "1GOR"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E08_01"
+          ]
+        }
+      ],
+      "notes": "Chunk contains detailed structural analysis of evolutionary trajectory, design of HG4, and computational design validation.",
+      "api_usage": {
+        "prompt_tokens": 6943,
+        "completion_tokens": 1505,
+        "total_tokens": 8448,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6687
+      }
+    },
+    {
+      "chunk_id": "C003",
+      "char_start": 34200,
+      "char_end": 52200,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C003_E01",
+          "chunk_id": "C003",
+          "event_type": "design",
+          "order_hint": 1,
+          "summary": "Computational design of HG4 on various backbone templates, including HG4, 1GOR, HG3 with and without 6NT, and ensembles from refinement or MD.",
+          "methods_or_tools": [
+            "computational enzyme design",
+            "Triad",
+            "ensemble refinement",
+            "unconstrained molecular dynamics"
+          ],
+          "entities": [
+            "HG4",
+            "1GOR",
+            "HG3",
+            "6-nitrobenzotriazole"
+          ],
+          "numbers_or_metrics": [
+            "energy -186.7 kcal/mol"
+          ],
+          "evidence_ids": [
+            "EV_C003_E01_01",
+            "EV_C003_E01_02",
+            "EV_C003_E01_03"
+          ]
+        },
+        {
+          "event_id": "C003_E02",
+          "chunk_id": "C003",
+          "event_type": "failure",
+          "order_hint": 2,
+          "summary": "Use of 1GOR-derived ensemble did not recapitulate crystallographic transition-state binding mode.",
+          "methods_or_tools": [
+            "ensemble refinement",
+            "diffraction data"
+          ],
+          "entities": [
+            "1GOR",
+            "HG4"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E02_01"
+          ]
+        },
+        {
+          "event_id": "C003_E03",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 3,
+          "summary": "Inferior performance of 1GOR ensemble likely due to differences in conformational heterogeneity at position 83.",
+          "methods_or_tools": [],
+          "entities": [
+            "1GOR",
+            "HG3",
+            "position 83"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E03_01"
+          ]
+        },
+        {
+          "event_id": "C003_E04",
+          "chunk_id": "C003",
+          "event_type": "experiment",
+          "order_hint": 4,
+          "summary": "Unconstrained MD ensemble from unbound HG3 improved structural model compared to single crystal structure but less accurate than ensemble refinement.",
+          "methods_or_tools": [
+            "unconstrained molecular dynamics",
+            "ensemble refinement"
+          ],
+          "entities": [
+            "HG3",
+            "HG4"
+          ],
+          "numbers_or_metrics": [
+            "deviation ≈0.4 Å"
+          ],
+          "evidence_ids": [
+            "EV_C003_E04_01"
+          ]
+        },
+        {
+          "event_id": "C003_E05",
+          "chunk_id": "C003",
+          "event_type": "hypothesis",
+          "order_hint": 5,
+          "summary": "Computational design with crystallographically derived backbone ensemble from low-activity enzyme could obviate directed evolution.",
+          "methods_or_tools": [
+            "computational enzyme design",
+            "crystallographically derived backbone ensemble"
+          ],
+          "entities": [
+            "low-activity enzyme"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E05_01"
+          ]
+        },
+        {
+          "event_id": "C003_E06",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 6,
+          "summary": "Structural changes in HG series are dynamic: Gln50 rigidified, active site preorganized via enrichment of productive conformations.",
+          "methods_or_tools": [],
+          "entities": [
+            "Gln50",
+            "6NT-binding residues",
+            "HG series"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E06_01"
+          ]
+        },
+        {
+          "event_id": "C003_E07",
+          "chunk_id": "C003",
+          "event_type": "limitation",
+          "order_hint": 7,
+          "summary": "Subtle ensemble changes are difficult to predict computationally; directed evolution helps by selecting mutations enriching competent sub-states.",
+          "methods_or_tools": [],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E07_01"
+          ]
+        },
+        {
+          "event_id": "C003_E08",
+          "chunk_id": "C003",
+          "event_type": "design",
+          "order_hint": 8,
+          "summary": "Iterative design approach: obtain experimental structure of low-activity enzyme, generate backbone ensemble, redesign to bypass directed evolution.",
+          "methods_or_tools": [
+            "ensemble design",
+            "experimental structural data"
+          ],
+          "entities": [
+            "low-activity enzyme"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E08_01"
+          ]
+        }
+      ],
+      "notes": "Chunk contains key design experiments, failure of 1GOR ensemble, analysis of ensemble differences, and proposal of iterative design approach.",
+      "api_usage": {
+        "prompt_tokens": 6721,
+        "completion_tokens": 1460,
+        "total_tokens": 8181,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6465
+      }
+    },
+    {
+      "chunk_id": "C004",
+      "char_start": 51300,
+      "char_end": 69300,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C004_E01",
+          "chunk_id": "C004",
+          "event_type": "computation",
+          "order_hint": 1,
+          "summary": "Time-averaged ensembles were generated for 1GOR and HG3 crystal structures using phenix.ensemble_refinement.",
+          "methods_or_tools": [
+            "phenix.ensemble_refinement",
+            "PHENIX"
+          ],
+          "entities": [
+            "1GOR",
+            "HG3",
+            "6NT"
+          ],
+          "numbers_or_metrics": [
+            "80 templates",
+            "84 templates",
+            "50 templates"
+          ],
+          "evidence_ids": [
+            "EV_C004_E01_02"
+          ]
+        },
+        {
+          "event_id": "C004_E02",
+          "chunk_id": "C004",
+          "event_type": "computation",
+          "order_hint": 2,
+          "summary": "Unconstrained molecular dynamics simulation of HG3 unbound state was performed to generate an ensemble of 50 snapshots.",
+          "methods_or_tools": [
+            "GROMACS 2019.3",
+            "AMBER99SB forcefield",
+            "Triad protein design software"
+          ],
+          "entities": [
+            "HG3",
+            "PDB ID: 5RG4"
+          ],
+          "numbers_or_metrics": [
+            "500 ns production run",
+            "50 snapshots",
+            "10 ns intervals"
+          ],
+          "evidence_ids": [
+            "EV_C004_E02_03"
+          ]
+        },
+        {
+          "event_id": "C004_E04",
+          "chunk_id": "C004",
+          "event_type": "design",
+          "order_hint": 4,
+          "summary": "Design strategy: repack HG4 sequence onto single templates and ensemble templates, comparing energy differences to evaluate design success.",
+          "methods_or_tools": [
+            "Triad",
+            "PHOENIX energy function"
+          ],
+          "entities": [
+            "HG4",
+            "1GOR",
+            "HG3"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E04_01"
+          ]
+        }
+      ],
+      "notes": "This chunk describes the computational and experimental methods used to generate ensembles and perform enzyme design, which are central to the paper's process.",
+      "api_usage": {
+        "prompt_tokens": 7292,
+        "completion_tokens": 1304,
+        "total_tokens": 8596,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7036
+      }
+    },
+    {
+      "chunk_id": "C005",
+      "char_start": 68400,
+      "char_end": 74003,
+      "chunk_relevance": "none",
+      "events": [],
+      "notes": "This chunk contains only references, acknowledgements, author contributions, competing interests, additional information, and licensing text. No research evolution events are present.",
+      "api_usage": {
+        "prompt_tokens": 3825,
+        "completion_tokens": 62,
+        "total_tokens": 3887,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 3569
+      }
+    }
+  ],
+  "evidence_bank": [
+    {
+      "evidence_id": "EV_C001_E01_01",
+      "source_file": "docs/0111/combined.md",
+      "section": "C001",
+      "char_start": 1037,
+      "char_end": 1186,
+      "quote": "Although de novo enzymes have been successfully designed, these exhibit low catalytic efficiencies, requiring directed evolution to improve activity."
+    },
+    {
+      "evidence_id": "EV_C001_E03_01",
+      "source_file": "docs/0111/combined.md",
+      "section": "C001",
+      "char_start": 14667,
+      "char_end": 14807,
+      "quote": "we solved room-temperature (277 K) X-ray crystal structures of all HG-series Kemp eliminases, both in the presence and absence of bound 6NT."
+    },
+    {
+      "evidence_id": "EV_C001_E03_02",
+      "source_file": "docs/0111/combined.md",
+      "section": "C001",
+      "char_start": 15074,
+      "char_end": 15233,
+      "quote": "All five enzymes yielded crystals under similar conditions (Supplementary Table 2), and these diffracted at resolutions of 1.35–1.99 Å (Supplementary Table 3)."
+    },
+    {
+      "evidence_id": "EV_C001_E04_01",
+      "source_file": "docs/0111/combined.md",
+      "section": "C001",
+      "char_start": 1384,
+      "char_end": 1522,
+      "quote": "We observe that catalytic residues are increasingly rigidified, the active site becomes better pre-organized, and its entrance is widened."
+    },
+    {
+      "evidence_id": "EV_C001_E05_02",
+      "source_file": "docs/0111/combined.md",
+      "section": "C001",
+      "char_start": 5304,
+      "char_end": 5356,
+      "quote": "This variant, HG4, is >700-fold more active than HG3"
+    },
+    {
+      "evidence_id": "EV_C001_E06_01",
+      "source_file": "docs/0111/combined.md",
+      "section": "C001",
+      "char_start": 1714,
+      "char_end": 1813,
+      "quote": "HG4 structures reveal that its active site is pre-organized and rigidified for efficient catalysis."
+    },
+    {
+      "evidence_id": "EV_C001_E07_01",
+      "source_file": "docs/0111/combined.md",
+      "section": "C001",
+      "char_start": 14222,
+      "char_end": 14538,
+      "quote": "the structures of HG2 and HG3.17-E47N/N300D were solved in the presence of bound 6NT and at cryogenic temperatures, which could have shifted the conformational ensemble towards a single predominant sub-state, thereby limiting our ability to evaluate changes to the conformational landscape during directed evolution."
+    },
+    {
+      "evidence_id": "EV_C002_E01_01",
+      "source_file": "docs/0111/combined.md",
+      "section": "C002",
+      "char_start": 21720,
+      "char_end": 21826,
+      "quote": "the side chain of residue 50 became increasingly rigidified over the course of the evolutionary trajectory"
+    },
+    {
+      "evidence_id": "EV_C002_E01_02",
+      "source_file": "docs/0111/combined.md",
+      "section": "C002",
+      "char_start": 21618,
+      "char_end": 21695,
+      "quote": "rigidity of the Asp127 side chain did not vary significantly during evolution"
+    },
+    {
+      "evidence_id": "EV_C002_E02_01",
+      "source_file": "docs/0111/combined.md",
+      "section": "C002",
+      "char_start": 25186,
+      "char_end": 25317,
+      "quote": "the loop formed by residues 87–90, which is located directly on top of residue 50, becomes increasingly rigidified during evolution"
+    },
+    {
+      "evidence_id": "EV_C002_E02_02",
+      "source_file": "docs/0111/combined.md",
+      "section": "C002",
+      "char_start": 25590,
+      "char_end": 25729,
+      "quote": "a pi-stacking interaction between the phenyl and carboxamide groups of Phe90 and Gln50 that increases the rigidity of the catalytic residue"
+    },
+    {
+      "evidence_id": "EV_C002_E03_01",
+      "source_file": "docs/0111/combined.md",
+      "section": "C002",
+      "char_start": 27053,
+      "char_end": 27172,
+      "quote": "the unbound state of HG3.17 is correctly pre-organized for catalysis in a large portion of the molecules in the crystal"
+    },
+    {
+      "evidence_id": "EV_C002_E03_02",
+      "source_file": "docs/0111/combined.md",
+      "section": "C002",
+      "char_start": 27712,
+      "char_end": 27802,
+      "quote": "~40% of the molecules in the crystal being correctly pre-organized for efficient catalysis"
+    },
+    {
+      "evidence_id": "EV_C002_E04_01",
+      "source_file": "docs/0111/combined.md",
+      "section": "C002",
+      "char_start": 28360,
+      "char_end": 28451,
+      "quote": "the active-site bottleneck formed by the side chains of residues 50 and 267, became widened"
+    },
+    {
+      "evidence_id": "EV_C002_E04_02",
+      "source_file": "docs/0111/combined.md",
+      "section": "C002",
+      "char_start": 28592,
+      "char_end": 28717,
+      "quote": "This widening of the active site entrance could help to eliminate high-energy barriers to substrate entry and product release"
+    },
+    {
+      "evidence_id": "EV_C002_E05_01",
+      "source_file": "docs/0111/combined.md",
+      "section": "C002",
+      "char_start": 29131,
+      "char_end": 29249,
+      "quote": "we generated a variant of HG3 that contains all HG3.17 mutations found within 7.5 Å of 6NT, with the exception of N47E"
+    },
+    {
+      "evidence_id": "EV_C002_E05_02",
+      "source_file": "docs/0111/combined.md",
+      "section": "C002",
+      "char_start": 29330,
+      "char_end": 29447,
+      "quote": "We also included the second-shell W275A and R276F mutations found to widen the active site entrance. This yielded HG4"
+    },
+    {
+      "evidence_id": "EV_C002_E06_01",
+      "source_file": "docs/0111/combined.md",
+      "section": "C002",
+      "char_start": 29523,
+      "char_end": 29622,
+      "quote": "Kinetic analysis of HG4 revealed that its catalytic efficiency is >700-fold higher than that of HG3"
+    },
+    {
+      "evidence_id": "EV_C002_E07_02",
+      "source_file": "docs/0111/combined.md",
+      "section": "C002",
+      "char_start": 31436,
+      "char_end": 31543,
+      "quote": "This result demonstrates that the 1GOR backbone template is not well-suited to accommodate the HG4 sequence"
+    },
+    {
+      "evidence_id": "EV_C002_E08_01",
+      "source_file": "docs/0111/combined.md",
+      "section": "C002",
+      "char_start": 32551,
+      "char_end": 32703,
+      "quote": "We were able to recapitulate the correct transition-state binding mode on several individual ensemble members derived from the HG3 crystallographic data"
+    },
+    {
+      "evidence_id": "EV_C003_E01_01",
+      "source_file": "docs/0111/combined.md",
+      "section": "C003",
+      "char_start": 37829,
+      "char_end": 37887,
+      "quote": "Computational design of HG4 on various backbone templates."
+    },
+    {
+      "evidence_id": "EV_C003_E01_02",
+      "source_file": "docs/0111/combined.md",
+      "section": "C003",
+      "char_start": 37888,
+      "char_end": 38217,
+      "quote": "The HG4 crystal structure with bound 6-nitrobenzotriazole (white) is overlaid on the HG4 design models (colored) obtained using the crystal structure of (a) HG4 with bound 6-nitrobenzotriazole, b Thermoascus aurantiacus xylanase 10 A (PDB ID: 1GOR), c HG3 with bound 6-nitrobenzotriazole, or (d) HG3 without 6-nitrobenzotriazole."
+    },
+    {
+      "evidence_id": "EV_C003_E01_03",
+      "source_file": "docs/0111/combined.md",
+      "section": "C003",
+      "char_start": 38392,
+      "char_end": 38581,
+      "quote": "PHOENIX energies of design models after repacking are indicated at the bottom right. For reference, the energy of the HG4 crystal structure with a bound transition state is -186.7 kcal/mol."
+    },
+    {
+      "evidence_id": "EV_C003_E02_01",
+      "source_file": "docs/0111/combined.md",
+      "section": "C003",
+      "char_start": 39100,
+      "char_end": 39244,
+      "quote": "the use of an ensemble derived from the 1GOR diffraction data did not allow recapitulation of the crystallographic transition-state binding mode"
+    },
+    {
+      "evidence_id": "EV_C003_E03_01",
+      "source_file": "docs/0111/combined.md",
+      "section": "C003",
+      "char_start": 39357,
+      "char_end": 39553,
+      "quote": "The inferior performance of the 1GOR-derived ensemble compared to the HG3 ensembles likely results from differences in conformational heterogeneity within the ensemble, specifically at position 83"
+    },
+    {
+      "evidence_id": "EV_C003_E04_01",
+      "source_file": "docs/0111/combined.md",
+      "section": "C003",
+      "char_start": 39648,
+      "char_end": 39759,
+      "quote": "we generated an ensemble using unconstrained molecular dynamics starting from the unbound HG3 crystal structure"
+    },
+    {
+      "evidence_id": "EV_C003_E05_01",
+      "source_file": "docs/0111/combined.md",
+      "section": "C003",
+      "char_start": 40486,
+      "char_end": 40737,
+      "quote": "computational enzyme design with a crystallographically derived backbone ensemble derived from a low-activity enzyme could obviate the need for directed evolution by allowing catalytically competent sub-states to be sampled during the design procedure"
+    },
+    {
+      "evidence_id": "EV_C003_E06_01",
+      "source_file": "docs/0111/combined.md",
+      "section": "C003",
+      "char_start": 41373,
+      "char_end": 41655,
+      "quote": "the Gln50 catalytic residue became more rigid even though its average structure did not vary substantially, and the active site became better preorganized via enrichment of catalytically productive conformations of 6NT-binding residues that were already present in the unbound state"
+    },
+    {
+      "evidence_id": "EV_C003_E07_01",
+      "source_file": "docs/0111/combined.md",
+      "section": "C003",
+      "char_start": 41803,
+      "char_end": 41992,
+      "quote": "these changes can be subtle and difficult to predict computationally, directed evolution can help increase activity by selecting for mutations that enrich catalytically competent sub-states"
+    },
+    {
+      "evidence_id": "EV_C003_E08_01",
+      "source_file": "docs/0111/combined.md",
+      "section": "C003",
+      "char_start": 43195,
+      "char_end": 43469,
+      "quote": "an iterative approach to computational enzyme design that could circumvent the need for directed evolution by introducing an additional round of design that utilizes a backbone ensemble generated from experimental structural data obtained for an initial, low-activity enzyme"
+    },
+    {
+      "evidence_id": "EV_C004_E01_02",
+      "source_file": "docs/0111/combined.md",
+      "section": "C004",
+      "char_start": 53802,
+      "char_end": 53946,
+      "quote": "This procedure yielded ensembles containing 80, 84, or 50 templates from the 1GOR, HG3 (+) 6NT, or HG3 (−) 6NT crystal structures, respectively."
+    },
+    {
+      "evidence_id": "EV_C004_E02_03",
+      "source_file": "docs/0111/combined.md",
+      "section": "C004",
+      "char_start": 55586,
+      "char_end": 55695,
+      "quote": "At the end of the simulation, 50 snapshots separated by 10 ns along the production trajectory were extracted."
+    },
+    {
+      "evidence_id": "EV_C004_E04_01",
+      "source_file": "docs/0111/combined.md",
+      "section": "C004",
+      "char_start": 59592,
+      "char_end": 59870,
+      "quote": "To compare energies of the HG4 models obtained on the various templates, we calculated the energy difference between each repacked structure and the corresponding all-Gly structure obtained after ligand placement, and these energies are reported throughout the figures and text."
+    },
+    {
+      "evidence_id": "EV_AUTO_001",
+      "source_file": "docs/0111/combined.md",
+      "section": "auto_specific",
+      "char_start": 13628,
+      "char_end": 13838,
+      "quote": "17-E47N/N300D, PDB ID: 4BS0) $^{15}$ , revealed that catalytic activity was also enhanced via optimized alignment of the transition-state analogue 6-nitrobenzotriazole (6NT) with the catalytic base Asp127 (Fig."
+    },
+    {
+      "evidence_id": "EV_AUTO_002",
+      "source_file": "docs/0111/combined.md",
+      "section": "auto_specific",
+      "char_start": 15869,
+      "char_end": 15976,
+      "quote": "17-E47N/N300D is likely caused by the presence of the Asn47 surface residue in all variants except for HG3."
+    },
+    {
+      "evidence_id": "EV_AUTO_003",
+      "source_file": "docs/0111/combined.md",
+      "section": "auto_specific",
+      "char_start": 29329,
+      "char_end": 29430,
+      "quote": "We also included the second-shell W275A and R276F mutations found to widen the active site entrance."
+    },
+    {
+      "evidence_id": "EV_AUTO_004",
+      "source_file": "docs/0111/combined.md",
+      "section": "auto_specific",
+      "char_start": 15585,
+      "char_end": 15757,
+      "quote": "17-E47N/N300D, which contains two molecules in the asymmetric unit, with identical space groups and similar unit cell dimensions to those of all other HG variants reported."
+    },
+    {
+      "evidence_id": "EV_AUTO_005",
+      "source_file": "docs/0111/combined.md",
+      "section": "auto_specific",
+      "char_start": 13487,
+      "char_end": 13628,
+      "quote": "17, in which surface mutations N47E and D300N were reverted to the corresponding amino acids found in HG2 to facilitate crystallization (HG3."
+    },
+    {
+      "evidence_id": "EV_AUTO_006",
+      "source_file": "docs/0111/combined.md",
+      "section": "auto_specific",
+      "char_start": 6454,
+      "char_end": 6559,
+      "quote": "17 was evolved from HG3, a higher-activity mutant (S265T) of the in silico design HG2 (Supplementary Fig."
+    },
+    {
+      "evidence_id": "EV_AUTO_007",
+      "source_file": "docs/0111/combined.md",
+      "section": "auto_specific",
+      "char_start": 18195,
+      "char_end": 18328,
+      "quote": "3b, a hypothesis that is supported by the 16-fold decrease in $k_{cat}/K_{M}$ observed when the Q50H mutation is introduced into HG3."
+    },
+    {
+      "evidence_id": "EV_AUTO_008",
+      "source_file": "docs/0111/combined.md",
+      "section": "auto_specific",
+      "char_start": 9984,
+      "char_end": 10075,
+      "quote": "b Directed evolution of HG3, a higher-activity mutant (S265T) of the in silico design HG2."
+    },
+    {
+      "evidence_id": "EV_AUTO_009",
+      "source_file": "docs/0111/combined.md",
+      "section": "auto_specific",
+      "char_start": 30221,
+      "char_end": 30519,
+      "quote": "Given that all but one mutation (G82A) in HG4 are found at sites that were optimized during the design of HG2 $^{5}$ , we investigated whether the HG4 structure could be accurately predicted using a computational protocol similar to the one that produced HG2 (“Methods”, Supplementary Tables 4–6)."
+    },
+    {
+      "evidence_id": "EV_AUTO_010",
+      "source_file": "docs/0111/combined.md",
+      "section": "auto_specific",
+      "char_start": 10425,
+      "char_end": 10527,
+      "quote": "17-E47N/N300D (PDB ID: 4BSO) $^{15}$ crystal structures are indicated in gray and black, respectively."
+    },
+    {
+      "evidence_id": "EV_AUTO_011",
+      "source_file": "docs/0111/combined.md",
+      "section": "auto_specific",
+      "char_start": 8780,
+      "char_end": 8832,
+      "quote": "17-E47N/N300D, with labeled residues K50, D127, Q50"
+    },
+    {
+      "evidence_id": "EV_AUTO_012",
+      "source_file": "docs/0111/combined.md",
+      "section": "auto_specific",
+      "char_start": 69626,
+      "char_end": 69899,
+      "quote": "acknowledges an Early Researcher Award from the Ontario Ministry of Economic Development & Innovation (ER14-10-139), and grants from the Natural Sciences and Engineering Research Council of Canada (NSERC, RGPIN-2016-04831) and the Canada Foundation for Innovation (26503)."
+    },
+    {
+      "evidence_id": "EV_AUTO_013",
+      "source_file": "docs/0111/combined.md",
+      "section": "auto_specific",
+      "char_start": 14252,
+      "char_end": 14538,
+      "quote": "17-E47N/N300D were solved in the presence of bound 6NT and at cryogenic temperatures, which could have shifted the conformational ensemble towards a single predominant sub-state, thereby limiting our ability to evaluate changes to the conformational landscape during directed evolution."
+    },
+    {
+      "evidence_id": "EV_AUTO_014",
+      "source_file": "docs/0111/combined.md",
+      "section": "auto_specific",
+      "char_start": 70561,
+      "char_end": 70910,
+      "quote": "1 at the Advanced Light Sources is supported by the University of California Office of the President, Multicampus Research Programs and Initiatives grant MR-15-328599, the Program Breakthrough Biomedical Research (which is partially funded by the Sandler Foundation), the National Institutes of Health (R01 GM124149 and P30 GM124169), Plexxikon Inc."
+    },
+    {
+      "evidence_id": "EV_AUTO_015",
+      "source_file": "docs/0111/combined.md",
+      "section": "auto_specific",
+      "char_start": 69906,
+      "char_end": 70203,
+      "quote": "is supported by a Searle Scholar Award from the Kinship Foundation, a Pew Scholar Award from the Pew Charitable Trusts, a Packard Fellowship from the David and Lucile Packard Foundation, NIH GM110580, UC Office of the President Laboratory Fees Research Program LFR-17-476732, and NSF STC-1231306."
+    },
+    {
+      "evidence_id": "EV_AUTO_016",
+      "source_file": "docs/0111/combined.md",
+      "section": "auto_specific",
+      "char_start": 17273,
+      "char_end": 17347,
+      "quote": "2c) even though both residues were mutated to obtain HG3 (H83G and T84M)."
+    },
+    {
+      "evidence_id": "EV_AUTO_017",
+      "source_file": "docs/0111/combined.md",
+      "section": "auto_specific",
+      "char_start": 45890,
+      "char_end": 45981,
+      "quote": "6, protein expression was initiated with 1 mM isopropyl $\\beta$ -D-1-thiogalactopyranoside."
+    },
+    {
+      "evidence_id": "EV_AUTO_018",
+      "source_file": "docs/0111/combined.md",
+      "section": "auto_specific",
+      "char_start": 29211,
+      "char_end": 29329,
+      "quote": "5 Å of 6NT, with the exception of N47E, which we omitted to favor the formation of a unit cell similar to that of HG3."
+    },
+    {
+      "evidence_id": "EV_AUTO_019",
+      "source_file": "docs/0111/combined.md",
+      "section": "auto_specific",
+      "char_start": 29183,
+      "char_end": 29329,
+      "quote": "17 mutations found within 7.5 Å of 6NT, with the exception of N47E, which we omitted to favor the formation of a unit cell similar to that of HG3."
+    },
+    {
+      "evidence_id": "EV_AUTO_020",
+      "source_file": "docs/0111/combined.md",
+      "section": "auto_specific",
+      "char_start": 48725,
+      "char_end": 48976,
+      "quote": "For samples that were co-crystallized with the transition-state analogue, a 100 mM stock solution of 6NT (AstaTech) was prepared in dimethyl sulfoxide (DMSO) and diluted 20-fold in the enzyme solutions for a final concentration of 5 mM 6NT (5% DMSO)."
+    },
+    {
+      "evidence_id": "EV_AUTO_021",
+      "source_file": "docs/0111/combined.md",
+      "section": "auto_specific",
+      "char_start": 5303,
+      "char_end": 5495,
+      "quote": "This variant, HG4, is >700-fold more active than HG3, with a catalytic efficiency on par with that of the average natural enzyme ( $k_{\\text{cat}}/K_{\\text{M}}$ 103,000 M $^{-1}$ s $^{-1}$ )."
+    },
+    {
+      "evidence_id": "EV_AUTO_022",
+      "source_file": "docs/0111/combined.md",
+      "section": "auto_specific",
+      "char_start": 57074,
+      "char_end": 57261,
+      "quote": "The 2002 Dunbrack backbone-independent rotamer library $^{50}$ with expansions of $\\pm1$ standard deviation around $\\chi_{1}$ and $\\chi_{2}$ was used to provide side-chain conformations."
+    },
+    {
+      "evidence_id": "EV_AUTO_023",
+      "source_file": "docs/0111/combined.md",
+      "section": "auto_specific",
+      "char_start": 48600,
+      "char_end": 48725,
+      "quote": "Enzyme variants were prepared in 50 mM sodium citrate buffer (pH 5.5) at the concentrations listed in Supplementary Table 2."
+    },
+    {
+      "evidence_id": "EV_AUTO_024",
+      "source_file": "docs/0111/combined.md",
+      "section": "auto_specific",
+      "char_start": 27256,
+      "char_end": 27503,
+      "quote": "In this variant, Met237 adopts exclusively the productive conformer in the unbound state, which is stabilized by packing interactions with the neighboring Met267 side chain, a mutation that was introduced late in the evolutionary trajectory (HG3."
+    },
+    {
+      "evidence_id": "EV_AUTO_025",
+      "source_file": "docs/0111/combined.md",
+      "section": "auto_specific",
+      "char_start": 13910,
+      "char_end": 14073,
+      "quote": "Given that subtle changes to the conformational ensemble of an enzyme can lead to significant rate enhancements $^{16-18}$ , it is possible that mutations in HG3."
+    },
+    {
+      "evidence_id": "EV_AUTO_026",
+      "source_file": "docs/0111/combined.md",
+      "section": "auto_specific",
+      "char_start": 10075,
+      "char_end": 10254,
+      "quote": "A total of 17 mutations (shown as spheres) were introduced during evolution, including 11 at positions within or close to the active site (green) and 6 at distal sites (magenta)."
+    },
+    {
+      "evidence_id": "EV_AUTO_027",
+      "source_file": "docs/0111/combined.md",
+      "section": "auto_specific",
+      "char_start": 4125,
+      "char_end": 4344,
+      "quote": "Distal mutations have been shown to enhance catalysis by shifting the populations of conformational sub-states that enzymes sample on their energy landscape towards those that are more catalytically active $^{16-18}$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_028",
+      "source_file": "docs/0111/combined.md",
+      "section": "auto_specific",
+      "char_start": 1522,
+      "char_end": 1713,
+      "quote": "Based on these observations, we engineer HG4, an efficient biocatalyst ( $k_{cat}/K_{M}$ 103,000 M $^{-1}$ s $^{-1}$ ) containing key first and second-shell mutations found during evolution."
+    },
+    {
+      "evidence_id": "EV_AUTO_029",
+      "source_file": "docs/0111/combined.md",
+      "section": "auto_specific",
+      "char_start": 68783,
+      "char_end": 68825,
+      "quote": "Jr Rotamer libraries in the 21st century."
+    },
+    {
+      "evidence_id": "EV_AUTO_030",
+      "source_file": "docs/0111/combined.md",
+      "section": "auto_specific",
+      "char_start": 48976,
+      "char_end": 49268,
+      "quote": "For each enzyme variant, we carried out initial crystallization trials in 15-well hanging drop format using EasyXtal crystallization plates (Qiagen) and a crystallization screen that was designed to explore the chemical space around the crystallization conditions reported by Blomberg et al."
+    },
+    {
+      "evidence_id": "EV_AUTO_031",
+      "source_file": "docs/0111/combined.md",
+      "section": "auto_specific",
+      "char_start": 48600,
+      "char_end": 48668,
+      "quote": "Enzyme variants were prepared in 50 mM sodium citrate buffer (pH 5."
+    },
+    {
+      "evidence_id": "EV_AUTO_032",
+      "source_file": "docs/0111/combined.md",
+      "section": "auto_specific",
+      "char_start": 43470,
+      "char_end": 43639,
+      "quote": "In the case of evolution, mutations are not selected for in the context of a single backbone conformation but instead across an entire conformational ensemble $^{18}$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_033",
+      "source_file": "docs/0111/combined.md",
+      "section": "auto_specific",
+      "char_start": 41796,
+      "char_end": 42005,
+      "quote": "Since these changes can be subtle and difficult to predict computationally, directed evolution can help increase activity by selecting for mutations that enrich catalytically competent sub-states $^{17,18}$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_034",
+      "source_file": "docs/0111/combined.md",
+      "section": "auto_specific",
+      "char_start": 40311,
+      "char_end": 40449,
+      "quote": "7), which we previously showed to be necessary for an ensemble to represent a physically valid model of the target protein fold $^{24}$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_035",
+      "source_file": "docs/0111/combined.md",
+      "section": "auto_specific",
+      "char_start": 30022,
+      "char_end": 30191,
+      "quote": "17, demonstrating that the additional 9 mutations found in the latter enzyme, most of which are distal to the active site, play a role in enhancing catalytic efficiency."
+    },
+    {
+      "evidence_id": "EV_AUTO_036",
+      "source_file": "docs/0111/combined.md",
+      "section": "auto_specific",
+      "char_start": 29522,
+      "char_end": 29651,
+      "quote": "Kinetic analysis of HG4 revealed that its catalytic efficiency is >700-fold higher than that of HG3 (Table 1, Supplementary Fig."
+    }
+  ],
+  "event_graph": {
+    "paper_main_problem": "De novo enzymes have low catalytic efficiencies, requiring directed evolution to improve activity. The study aims to understand how directed evolution alters conformational ensembles to enhance catalysis, and to use these insights to improve computational enzyme design by incorporating ensemble modeling of crystallographic data.",
+    "canonical_events": [
+      {
+        "canonical_id": "K01",
+        "order": 1,
+        "event_type": "problem",
+        "summary": "De novo enzymes have low catalytic efficiencies, requiring directed evolution to improve activity.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E01"
+        ],
+        "evidence_ids": [
+          "EV_C001_E01_01"
+        ],
+        "key_entities": [
+          "de novo enzymes",
+          "directed evolution"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K02",
+        "order": 2,
+        "event_type": "experiment",
+        "summary": "Room-temperature crystal structures of all HG-series Kemp eliminases were solved, both with and without bound 6NT.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E03"
+        ],
+        "evidence_ids": [
+          "EV_C001_E03_01",
+          "EV_C001_E03_02"
+        ],
+        "key_entities": [
+          "HG-series Kemp eliminases",
+          "6NT"
+        ],
+        "key_numbers": [
+          "resolutions of 1.35–1.99 Å"
+        ]
+      },
+      {
+        "canonical_id": "K03",
+        "order": 3,
+        "event_type": "analysis",
+        "summary": "Observation that catalytic residues are increasingly rigidified, active site becomes better pre-organized, and its entrance is widened during evolution.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E04"
+        ],
+        "evidence_ids": [
+          "EV_C001_E04_01"
+        ],
+        "key_entities": [
+          "catalytic residues",
+          "active site"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K04",
+        "order": 4,
+        "event_type": "analysis",
+        "summary": "Analysis of B-factors shows that catalytic residue Gln50 becomes increasingly rigidified during evolution, while Asp127 rigidity does not change significantly.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E01"
+        ],
+        "evidence_ids": [
+          "EV_C002_E01_01",
+          "EV_C002_E01_02"
+        ],
+        "key_entities": [
+          "Gln50",
+          "Asp127",
+          "HG3",
+          "HG3.3b",
+          "HG3.7",
+          "HG3.14",
+          "HG3.17"
+        ],
+        "key_numbers": [
+          "Z-scores"
+        ]
+      },
+      {
+        "canonical_id": "K05",
+        "order": 5,
+        "event_type": "analysis",
+        "summary": "Loop 87-90 becomes increasingly rigidified during evolution, contributing to Gln50 rigidity via pi-stacking interaction with Phe90.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E02"
+        ],
+        "evidence_ids": [
+          "EV_C002_E02_01",
+          "EV_C002_E02_02"
+        ],
+        "key_entities": [
+          "loop 87-90",
+          "Gln50",
+          "Phe90"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K06",
+        "order": 6,
+        "event_type": "analysis",
+        "summary": "Active site pre-organization improves during evolution: in HG3.17, ~40% of molecules have catalytically productive unbound state, unlike earlier variants.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E03"
+        ],
+        "evidence_ids": [
+          "EV_C002_E03_01",
+          "EV_C002_E03_02"
+        ],
+        "key_entities": [
+          "HG3.17",
+          "Trp44",
+          "Met237",
+          "Gln50",
+          "Asp127"
+        ],
+        "key_numbers": [
+          "~40% pre-organized",
+          "62% occupancy non-productive Trp44"
+        ]
+      },
+      {
+        "canonical_id": "K07",
+        "order": 7,
+        "event_type": "analysis",
+        "summary": "Active-site entrance bottleneck radius increases during evolution, potentially reducing barriers to substrate entry and product release.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E04"
+        ],
+        "evidence_ids": [
+          "EV_C002_E04_01",
+          "EV_C002_E04_02"
+        ],
+        "key_entities": [
+          "active-site entrance",
+          "residues 50 and 267",
+          "Arg275",
+          "Trp276"
+        ],
+        "key_numbers": [
+          "bottleneck radius"
+        ]
+      },
+      {
+        "canonical_id": "K08",
+        "order": 8,
+        "event_type": "design",
+        "summary": "HG4 designed by combining 8 first- and second-shell mutations from HG3.17, excluding N47E and including W275A/R276F.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E05",
+          "C001_E05"
+        ],
+        "evidence_ids": [
+          "EV_C002_E05_01",
+          "EV_C002_E05_02",
+          "EV_C001_E05_02"
+        ],
+        "key_entities": [
+          "HG4",
+          "HG3",
+          "HG3.17",
+          "N47E",
+          "W275A",
+          "R276F"
+        ],
+        "key_numbers": [
+          "8 mutations",
+          ">700-fold higher activity"
+        ]
+      },
+      {
+        "canonical_id": "K09",
+        "order": 9,
+        "event_type": "validation",
+        "summary": "HG4 catalytic efficiency is >700-fold higher than HG3, equivalent to average natural enzyme (~10^5 M-1 s-1).",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E06"
+        ],
+        "evidence_ids": [
+          "EV_C002_E06_01"
+        ],
+        "key_entities": [
+          "HG4",
+          "HG3"
+        ],
+        "key_numbers": [
+          ">700-fold",
+          "~10^5 M-1 s-1"
+        ]
+      },
+      {
+        "canonical_id": "K10",
+        "order": 10,
+        "event_type": "computation",
+        "summary": "Computational design on HG4 backbone recapitulates crystal structure; design on 1GOR template fails, yielding destabilized model.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E07"
+        ],
+        "evidence_ids": [
+          "EV_C002_E07_02"
+        ],
+        "key_entities": [
+          "HG4",
+          "1GOR",
+          "HG3"
+        ],
+        "key_numbers": [
+          "~45 kcal/mol destabilization"
+        ]
+      },
+      {
+        "canonical_id": "K11",
+        "order": 11,
+        "event_type": "computation",
+        "summary": "Ensemble refinement using HG3 crystallographic data yields backbone templates that recapitulate correct transition-state binding mode for HG4.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E08"
+        ],
+        "evidence_ids": [
+          "EV_C002_E08_01"
+        ],
+        "key_entities": [
+          "HG3",
+          "HG4",
+          "1GOR"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K12",
+        "order": 12,
+        "event_type": "failure",
+        "summary": "Use of 1GOR-derived ensemble did not recapitulate crystallographic transition-state binding mode.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E02"
+        ],
+        "evidence_ids": [
+          "EV_C003_E02_01"
+        ],
+        "key_entities": [
+          "1GOR",
+          "HG4"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K13",
+        "order": 13,
+        "event_type": "analysis",
+        "summary": "Inferior performance of 1GOR ensemble likely due to differences in conformational heterogeneity at position 83.",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C003_E03"
+        ],
+        "evidence_ids": [
+          "EV_C003_E03_01"
+        ],
+        "key_entities": [
+          "1GOR",
+          "HG3",
+          "position 83"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K14",
+        "order": 14,
+        "event_type": "experiment",
+        "summary": "Unconstrained MD ensemble from unbound HG3 improved structural model compared to single crystal structure but less accurate than ensemble refinement.",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C003_E04"
+        ],
+        "evidence_ids": [
+          "EV_C003_E04_01"
+        ],
+        "key_entities": [
+          "HG3",
+          "HG4"
+        ],
+        "key_numbers": [
+          "deviation ≈0.4 Å"
+        ]
+      },
+      {
+        "canonical_id": "K15",
+        "order": 15,
+        "event_type": "hypothesis",
+        "summary": "Computational design with crystallographically derived backbone ensemble from low-activity enzyme could obviate directed evolution.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E05"
+        ],
+        "evidence_ids": [
+          "EV_C003_E05_01"
+        ],
+        "key_entities": [
+          "low-activity enzyme"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K16",
+        "order": 16,
+        "event_type": "limitation",
+        "summary": "Subtle ensemble changes are difficult to predict computationally; directed evolution helps by selecting mutations enriching competent sub-states.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E07"
+        ],
+        "evidence_ids": [
+          "EV_C003_E07_01"
+        ],
+        "key_entities": [],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K17",
+        "order": 17,
+        "event_type": "design",
+        "summary": "Iterative design approach: obtain experimental structure of low-activity enzyme, generate backbone ensemble, redesign to bypass directed evolution.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E08"
+        ],
+        "evidence_ids": [
+          "EV_C003_E08_01"
+        ],
+        "key_entities": [
+          "low-activity enzyme"
+        ],
+        "key_numbers": []
+      }
+    ],
+    "edges": [
+      {
+        "source": "K01",
+        "target": "K02",
+        "relation": "enables",
+        "reason": "The problem of low catalytic efficiency motivates solving room-temperature structures to understand evolution."
+      },
+      {
+        "source": "K02",
+        "target": "K03",
+        "relation": "enables",
+        "reason": "Structures allow observation of rigidification, pre-organization, and entrance widening."
+      },
+      {
+        "source": "K03",
+        "target": "K04",
+        "relation": "refines",
+        "reason": "Detailed B-factor analysis quantifies rigidification of Gln50."
+      },
+      {
+        "source": "K04",
+        "target": "K05",
+        "relation": "refines",
+        "reason": "Loop rigidification contributes to Gln50 rigidity."
+      },
+      {
+        "source": "K05",
+        "target": "K06",
+        "relation": "follows",
+        "reason": "Pre-organization analysis builds on structural observations."
+      },
+      {
+        "source": "K06",
+        "target": "K07",
+        "relation": "follows",
+        "reason": "Entrance widening is another structural feature observed."
+      },
+      {
+        "source": "K07",
+        "target": "K08",
+        "relation": "enables",
+        "reason": "Structural insights guide design of HG4 with key mutations."
+      },
+      {
+        "source": "K08",
+        "target": "K09",
+        "relation": "validates",
+        "reason": "Kinetic analysis validates HG4's high activity."
+      },
+      {
+        "source": "K09",
+        "target": "K10",
+        "relation": "enables",
+        "reason": "High activity of HG4 prompts computational design test."
+      },
+      {
+        "source": "K10",
+        "target": "K11",
+        "relation": "contradicts",
+        "reason": "Failure on 1GOR leads to ensemble approach that succeeds."
+      },
+      {
+        "source": "K11",
+        "target": "K12",
+        "relation": "refines",
+        "reason": "Ensemble from HG3 works, but 1GOR ensemble fails."
+      },
+      {
+        "source": "K12",
+        "target": "K13",
+        "relation": "enables",
+        "reason": "Failure analysis points to heterogeneity at position 83."
+      },
+      {
+        "source": "K13",
+        "target": "K14",
+        "relation": "follows",
+        "reason": "MD ensemble tested as alternative, but less accurate."
+      },
+      {
+        "source": "K14",
+        "target": "K15",
+        "relation": "enables",
+        "reason": "Results support hypothesis that crystallographic ensemble can replace directed evolution."
+      },
+      {
+        "source": "K15",
+        "target": "K16",
+        "relation": "refines",
+        "reason": "Hypothesis acknowledges limitation that subtle changes are hard to predict."
+      },
+      {
+        "source": "K16",
+        "target": "K17",
+        "relation": "enables",
+        "reason": "Limitation motivates iterative design approach."
+      }
+    ],
+    "must_cover_points": [
+      "Problem of low de novo enzyme activity",
+      "Room-temperature structures of HG series",
+      "Observation of rigidification, pre-organization, entrance widening",
+      "Detailed analysis of Gln50 rigidification and loop 87-90",
+      "Pre-organization in HG3.17 (~40% productive)",
+      "Entrance widening",
+      "Design of HG4 with 8 mutations",
+      "Validation of HG4 activity (>700-fold, ~10^5 M-1 s-1)",
+      "Failure of single-template design on 1GOR",
+      "Success of ensemble design from HG3 structures",
+      "Hypothesis that ensemble design can obviate directed evolution",
+      "Limitation of predicting subtle ensemble changes",
+      "Iterative design approach proposal"
+    ],
+    "paper_not_suitable_reasons": []
+  }
+}

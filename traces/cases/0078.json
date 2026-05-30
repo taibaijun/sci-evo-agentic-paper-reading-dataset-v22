@@ -1,0 +1,911 @@
+{
+  "case": {
+    "case_id": "sci_evo_0078",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Effective Optimization of Antibody Affinity by Phage Display Integrated with High-Throughput DNA Synthesis and Sequencing Technologies",
+      "doi": "https://doi.org/10.1371/journal.pone.0129125",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0076_10_1371_journal_pone_0129125_effective_optimization_of_antibody_affinity_by_phage_display_integrated_with_high_throughp.pdf",
+      "mineru_md": "docs/0078/mineru.md",
+      "combined_md": "docs/0078/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Traditional phage display for antibody affinity maturation suffers from limited library sequence diversity, excessive redundancy, and labor-intensive candidate identification.",
+      "target_object": "Humanized anti-ErbB2 antibody HuA21",
+      "known_context": "Phage display is widely used for antibody engineering, but library diversity and screening efficiency are bottlenecks.",
+      "constraints": [
+        "Avoid cysteine and stop residues in mutagenesis",
+        "Library size limited by phage display capacity (10^9-10^12)"
+      ],
+      "input_data": [
+        "HuA21 antibody sequence",
+        "CDR structures"
+      ],
+      "quantifiable_goals": [
+        "Improve antibody affinity",
+        "Reduce library redundancy",
+        "Streamline candidate identification"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "Traditional phage display libraries have limited diversity and high redundancy, hindering efficient affinity maturation.",
+        "gap_or_uncertainty": "How to design a library that maximizes functional diversity while minimizing redundancy and avoiding deleterious mutations?",
+        "hypothesis": "Targeted diversification of multiple CDRs using small perturbation mutagenesis (SPM) with carefully chosen degenerate codons can create a high-quality library.",
+        "decision": "Adopt SPM strategy with microchip-synthesized degenerate oligonucleotides and select codons NWG, NWC, NSG to avoid stop/cysteine and reduce redundancy.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "Small perturbation mutagenesis (SPM)",
+          "version": "",
+          "category": "library design"
+        },
+        "parameters": {
+          "target": "HuA21 antibody CDRs",
+          "codons": "NWG, NWC, NSG"
+        },
+        "observation": "SPM allows systematic introduction of mutations into up to three random candidate positions per CDR, and the chosen codons encode 19 amino acids without stop/cysteine, reducing redundancy.",
+        "result_status": "success",
+        "next_step_reason": "Design specific libraries based on this strategy.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0078/combined.md",
+            "section": "C001",
+            "quote_or_span": "The limited library sequence diversity together with excessive redundancy and labour-consuming procedure for candidate identification are two major obstacles to widespread adoption of this technology."
+          },
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0078/combined.md",
+            "section": "C001",
+            "quote_or_span": "We hereby describe a novel library generation and screening approach to address the problems. The approach started with the targeted diversification of multiple complementarity determining regions (CDRs) of a humanized anti-ErbB2 antibody, HuA21, with a small perturbation mutagenesis strategy."
+          },
+          {
+            "evidence_id": "EV_C001_E03_01",
+            "source_file": "docs/0078/combined.md",
+            "section": "C001",
+            "quote_or_span": "A combination of three degenerate codons, NWG, NWC, and NSG, were chosen for amino acid saturation mutagenesis without introducing cysteine and stop residues."
+          },
+          {
+            "evidence_id": "EV_C004_E05_01",
+            "source_file": "docs/0078/combined.md",
+            "section": "C004",
+            "quote_or_span": "we demonstrated that a combination of NWG, NWC and NSG codons can be used to diversify a single position into nineteen different amino acids."
+          },
+          {
+            "evidence_id": "EV_AUTO_007",
+            "source_file": "docs/0078/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "More recently, a variety of commercial microarrays that can simultaneously synthesize a massive number of non-degenerate oligonucleotides have been successfully used for cost-efficient gene assembly $[14–16]$ as well as library construction for nucleic acids $[17]$ , peptides $[18]$ , or antibodies $[19]$ ."
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "design",
+        "state_before": "SPM strategy and codon choice defined.",
+        "gap_or_uncertainty": "Which CDR positions to target and how to construct the libraries?",
+        "hypothesis": "Selecting 40 candidate positions across L1, L3, H1, H2, H3 CDRs and synthesizing 7,749 degenerate oligonucleotides on microchips will yield libraries with high theoretical diversity.",
+        "decision": "Design five SPM libraries targeting 40 positions, using microchip-synthesized oligos.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "Microchip-based oligonucleotide synthesis",
+          "version": "",
+          "category": "DNA synthesis"
+        },
+        "parameters": {
+          "number_of_positions": 40,
+          "number_of_oligos": 7749,
+          "theoretical_DNA_diversity": "4.0 x 10^6",
+          "theoretical_peptide_diversity": "2.0 x 10^6"
+        },
+        "observation": "Five scFv gene libraries designed with theoretical diversity of 4.0 x 10^6 DNA variants.",
+        "result_status": "success",
+        "next_step_reason": "Assess library quality by Sanger sequencing.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E04_01",
+            "source_file": "docs/0078/combined.md",
+            "section": "C001",
+            "quote_or_span": "In total, 7,749 degenerate oligonucleotides were synthesized on two microchips and released to construct five single-chain antibody fragment (scFv) gene libraries with $4 \\times 10^{6}$ DNA sequences."
+          },
+          {
+            "evidence_id": "EV_C002_E05_01",
+            "source_file": "docs/0078/combined.md",
+            "section": "C002",
+            "quote_or_span": "forty candidate positions from the L1, L3, H1, H2, and H3 CDRs were selected for randomization."
+          },
+          {
+            "evidence_id": "EV_C002_E05_02",
+            "source_file": "docs/0078/combined.md",
+            "section": "C002",
+            "quote_or_span": "The use of three degenerate codons, NWG, NWC and NSG, led to the translation of nineteen different amino acids with the least distribution variation and codon redundancy."
+          },
+          {
+            "evidence_id": "EV_AUTO_012",
+            "source_file": "docs/0078/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "In summary, all forty scFv-Fc mutants were expressed in normal or high levels, and a very large proportion of them (39/40) displayed decreased EC50s compared to HuA21."
+          },
+          {
+            "evidence_id": "EV_AUTO_021",
+            "source_file": "docs/0078/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Furthermore, almost half of the highly abundant mutants (17/40) were missed in target-binding screening."
+          },
+          {
+            "evidence_id": "EV_C003_E07_01",
+            "source_file": "docs/0078/combined.md",
+            "section": "C003",
+            "quote_or_span": "a very large proportion of them (39/40) displayed decreased EC50s compared to HuA21"
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "experiment",
+        "state_before": "Libraries constructed.",
+        "gap_or_uncertainty": "What is the actual quality of the constructed libraries in terms of functional clones?",
+        "hypothesis": "Sanger sequencing will reveal the proportion of functional clones and types of errors.",
+        "decision": "Perform Sanger sequencing on 121 positive mutant clones.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Sanger sequencing",
+          "version": "",
+          "category": "sequencing"
+        },
+        "parameters": {
+          "number_of_clones": 121
+        },
+        "observation": "65% of clones were functional full-length scFv genes; 31% had deletions, 4% insertions.",
+        "result_status": "partial",
+        "next_step_reason": "Further characterize library diversity and distribution by NGS.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E06_01",
+            "source_file": "docs/0078/combined.md",
+            "section": "C002",
+            "quote_or_span": "Sixty-five percent of positive mutant clones (n = 121) contained the functional, full-length scFv genes with no frameshift mutations."
+          },
+          {
+            "evidence_id": "EV_C002_E06_02",
+            "source_file": "docs/0078/combined.md",
+            "section": "C002",
+            "quote_or_span": "Most of the non-functional clones were due to nucleotide deletions (31%) or insertions (4%)."
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "analysis",
+        "state_before": "Library quality partially assessed; NGS needed for deep characterization.",
+        "gap_or_uncertainty": "What is the actual diversity and distribution of variants in the unselected libraries?",
+        "hypothesis": "NGS will reveal the extent of theoretical diversity captured and the uniformity of representation.",
+        "decision": "Sequence unselected libraries on Illumina platform and analyze CDR variant frequencies.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Illumina sequencing",
+          "version": "",
+          "category": "NGS"
+        },
+        "parameters": {
+          "total_qualified_sequences": "13.9 million",
+          "functional_sequences_percent": 74.4,
+          "correct_sequences_percent": 57.0
+        },
+        "observation": "42% of theoretical DNA diversity observed; power-law distribution; L1 less uniform than other libraries.",
+        "result_status": "partial",
+        "next_step_reason": "Identify limitations from synthesis errors.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E07_01",
+            "source_file": "docs/0078/combined.md",
+            "section": "C002",
+            "quote_or_span": "42% of the theoretical DNA diversity and 52% of the theoretical peptide diversity were observed in the sequenced libraries."
+          },
+          {
+            "evidence_id": "EV_C002_E07_02",
+            "source_file": "docs/0078/combined.md",
+            "section": "C002",
+            "quote_or_span": "The map of CDR sequence abundances revealed an overall power-law distribution"
+          },
+          {
+            "evidence_id": "EV_C002_E07_03",
+            "source_file": "docs/0078/combined.md",
+            "section": "C002",
+            "quote_or_span": "the sequences in the L3, H1, H2 and H3 libraries were represented more uniformly than the L1 library."
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "analysis",
+        "state_before": "NGS data reveals diversity but also errors.",
+        "gap_or_uncertainty": "What causes the reduced functional diversity?",
+        "hypothesis": "Frameshift mutations from microchip synthesis errors limit functional diversity.",
+        "decision": "Analyze non-functional variants; note deletions as major error.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "NGS error analysis",
+          "version": "",
+          "category": "bioinformatics"
+        },
+        "parameters": {},
+        "observation": "19-32% one nucleotide deletions, 3-5% insertions; likely due to microchip synthesis errors.",
+        "result_status": "failure",
+        "next_step_reason": "Proceed to phage panning despite limitations.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E08_01",
+            "source_file": "docs/0078/combined.md",
+            "section": "C002",
+            "quote_or_span": "other variants with frameshift mutations mainly occurred due to one nucleotide deletions (19–32%) or insertions (3–5%)"
+          },
+          {
+            "evidence_id": "EV_C002_E08_02",
+            "source_file": "docs/0078/combined.md",
+            "section": "C002",
+            "quote_or_span": "We speculate that these undesired mutations were introduced mainly due to errors in the microchip-synthesized oligonucleotides."
+          },
+          {
+            "evidence_id": "EV_C004_E07_01",
+            "source_file": "docs/0078/combined.md",
+            "section": "C004",
+            "quote_or_span": "Analysis of the non-functional variants at the DNA and protein levels revealed that they contained many more nucleotide deletions than insertions."
+          },
+          {
+            "evidence_id": "EV_C004_E07_02",
+            "source_file": "docs/0078/combined.md",
+            "section": "C004",
+            "quote_or_span": "the most common type of error in microchip DNA synthesis is base deletion"
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "experiment",
+        "state_before": "Libraries characterized; ready for selection.",
+        "gap_or_uncertainty": "Can phage panning enrich for target-binding variants?",
+        "hypothesis": "Phage panning against ErbB2 antigen will enrich positive phages, but some libraries may fail.",
+        "decision": "Perform three rounds of phage panning with decreasing antigen concentration.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Phage display panning",
+          "version": "",
+          "category": "selection"
+        },
+        "parameters": {
+          "rounds": 3,
+          "antigen": "Bio-ECD (ErbB2)"
+        },
+        "observation": "Positive phages enriched to >95% after round 3; H3 library only yielded wild-type scFv.",
+        "result_status": "partial",
+        "next_step_reason": "Screen individual mutants for affinity improvement.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E02_01",
+            "source_file": "docs/0078/combined.md",
+            "section": "C003",
+            "quote_or_span": "phage ELISA revealed that the percentage of positive phages increased gradually from below 5% before selection to over 95% after the last selection round"
+          },
+          {
+            "evidence_id": "EV_C003_E02_02",
+            "source_file": "docs/0078/combined.md",
+            "section": "C003",
+            "quote_or_span": "All of the H3 library clones contained the wild-type scFv genes"
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "experiment",
+        "state_before": "Enriched libraries obtained; need to assess individual mutant affinities.",
+        "gap_or_uncertainty": "Do the selected mutants show improved binding affinity?",
+        "hypothesis": "Screening a set of mutants by ELISA will reveal affinity improvements.",
+        "decision": "Express 55 scFv-Fc mutants and measure EC50 by ELISA.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "ELISA",
+          "version": "",
+          "category": "binding assay"
+        },
+        "parameters": {
+          "number_of_mutants": 55
+        },
+        "observation": ">90% of mutants showed improved affinity; average fold improvements: L1 3.29, L3 2.00, H1 1.88, H2 1.65.",
+        "result_status": "success",
+        "next_step_reason": "Analyze selected libraries by NGS to understand enrichment.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E03_01",
+            "source_file": "docs/0078/combined.md",
+            "section": "C003",
+            "quote_or_span": "Of the fifty-five mutants, the EC50 of 50 mutants was decreased compared to HuA21, suggesting that more than 90% of mutants displayed improved affinity"
+          },
+          {
+            "evidence_id": "EV_C003_E03_02",
+            "source_file": "docs/0078/combined.md",
+            "section": "C003",
+            "quote_or_span": "The average affinity enhancement was 3.29, 2.00, 1.88 and 1.65-fold for mutants from the L1, L3, H1 and H2 libraries, respectively"
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "analysis",
+        "state_before": "Selected libraries show enrichment; NGS can quantify diversity reduction.",
+        "gap_or_uncertainty": "How does selection affect library diversity and which variants dominate?",
+        "hypothesis": "NGS will show dramatic diversity reduction with top mutants dominating; H3 will be mostly wild-type.",
+        "decision": "Sequence selected libraries and compare to unselected.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Illumina sequencing",
+          "version": "",
+          "category": "NGS"
+        },
+        "parameters": {},
+        "observation": "1.34x10^5 CDR variants; top 10 mutants accounted for 27.2-71.6% of sequences; H3 wild-type enriched to 95.8%.",
+        "result_status": "success",
+        "next_step_reason": "Identify failure in L1 library.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E04_03",
+            "source_file": "docs/0078/combined.md",
+            "section": "C003",
+            "quote_or_span": "The parent H3 gene from the library construction was dramatically enriched after selection, and it accounted for 95.8% of all sequences"
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "analysis",
+        "state_before": "NGS of selected libraries reveals an anomaly in L1.",
+        "gap_or_uncertainty": "Why is a stop codon variant enriched in L1?",
+        "hypothesis": "Non-specific binding or growth advantage may cause enrichment of non-functional variants.",
+        "decision": "Note the abnormal enrichment as a failure mode.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "NGS data interpretation",
+          "version": "",
+          "category": "bioinformatics"
+        },
+        "parameters": {},
+        "observation": "A sequence with a stop codon was abnormally enriched in L1, possibly due to non-specific binding or faster growth.",
+        "result_status": "failure",
+        "next_step_reason": "Use NGS frequency to identify top candidates for validation.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E05_01",
+            "source_file": "docs/0078/combined.md",
+            "section": "C003",
+            "quote_or_span": "In the selected L1 library, a sequence with a stop codon was abnormally enriched"
+          },
+          {
+            "evidence_id": "EV_C003_E05_02",
+            "source_file": "docs/0078/combined.md",
+            "section": "C003",
+            "quote_or_span": "The enrichment was possible due to that the recombinant phages with this sequence may bind to the antigen non-specifically or support the E.coli hosts to grow faster than other phages"
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "validation",
+        "state_before": "NGS frequency data available for candidate selection.",
+        "gap_or_uncertainty": "Can high-frequency NGS variants reliably identify affinity-improved mutants?",
+        "hypothesis": "The top 10 most frequent mutants from each library will show improved affinity.",
+        "decision": "Select top 10 frequent mutants from L1, L3, H1, H2 libraries (40 total) and test by ELISA.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "ELISA",
+          "version": "",
+          "category": "binding assay"
+        },
+        "parameters": {
+          "number_of_mutants": 40
+        },
+        "observation": "39/40 mutants showed improved affinity; average fold improvements: L1 3.70, L3 2.50, H1 1.94, H2 1.84; best mutant 7.2-fold.",
+        "result_status": "success",
+        "next_step_reason": "Combine top mutations to achieve synergistic affinity improvement.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E07_01",
+            "source_file": "docs/0078/combined.md",
+            "section": "C003",
+            "quote_or_span": "a very large proportion of them (39/40) displayed decreased EC50s compared to HuA21"
+          },
+          {
+            "evidence_id": "EV_C003_E07_02",
+            "source_file": "docs/0078/combined.md",
+            "section": "C003",
+            "quote_or_span": "The average affinity enhancement was 3.70, 2.50, 1.94 and 1.84-fold from the L1, L3, H1 and H2 libraries"
+          },
+          {
+            "evidence_id": "EV_C003_E07_03",
+            "source_file": "docs/0078/combined.md",
+            "section": "C003",
+            "quote_or_span": "The best mutant, which displayed 7.2-fold enhanced affinity, was achieved in the L1 library"
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "experiment",
+        "state_before": "Individual CDR mutations identified; potential for synergy.",
+        "gap_or_uncertainty": "Can combining top mutations from different CDRs yield synergistic affinity improvement?",
+        "hypothesis": "A combinatorial library of top 10 NGS mutants will produce variants with greatly enhanced affinity.",
+        "decision": "Construct a combinatorial phage library by recombining the 10 most abundant variants from L1, L3, H1, H2 and screen.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Combinatorial library construction and phage display",
+          "version": "",
+          "category": "library construction"
+        },
+        "parameters": {},
+        "observation": "The most optimal variant displayed 158-fold improved affinity (Kd = 25.5 pM) compared to HuA21.",
+        "result_status": "success",
+        "next_step_reason": "Acknowledge limitation of frequency-based selection.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E08_01",
+            "source_file": "docs/0078/combined.md",
+            "section": "C003",
+            "quote_or_span": "The most optimal variant displayed 158-fold improved affinity compared to HuA21"
+          },
+          {
+            "evidence_id": "EV_C003_E08_02",
+            "source_file": "docs/0078/combined.md",
+            "section": "C003",
+            "quote_or_span": "the measured affinity is in good agreement with that apparent synergistic effect observed between different CDRs"
+          },
+          {
+            "evidence_id": "EV_C004_E01_01",
+            "source_file": "docs/0078/combined.md",
+            "section": "C004",
+            "quote_or_span": "The most optimal variant displayed 158-fold improved affinity compared to HuA21."
+          },
+          {
+            "evidence_id": "EV_C004_E01_02",
+            "source_file": "docs/0078/combined.md",
+            "section": "C004",
+            "quote_or_span": "the measured affinity is in good agreement with that apparent synergistic effect observed between different CDRs."
+          },
+          {
+            "evidence_id": "EV_C001_E08_01",
+            "source_file": "docs/0078/combined.md",
+            "section": "C001",
+            "quote_or_span": "a mutant with 158-fold increased affinity ( $K_{d} = 25.5$ pM) was obtained."
+          }
+        ]
+      },
+      {
+        "step_index": 12,
+        "phase": "analysis",
+        "state_before": "Successful affinity improvement achieved, but frequency-based selection has caveats.",
+        "gap_or_uncertainty": "Does high NGS frequency always correlate with affinity improvement?",
+        "hypothesis": "Some high-frequency variants may enrich due to growth or display advantages without affinity gain.",
+        "decision": "Note limitation that frequency-based identification may include false positives.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Critical assessment",
+          "version": "",
+          "category": "reasoning"
+        },
+        "parameters": {},
+        "observation": "High-frequency variants generally represent affinity-improved mutants, but some may enrich due to non-affinity factors.",
+        "result_status": "partial",
+        "next_step_reason": "Conclude overall approach.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E08_01",
+            "source_file": "docs/0078/combined.md",
+            "section": "C004",
+            "quote_or_span": "focusing on the most frequent variants after selection is a very simple method to identify beneficial candidates with improved affinity"
+          },
+          {
+            "evidence_id": "EV_C004_E08_02",
+            "source_file": "docs/0078/combined.md",
+            "section": "C004",
+            "quote_or_span": "some particular mutants may help E. coli hosts grow faster or phages display pIII-antibody fusion more efficiently"
+          },
+          {
+            "evidence_id": "EV_C004_E08_03",
+            "source_file": "docs/0078/combined.md",
+            "section": "C004",
+            "quote_or_span": "These variants could appear in high frequencies in libraries but display no affinity enhancement."
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "ELISA EC50 measurement",
+        "Surface plasmon resonance (Biacore) for Kd"
+      ],
+      "metrics": [
+        "Fold improvement in EC50",
+        "Kd (pM)"
+      ],
+      "final_conclusion": "The integrated approach of SPM library design, microchip synthesis, phage display, and NGS-based candidate identification successfully improved antibody affinity up to 158-fold, with a final Kd of 25.5 pM.",
+      "limitations": [
+        "Frameshift mutations from microchip synthesis reduce functional diversity.",
+        "High-frequency NGS variants may not always correlate with affinity improvement due to growth or display biases.",
+        "H3 library failed to yield beneficial mutants."
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_specific_evidence_backfilled=5",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_specific_evidence_backfilled=5",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 96.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p5\\states\\0078.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p5\\events\\0078.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1
+        ],
+        "K03": [
+          1
+        ],
+        "K04": [
+          1,
+          2
+        ],
+        "K05": [
+          3
+        ],
+        "K06": [
+          4
+        ],
+        "K08": [
+          6
+        ],
+        "K09": [
+          7,
+          10,
+          11
+        ],
+        "K10": [
+          7,
+          8,
+          9,
+          10
+        ],
+        "K11": [
+          9
+        ],
+        "K12": [
+          2,
+          10
+        ],
+        "K13": [
+          8,
+          10,
+          11
+        ],
+        "K14": [
+          6,
+          12
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02",
+            "K03",
+            "K04"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K02",
+            "K04",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K05"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K06"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K07"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K08",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K09",
+            "K10"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K10",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K10",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K09",
+            "K10",
+            "K12",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K09",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 12,
+          "covered_event_ids": [
+            "K14"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 2,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "4.0x"
+        ]
+      },
+      {
+        "step_index": 3,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "65%"
+        ]
+      },
+      {
+        "step_index": 5,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "-32%",
+          "-5%"
+        ]
+      },
+      {
+        "step_index": 7,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "55s"
+        ]
+      },
+      {
+        "step_index": 8,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "-71.6%",
+          "1.34x",
+          "27.2",
+          "5c"
+        ]
+      }
+    ],
+    "step_count": 12,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 96.0
+  },
+  "api_usage": {
+    "prompt_tokens": 119705,
+    "completion_tokens": 27424,
+    "total_tokens": 147129,
+    "prompt_cache_hit_tokens": 2688,
+    "prompt_cache_miss_tokens": 117017
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 4966,
+        "completion_tokens": 1210,
+        "total_tokens": 6176,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 4966
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 10736,
+        "completion_tokens": 2892,
+        "total_tokens": 13628,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 10736
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 7370,
+        "completion_tokens": 1302,
+        "total_tokens": 8672,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7114
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 9339,
+        "completion_tokens": 1785,
+        "total_tokens": 11124,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9083
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 8271,
+        "completion_tokens": 1886,
+        "total_tokens": 10157,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8015
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 8022,
+        "completion_tokens": 1427,
+        "total_tokens": 9449,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7766
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 14308,
+        "completion_tokens": 3607,
+        "total_tokens": 17915,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 13924
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 14570,
+        "completion_tokens": 6250,
+        "total_tokens": 20820,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 13930
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 19327,
+        "completion_tokens": 894,
+        "total_tokens": 20221,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 19327
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 22796,
+        "completion_tokens": 6171,
+        "total_tokens": 28967,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 22156
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

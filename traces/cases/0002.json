@@ -1,0 +1,875 @@
+{
+  "case": {
+    "case_id": "sci_evo_0002",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "High-throughput screening of catalytically active inclusion bodies using laboratory automation and Bayesian optimization",
+      "doi": "10.1186/s12934-024-02319-y",
+      "url": "",
+      "license": "cc by",
+      "publication_date": "",
+      "raw_file": "0002_PMC10894497_high_throughput_screening_of_catalytically_active_inclusion_bodies_using_laborat.pdf",
+      "mineru_md": "docs/0002/mineru.md",
+      "combined_md": "docs/0002/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "No a priori prediction possible for best linker/tag combination for CatIBs, necessitating extensive screening.",
+      "target_object": "BsGDH CatIB variants",
+      "known_context": "Catalytically active inclusion bodies (CatIBs) retain substantial catalytic activity but their formation and activity depend on the combination of aggregation-inducing tag, linker length/type, and N-/C-terminal fusion, with no general design rules.",
+      "constraints": [
+        "High-throughput screening required due to large combinatorial space",
+        "Manual screening is labor-intensive (approx. 40 h for 48 variants)"
+      ],
+      "input_data": [
+        "63 BsGDH-CatIB variants designed with different tags, linkers, and fusion orientations"
+      ],
+      "quantifiable_goals": [
+        "Identify best performing CatIB variant with >95% probability",
+        "Reduce manual workload by >80%",
+        "Achieve high reproducibility (RSD < 5%)"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "No a priori prediction possible for best linker/tag combination for CatIBs, necessitating extensive screening.",
+        "gap_or_uncertainty": "Which combination of aggregation-inducing tag, linker, and fusion orientation yields the best CatIB performance for BsGDH?",
+        "hypothesis": "A semi-automated cloning workflow can rapidly generate a large library of CatIB variants for screening.",
+        "decision": "Implement a semi-automated cloning workflow using Golden Gate Assembly to generate 63 BsGDH-CatIB variants.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "Golden Gate Assembly",
+          "version": "",
+          "category": "cloning"
+        },
+        "parameters": {},
+        "observation": "Semi-automated cloning workflow implemented for fast generation of 63 CatIB variants.",
+        "result_status": "success",
+        "next_step_reason": "Cloning failures observed for some variants, requiring investigation.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0002/combined.md",
+            "section": "C001",
+            "quote_or_span": "no a priori prediction is possible so far to indicate the best combination thereof. Consequently, extensive screening is required to find the best performing CatIB variant."
+          },
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0002/combined.md",
+            "section": "C001",
+            "quote_or_span": "a semi-automated cloning workflow was implemented and used for fast generation of 63 CatIB variants"
+          },
+          {
+            "evidence_id": "EV_C001_E02_02",
+            "source_file": "docs/0002/combined.md",
+            "section": "C001",
+            "quote_or_span": "For the generation of 96 CatIB variants only 11 h of manual work are needed"
+          },
+          {
+            "evidence_id": "EV_AUTO_025",
+            "source_file": "docs/0002/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Due to the successful automation of the CatIB screening, which enables high-throughput testing in the context of DBTL cycles, the workflow could be applied to analyze all 63 BsGDH-CatIB variants."
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "experiment",
+        "state_before": "63 CatIB variants designed, cloning attempted.",
+        "gap_or_uncertainty": "Some variants may not be clonable due to non-viable phenotypes.",
+        "hypothesis": "Failed cloning attempts indicate non-viable phenotypes.",
+        "decision": "Document cloning failures and proceed with successfully cloned variants.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Golden Gate Assembly",
+          "version": "",
+          "category": "cloning"
+        },
+        "parameters": {},
+        "observation": "13 CatIB variants could not be cloned within three attempts, potentially due to non-viable phenotype.",
+        "result_status": "failure",
+        "next_step_reason": "Proceed to cultivation of successfully cloned variants.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E03_01",
+            "source_file": "docs/0002/combined.md",
+            "section": "C001",
+            "quote_or_span": "13 CatIB variants could not be successfully cloned within three attempts, potentially due to a non-viable phenotype."
+          },
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0002/combined.md",
+            "section": "C001",
+            "quote_or_span": "a semi-automated cloning workflow was implemented and used for fast generation of 63 CatIB variants"
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "experiment",
+        "state_before": "Successfully cloned CatIB variants ready for cultivation.",
+        "gap_or_uncertainty": "Systematic positional bias observed in BioLector backscatter values during cultivation at 15°C.",
+        "hypothesis": "unknown",
+        "decision": "Observe and document the positional bias.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "BioLector",
+          "version": "",
+          "category": "cultivation"
+        },
+        "parameters": {
+          "temperature": "15°C"
+        },
+        "observation": "Systematic positional bias observed in BioLector backscatter values during cultivation at 15°C, with backscatter ranging from 60 to 80 a.u., mean 74.9 a.u., SD 4.5 a.u.",
+        "result_status": "failure",
+        "next_step_reason": "Hypothesize that temperature gradient from cooling fan caused bias.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E04_01",
+            "source_file": "docs/0002/combined.md",
+            "section": "C001",
+            "quote_or_span": "a systematic bias over the positions in the BioLector, which was observed during the second cultivation step at 15 °C"
+          },
+          {
+            "evidence_id": "EV_C002_E01_01",
+            "source_file": "docs/0002/combined.md",
+            "section": "C002",
+            "quote_or_span": "a systematic bias over the positions in the BioLector, which was observed during the second cultivation step at 15 °C"
+          },
+          {
+            "evidence_id": "EV_C002_E01_02",
+            "source_file": "docs/0002/combined.md",
+            "section": "C002",
+            "quote_or_span": "the final backscatter values across the FlowerPlate varied from approximately 60 to 80 a.u. with a mean and standard deviation of 74.9 a.u. and 4.5 a.u. respectively"
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "hypothesis",
+        "state_before": "Positional bias observed at 15°C.",
+        "gap_or_uncertainty": "What causes the positional bias?",
+        "hypothesis": "Temperature gradient from cooling fan causes positional bias.",
+        "decision": "Formulate hypothesis about the cause of bias.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "literature reasoning",
+          "version": "",
+          "category": "analysis"
+        },
+        "parameters": {},
+        "observation": "Hypothesized that temperature gradient from cooling fan caused positional bias.",
+        "result_status": "partial",
+        "next_step_reason": "Test hypothesis by changing cultivation temperature.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E05_01",
+            "source_file": "docs/0002/combined.md",
+            "section": "C001",
+            "quote_or_span": "The first challenge that was noted was a systematic bias over the positions in the BioLector, which was observed during the second cultivation step at 15 °C"
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "revision",
+        "state_before": "Hypothesized that temperature gradient causes bias.",
+        "gap_or_uncertainty": "How to eliminate positional bias?",
+        "hypothesis": "Changing cultivation temperature to constant 25°C will eliminate positional bias.",
+        "decision": "Change cultivation temperature to constant 25°C.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "BioLector",
+          "version": "",
+          "category": "cultivation"
+        },
+        "parameters": {
+          "temperature": "25°C"
+        },
+        "observation": "Cultivation temperature changed to 25°C for the whole process, excluding the cooling step.",
+        "result_status": "success",
+        "next_step_reason": "Validate that bias is eliminated and CatIB formation/activity is maintained.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E06_01",
+            "source_file": "docs/0002/combined.md",
+            "section": "C001",
+            "quote_or_span": "changing the cultivation temperature"
+          },
+          {
+            "evidence_id": "EV_C002_E03_01",
+            "source_file": "docs/0002/combined.md",
+            "section": "C002",
+            "quote_or_span": "the cultivation temperature was changed to 25 °C for the whole process, excluding the cooling step"
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "validation",
+        "state_before": "Cultivation temperature changed to 25°C.",
+        "gap_or_uncertainty": "Does 25°C cultivation eliminate positional bias?",
+        "hypothesis": "Constant 25°C cultivation eliminates positional bias.",
+        "decision": "Validate bias elimination at 25°C.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "BioLector",
+          "version": "",
+          "category": "cultivation"
+        },
+        "parameters": {
+          "temperature": "25°C"
+        },
+        "observation": "Positional bias eliminated; backscatter standard deviation reduced from 4.5 to 1.1 a.u.",
+        "result_status": "success",
+        "next_step_reason": "Validate CatIB formation and activity at 25°C.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E04_02",
+            "source_file": "docs/0002/combined.md",
+            "section": "C002",
+            "quote_or_span": "the positional bias could thus be prevented by using 25 °C as cultivation temperature"
+          },
+          {
+            "evidence_id": "EV_C002_E01_02",
+            "source_file": "docs/0002/combined.md",
+            "section": "C002",
+            "quote_or_span": "the final backscatter values across the FlowerPlate varied from approximately 60 to 80 a.u. with a mean and standard deviation of 74.9 a.u. and 4.5 a.u. respectively"
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "validation",
+        "state_before": "Positional bias eliminated at 25°C.",
+        "gap_or_uncertainty": "Does 25°C cultivation maintain CatIB formation and enzymatic activity?",
+        "hypothesis": "CatIB formation and enzymatic activity are maintained at 25°C.",
+        "decision": "Validate CatIB formation and activity at 25°C.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "BioLector",
+          "version": "",
+          "category": "cultivation"
+        },
+        "parameters": {
+          "temperature": "25°C"
+        },
+        "observation": "CatIB formation and enzymatic activity confirmed at 25°C; some variants showed improved formation.",
+        "result_status": "success",
+        "next_step_reason": "Optimize enzymatic assay for online measurement.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E05_01",
+            "source_file": "docs/0002/combined.md",
+            "section": "C002",
+            "quote_or_span": "the results indicate that cultivation at 25 °C overall has a positive influence on the CatIB formation rate for the BsGDH case study"
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "validation",
+        "state_before": "Optimized enzymatic assay implemented.",
+        "gap_or_uncertainty": "Is the optimized workflow reproducible?",
+        "hypothesis": "The optimized workflow will show high reproducibility.",
+        "decision": "Validate reproducibility with 42 biological replicates.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "automated purification and enzymatic assay",
+          "version": "",
+          "category": "assay"
+        },
+        "parameters": {
+          "replicates": 42
+        },
+        "observation": "High reproducibility achieved with 1.9% RSD after 120 min, compared to 11.4% previously.",
+        "result_status": "success",
+        "next_step_reason": "Integrate validated workflow with Bayesian optimization for iterative screening.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E07_01",
+            "source_file": "docs/0002/combined.md",
+            "section": "C001",
+            "quote_or_span": "high reproducibility with 1.9% relative standard deviation across 42 biological replicates"
+          },
+          {
+            "evidence_id": "EV_C002_E07_01",
+            "source_file": "docs/0002/combined.md",
+            "section": "C002",
+            "quote_or_span": "a high reproducibility of the new workflow was demonstrated with 42 biological replicates, lowering the relative standard deviation of fluorescence signals after 120 min to only 1.9% compared to 11.4% in a previous study"
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "design",
+        "state_before": "Validated high-throughput workflow available.",
+        "gap_or_uncertainty": "How to efficiently screen 63 variants to identify the best performer?",
+        "hypothesis": "Combining the automated workflow with a Bayesian process model and Thompson sampling will enable efficient iterative screening.",
+        "decision": "Integrate Bayesian process model and Thompson sampling for experimental design.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Bayesian process model and Thompson sampling",
+          "version": "",
+          "category": "design_of_experiments"
+        },
+        "parameters": {
+          "model": "first order mass action law",
+          "sampling": "Thompson sampling"
+        },
+        "observation": "Combined automated workflow with Bayesian process model and Thompson sampling for iterative screening of 63 variants in three batch experiments of 48 candidates each.",
+        "result_status": "success",
+        "next_step_reason": "Execute iterative screening and analyze results.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E08_01",
+            "source_file": "docs/0002/combined.md",
+            "section": "C001",
+            "quote_or_span": "the workflow was performed in combination with a Bayesian process model and Thompson sampling"
+          },
+          {
+            "evidence_id": "EV_C001_E08_02",
+            "source_file": "docs/0002/combined.md",
+            "section": "C001",
+            "quote_or_span": "allowed analysis of 63 BsGDH-CatIB variants within only three batch experiments"
+          },
+          {
+            "evidence_id": "EV_C004_E01_01",
+            "source_file": "docs/0002/combined.md",
+            "section": "C004",
+            "quote_or_span": "the process model was used to quantify various experimental effects and their influence on the reaction rate of each CatIB variant in the final activity assay"
+          },
+          {
+            "evidence_id": "EV_C004_E02_01",
+            "source_file": "docs/0002/combined.md",
+            "section": "C004",
+            "quote_or_span": "we chose to model their reaction in the activity assay with a first order mass action law"
+          },
+          {
+            "evidence_id": "EV_C002_E08_02",
+            "source_file": "docs/0002/combined.md",
+            "section": "C002",
+            "quote_or_span": "this results in an overall manual work time of 7 h for 48 variants. This is approximately 12% of the operator workload for the typical manual procedure"
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "analysis",
+        "state_before": "Three rounds of iterative screening completed.",
+        "gap_or_uncertainty": "Which variant is the best performer?",
+        "hypothesis": "Thompson sampling will identify the best variant with >95% probability.",
+        "decision": "Analyze results after three rounds; identify top candidate.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Thompson sampling",
+          "version": "",
+          "category": "design_of_experiments"
+        },
+        "parameters": {},
+        "observation": "Thompson sampling identified TDoT-PT-BsGDH as best performer with 98% probability after three rounds; inactive variants dropped early. Top four candidates had median reaction rate constants between 0.15 min^-1 and 0.19 min^-1.",
+        "result_status": "success",
+        "next_step_reason": "Validate top candidate with a manual fourth round.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E01_01",
+            "source_file": "docs/0002/combined.md",
+            "section": "C003",
+            "quote_or_span": "Due to the probabilistic nature of the algorithm, two remaining variants, BsGDH-SG-L48KD, and CBDCell-PT-BsGDH, where not chosen in any round."
+          },
+          {
+            "evidence_id": "EV_C003_E03_01",
+            "source_file": "docs/0002/combined.md",
+            "section": "C003",
+            "quote_or_span": "the top four candidates, TDoT-PT-BsGDH, BsGDH-PT-3HAMP, BsGDH-PT-CBDCell and BsGDH-PT-L6KD all have a median reaction rate constant between 0.15 min $^{-1}$ and 0.19 min $^{-1}$"
+          },
+          {
+            "evidence_id": "EV_AUTO_010",
+            "source_file": "docs/0002/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Afterwards, TDoT-PT-BsGDH showed a 98% probability to be the best performer in the library (see Round 3), which exceed the termination criterion of $>95\\%$ probability."
+          },
+          {
+            "evidence_id": "EV_AUTO_015",
+            "source_file": "docs/0002/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Due to the exploitation-exploration balancing, the Thompson sampling algorithm selected this variant in 50 biological replicates during the three screening rounds, leading to a statistically sound estimation of its reaction rate constant as the KPI for a library ranking."
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "validation",
+        "state_before": "TDoT-PT-BsGDH identified as top candidate with 98% probability.",
+        "gap_or_uncertainty": "Is TDoT-PT-BsGDH truly the best performer? Are unseen variants weak?",
+        "hypothesis": "A manual fourth round will confirm TDoT-PT-BsGDH as best and unseen variants as weak.",
+        "decision": "Conduct manual fourth round including previously unseen variants.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "manual screening",
+          "version": "",
+          "category": "assay"
+        },
+        "parameters": {},
+        "observation": "Manual fourth round confirmed TDoT-PT-BsGDH as best with >99% probability; unseen variants BsGDH-SG-L48KD and CBDCell-PT-BsGDH were weak performers.",
+        "result_status": "success",
+        "next_step_reason": "Reflect on limitations of CatIB design rules.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E02_01",
+            "source_file": "docs/0002/combined.md",
+            "section": "C003",
+            "quote_or_span": "After the fourth round, it is clearly confirmed that TDoT-PT-BsGDH is the best performer in the library, which the algorithm determined with a probability of $>99\\%$"
+          },
+          {
+            "evidence_id": "EV_C003_E02_02",
+            "source_file": "docs/0002/combined.md",
+            "section": "C003",
+            "quote_or_span": "the previously unseen variants BsGDH-SG-L48KD and CBDCell-PT-BsGDH did not lead to the successful formation of CatIBs and were weak performers not worth testing"
+          },
+          {
+            "evidence_id": "EV_AUTO_018",
+            "source_file": "docs/0002/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "After the fourth round, it is clearly confirmed that TDoT-PT-BsGDH is the best performer in the library, which the algorithm determined with a probability of $>99\\%$ (Fig."
+          },
+          {
+            "evidence_id": "EV_AUTO_010",
+            "source_file": "docs/0002/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Afterwards, TDoT-PT-BsGDH showed a 98% probability to be the best performer in the library (see Round 3), which exceed the termination criterion of $>95\\%$ probability."
+          }
+        ]
+      },
+      {
+        "step_index": 12,
+        "phase": "analysis",
+        "state_before": "TDoT-PT-BsGDH confirmed as best performer.",
+        "gap_or_uncertainty": "Why is the top performer an N-terminal fusion, contrary to expectations?",
+        "hypothesis": "The result exemplifies the limited understanding of structure-function relationship for CatIB design.",
+        "decision": "Acknowledge limitation: no general design rules can be derived.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "literature reasoning",
+          "version": "",
+          "category": "analysis"
+        },
+        "parameters": {},
+        "observation": "Top performer TDoT-PT-BsGDH has N-terminal tag, exemplifying limited understanding of structure-function relationship for CatIB design.",
+        "result_status": "partial",
+        "next_step_reason": "Conclude study.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E08_01",
+            "source_file": "docs/0002/combined.md",
+            "section": "C003",
+            "quote_or_span": "the top performer TDoT-PT-BsGDH is a variant with N-terminal addition of the tag, as such a perfect example of the still limited understanding of the structure–function relationship for CatIB design."
+          },
+          {
+            "evidence_id": "EV_C003_E07_01",
+            "source_file": "docs/0002/combined.md",
+            "section": "C003",
+            "quote_or_span": "successful CatIB formation and activity highly depend on the combination of aggregation-inducing tag, length and type of the linker and N-/C-terminal fusion, allowing for no general conclusion"
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "Manual fourth round screening",
+        "Reproducibility validation with 42 biological replicates"
+      ],
+      "metrics": [
+        "Reaction rate constant (min^-1)",
+        "Probability of being best performer",
+        "Relative standard deviation (RSD)"
+      ],
+      "final_conclusion": "TDoT-PT-BsGDH identified as best CatIB variant with >99% probability; automated workflow reduced manual work by 88% and achieved 1.9% RSD.",
+      "limitations": [
+        "Limited understanding of structure-function relationship for CatIB design; no general design rules can be derived.",
+        "13 variants could not be cloned, potentially due to non-viable phenotypes."
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_specific_evidence_backfilled=5",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_step_trimmed=13_to_12",
+        "v22_specific_evidence_backfilled=5",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 99.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p2\\states\\0002.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p2\\events\\0002.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 11,
+      "covered_event_count": 11,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1
+        ],
+        "K02": [
+          1,
+          2
+        ],
+        "K03": [
+          2
+        ],
+        "K06": [
+          5,
+          6
+        ],
+        "K07": [
+          3,
+          5,
+          6
+        ],
+        "K08": [
+          7
+        ],
+        "K10": [
+          8
+        ],
+        "K11": [
+          8,
+          9,
+          10
+        ],
+        "K12": [
+          9,
+          10,
+          11
+        ],
+        "K13": [
+          10,
+          11
+        ],
+        "K14": [
+          12
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K02",
+            "K03"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K04",
+            "K05",
+            "K07"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K05"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K05",
+            "K06",
+            "K07"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K04",
+            "K06",
+            "K07"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K08"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K10",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K11",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K11",
+            "K12",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K12",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 12,
+          "covered_event_ids": [
+            "K14"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 6,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "1.1"
+        ]
+      },
+      {
+        "step_index": 10,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "95%"
+        ]
+      },
+      {
+        "step_index": 11,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "99%"
+        ]
+      }
+    ],
+    "step_count": 12,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 99.0
+  },
+  "api_usage": {
+    "prompt_tokens": 126958,
+    "completion_tokens": 25782,
+    "total_tokens": 152740,
+    "prompt_cache_hit_tokens": 3200,
+    "prompt_cache_miss_tokens": 123758
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 5774,
+        "completion_tokens": 731,
+        "total_tokens": 6505,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 5774
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 11534,
+        "completion_tokens": 3533,
+        "total_tokens": 15067,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 11534
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 8171,
+        "completion_tokens": 1137,
+        "total_tokens": 9308,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7915
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 8344,
+        "completion_tokens": 1426,
+        "total_tokens": 9770,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8088
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 9349,
+        "completion_tokens": 1440,
+        "total_tokens": 10789,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9093
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 9601,
+        "completion_tokens": 1041,
+        "total_tokens": 10642,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9345
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C005",
+      "api_usage": {
+        "prompt_tokens": 8725,
+        "completion_tokens": 1015,
+        "total_tokens": 9740,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8469
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C006",
+      "api_usage": {
+        "prompt_tokens": 5377,
+        "completion_tokens": 51,
+        "total_tokens": 5428,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 5121
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 12188,
+        "completion_tokens": 2871,
+        "total_tokens": 15059,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 11804
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 11924,
+        "completion_tokens": 5541,
+        "total_tokens": 17465,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 11284
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 16479,
+        "completion_tokens": 1010,
+        "total_tokens": 17489,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 16479
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 19492,
+        "completion_tokens": 5986,
+        "total_tokens": 25478,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 18852
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

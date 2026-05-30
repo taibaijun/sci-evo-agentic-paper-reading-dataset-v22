@@ -1,0 +1,1798 @@
+{
+  "doc_no": "0002",
+  "source": {
+    "title": "High-throughput screening of catalytically active inclusion bodies using laboratory automation and Bayesian optimization\".",
+    "doi": "10.1186/s12934-024-02319-y",
+    "license": "cc by",
+    "pdf_name": "0002_PMC10894497_high_throughput_screening_of_catalytically_active_inclusion_bodies_using_laborat.pdf",
+    "combined_md": "docs/0002/combined.md",
+    "mineru_md": "docs/0002/mineru.md"
+  },
+  "gist_memory": {
+    "paper_problem_memory": "The paper addresses the challenge of identifying optimal combinations of linker and aggregation-inducing tag for catalytically active inclusion bodies (CatIBs) of a given enzyme, as no a priori prediction is possible. The goal is to develop a high-throughput, semi-automated Design-Build-Test-Learn (DBTL) workflow that integrates automated strain construction, cultivation, purification, and characterization, combined with Bayesian optimization (Thompson sampling) to efficiently screen large CatIB libraries and identify the best-performing variant.",
+    "section_gists": [
+      {
+        "section_index": 6,
+        "heading": "Abstract",
+        "gist": "Summarizes the development of a semi-automated cloning workflow to generate 63 CatIB variants of BsGDH, optimization of an automated screening workflow (eliminating plate position effects by changing cultivation temperature), and application of Bayesian process model with Thompson sampling to screen variants in three rounds, identifying TDoT-PT-BsGDH as the best performer. Manual workload reduced from 59 to 7 h for 48 variants (88% reduction).",
+        "process_signals": [
+          "Semi-automated cloning workflow implemented for fast generation of 63 CatIB variants.",
+          "Automated CatIB screening workflow developed, optimized, and validated using BsGDH-PT-CBDCell.",
+          "Optimization steps included changing cultivation temperature to eliminate positional bias.",
+          "Bayesian process model and Thompson sampling used for iterative screening.",
+          "63 variants screened in only three batch experiments.",
+          "TDoT-PT-BsGDH identified as best CatIB performer."
+        ],
+        "methods": [
+          "Semi-automated cloning",
+          "Automated CatIB screening workflow",
+          "Bayesian process model",
+          "Thompson sampling"
+        ],
+        "metrics": [
+          "Manual workload reduction: 59 h to 7 h for 48 variants (88%)",
+          "Reproducibility: 1.9% relative standard deviation across 42 biological replicates",
+          "Number of variants screened: 63",
+          "Number of screening rounds: 3"
+        ],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 7,
+        "heading": "Background",
+        "gist": "CatIBs are inclusion bodies retaining catalytic activity, formed by fusing an aggregation-inducing tag to an enzyme via a linker. Choice of linker and tag strongly influences activity, but no a priori prediction is possible, necessitating extensive screening. Previous studies used laborious traditional cloning. Golden Gate Assembly (GGA) is faster and automatable. High-throughput screening requires automation of cultivation, purification, and analytics. Bayesian optimization and Thompson sampling can efficiently plan experiments in DBTL cycles. This study aims to combine workflow automation with process modeling for CatIB screening.",
+        "process_signals": [
+          "CatIB activity depends on linker, tag, and fusion terminus; no a priori prediction possible.",
+          "Traditional cloning is laborious; GGA is faster and automatable.",
+          "High-throughput screening requires automation of cultivation, purification, and analytics.",
+          "Bayesian optimization and Thompson sampling can enhance experimental design in DBTL cycles.",
+          "Goal: combine automation with process modeling for CatIB DBTL."
+        ],
+        "methods": [
+          "Golden Gate Assembly (GGA)",
+          "Automated microbioreactors",
+          "Bayesian process model",
+          "Thompson sampling"
+        ],
+        "metrics": [],
+        "failures_or_limits": [
+          "A priori prediction of suitable combinations not possible.",
+          "N-terminal fusion often failed in previous studies."
+        ]
+      },
+      {
+        "section_index": 8,
+        "heading": "Results and discussion",
+        "gist": "Section header only; no content.",
+        "process_signals": [],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 9,
+        "heading": "Semi-automated strain construction to generate 63 different BsGDH-CatIBs",
+        "gist": "A semi-automated cloning workflow using GGA was implemented to construct up to 96 CatIB variants in parallel. Transformation and GGA were fully automated using Opentrons; plasmid preparation was parallelized. Manual work reduced to 11 h for 96 variants (17% of traditional). Applied to generate 63 BsGDH-CatIB variants with SG/PT linkers, eight tags, and N-/C-terminal fusions, plus linker length and tag length studies. 13 out of 76 constructs failed (potentially non-viable), leaving 63 for screening.",
+        "process_signals": [
+          "Semi-automated workflow targeted repetitive steps; transformation and GGA automated.",
+          "Manual work: 11 h for 96 variants vs. traditional cloning.",
+          "63 variants successfully constructed; 13 failed (non-viable phenotype).",
+          "Variants included linker type, tag type, fusion terminus, linker length, tag length."
+        ],
+        "methods": [
+          "Golden Gate Assembly (GGA)",
+          "Opentrons automation",
+          "Parallel plasmid preparation"
+        ],
+        "metrics": [
+          "Manual work: 11 h for 96 variants (17% of traditional)",
+          "Success rate: 63/76 constructs (83%)"
+        ],
+        "failures_or_limits": [
+          "13 CatIB variants could not be cloned within three attempts, potentially due to non-viable phenotype."
+        ]
+      },
+      {
+        "section_index": 10,
+        "heading": "Overview of the CatIB screening workflow",
+        "gist": "Automated screening workflow includes parallelized cultivation in BioLector I with FlowerPlate, followed by automated CatIB purification (centrifugation, washing, lysis, resuspension) and enzymatic assay with online NADH fluorescence measurement at 37°C. Pre-warming at 40°C for 10 min to avoid temperature effects.",
+        "process_signals": [
+          "Automation of cultivation, purification, and assay essential for high-throughput.",
+          "Purification steps: centrifugation, washing, lysis with BugBuster+lysozyme, separation of soluble/insoluble fractions.",
+          "Assay: pre-warming, online NADH fluorescence measurement."
+        ],
+        "methods": [
+          "BioLector I cultivation",
+          "Automated liquid handling (Tecan Freedom Evo 200)",
+          "Online fluorescence assay"
+        ],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 11,
+        "heading": "Optimization of the CatIB workflow – BioLector positional bias",
+        "gist": "Initial cultivation protocol (37°C 3h, 15°C 69h) caused systematic positional bias in BioLector backscatter values due to temperature gradient from cooling fan. 48 replicates of BsGDH-PT-CBDCell showed backscatter range 60-80 a.u. (mean 74.9, SD 4.5). Changing to constant 25°C eliminated bias (mean 70.2, SD 1.1). Microscopy and activity tests confirmed CatIB formation and activity at 25°C, with some variants showing improved formation. 25°C adopted for screening.",
+        "process_signals": [
+          "Positional bias observed: lower backscatter in bottom left, higher in top right.",
+          "Hypothesis: temperature gradient from cooling fan during 15°C step.",
+          "Solution: constant 25°C cultivation eliminated bias.",
+          "Validation: CatIB formation and activity confirmed at 25°C; some variants preferred 25°C."
+        ],
+        "methods": [
+          "BioLector cultivation",
+          "Backscatter measurement",
+          "Microscopy",
+          "Volumetric activity assay"
+        ],
+        "metrics": [
+          "Backscatter SD reduced from 4.5 a.u. to 1.1 a.u.",
+          "48 biological replicates used for bias assessment"
+        ],
+        "failures_or_limits": [
+          "Initial protocol caused unfair ranking due to positional bias."
+        ]
+      },
+      {
+        "section_index": 12,
+        "heading": "Optimization of the CatIB workflow – Enzymatic assay and overall validation",
+        "gist": "Enzymatic assay adapted from manual study: switched from sampling/quenching to online NADH fluorescence measurement for higher data density; added pre-warming to avoid temperature effects. Validation with 42 replicates showed high reproducibility (1.9% RSD after 120 min vs. 11.4% previously). Automated workflow reduced manual work from 40 h to 1 h for 48 variants (plus 11 h automated). Overall manual work for construction and screening: 7 h for 48 variants (12% of manual).",
+        "process_signals": [
+          "Assay changed to online measurement for higher resolution.",
+          "Pre-warming added to avoid temperature effects.",
+          "Validation: 1.9% RSD across 42 replicates.",
+          "Manual work reduced by >90% for screening."
+        ],
+        "methods": [
+          "Online fluorescence assay",
+          "Automated liquid handling"
+        ],
+        "metrics": [
+          "RSD: 1.9% (new) vs. 11.4% (previous)",
+          "Manual work: 1 h for 48 variants (screening), 7 h total (construction + screening)",
+          "Time saving: >90% for screening"
+        ],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 13,
+        "heading": "Automated screening of 63 BsGDH-CatIBs via Thompson sampling",
+        "gist": "Combined automated cloning, cultivation, and characterization with Bayesian process model and Thompson sampling to screen 63 variants in three rounds (FlowerPlate capacity 48). Process model describes assay kinetics as first-order reaction, accounting for dilution, pipetting errors, and time delays, yielding probability distributions for variant reaction rate k_variant. Thompson sampling balances exploration/exploitation: initially random, then increasingly selects promising variants. After Round 1, inactive variants dropped; after Round 2, TDoT-PT-BsGDH dominated (36 replicates in Round 3). Unseen variants became unlikely due to hierarchical model. TDoT-PT-BsGDH identified as best with high certainty.",
+        "process_signals": [
+          "FlowerPlate limited to 48 strains; iterative screening needed.",
+          "Process model: first-order reaction, accounts for errors and delays.",
+          "Thompson sampling used for experimental design: unicates instead of triplicates.",
+          "Round 0: equal prior probabilities.",
+          "Round 1: inactive variants (e.g., (L6KD)n-SG-BsGDH) dropped to 0% probability.",
+          "Round 2: mixture of unseen and promising variants; TDoT-PT-BsGDH emerged.",
+          "Round 3: 36 replicates of TDoT-PT-BsGDH; convergence.",
+          "Hierarchical model reduced probability of unseen variants outperforming."
+        ],
+        "methods": [
+          "Bayesian process model",
+          "Thompson sampling",
+          "Iterative screening rounds"
+        ],
+        "metrics": [
+          "Number of rounds: 3",
+          "Replicates of top variant: 50 total across rounds",
+          "Variants screened: 63"
+        ],
+        "failures_or_limits": [
+          "Inactive variants identified early and excluded."
+        ]
+      },
+      {
+        "section_index": 14,
+        "heading": "Insights on structure/function relationship",
+        "gist": "Microscopy and SDS-PAGE of insoluble fractions confirmed CatIB formation. BsGDH_WT did not form CatIBs. Top Thompson sampling variants (TDoT-PT-BsGDH, BsGDH-PT-3HAMP, BsGDH-PT-CBDCell, BsGDH-PT-L6KD) all showed CatIBs by SDS-PAGE and microscopy. PT linker generally more active; C-terminal fusion often beneficial, but top performer TDoT-PT-BsGDH had N-terminal tag. Larger L6KD tags did not improve formation. No general rules; enzyme-specific screening necessary.",
+        "process_signals": [
+          "BsGDH_WT no CatIBs, confirming previous study.",
+          "Top variants all had PT linker and detectable CatIBs.",
+          "C-terminal fusion generally better, but N-terminal top performer exception.",
+          "Larger L6KD tags did not enhance CatIB formation.",
+          "No generalizable rules; screening required per enzyme."
+        ],
+        "methods": [
+          "Phase contrast microscopy",
+          "SDS-PAGE"
+        ],
+        "metrics": [],
+        "failures_or_limits": [
+          "Limited understanding of structure-function relationship; a priori prediction still not possible."
+        ]
+      },
+      {
+        "section_index": 15,
+        "heading": "Conclusions",
+        "gist": "Developed a CatIB toolbox enabling automated DBTL cycle: strain construction, cultivation, purification, characterization. Optimization eliminated positional bias, adapted assay, achieved 1.9% RSD. Manual work reduced by 88% for 48 variants. Thompson sampling identified TDoT-PT-BsGDH in 3 rounds with high certainty. PT linker again more successful, but prediction remains impossible. Future: feedback loop for strain construction, simultaneous optimization of variants and conditions, further automation for structure-function studies.",
+        "process_signals": [
+          "Toolbox enables parallel analysis of CatIB candidates.",
+          "Optimization steps: temperature, liquid handling, online measurement.",
+          "Thompson sampling more efficient than triplicate design.",
+          "PT linker beneficial, but no a priori prediction.",
+          "Future: feedback loop, co-optimization, more automation."
+        ],
+        "methods": [],
+        "metrics": [
+          "Manual work reduction: 88%",
+          "RSD: 1.9%",
+          "Screening rounds: 3"
+        ],
+        "failures_or_limits": [
+          "A priori prediction still not possible.",
+          "Further automation and data needed for structure-function understanding."
+        ]
+      },
+      {
+        "section_index": 16,
+        "heading": "Methods",
+        "gist": "Section header only; no content.",
+        "process_signals": [],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 33,
+        "heading": "Availability of data and materials",
+        "gist": "Screening data and Thompson sampling results available on GitHub. Other data available from corresponding author upon request.",
+        "process_signals": [],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": []
+      }
+    ],
+    "global_hypotheses_about_storyline": [
+      "The research evolved from the need to screen many CatIB variants efficiently because no a priori prediction of optimal linker-tag combinations exists.",
+      "Initial manual workflows were too laborious, motivating semi-automation of cloning and full automation of screening.",
+      "A critical technical challenge (positional bias in BioLector) was discovered during optimization, leading to a protocol change (constant 25°C) that resolved it and was validated.",
+      "The enzymatic assay was improved for online measurement, increasing data quality and reproducibility.",
+      "Bayesian optimization with Thompson sampling was integrated to efficiently explore the variant library within the limited capacity of the FlowerPlate, successfully identifying the best variant in fewer rounds than a traditional design.",
+      "The study confirmed that PT linker generally yields more active CatIBs, but exceptions (N-terminal top performer) highlight the need for empirical screening, reinforcing the value of the developed toolbox."
+    ],
+    "uncertainties_to_resolve": [
+      "Why did 13 variants fail to clone? Were they truly non-viable, or could conditions be optimized?",
+      "How generalizable is the 25°C cultivation condition to other enzymes or CatIB systems?",
+      "Could the process model be improved to incorporate more biological factors (e.g., CatIB count, specific activity)?",
+      "What are the exact computational details of the Bayesian model and Thompson sampling implementation?",
+      "How would the workflow perform with even larger libraries or different enzymes?",
+      "What are the specific liquid handling settings and pre-warming parameters that were optimized?",
+      "Are there any limitations in the automated purification that could affect CatIB integrity or activity measurement?"
+    ]
+  },
+  "chunk_events": [
+    {
+      "chunk_id": "C001",
+      "char_start": 0,
+      "char_end": 18000,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C001_E01",
+          "chunk_id": "C001",
+          "event_type": "problem",
+          "order_hint": 1,
+          "summary": "No a priori prediction possible for best linker/tag combination for CatIBs, necessitating extensive screening.",
+          "methods_or_tools": [],
+          "entities": [
+            "CatIBs",
+            "linker",
+            "aggregation-inducing tag"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E01_01"
+          ]
+        },
+        {
+          "event_id": "C001_E02",
+          "chunk_id": "C001",
+          "event_type": "design",
+          "order_hint": 2,
+          "summary": "Semi-automated cloning workflow implemented for fast generation of 63 CatIB variants using Golden Gate Assembly.",
+          "methods_or_tools": [
+            "Golden Gate Assembly",
+            "Opentrons"
+          ],
+          "entities": [
+            "BsGDH",
+            "CatIB variants"
+          ],
+          "numbers_or_metrics": [
+            "63 variants",
+            "11 h manual work for 96 variants"
+          ],
+          "evidence_ids": [
+            "EV_C001_E02_01",
+            "EV_C001_E02_02"
+          ]
+        },
+        {
+          "event_id": "C001_E03",
+          "chunk_id": "C001",
+          "event_type": "failure",
+          "order_hint": 3,
+          "summary": "13 CatIB variants could not be cloned within three attempts, potentially due to non-viable phenotype.",
+          "methods_or_tools": [],
+          "entities": [
+            "CatIB variants"
+          ],
+          "numbers_or_metrics": [
+            "13 out of 76 constructs failed"
+          ],
+          "evidence_ids": [
+            "EV_C001_E03_01"
+          ]
+        },
+        {
+          "event_id": "C001_E04",
+          "chunk_id": "C001",
+          "event_type": "problem",
+          "order_hint": 4,
+          "summary": "Systematic positional bias observed in BioLector backscatter values during cultivation at 15°C.",
+          "methods_or_tools": [
+            "BioLector"
+          ],
+          "entities": [
+            "BsGDH-PT-CBDCell"
+          ],
+          "numbers_or_metrics": [
+            "48 biological replicates",
+            "backscatter range 60-80 a.u."
+          ],
+          "evidence_ids": [
+            "EV_C001_E04_01"
+          ]
+        },
+        {
+          "event_id": "C001_E05",
+          "chunk_id": "C001",
+          "event_type": "hypothesis",
+          "order_hint": 5,
+          "summary": "Hypothesis that temperature gradient from cooling fan caused positional bias.",
+          "methods_or_tools": [],
+          "entities": [
+            "BioLector"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E05_01"
+          ]
+        },
+        {
+          "event_id": "C001_E06",
+          "chunk_id": "C001",
+          "event_type": "revision",
+          "order_hint": 6,
+          "summary": "Changed cultivation temperature to constant 25°C to eliminate positional bias.",
+          "methods_or_tools": [
+            "BioLector"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E06_01"
+          ]
+        },
+        {
+          "event_id": "C001_E07",
+          "chunk_id": "C001",
+          "event_type": "validation",
+          "order_hint": 7,
+          "summary": "Validation of automated screening workflow showed high reproducibility with 1.9% RSD across 42 biological replicates.",
+          "methods_or_tools": [
+            "automated screening workflow"
+          ],
+          "entities": [
+            "BsGDH-PT-CBDCell"
+          ],
+          "numbers_or_metrics": [
+            "1.9% relative standard deviation",
+            "42 biological replicates"
+          ],
+          "evidence_ids": [
+            "EV_C001_E07_01"
+          ]
+        },
+        {
+          "event_id": "C001_E08",
+          "chunk_id": "C001",
+          "event_type": "design",
+          "order_hint": 8,
+          "summary": "Combined automated workflow with Bayesian process model and Thompson sampling for iterative screening of 63 variants.",
+          "methods_or_tools": [
+            "Bayesian process model",
+            "Thompson sampling"
+          ],
+          "entities": [
+            "BsGDH-CatIB variants"
+          ],
+          "numbers_or_metrics": [
+            "63 variants",
+            "three batch experiments"
+          ],
+          "evidence_ids": [
+            "EV_C001_E08_01",
+            "EV_C001_E08_02"
+          ]
+        }
+      ],
+      "notes": "Chunk covers abstract, background, and early results including cloning, bias problem, and workflow design.",
+      "api_usage": {
+        "prompt_tokens": 8171,
+        "completion_tokens": 1137,
+        "total_tokens": 9308,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7915
+      }
+    },
+    {
+      "chunk_id": "C002",
+      "char_start": 17100,
+      "char_end": 35100,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C002_E01",
+          "chunk_id": "C002",
+          "event_type": "problem",
+          "order_hint": 1,
+          "summary": "Systematic positional bias observed in BioLector during cultivation at 15°C, causing unfair ranking of CatIB variants.",
+          "methods_or_tools": [
+            "BioLector",
+            "FlowerPlate"
+          ],
+          "entities": [
+            "BsGDH-PT-CBDCell",
+            "E. coli BL21(DE3)"
+          ],
+          "numbers_or_metrics": [
+            "backscatter range 60-80 a.u.",
+            "mean 74.9 a.u.",
+            "SD 4.5 a.u."
+          ],
+          "evidence_ids": [
+            "EV_C002_E01_01",
+            "EV_C002_E01_02"
+          ]
+        },
+        {
+          "event_id": "C002_E03",
+          "chunk_id": "C002",
+          "event_type": "design",
+          "order_hint": 3,
+          "summary": "Cultivation temperature changed to constant 25°C to eliminate positional bias.",
+          "methods_or_tools": [
+            "BioLector"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [
+            "25 °C"
+          ],
+          "evidence_ids": [
+            "EV_C002_E03_01"
+          ]
+        },
+        {
+          "event_id": "C002_E04",
+          "chunk_id": "C002",
+          "event_type": "validation",
+          "order_hint": 4,
+          "summary": "Constant 25°C cultivation eliminated positional bias, reducing backscatter standard deviation from 4.5 to 1.1 a.u.",
+          "methods_or_tools": [
+            "BioLector"
+          ],
+          "entities": [
+            "BsGDH-PT-CBDCell"
+          ],
+          "numbers_or_metrics": [
+            "mean 70.2 a.u.",
+            "SD 1.1 a.u.",
+            "48 biological replicates"
+          ],
+          "evidence_ids": [
+            "EV_C002_E04_02"
+          ]
+        },
+        {
+          "event_id": "C002_E05",
+          "chunk_id": "C002",
+          "event_type": "validation",
+          "order_hint": 5,
+          "summary": "CatIB formation and enzymatic activity confirmed at 25°C; some variants showed improved formation.",
+          "methods_or_tools": [
+            "microscopy",
+            "volumetric activity assay"
+          ],
+          "entities": [
+            "BsGDH-PT-3HAMP",
+            "BsGDH-PT-CBDCell",
+            "BsGDH-PT-18AWT"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E05_01"
+          ]
+        },
+        {
+          "event_id": "C002_E06",
+          "chunk_id": "C002",
+          "event_type": "design",
+          "order_hint": 6,
+          "summary": "Enzymatic assay adapted to online NADH fluorescence measurement with pre-warming to increase data resolution and avoid temperature effects.",
+          "methods_or_tools": [
+            "online fluorescence measurement",
+            "pre-warming"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E06_01",
+            "EV_C002_E06_02"
+          ]
+        },
+        {
+          "event_id": "C002_E07",
+          "chunk_id": "C002",
+          "event_type": "validation",
+          "order_hint": 7,
+          "summary": "Validation study showed high reproducibility of optimized workflow with 1.9% RSD after 120 min, compared to 11.4% previously.",
+          "methods_or_tools": [
+            "online enzymatic assay"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [
+            "1.9% RSD",
+            "11.4% RSD",
+            "42 biological replicates"
+          ],
+          "evidence_ids": [
+            "EV_C002_E07_01"
+          ]
+        },
+        {
+          "event_id": "C002_E08",
+          "chunk_id": "C002",
+          "event_type": "analysis",
+          "order_hint": 8,
+          "summary": "Manual workload reduced by >90% for screening; overall manual work for 48 variants reduced to 7 h (12% of manual procedure).",
+          "methods_or_tools": [
+            "robotic automation"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [
+            "40 h manual vs. 1 h manual",
+            "7 h total",
+            "12%"
+          ],
+          "evidence_ids": [
+            "EV_C002_E08_01",
+            "EV_C002_E08_02"
+          ]
+        }
+      ],
+      "notes": "This chunk covers optimization of cultivation to eliminate positional bias, validation of CatIB formation at new temperature, adaptation of enzymatic assay, and validation of workflow reproducibility with significant manual work reduction.",
+      "api_usage": {
+        "prompt_tokens": 8344,
+        "completion_tokens": 1426,
+        "total_tokens": 9770,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8088
+      }
+    },
+    {
+      "chunk_id": "C003",
+      "char_start": 34200,
+      "char_end": 52200,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C003_E01",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 1,
+          "summary": "Thompson sampling algorithm did not select two variants (BsGDH-SG-L48KD and CBDCell-PT-BsGDH) in any round, which might be unsatisfying for a human operator.",
+          "methods_or_tools": [
+            "Thompson sampling"
+          ],
+          "entities": [
+            "BsGDH-SG-L48KD",
+            "CBDCell-PT-BsGDH"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E01_01"
+          ]
+        },
+        {
+          "event_id": "C003_E02",
+          "chunk_id": "C003",
+          "event_type": "validation",
+          "order_hint": 2,
+          "summary": "A manually designed fourth round confirmed TDoT-PT-BsGDH as the best performer with >99% probability, and the unseen variants were weak performers.",
+          "methods_or_tools": [
+            "manual screening round"
+          ],
+          "entities": [
+            "TDoT-PT-BsGDH",
+            "BsGDH-SG-L48KD",
+            "CBDCell-PT-BsGDH"
+          ],
+          "numbers_or_metrics": [
+            ">99% probability"
+          ],
+          "evidence_ids": [
+            "EV_C003_E02_01",
+            "EV_C003_E02_02"
+          ]
+        },
+        {
+          "event_id": "C003_E03",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 3,
+          "summary": "Top four candidates have similar median reaction rate constants between 0.15 and 0.19 min^-1, making it harder to distinguish the top producer.",
+          "methods_or_tools": [],
+          "entities": [
+            "TDoT-PT-BsGDH",
+            "BsGDH-PT-3HAMP",
+            "BsGDH-PT-CBDCell",
+            "BsGDH-PT-L6KD"
+          ],
+          "numbers_or_metrics": [
+            "0.15 min^-1 to 0.19 min^-1"
+          ],
+          "evidence_ids": [
+            "EV_C003_E03_01"
+          ]
+        },
+        {
+          "event_id": "C003_E05",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 5,
+          "summary": "BsGDH_WT did not form visible inclusion bodies or show activity in insoluble fraction, confirming previous manual study results.",
+          "methods_or_tools": [
+            "phase contrast microscopy",
+            "SDS-PAGE",
+            "enzyme assay"
+          ],
+          "entities": [
+            "BsGDH_WT"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E05_01"
+          ]
+        },
+        {
+          "event_id": "C003_E06",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 6,
+          "summary": "Larger versions of L6KD tag did not lead to better CatIB formation, as seen in microscopy.",
+          "methods_or_tools": [
+            "microscopy"
+          ],
+          "entities": [
+            "L6KD"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E06_01"
+          ]
+        },
+        {
+          "event_id": "C003_E07",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 7,
+          "summary": "Successful CatIB formation and activity depend on combination of tag, linker, and fusion terminus, allowing no general conclusion.",
+          "methods_or_tools": [],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E07_01"
+          ]
+        },
+        {
+          "event_id": "C003_E08",
+          "chunk_id": "C003",
+          "event_type": "limitation",
+          "order_hint": 8,
+          "summary": "Top performer TDoT-PT-BsGDH has N-terminal tag, exemplifying limited understanding of structure-function relationship for CatIB design.",
+          "methods_or_tools": [],
+          "entities": [
+            "TDoT-PT-BsGDH"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E08_01"
+          ]
+        }
+      ],
+      "notes": "Chunk contains validation of Thompson sampling results, analysis of top variants, and insights into structure-function relationships, all directly relevant to the paper's process.",
+      "api_usage": {
+        "prompt_tokens": 9349,
+        "completion_tokens": 1440,
+        "total_tokens": 10789,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9093
+      }
+    },
+    {
+      "chunk_id": "C004",
+      "char_start": 51300,
+      "char_end": 69300,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C004_E01",
+          "chunk_id": "C004",
+          "event_type": "design",
+          "order_hint": 1,
+          "summary": "The process model uses a Bayesian hierarchical model to quantify experimental effects on the reaction rate of each CatIB variant.",
+          "methods_or_tools": [
+            "PyMC v4",
+            "Bayesian hierarchical model"
+          ],
+          "entities": [
+            "process model",
+            "CatIB variant",
+            "reaction rate"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E01_01"
+          ]
+        },
+        {
+          "event_id": "C004_E02",
+          "chunk_id": "C004",
+          "event_type": "design",
+          "order_hint": 2,
+          "summary": "The reaction in the activity assay is modeled with a first order mass action law.",
+          "methods_or_tools": [
+            "first order mass action law"
+          ],
+          "entities": [
+            "activity assay",
+            "product formation"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E02_01"
+          ]
+        }
+      ],
+      "notes": "Chunk contains detailed methods for cloning, transformation, cultivation, purification, assay, and the process model description, which are central to the paper's DBTL workflow.",
+      "api_usage": {
+        "prompt_tokens": 9601,
+        "completion_tokens": 1041,
+        "total_tokens": 10642,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9345
+      }
+    },
+    {
+      "chunk_id": "C005",
+      "char_start": 68400,
+      "char_end": 86400,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C005_E04",
+          "chunk_id": "C005",
+          "event_type": "design",
+          "order_hint": 4,
+          "summary": "Thompson sampling was used for experimental design, balancing exploration and exploitation by sampling from posterior distributions to suggest 48 candidates per batch.",
+          "methods_or_tools": [
+            "Thompson sampling",
+            "pyrff package"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [
+            "48 candidates per batch"
+          ],
+          "evidence_ids": [
+            "EV_C005_E04_01",
+            "EV_C005_E04_02"
+          ]
+        }
+      ],
+      "notes": "This chunk describes the computational design of the Bayesian process model and Thompson sampling strategy, which are core to the paper's DBTL workflow.",
+      "api_usage": {
+        "prompt_tokens": 8725,
+        "completion_tokens": 1015,
+        "total_tokens": 9740,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8469
+      }
+    },
+    {
+      "chunk_id": "C006",
+      "char_start": 85500,
+      "char_end": 89695,
+      "chunk_relevance": "none",
+      "events": [],
+      "notes": "This chunk contains only reference list entries and a publisher's note, with no research process events.",
+      "api_usage": {
+        "prompt_tokens": 5377,
+        "completion_tokens": 51,
+        "total_tokens": 5428,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 5121
+      }
+    }
+  ],
+  "evidence_bank": [
+    {
+      "evidence_id": "EV_C001_E01_01",
+      "source_file": "docs/0002/combined.md",
+      "section": "C001",
+      "char_start": 1399,
+      "char_end": 1571,
+      "quote": "no a priori prediction is possible so far to indicate the best combination thereof. Consequently, extensive screening is required to find the best performing CatIB variant."
+    },
+    {
+      "evidence_id": "EV_C001_E02_01",
+      "source_file": "docs/0002/combined.md",
+      "section": "C001",
+      "char_start": 1595,
+      "char_end": 1694,
+      "quote": "a semi-automated cloning workflow was implemented and used for fast generation of 63 CatIB variants"
+    },
+    {
+      "evidence_id": "EV_C001_E02_02",
+      "source_file": "docs/0002/combined.md",
+      "section": "C001",
+      "char_start": 11932,
+      "char_end": 12007,
+      "quote": "For the generation of 96 CatIB variants only 11 h of manual work are needed"
+    },
+    {
+      "evidence_id": "EV_C001_E03_01",
+      "source_file": "docs/0002/combined.md",
+      "section": "C001",
+      "char_start": 13129,
+      "char_end": 13245,
+      "quote": "13 CatIB variants could not be successfully cloned within three attempts, potentially due to a non-viable phenotype."
+    },
+    {
+      "evidence_id": "EV_C001_E04_01",
+      "source_file": "docs/0002/combined.md",
+      "section": "C001",
+      "char_start": 17508,
+      "char_end": 17625,
+      "quote": "a systematic bias over the positions in the BioLector, which was observed during the second cultivation step at 15 °C"
+    },
+    {
+      "evidence_id": "EV_C001_E05_01",
+      "source_file": "docs/0002/combined.md",
+      "section": "C001",
+      "char_start": 17469,
+      "char_end": 17625,
+      "quote": "The first challenge that was noted was a systematic bias over the positions in the BioLector, which was observed during the second cultivation step at 15 °C"
+    },
+    {
+      "evidence_id": "EV_C001_E06_01",
+      "source_file": "docs/0002/combined.md",
+      "section": "C001",
+      "char_start": 2076,
+      "char_end": 2112,
+      "quote": "changing the cultivation temperature"
+    },
+    {
+      "evidence_id": "EV_C001_E07_01",
+      "source_file": "docs/0002/combined.md",
+      "section": "C001",
+      "char_start": 2268,
+      "char_end": 2358,
+      "quote": "high reproducibility with 1.9% relative standard deviation across 42 biological replicates"
+    },
+    {
+      "evidence_id": "EV_C001_E08_01",
+      "source_file": "docs/0002/combined.md",
+      "section": "C001",
+      "char_start": 2360,
+      "char_end": 2453,
+      "quote": "the workflow was performed in combination with a Bayesian process model and Thompson sampling"
+    },
+    {
+      "evidence_id": "EV_C001_E08_02",
+      "source_file": "docs/0002/combined.md",
+      "section": "C001",
+      "char_start": 2658,
+      "char_end": 2737,
+      "quote": "allowed analysis of 63 BsGDH-CatIB variants within only three batch experiments"
+    },
+    {
+      "evidence_id": "EV_C002_E01_01",
+      "source_file": "docs/0002/combined.md",
+      "section": "C002",
+      "char_start": 17508,
+      "char_end": 17625,
+      "quote": "a systematic bias over the positions in the BioLector, which was observed during the second cultivation step at 15 °C"
+    },
+    {
+      "evidence_id": "EV_C002_E01_02",
+      "source_file": "docs/0002/combined.md",
+      "section": "C002",
+      "char_start": 17963,
+      "char_end": 18128,
+      "quote": "the final backscatter values across the FlowerPlate varied from approximately 60 to 80 a.u. with a mean and standard deviation of 74.9 a.u. and 4.5 a.u. respectively"
+    },
+    {
+      "evidence_id": "EV_C002_E03_01",
+      "source_file": "docs/0002/combined.md",
+      "section": "C002",
+      "char_start": 21179,
+      "char_end": 21277,
+      "quote": "the cultivation temperature was changed to 25 °C for the whole process, excluding the cooling step"
+    },
+    {
+      "evidence_id": "EV_C002_E04_02",
+      "source_file": "docs/0002/combined.md",
+      "section": "C002",
+      "char_start": 21490,
+      "char_end": 21575,
+      "quote": "the positional bias could thus be prevented by using 25 °C as cultivation temperature"
+    },
+    {
+      "evidence_id": "EV_C002_E05_01",
+      "source_file": "docs/0002/combined.md",
+      "section": "C002",
+      "char_start": 22370,
+      "char_end": 22502,
+      "quote": "the results indicate that cultivation at 25 °C overall has a positive influence on the CatIB formation rate for the BsGDH case study"
+    },
+    {
+      "evidence_id": "EV_C002_E06_01",
+      "source_file": "docs/0002/combined.md",
+      "section": "C002",
+      "char_start": 23510,
+      "char_end": 23614,
+      "quote": "online measurement of the reaction in the plate reader could drastically increase the resolution of data"
+    },
+    {
+      "evidence_id": "EV_C002_E06_02",
+      "source_file": "docs/0002/combined.md",
+      "section": "C002",
+      "char_start": 23629,
+      "char_end": 23728,
+      "quote": "pre-warming of solutions was performed to avoid any temperature effects during the NADH measurement"
+    },
+    {
+      "evidence_id": "EV_C002_E07_01",
+      "source_file": "docs/0002/combined.md",
+      "section": "C002",
+      "char_start": 24007,
+      "char_end": 24227,
+      "quote": "a high reproducibility of the new workflow was demonstrated with 42 biological replicates, lowering the relative standard deviation of fluorescence signals after 120 min to only 1.9% compared to 11.4% in a previous study"
+    },
+    {
+      "evidence_id": "EV_C002_E08_01",
+      "source_file": "docs/0002/combined.md",
+      "section": "C002",
+      "char_start": 24814,
+      "char_end": 24894,
+      "quote": "the robotic automation resulted in a time saving of manual work by more than 90%"
+    },
+    {
+      "evidence_id": "EV_C002_E08_02",
+      "source_file": "docs/0002/combined.md",
+      "section": "C002",
+      "char_start": 24934,
+      "char_end": 25085,
+      "quote": "this results in an overall manual work time of 7 h for 48 variants. This is approximately 12% of the operator workload for the typical manual procedure"
+    },
+    {
+      "evidence_id": "EV_C003_E01_01",
+      "source_file": "docs/0002/combined.md",
+      "section": "C003",
+      "char_start": 34520,
+      "char_end": 34662,
+      "quote": "Due to the probabilistic nature of the algorithm, two remaining variants, BsGDH-SG-L48KD, and CBDCell-PT-BsGDH, where not chosen in any round."
+    },
+    {
+      "evidence_id": "EV_C003_E02_01",
+      "source_file": "docs/0002/combined.md",
+      "section": "C003",
+      "char_start": 35004,
+      "char_end": 35169,
+      "quote": "After the fourth round, it is clearly confirmed that TDoT-PT-BsGDH is the best performer in the library, which the algorithm determined with a probability of $>99\\%$"
+    },
+    {
+      "evidence_id": "EV_C003_E02_02",
+      "source_file": "docs/0002/combined.md",
+      "section": "C003",
+      "char_start": 35206,
+      "char_end": 35366,
+      "quote": "the previously unseen variants BsGDH-SG-L48KD and CBDCell-PT-BsGDH did not lead to the successful formation of CatIBs and were weak performers not worth testing"
+    },
+    {
+      "evidence_id": "EV_C003_E03_01",
+      "source_file": "docs/0002/combined.md",
+      "section": "C003",
+      "char_start": 35779,
+      "char_end": 35956,
+      "quote": "the top four candidates, TDoT-PT-BsGDH, BsGDH-PT-3HAMP, BsGDH-PT-CBDCell and BsGDH-PT-L6KD all have a median reaction rate constant between 0.15 min $^{-1}$ and 0.19 min $^{-1}$"
+    },
+    {
+      "evidence_id": "EV_C003_E05_01",
+      "source_file": "docs/0002/combined.md",
+      "section": "C003",
+      "char_start": 40985,
+      "char_end": 41242,
+      "quote": "the control $BsGDH_{WT}$ , which is expressing soluble enzyme, did not form visible inclusion bodies on microscopic images or during SDS-PAGE analysis. Moreover, the enzyme assay revealed that no activity was measured for the insoluble cell pellet fraction."
+    },
+    {
+      "evidence_id": "EV_C003_E06_01",
+      "source_file": "docs/0002/combined.md",
+      "section": "C003",
+      "char_start": 41421,
+      "char_end": 41589,
+      "quote": "low to no CatIB formation was seen in microscopy (Additional file 1: Figure S6), showing that larger versions of the L6KD linker did not lead to better CatIB formation."
+    },
+    {
+      "evidence_id": "EV_C003_E07_01",
+      "source_file": "docs/0002/combined.md",
+      "section": "C003",
+      "char_start": 41843,
+      "char_end": 42035,
+      "quote": "successful CatIB formation and activity highly depend on the combination of aggregation-inducing tag, length and type of the linker and N-/C-terminal fusion, allowing for no general conclusion"
+    },
+    {
+      "evidence_id": "EV_C003_E08_01",
+      "source_file": "docs/0002/combined.md",
+      "section": "C003",
+      "char_start": 44727,
+      "char_end": 44926,
+      "quote": "the top performer TDoT-PT-BsGDH is a variant with N-terminal addition of the tag, as such a perfect example of the still limited understanding of the structure–function relationship for CatIB design."
+    },
+    {
+      "evidence_id": "EV_C004_E01_01",
+      "source_file": "docs/0002/combined.md",
+      "section": "C004",
+      "char_start": 59497,
+      "char_end": 59655,
+      "quote": "the process model was used to quantify various experimental effects and their influence on the reaction rate of each CatIB variant in the final activity assay"
+    },
+    {
+      "evidence_id": "EV_C004_E02_01",
+      "source_file": "docs/0002/combined.md",
+      "section": "C004",
+      "char_start": 60348,
+      "char_end": 60437,
+      "quote": "we chose to model their reaction in the activity assay with a first order mass action law"
+    },
+    {
+      "evidence_id": "EV_C005_E04_01",
+      "source_file": "docs/0002/combined.md",
+      "section": "C005",
+      "char_start": 74037,
+      "char_end": 74115,
+      "quote": "we used these distributions and Thompson sampling [50] for experimental design"
+    },
+    {
+      "evidence_id": "EV_C005_E04_02",
+      "source_file": "docs/0002/combined.md",
+      "section": "C005",
+      "char_start": 74532,
+      "char_end": 74633,
+      "quote": "By sampling from the distributions, Thompson sampling balanced exploration and exploitation naturally"
+    },
+    {
+      "evidence_id": "EV_AUTO_001",
+      "source_file": "docs/0002/combined.md",
+      "section": "auto_specific",
+      "char_start": 52431,
+      "char_end": 52619,
+      "quote": "Automated retransformation was conducted with the OT-2 lab robot with the 20 $\\mu$ L and 300 $\\mu$ L pipettes (Opentrons, Long Island City, NY, US) using an integrated thermocycler module."
+    },
+    {
+      "evidence_id": "EV_AUTO_002",
+      "source_file": "docs/0002/combined.md",
+      "section": "auto_specific",
+      "char_start": 79852,
+      "char_end": 79968,
+      "quote": "$^{1}$ Institute of Bio- and Geosciences IBG-1: Biotechnology, Forschungszentrum Jülich GmbH, 52425 Jülich, Germany."
+    },
+    {
+      "evidence_id": "EV_AUTO_003",
+      "source_file": "docs/0002/combined.md",
+      "section": "auto_specific",
+      "char_start": 21741,
+      "char_end": 21931,
+      "quote": "In a first step, all strains with different BsGDH-CatIB variants were cultivated under CatIB standard conditions (3 h at 37 °C, 69 h at 15 °C) or at 25 °C for 72 h in the modified approach."
+    },
+    {
+      "evidence_id": "EV_AUTO_004",
+      "source_file": "docs/0002/combined.md",
+      "section": "auto_specific",
+      "char_start": 46209,
+      "char_end": 46406,
+      "quote": "For the whole CatIB toolbox, starting from strain construction until enzymatic analysis, only 7 h of manual work instead of 59 h were needed, which equals a reduction of 88% for 48 CatIB variants."
+    },
+    {
+      "evidence_id": "EV_AUTO_005",
+      "source_file": "docs/0002/combined.md",
+      "section": "auto_specific",
+      "char_start": 24520,
+      "char_end": 24802,
+      "quote": "Whereas the manual processing and testing of 48 CatIB variants would require approximately 40 h of work time, the implemented, optimized and validated workflow for the screening of 48 CatIB variants could be performed in less than 11 h, including approximately 1 h manual workload."
+    },
+    {
+      "evidence_id": "EV_AUTO_006",
+      "source_file": "docs/0002/combined.md",
+      "section": "auto_specific",
+      "char_start": 2113,
+      "char_end": 2244,
+      "quote": "For the overall workflow including strain construction, the manual workload could be reduced from 59 to 7 h for 48 variants (88%)."
+    },
+    {
+      "evidence_id": "EV_AUTO_007",
+      "source_file": "docs/0002/combined.md",
+      "section": "auto_specific",
+      "char_start": 33782,
+      "char_end": 33961,
+      "quote": "Given the 64 variants (63 in the library and $BsGDH_{WT}$ ), a triplicate design would have led to 64 variants \\* 3 replicate per variant / 48 replicates per round = 4 rounds, i."
+    },
+    {
+      "evidence_id": "EV_AUTO_008",
+      "source_file": "docs/0002/combined.md",
+      "section": "auto_specific",
+      "char_start": 11931,
+      "char_end": 12085,
+      "quote": "For the generation of 96 CatIB variants only 11 h of manual work are needed, which corresponds to 17% of the worktime for a traditional cloning workflow."
+    },
+    {
+      "evidence_id": "EV_AUTO_009",
+      "source_file": "docs/0002/combined.md",
+      "section": "auto_specific",
+      "char_start": 45797,
+      "char_end": 46209,
+      "quote": "After (I) increasing the cultivation temperature to eliminate the position effect in the BioLector, (II) adaptation of the liquid handling settings and pre-warming of assay solutions and (III) online measurements for a higher data resolution, the validation study revealed a highly reproducible automated purification and enzymatic assay workflow with only 1.9% relative standard deviation across 42 replicates."
+    },
+    {
+      "evidence_id": "EV_AUTO_010",
+      "source_file": "docs/0002/combined.md",
+      "section": "auto_specific",
+      "char_start": 33285,
+      "char_end": 33454,
+      "quote": "Afterwards, TDoT-PT-BsGDH showed a 98% probability to be the best performer in the library (see Round 3), which exceed the termination criterion of $>95\\%$ probability."
+    },
+    {
+      "evidence_id": "EV_AUTO_011",
+      "source_file": "docs/0002/combined.md",
+      "section": "auto_specific",
+      "char_start": 24895,
+      "char_end": 25001,
+      "quote": "Together with construction of CatIBs, this results in an overall manual work time of 7 h for 48 variants."
+    },
+    {
+      "evidence_id": "EV_AUTO_012",
+      "source_file": "docs/0002/combined.md",
+      "section": "auto_specific",
+      "char_start": 22503,
+      "char_end": 22730,
+      "quote": "In this study, three variants (BsGDH-PT-3HAMP, BsGDH-PT-CBDCell, BsGDH-PT-18AWT) were additionally tested for their specific volumetric activity $P_{v}$ (Additional file 1: Figure S9), indicating favorable activities at 25 °C."
+    },
+    {
+      "evidence_id": "EV_AUTO_013",
+      "source_file": "docs/0002/combined.md",
+      "section": "auto_specific",
+      "char_start": 74857,
+      "char_end": 74999,
+      "quote": "The experiment-model loop was interrupted when the model showed a probability of $>95\\%$ to have identified the top candidate in the library."
+    },
+    {
+      "evidence_id": "EV_AUTO_014",
+      "source_file": "docs/0002/combined.md",
+      "section": "auto_specific",
+      "char_start": 73972,
+      "char_end": 74116,
+      "quote": "Instead of using a fixed number of replicates for each variant, we used these distributions and Thompson sampling [50] for experimental design."
+    },
+    {
+      "evidence_id": "EV_AUTO_015",
+      "source_file": "docs/0002/combined.md",
+      "section": "auto_specific",
+      "char_start": 46833,
+      "char_end": 47105,
+      "quote": "Due to the exploitation-exploration balancing, the Thompson sampling algorithm selected this variant in 50 biological replicates during the three screening rounds, leading to a statistically sound estimation of its reaction rate constant as the KPI for a library ranking."
+    },
+    {
+      "evidence_id": "EV_AUTO_016",
+      "source_file": "docs/0002/combined.md",
+      "section": "auto_specific",
+      "char_start": 41833,
+      "char_end": 42080,
+      "quote": "However, successful CatIB formation and activity highly depend on the combination of aggregation-inducing tag, length and type of the linker and N-/C-terminal fusion, allowing for no general conclusion, which is in line with the findings in [31]."
+    },
+    {
+      "evidence_id": "EV_AUTO_017",
+      "source_file": "docs/0002/combined.md",
+      "section": "auto_specific",
+      "char_start": 35690,
+      "char_end": 35759,
+      "quote": "The ranking given the KPI for all 64 variants is thus shown in (Fig."
+    },
+    {
+      "evidence_id": "EV_AUTO_018",
+      "source_file": "docs/0002/combined.md",
+      "section": "auto_specific",
+      "char_start": 35004,
+      "char_end": 35175,
+      "quote": "After the fourth round, it is clearly confirmed that TDoT-PT-BsGDH is the best performer in the library, which the algorithm determined with a probability of $>99\\%$ (Fig."
+    },
+    {
+      "evidence_id": "EV_AUTO_019",
+      "source_file": "docs/0002/combined.md",
+      "section": "auto_specific",
+      "char_start": 33454,
+      "char_end": 33622,
+      "quote": "Overall, the top producer TDoT-PT-BsGDH was measured in 50 replicates, while the second- and third-best variants were assigned nine and seven replicates, respectively."
+    },
+    {
+      "evidence_id": "EV_AUTO_020",
+      "source_file": "docs/0002/combined.md",
+      "section": "auto_specific",
+      "char_start": 32349,
+      "char_end": 32471,
+      "quote": "4 Probabilities of each of the 63 BsGDH-CatlB variants (plus soluble BsGDH as negative control) to be the best candidate."
+    },
+    {
+      "evidence_id": "EV_AUTO_021",
+      "source_file": "docs/0002/combined.md",
+      "section": "auto_specific",
+      "char_start": 31404,
+      "char_end": 31505,
+      "quote": "Moreover, the probability for unseen variants such as BsGDH-SG-L48KD dropped to around 1% in Round 2."
+    },
+    {
+      "evidence_id": "EV_AUTO_022",
+      "source_file": "docs/0002/combined.md",
+      "section": "auto_specific",
+      "char_start": 31211,
+      "char_end": 31402,
+      "quote": "After Round 2, a greater shift towards exploitation can be seen as 36 replicates are assigned to the most promising variant TDoT-PT-BsGDH for Round 3, already indicating converging behavior."
+    },
+    {
+      "evidence_id": "EV_AUTO_023",
+      "source_file": "docs/0002/combined.md",
+      "section": "auto_specific",
+      "char_start": 30505,
+      "char_end": 30679,
+      "quote": "First, it can be observed that several variants such as the different $(L6KD)_{n}-SG-BsGDH$ constructs dropped to a probability of 0% already after one round of experiments."
+    },
+    {
+      "evidence_id": "EV_AUTO_024",
+      "source_file": "docs/0002/combined.md",
+      "section": "auto_specific",
+      "char_start": 25415,
+      "char_end": 25612,
+      "quote": "In the final part of this work, the established tools for automated cloning, cultivation and characterization of CatIBs were combined in a case study with 63 BsGDH-CatIB variants and $BsGDH_{WT}$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_025",
+      "source_file": "docs/0002/combined.md",
+      "section": "auto_specific",
+      "char_start": 25153,
+      "char_end": 25349,
+      "quote": "Due to the successful automation of the CatIB screening, which enables high-throughput testing in the context of DBTL cycles, the workflow could be applied to analyze all 63 BsGDH-CatIB variants."
+    },
+    {
+      "evidence_id": "EV_AUTO_026",
+      "source_file": "docs/0002/combined.md",
+      "section": "auto_specific",
+      "char_start": 22309,
+      "char_end": 22503,
+      "quote": "Although the activity is dependent on the specific variant, the results indicate that cultivation at 25 °C overall has a positive influence on the CatIB formation rate for the BsGDH case study."
+    },
+    {
+      "evidence_id": "EV_AUTO_027",
+      "source_file": "docs/0002/combined.md",
+      "section": "auto_specific",
+      "char_start": 22155,
+      "char_end": 22309,
+      "quote": "Interestingly, the comparison of both cultivation temperatures showed that different CatIB variants have different preferred cultivation conditions [31]."
+    },
+    {
+      "evidence_id": "EV_AUTO_028",
+      "source_file": "docs/0002/combined.md",
+      "section": "auto_specific",
+      "char_start": 21578,
+      "char_end": 21741,
+      "quote": "After adapting the cultivation temperature to 25 °C, an analysis was performed to test whether CatIBs were still formed and also if they retain enzymatic activity."
+    },
+    {
+      "evidence_id": "EV_AUTO_029",
+      "source_file": "docs/0002/combined.md",
+      "section": "auto_specific",
+      "char_start": 17792,
+      "char_end": 17950,
+      "quote": "coli BL21(DE3) with BsGDH-PT-CBDCell, a variant that was previously identified as a positive CatIB producer under standard conditions in a manual study [11]."
+    },
+    {
+      "evidence_id": "EV_AUTO_030",
+      "source_file": "docs/0002/combined.md",
+      "section": "auto_specific",
+      "char_start": 12369,
+      "char_end": 12771,
+      "quote": "In addition to these variants, studies with varied linkers and aggregation-inducing tags were performed, where the influence of different lengths of serine/proline linkers (G1, G2, G3, G4, G5, G10 or P1, P2, P3, P4, P5, P10) as well as of the L6KD tag (L12KD, L24KD, L36KD, L48KD, L96KD, (L6KD) $_{2}$ , (L6KD) $_{4}$ , (L6KD) $_{6}$ , (L6KD) $_{8}$ , (L6KD) $_{16}$ ) were tested for CatIB formation."
+    },
+    {
+      "evidence_id": "EV_AUTO_031",
+      "source_file": "docs/0002/combined.md",
+      "section": "auto_specific",
+      "char_start": 12087,
+      "char_end": 12163,
+      "quote": "For the case study with BsGDH, it was applied to generate 63 CatIB variants."
+    },
+    {
+      "evidence_id": "EV_AUTO_032",
+      "source_file": "docs/0002/combined.md",
+      "section": "auto_specific",
+      "char_start": 11294,
+      "char_end": 11381,
+      "quote": "More precisely, construction of up to 96 CatIB variants in parallel was targeted (Fig."
+    },
+    {
+      "evidence_id": "EV_AUTO_033",
+      "source_file": "docs/0002/combined.md",
+      "section": "auto_specific",
+      "char_start": 10361,
+      "char_end": 10510,
+      "quote": "Subsequently, we demonstrate an automated screening workflow to test 63 generated CatIB variants of BsGDH on our automated liquid handling platform."
+    },
+    {
+      "evidence_id": "EV_AUTO_034",
+      "source_file": "docs/0002/combined.md",
+      "section": "auto_specific",
+      "char_start": 9690,
+      "char_end": 9972,
+      "quote": "In this context, a previous study successfully demonstrated how a Bayesian process model and Thompson sampling, an algorithm to sample from probability distributions of key performance indicators (KPIs), could be combined for iterative screening of a PETase strain library $[24]$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_035",
+      "source_file": "docs/0002/combined.md",
+      "section": "auto_specific",
+      "char_start": 8002,
+      "char_end": 8112,
+      "quote": "Since it is easy to automate, GGA can be used to construct many different CatIB variants in parallel $[14]$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_036",
+      "source_file": "docs/0002/combined.md",
+      "section": "auto_specific",
+      "char_start": 5706,
+      "char_end": 5848,
+      "quote": "Catalytically active inclusion bodies (CatIBs) are inclusion bodies that were demonstrated to retain substantial catalytic activity $[1-11]$ ."
+    }
+  ],
+  "event_graph": {
+    "paper_main_problem": "No a priori prediction possible for best linker/tag combination for CatIBs, necessitating extensive screening.",
+    "canonical_events": [
+      {
+        "canonical_id": "K01",
+        "order": 1,
+        "event_type": "problem",
+        "summary": "No a priori prediction possible for best linker/tag combination for CatIBs, necessitating extensive screening.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E01"
+        ],
+        "evidence_ids": [
+          "EV_C001_E01_01"
+        ],
+        "key_entities": [
+          "CatIBs",
+          "linker",
+          "aggregation-inducing tag"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K02",
+        "order": 2,
+        "event_type": "design",
+        "summary": "Semi-automated cloning workflow implemented for fast generation of 63 CatIB variants using Golden Gate Assembly.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E02"
+        ],
+        "evidence_ids": [
+          "EV_C001_E02_01",
+          "EV_C001_E02_02"
+        ],
+        "key_entities": [
+          "BsGDH",
+          "CatIB variants",
+          "Golden Gate Assembly",
+          "Opentrons"
+        ],
+        "key_numbers": [
+          "63 variants",
+          "11 h manual work for 96 variants"
+        ]
+      },
+      {
+        "canonical_id": "K03",
+        "order": 3,
+        "event_type": "failure",
+        "summary": "13 CatIB variants could not be cloned within three attempts, potentially due to non-viable phenotype.",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C001_E03"
+        ],
+        "evidence_ids": [
+          "EV_C001_E03_01"
+        ],
+        "key_entities": [
+          "CatIB variants"
+        ],
+        "key_numbers": [
+          "13 out of 76 constructs failed"
+        ]
+      },
+      {
+        "canonical_id": "K04",
+        "order": 4,
+        "event_type": "problem",
+        "summary": "Systematic positional bias observed in BioLector backscatter values during cultivation at 15°C.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E04",
+          "C002_E01"
+        ],
+        "evidence_ids": [
+          "EV_C001_E04_01",
+          "EV_C002_E01_01",
+          "EV_C002_E01_02"
+        ],
+        "key_entities": [
+          "BioLector",
+          "BsGDH-PT-CBDCell"
+        ],
+        "key_numbers": [
+          "48 biological replicates",
+          "backscatter range 60-80 a.u.",
+          "mean 74.9 a.u.",
+          "SD 4.5 a.u."
+        ]
+      },
+      {
+        "canonical_id": "K05",
+        "order": 5,
+        "event_type": "hypothesis",
+        "summary": "Hypothesis that temperature gradient from cooling fan caused positional bias.",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C001_E05"
+        ],
+        "evidence_ids": [
+          "EV_C001_E05_01"
+        ],
+        "key_entities": [
+          "BioLector"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K06",
+        "order": 6,
+        "event_type": "revision",
+        "summary": "Changed cultivation temperature to constant 25°C to eliminate positional bias.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E06",
+          "C002_E03"
+        ],
+        "evidence_ids": [
+          "EV_C001_E06_01",
+          "EV_C002_E03_01"
+        ],
+        "key_entities": [
+          "BioLector"
+        ],
+        "key_numbers": [
+          "25 °C"
+        ]
+      },
+      {
+        "canonical_id": "K07",
+        "order": 7,
+        "event_type": "validation",
+        "summary": "Constant 25°C cultivation eliminated positional bias, reducing backscatter standard deviation from 4.5 to 1.1 a.u.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E04"
+        ],
+        "evidence_ids": [
+          "EV_C002_E04_02"
+        ],
+        "key_entities": [
+          "BsGDH-PT-CBDCell"
+        ],
+        "key_numbers": [
+          "mean 70.2 a.u.",
+          "SD 1.1 a.u.",
+          "48 biological replicates"
+        ]
+      },
+      {
+        "canonical_id": "K08",
+        "order": 8,
+        "event_type": "validation",
+        "summary": "CatIB formation and enzymatic activity confirmed at 25°C; some variants showed improved formation.",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C002_E05"
+        ],
+        "evidence_ids": [
+          "EV_C002_E05_01"
+        ],
+        "key_entities": [
+          "BsGDH-PT-3HAMP",
+          "BsGDH-PT-CBDCell",
+          "BsGDH-PT-18AWT"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K09",
+        "order": 9,
+        "event_type": "design",
+        "summary": "Enzymatic assay adapted to online NADH fluorescence measurement with pre-warming to increase data resolution and avoid temperature effects.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E06"
+        ],
+        "evidence_ids": [
+          "EV_C002_E06_01",
+          "EV_C002_E06_02"
+        ],
+        "key_entities": [
+          "online fluorescence measurement",
+          "pre-warming"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K10",
+        "order": 10,
+        "event_type": "validation",
+        "summary": "Validation study showed high reproducibility of optimized workflow with 1.9% RSD after 120 min, compared to 11.4% previously.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E07",
+          "C002_E07"
+        ],
+        "evidence_ids": [
+          "EV_C001_E07_01",
+          "EV_C002_E07_01"
+        ],
+        "key_entities": [],
+        "key_numbers": [
+          "1.9% RSD",
+          "11.4% RSD",
+          "42 biological replicates"
+        ]
+      },
+      {
+        "canonical_id": "K11",
+        "order": 11,
+        "event_type": "design",
+        "summary": "Combined automated workflow with Bayesian process model and Thompson sampling for iterative screening of 63 variants.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E08",
+          "C004_E01",
+          "C004_E02",
+          "C005_E04"
+        ],
+        "evidence_ids": [
+          "EV_C001_E08_01",
+          "EV_C001_E08_02",
+          "EV_C004_E01_01",
+          "EV_C004_E02_01",
+          "EV_C005_E04_01",
+          "EV_C005_E04_02"
+        ],
+        "key_entities": [
+          "Bayesian process model",
+          "Thompson sampling",
+          "BsGDH-CatIB variants"
+        ],
+        "key_numbers": [
+          "63 variants",
+          "three batch experiments",
+          "48 candidates per batch"
+        ]
+      },
+      {
+        "canonical_id": "K12",
+        "order": 12,
+        "event_type": "analysis",
+        "summary": "Thompson sampling identified TDoT-PT-BsGDH as best performer with >95% probability after three rounds; inactive variants dropped early.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E01",
+          "C003_E02",
+          "C003_E03"
+        ],
+        "evidence_ids": [
+          "EV_C003_E01_01",
+          "EV_C003_E02_01",
+          "EV_C003_E02_02",
+          "EV_C003_E03_01",
+          "EV_AUTO_010",
+          "EV_AUTO_015"
+        ],
+        "key_entities": [
+          "TDoT-PT-BsGDH",
+          "BsGDH-PT-3HAMP",
+          "BsGDH-PT-CBDCell",
+          "BsGDH-PT-L6KD"
+        ],
+        "key_numbers": [
+          "0.15 min^-1 to 0.19 min^-1",
+          "50 replicates of top variant",
+          ">95% probability"
+        ]
+      },
+      {
+        "canonical_id": "K13",
+        "order": 13,
+        "event_type": "analysis",
+        "summary": "Manual fourth round confirmed TDoT-PT-BsGDH as best with >99% probability; unseen variants were weak.",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C003_E02"
+        ],
+        "evidence_ids": [
+          "EV_C003_E02_01",
+          "EV_C003_E02_02",
+          "EV_AUTO_018"
+        ],
+        "key_entities": [
+          "TDoT-PT-BsGDH",
+          "BsGDH-SG-L48KD",
+          "CBDCell-PT-BsGDH"
+        ],
+        "key_numbers": [
+          ">99% probability"
+        ]
+      },
+      {
+        "canonical_id": "K14",
+        "order": 14,
+        "event_type": "limitation",
+        "summary": "Top performer TDoT-PT-BsGDH has N-terminal tag, exemplifying limited understanding of structure-function relationship for CatIB design.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E08",
+          "C003_E07"
+        ],
+        "evidence_ids": [
+          "EV_C003_E08_01",
+          "EV_C003_E07_01"
+        ],
+        "key_entities": [
+          "TDoT-PT-BsGDH"
+        ],
+        "key_numbers": []
+      }
+    ],
+    "edges": [
+      {
+        "source": "K01",
+        "target": "K02",
+        "relation": "enables",
+        "reason": "The problem of no a priori prediction motivates the design of a high-throughput cloning workflow."
+      },
+      {
+        "source": "K02",
+        "target": "K03",
+        "relation": "follows",
+        "reason": "Cloning attempts lead to some failures."
+      },
+      {
+        "source": "K02",
+        "target": "K04",
+        "relation": "follows",
+        "reason": "After cloning, cultivation reveals positional bias."
+      },
+      {
+        "source": "K04",
+        "target": "K05",
+        "relation": "enables",
+        "reason": "Observation of bias leads to hypothesis about its cause."
+      },
+      {
+        "source": "K05",
+        "target": "K06",
+        "relation": "enables",
+        "reason": "Hypothesis motivates revision of cultivation temperature."
+      },
+      {
+        "source": "K06",
+        "target": "K07",
+        "relation": "validates",
+        "reason": "Temperature change is validated by reduced bias."
+      },
+      {
+        "source": "K06",
+        "target": "K08",
+        "relation": "validates",
+        "reason": "Temperature change is validated by confirmed CatIB formation and activity."
+      },
+      {
+        "source": "K07",
+        "target": "K09",
+        "relation": "follows",
+        "reason": "After resolving bias, assay is optimized."
+      },
+      {
+        "source": "K09",
+        "target": "K10",
+        "relation": "validates",
+        "reason": "Assay optimization is validated by high reproducibility."
+      },
+      {
+        "source": "K10",
+        "target": "K11",
+        "relation": "enables",
+        "reason": "Validated workflow enables integration with Bayesian optimization."
+      },
+      {
+        "source": "K11",
+        "target": "K12",
+        "relation": "follows",
+        "reason": "Bayesian optimization leads to identification of top performer."
+      },
+      {
+        "source": "K12",
+        "target": "K13",
+        "relation": "validates",
+        "reason": "Manual round confirms Thompson sampling result."
+      },
+      {
+        "source": "K12",
+        "target": "K14",
+        "relation": "follows",
+        "reason": "Top performer's unexpected N-terminal tag highlights limitation."
+      }
+    ],
+    "must_cover_points": [
+      "Problem: no a priori prediction for CatIB design",
+      "Semi-automated cloning of 63 variants",
+      "Positional bias in BioLector and its resolution by changing to 25°C",
+      "Optimization of enzymatic assay to online measurement with high reproducibility (1.9% RSD)",
+      "Integration of Bayesian process model and Thompson sampling for iterative screening",
+      "Identification of TDoT-PT-BsGDH as best performer",
+      "Limitation: N-terminal top performer shows limited understanding of structure-function relationship"
+    ],
+    "paper_not_suitable_reasons": []
+  }
+}

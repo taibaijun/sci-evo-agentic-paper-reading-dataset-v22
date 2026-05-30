@@ -1,0 +1,1793 @@
+{
+  "doc_no": "0156",
+  "source": {
+    "title": "AI-based prediction of protein–ligand binding affinity and discovery of potential natural product inhibitors against ERK2",
+    "doi": "https://doi.org/10.1186/s13065-024-01219-x",
+    "license": "cc-by",
+    "pdf_name": "0154_10_1186_s13065_024_01219_x_ai_based_prediction_of_protein_ligand_binding_affinity_and_discovery_of_potential_natural_.pdf",
+    "combined_md": "docs/0156/combined.md",
+    "mineru_md": "docs/0156/mineru.md"
+  },
+  "gist_memory": {
+    "paper_problem_memory": "The paper addresses the need for accurate and efficient protein–ligand binding affinity (PLA) prediction to accelerate drug discovery. Existing methods have limitations: sequence-based methods ignore receptor-ligand interactions, structure-based methods lack explicit physicochemical descriptions and can be computationally expensive (e.g., 3D voxelization). The goal is to develop a multi-modal deep learning model that integrates complementary representations (ligand descriptors, pocket descriptors, interaction graphs) to improve prediction accuracy and computational efficiency, and to apply it for virtual screening of ERK2 inhibitors from natural products.",
+    "section_gists": [
+      {
+        "section_index": 6,
+        "heading": "Abstract",
+        "gist": "Proposes DeepLIP, a multi-modal deep learning model using early fusion to integrate multi-level information for PLA prediction. Achieves superior performance on benchmark dataset. Applied to virtual screening of ERK2, identifying three novel hits from a natural product library, validated by machine learning models and MD simulation.",
+        "process_signals": [
+          "Problem: PLA determination is time-consuming and costly experimentally; deep learning can help but needs comprehensive representation.",
+          "Solution: DeepLIP integrates multi-level information via early fusion.",
+          "Outcome: Superior performance vs. state-of-the-art; three novel ERK2 inhibitor hits found."
+        ],
+        "methods": [
+          "DeepLIP: multi-modal deep learning with early fusion",
+          "Virtual screening combined with ML models and MD simulation"
+        ],
+        "metrics": [
+          "Benchmark dataset performance (unspecified here)",
+          "Identification of three hits with favorable properties and stable binding"
+        ],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 7,
+        "heading": "Introduction",
+        "gist": "PLA is critical in drug discovery. Experimental methods are reliable but expensive and low-throughput. Computational methods (docking, MD) are faster but less accurate and computationally heavy. ML/DL methods have emerged: ML relies on manual features; DL can learn from raw data. Current DL methods are sequence-based (ignore interactions) or structure-based (lack explicit descriptors, high computational cost for 3D voxels). Fusion models combine modalities but existing ones (e.g., FAST) still use costly 3D convolutions. DeepLIP is proposed to overcome these by using descriptor-based representations for ligand and pocket (avoiding sequence redundancy) and spatial graphs for interactions (avoiding voxelization), fused early to capture complementary information. First attempt to integrate such diverse sources. Also applied to find ERK2 inhibitors, as ERK2 is implicated in cancer and other diseases.",
+        "process_signals": [
+          "Motivation: Need for accurate, efficient PLA prediction.",
+          "Gap: Sequence methods lack interactions; structure methods lack explicit descriptors and are slow; existing fusion models still have high computational overhead.",
+          "Hypothesis: Descriptor-based representations reduce redundancy; spatial graphs capture interactions efficiently; early fusion of these three levels improves prediction.",
+          "Novelty claim: First to integrate ligand descriptors, pocket descriptors, and interaction graphs."
+        ],
+        "methods": [
+          "DeepLIP: descriptor-based ligand and pocket representations, spatial graph for interactions, early fusion",
+          "Application: multistep virtual screening for ERK2 inhibitors"
+        ],
+        "metrics": [],
+        "failures_or_limits": [
+          "Existing methods: sequence-based ignore interactions; structure-based lack explicit descriptors; 3D convolution is computationally expensive."
+        ]
+      },
+      {
+        "section_index": 8,
+        "heading": "Materials and methods",
+        "gist": "Section header only, no content.",
+        "process_signals": [],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 9,
+        "heading": "Dataset preparation",
+        "gist": "Uses PDBbind dataset. Training on refined set (v2016, 3772 samples) improves prediction on core set due to higher label quality. Training set: 80% of refined set v2016 (3018 samples); validation set: 20% (754 samples). External test set: core set v2016 (285 samples, CASF-2016 benchmark). Internal test set: non-overlapping refined set v2020 (1259 samples) to select best model for benchmark. Ensures no overlap between training (v2016) and test (v2020).",
+        "process_signals": [
+          "Decision: Use refined set for training instead of general set for better label quality.",
+          "Split: 80/20 random split for train/val; separate internal test set from v2020 to avoid data leakage and select best model.",
+          "External test set is standard CASF-2016 benchmark."
+        ],
+        "methods": [
+          "Dataset: PDBbind v2016 refined set (train/val), v2016 core set (external test), v2020 refined set (internal test)"
+        ],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 10,
+        "heading": "Model architecture",
+        "gist": "DeepLIP has four components: input representation, feature extraction, feature fusion, and affinity prediction. Details in subsequent sections.",
+        "process_signals": [],
+        "methods": [
+          "Modular architecture: input representation, feature extraction, feature fusion, affinity prediction"
+        ],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 11,
+        "heading": "Input representation module",
+        "gist": "Three inputs: ligand descriptors (196 chemical descriptors from SMILES via RDKit), pocket descriptors (147 CTD descriptors from amino acid sequence via PyBioMed), and interaction graph (from DGL-LifeSci, capturing non-covalent interactions). Ligand and pocket are represented as descriptors to avoid sequence redundancy; interactions as spatial graph to avoid voxelization.",
+        "process_signals": [
+          "Design choice: Use descriptors instead of sequences to reduce redundancy.",
+          "Design choice: Use spatial graph for interactions to capture structural information efficiently.",
+          "Tools: Openbabel, Biopython, RDKit, PyBioMed, DGL-LifeSci."
+        ],
+        "methods": [
+          "Ligand: 196 chemical descriptors from SMILES",
+          "Pocket: 147 CTD descriptors from amino acid sequence",
+          "Interaction: graph from DGL-LifeSci"
+        ],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 12,
+        "heading": "Feature extraction module",
+        "gist": "Ligand and pocket features extracted by identical 1D-CNN submodules (1D conv, BatchNorm, PReLU). Interaction features extracted by PotentialNet (uses distance thresholds and gated graph sequence neural networks to learn non-covalent interactions).",
+        "process_signals": [
+          "Choice: 1D-CNN for descriptor vectors; PotentialNet for graph to capture interaction patterns.",
+          "PotentialNet highlights: distance thresholds, gated graph sequence NN."
+        ],
+        "methods": [
+          "Ligand/pocket: 1D-CNN with BatchNorm and PReLU",
+          "Interaction: PotentialNet (GNN)"
+        ],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 13,
+        "heading": "Feature fusion module and affinity prediction module",
+        "gist": "Early fusion: concatenate local features from three extractors into a global feature vector. A self-attention layer is added before fully connected layers to adaptively balance importance of each representation. Then FC layers predict PLA.",
+        "process_signals": [
+          "Fusion strategy: Early fusion (concatenation) chosen to combine features before prediction.",
+          "Self-attention: Introduced to let model learn importance weights for each modality.",
+          "Hyperparameters tuned (see supplementary)."
+        ],
+        "methods": [
+          "Early fusion via concatenation",
+          "Self-attention layer",
+          "Fully connected layers for regression"
+        ],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 14,
+        "heading": "Model training",
+        "gist": "Implemented with DGL and PyTorch. Hyperparameter search with Optuna. Loss: SmoothL1Loss (regression). Trained on refined set v2016, validated on 20% split. Repeated 10 times with different seeds; model with best validation performance evaluated on internal test set; best on internal test set used for benchmark.",
+        "process_signals": [
+          "Loss: SmoothL1Loss for regression.",
+          "Hyperparameter tuning: Optuna.",
+          "Model selection: Best on validation set, then best on internal test set chosen for final benchmark.",
+          "10 repeats for robustness estimation."
+        ],
+        "methods": [
+          "Frameworks: DGL, PyTorch",
+          "Hyperparameter optimization: Optuna",
+          "Loss: SmoothL1Loss",
+          "Training/selection procedure"
+        ],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 15,
+        "heading": "Evaluation metrics",
+        "gist": "Three metrics: Pearson Correlation Coefficient (PCC) for linear correlation, Mean Absolute Error (MAE) for overall accuracy, Root Mean Square Error (RMSE) for error rate. Higher PCC, lower MAE/RMSE better.",
+        "process_signals": [],
+        "methods": [
+          "Metrics: PCC, MAE, RMSE"
+        ],
+        "metrics": [
+          "PCC, MAE, RMSE"
+        ],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 18,
+        "heading": "Results",
+        "gist": "Section header only, no content.",
+        "process_signals": [],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 19,
+        "heading": "Performance of DeepLIP and comparison with state-of-the-art methods",
+        "gist": "Section header only, no content.",
+        "process_signals": [],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 20,
+        "heading": "Overall performance of DeepLIP on the internal test set",
+        "gist": "On internal test set (PDBbind v2020 refined, non-overlapping), best DeepLIP model achieved PCC=0.698, MAE=1.112, RMSE=1.372. Over 10 runs, average PCC=0.659±0.056, MAE=1.297±0.146, RMSE=1.632±0.176, showing favorable prediction accuracy and robustness on unknown data.",
+        "process_signals": [
+          "Internal test set used to select best model for benchmark.",
+          "Performance varies across runs (PCC range 0.547-0.724), but average is decent.",
+          "Best model metrics indicate good generalization."
+        ],
+        "methods": [],
+        "metrics": [
+          "Best: PCC=0.698, MAE=1.112, RMSE=1.372",
+          "Average±std: PCC=0.659±0.056, MAE=1.297±0.146, RMSE=1.632±0.176"
+        ],
+        "failures_or_limits": [
+          "Some runs have lower PCC (e.g., 0.547), indicating sensitivity to initialization."
+        ]
+      },
+      {
+        "section_index": 21,
+        "heading": "Comparison of DeepLIP with competitive state-of-the-art methods on the external test set",
+        "gist": "On external test set (CASF-2016 core set), DeepLIP outperforms all compared methods: PCC=0.830, MAE=1.014, RMSE=1.265. Compared models include DeepDTAF (1D-CNN), OnionNet (2D-CNN), Pafnucy (3D-CNN), PointTransformer, SIGN (GNN), GraphBAR (GNN), FAST (fusion 3D-CNN+GNN). Fusion models generally outperform individual models. DeepLIP achieves best balance of speed and performance; Pafnucy slowest due to voxelization, DeepDTAF fastest but lower performance.",
+        "process_signals": [
+          "DeepLIP achieves state-of-the-art on all metrics.",
+          "Observation: Fusion models tend to outperform single-modality models.",
+          "Efficiency: DeepLIP balances speed and accuracy by avoiding 3D voxels.",
+          "Comparison includes both sequence-based, structure-based, and fusion models."
+        ],
+        "methods": [
+          "Compared models: DeepDTAF, OnionNet, Pafnucy, PointTransformer, SIGN, GraphBAR, FAST"
+        ],
+        "metrics": [
+          "DeepLIP: PCC=0.830, MAE=1.014, RMSE=1.265",
+          "Best previous: SIGN PCC=0.797, MAE=1.027, RMSE=1.316"
+        ],
+        "failures_or_limits": []
+      }
+    ],
+    "global_hypotheses_about_storyline": [
+      "The research evolved from recognizing limitations of existing PLA prediction methods: sequence-based methods ignore interactions, structure-based methods are computationally expensive and lack explicit descriptors.",
+      "Hypothesis: Combining ligand descriptors, pocket descriptors, and interaction graphs via early fusion can capture complementary information and improve prediction accuracy and efficiency.",
+      "Design choices were driven by the need to reduce redundancy (descriptors over sequences) and computational cost (graphs over voxels).",
+      "The model was validated internally and externally, showing superior performance, especially on the benchmark CASF-2016 set.",
+      "The successful PLA prediction model was then applied to virtual screening for ERK2 inhibitors, integrating with other computational methods to identify novel hits."
+    ],
+    "uncertainties_to_resolve": [
+      "What were the specific hyperparameters tuned and their ranges?",
+      "Were there any ablation studies to quantify the contribution of each input modality or the self-attention layer?",
+      "How exactly was the model applied in virtual screening, and what were the false positive/negative rates?",
+      "What were the MD simulation and MM/PBSA validation results, and did they confirm predictions?",
+      "What are the explicit limitations and future work discussed by the authors?",
+      "Why was SmoothL1Loss chosen over other regression losses?",
+      "How does the model perform on more diverse or unseen protein families?"
+    ]
+  },
+  "chunk_events": [
+    {
+      "chunk_id": "C001",
+      "char_start": 0,
+      "char_end": 18000,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C001_E01",
+          "chunk_id": "C001",
+          "event_type": "problem",
+          "order_hint": 1,
+          "summary": "PLA determination is time-consuming and costly experimentally; deep learning can help but needs comprehensive representation.",
+          "methods_or_tools": [],
+          "entities": [
+            "PLA",
+            "deep learning"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E01_01"
+          ]
+        },
+        {
+          "event_id": "C001_E02",
+          "chunk_id": "C001",
+          "event_type": "problem",
+          "order_hint": 2,
+          "summary": "Existing DL methods have limitations: sequence-based ignore interactions, structure-based lack explicit descriptors and are computationally expensive.",
+          "methods_or_tools": [],
+          "entities": [
+            "sequence-based methods",
+            "structure-based methods",
+            "3D convolution"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E02_01",
+            "EV_C001_E02_02",
+            "EV_C001_E02_03"
+          ]
+        },
+        {
+          "event_id": "C001_E03",
+          "chunk_id": "C001",
+          "event_type": "hypothesis",
+          "order_hint": 3,
+          "summary": "Hypothesis: Integrating ligand descriptors, pocket descriptors, and interaction graphs via early fusion can capture complementary information and improve prediction.",
+          "methods_or_tools": [
+            "early fusion strategy",
+            "descriptors",
+            "spatial graphs"
+          ],
+          "entities": [
+            "DeepLIP",
+            "ligand descriptors",
+            "pocket descriptors",
+            "interaction graphs"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E03_01",
+            "EV_C001_E03_02",
+            "EV_C001_E03_03",
+            "EV_C001_E03_04"
+          ]
+        },
+        {
+          "event_id": "C001_E04",
+          "chunk_id": "C001",
+          "event_type": "design",
+          "order_hint": 4,
+          "summary": "Design: DeepLIP uses descriptor-based ligand and pocket representations and spatial graph for interactions, fused early.",
+          "methods_or_tools": [
+            "RDKit",
+            "PyBioMed",
+            "DGL-LifeSci",
+            "1D-CNN",
+            "PotentialNet",
+            "self-attention"
+          ],
+          "entities": [
+            "DeepLIP",
+            "196 chemical descriptors",
+            "147 CTD descriptors",
+            "interaction graph"
+          ],
+          "numbers_or_metrics": [
+            "196",
+            "147"
+          ],
+          "evidence_ids": [
+            "EV_C001_E04_02",
+            "EV_C001_E04_04",
+            "EV_C001_E04_05"
+          ]
+        },
+        {
+          "event_id": "C001_E05",
+          "chunk_id": "C001",
+          "event_type": "computation",
+          "order_hint": 5,
+          "summary": "Model training: DeepLIP trained on PDBbind v2016 refined set, hyperparameter search with Optuna, SmoothL1Loss, 10 repeats.",
+          "methods_or_tools": [
+            "DGL",
+            "PyTorch",
+            "Optuna",
+            "SmoothL1Loss"
+          ],
+          "entities": [
+            "DeepLIP",
+            "PDBbind v2016 refined set"
+          ],
+          "numbers_or_metrics": [
+            "10 repeats"
+          ],
+          "evidence_ids": [
+            "EV_C001_E05_02",
+            "EV_C001_E05_03"
+          ]
+        },
+        {
+          "event_id": "C001_E06",
+          "chunk_id": "C001",
+          "event_type": "experiment",
+          "order_hint": 6,
+          "summary": "Internal test: Best DeepLIP model achieved PCC=0.698, MAE=1.112, RMSE=1.372 on PDBbind v2020 refined set.",
+          "methods_or_tools": [],
+          "entities": [
+            "DeepLIP",
+            "internal test set",
+            "PDBbind v2020 refined set"
+          ],
+          "numbers_or_metrics": [
+            "PCC=0.698",
+            "MAE=1.112",
+            "RMSE=1.372"
+          ],
+          "evidence_ids": [
+            "EV_C001_E06_01"
+          ]
+        },
+        {
+          "event_id": "C001_E07",
+          "chunk_id": "C001",
+          "event_type": "validation",
+          "order_hint": 7,
+          "summary": "External test: DeepLIP outperforms state-of-the-art methods on CASF-2016 benchmark (PCC=0.830, MAE=1.014, RMSE=1.265).",
+          "methods_or_tools": [],
+          "entities": [
+            "DeepLIP",
+            "CASF-2016",
+            "SIGN",
+            "FAST"
+          ],
+          "numbers_or_metrics": [
+            "PCC=0.830",
+            "MAE=1.014",
+            "RMSE=1.265"
+          ],
+          "evidence_ids": [
+            "EV_C001_E07_01"
+          ]
+        }
+      ],
+      "notes": "The chunk covers abstract, introduction, and methods/results up to the external test comparison. The last quote is truncated; the full sentence would be 'our proposed models surpassed the state-of-the-art methods' but the chunk ends mid-sentence. Only events explicitly supported are included.",
+      "api_usage": {
+        "prompt_tokens": 7721,
+        "completion_tokens": 1453,
+        "total_tokens": 9174,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7465
+      }
+    },
+    {
+      "chunk_id": "C002",
+      "char_start": 17100,
+      "char_end": 35100,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C002_E02",
+          "chunk_id": "C002",
+          "event_type": "analysis",
+          "order_hint": 2,
+          "summary": "Fusion models generally outperform individual models on the external test set.",
+          "methods_or_tools": [],
+          "entities": [
+            "fusion models",
+            "individual models"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E02_01"
+          ]
+        },
+        {
+          "event_id": "C002_E03",
+          "chunk_id": "C002",
+          "event_type": "analysis",
+          "order_hint": 3,
+          "summary": "DeepLIP achieves a better balance between computational speed and performance by discarding 3D voxels.",
+          "methods_or_tools": [],
+          "entities": [
+            "DeepLIP",
+            "Pafnucy",
+            "DeepDTAF"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E03_01"
+          ]
+        },
+        {
+          "event_id": "C002_E04",
+          "chunk_id": "C002",
+          "event_type": "experiment",
+          "order_hint": 4,
+          "summary": "Ablation studies on internal test set by removing pocket features (DeepLI), ligand features (DeepIP), and interaction features (DeepLP) show performance drops.",
+          "methods_or_tools": [
+            "ablation studies"
+          ],
+          "entities": [
+            "DeepLI",
+            "DeepIP",
+            "DeepLP"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E04_01"
+          ]
+        },
+        {
+          "event_id": "C002_E05",
+          "chunk_id": "C002",
+          "event_type": "analysis",
+          "order_hint": 5,
+          "summary": "On benchmark test, DeepLI (no pocket) had PCC=0.287, MAE=1.911, RMSE=2.357, showing pocket features are critical.",
+          "methods_or_tools": [],
+          "entities": [
+            "DeepLI"
+          ],
+          "numbers_or_metrics": [
+            "PCC=0.287",
+            "MAE=1.911",
+            "RMSE=2.357"
+          ],
+          "evidence_ids": [
+            "EV_C002_E05_01"
+          ]
+        },
+        {
+          "event_id": "C002_E06",
+          "chunk_id": "C002",
+          "event_type": "analysis",
+          "order_hint": 6,
+          "summary": "DeepLP (no interaction) had PCC=0.886 but high MAE=1.410 and RMSE=1.695, indicating strong correlation but low accuracy.",
+          "methods_or_tools": [],
+          "entities": [
+            "DeepLP"
+          ],
+          "numbers_or_metrics": [
+            "PCC=0.886",
+            "MAE=1.410",
+            "RMSE=1.695"
+          ],
+          "evidence_ids": [
+            "EV_C002_E06_01"
+          ]
+        },
+        {
+          "event_id": "C002_E07",
+          "chunk_id": "C002",
+          "event_type": "analysis",
+          "order_hint": 7,
+          "summary": "PCA visualization shows DeepLIP's fused features form a parabolic distribution, reducing fitting difficulty and improving performance.",
+          "methods_or_tools": [
+            "PCA"
+          ],
+          "entities": [
+            "DeepLIP",
+            "DeepLI",
+            "DeepIP",
+            "DeepLP"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E07_01",
+            "EV_C002_E07_02"
+          ]
+        },
+        {
+          "event_id": "C002_E08",
+          "chunk_id": "C002",
+          "event_type": "validation",
+          "order_hint": 8,
+          "summary": "DeepLIP screening power on 145 ERK2 inhibitors outperforms Autodock Vina at all activity thresholds, with overall accuracy 75.17-93.79%.",
+          "methods_or_tools": [
+            "Autodock Vina"
+          ],
+          "entities": [
+            "DeepLIP",
+            "ERK2 inhibitors"
+          ],
+          "numbers_or_metrics": [
+            "overall accuracy ranging from 75.17 to 93.79%"
+          ],
+          "evidence_ids": [
+            "EV_C002_E08_01"
+          ]
+        }
+      ],
+      "notes": "Chunk contains key results: benchmark comparison, ablation studies, PCA visualization, and screening validation.",
+      "api_usage": {
+        "prompt_tokens": 9693,
+        "completion_tokens": 1315,
+        "total_tokens": 11008,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9437
+      }
+    },
+    {
+      "chunk_id": "C003",
+      "char_start": 34200,
+      "char_end": 52200,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C003_E01",
+          "chunk_id": "C003",
+          "event_type": "experiment",
+          "order_hint": 1,
+          "summary": "DeepLIP outperforms Autodock Vina in virtual screening at various ERK2 activity thresholds.",
+          "methods_or_tools": [
+            "DeepLIP",
+            "Autodock Vina"
+          ],
+          "entities": [
+            "ERK2"
+          ],
+          "numbers_or_metrics": [
+            "Threshold 10 nM: DeepLIP 80.00, Vina 57.93; 100 nM: 75.17 vs 48.28; 1000 nM: 86.21 vs 69.66; 10000 nM: 93.79 vs 86.90"
+          ],
+          "evidence_ids": [
+            "EV_C003_E01_01"
+          ]
+        },
+        {
+          "event_id": "C003_E02",
+          "chunk_id": "C003",
+          "event_type": "design",
+          "order_hint": 2,
+          "summary": "Virtual screening workflow: in-house library of 851 natural products filtered by ML model, then DeepLIP, then MD simulation and binding mode analysis.",
+          "methods_or_tools": [
+            "Trained Machine Learning Model",
+            "DeepLIP",
+            "Molecular Dynamic Simulation",
+            "Binding Mode Analysis"
+          ],
+          "entities": [
+            "In-house Library (851 Natural Products)"
+          ],
+          "numbers_or_metrics": [
+            "173 molecules with score > 0.9",
+            "5 top-ranked molecules",
+            "3 novel hits"
+          ],
+          "evidence_ids": [
+            "EV_C003_E02_01"
+          ]
+        },
+        {
+          "event_id": "C003_E03",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 3,
+          "summary": "MD simulation shows stable binding of compounds; DA forms most hydrogen bonds with ERK2, Rotundine the least.",
+          "methods_or_tools": [
+            "Molecular Dynamic Simulation"
+          ],
+          "entities": [
+            "DA",
+            "ERK2",
+            "Rotundine"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E03_01"
+          ]
+        },
+        {
+          "event_id": "C003_E04",
+          "chunk_id": "C003",
+          "event_type": "computation",
+          "order_hint": 4,
+          "summary": "MM/PBSA binding free energy calculated for five hit-ERK2 complexes; DA, Sclareol, Glaucine show higher affinity than previously identified active compounds.",
+          "methods_or_tools": [
+            "MM/PBSA"
+          ],
+          "entities": [
+            "DA",
+            "Sclareol",
+            "Glaucine",
+            "ERK2"
+          ],
+          "numbers_or_metrics": [
+            "DA: -64.90 kJ/mol",
+            "Sclareol: -79.57 kJ/mol",
+            "Glaucine: -92.94 kJ/mol"
+          ],
+          "evidence_ids": [
+            "EV_C003_E04_01"
+          ]
+        },
+        {
+          "event_id": "C003_E05",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 5,
+          "summary": "Energy decomposition identifies VAL-39 and LEU-156 as key residues contributing positively in most systems.",
+          "methods_or_tools": [
+            "energy decomposition"
+          ],
+          "entities": [
+            "VAL-39",
+            "LEU-156"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E05_01"
+          ]
+        },
+        {
+          "event_id": "C003_E06",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 6,
+          "summary": "Binding mode analysis: DA forms new hydrogen bonds with MET-108 and TYR-36; Glaucine interactions dominated by hydrophobic bonds; Sclareol forms new hydrogen bond with LYS-54.",
+          "methods_or_tools": [],
+          "entities": [
+            "DA",
+            "MET-108",
+            "TYR-36",
+            "Glaucine",
+            "Sclareol",
+            "LYS-54"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E06_01",
+            "EV_C003_E06_02",
+            "EV_C003_E06_03"
+          ]
+        },
+        {
+          "event_id": "C003_E07",
+          "chunk_id": "C003",
+          "event_type": "validation",
+          "order_hint": 7,
+          "summary": "Ablation studies show each local feature contributes positively to PLA prediction, with pocket feature contributing the most.",
+          "methods_or_tools": [
+            "ablation studies"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E07_01"
+          ]
+        },
+        {
+          "event_id": "C003_E08",
+          "chunk_id": "C003",
+          "event_type": "limitation",
+          "order_hint": 8,
+          "summary": "DeepLIP's use of binding pockets as local features limits its application in many scenarios.",
+          "methods_or_tools": [],
+          "entities": [
+            "DeepLIP"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E08_01"
+          ]
+        }
+      ],
+      "notes": "Chunk covers virtual screening workflow, MD simulation analysis, MM/PBSA calculations, ablation study results, and a limitation of DeepLIP.",
+      "api_usage": {
+        "prompt_tokens": 8738,
+        "completion_tokens": 1316,
+        "total_tokens": 10054,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8482
+      }
+    },
+    {
+      "chunk_id": "C004",
+      "char_start": 51300,
+      "char_end": 62428,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C004_E01",
+          "chunk_id": "C004",
+          "event_type": "experiment",
+          "order_hint": 1,
+          "summary": "DeepLIP used to predict binding affinity for 173 high-confidence molecules, selecting five top hits.",
+          "methods_or_tools": [
+            "DeepLIP"
+          ],
+          "entities": [
+            "173 molecules",
+            "five hits"
+          ],
+          "numbers_or_metrics": [
+            "173",
+            "5"
+          ],
+          "evidence_ids": [
+            "EV_C004_E01_01"
+          ]
+        },
+        {
+          "event_id": "C004_E02",
+          "chunk_id": "C004",
+          "event_type": "validation",
+          "order_hint": 2,
+          "summary": "Molecular dynamics simulation showed three natural products bind stably to ERK2 with higher MM/PBSA binding free energies than previously identified actives.",
+          "methods_or_tools": [
+            "molecular dynamics simulation",
+            "MM/PBSA"
+          ],
+          "entities": [
+            "ERK2",
+            "three natural products"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E02_01"
+          ]
+        },
+        {
+          "event_id": "C004_E04",
+          "chunk_id": "C004",
+          "event_type": "limitation",
+          "order_hint": 4,
+          "summary": "Limitation: DeepLIP performance in large-scale virtual screening needs evaluation; only ERK2 tested.",
+          "methods_or_tools": [
+            "DeepLIP"
+          ],
+          "entities": [
+            "ERK2"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E04_01"
+          ]
+        },
+        {
+          "event_id": "C004_E05",
+          "chunk_id": "C004",
+          "event_type": "limitation",
+          "order_hint": 5,
+          "summary": "Limitation: prediction results are a black box; users cannot see which residues contribute to affinity.",
+          "methods_or_tools": [],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E05_01"
+          ]
+        },
+        {
+          "event_id": "C004_E06",
+          "chunk_id": "C004",
+          "event_type": "revision",
+          "order_hint": 6,
+          "summary": "Future work: refine architecture to address limitations, optimize hit chemical structures, evaluate biological activities.",
+          "methods_or_tools": [],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E06_01"
+          ]
+        },
+        {
+          "event_id": "C004_E07",
+          "chunk_id": "C004",
+          "event_type": "analysis",
+          "order_hint": 7,
+          "summary": "Ablation studies confirmed effectiveness of each representation for PLA prediction.",
+          "methods_or_tools": [
+            "ablation studies"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E07_01"
+          ]
+        },
+        {
+          "event_id": "C004_E08",
+          "chunk_id": "C004",
+          "event_type": "experiment",
+          "order_hint": 8,
+          "summary": "DeepLIP combined with other virtual screening tools identified three potential ERK2 inhibitors from 851 natural products.",
+          "methods_or_tools": [
+            "DeepLIP",
+            "virtual screening tools"
+          ],
+          "entities": [
+            "ERK2",
+            "851 drug-like natural products",
+            "three potential inhibitors"
+          ],
+          "numbers_or_metrics": [
+            "851",
+            "3"
+          ],
+          "evidence_ids": [
+            "EV_C004_E08_01"
+          ]
+        }
+      ],
+      "notes": "Chunk contains application of DeepLIP to virtual screening, validation via MD, explicit limitations, future work, and mention of ablation studies.",
+      "api_usage": {
+        "prompt_tokens": 6525,
+        "completion_tokens": 1102,
+        "total_tokens": 7627,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6269
+      }
+    }
+  ],
+  "evidence_bank": [
+    {
+      "evidence_id": "EV_C001_E01_01",
+      "source_file": "docs/0156/combined.md",
+      "section": "C001",
+      "char_start": 806,
+      "char_end": 1072,
+      "quote": "Determination of protein–ligand binding affinity (PLA) is a key technological tool in hit discovery and lead optimization, which is critical to the drug development process. PLA can be determined directly by experimental methods, but it is time-consuming and costly."
+    },
+    {
+      "evidence_id": "EV_C001_E02_01",
+      "source_file": "docs/0156/combined.md",
+      "section": "C001",
+      "char_start": 4298,
+      "char_end": 4364,
+      "quote": "sequence-based methods mostly ignore receptor-ligand interactions."
+    },
+    {
+      "evidence_id": "EV_C001_E02_02",
+      "source_file": "docs/0156/combined.md",
+      "section": "C001",
+      "char_start": 4869,
+      "char_end": 4963,
+      "quote": "structure-based methods usually lack explicit descriptions (e.g., physicochemical properties)."
+    },
+    {
+      "evidence_id": "EV_C001_E02_03",
+      "source_file": "docs/0156/combined.md",
+      "section": "C001",
+      "char_start": 5451,
+      "char_end": 5566,
+      "quote": "the computational overhead of 3D convolution is high because it requires invalid voxelization of the 3D structures."
+    },
+    {
+      "evidence_id": "EV_C001_E03_01",
+      "source_file": "docs/0156/combined.md",
+      "section": "C001",
+      "char_start": 5599,
+      "char_end": 5701,
+      "quote": "we proposed DeepLIP, a novel DL architecture that employs an early fusion strategy for PLA prediction."
+    },
+    {
+      "evidence_id": "EV_C001_E03_02",
+      "source_file": "docs/0156/combined.md",
+      "section": "C001",
+      "char_start": 5727,
+      "char_end": 5853,
+      "quote": "DeepLIP represents protein binding pockets and ligands as descriptors, thereby mitigating the redundancy of sequence encoding."
+    },
+    {
+      "evidence_id": "EV_C001_E03_03",
+      "source_file": "docs/0156/combined.md",
+      "section": "C001",
+      "char_start": 5864,
+      "char_end": 5970,
+      "quote": "this architecture departs from the conventional voxelization representation by introducing spatial graphs."
+    },
+    {
+      "evidence_id": "EV_C001_E03_04",
+      "source_file": "docs/0156/combined.md",
+      "section": "C001",
+      "char_start": 6109,
+      "char_end": 6273,
+      "quote": "By fusing these three disparate levels of heterogeneous information, DeepLIP is able to capture multiple representations and combine them for complementary purposes"
+    },
+    {
+      "evidence_id": "EV_C001_E04_02",
+      "source_file": "docs/0156/combined.md",
+      "section": "C001",
+      "char_start": 11382,
+      "char_end": 11452,
+      "quote": "the interactions between the two are represented in the form of graphs"
+    },
+    {
+      "evidence_id": "EV_C001_E04_04",
+      "source_file": "docs/0156/combined.md",
+      "section": "C001",
+      "char_start": 12029,
+      "char_end": 12104,
+      "quote": "the interaction features are captured through the PotentialNet architecture"
+    },
+    {
+      "evidence_id": "EV_C001_E04_05",
+      "source_file": "docs/0156/combined.md",
+      "section": "C001",
+      "char_start": 12715,
+      "char_end": 12811,
+      "quote": "a self-attention layer is introduced to adaptively balance the importance of each representation"
+    },
+    {
+      "evidence_id": "EV_C001_E05_02",
+      "source_file": "docs/0156/combined.md",
+      "section": "C001",
+      "char_start": 13297,
+      "char_end": 13360,
+      "quote": "we employed SmoothL1Loss as the loss function to train DeepLIP."
+    },
+    {
+      "evidence_id": "EV_C001_E05_03",
+      "source_file": "docs/0156/combined.md",
+      "section": "C001",
+      "char_start": 13472,
+      "char_end": 13539,
+      "quote": "The whole process was repeated 10 times with different random seeds"
+    },
+    {
+      "evidence_id": "EV_C001_E06_01",
+      "source_file": "docs/0156/combined.md",
+      "section": "C001",
+      "char_start": 16779,
+      "char_end": 16890,
+      "quote": "the optimal performance of DeepLIP on the internal test set achieved 0.698 (PCC), 1.112 (MAE), and 1.372 (RMSE)"
+    },
+    {
+      "evidence_id": "EV_C001_E07_01",
+      "source_file": "docs/0156/combined.md",
+      "section": "C001",
+      "char_start": 17431,
+      "char_end": 17464,
+      "quote": "our proposed models surpassed the"
+    },
+    {
+      "evidence_id": "EV_C002_E02_01",
+      "source_file": "docs/0156/combined.md",
+      "section": "C002",
+      "char_start": 19594,
+      "char_end": 19710,
+      "quote": "the models constructed based on fused features generally outperformed the individual models on the external test set"
+    },
+    {
+      "evidence_id": "EV_C002_E03_01",
+      "source_file": "docs/0156/combined.md",
+      "section": "C002",
+      "char_start": 20102,
+      "char_end": 20203,
+      "quote": "DeepLIP discarded 3D voxels, it achieved a better balance between computational speed and performance"
+    },
+    {
+      "evidence_id": "EV_C002_E04_01",
+      "source_file": "docs/0156/combined.md",
+      "section": "C002",
+      "char_start": 20615,
+      "char_end": 20830,
+      "quote": "removing either the pocket features or the ligand features resulted in a substantial drop in the performance of the model, while removing the interaction features significantly deteriorated the predictive robustness"
+    },
+    {
+      "evidence_id": "EV_C002_E05_01",
+      "source_file": "docs/0156/combined.md",
+      "section": "C002",
+      "char_start": 21018,
+      "char_end": 21150,
+      "quote": "DeepLI exhibited the most obvious decrease in performance, with a PCC of only 0.287, as well as high MAE and RMSE of 1.911 and 2.357"
+    },
+    {
+      "evidence_id": "EV_C002_E06_01",
+      "source_file": "docs/0156/combined.md",
+      "section": "C002",
+      "char_start": 21705,
+      "char_end": 21929,
+      "quote": "sequence-based DeepLP had the strongest predictive correlation on the external test set (the value of PCC was 0.886), its overall prediction gap was still large (the values of MAE and RMSE were 1.410 and 1.695, respectively)"
+    },
+    {
+      "evidence_id": "EV_C002_E07_01",
+      "source_file": "docs/0156/combined.md",
+      "section": "C002",
+      "char_start": 22426,
+      "char_end": 22547,
+      "quote": "the distribution of features extracted after the self-attention layer of DeepLIP was parabolic, which is very easy to fit"
+    },
+    {
+      "evidence_id": "EV_C002_E07_02",
+      "source_file": "docs/0156/combined.md",
+      "section": "C002",
+      "char_start": 22942,
+      "char_end": 23066,
+      "quote": "the fused features learned by DeepLIP can effectively reduce the fitting difficulty and thus improve the overall performance"
+    },
+    {
+      "evidence_id": "EV_C002_E08_01",
+      "source_file": "docs/0156/combined.md",
+      "section": "C002",
+      "char_start": 23677,
+      "char_end": 23855,
+      "quote": "the prediction performance of DeepLIP at each threshold was significantly better than that of the traditional scoring function, with overall accuracy ranging from 75.17 to 93.79%"
+    },
+    {
+      "evidence_id": "EV_C003_E01_01",
+      "source_file": "docs/0156/combined.md",
+      "section": "C003",
+      "char_start": 34961,
+      "char_end": 35067,
+      "quote": "Comparison of the screening performance of DeepLIP and Autodock Vina at different ERK2 activity thresholds"
+    },
+    {
+      "evidence_id": "EV_C003_E02_01",
+      "source_file": "docs/0156/combined.md",
+      "section": "C003",
+      "char_start": 35962,
+      "char_end": 36010,
+      "quote": "Virtual screening workflow adopted in this study"
+    },
+    {
+      "evidence_id": "EV_C003_E03_01",
+      "source_file": "docs/0156/combined.md",
+      "section": "C003",
+      "char_start": 36375,
+      "char_end": 36525,
+      "quote": "the highest number of hydrogen bonds were formed between DA and ERK2, while the lowest number of hydrogen bonds were formed between Rotundine and ERK2"
+    },
+    {
+      "evidence_id": "EV_C003_E04_01",
+      "source_file": "docs/0156/combined.md",
+      "section": "C003",
+      "char_start": 36682,
+      "char_end": 36800,
+      "quote": "the affinity of DA, Sclareol, and Glaucine for ERK2 was higher than that of the previously identified active compounds"
+    },
+    {
+      "evidence_id": "EV_C003_E05_01",
+      "source_file": "docs/0156/combined.md",
+      "section": "C003",
+      "char_start": 37270,
+      "char_end": 37404,
+      "quote": "VAL-39 and LEU-156 had a significant effect in most systems, which implies that they may be potential action sites for ERK2 inhibitors"
+    },
+    {
+      "evidence_id": "EV_C003_E06_01",
+      "source_file": "docs/0156/combined.md",
+      "section": "C003",
+      "char_start": 37530,
+      "char_end": 37622,
+      "quote": "DA lost one hydrogen bond with LYS-54 but formed a new hydrogen bond with MET-108 and TYR-36"
+    },
+    {
+      "evidence_id": "EV_C003_E06_02",
+      "source_file": "docs/0156/combined.md",
+      "section": "C003",
+      "char_start": 37799,
+      "char_end": 37929,
+      "quote": "No hydrogen bond was formed in the Glaucine-ERK2 complex, suggesting that their interactions may be dominated by hydrophobic bonds"
+    },
+    {
+      "evidence_id": "EV_C003_E06_03",
+      "source_file": "docs/0156/combined.md",
+      "section": "C003",
+      "char_start": 37931,
+      "char_end": 38006,
+      "quote": "A new hydrogen bond was formed between Sclareol and LYS-54 after simulation"
+    },
+    {
+      "evidence_id": "EV_C003_E07_01",
+      "source_file": "docs/0156/combined.md",
+      "section": "C003",
+      "char_start": 40866,
+      "char_end": 41035,
+      "quote": "the results of the ablation studies showed that each of the local features contributed positively to the prediction of PLA, with the pocket feature contributing the most"
+    },
+    {
+      "evidence_id": "EV_C003_E08_01",
+      "source_file": "docs/0156/combined.md",
+      "section": "C003",
+      "char_start": 52082,
+      "char_end": 52180,
+      "quote": "the use of binding pockets as local features limits the application of the model in many scenarios"
+    },
+    {
+      "evidence_id": "EV_C004_E01_01",
+      "source_file": "docs/0156/combined.md",
+      "section": "C004",
+      "char_start": 51622,
+      "char_end": 51784,
+      "quote": "we utilized the proposed DeepLIP model to perform PLA prediction on 173 molecules with high confidence and selected five hits with the highest affinity among them"
+    },
+    {
+      "evidence_id": "EV_C004_E02_01",
+      "source_file": "docs/0156/combined.md",
+      "section": "C004",
+      "char_start": 51786,
+      "char_end": 51999,
+      "quote": "The results of molecular dynamics simulation showed that three natural products were able to bind stably to ERK2 and had higher MM/PBSA binding free energies than our previously identified active natural products."
+    },
+    {
+      "evidence_id": "EV_C004_E04_01",
+      "source_file": "docs/0156/combined.md",
+      "section": "C004",
+      "char_start": 52291,
+      "char_end": 52423,
+      "quote": "the performance of DeepLIP in large-scale virtual screening needs to be evaluated, and only ERK2 was initially applied in this study"
+    },
+    {
+      "evidence_id": "EV_C004_E05_01",
+      "source_file": "docs/0156/combined.md",
+      "section": "C004",
+      "char_start": 52434,
+      "char_end": 52593,
+      "quote": "the prediction results are still a “black box”, and users cannot understand which residues in the interaction contribute more to the predicted binding affinity"
+    },
+    {
+      "evidence_id": "EV_C004_E06_01",
+      "source_file": "docs/0156/combined.md",
+      "section": "C004",
+      "char_start": 52616,
+      "char_end": 52784,
+      "quote": "we will strive to refine the architecture in the above aspects and optimize the chemical structures of the screened hits as well as evaluate their biological activities"
+    },
+    {
+      "evidence_id": "EV_C004_E07_01",
+      "source_file": "docs/0156/combined.md",
+      "section": "C004",
+      "char_start": 53367,
+      "char_end": 53468,
+      "quote": "the results of ablation studies confirmed the effectiveness of each representation for PLA prediction"
+    },
+    {
+      "evidence_id": "EV_C004_E08_01",
+      "source_file": "docs/0156/combined.md",
+      "section": "C004",
+      "char_start": 53483,
+      "char_end": 53634,
+      "quote": "we combined this model with other commonly used virtual screening tools to identify three potential ERK2 inhibitors from 851 drug-like natural products"
+    },
+    {
+      "evidence_id": "EV_AUTO_001",
+      "source_file": "docs/0156/combined.md",
+      "section": "auto_specific",
+      "char_start": 37529,
+      "char_end": 37756,
+      "quote": "DA lost one hydrogen bond with LYS-54 but formed a new hydrogen bond with MET-108 and TYR-36, respectively, the former of which serves as a key residue in the hinge region and is the action site of many reported inhibitors (e."
+    },
+    {
+      "evidence_id": "EV_AUTO_002",
+      "source_file": "docs/0156/combined.md",
+      "section": "auto_specific",
+      "char_start": 7810,
+      "char_end": 8072,
+      "quote": "More specifically, $20\\%$ of the samples from the former were randomly selected as the validation set to optimize the hyperparameters of the pre-training models, and the latter was the benchmark dataset of CASF-2016, a scoring function evaluation platform [20]."
+    },
+    {
+      "evidence_id": "EV_AUTO_003",
+      "source_file": "docs/0156/combined.md",
+      "section": "auto_specific",
+      "char_start": 37265,
+      "char_end": 37405,
+      "quote": "6D, VAL-39 and LEU-156 had a significant effect in most systems, which implies that they may be potential action sites for ERK2 inhibitors."
+    },
+    {
+      "evidence_id": "EV_AUTO_004",
+      "source_file": "docs/0156/combined.md",
+      "section": "auto_specific",
+      "char_start": 61265,
+      "char_end": 61507,
+      "quote": "Discovery of (S)-1-(1-(4-Chloro-3-fluorophenyl)-2-hydroxyethyl)-4-(2-((1-methyl-1H-pyrazol-5-yl)amino)pyrimidin-4-yl)pyridin-2(1H)-one (GDC-0994), an extracellular signal-regulated kinase 1/2 (ERK1/2) inhibitor in early clinical development."
+    },
+    {
+      "evidence_id": "EV_AUTO_005",
+      "source_file": "docs/0156/combined.md",
+      "section": "auto_specific",
+      "char_start": 37758,
+      "char_end": 37798,
+      "quote": ", GDC-0994 $[38]$ and FR180204 $[39]$ )."
+    },
+    {
+      "evidence_id": "EV_AUTO_006",
+      "source_file": "docs/0156/combined.md",
+      "section": "auto_specific",
+      "char_start": 58155,
+      "char_end": 58222,
+      "quote": "Comparative assessment of scoring functions: the CASF-2016 update."
+    },
+    {
+      "evidence_id": "EV_AUTO_007",
+      "source_file": "docs/0156/combined.md",
+      "section": "auto_specific",
+      "char_start": 37930,
+      "char_end": 38046,
+      "quote": "A new hydrogen bond was formed between Sclareol and LYS-54 after simulation, and this catalytic residue is located"
+    },
+    {
+      "evidence_id": "EV_AUTO_008",
+      "source_file": "docs/0156/combined.md",
+      "section": "auto_specific",
+      "char_start": 32324,
+      "char_end": 32523,
+      "quote": "Subsequently, we selected 173 compounds with scores greater than 0.9 to narrow the screening space, and these compounds were fed into DeepLIP to predict their binding affinity to the target protein."
+    },
+    {
+      "evidence_id": "EV_AUTO_009",
+      "source_file": "docs/0156/combined.md",
+      "section": "auto_specific",
+      "char_start": 23132,
+      "char_end": 23483,
+      "quote": "To verify the application potential of the fusion model in real cases, we employed the trained model to perform PLA prediction on 145 ERK2 inhibitors with known activity (the dataset was derived from a previous study by our group), while the prediction results of Autodock Vina were used as a control to simulate the virtual screening process $[31]$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_010",
+      "source_file": "docs/0156/combined.md",
+      "section": "auto_specific",
+      "char_start": 16406,
+      "char_end": 16757,
+      "quote": "After training the models on the refined set of PDBbind v2016, we directly conducted extensive experiments on the non-overlapping refined set of PDBbind v2020 and selected the best models for the subsequent benchmark test, which is significant in terms of more realistically reflecting the generalization performance and providing a fairer comparison."
+    },
+    {
+      "evidence_id": "EV_AUTO_011",
+      "source_file": "docs/0156/combined.md",
+      "section": "auto_specific",
+      "char_start": 51616,
+      "char_end": 51785,
+      "quote": "Next, we utilized the proposed DeepLIP model to perform PLA prediction on 173 molecules with high confidence and selected five hits with the highest affinity among them."
+    },
+    {
+      "evidence_id": "EV_AUTO_012",
+      "source_file": "docs/0156/combined.md",
+      "section": "auto_specific",
+      "char_start": 41038,
+      "char_end": 41259,
+      "quote": "In terms of drug discovery, we performed a first round of virtual screening of an in-house library of our group (containing 851 drug-like natural products) based on a previously trained ERK2 activity classification model."
+    },
+    {
+      "evidence_id": "EV_AUTO_013",
+      "source_file": "docs/0156/combined.md",
+      "section": "auto_specific",
+      "char_start": 35619,
+      "char_end": 35708,
+      "quote": "A[\"In-house Library (851 Natural Products)\"] --> B[\"Trained Machine Learning Model\"]"
+    },
+    {
+      "evidence_id": "EV_AUTO_014",
+      "source_file": "docs/0156/combined.md",
+      "section": "auto_specific",
+      "char_start": 34958,
+      "char_end": 35068,
+      "quote": "4 Comparison of the screening performance of DeepLIP and Autodock Vina at different ERK2 activity thresholds"
+    },
+    {
+      "evidence_id": "EV_AUTO_015",
+      "source_file": "docs/0156/combined.md",
+      "section": "auto_specific",
+      "char_start": 32847,
+      "char_end": 32998,
+      "quote": "To further investigate the binding stability between the screened compounds and the target protein, we performed 100 ns molecular dynamics simulations."
+    },
+    {
+      "evidence_id": "EV_AUTO_016",
+      "source_file": "docs/0156/combined.md",
+      "section": "auto_specific",
+      "char_start": 32542,
+      "char_end": 32628,
+      "quote": "3B illustrates the distribution of binding affinities for the 173 screened compounds."
+    },
+    {
+      "evidence_id": "EV_AUTO_017",
+      "source_file": "docs/0156/combined.md",
+      "section": "auto_specific",
+      "char_start": 32324,
+      "char_end": 32392,
+      "quote": "Subsequently, we selected 173 compounds with scores greater than 0."
+    },
+    {
+      "evidence_id": "EV_AUTO_018",
+      "source_file": "docs/0156/combined.md",
+      "section": "auto_specific",
+      "char_start": 27684,
+      "char_end": 27846,
+      "quote": "In addition, an in-house library containing 851 drug-like natural products manually collected from the relevant literature was used in the overall workflow (Fig."
+    },
+    {
+      "evidence_id": "EV_AUTO_019",
+      "source_file": "docs/0156/combined.md",
+      "section": "auto_specific",
+      "char_start": 61782,
+      "char_end": 61919,
+      "quote": "Fragment-based discovery of a potent, orally bioavailable inhibitor that modulates the phosphorylation and catalytic activity of ERK1/2."
+    },
+    {
+      "evidence_id": "EV_AUTO_020",
+      "source_file": "docs/0156/combined.md",
+      "section": "auto_specific",
+      "char_start": 38047,
+      "char_end": 38128,
+      "quote": "Table 4 Details of the five natural products screened from the in-house library"
+    },
+    {
+      "evidence_id": "EV_AUTO_021",
+      "source_file": "docs/0156/combined.md",
+      "section": "auto_specific",
+      "char_start": 23856,
+      "char_end": 23974,
+      "quote": "In addition, the values of the confusion matrix at different activity thresholds are listed in Supplementary Table 5."
+    }
+  ],
+  "event_graph": {
+    "paper_main_problem": "Accurate and efficient protein–ligand binding affinity (PLA) prediction is needed to accelerate drug discovery, but existing methods have limitations: sequence-based methods ignore receptor-ligand interactions, structure-based methods lack explicit physicochemical descriptions and are computationally expensive (e.g., 3D voxelization).",
+    "canonical_events": [
+      {
+        "canonical_id": "K01",
+        "order": 1,
+        "event_type": "problem",
+        "summary": "PLA determination is time-consuming and costly experimentally; deep learning can help but needs comprehensive representation.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E01"
+        ],
+        "evidence_ids": [
+          "EV_C001_E01_01"
+        ],
+        "key_entities": [
+          "PLA",
+          "deep learning"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K02",
+        "order": 2,
+        "event_type": "problem",
+        "summary": "Existing DL methods have limitations: sequence-based ignore interactions, structure-based lack explicit descriptors and are computationally expensive (3D voxelization).",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E02"
+        ],
+        "evidence_ids": [
+          "EV_C001_E02_01",
+          "EV_C001_E02_02",
+          "EV_C001_E02_03"
+        ],
+        "key_entities": [
+          "sequence-based methods",
+          "structure-based methods",
+          "3D convolution"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K03",
+        "order": 3,
+        "event_type": "hypothesis",
+        "summary": "Hypothesis: Integrating ligand descriptors, pocket descriptors, and interaction graphs via early fusion can capture complementary information and improve prediction.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E03"
+        ],
+        "evidence_ids": [
+          "EV_C001_E03_01",
+          "EV_C001_E03_02",
+          "EV_C001_E03_03",
+          "EV_C001_E03_04"
+        ],
+        "key_entities": [
+          "DeepLIP",
+          "ligand descriptors",
+          "pocket descriptors",
+          "interaction graphs"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K04",
+        "order": 4,
+        "event_type": "design",
+        "summary": "Design: DeepLIP uses descriptor-based ligand and pocket representations and spatial graph for interactions, fused early with self-attention.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E04"
+        ],
+        "evidence_ids": [
+          "EV_C001_E04_02",
+          "EV_C001_E04_04",
+          "EV_C001_E04_05"
+        ],
+        "key_entities": [
+          "DeepLIP",
+          "196 chemical descriptors",
+          "147 CTD descriptors",
+          "interaction graph",
+          "self-attention"
+        ],
+        "key_numbers": [
+          "196",
+          "147"
+        ]
+      },
+      {
+        "canonical_id": "K05",
+        "order": 5,
+        "event_type": "computation",
+        "summary": "Model training: DeepLIP trained on PDBbind v2016 refined set, hyperparameter search with Optuna, SmoothL1Loss, 10 repeats.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E05"
+        ],
+        "evidence_ids": [
+          "EV_C001_E05_02",
+          "EV_C001_E05_03"
+        ],
+        "key_entities": [
+          "DeepLIP",
+          "PDBbind v2016 refined set",
+          "Optuna",
+          "SmoothL1Loss"
+        ],
+        "key_numbers": [
+          "10 repeats"
+        ]
+      },
+      {
+        "canonical_id": "K06",
+        "order": 6,
+        "event_type": "experiment",
+        "summary": "Internal test: Best DeepLIP model achieved PCC=0.698, MAE=1.112, RMSE=1.372 on PDBbind v2020 refined set.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E06"
+        ],
+        "evidence_ids": [
+          "EV_C001_E06_01"
+        ],
+        "key_entities": [
+          "DeepLIP",
+          "internal test set",
+          "PDBbind v2020 refined set"
+        ],
+        "key_numbers": [
+          "PCC=0.698",
+          "MAE=1.112",
+          "RMSE=1.372"
+        ]
+      },
+      {
+        "canonical_id": "K07",
+        "order": 7,
+        "event_type": "validation",
+        "summary": "External test: DeepLIP outperforms state-of-the-art methods on CASF-2016 benchmark (PCC=0.830, MAE=1.014, RMSE=1.265).",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E07"
+        ],
+        "evidence_ids": [
+          "EV_C001_E07_01"
+        ],
+        "key_entities": [
+          "DeepLIP",
+          "CASF-2016",
+          "SIGN",
+          "FAST"
+        ],
+        "key_numbers": [
+          "PCC=0.830",
+          "MAE=1.014",
+          "RMSE=1.265"
+        ]
+      },
+      {
+        "canonical_id": "K08",
+        "order": 8,
+        "event_type": "analysis",
+        "summary": "Ablation studies on internal test set show each local feature contributes positively, with pocket feature contributing the most; DeepLI (no pocket) drops to PCC=0.287.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E04",
+          "C002_E05",
+          "C003_E07"
+        ],
+        "evidence_ids": [
+          "EV_C002_E04_01",
+          "EV_C002_E05_01",
+          "EV_C003_E07_01"
+        ],
+        "key_entities": [
+          "DeepLI",
+          "DeepIP",
+          "DeepLP"
+        ],
+        "key_numbers": [
+          "PCC=0.287",
+          "MAE=1.911",
+          "RMSE=2.357"
+        ]
+      },
+      {
+        "canonical_id": "K09",
+        "order": 9,
+        "event_type": "analysis",
+        "summary": "Fusion models generally outperform individual models; DeepLIP balances speed and performance by discarding 3D voxels.",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C002_E02",
+          "C002_E03"
+        ],
+        "evidence_ids": [
+          "EV_C002_E02_01",
+          "EV_C002_E03_01"
+        ],
+        "key_entities": [
+          "DeepLIP",
+          "Pafnucy",
+          "DeepDTAF"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K10",
+        "order": 10,
+        "event_type": "validation",
+        "summary": "DeepLIP screening power on 145 ERK2 inhibitors outperforms Autodock Vina at all activity thresholds (overall accuracy 75.17-93.79%).",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E08",
+          "C003_E01"
+        ],
+        "evidence_ids": [
+          "EV_C002_E08_01",
+          "EV_C003_E01_01"
+        ],
+        "key_entities": [
+          "DeepLIP",
+          "Autodock Vina",
+          "ERK2"
+        ],
+        "key_numbers": [
+          "accuracy 75.17-93.79%"
+        ]
+      },
+      {
+        "canonical_id": "K11",
+        "order": 11,
+        "event_type": "experiment",
+        "summary": "Virtual screening workflow: 851 natural products filtered by ML model, then DeepLIP predicts 173 high-confidence molecules, selecting five top hits.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E02",
+          "C004_E01"
+        ],
+        "evidence_ids": [
+          "EV_C003_E02_01",
+          "EV_C004_E01_01"
+        ],
+        "key_entities": [
+          "in-house library",
+          "851 natural products",
+          "173 molecules",
+          "five hits"
+        ],
+        "key_numbers": [
+          "851",
+          "173",
+          "5"
+        ]
+      },
+      {
+        "canonical_id": "K12",
+        "order": 12,
+        "event_type": "validation",
+        "summary": "MD simulation and MM/PBSA confirm three natural products (DA, Sclareol, Glaucine) bind stably to ERK2 with higher binding free energies than previously identified actives.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E03",
+          "C003_E04",
+          "C004_E02"
+        ],
+        "evidence_ids": [
+          "EV_C003_E03_01",
+          "EV_C003_E04_01",
+          "EV_C004_E02_01"
+        ],
+        "key_entities": [
+          "DA",
+          "Sclareol",
+          "Glaucine",
+          "ERK2"
+        ],
+        "key_numbers": [
+          "DA: -64.90 kJ/mol",
+          "Sclareol: -79.57 kJ/mol",
+          "Glaucine: -92.94 kJ/mol"
+        ]
+      },
+      {
+        "canonical_id": "K13",
+        "order": 13,
+        "event_type": "limitation",
+        "summary": "Limitation: DeepLIP's use of binding pockets limits application in many scenarios; performance in large-scale virtual screening needs evaluation; prediction is a black box.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E08",
+          "C004_E04",
+          "C004_E05"
+        ],
+        "evidence_ids": [
+          "EV_C003_E08_01",
+          "EV_C004_E04_01",
+          "EV_C004_E05_01"
+        ],
+        "key_entities": [
+          "DeepLIP",
+          "ERK2"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K14",
+        "order": 14,
+        "event_type": "revision",
+        "summary": "Future work: refine architecture to address limitations, optimize hit chemical structures, evaluate biological activities.",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C004_E06"
+        ],
+        "evidence_ids": [
+          "EV_C004_E06_01"
+        ],
+        "key_entities": [],
+        "key_numbers": []
+      }
+    ],
+    "edges": [
+      {
+        "source": "K01",
+        "target": "K02",
+        "relation": "follows",
+        "reason": "General problem of PLA prediction leads to specific limitations of existing DL methods."
+      },
+      {
+        "source": "K02",
+        "target": "K03",
+        "relation": "enables",
+        "reason": "Limitations motivate the hypothesis of integrating complementary representations."
+      },
+      {
+        "source": "K03",
+        "target": "K04",
+        "relation": "enables",
+        "reason": "Hypothesis drives the design of DeepLIP architecture."
+      },
+      {
+        "source": "K04",
+        "target": "K05",
+        "relation": "enables",
+        "reason": "Design is implemented and trained."
+      },
+      {
+        "source": "K05",
+        "target": "K06",
+        "relation": "enables",
+        "reason": "Training yields model evaluated on internal test set."
+      },
+      {
+        "source": "K06",
+        "target": "K07",
+        "relation": "follows",
+        "reason": "Internal test selects best model for external benchmark."
+      },
+      {
+        "source": "K07",
+        "target": "K08",
+        "relation": "validates",
+        "reason": "Ablation studies confirm contribution of each modality."
+      },
+      {
+        "source": "K07",
+        "target": "K09",
+        "relation": "follows",
+        "reason": "Comparison analysis highlights advantages of fusion and efficiency."
+      },
+      {
+        "source": "K07",
+        "target": "K10",
+        "relation": "enables",
+        "reason": "Strong PLA prediction performance enables virtual screening validation."
+      },
+      {
+        "source": "K10",
+        "target": "K11",
+        "relation": "enables",
+        "reason": "Screening power on known inhibitors supports application to natural product library."
+      },
+      {
+        "source": "K11",
+        "target": "K12",
+        "relation": "validates",
+        "reason": "MD simulation and MM/PBSA validate binding stability and affinity of top hits."
+      },
+      {
+        "source": "K12",
+        "target": "K13",
+        "relation": "follows",
+        "reason": "After validation, limitations of the approach are discussed."
+      },
+      {
+        "source": "K13",
+        "target": "K14",
+        "relation": "enables",
+        "reason": "Limitations motivate future work directions."
+      }
+    ],
+    "must_cover_points": [
+      "Problem of PLA prediction and limitations of existing methods",
+      "Hypothesis of multi-modal fusion",
+      "Design of DeepLIP with descriptors and interaction graph",
+      "Training and internal test results",
+      "External benchmark performance",
+      "Ablation studies confirming modality contributions",
+      "Virtual screening validation on ERK2 inhibitors",
+      "Application to natural product library and identification of hits",
+      "MD/MM-PBSA validation of hits",
+      "Limitations and future work"
+    ],
+    "paper_not_suitable_reasons": []
+  }
+}

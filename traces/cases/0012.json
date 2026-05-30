@@ -1,0 +1,821 @@
+{
+  "case": {
+    "case_id": "sci_evo_0012",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Bayesian optimization with evolutionary and structure-based regularization for directed protein evolution",
+      "doi": "https://doi.org/10.1186/s13015-021-00195-4",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0010_10_1186_s13015_021_00195_4_bayesian_optimization_with_evolutionary_and_structure_based_regularization_for_directed_pr.pdf",
+      "mineru_md": "docs/0012/mineru.md",
+      "combined_md": "docs/0012/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Directed evolution optimizes a target property but may degrade unmeasured properties (e.g., solubility, thermostability). ML-assisted DE models are myopic, exacerbating this trade-off.",
+      "target_object": "Protein variants with improved target property while maintaining unmeasured native-like properties",
+      "known_context": "Directed evolution is under-determined; mutations for target property may harm unmeasured properties.",
+      "constraints": [
+        "Maintain unmeasured native-like properties",
+        "Limited experimental budget"
+      ],
+      "input_data": [
+        "GB1 binding fitness data (149,361 variants)",
+        "BRCA1 E3 ligase activity data (1388 variants)",
+        "Spike ACE2 binding affinity data (4020 variants)"
+      ],
+      "quantifiable_goals": [
+        "Improve target property over traditional DE",
+        "Reduce wet-lab burden"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "Directed evolution optimization is under-determined; mutations for target property may harm unmeasured properties.",
+        "gap_or_uncertainty": "How to bias ML-assisted DE toward designs that maintain unmeasured native-like properties?",
+        "hypothesis": "Regularizing Bayesian optimization with evolutionary or structure-based constraints will yield better designs by maintaining unmeasured native-like properties.",
+        "decision": "Formulate DE as a regularized Bayesian optimization problem.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "Regularized Bayesian optimization",
+          "version": "",
+          "category": "computational_method"
+        },
+        "parameters": {},
+        "observation": "Regularization terms reflecting evolutionary or structure-based constraints can be incorporated into BO.",
+        "result_status": "success",
+        "next_step_reason": "Design regularized acquisition functions.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0012/combined.md",
+            "section": "C001",
+            "quote_or_span": "the underlying optimization problem is under-determined, and so mutations introduced to improve the specified property may come at the expense of unmeasured, but nevertheless important properties (ex. solubility, thermostability, etc)"
+          },
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0012/combined.md",
+            "section": "C001",
+            "quote_or_span": "We address this issue by formulating DE as a regularized Bayesian optimization problem where the regularization term reflects evolutionary or structure-based constraints."
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "design",
+        "state_before": "Hypothesis formulated; need to implement regularization.",
+        "gap_or_uncertainty": "How to incorporate evolutionary and structure-based constraints into BO acquisition?",
+        "hypothesis": "Multiplying standard acquisition functions (EI, PI, UCB) by a regularization factor (evolutionary log-odds or structure-based ΔΔG) will bias selection.",
+        "decision": "Design regularized acquisition functions.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "Regularized acquisition functions",
+          "version": "",
+          "category": "computational_method"
+        },
+        "parameters": {
+          "acquisition_functions": [
+            "EI",
+            "PI",
+            "UCB"
+          ],
+          "regularization_types": [
+            "evolutionary_log_odds",
+            "structure_ddG"
+          ]
+        },
+        "observation": "Regularized acquisition functions defined.",
+        "result_status": "success",
+        "next_step_reason": "Implement evolutionary and structure-based regularization components.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E06_01",
+            "source_file": "docs/0012/combined.md",
+            "section": "C002",
+            "quote_or_span": "By summing over these logits for a given variant sequence, we obtain a TPLM-derived log-odds score."
+          },
+          {
+            "evidence_id": "EV_C002_E07_01",
+            "source_file": "docs/0012/combined.md",
+            "section": "C002",
+            "quote_or_span": "Calculate the energy associated with introducing each mutation into the structure using FoldX's BuildModel command. Calculations for each mutated sequence are done three times."
+          },
+          {
+            "evidence_id": "EV_C002_E08_01",
+            "source_file": "docs/0012/combined.md",
+            "section": "C002",
+            "quote_or_span": "we use the squared exponential kernel"
+          },
+          {
+            "evidence_id": "EV_C002_E08_02",
+            "source_file": "docs/0012/combined.md",
+            "section": "C002",
+            "quote_or_span": "We used a one-hot encoding of the variants."
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "design",
+        "state_before": "Regularized acquisition functions designed; need datasets and regularization implementations.",
+        "gap_or_uncertainty": "Which datasets and regularization models to use?",
+        "hypothesis": "GB1, BRCA1, and Spike datasets cover diverse protein engineering scenarios; ESM-1b TPLM and FoldX provide evolutionary and structure-based regularization.",
+        "decision": "Select datasets and implement regularization models.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "Dataset selection and regularization implementation",
+          "version": "",
+          "category": "computational_method"
+        },
+        "parameters": {
+          "datasets": [
+            "GB1",
+            "BRCA1",
+            "Spike"
+          ],
+          "evolutionary_models": [
+            "ESM-1b TPLM",
+            "HMM",
+            "MRF (GREMLIN)"
+          ],
+          "structure_model": "FoldX"
+        },
+        "observation": "Datasets selected; evolutionary regularization via ESM-1b TPLM (and fold-family models) and structure-based regularization via FoldX implemented.",
+        "result_status": "success",
+        "next_step_reason": "Evaluate baseline ML-assisted DE vs traditional DE on GB1.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E03_01",
+            "source_file": "docs/0012/combined.md",
+            "section": "C002",
+            "quote_or_span": "Experimental measurements were obtained for 149,361 out of 160,000 (i.e. $20^{4}$ ) possible variants at these four loci using mRNA display"
+          },
+          {
+            "evidence_id": "EV_C002_E03_02",
+            "source_file": "docs/0012/combined.md",
+            "section": "C002",
+            "quote_or_span": "The range of fitness scores is from 0 to 8.76, with mean 0.08"
+          },
+          {
+            "evidence_id": "EV_C002_E04_01",
+            "source_file": "docs/0012/combined.md",
+            "section": "C002",
+            "quote_or_span": "Our experiments were limited to the mutations in residues 2-103 that passed the quality filter, which correspond to the RING domain coordinates. In total, this gave us 1388 variant sequences."
+          },
+          {
+            "evidence_id": "EV_C002_E05_01",
+            "source_file": "docs/0012/combined.md",
+            "section": "C002",
+            "quote_or_span": "Starr et al. [31] performed a deep mutational scan of the Spike glycoprotein using a yeast display platform to assess the effect of mutations in the receptor binding domain on ACE2 binding affinity."
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "experiment",
+        "state_before": "Baseline comparison needed.",
+        "gap_or_uncertainty": "Does ML-assisted DE outperform traditional DE on GB1?",
+        "hypothesis": "ML-assisted DE will achieve higher fitness than simulated traditional DE (single mutation walk, recombination).",
+        "decision": "Compare unregularized BO against simulated traditional DE on GB1.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "Bayesian optimization (unregularized)",
+          "version": "",
+          "category": "computational_method"
+        },
+        "parameters": {
+          "acquisition_functions": [
+            "EI",
+            "PI",
+            "UCB"
+          ],
+          "surrogate_model": "GP",
+          "initial_samples": 20,
+          "batch_size": 19,
+          "batches": 9
+        },
+        "observation": "ML-assisted DE achieves 45% higher fitness (7.22-7.27 vs 4.97).",
+        "result_status": "success",
+        "next_step_reason": "Evaluate regularized BO methods on all three proteins.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E01_01",
+            "source_file": "docs/0012/combined.md",
+            "section": "C003",
+            "quote_or_span": "ML-assisted DE outperforms simulated traditional approaches (i.e., single-mutant walk and recombination) when optimizing GB1 with respect to fitness."
+          },
+          {
+            "evidence_id": "EV_C003_E01_02",
+            "source_file": "docs/0012/combined.md",
+            "section": "C003",
+            "quote_or_span": "ML-assisted DE thus thus improves upon traditional approaches in designing high fitness GB1 variants by an average of 45%."
+          },
+          {
+            "evidence_id": "EV_AUTO_022",
+            "source_file": "docs/0012/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "27 (PI), and 7.08 (UCB), whereas simulated traditional approaches identify a variant with fitness 4."
+          },
+          {
+            "evidence_id": "EV_AUTO_021",
+            "source_file": "docs/0012/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "08 (UCB), whereas simulated traditional approaches identify a variant with fitness 4.97."
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "experiment",
+        "state_before": "Baseline established; regularized methods ready.",
+        "gap_or_uncertainty": "Do regularized BO methods improve designs over unregularized BO?",
+        "hypothesis": "Structure-based regularization will usually improve designs; evolutionary-based regularization may be unreliable.",
+        "decision": "Evaluate regularized BO (evolutionary and structure-based) on GB1, BRCA1, Spike.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "Regularized Bayesian optimization",
+          "version": "",
+          "category": "computational_method"
+        },
+        "parameters": {
+          "regularization_types": [
+            "evolutionary (TPLM, HMM, MRF)",
+            "structure (FoldX)"
+          ],
+          "acquisition_functions": [
+            "EI",
+            "PI",
+            "UCB"
+          ],
+          "surrogate_model": "GP",
+          "datasets": [
+            "GB1",
+            "BRCA1",
+            "Spike"
+          ]
+        },
+        "observation": "Structure-based regularization usually leads to better designs and almost never hurts; evolutionary-based regularization via TPLM is unreliable.",
+        "result_status": "partial",
+        "next_step_reason": "Analyze failure of evolutionary regularization on BRCA1 and Spike.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E02_01",
+            "source_file": "docs/0012/combined.md",
+            "section": "C003",
+            "quote_or_span": "structure-based regularization usually leads to better designs, and almost never hurts."
+          },
+          {
+            "evidence_id": "EV_C003_E04_01",
+            "source_file": "docs/0012/combined.md",
+            "section": "C003",
+            "quote_or_span": "evolutionary-based regularization via the as-is ESM-1b TPLM is unreliable."
+          },
+          {
+            "evidence_id": "EV_C004_E01_01",
+            "source_file": "docs/0012/combined.md",
+            "section": "C004",
+            "quote_or_span": "we find that evolutionary-based regularization via the as-is ESM-1b TPLM is unreliable."
+          },
+          {
+            "evidence_id": "EV_C005_E05_01",
+            "source_file": "docs/0012/combined.md",
+            "section": "C005",
+            "quote_or_span": "structure-based regularization usually produces better designs, and only did harm in one configuration (GP + UCB + FoldX on GB1)"
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "analysis",
+        "state_before": "Evolutionary regularization failed on BRCA1 and Spike.",
+        "gap_or_uncertainty": "Why does evolutionary regularization via TPLM fail on BRCA1 and Spike?",
+        "hypothesis": "TPLM may not capture fold-specific constraints well for these proteins.",
+        "decision": "Analyze performance of TPLM and compare with fold-family models.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Performance analysis",
+          "version": "",
+          "category": "analysis"
+        },
+        "parameters": {},
+        "observation": "TPLM underperforms for BRCA1 and Spike; fold-family models (HMM, MRF) do not perform much differently than unregularized methods.",
+        "result_status": "failure",
+        "next_step_reason": "Investigate why structure-based regularization is less effective for GB1.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E07_01",
+            "source_file": "docs/0012/combined.md",
+            "section": "C001",
+            "quote_or_span": "The results using an evolutionary-based regularization are mixed; it leads to better designs for GB1, but worse designs for BRCA1."
+          },
+          {
+            "evidence_id": "EV_C003_E04_01",
+            "source_file": "docs/0012/combined.md",
+            "section": "C003",
+            "quote_or_span": "evolutionary-based regularization via the as-is ESM-1b TPLM is unreliable."
+          },
+          {
+            "evidence_id": "EV_C004_E01_01",
+            "source_file": "docs/0012/combined.md",
+            "section": "C004",
+            "quote_or_span": "we find that evolutionary-based regularization via the as-is ESM-1b TPLM is unreliable."
+          },
+          {
+            "evidence_id": "EV_C004_E01_02",
+            "source_file": "docs/0012/combined.md",
+            "section": "C004",
+            "quote_or_span": "it does very well for GB1—outperforming both structure-based and the unregularized methods, but it underperforms for BRCA1 and Spike."
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "analysis",
+        "state_before": "Structure-based regularization less effective for GB1.",
+        "gap_or_uncertainty": "Why is FoldX regularization less helpful for GB1?",
+        "hypothesis": "GB1 structure lacks the binding partner, making FoldX ΔΔG less informative.",
+        "decision": "Compare structural contexts of GB1, BRCA1, Spike.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Structural context analysis",
+          "version": "",
+          "category": "analysis"
+        },
+        "parameters": {},
+        "observation": "GB1 structure did not include the binding partner; BRCA1 and Spike structures include binding partners, making FoldX more informative.",
+        "result_status": "success",
+        "next_step_reason": "Analyze how regularization affects exploration patterns.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C005_E06_01",
+            "source_file": "docs/0012/combined.md",
+            "section": "C005",
+            "quote_or_span": "GB1 was the one protein where the structure did not include the binding partner"
+          },
+          {
+            "evidence_id": "EV_C005_E06_02",
+            "source_file": "docs/0012/combined.md",
+            "section": "C005",
+            "quote_or_span": "The structures used for the experiments on BRCA1 and Spike, in contrast, include the binding partner"
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "analysis",
+        "state_before": "Regularization biases selection.",
+        "gap_or_uncertainty": "How does regularization affect exploration?",
+        "hypothesis": "Regularization concentrates exploration at select residues, increasing site-specific entropy.",
+        "decision": "Analyze residue-specific entropy of variant selections.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Entropy analysis",
+          "version": "",
+          "category": "analysis"
+        },
+        "parameters": {},
+        "observation": "Regularized methods show higher residue-specific entropy, indicating concentrated exploration at select residues.",
+        "result_status": "success",
+        "next_step_reason": "Validate reduction in wet-lab burden.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E03_01",
+            "source_file": "docs/0012/combined.md",
+            "section": "C004",
+            "quote_or_span": "the inclusion of a regularization term will bias variant selection towards designs that score favorably according to the regularization criteria"
+          },
+          {
+            "evidence_id": "EV_C004_E03_02",
+            "source_file": "docs/0012/combined.md",
+            "section": "C004",
+            "quote_or_span": "the objective and regularization values carry some information about unmeasured traits"
+          },
+          {
+            "evidence_id": "EV_C004_E04_01",
+            "source_file": "docs/0012/combined.md",
+            "section": "C004",
+            "quote_or_span": "regularized methods for each protein have darker shading than their unregularized counterpart. This indicates that regularized methods explore more variant types at specific positions in each protein."
+          },
+          {
+            "evidence_id": "EV_C005_E08_01",
+            "source_file": "docs/0012/combined.md",
+            "section": "C005",
+            "quote_or_span": "The regularized version tends to concentrate exploration at select residues, whereas unregularized methods select positions more uniformly"
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "validation",
+        "state_before": "Regularized BO shows promise.",
+        "gap_or_uncertainty": "Does the Bayesian approach reduce experimental burden?",
+        "hypothesis": "Bayesian optimization requires fewer acquisitions than prior non-Bayesian ML-assisted DE.",
+        "decision": "Compare number of acquisitions to achieve high fitness on GB1.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Acquisition count comparison",
+          "version": "",
+          "category": "analysis"
+        },
+        "parameters": {},
+        "observation": "Bayesian approach required 191 acquisitions vs 570 in prior work, a 67% reduction.",
+        "result_status": "success",
+        "next_step_reason": "Conclude with limitations.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E06_01",
+            "source_file": "docs/0012/combined.md",
+            "section": "C001",
+            "quote_or_span": "we show that our approach reduces the wet-lab burden to identify optimal GB1 designs by 67%, relative to the results presented in [4] on the same data."
+          },
+          {
+            "evidence_id": "EV_C005_E07_01",
+            "source_file": "docs/0012/combined.md",
+            "section": "C005",
+            "quote_or_span": "a Bayesian approach only required 191 fitness value acquisitions (20 initial observations plus 9 batches of 19) to identify designs with high fitness values"
+          },
+          {
+            "evidence_id": "EV_C005_E07_02",
+            "source_file": "docs/0012/combined.md",
+            "section": "C005",
+            "quote_or_span": "the experiment in [4] required 470 initial observations plus a single batch of 100 to find similarly fit designs"
+          },
+          {
+            "evidence_id": "EV_C005_E07_03",
+            "source_file": "docs/0012/combined.md",
+            "section": "C005",
+            "quote_or_span": "This is a 67% reduction in the number of sequences tested"
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "Comparison of acquisition counts with prior non-Bayesian ML-assisted DE on GB1"
+      ],
+      "metrics": [
+        "Reduction in wet-lab burden (67% fewer sequences tested)"
+      ],
+      "final_conclusion": "Structure-based regularization usually improves designs and almost never hurts; evolutionary-based regularization via TPLM is unreliable. Bayesian approach reduces wet-lab burden by 67% on GB1.",
+      "limitations": [
+        "BRCA1 and Spike datasets only include single-site mutations, limiting traditional DE simulation to GB1.",
+        "FoldX predictions may be less accurate without complete structural context (e.g., missing binding partner for GB1)."
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_specific_evidence_backfilled=1",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_specific_evidence_backfilled=1",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 93.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_mainline_batch30\\states\\0012.json",
+  "events_path": "outputs\\agentic_v22\\v22_mainline_batch30\\events\\0012.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1
+        ],
+        "K02": [
+          1
+        ],
+        "K04": [
+          3
+        ],
+        "K05": [
+          3,
+          6
+        ],
+        "K06": [
+          2
+        ],
+        "K07": [
+          4
+        ],
+        "K08": [
+          5,
+          6
+        ],
+        "K09": [
+          3,
+          5,
+          6
+        ],
+        "K10": [
+          6,
+          7
+        ],
+        "K11": [
+          8
+        ],
+        "K12": [
+          9
+        ],
+        "K14": [
+          7
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02",
+            "K03"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K03",
+            "K06"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K03",
+            "K04",
+            "K05",
+            "K09",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K07"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K08",
+            "K09"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K05",
+            "K08",
+            "K09",
+            "K10"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K10",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K11"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K12"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 4,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "-7.27",
+          "7.22"
+        ]
+      },
+      {
+        "step_index": 9,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "570"
+        ]
+      }
+    ],
+    "step_count": 9,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 93.0
+  },
+  "api_usage": {
+    "prompt_tokens": 124022,
+    "completion_tokens": 24772,
+    "total_tokens": 148794,
+    "prompt_cache_hit_tokens": 10880,
+    "prompt_cache_miss_tokens": 113142
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 6175,
+        "completion_tokens": 1281,
+        "total_tokens": 7456,
+        "prompt_tokens_details": {
+          "cached_tokens": 6144
+        },
+        "prompt_cache_hit_tokens": 6144,
+        "prompt_cache_miss_tokens": 31
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 9363,
+        "completion_tokens": 2863,
+        "total_tokens": 12226,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 8979
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 7127,
+        "completion_tokens": 1171,
+        "total_tokens": 8298,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 6743
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 8036,
+        "completion_tokens": 1280,
+        "total_tokens": 9316,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 7652
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 8190,
+        "completion_tokens": 1133,
+        "total_tokens": 9323,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 7806
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 8133,
+        "completion_tokens": 926,
+        "total_tokens": 9059,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 7749
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C005",
+      "api_usage": {
+        "prompt_tokens": 7503,
+        "completion_tokens": 1572,
+        "total_tokens": 9075,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 7119
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C006",
+      "api_usage": {
+        "prompt_tokens": 5272,
+        "completion_tokens": 47,
+        "total_tokens": 5319,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 4888
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 13889,
+        "completion_tokens": 3357,
+        "total_tokens": 17246,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 13505
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 13532,
+        "completion_tokens": 5202,
+        "total_tokens": 18734,
+        "prompt_tokens_details": {
+          "cached_tokens": 768
+        },
+        "prompt_cache_hit_tokens": 768,
+        "prompt_cache_miss_tokens": 12764
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 16812,
+        "completion_tokens": 757,
+        "total_tokens": 17569,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 16812
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 19990,
+        "completion_tokens": 5183,
+        "total_tokens": 25173,
+        "prompt_tokens_details": {
+          "cached_tokens": 896
+        },
+        "prompt_cache_hit_tokens": 896,
+        "prompt_cache_miss_tokens": 19094
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

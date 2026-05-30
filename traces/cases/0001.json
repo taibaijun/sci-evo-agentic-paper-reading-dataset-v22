@@ -1,0 +1,983 @@
+{
+  "case": {
+    "case_id": "sci_evo_0001",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Ultrahigh-throughput screening-assisted in vivo directed evolution for enzyme engineering.",
+      "doi": "10.1186/s13068-024-02457-w",
+      "url": "",
+      "license": "cc by",
+      "publication_date": "",
+      "raw_file": "0001_PMC10804518_ultrahigh_throughput_screening_assisted_in_vivo_directed_evolution_for_enzyme_en.pdf",
+      "mineru_md": "docs/0001/mineru.md",
+      "combined_md": "docs/0001/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Classical directed evolution is labor- and time-intensive due to manual steps and limited screening throughput.",
+      "target_object": "Enzymes and biosynthetic pathways",
+      "known_context": "Classical directed evolution methods rely on manual operation for rounds of stepwise processes, including DNA extraction, in vitro mutagenesis, transformation and selection, which are usually labour intensive and limit the efficiency, scale and depth of evolution.",
+      "constraints": [
+        "Must achieve high-throughput screening",
+        "Must enable continuous in vivo evolution",
+        "Must have tunable mutagenesis"
+      ],
+      "input_data": [],
+      "quantifiable_goals": [
+        "Increase mutation rate over wild-type",
+        "Achieve >20% activity improvement in target enzymes",
+        "Enable FACS-based screening"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "Classical directed evolution is labor- and time-intensive due to manual steps and limited screening throughput.",
+        "gap_or_uncertainty": "Need for an ultrahigh-throughput in vivo continuous directed evolution system with thermosensitive inducible tunability.",
+        "hypothesis": "Temperature-controlled expression of error-prone Pol I can enable in vivo targeted mutagenesis of plasmids.",
+        "decision": "Develop an in vivo continuous evolution system based on error-prone DNA polymerase I (Pol I*) under control of a thermosensitive repressor.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "Literature-based design",
+          "version": "",
+          "category": "reasoning"
+        },
+        "parameters": {},
+        "observation": "Hypothesis formulated that thermosensitive repressor cI857 can regulate Pol I* expression.",
+        "result_status": "success",
+        "next_step_reason": "Need to evolve a tighter repressor to achieve better regulation.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0001/combined.md",
+            "section": "C001",
+            "quote_or_span": "classical directed evolution methods rely on manual operation for rounds of stepwise processes, including DNA extraction, in vitro mutagenesis, transformation and selection, which are usually labour intensive and limit the efficiency, scale and depth of evolution"
+          },
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0001/combined.md",
+            "section": "C001",
+            "quote_or_span": "an ultrahigh throughput in vivo continuous directed evolution system with thermosensitive inducible tunability, which is based on error-prone DNA polymerase expression modulated by engineered thermal-responsive repressor cl857"
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "design",
+        "state_before": "Wild-type cI857 repressor provides some temperature sensitivity but may not be tight enough.",
+        "gap_or_uncertainty": "Need tighter regulation of Pol I* expression to minimize background mutagenesis at low temperature.",
+        "hypothesis": "Evolving cI857 can yield a mutant with higher induction ratio.",
+        "decision": "Evolve cI857 to obtain cI857* with mutations ΔT57, A400T, T418A.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Directed evolution of cI857",
+          "version": "",
+          "category": "mutagenesis"
+        },
+        "parameters": {
+          "mutations": "ΔT57, A400T, T418A"
+        },
+        "observation": "cI857* achieved tighter regulation; specific induction fold values not directly quoted in provided evidence.",
+        "result_status": "success",
+        "next_step_reason": "Use cI857* to construct a two-plasmid system.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_001",
+            "source_file": "docs/0001/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Compared with wild-type cI857, the cI857 mutant (cI857\\*) from the M1 strain has three changes in the DNA sequence, including two substitutions and one deletion ( $\\Delta$ T57, A400T and T418A)."
+          },
+          {
+            "evidence_id": "EV_AUTO_022",
+            "source_file": "docs/0001/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The fluorescence intensity of mutant M1 and wild-type strain after 3 h (a) and 6 h (b) of fermentation in the shake flask at 30 °C/37 °C."
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "design",
+        "state_before": "cI857* provides tight regulation, but a system architecture is needed.",
+        "gap_or_uncertainty": "Need to separate mutagenesis machinery from target gene to avoid interference.",
+        "hypothesis": "A two-plasmid system with Pol I* on a low-copy plasmid and target gene on a ColE1 plasmid will enable targeted mutagenesis.",
+        "decision": "Construct pSC101 (low-copy) with pol I* under PR-cI857* control, and pET28a (ColE1 ori) with target gene.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Plasmid construction",
+          "version": "",
+          "category": "molecular biology"
+        },
+        "parameters": {
+          "plasmids": "pSC101, pET28a",
+          "ori": "ColE1"
+        },
+        "observation": "Two-plasmid system built.",
+        "result_status": "success",
+        "next_step_reason": "Validate mutagenesis regulation with reversion assay.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_007",
+            "source_file": "docs/0001/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Previously, a highly mutagenic DNA polymerase I (Pol I D424A I709N A759R, Pol I\\*) was reported to erroneously replicate a region located downstream of the origin of replication (ori), relying on the Pol I specifically required for ColE1 plasmid replication in E."
+          },
+          {
+            "evidence_id": "EV_AUTO_001",
+            "source_file": "docs/0001/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Compared with wild-type cI857, the cI857 mutant (cI857\\*) from the M1 strain has three changes in the DNA sequence, including two substitutions and one deletion ( $\\Delta$ T57, A400T and T418A)."
+          },
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0001/combined.md",
+            "section": "C001",
+            "quote_or_span": "an ultrahigh throughput in vivo continuous directed evolution system with thermosensitive inducible tunability, which is based on error-prone DNA polymerase expression modulated by engineered thermal-responsive repressor cl857"
+          },
+          {
+            "evidence_id": "EV_AUTO_015",
+            "source_file": "docs/0001/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "cI857 is a temperature-sensitive mutant (cI A67T) of the cI repressor protein from $\\lambda$ phage."
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "experiment",
+        "state_before": "Two-plasmid system constructed but mutagenesis regulation unverified.",
+        "gap_or_uncertainty": "Need to confirm temperature-dependent mutagenesis and distance effect from ori.",
+        "hypothesis": "Reversion of a TAA stop codon in antibiotic resistance genes will indicate mutation rate.",
+        "decision": "Perform reversion assay using β-lactamase and aadA with TAA stop codons at varying distances from ori.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Reversion assay",
+          "version": "",
+          "category": "mutagenesis assay"
+        },
+        "parameters": {
+          "temperatures": "30°C, 37°C",
+          "distances": "250 bp, etc."
+        },
+        "observation": "Low reversion at 30°C, high at 37°C; mutation rate decreased with distance from ori; 41 times higher reversion rate at 250 bp.",
+        "result_status": "success",
+        "next_step_reason": "Mutation rate still insufficient; consider disabling MMR.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E02_02",
+            "source_file": "docs/0001/combined.md",
+            "section": "C002",
+            "quote_or_span": "the distance from ori impacted the mutation rate"
+          },
+          {
+            "evidence_id": "EV_AUTO_022",
+            "source_file": "docs/0001/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The fluorescence intensity of mutant M1 and wild-type strain after 3 h (a) and 6 h (b) of fermentation in the shake flask at 30 °C/37 °C."
+          },
+          {
+            "evidence_id": "EV_AUTO_026",
+            "source_file": "docs/0001/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Approximately 50 resistant reversion mutants at a distance of 250 bp from ori were randomly selected and from position 100 to 750 bp downstream of ori was sequenced."
+          },
+          {
+            "evidence_id": "EV_AUTO_017",
+            "source_file": "docs/0001/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "TtgR–P $_{ttgABC}$ system, which is responsible for multidrug recognition and especially efficient in responding to different flavonoids, is a native transcription regulatory system from Pseudomonas putida DOT–T1E [41, 42]."
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "experiment",
+        "state_before": "MutS60 strain constructed but combined effect with Pol I* unknown.",
+        "gap_or_uncertainty": "Need to determine optimal temperature and mutation rate with both Pol I* and MutS60.",
+        "hypothesis": "Higher temperature will increase mutation rate due to Pol I* activity and MutS60 inactivation.",
+        "decision": "Measure reversion rate at various temperatures with Pol I* and MutS60.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Reversion assay",
+          "version": "",
+          "category": "mutagenesis assay"
+        },
+        "parameters": {
+          "temperature": "43°C",
+          "distance": "250 bp"
+        },
+        "observation": "Optimal plasmid mutation rate at 43°C: ~638-fold higher than wild-type with Pol I at 250 bp; mutation rate 6.77×10⁻⁸ per nt per generation; ~70-fold genomic mutation rate increase.",
+        "result_status": "success",
+        "next_step_reason": "Characterize mutational spectrum and apply to enzyme evolution.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E04_02",
+            "source_file": "docs/0001/combined.md",
+            "section": "C002",
+            "quote_or_span": "approximately 638 times that of the wild-type strain with Pol I at 250 bp"
+          },
+          {
+            "evidence_id": "EV_C002_E04_04",
+            "source_file": "docs/0001/combined.md",
+            "section": "C002",
+            "quote_or_span": "the mutation rate of the E. coli genome was increased by about 70-fold during mutagenesis"
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "experiment",
+        "state_before": "Mutagenesis system characterized, ready for enzyme evolution.",
+        "gap_or_uncertainty": "Need to demonstrate system can improve enzyme activity.",
+        "hypothesis": "Iterative mutagenesis and enrichment will yield α-amylase variants with improved growth on starch.",
+        "decision": "Evolve BLA (α-amylase from Bacillus licheniformis) displayed on E. coli surface; perform 25 rounds of mutagenesis-enrichment.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "In vivo continuous evolution",
+          "version": "",
+          "category": "directed evolution"
+        },
+        "parameters": {
+          "rounds": 25,
+          "selection": "growth on starch"
+        },
+        "observation": "Growth rate in enrichment medium increased with passages; after 1 round, OD600 reached 1.5 at 30 h.",
+        "result_status": "success",
+        "next_step_reason": "Screen enriched library with droplet microfluidics.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E06_02",
+            "source_file": "docs/0001/combined.md",
+            "section": "C002",
+            "quote_or_span": "as the number of consecutive passages increased, the growth rate in enrichment medium showed a gradual increasing trend"
+          },
+          {
+            "evidence_id": "EV_AUTO_025",
+            "source_file": "docs/0001/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "b Growth of the experimental strain and the control strains cultured for 30 h in liquid enrichment medium containing 2% starch as the sole carbon source after mutagenesis, and the initial $OD_{600}$ was unified to 0.2."
+          },
+          {
+            "evidence_id": "EV_AUTO_036",
+            "source_file": "docs/0001/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "4b, the $OD_{600}$ of cultures after 1 round of mutagenesis–enrichment was significantly higher than that of the control strains, reaching up to 1.5 at 30 h."
+          },
+          {
+            "evidence_id": "EV_AUTO_001",
+            "source_file": "docs/0001/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Compared with wild-type cI857, the cI857 mutant (cI857\\*) from the M1 strain has three changes in the DNA sequence, including two substitutions and one deletion ( $\\Delta$ T57, A400T and T418A)."
+          },
+          {
+            "evidence_id": "EV_C005_E03_03",
+            "source_file": "docs/0001/combined.md",
+            "section": "C005",
+            "quote_or_span": "Single cell droplets were then collected and incubated in a 1 mL syringe at 25 or 30 °C."
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "experiment",
+        "state_before": "Enriched α-amylase library obtained, but need high-throughput screening.",
+        "gap_or_uncertainty": "Need to identify individual improved variants from large library.",
+        "hypothesis": "Droplet microfluidic FACS can sort top variants based on fluorescence.",
+        "decision": "Encapsulate cells in droplets with fluorogenic substrate, sort top 0.1% fluorescent droplets from ~3,000,000 droplets.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Droplet microfluidics FACS",
+          "version": "",
+          "category": "high-throughput screening"
+        },
+        "parameters": {
+          "droplets_screened": "~3,000,000",
+          "sorting_threshold": "0.1%"
+        },
+        "observation": "0.1% of droplets sorted; 72% of sorted cells showed >20% increased activity compared to wild-type.",
+        "result_status": "success",
+        "next_step_reason": "Identify and validate top mutant.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E07_01",
+            "source_file": "docs/0001/combined.md",
+            "section": "C002",
+            "quote_or_span": "0.1% of droplets with fluorescence signals exceeding the set threshold were sorted from approximately 3,000,000 droplets"
+          },
+          {
+            "evidence_id": "EV_C002_E07_02",
+            "source_file": "docs/0001/combined.md",
+            "section": "C002",
+            "quote_or_span": "Seventy-two percent of sorted cells showed over 20% increased activity compared with the wild-type stain"
+          },
+          {
+            "evidence_id": "EV_C005_E03_03",
+            "source_file": "docs/0001/combined.md",
+            "section": "C005",
+            "quote_or_span": "Single cell droplets were then collected and incubated in a 1 mL syringe at 25 or 30 °C."
+          },
+          {
+            "evidence_id": "EV_AUTO_034",
+            "source_file": "docs/0001/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "1% of droplets with fluorescence signals exceeding the set threshold were sorted from approximately 3,000,000 droplets in a short time."
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "validation",
+        "state_before": "Sorted α-amylase variants show improved fluorescence, but specific mutations and activity need confirmation.",
+        "gap_or_uncertainty": "Need to identify the mutation responsible and quantify activity improvement.",
+        "hypothesis": "The N473Y mutation is responsible for activity increase.",
+        "decision": "Sequence sorted clones, retransform N473Y mutant, and measure fermentation activity.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Fermentation assay",
+          "version": "",
+          "category": "enzyme assay"
+        },
+        "parameters": {
+          "mutation": "N473Y",
+          "location": "217 bp downstream of ColE1 ori"
+        },
+        "observation": "Retransformed strain carrying mutant BLA (N473Y) showed 48.3% activity increase; attributed to modestly increased specific activity and stability.",
+        "result_status": "success",
+        "next_step_reason": "Apply system to biosynthetic pathway evolution.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E08_01",
+            "source_file": "docs/0001/combined.md",
+            "section": "C002",
+            "quote_or_span": "the fermentation activity of retransformed strain carrying mutant BLA (N473Y) increased by 48.3%"
+          },
+          {
+            "evidence_id": "EV_C002_E08_02",
+            "source_file": "docs/0001/combined.md",
+            "section": "C002",
+            "quote_or_span": "the combined effects of modestly increased specific enzyme activity and stability may contribute to the overall improvement"
+          },
+          {
+            "evidence_id": "EV_C003_E01_01",
+            "source_file": "docs/0001/combined.md",
+            "section": "C003",
+            "quote_or_span": "med strain carrying mutant BLA (N473Y) increased by 48.3%, due to a nucleotide change at 217 bp downstream of ColE1 ori"
+          },
+          {
+            "evidence_id": "EV_C003_E02_01",
+            "source_file": "docs/0001/combined.md",
+            "section": "C003",
+            "quote_or_span": "the combined effects of modestly increased specific enzyme activity and stability may contribute to the overall improvement in enzymatic activity"
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "design",
+        "state_before": "Mutagenesis system proven for single enzyme, but pathway evolution requires product-specific screening.",
+        "gap_or_uncertainty": "Need a biosensor to couple resveratrol production to fluorescence for FACS.",
+        "hypothesis": "TtgR-based biosensor can specifically detect resveratrol and drive mCherry expression.",
+        "decision": "Develop TtgR-PttgABC biosensor with mCherry reporter.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Biosensor construction",
+          "version": "",
+          "category": "synthetic biology"
+        },
+        "parameters": {
+          "sensor": "TtgR",
+          "reporter": "mCherry"
+        },
+        "observation": "Biosensor showed excellent specificity for resveratrol over p-coumaric acid; fluorescence correlated with resveratrol titer.",
+        "result_status": "success",
+        "next_step_reason": "Use biosensor for FACS-based evolution of resveratrol pathway.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E03_01",
+            "source_file": "docs/0001/combined.md",
+            "section": "C003",
+            "quote_or_span": "To realize the in vivo evolution of these key enzymes, a biosensor-based FACS method was established"
+          },
+          {
+            "evidence_id": "EV_C003_E05_01",
+            "source_file": "docs/0001/combined.md",
+            "section": "C003",
+            "quote_or_span": "The induction was much lower in response to p-coumaric acid than to resveratrol, which demonstrated the excellent specificity of this sensor for resveratrol"
+          },
+          {
+            "evidence_id": "EV_C003_E07_01",
+            "source_file": "docs/0001/combined.md",
+            "section": "C003",
+            "quote_or_span": "The fluorescence intensity was positively correlated with the titer of resveratrol, which exhibited that the biosensor could be used in resveratrol biosynthesis pathway evolution"
+          },
+          {
+            "evidence_id": "EV_C005_E04_01",
+            "source_file": "docs/0001/combined.md",
+            "section": "C005",
+            "quote_or_span": "Different final concentrations of p-coumaric acid and resveratrol were added into LB medium for 24-deep-well-plate fermentation at 30 °C."
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "experiment",
+        "state_before": "Biosensor validated, ready for pathway evolution.",
+        "gap_or_uncertainty": "Need to evolve resveratrol production strain and identify improved variants.",
+        "hypothesis": "Iterative mutagenesis and FACS sorting will enrich cells with higher resveratrol production.",
+        "decision": "Perform 16 mutagenesis passages, sort top 0.592‰ fluorescent cells (5,000 cells), retransform top 11 plasmids for verification.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "FACS",
+          "version": "",
+          "category": "high-throughput screening"
+        },
+        "parameters": {
+          "passages": 16,
+          "sorting_threshold": "0.592‰",
+          "cells_sorted": 5000
+        },
+        "observation": "Over 60% of sorted cells showed improved fluorescence; top 11 strains retransformed.",
+        "result_status": "success",
+        "next_step_reason": "Analyze mutations in improved strains.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E08_01",
+            "source_file": "docs/0001/combined.md",
+            "section": "C003",
+            "quote_or_span": "After 16 consecutive mutagenesis passages, the cells with high fluorescence intensity were sorted from the saturated cultures by flow cytometry. A total of 5,000 cells were collected at a 0.592‰ sorting threshold. Over 60% of the cells sorted from the libraries exhibited improved fluorescence intensity compared with the starting strain"
+          },
+          {
+            "evidence_id": "EV_C005_E05_02",
+            "source_file": "docs/0001/combined.md",
+            "section": "C005",
+            "quote_or_span": "The collected cells were incubated on LB plates containing 900 mg/L p-coumaric acid."
+          },
+          {
+            "evidence_id": "EV_C005_E05_03",
+            "source_file": "docs/0001/combined.md",
+            "section": "C005",
+            "quote_or_span": "Plasmids were extracted from the top 11 strains with highest fluorescence intensity, and retransformed into wild-type E. coli BL21 (DE3) to verify the increase in resveratrol production."
+          },
+          {
+            "evidence_id": "EV_AUTO_027",
+            "source_file": "docs/0001/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "About 170 single colonies with darkest red were selected for 24-deep-well-plate fermentation at 30 °C."
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "analysis",
+        "state_before": "Improved resveratrol production strains isolated, but mutations unknown.",
+        "gap_or_uncertainty": "Need to identify mutations responsible for improved phenotype.",
+        "hypothesis": "Mutations may be in enzyme genes or plasmid backbone.",
+        "decision": "Sequence plasmids from top strains; construct test plasmids with individual mutations.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Plasmid sequencing and RT-qPCR",
+          "version": "",
+          "category": "sequencing"
+        },
+        "parameters": {},
+        "observation": "All improved plasmids contained ColE1 ori C148T and Δ5526-6717 deletion (mpETDuet); no mutations in enzyme genes; mpETDuet led to higher resveratrol production via increased mRNA levels (4-fold for STS, 2.9-fold for double mutant).",
+        "result_status": "success",
+        "next_step_reason": "Acknowledge limitations of the system.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E01_02",
+            "source_file": "docs/0001/combined.md",
+            "section": "C004",
+            "quote_or_span": "the relative mRNA level of STS in retransformed stains harboring mpETDuet was approximately 4 times higher than that in the wild type"
+          },
+          {
+            "evidence_id": "EV_C004_E01_03",
+            "source_file": "docs/0001/combined.md",
+            "section": "C004",
+            "quote_or_span": "the fluorescence intensity of mpETDuet was increased, by 28%"
+          },
+          {
+            "evidence_id": "EV_C004_E01_04",
+            "source_file": "docs/0001/combined.md",
+            "section": "C004",
+            "quote_or_span": "the double mutant (mpETDuet) was 2.9-fold mRNA level of the control"
+          },
+          {
+            "evidence_id": "EV_C004_E07_02",
+            "source_file": "docs/0001/combined.md",
+            "section": "C004",
+            "quote_or_span": "the deletion included the primosome assembly signal (pas) site, probably resulting in more durable Pol I replication and mutation in sequences located further from ori"
+          },
+          {
+            "evidence_id": "EV_AUTO_006",
+            "source_file": "docs/0001/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Interestingly, two mutations, the ColE1 ori C148T mutation and the $\\Delta$ 5526-6717 deletion, were identified in all plasmids; this double mutant was named mpETDuet."
+          }
+        ]
+      },
+      {
+        "step_index": 12,
+        "phase": "revision",
+        "state_before": "System demonstrated but with notable limitations.",
+        "gap_or_uncertainty": "Low mutation rate limits sequence space exploration; off-target genomic mutations occur; beneficial mutations may occur in non-coding regions.",
+        "hypothesis": "These limitations must be addressed for broader applicability.",
+        "decision": "Document limitations: low mutation rate, off-target genomic mutations requiring plasmid retransformation, and non-coding mutations masking protein improvements.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Critical assessment",
+          "version": "",
+          "category": "reasoning"
+        },
+        "parameters": {},
+        "observation": "System has low mutation rate compared to advanced tools; genomic mutations occur; non-coding mutations can dominate.",
+        "result_status": "partial",
+        "next_step_reason": "Future work needed to overcome limitations.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E02_02",
+            "source_file": "docs/0001/combined.md",
+            "section": "C004",
+            "quote_or_span": "This limited mutational density had a negative impact on the exploration of sequence space and evolution speed."
+          },
+          {
+            "evidence_id": "EV_C004_E03_02",
+            "source_file": "docs/0001/combined.md",
+            "section": "C004",
+            "quote_or_span": "The resulting undesirable mutations could occur in genes essential for cell survival and affect screening for beneficial mutations"
+          },
+          {
+            "evidence_id": "EV_C004_E05_01",
+            "source_file": "docs/0001/combined.md",
+            "section": "C004",
+            "quote_or_span": "The resulting mutants could bring desired phenotype changes unrelated to significant improvements in target protein properties, such as mutations occurring in the promoter, ribosome binding site and other regions associated with gene transcription and expression regulation, and thereby mask other variants carrying mutations within the protein-coding sequence"
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "Reversion assay for mutation rate",
+        "Droplet microfluidic FACS for α-amylase",
+        "Retransformation and fermentation for N473Y",
+        "Biosensor-based FACS for resveratrol pathway",
+        "RT-qPCR for mRNA levels"
+      ],
+      "metrics": [
+        "Fold increase in reversion rate",
+        "Percentage of cells with >20% activity increase",
+        "Percentage activity improvement (48.3% for N473Y)",
+        "Fold increase in resveratrol production (1.7-fold)",
+        "mRNA level increase"
+      ],
+      "final_conclusion": "The ultrahigh-throughput screening-assisted in vivo directed evolution system successfully evolved α-amylase (N473Y, 48.3% improvement) and resveratrol pathway (1.7-fold improvement via plasmid backbone mutations), but limitations include low mutation rate, off-target genomic mutations, and non-coding mutations masking protein improvements.",
+      "limitations": [
+        "Low mutation rate (6.77×10⁻⁸ per base per generation) limits sequence space exploration.",
+        "Off-target genomic mutations require plasmid retransformation between rounds.",
+        "Beneficial mutations may occur in non-coding regions rather than protein-coding sequences."
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_step_trimmed=14_to_12",
+        "v22_specific_evidence_backfilled=10",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_specific_evidence_backfilled=4",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 100.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_mainline_batch30\\states\\0001.json",
+  "events_path": "outputs\\agentic_v22\\v22_mainline_batch30\\events\\0001.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1
+        ],
+        "K03": [
+          1,
+          2,
+          3,
+          4,
+          6
+        ],
+        "K05": [
+          3,
+          4
+        ],
+        "K07": [
+          2,
+          5
+        ],
+        "K09": [
+          6
+        ],
+        "K10": [
+          6,
+          7
+        ],
+        "K11": [
+          7,
+          8
+        ],
+        "K12": [
+          4,
+          9,
+          10
+        ],
+        "K13": [
+          7,
+          8,
+          9,
+          10
+        ],
+        "K14": [
+          11
+        ],
+        "K16": [
+          12
+        ],
+        "K18": [
+          12
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02",
+            "K03"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K03",
+            "K07"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K02",
+            "K03",
+            "K04",
+            "K05"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K03",
+            "K05",
+            "K12",
+            "K17"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K07",
+            "K08",
+            "K15"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K03",
+            "K09",
+            "K10"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K10",
+            "K11",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K11",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K12",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K12",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K14"
+          ]
+        },
+        {
+          "step_index": 12,
+          "covered_event_ids": [
+            "K15",
+            "K16",
+            "K18"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 3,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "01"
+        ]
+      },
+      {
+        "step_index": 5,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "0s",
+          "43",
+          "6.77"
+        ]
+      },
+      {
+        "step_index": 7,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "72%"
+        ]
+      },
+      {
+        "step_index": 10,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "11"
+        ]
+      }
+    ],
+    "step_count": 12,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 100.0
+  },
+  "api_usage": {
+    "prompt_tokens": 137487,
+    "completion_tokens": 32553,
+    "total_tokens": 170040,
+    "prompt_cache_hit_tokens": 9984,
+    "prompt_cache_miss_tokens": 127503
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 5069,
+        "completion_tokens": 918,
+        "total_tokens": 5987,
+        "prompt_tokens_details": {
+          "cached_tokens": 4992
+        },
+        "prompt_cache_hit_tokens": 4992,
+        "prompt_cache_miss_tokens": 77
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 15149,
+        "completion_tokens": 3232,
+        "total_tokens": 18381,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 14765
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 8123,
+        "completion_tokens": 1454,
+        "total_tokens": 9577,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 7739
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 8108,
+        "completion_tokens": 1679,
+        "total_tokens": 9787,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 7724
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 8846,
+        "completion_tokens": 1315,
+        "total_tokens": 10161,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 8462
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 8230,
+        "completion_tokens": 1559,
+        "total_tokens": 9789,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 7846
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C005",
+      "api_usage": {
+        "prompt_tokens": 8594,
+        "completion_tokens": 1367,
+        "total_tokens": 9961,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 8210
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C006",
+      "api_usage": {
+        "prompt_tokens": 4973,
+        "completion_tokens": 52,
+        "total_tokens": 5025,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 4589
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 12603,
+        "completion_tokens": 4334,
+        "total_tokens": 16937,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 12219
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 13902,
+        "completion_tokens": 8153,
+        "total_tokens": 22055,
+        "prompt_tokens_details": {
+          "cached_tokens": 768
+        },
+        "prompt_cache_hit_tokens": 768,
+        "prompt_cache_miss_tokens": 13134
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 20326,
+        "completion_tokens": 1147,
+        "total_tokens": 21473,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 20070
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 23564,
+        "completion_tokens": 7343,
+        "total_tokens": 30907,
+        "prompt_tokens_details": {
+          "cached_tokens": 896
+        },
+        "prompt_cache_hit_tokens": 896,
+        "prompt_cache_miss_tokens": 22668
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

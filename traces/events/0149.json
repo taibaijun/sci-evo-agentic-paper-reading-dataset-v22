@@ -1,0 +1,1843 @@
+{
+  "doc_no": "0149",
+  "source": {
+    "title": "Unveiling molecular moieties through hierarchical Grad-CAM graph explainability",
+    "doi": "https://doi.org/10.1186/s12859-025-06208-y",
+    "license": "cc-by-nc-nd",
+    "pdf_name": "0147_10_1186_s12859_025_06208_y_unveiling_molecular_moieties_through_hierarchical_grad_cam_graph_explainability.pdf",
+    "combined_md": "docs/0149/combined.md",
+    "mineru_md": "docs/0149/mineru.md"
+  },
+  "gist_memory": {
+    "paper_problem_memory": "The paper addresses the challenge of explaining GNN predictions in virtual screening for drug discovery. While GNNs effectively model molecular structures, their predictions lack interpretability, hindering rational drug design. The goal is to develop a method that identifies molecular substructures (moieties) driving bioactivity predictions, specifically for kinase targets, to guide medicinal chemists.",
+    "section_gists": [
+      {
+        "section_index": 6,
+        "heading": "Abstract",
+        "gist": "Proposes HGE framework to explain GNN predictions by highlighting molecular moieties at atom, ring, and whole-molecule levels. Trained 20 GNNs on kinase targets, achieving state-of-the-art VS performance. HGE validated against experimental data, correctly annotating known drugs. Aims to shorten screening and hit discovery.",
+        "process_signals": [
+          "Problem: GNNs lack explainability for molecular substructures.",
+          "Solution: HGE with hierarchical Grad-CAM layers.",
+          "Validation: 20 kinase targets, experimental data confirmation."
+        ],
+        "methods": [
+          "GNN classifiers for 20 kinase targets",
+          "HGE: Hierarchical Grad-CAM at atom, ring, whole-molecule levels"
+        ],
+        "metrics": [
+          "State-of-the-art VS performance",
+          "Correct annotation of known drugs"
+        ],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 7,
+        "heading": "Background",
+        "gist": "Virtual screening is crucial but classical methods have limitations (force fields, data quality). GNNs model molecules as graphs, capturing topology, but explainability is lacking. Existing XAI methods (GNNExplainer, SHAP, Grad-CAM) have drawbacks: GNNExplainer is fine-grained, SHAP doesn't reveal pharmacophoric characteristics, Grad-CAM is adapted from images. Need for method that explains at pharmacophore level.",
+        "process_signals": [
+          "Motivation: Need for interpretable models in drug discovery.",
+          "Limitations of existing XAI: GNNExplainer too fine-grained, SHAP lacks pharmacophoric insight, Grad-CAM adaptation needed.",
+          "Hypothesis: Hierarchical Grad-CAM can capture multi-scale moieties."
+        ],
+        "methods": [
+          "GNNExplainer (perturbation-based, fine-grained)",
+          "SHAP (coalition-based, no pharmacophoric insight)",
+          "Grad-CAM (gradient-based, from image domain)"
+        ],
+        "metrics": [],
+        "failures_or_limits": [
+          "GNNExplainer provides individual feature importance, not higher-level moieties.",
+          "SHAP does not provide pharmacophoric characteristics."
+        ]
+      },
+      {
+        "section_index": 8,
+        "heading": "Methods",
+        "gist": "Objective: Develop method to identify molecular substructures important for activity prediction. Focus on 20 kinase targets due to data availability and therapeutic relevance. HGE aims to guide medicinal chemists in optimizing molecules.",
+        "process_signals": [
+          "Design goal: Identify key substructures for activity.",
+          "Target selection: 20 kinases from previous work [31]."
+        ],
+        "methods": [
+          "HGE framework",
+          "20 kinase targets"
+        ],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 9,
+        "heading": "Data preparation",
+        "gist": "Two datasets: EMBER (curated previously) and ChEMBL_over (designed for extreme imbalance by oversampling inactives). Both encoded as graphs.",
+        "process_signals": [
+          "Constraint: Need to test under extreme class imbalance.",
+          "Data: EMBER from prior work, ChEMBL_over created for stress test."
+        ],
+        "methods": [
+          "EMBER dataset",
+          "ChEMBL_over dataset (oversampled inactives)"
+        ],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 12,
+        "heading": "Graph convolutional neural network",
+        "gist": "Architecture: 7 GC blocks with U-Net-like channel expansion (32-64-128-256-128-64-32), layer norm, ReLU. Uses 1-WL kernel. Focus on high sensitivity for VS. Classifier: linear layers. 20 single-target networks.",
+        "process_signals": [
+          "Design choice: U-Net-like architecture for feature extraction.",
+          "Priority: High sensitivity to correctly prioritize true positives.",
+          "Optimization: Balanced loss and soft F-score to handle imbalance."
+        ],
+        "methods": [
+          "7 GC blocks with 1-WL kernel",
+          "U-Net-like channel sequence",
+          "Layer normalization, ReLU",
+          "Weighted binary cross-entropy loss"
+        ],
+        "metrics": [
+          "Sensitivity (primary)",
+          "Balanced accuracy, F1-score, AUC"
+        ],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 13,
+        "heading": "Explainability analysis",
+        "gist": "HGE uses Grad-CAM at three depths: layer 1 (atom/bond level), layer 3 (ring/substructure level), layer 7 (whole-molecule). Removed ReLU to capture negative contributions. Summed and scaled outputs, threshold >0.7 for relevance. Chose Grad-CAM over GNNExplainer for higher-level explanations.",
+        "process_signals": [
+          "Iteration: Tried GNNExplainer but too fine-grained; moved to gradient-based methods.",
+          "Adaptation: Removed ReLU from Grad-CAM because bioactivity involves both positive and negative contributions.",
+          "Hierarchy: Multiple layers capture different neighborhood sizes (1, 3, 7).",
+          "Hypothesis: Combining layers gives complete moiety picture."
+        ],
+        "methods": [
+          "Grad-CAM at layers 1, 3, 7",
+          "Summation and min-max scaling of Grad-CAM values",
+          "Threshold 0.7 for relevant nodes"
+        ],
+        "metrics": [],
+        "failures_or_limits": [
+          "GNNExplainer not suitable for higher-level moiety explanation."
+        ]
+      },
+      {
+        "section_index": 14,
+        "heading": "Results",
+        "gist": "Three-stage experiments: (1) Train GCNN per target, (2) Explainability on 143 DrugBank kinase inhibitors (~80% correctly assigned), (3) Compare GCNN with Chemprop and Attentive FP.",
+        "process_signals": [
+          "Validation: 80% correct target assignment on known drugs.",
+          "Comparison: Against Chemprop and Attentive FP."
+        ],
+        "methods": [
+          "GCNN training",
+          "HGE on 143 DrugBank drugs",
+          "Comparison with Chemprop, Attentive FP"
+        ],
+        "metrics": [
+          "Correct target assignment rate (~80%)"
+        ],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 15,
+        "heading": "Metrics",
+        "gist": "Metrics: Balanced Accuracy, Sensitivity, F1-score, AUC for classification; TP/P and EF at 1%,2%,5%,10% for VS prioritization. Focus on Sensitivity and EF.",
+        "process_signals": [
+          "Evaluation focus: Sensitivity and enrichment for VS."
+        ],
+        "methods": [
+          "Balanced Accuracy, Sensitivity, F1-score, AUC",
+          "TP/P, EF at top percentages"
+        ],
+        "metrics": [
+          "Sensitivity",
+          "EF",
+          "TP/P"
+        ],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 16,
+        "heading": "Results on EMBER data set",
+        "gist": "GCNN outperforms Chemprop and Attentive FP in Sensitivity (mean 0.899 vs 0.704 vs 0.395) and AUC (0.982). High F1-score (0.960) despite imbalance. Good TP/P and EF. Balanced loss and soft F-score effective.",
+        "process_signals": [
+          "Success: GCNN achieves highest sensitivity on all targets.",
+          "Design validation: Architecture prioritizes true positives well."
+        ],
+        "methods": [],
+        "metrics": [
+          "Sensitivity: GCNN 0.899, Chemprop 0.704, Attentive FP 0.395",
+          "AUC: GCNN 0.982",
+          "F1-score: 0.960"
+        ],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 17,
+        "heading": "Results on ChEMBL_over data set",
+        "gist": "On extreme imbalance, GCNN still outperforms in Sensitivity (0.946 vs 0.897 Chemprop) and AUC (0.988), but Chemprop has higher F1-score (0.945 vs 0.920). GCNN better at prioritizing true positives. Robustness shown.",
+        "process_signals": [
+          "Trade-off: GCNN prioritizes sensitivity over F1-score.",
+          "Robustness: Handles extreme imbalance well.",
+          "Partial result: Chemprop slightly better F1, but GCNN better sensitivity."
+        ],
+        "methods": [],
+        "metrics": [
+          "Sensitivity: GCNN 0.946, Chemprop 0.897",
+          "F1-score: Chemprop 0.945, GCNN 0.920",
+          "AUC: GCNN 0.988"
+        ],
+        "failures_or_limits": [
+          "Chemprop has higher F1-score on ChEMBL_over."
+        ]
+      },
+      {
+        "section_index": 18,
+        "heading": "Explainability results",
+        "gist": "116/143 drugs correctly assigned. Multi-target drugs: 30/44 correct. Misclassifications due to scaffold similarity and limited training data for some targets. HGE consistently identifies moieties across targets (e.g., Apigenin on CDK6/CK2A1).",
+        "process_signals": [
+          "Success: High correct assignment rate.",
+          "Limitation: Multi-target drugs harder (68% correct).",
+          "Failure analysis: Scaffold similarity, data scarcity.",
+          "Qualitative: HGE identifies consistent pharmacophores."
+        ],
+        "methods": [
+          "Test on 143 DrugBank drugs",
+          "Multi-target drug analysis"
+        ],
+        "metrics": [
+          "Correct assignment: 116/143 (81%)",
+          "Multi-target correct: 30/44 (68%)"
+        ],
+        "failures_or_limits": [
+          "14 multi-target drugs misclassified due to scaffold similarity and limited training data."
+        ]
+      },
+      {
+        "section_index": 19,
+        "heading": "Discussion",
+        "gist": "HGE combines layers for complete moiety interpretation. Consistent predictions across chemotypes. Example: Trilaciclib shows differentiated H-bond roles on CDK2/6, reflecting potency differences. HGE identifies binding-relevant structures, not pharmacological effects.",
+        "process_signals": [
+          "Strength: Hierarchical combination enriches explanation.",
+          "Insight: HGE captures binding features, not potency.",
+          "Example: Differentiated moiety importance for selective inhibitors."
+        ],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": [
+          "HGE does not account for pharmacological effect or potency magnitude."
+        ]
+      },
+      {
+        "section_index": 20,
+        "heading": "Conclusion",
+        "gist": "HGE effectively classifies and explains moieties. Useful for VS and drug repurposing. Future work: drug repurposing studies, linking classification and explanation. Limitations: single-target focus, need for further biological validation.",
+        "process_signals": [
+          "Contribution: HGE as tool for VS and repurposing.",
+          "Future: Explore repurposing, improve explanation-classification link.",
+          "Limitation: Single-target models, no multi-target integration."
+        ],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": [
+          "Single-target focus; multi-target drugs challenging.",
+          "Further biological validation needed."
+        ]
+      }
+    ],
+    "global_hypotheses_about_storyline": [
+      "The research evolved from the need to explain GNN predictions in VS, where existing XAI methods were insufficient for pharmacophore-level interpretation.",
+      "The hypothesis was that hierarchical Grad-CAM at multiple graph depths could capture atom, ring, and whole-molecule contributions, providing a complete moiety explanation.",
+      "The design prioritized high sensitivity for VS, leading to a U-Net-like GCNN architecture optimized with balanced loss.",
+      "Validation on kinase targets showed that HGE not only achieves high classification performance but also consistently identifies known binding moieties, supporting its utility in drug design and repurposing.",
+      "Limitations in multi-target drugs and the need for biological validation were acknowledged, pointing to future work."
+    ],
+    "uncertainties_to_resolve": [
+      "How does HGE perform on non-kinase targets or larger, more diverse datasets?",
+      "Can the hierarchical Grad-CAM approach be extended to multi-task models for multi-target drugs?",
+      "What is the quantitative correlation between HGE importance scores and actual binding affinities?",
+      "How does the removal of ReLU affect explanation fidelity compared to standard Grad-CAM?",
+      "Are there failure cases where HGE highlights irrelevant moieties due to spurious correlations in training data?"
+    ]
+  },
+  "chunk_events": [
+    {
+      "chunk_id": "C001",
+      "char_start": 0,
+      "char_end": 18000,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C001_E01",
+          "chunk_id": "C001",
+          "event_type": "problem",
+          "order_hint": 1,
+          "summary": "The integration of explainable methods to elucidate molecular substructure contributions to biological activity remains a significant challenge.",
+          "methods_or_tools": [],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E01_01"
+          ]
+        },
+        {
+          "event_id": "C001_E02",
+          "chunk_id": "C001",
+          "event_type": "problem",
+          "order_hint": 2,
+          "summary": "The precise relation between relevant molecular properties and network prediction is not self-explainable, suffering from issues similar to CNNs.",
+          "methods_or_tools": [],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E02_01"
+          ]
+        },
+        {
+          "event_id": "C001_E03",
+          "chunk_id": "C001",
+          "event_type": "limitation",
+          "order_hint": 3,
+          "summary": "SHAP did not provide insight into pharmacophoric characteristics.",
+          "methods_or_tools": [
+            "SHAP"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E03_01"
+          ]
+        },
+        {
+          "event_id": "C001_E04",
+          "chunk_id": "C001",
+          "event_type": "design",
+          "order_hint": 4,
+          "summary": "HGE framework designed to identify most relevant molecular substructures influencing activity prediction using hierarchical Grad-CAM at atom, ring, and whole-molecule levels.",
+          "methods_or_tools": [
+            "HGE",
+            "Grad-CAM"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E04_02"
+          ]
+        },
+        {
+          "event_id": "C001_E05",
+          "chunk_id": "C001",
+          "event_type": "design",
+          "order_hint": 5,
+          "summary": "Twenty GCNN classifiers built, each dedicated to a specific kinase protein target, trained to optimize classification performance on a single target.",
+          "methods_or_tools": [
+            "GCNN"
+          ],
+          "entities": [
+            "Kinase proteins"
+          ],
+          "numbers_or_metrics": [
+            "20"
+          ],
+          "evidence_ids": [
+            "EV_C001_E05_01"
+          ]
+        },
+        {
+          "event_id": "C001_E06",
+          "chunk_id": "C001",
+          "event_type": "design",
+          "order_hint": 6,
+          "summary": "EMBER dataset curated from previous work, with 89373 small molecules and 1:100 active/inactive ratio for smallest class, used for training.",
+          "methods_or_tools": [],
+          "entities": [
+            "EMBER"
+          ],
+          "numbers_or_metrics": [
+            "89373",
+            "1:100"
+          ],
+          "evidence_ids": [
+            "EV_C001_E06_02"
+          ]
+        }
+      ],
+      "notes": "Chunk covers abstract, background, and methods sections, introducing the problem, limitations of existing XAI, and design of HGE and datasets.",
+      "api_usage": {
+        "prompt_tokens": 7158,
+        "completion_tokens": 1078,
+        "total_tokens": 8236,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6902
+      }
+    },
+    {
+      "chunk_id": "C002",
+      "char_start": 17100,
+      "char_end": 35100,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C002_E01",
+          "chunk_id": "C002",
+          "event_type": "design",
+          "order_hint": 1,
+          "summary": "Created ChEMBL_over dataset with oversampling to handle extreme class imbalance.",
+          "methods_or_tools": [
+            "Random Over Sampling algorithm",
+            "Imbalanced Learn library",
+            "RDKit library"
+          ],
+          "entities": [
+            "ChEMBL_over dataset"
+          ],
+          "numbers_or_metrics": [
+            "active/inactive ratio of 1:15"
+          ],
+          "evidence_ids": [
+            "EV_C002_E01_02"
+          ]
+        },
+        {
+          "event_id": "C002_E03",
+          "chunk_id": "C002",
+          "event_type": "analysis",
+          "order_hint": 3,
+          "summary": "Performed similarity analysis between oversampled and original ChEMBL molecules, showing no bias.",
+          "methods_or_tools": [],
+          "entities": [
+            "similarity matrix"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E03_01",
+            "EV_C002_E03_02"
+          ]
+        },
+        {
+          "event_id": "C002_E04",
+          "chunk_id": "C002",
+          "event_type": "design",
+          "order_hint": 4,
+          "summary": "Designed GCNN architecture with U-Net-like channel expansion and 7 GC blocks for high sensitivity.",
+          "methods_or_tools": [
+            "Graph Convolutional blocks",
+            "1-WL kernel",
+            "U-Net-like architecture"
+          ],
+          "entities": [
+            "GCNN classifier"
+          ],
+          "numbers_or_metrics": [
+            "7 GC blocks",
+            "channel sequence: 32, 64, 128, 256, 128, 64, 32"
+          ],
+          "evidence_ids": [
+            "EV_C002_E04_02"
+          ]
+        },
+        {
+          "event_id": "C002_E05",
+          "chunk_id": "C002",
+          "event_type": "design",
+          "order_hint": 5,
+          "summary": "Optimized network for high sensitivity to correctly prioritize true positives in virtual screening.",
+          "methods_or_tools": [
+            "Weighted Binary Cross-Entropy",
+            "grid search"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E05_01",
+            "EV_C002_E05_02"
+          ]
+        },
+        {
+          "event_id": "C002_E06",
+          "chunk_id": "C002",
+          "event_type": "computation",
+          "order_hint": 6,
+          "summary": "Trained separate GCNN binary classifiers for each of 20 kinase targets with hyperparameter grid search.",
+          "methods_or_tools": [
+            "NVIDIA GeForce RTX 3090",
+            "early stopping"
+          ],
+          "entities": [
+            "20 single-target networks"
+          ],
+          "numbers_or_metrics": [
+            "10,496 CUDA cores"
+          ],
+          "evidence_ids": [
+            "EV_C002_E06_01",
+            "EV_C002_E06_02",
+            "EV_C002_E06_03"
+          ]
+        },
+        {
+          "event_id": "C002_E07",
+          "chunk_id": "C002",
+          "event_type": "revision",
+          "order_hint": 7,
+          "summary": "Rejected GNNExplainer for being too fine-grained; chose Grad-CAM for higher-level explanations.",
+          "methods_or_tools": [
+            "GNNExplainer",
+            "Grad-CAM"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E07_02"
+          ]
+        }
+      ],
+      "notes": "Chunk covers dataset creation, model architecture design, training, and initial explainability method selection.",
+      "api_usage": {
+        "prompt_tokens": 8543,
+        "completion_tokens": 1363,
+        "total_tokens": 9906,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8287
+      }
+    },
+    {
+      "chunk_id": "C003",
+      "char_start": 34200,
+      "char_end": 52200,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C003_E01",
+          "chunk_id": "C003",
+          "event_type": "design",
+          "order_hint": 1,
+          "summary": "Grad-CAM adapted for GNNs by removing ReLU to capture both positive and negative contributions to bioactivity prediction.",
+          "methods_or_tools": [
+            "Grad-CAM",
+            "ReLU removal"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E01_01"
+          ]
+        },
+        {
+          "event_id": "C003_E02",
+          "chunk_id": "C003",
+          "event_type": "design",
+          "order_hint": 2,
+          "summary": "Hierarchical Grad-CAM placed at layers 1, 3, and 7 to capture atom, ring, and whole-molecule contributions.",
+          "methods_or_tools": [
+            "Grad-CAM",
+            "GCNN layers"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E02_01"
+          ]
+        },
+        {
+          "event_id": "C003_E03",
+          "chunk_id": "C003",
+          "event_type": "design",
+          "order_hint": 3,
+          "summary": "Merged output created by summing Grad-CAM values from three layers, min-max scaling, and thresholding at 0.7.",
+          "methods_or_tools": [
+            "Grad-CAM",
+            "min-max scaling",
+            "threshold"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [
+            "threshold 0.7"
+          ],
+          "evidence_ids": [
+            "EV_C003_E03_01"
+          ]
+        },
+        {
+          "event_id": "C003_E06",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 6,
+          "summary": "GCNN outperforms Chemprop and Attentive FP in sensitivity on all 20 targets for EMBER dataset.",
+          "methods_or_tools": [
+            "GCNN",
+            "Chemprop",
+            "Attentive FP"
+          ],
+          "entities": [
+            "EMBER dataset"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E06_01"
+          ]
+        },
+        {
+          "event_id": "C003_E08",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 8,
+          "summary": "Balanced loss and soft F-score effectively handled class imbalance, reducing false negatives and positives.",
+          "methods_or_tools": [
+            "balanced loss",
+            "soft F-score"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E08_01"
+          ]
+        }
+      ],
+      "notes": "Chunk covers design of HGE (Grad-CAM adaptation, hierarchical layers, merging, RDKit integration) and experimental results on EMBER and ChEMBL_over datasets, including performance comparisons.",
+      "api_usage": {
+        "prompt_tokens": 9859,
+        "completion_tokens": 1154,
+        "total_tokens": 11013,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9603
+      }
+    },
+    {
+      "chunk_id": "C004",
+      "char_start": 51300,
+      "char_end": 69300,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C004_E01",
+          "chunk_id": "C004",
+          "event_type": "analysis",
+          "order_hint": 1,
+          "summary": "GCNN outperforms Chemprop and Attentive FP in sensitivity on EMBER dataset.",
+          "methods_or_tools": [
+            "GCNN",
+            "Chemprop",
+            "Attentive FP"
+          ],
+          "entities": [
+            "EMBER dataset",
+            "sensitivity"
+          ],
+          "numbers_or_metrics": [
+            "sensitivity higher than Chemprop for all targets"
+          ],
+          "evidence_ids": [
+            "EV_C004_E01_01"
+          ]
+        },
+        {
+          "event_id": "C004_E02",
+          "chunk_id": "C004",
+          "event_type": "analysis",
+          "order_hint": 2,
+          "summary": "GCNN shows good ability to prioritize true positives in terms of TP/P and EF.",
+          "methods_or_tools": [
+            "GCNN"
+          ],
+          "entities": [
+            "TP/P",
+            "EF"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E02_01"
+          ]
+        },
+        {
+          "event_id": "C004_E03",
+          "chunk_id": "C004",
+          "event_type": "analysis",
+          "order_hint": 3,
+          "summary": "On ChEMBL_over, GCNN outperforms Chemprop in sensitivity on 18/20 targets, but Chemprop has higher average F1-score.",
+          "methods_or_tools": [
+            "GCNN",
+            "Chemprop"
+          ],
+          "entities": [
+            "ChEMBL_over dataset",
+            "sensitivity",
+            "F1-score"
+          ],
+          "numbers_or_metrics": [
+            "18 out of 20 targets",
+            "Chemprop's average F1-score is higher"
+          ],
+          "evidence_ids": [
+            "EV_C004_E03_01",
+            "EV_C004_E03_02"
+          ]
+        },
+        {
+          "event_id": "C004_E04",
+          "chunk_id": "C004",
+          "event_type": "analysis",
+          "order_hint": 4,
+          "summary": "GCNN prioritizes true positives better than Chemprop, suggesting Chemprop is more misled by oversampled chemicals.",
+          "methods_or_tools": [
+            "GCNN",
+            "Chemprop"
+          ],
+          "entities": [
+            "True Positives",
+            "oversampled chemicals"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E04_01",
+            "EV_C004_E04_02"
+          ]
+        },
+        {
+          "event_id": "C004_E05",
+          "chunk_id": "C004",
+          "event_type": "validation",
+          "order_hint": 5,
+          "summary": "HGE correctly assigned 116/143 drugs to their known targets.",
+          "methods_or_tools": [
+            "HGE"
+          ],
+          "entities": [
+            "DrugBank drugs",
+            "correct target assignation"
+          ],
+          "numbers_or_metrics": [
+            "116 drugs out of 143"
+          ],
+          "evidence_ids": [
+            "EV_C004_E05_01"
+          ]
+        },
+        {
+          "event_id": "C004_E06",
+          "chunk_id": "C004",
+          "event_type": "failure",
+          "order_hint": 6,
+          "summary": "Only 30/44 multi-target drugs correctly classified; misclassification due to scaffold similarity and limited training data.",
+          "methods_or_tools": [
+            "HGE"
+          ],
+          "entities": [
+            "multi-target drugs",
+            "scaffold similarity",
+            "limited training data"
+          ],
+          "numbers_or_metrics": [
+            "30/44 (0.6818)"
+          ],
+          "evidence_ids": [
+            "EV_C004_E06_01",
+            "EV_C004_E06_02",
+            "EV_C004_E06_04"
+          ]
+        },
+        {
+          "event_id": "C004_E07",
+          "chunk_id": "C004",
+          "event_type": "validation",
+          "order_hint": 7,
+          "summary": "HGE consistently identifies moieties for Apigenin on CDK6 and CK2A1, demonstrating robustness.",
+          "methods_or_tools": [
+            "HGE"
+          ],
+          "entities": [
+            "Apigenin",
+            "CDK6",
+            "CK2A1"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E07_01"
+          ]
+        },
+        {
+          "event_id": "C004_E08",
+          "chunk_id": "C004",
+          "event_type": "analysis",
+          "order_hint": 8,
+          "summary": "GNNExplainer detects only few arcs as relevant, while HGE provides a more comprehensive description of molecular moieties.",
+          "methods_or_tools": [
+            "GNNExplainer",
+            "HGE"
+          ],
+          "entities": [
+            "Apigenin",
+            "molecular moieties"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E08_01"
+          ]
+        }
+      ],
+      "notes": "Chunk contains results on ChEMBL_over, explainability validation on DrugBank drugs, failure analysis for multi-target drugs, and comparison with GNNExplainer.",
+      "api_usage": {
+        "prompt_tokens": 9110,
+        "completion_tokens": 1299,
+        "total_tokens": 10409,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8854
+      }
+    },
+    {
+      "chunk_id": "C005",
+      "char_start": 68400,
+      "char_end": 86400,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C005_E01",
+          "chunk_id": "C005",
+          "event_type": "analysis",
+          "order_hint": 1,
+          "summary": "HGE outperforms GNNExplainer in labeling molecular moieties with chemical terms.",
+          "methods_or_tools": [
+            "HGE",
+            "GNNExplainer"
+          ],
+          "entities": [
+            "Apigenin"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C005_E01_01",
+            "EV_C005_E01_02"
+          ]
+        },
+        {
+          "event_id": "C005_E02",
+          "chunk_id": "C005",
+          "event_type": "analysis",
+          "order_hint": 2,
+          "summary": "HGE combines explanation layers to give complete interpretation of molecular moieties.",
+          "methods_or_tools": [
+            "HGE"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C005_E02_01",
+            "EV_C005_E02_02"
+          ]
+        },
+        {
+          "event_id": "C005_E03",
+          "chunk_id": "C005",
+          "event_type": "validation",
+          "order_hint": 3,
+          "summary": "HGE consistently identifies aromatic regions and H-bond acceptors across functional groups.",
+          "methods_or_tools": [
+            "HGE"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C005_E03_01"
+          ]
+        },
+        {
+          "event_id": "C005_E04",
+          "chunk_id": "C005",
+          "event_type": "analysis",
+          "order_hint": 4,
+          "summary": "For Trilaciclib, HGE differentiates H-bond acceptor roles on CDK2 vs CDK6, possibly due to potency differences.",
+          "methods_or_tools": [
+            "HGE"
+          ],
+          "entities": [
+            "Trilaciclib",
+            "CDK2",
+            "CDK6"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C005_E04_01",
+            "EV_C005_E04_02"
+          ]
+        },
+        {
+          "event_id": "C005_E05",
+          "chunk_id": "C005",
+          "event_type": "limitation",
+          "order_hint": 5,
+          "summary": "HGE identifies binding-relevant structures but does not account for pharmacological effect or drug potency.",
+          "methods_or_tools": [
+            "HGE"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C005_E05_01"
+          ]
+        },
+        {
+          "event_id": "C005_E06",
+          "chunk_id": "C005",
+          "event_type": "validation",
+          "order_hint": 6,
+          "summary": "HGE maintains functional group recognition consistency regardless of molecule size, as shown with Pacritinib and SB 1578.",
+          "methods_or_tools": [
+            "HGE"
+          ],
+          "entities": [
+            "Pacritinib",
+            "SB 1578"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C005_E06_01"
+          ]
+        },
+        {
+          "event_id": "C005_E07",
+          "chunk_id": "C005",
+          "event_type": "analysis",
+          "order_hint": 7,
+          "summary": "HGE is reliable in predicting same moieties for a target and identifying same features on different targets.",
+          "methods_or_tools": [
+            "HGE"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C005_E07_01"
+          ]
+        },
+        {
+          "event_id": "C005_E08",
+          "chunk_id": "C005",
+          "event_type": "revision",
+          "order_hint": 8,
+          "summary": "Future work will study HGE for drug repurposing and linking classification to explanation.",
+          "methods_or_tools": [
+            "HGE"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C005_E08_01"
+          ]
+        }
+      ],
+      "notes": "This chunk contains discussion and conclusion sections, providing analysis, validation, limitations, and future directions for HGE.",
+      "api_usage": {
+        "prompt_tokens": 8469,
+        "completion_tokens": 1179,
+        "total_tokens": 9648,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8213
+      }
+    },
+    {
+      "chunk_id": "C006",
+      "char_start": 85500,
+      "char_end": 86738,
+      "chunk_relevance": "none",
+      "events": [],
+      "notes": "This chunk contains only reference citations and a publisher's note, with no research process events.",
+      "api_usage": {
+        "prompt_tokens": 3776,
+        "completion_tokens": 50,
+        "total_tokens": 3826,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 3520
+      }
+    }
+  ],
+  "evidence_bank": [
+    {
+      "evidence_id": "EV_C001_E01_01",
+      "source_file": "docs/0149/combined.md",
+      "section": "C001",
+      "char_start": 1416,
+      "char_end": 1576,
+      "quote": "the integration of explainable methods to elucidate the specific contributions of molecular substructures to biological activity remains a significant challenge"
+    },
+    {
+      "evidence_id": "EV_C001_E02_01",
+      "source_file": "docs/0149/combined.md",
+      "section": "C001",
+      "char_start": 5709,
+      "char_end": 5987,
+      "quote": "Even if the graph representation of a molecule is self-explainable, the precise relation between the relevant molecular properties and the network prediction is not, and it suffers from the same issues observed in classical Convolutional Neural Networks (CNN) devoted to images."
+    },
+    {
+      "evidence_id": "EV_C001_E03_01",
+      "source_file": "docs/0149/combined.md",
+      "section": "C001",
+      "char_start": 9042,
+      "char_end": 9188,
+      "quote": "SHAP was used to determine the significance of individual features; however, it did not provide insight into their pharmacophoric characteristics."
+    },
+    {
+      "evidence_id": "EV_C001_E04_02",
+      "source_file": "docs/0149/combined.md",
+      "section": "C001",
+      "char_start": 10775,
+      "char_end": 10871,
+      "quote": "HGE leverages Grad-CAM to obtain local explanations at atom, ring, and the entire molecule level"
+    },
+    {
+      "evidence_id": "EV_C001_E05_01",
+      "source_file": "docs/0149/combined.md",
+      "section": "C001",
+      "char_start": 11009,
+      "char_end": 11172,
+      "quote": "we built twenty GCNN classifiers, each dedicated to a specific protein target. These models were trained to optimize classification performance on a single target."
+    },
+    {
+      "evidence_id": "EV_C001_E06_02",
+      "source_file": "docs/0149/combined.md",
+      "section": "C001",
+      "char_start": 17063,
+      "char_end": 17176,
+      "quote": "The final data set consists of 89373 small molecules and has a 1:100 active/inactive ratio for the smallest class"
+    },
+    {
+      "evidence_id": "EV_C002_E01_02",
+      "source_file": "docs/0149/combined.md",
+      "section": "C002",
+      "char_start": 18546,
+      "char_end": 18644,
+      "quote": "Overampling was applied on inactive molecules, until an active/inactive ratio of 1:15 was obtained"
+    },
+    {
+      "evidence_id": "EV_C002_E03_01",
+      "source_file": "docs/0149/combined.md",
+      "section": "C002",
+      "char_start": 19323,
+      "char_end": 19468,
+      "quote": "a similarity study was performed between all the molecules generated with the oversampling procedure against the molecules downloaded from ChEMBL"
+    },
+    {
+      "evidence_id": "EV_C002_E03_02",
+      "source_file": "docs/0149/combined.md",
+      "section": "C002",
+      "char_start": 19558,
+      "char_end": 19652,
+      "quote": "it is highlighted how the inclusion of these molecules leads to no bias in terms of similarity"
+    },
+    {
+      "evidence_id": "EV_C002_E04_02",
+      "source_file": "docs/0149/combined.md",
+      "section": "C002",
+      "char_start": 26098,
+      "char_end": 26254,
+      "quote": "The architecture consists of seven GC blocks, with the number of channels in each GC layer following this sequence: 32, 64, 128, 256, 128, 64, and again 32."
+    },
+    {
+      "evidence_id": "EV_C002_E05_01",
+      "source_file": "docs/0149/combined.md",
+      "section": "C002",
+      "char_start": 24082,
+      "char_end": 24201,
+      "quote": "the main aim of the network is to provide a very high sensitivity across all the protein targets analyzed in this study"
+    },
+    {
+      "evidence_id": "EV_C002_E05_02",
+      "source_file": "docs/0149/combined.md",
+      "section": "C002",
+      "char_start": 25742,
+      "char_end": 25882,
+      "quote": "To achieve this, we carefully optimized the network architecture, tailoring its structure to effectively balance complexity and performance."
+    },
+    {
+      "evidence_id": "EV_C002_E06_01",
+      "source_file": "docs/0149/combined.md",
+      "section": "C002",
+      "char_start": 28433,
+      "char_end": 28524,
+      "quote": "A separate GCNN binary classifier was trained to assess compounds activity for each target."
+    },
+    {
+      "evidence_id": "EV_C002_E06_02",
+      "source_file": "docs/0149/combined.md",
+      "section": "C002",
+      "char_start": 28684,
+      "char_end": 28751,
+      "quote": "A grid search was performed to select the hyperparameters properly."
+    },
+    {
+      "evidence_id": "EV_C002_E06_03",
+      "source_file": "docs/0149/combined.md",
+      "section": "C002",
+      "char_start": 32385,
+      "char_end": 32472,
+      "quote": "The training process was conducted on an NVIDIA GeForce RTX 3090 with 10,496 CUDA cores"
+    },
+    {
+      "evidence_id": "EV_C002_E07_02",
+      "source_file": "docs/0149/combined.md",
+      "section": "C002",
+      "char_start": 33859,
+      "char_end": 33970,
+      "quote": "We chose Grad-CAM as the best performing technique for labeling pointwise contributions to positive predictions"
+    },
+    {
+      "evidence_id": "EV_C003_E01_01",
+      "source_file": "docs/0149/combined.md",
+      "section": "C003",
+      "char_start": 36102,
+      "char_end": 36233,
+      "quote": "the ReLU activation function has been removed to capture not only positive contributions to the prediction, but also negative ones."
+    },
+    {
+      "evidence_id": "EV_C003_E02_01",
+      "source_file": "docs/0149/combined.md",
+      "section": "C003",
+      "char_start": 37993,
+      "char_end": 38230,
+      "quote": "we placed also a Grad-CAM explainer at the very first GC layer to consider the atoms' impact in a 1-neighborhood that is at a bond level. Another explainer was placed after the third layer to catch information related to 3-neighborhoods."
+    },
+    {
+      "evidence_id": "EV_C003_E03_01",
+      "source_file": "docs/0149/combined.md",
+      "section": "C003",
+      "char_start": 38646,
+      "char_end": 38783,
+      "quote": "The resulting $L_{Grad-CAM}$ distribution has been min-max scaled, and only contributions higher than 0.7 have been regarded as relevant."
+    },
+    {
+      "evidence_id": "EV_C003_E06_01",
+      "source_file": "docs/0149/combined.md",
+      "section": "C003",
+      "char_start": 51870,
+      "char_end": 52014,
+      "quote": "our architecture outperforms in terms of sensitivity the two architectures used as a comparison on all 20 protein targets for the EMBER dataset."
+    },
+    {
+      "evidence_id": "EV_C003_E08_01",
+      "source_file": "docs/0149/combined.md",
+      "section": "C003",
+      "char_start": 51639,
+      "char_end": 51734,
+      "quote": "The use of a properly balanced loss and a soft F-score worked fine for the classification task."
+    },
+    {
+      "evidence_id": "EV_C004_E01_01",
+      "source_file": "docs/0149/combined.md",
+      "section": "C004",
+      "char_start": 51870,
+      "char_end": 52013,
+      "quote": "our architecture outperforms in terms of sensitivity the two architectures used as a comparison on all 20 protein targets for the EMBER dataset"
+    },
+    {
+      "evidence_id": "EV_C004_E02_01",
+      "source_file": "docs/0149/combined.md",
+      "section": "C004",
+      "char_start": 52161,
+      "char_end": 52246,
+      "quote": "it also has an very good ability to prioritise True Positives in terms of TP/P and EF"
+    },
+    {
+      "evidence_id": "EV_C004_E03_01",
+      "source_file": "docs/0149/combined.md",
+      "section": "C004",
+      "char_start": 55957,
+      "char_end": 56042,
+      "quote": "Our architectures outperform Chemprop on 18 out of 20 targets in terms of sensitivity"
+    },
+    {
+      "evidence_id": "EV_C004_E03_02",
+      "source_file": "docs/0149/combined.md",
+      "section": "C004",
+      "char_start": 56162,
+      "char_end": 56222,
+      "quote": "Chemprop's average F1-score is higher than our architectures"
+    },
+    {
+      "evidence_id": "EV_C004_E04_01",
+      "source_file": "docs/0149/combined.md",
+      "section": "C004",
+      "char_start": 56392,
+      "char_end": 56454,
+      "quote": "our networks outperform Chemprop at prioritising True Positive"
+    },
+    {
+      "evidence_id": "EV_C004_E04_02",
+      "source_file": "docs/0149/combined.md",
+      "section": "C004",
+      "char_start": 56456,
+      "char_end": 56641,
+      "quote": "This result may suggest a vulnerability in the Chemprop net, which appears more prone than our GCNNs to be misled in determining True Positives by the presence of over-sampled chemicals"
+    },
+    {
+      "evidence_id": "EV_C004_E05_01",
+      "source_file": "docs/0149/combined.md",
+      "section": "C004",
+      "char_start": 57585,
+      "char_end": 57667,
+      "quote": "116 drugs out of 143 were correctly assigned to the target known in the literature"
+    },
+    {
+      "evidence_id": "EV_C004_E06_01",
+      "source_file": "docs/0149/combined.md",
+      "section": "C004",
+      "char_start": 58177,
+      "char_end": 58254,
+      "quote": "only 30/44 (0.6818) drugs with multi-target activity are correctly classified"
+    },
+    {
+      "evidence_id": "EV_C004_E06_02",
+      "source_file": "docs/0149/combined.md",
+      "section": "C004",
+      "char_start": 58437,
+      "char_end": 58536,
+      "quote": "the misclassification on the 14 multi-target drug molecules can be traced back to different reasons"
+    },
+    {
+      "evidence_id": "EV_C004_E06_04",
+      "source_file": "docs/0149/combined.md",
+      "section": "C004",
+      "char_start": 59090,
+      "char_end": 59155,
+      "quote": "for some targets, training datasets contain fewer known molecules"
+    },
+    {
+      "evidence_id": "EV_C004_E07_01",
+      "source_file": "docs/0149/combined.md",
+      "section": "C004",
+      "char_start": 59530,
+      "char_end": 59645,
+      "quote": "the prediction of the molecular moieties of Apigenin, a drug that is bioactive on CDK6 and CK2A1, remains congruous"
+    },
+    {
+      "evidence_id": "EV_C004_E08_01",
+      "source_file": "docs/0149/combined.md",
+      "section": "C004",
+      "char_start": 67659,
+      "char_end": 67761,
+      "quote": "GNNExplainer detects as relevant the two arcs connecting C-5/C-6/O-16 and the arc connecting C-12/C-13"
+    },
+    {
+      "evidence_id": "EV_C005_E01_01",
+      "source_file": "docs/0149/combined.md",
+      "section": "C005",
+      "char_start": 68427,
+      "char_end": 68511,
+      "quote": "Fig. 6 Results obtained with GNNExplainer compared with HGE on the Apigenin molecule"
+    },
+    {
+      "evidence_id": "EV_C005_E01_02",
+      "source_file": "docs/0149/combined.md",
+      "section": "C005",
+      "char_start": 72529,
+      "char_end": 72678,
+      "quote": "the predictive comparison with GNNExplainer in Fig. 6 shows the different ability of our explainer in labelling information in purely chemical terms."
+    },
+    {
+      "evidence_id": "EV_C005_E02_01",
+      "source_file": "docs/0149/combined.md",
+      "section": "C005",
+      "char_start": 68911,
+      "char_end": 69048,
+      "quote": "The main strength of the presented approach is the combination of different explanation layers (from single atoms to complex structures)."
+    },
+    {
+      "evidence_id": "EV_C005_E02_02",
+      "source_file": "docs/0149/combined.md",
+      "section": "C005",
+      "char_start": 69142,
+      "char_end": 69288,
+      "quote": "each step enriches the others, giving a complete interpretation of the molecular moieties useful to be classified as active for a specific target."
+    },
+    {
+      "evidence_id": "EV_C005_E03_01",
+      "source_file": "docs/0149/combined.md",
+      "section": "C005",
+      "char_start": 69545,
+      "char_end": 69772,
+      "quote": "the algorithm consistently identifies the aromatic regions and hydrogen bond acceptor features of the molecule, highlighting the same recognition patterns across the functional groups crucial for protein-ligand binding process."
+    },
+    {
+      "evidence_id": "EV_C005_E04_01",
+      "source_file": "docs/0149/combined.md",
+      "section": "C005",
+      "char_start": 69908,
+      "char_end": 70026,
+      "quote": "for Trilaciclib on CDK2 and CDK6 the algorithm slightly differentiated the role of the H-bond acceptor in N10 and O29."
+    },
+    {
+      "evidence_id": "EV_C005_E04_02",
+      "source_file": "docs/0149/combined.md",
+      "section": "C005",
+      "char_start": 70027,
+      "char_end": 70149,
+      "quote": "Probably, this difference is due to different potency magnitude of pharmacological effects of Trilacilib on CDK6 and CDK2."
+    },
+    {
+      "evidence_id": "EV_C005_E05_01",
+      "source_file": "docs/0149/combined.md",
+      "section": "C005",
+      "char_start": 70328,
+      "char_end": 70463,
+      "quote": "HGE identifies chemical structures compatible with protein binding process, without considering pharmacological effect or drug potency."
+    },
+    {
+      "evidence_id": "EV_C005_E06_01",
+      "source_file": "docs/0149/combined.md",
+      "section": "C005",
+      "char_start": 70597,
+      "char_end": 70745,
+      "quote": "Pacritinib and SB 1578 show how molecule size do not influence the algorithm capability in maintaining the functional group recognition consistency."
+    },
+    {
+      "evidence_id": "EV_C005_E07_01",
+      "source_file": "docs/0149/combined.md",
+      "section": "C005",
+      "char_start": 72132,
+      "char_end": 72342,
+      "quote": "HGE performance is shown to be good and reliable both in predicting the same moieties for a target (Fig. 5) and in identifying the same molecular features of the same molecule on different targets (Figs. 3, 4)."
+    },
+    {
+      "evidence_id": "EV_C005_E08_01",
+      "source_file": "docs/0149/combined.md",
+      "section": "C005",
+      "char_start": 72679,
+      "char_end": 72949,
+      "quote": "Future research will be dedicated to studying the ability of HGE to re-propose drugs and to understanding the link between classification properties and explainer prediction for assessing how to increase the amount of information that can be obtained from the explainer."
+    },
+    {
+      "evidence_id": "EV_AUTO_001",
+      "source_file": "docs/0149/combined.md",
+      "section": "auto_specific",
+      "char_start": 67642,
+      "char_end": 67762,
+      "quote": "As can be seen, GNNExplainer detects as relevant the two arcs connecting C-5/C-6/O-16 and the arc connecting C-12/C-13."
+    },
+    {
+      "evidence_id": "EV_AUTO_002",
+      "source_file": "docs/0149/combined.md",
+      "section": "auto_specific",
+      "char_start": 58152,
+      "char_end": 58302,
+      "quote": "As shown in the Table 9, only 30/44 (0.6818) drugs with multi-target activity are correctly classified, but this result can be interpreted positively."
+    },
+    {
+      "evidence_id": "EV_AUTO_003",
+      "source_file": "docs/0149/combined.md",
+      "section": "auto_specific",
+      "char_start": 15162,
+      "char_end": 15387,
+      "quote": "Canonical SMILES were recovered from the CHEMBL24.1 database [32] looking for all small molecules whose activity on the target protein is referenced by the values of $\\mathrm{IC}_{50}$ , $\\mathrm{K}_i$ , and $\\mathrm{K}_d$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_004",
+      "source_file": "docs/0149/combined.md",
+      "section": "auto_specific",
+      "char_start": 57030,
+      "char_end": 57252,
+      "quote": "To evaluate the explainability power of HGE, we selected a test set made by 143 known drugs from DrugBank $^{5}$ for the 20 kinases considered in this work to compare the predictions with experimental and clinical results."
+    },
+    {
+      "evidence_id": "EV_AUTO_005",
+      "source_file": "docs/0149/combined.md",
+      "section": "auto_specific",
+      "char_start": 17361,
+      "char_end": 17481,
+      "quote": "Training, validation, and test sets were created using a ratio 80%:10%:10% for each target to minimize comparison bias."
+    },
+    {
+      "evidence_id": "EV_AUTO_006",
+      "source_file": "docs/0149/combined.md",
+      "section": "auto_specific",
+      "char_start": 15213,
+      "char_end": 15387,
+      "quote": "1 database [32] looking for all small molecules whose activity on the target protein is referenced by the values of $\\mathrm{IC}_{50}$ , $\\mathrm{K}_i$ , and $\\mathrm{K}_d$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_007",
+      "source_file": "docs/0149/combined.md",
+      "section": "auto_specific",
+      "char_start": 71018,
+      "char_end": 71179,
+      "quote": "To achieve our result, 20 GCNN classifiers have been trained on two different data sets derived from CheMBL to predict ligands' activity for 20 Kinase proteins."
+    },
+    {
+      "evidence_id": "EV_AUTO_008",
+      "source_file": "docs/0149/combined.md",
+      "section": "auto_specific",
+      "char_start": 18645,
+      "char_end": 18835,
+      "quote": "The generated molecules were carefully checked and validated through the RDKit library $[33]$ to avoid introducing a classification bias due to the presence of chemically invalid molecules."
+    },
+    {
+      "evidence_id": "EV_AUTO_009",
+      "source_file": "docs/0149/combined.md",
+      "section": "auto_specific",
+      "char_start": 18463,
+      "char_end": 18545,
+      "quote": "We used a Random Over Sampling algorithm in the Imbalanced Learn library $[37]$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_010",
+      "source_file": "docs/0149/combined.md",
+      "section": "auto_specific",
+      "char_start": 17845,
+      "char_end": 18019,
+      "quote": "Once these initial parameters were defined, the query was constructed by selecting the proper values of $IC_{50}$ , $K_{d}$ , $K_{i}$ , $K_{dapp}$ , Inhibition and Activity."
+    },
+    {
+      "evidence_id": "EV_AUTO_011",
+      "source_file": "docs/0149/combined.md",
+      "section": "auto_specific",
+      "char_start": 1697,
+      "char_end": 1859,
+      "quote": "Results We trained 20 GNN models on a dataset of small molecules with the goal of predicting their activity on 20 distinct protein targets from the Kinase family."
+    },
+    {
+      "evidence_id": "EV_AUTO_012",
+      "source_file": "docs/0149/combined.md",
+      "section": "auto_specific",
+      "char_start": 18837,
+      "char_end": 18955,
+      "quote": "The validation has been performed using the SanitazeMol $^{2}$ function of Rdkit as reported in the official cookbook."
+    }
+  ],
+  "event_graph": {
+    "paper_main_problem": "Explaining GNN predictions in virtual screening for drug discovery by identifying molecular substructures (moieties) driving bioactivity, to guide medicinal chemists.",
+    "canonical_events": [
+      {
+        "canonical_id": "K01",
+        "order": 1,
+        "event_type": "problem",
+        "summary": "GNN predictions for molecular bioactivity are not self-explainable; existing XAI methods (SHAP, GNNExplainer) fail to provide pharmacophoric-level explanations.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E01",
+          "C001_E02",
+          "C001_E03"
+        ],
+        "evidence_ids": [
+          "EV_C001_E01_01",
+          "EV_C001_E02_01",
+          "EV_C001_E03_01"
+        ],
+        "key_entities": [
+          "GNN",
+          "SHAP",
+          "GNNExplainer"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K02",
+        "order": 2,
+        "event_type": "hypothesis",
+        "summary": "Hierarchical Grad-CAM at multiple graph depths (atom, ring, whole-molecule) can capture multi-scale moieties for complete explanation.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E04"
+        ],
+        "evidence_ids": [
+          "EV_C001_E04_02"
+        ],
+        "key_entities": [
+          "HGE",
+          "Grad-CAM"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K03",
+        "order": 3,
+        "event_type": "design",
+        "summary": "Design GCNN architecture with U-Net-like channel expansion (7 GC blocks, 1-WL kernel) optimized for high sensitivity in virtual screening.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E04",
+          "C002_E05"
+        ],
+        "evidence_ids": [
+          "EV_C002_E04_02",
+          "EV_C002_E05_01",
+          "EV_C002_E05_02"
+        ],
+        "key_entities": [
+          "GCNN",
+          "U-Net",
+          "1-WL kernel"
+        ],
+        "key_numbers": [
+          "7 GC blocks",
+          "channel sequence: 32,64,128,256,128,64,32"
+        ]
+      },
+      {
+        "canonical_id": "K04",
+        "order": 4,
+        "event_type": "design",
+        "summary": "Prepare two datasets: EMBER (curated, 1:100 imbalance) and ChEMBL_over (oversampled inactives to 1:15 ratio) for training and stress testing.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E06",
+          "C002_E01"
+        ],
+        "evidence_ids": [
+          "EV_C001_E06_02",
+          "EV_C002_E01_02"
+        ],
+        "key_entities": [
+          "EMBER",
+          "ChEMBL_over"
+        ],
+        "key_numbers": [
+          "89373 molecules",
+          "1:100 ratio",
+          "1:15 ratio"
+        ]
+      },
+      {
+        "canonical_id": "K05",
+        "order": 5,
+        "event_type": "computation",
+        "summary": "Train 20 single-target GCNN classifiers on EMBER and ChEMBL_over with hyperparameter grid search, using weighted BCE loss and soft F-score.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E05",
+          "C002_E06"
+        ],
+        "evidence_ids": [
+          "EV_C001_E05_01",
+          "EV_C002_E06_01",
+          "EV_C002_E06_02",
+          "EV_C002_E06_03"
+        ],
+        "key_entities": [
+          "20 kinase targets",
+          "NVIDIA RTX 3090"
+        ],
+        "key_numbers": [
+          "20",
+          "10,496 CUDA cores"
+        ]
+      },
+      {
+        "canonical_id": "K06",
+        "order": 6,
+        "event_type": "revision",
+        "summary": "Reject GNNExplainer as too fine-grained; adapt Grad-CAM by removing ReLU to capture negative contributions and placing at layers 1,3,7.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E07",
+          "C003_E01",
+          "C003_E02"
+        ],
+        "evidence_ids": [
+          "EV_C002_E07_02",
+          "EV_C003_E01_01",
+          "EV_C003_E02_01"
+        ],
+        "key_entities": [
+          "Grad-CAM",
+          "ReLU removal"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K07",
+        "order": 7,
+        "event_type": "design",
+        "summary": "Merge Grad-CAM outputs by summing, min-max scaling, and thresholding at 0.7 to identify relevant moieties.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E03"
+        ],
+        "evidence_ids": [
+          "EV_C003_E03_01"
+        ],
+        "key_entities": [
+          "min-max scaling",
+          "threshold"
+        ],
+        "key_numbers": [
+          "0.7"
+        ]
+      },
+      {
+        "canonical_id": "K08",
+        "order": 8,
+        "event_type": "analysis",
+        "summary": "GCNN outperforms Chemprop and Attentive FP in sensitivity on EMBER (mean 0.899 vs 0.704 vs 0.395) and AUC (0.982), with high F1 (0.960).",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E06",
+          "C004_E01",
+          "C004_E02"
+        ],
+        "evidence_ids": [
+          "EV_C003_E06_01",
+          "EV_C004_E01_01",
+          "EV_C004_E02_01"
+        ],
+        "key_entities": [
+          "GCNN",
+          "Chemprop",
+          "Attentive FP",
+          "EMBER"
+        ],
+        "key_numbers": [
+          "sensitivity 0.899",
+          "AUC 0.982",
+          "F1 0.960"
+        ]
+      },
+      {
+        "canonical_id": "K09",
+        "order": 9,
+        "event_type": "analysis",
+        "summary": "On ChEMBL_over, GCNN has higher sensitivity (0.946 vs 0.897) but Chemprop has higher F1 (0.945 vs 0.920); GCNN better prioritizes true positives.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C004_E03",
+          "C004_E04"
+        ],
+        "evidence_ids": [
+          "EV_C004_E03_01",
+          "EV_C004_E03_02",
+          "EV_C004_E04_01",
+          "EV_C004_E04_02"
+        ],
+        "key_entities": [
+          "ChEMBL_over",
+          "GCNN",
+          "Chemprop"
+        ],
+        "key_numbers": [
+          "sensitivity 0.946 vs 0.897",
+          "F1 0.920 vs 0.945"
+        ]
+      },
+      {
+        "canonical_id": "K10",
+        "order": 10,
+        "event_type": "validation",
+        "summary": "HGE correctly assigns 116/143 (81%) DrugBank kinase inhibitors to known targets, with consistent moiety identification (e.g., Apigenin on CDK6/CK2A1).",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C004_E05",
+          "C004_E07"
+        ],
+        "evidence_ids": [
+          "EV_C004_E05_01",
+          "EV_C004_E07_01"
+        ],
+        "key_entities": [
+          "DrugBank",
+          "Apigenin",
+          "CDK6",
+          "CK2A1"
+        ],
+        "key_numbers": [
+          "116/143",
+          "81%"
+        ]
+      },
+      {
+        "canonical_id": "K11",
+        "order": 11,
+        "event_type": "failure",
+        "summary": "Multi-target drugs harder: only 30/44 (68%) correctly classified due to scaffold similarity and limited training data.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C004_E06"
+        ],
+        "evidence_ids": [
+          "EV_C004_E06_01",
+          "EV_C004_E06_02",
+          "EV_C004_E06_04"
+        ],
+        "key_entities": [
+          "multi-target drugs"
+        ],
+        "key_numbers": [
+          "30/44",
+          "68%"
+        ]
+      },
+      {
+        "canonical_id": "K12",
+        "order": 12,
+        "event_type": "analysis",
+        "summary": "HGE provides richer moiety descriptions than GNNExplainer, combining layers for complete interpretation and consistent recognition across chemotypes.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C004_E08",
+          "C005_E01",
+          "C005_E02",
+          "C005_E03",
+          "C005_E06",
+          "C005_E07"
+        ],
+        "evidence_ids": [
+          "EV_C004_E08_01",
+          "EV_C005_E01_01",
+          "EV_C005_E01_02",
+          "EV_C005_E02_01",
+          "EV_C005_E02_02",
+          "EV_C005_E03_01"
+        ],
+        "key_entities": [
+          "HGE",
+          "GNNExplainer"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K13",
+        "order": 13,
+        "event_type": "limitation",
+        "summary": "HGE identifies binding-relevant structures but does not account for pharmacological effect or potency magnitude; single-target focus limits multi-target applicability.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C005_E05"
+        ],
+        "evidence_ids": [
+          "EV_C005_E05_01"
+        ],
+        "key_entities": [
+          "HGE"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K14",
+        "order": 14,
+        "event_type": "revision",
+        "summary": "Future work: extend HGE to drug repurposing and link classification to explanation for increased information.",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C005_E08"
+        ],
+        "evidence_ids": [
+          "EV_C005_E08_01"
+        ],
+        "key_entities": [
+          "HGE"
+        ],
+        "key_numbers": []
+      }
+    ],
+    "edges": [
+      {
+        "source": "K01",
+        "target": "K02",
+        "relation": "enables",
+        "reason": "Problem of lack of pharmacophoric explanations motivates hierarchical Grad-CAM hypothesis."
+      },
+      {
+        "source": "K02",
+        "target": "K03",
+        "relation": "enables",
+        "reason": "Hypothesis requires a GNN architecture to apply Grad-CAM; design of high-sensitivity GCNN follows."
+      },
+      {
+        "source": "K03",
+        "target": "K04",
+        "relation": "enables",
+        "reason": "GCNN design needs training data; datasets prepared with imbalance handling."
+      },
+      {
+        "source": "K04",
+        "target": "K05",
+        "relation": "enables",
+        "reason": "Datasets used to train the 20 GCNN classifiers."
+      },
+      {
+        "source": "K05",
+        "target": "K06",
+        "relation": "enables",
+        "reason": "Trained GCNNs provide the basis for applying explainability; Grad-CAM adaptation chosen over GNNExplainer."
+      },
+      {
+        "source": "K06",
+        "target": "K07",
+        "relation": "refines",
+        "reason": "Grad-CAM outputs merged and thresholded to define relevant moieties."
+      },
+      {
+        "source": "K07",
+        "target": "K08",
+        "relation": "enables",
+        "reason": "Merged HGE used to evaluate GCNN performance against baselines on EMBER."
+      },
+      {
+        "source": "K08",
+        "target": "K09",
+        "relation": "follows",
+        "reason": "After EMBER results, evaluation on ChEMBL_over stress test."
+      },
+      {
+        "source": "K09",
+        "target": "K10",
+        "relation": "follows",
+        "reason": "After performance analysis, validation on known DrugBank drugs."
+      },
+      {
+        "source": "K10",
+        "target": "K11",
+        "relation": "contradicts",
+        "reason": "Validation reveals failure on multi-target drugs, contrasting with overall high accuracy."
+      },
+      {
+        "source": "K11",
+        "target": "K12",
+        "relation": "follows",
+        "reason": "Despite failure, qualitative analysis shows HGE's superiority over GNNExplainer."
+      },
+      {
+        "source": "K12",
+        "target": "K13",
+        "relation": "follows",
+        "reason": "Analysis leads to acknowledgment of limitations in pharmacological interpretation."
+      },
+      {
+        "source": "K13",
+        "target": "K14",
+        "relation": "enables",
+        "reason": "Limitations motivate future work on drug repurposing and explanation-classification link."
+      }
+    ],
+    "must_cover_points": [
+      "Problem of GNN explainability for pharmacophores",
+      "Hierarchical Grad-CAM hypothesis",
+      "GCNN architecture design for sensitivity",
+      "Dataset preparation (EMBER and ChEMBL_over)",
+      "Training 20 single-target classifiers",
+      "Grad-CAM adaptation (ReLU removal, layers 1,3,7)",
+      "Merging and thresholding outputs",
+      "Superior sensitivity on EMBER vs baselines",
+      "Trade-off on ChEMBL_over (sensitivity vs F1)",
+      "Validation on DrugBank (81% correct)",
+      "Failure on multi-target drugs (68%)",
+      "Qualitative superiority over GNNExplainer",
+      "Limitation: no pharmacological effect/potency",
+      "Future work: drug repurposing"
+    ],
+    "paper_not_suitable_reasons": []
+  }
+}

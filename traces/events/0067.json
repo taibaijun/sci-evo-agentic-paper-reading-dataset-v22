@@ -1,0 +1,1624 @@
+{
+  "doc_no": "0067",
+  "source": {
+    "title": "A machine learning approach for reliable prediction of amino acid interactions and its application in the directed evolution of enantioselective enzymes",
+    "doi": "https://doi.org/10.1038/s41598-018-35033-y",
+    "license": "cc-by",
+    "pdf_name": "0065_10_1038_s41598_018_35033_y_a_machine_learning_approach_for_reliable_prediction_of_amino_acid_interactions_and_its_app.pdf",
+    "combined_md": "docs/0067/combined.md",
+    "mineru_md": "docs/0067/mineru.md"
+  },
+  "gist_memory": {
+    "paper_problem_memory": "Directed evolution of enantioselective enzymes is limited by epistasis, where non-additive effects of mutations impair prediction of improved variants. The goal is to develop a machine learning method that predicts amino acid interactions from sequence and fitness data alone, without requiring 3D structure, to guide the engineering of enantioselective enzymes.",
+    "section_gists": [
+      {
+        "section_index": 4,
+        "heading": "A machine learning approach for reliable prediction of amino acid interactions and its application in the directed evolution of enantioselective enzymes",
+        "gist": "Introduces the problem of epistasis in directed evolution and the need for in silico guidance. Proposes innov'SAR, a sequence-activity relationship method using digital signal processing (FFT) to predict mutant fitness from sequence and wet-lab data. Illustrates with epoxide hydrolase ANEH: 9 single mutants measured, model built to predict 512 variants, better mutants found.",
+        "process_signals": [
+          "Directed evolution is tedious; screening is bottleneck.",
+          "Existing machine learning methods assume additivity, fail due to epistasis.",
+          "DSP/FFT chosen to capture global sequence effects, not just local.",
+          "Only sequence and fitness data needed, no 3D structure."
+        ],
+        "methods": [
+          "innov'SAR: FFT-based encoding of sequences, regression model.",
+          "AAindex database for physicochemical encoding.",
+          "Partial least squares (PLS) regression."
+        ],
+        "metrics": [],
+        "failures_or_limits": [
+          "Previous methods limited by additivity assumption.",
+          "Epistasis impairs predictions."
+        ]
+      },
+      {
+        "section_index": 5,
+        "heading": "Results",
+        "gist": "Details innov'SAR methodology: encoding phase (AAindex + FFT), modelling phase (PLS regression with cross-validation), predictive phase. Applies to ANEH enantioselectivity: 9 single mutants as training, model built, 512 variants predicted, top 5 tested experimentally, all improved. Also tests on benchmark datasets (P450, epPCR) and compares with ProSAR, showing better or comparable performance. Ablation study shows FFT crucial for capturing epistasis.",
+        "process_signals": [
+          "Encoding phase: AAindex converts sequence to numerical, FFT produces protein spectrum capturing global effects.",
+          "Modelling phase: PLS regression, cross-validation (k-fold, LOOCV), RMSE and R² metrics.",
+          "Multiple AAindex tested; best selected based on cross-validation performance.",
+          "ANEH: 9 single mutants (L215F, A217N, R219S, T317W, T318V, M329P, L330Y, C350V, L249Y) measured for E-values.",
+          "Model built, 512 variants predicted, top 5 (P1-P5) synthesized and tested; all showed improved enantioselectivity.",
+          "Benchmark: P450 dataset (242 variants, 35 single mutants) – innov'SAR outperforms ProSAR in cross-validation.",
+          "EpPCR dataset (haloalkane dehalogenase, 144 variants) – innov'SAR comparable to ProSAR.",
+          "Ablation: without FFT, model fails to predict epistatic combinations (Figure 8).",
+          "LOOCV on 37 ANEH mutants shows innov'SAR captures non-additive effects (Figure 7)."
+        ],
+        "methods": [
+          "FFT encoding",
+          "PLS regression",
+          "Cross-validation (k-fold, LOOCV)",
+          "AAindex selection",
+          "Experimental validation: site-directed mutagenesis, kinetic resolution"
+        ],
+        "metrics": [
+          "RMSE",
+          "R²",
+          "Enantioselectivity (E-value)",
+          "Enrichment factor"
+        ],
+        "failures_or_limits": [
+          "Without FFT, model cannot predict epistasis (Figure 8).",
+          "Performance depends on quality and diversity of training data.",
+          "Limited to single point mutations as starting point; combinatorial space grows exponentially."
+        ]
+      },
+      {
+        "section_index": 6,
+        "heading": "Discussion",
+        "gist": "Compares innov'SAR with structure-based QSFR/QSSR and sequence-based ProSAR. Emphasizes advantage of not requiring 3D structure. Shows FFT is key to capturing epistasis; without it, predictions are poor. Acknowledges limitations: model depends on training data quality, may not generalize to distant sequences, and requires experimental data for each new target. Suggests future integration with structure data and application to other properties.",
+        "process_signals": [
+          "Structure-based methods limited by need for 3D structure.",
+          "ProSAR uses binary encoding, may miss non-linear interactions.",
+          "innov'SAR's FFT encoding captures global sequence context, enabling epistasis prediction.",
+          "Ablation confirms FFT necessity (Figure 8 vs Figure 7).",
+          "Model accuracy depends on training set diversity and size.",
+          "Method validated on multiple datasets (ANEH, P450, epPCR).",
+          "Future: combine with structural data, apply to stability, activity."
+        ],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": [
+          "Requires experimental fitness data for training.",
+          "May not extrapolate well to sequences far from training set.",
+          "Computational cost of FFT and PLS for large combinatorial spaces.",
+          "Not tested on all protein properties."
+        ]
+      },
+      {
+        "section_index": 7,
+        "heading": "Materials and Methods",
+        "gist": "Provides experimental details: PCR-based mutagenesis for ANEH mutants, protein expression, kinetic resolution assay. Computational: innov'SAR uses RMSE and R² for model evaluation, cross-validation and full-set stages. AAindex database for encoding, FFT, PLS regression.",
+        "process_signals": [
+          "Mutants constructed by overlap PCR and megaprimer approach.",
+          "Enantioselectivity measured by kinetic resolution of rac-1.",
+          "Model evaluation: RMSE and R² during cross-validation and full-set stages.",
+          "Multiple AAindex tested; best chosen by performance."
+        ],
+        "methods": [
+          "Site-directed mutagenesis (overlap PCR, megaprimer)",
+          "Protein expression in E. coli",
+          "Kinetic resolution assay",
+          "RMSE and R² calculation",
+          "Cross-validation (k-fold, LOOCV)"
+        ],
+        "metrics": [
+          "RMSE",
+          "R²"
+        ],
+        "failures_or_limits": []
+      }
+    ],
+    "global_hypotheses_about_storyline": [
+      "Epistasis is a major obstacle in directed evolution; capturing non-additive effects requires a method that considers global sequence context.",
+      "FFT-based encoding can transform sequence information into a spectral representation that implicitly captures amino acid interactions.",
+      "A regression model trained on a small set of single mutants can predict fitness of combinatorial variants, enabling efficient screening.",
+      "The method is general and can be applied to any protein property measurable by wet-lab assays."
+    ],
+    "uncertainties_to_resolve": [
+      "How does the choice of AAindex affect model performance? Is there a systematic way to select the best index?",
+      "What is the minimum number and diversity of training mutants required for reliable predictions?",
+      "How does innov'SAR perform on other enzyme properties (stability, activity) and larger mutational landscapes?",
+      "Can the method be combined with structural data to improve predictions?",
+      "What are the computational limits when scaling to more than 9 mutations?"
+    ]
+  },
+  "chunk_events": [
+    {
+      "chunk_id": "C001",
+      "char_start": 0,
+      "char_end": 18000,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C001_E01",
+          "chunk_id": "C001",
+          "event_type": "problem",
+          "order_hint": 1,
+          "summary": "Epistasis impairs predictions in protein engineering, and machine learning has not been applied to evolve enzyme mutants with enhanced or inverted stereoselectivity.",
+          "methods_or_tools": [],
+          "entities": [
+            "epistasis",
+            "machine learning",
+            "stereoselectivity"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E01_01",
+            "EV_C001_E01_02"
+          ]
+        },
+        {
+          "event_id": "C001_E02",
+          "chunk_id": "C001",
+          "event_type": "hypothesis",
+          "order_hint": 2,
+          "summary": "Digital signal processing (FFT) and protein spectra can be used to model and predict biological activity and identify improved mutants.",
+          "methods_or_tools": [
+            "FFT",
+            "protein spectrum"
+          ],
+          "entities": [
+            "digital signal processing",
+            "protein spectrum"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E02_01"
+          ]
+        },
+        {
+          "event_id": "C001_E03",
+          "chunk_id": "C001",
+          "event_type": "design",
+          "order_hint": 3,
+          "summary": "innov'SAR methodology consists of three phases: encoding phase (AAindex + FFT), modelling phase, and predictive phase.",
+          "methods_or_tools": [
+            "AAindex",
+            "FFT",
+            "PLS regression"
+          ],
+          "entities": [
+            "innov'SAR"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E03_01"
+          ]
+        },
+        {
+          "event_id": "C001_E04",
+          "chunk_id": "C001",
+          "event_type": "design",
+          "order_hint": 4,
+          "summary": "The protein spectrum from FFT captures global effects of mutations, analogous to how a single point mutation can impact the whole protein structure.",
+          "methods_or_tools": [
+            "FFT",
+            "protein spectrum"
+          ],
+          "entities": [
+            "protein spectrum"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E04_01"
+          ]
+        },
+        {
+          "event_id": "C001_E05",
+          "chunk_id": "C001",
+          "event_type": "experiment",
+          "order_hint": 5,
+          "summary": "ANEH enantioselectivity improvement: 9 single point mutants experimentally assessed and used as learning dataset.",
+          "methods_or_tools": [
+            "site-directed mutagenesis",
+            "kinetic resolution"
+          ],
+          "entities": [
+            "ANEH",
+            "epoxide hydrolase"
+          ],
+          "numbers_or_metrics": [
+            "9 single point mutants",
+            "E-value"
+          ],
+          "evidence_ids": [
+            "EV_C001_E05_01"
+          ]
+        },
+        {
+          "event_id": "C001_E07",
+          "chunk_id": "C001",
+          "event_type": "validation",
+          "order_hint": 7,
+          "summary": "Candidates were experimentally checked: better mutants with higher enantioselectivity were indeed found.",
+          "methods_or_tools": [],
+          "entities": [
+            "ANEH"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E07_01"
+          ]
+        }
+      ],
+      "notes": "Chunk introduces the problem of epistasis, proposes the innov'SAR methodology using FFT, describes the encoding phase, and mentions the ANEH case study with 9 mutants and 512 predicted variants.",
+      "api_usage": {
+        "prompt_tokens": 6248,
+        "completion_tokens": 1360,
+        "total_tokens": 7608,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 5992
+      }
+    },
+    {
+      "chunk_id": "C002",
+      "char_start": 17100,
+      "char_end": 35100,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C002_E01",
+          "chunk_id": "C002",
+          "event_type": "design",
+          "order_hint": 1,
+          "summary": "innov'SAR methodology uses FFT to convert encoded sequences into protein spectra, then PLS regression to build predictive models.",
+          "methods_or_tools": [
+            "FFT",
+            "PLS regression",
+            "AAindex database"
+          ],
+          "entities": [
+            "innov'SAR"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E01_01",
+            "EV_C002_E01_02"
+          ]
+        },
+        {
+          "event_id": "C002_E02",
+          "chunk_id": "C002",
+          "event_type": "design",
+          "order_hint": 2,
+          "summary": "Model validation uses cross-validation (LOOCV) and full-set stages, with RMSE and R² as performance metrics.",
+          "methods_or_tools": [
+            "LOOCV",
+            "RMSE",
+            "R²"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [
+            "RMSE",
+            "R²"
+          ],
+          "evidence_ids": [
+            "EV_C002_E02_02"
+          ]
+        },
+        {
+          "event_id": "C002_E03",
+          "chunk_id": "C002",
+          "event_type": "computation",
+          "order_hint": 3,
+          "summary": "innov'SAR evaluates multiple AAindex encoding indices to select the best for model construction.",
+          "methods_or_tools": [
+            "AAindex database"
+          ],
+          "entities": [
+            "innov'SAR"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E03_01"
+          ]
+        },
+        {
+          "event_id": "C002_E04",
+          "chunk_id": "C002",
+          "event_type": "computation",
+          "order_hint": 4,
+          "summary": "Computational implementation handles up to 30 single mutations and predicts 2^30 variants in under 48 hours, limited by memory.",
+          "methods_or_tools": [
+            "Intel Xeon E5-2650 v4",
+            "16 GB RAM"
+          ],
+          "entities": [
+            "innov'SAR"
+          ],
+          "numbers_or_metrics": [
+            "30 single mutations",
+            "2^30 variants",
+            "48 hours"
+          ],
+          "evidence_ids": [
+            "EV_C002_E04_02"
+          ]
+        },
+        {
+          "event_id": "C002_E06",
+          "chunk_id": "C002",
+          "event_type": "experiment",
+          "order_hint": 6,
+          "summary": "Model DSB_FFT built on 37 mutants (single and multiple) achieves LOOCV R²=0.96, showing improved accuracy with epistasis data.",
+          "methods_or_tools": [
+            "LOOCV",
+            "innov'SAR"
+          ],
+          "entities": [
+            "model DSB_FFT",
+            "dataset B"
+          ],
+          "numbers_or_metrics": [
+            "37 mutants",
+            "R²=0.96"
+          ],
+          "evidence_ids": [
+            "EV_C002_E06_02"
+          ]
+        },
+        {
+          "event_id": "C002_E07",
+          "chunk_id": "C002",
+          "event_type": "analysis",
+          "order_hint": 7,
+          "summary": "Analysis of 28 recombinants reveals all have epistasis (9 positive, 19 negative); additive predictions give R²=0.80.",
+          "methods_or_tools": [],
+          "entities": [
+            "ANEH"
+          ],
+          "numbers_or_metrics": [
+            "28 recombinants",
+            "9 positive epistasis",
+            "19 negative epistasis",
+            "R²=0.80"
+          ],
+          "evidence_ids": [
+            "EV_C002_E07_01"
+          ]
+        },
+        {
+          "event_id": "C002_E08",
+          "chunk_id": "C002",
+          "event_type": "analysis",
+          "order_hint": 8,
+          "summary": "Model DSA_FFT outperforms additive predictions for 18 of 28 mutants, demonstrating capture of epistasis.",
+          "methods_or_tools": [
+            "model DSA_FFT"
+          ],
+          "entities": [
+            "ANEH"
+          ],
+          "numbers_or_metrics": [
+            "18 mutants"
+          ],
+          "evidence_ids": [
+            "EV_C002_E08_02"
+          ]
+        }
+      ],
+      "notes": "Chunk details innov'SAR methodology, model building, validation, and analysis of epistasis capture on ANEH dataset.",
+      "api_usage": {
+        "prompt_tokens": 7088,
+        "completion_tokens": 1415,
+        "total_tokens": 8503,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6832
+      }
+    },
+    {
+      "chunk_id": "C003",
+      "char_start": 34200,
+      "char_end": 52200,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C003_E02",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 2,
+          "summary": "Model DSB_FFT (trained on 37 mutants including multiples) improves epistasis capture over DSA_FFT, with higher LOOCV R² of 0.96.",
+          "methods_or_tools": [
+            "innov'SAR",
+            "DSB_FFT model",
+            "LOOCV"
+          ],
+          "entities": [
+            "ANEH",
+            "28 multiple point mutants"
+          ],
+          "numbers_or_metrics": [
+            "R² = 0.96",
+            "22 of 28 mutants"
+          ],
+          "evidence_ids": [
+            "EV_C003_E02_02"
+          ]
+        },
+        {
+          "event_id": "C003_E04",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 4,
+          "summary": "Model DSB_noFFT (without FFT) can predict some epistatic interactions but with lower accuracy than DSB_FFT (R²=0.88 vs. 0.96).",
+          "methods_or_tools": [
+            "innov'SAR without FFT",
+            "DSB_noFFT model",
+            "DSB_FFT model"
+          ],
+          "entities": [
+            "ANEH"
+          ],
+          "numbers_or_metrics": [
+            "R² = 0.88"
+          ],
+          "evidence_ids": [
+            "EV_C003_E04_02"
+          ]
+        },
+        {
+          "event_id": "C003_E05",
+          "chunk_id": "C003",
+          "event_type": "validation",
+          "order_hint": 5,
+          "summary": "FFT is confirmed as a key improving factor for predicting epistatic interactions in innov'SAR models.",
+          "methods_or_tools": [
+            "FFT",
+            "innov'SAR"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E05_01"
+          ]
+        },
+        {
+          "event_id": "C003_E06",
+          "chunk_id": "C003",
+          "event_type": "computation",
+          "order_hint": 6,
+          "summary": "All 512 possible combinations of 9 single mutations were computationally generated and ranked by predicted E-value using model DSB_FFT.",
+          "methods_or_tools": [
+            "innov'SAR",
+            "DSB_FFT model"
+          ],
+          "entities": [
+            "ANEH",
+            "LW202"
+          ],
+          "numbers_or_metrics": [
+            "512 variants",
+            "E-value"
+          ],
+          "evidence_ids": [
+            "EV_C003_E06_01"
+          ]
+        },
+        {
+          "event_id": "C003_E07",
+          "chunk_id": "C003",
+          "event_type": "experiment",
+          "order_hint": 7,
+          "summary": "Five predicted improved mutants (P1-P5) were experimentally tested; all showed enantioselectivity matching predictions, with P4 and P5 exceeding previous best mutant LW202.",
+          "methods_or_tools": [
+            "wet lab enantioselectivity assay"
+          ],
+          "entities": [
+            "ANEH",
+            "P4",
+            "P5",
+            "LW202"
+          ],
+          "numbers_or_metrics": [
+            "E-values: P4=253, P5=228, LW202=115",
+            "R²=0.94"
+          ],
+          "evidence_ids": [
+            "EV_C003_E07_01",
+            "EV_C003_E07_02",
+            "EV_C003_E07_03"
+          ]
+        },
+        {
+          "event_id": "C003_E08",
+          "chunk_id": "C003",
+          "event_type": "validation",
+          "order_hint": 8,
+          "summary": "Additive predictions and model without FFT fail to identify mutants better than LW202, confirming necessity of FFT-based model for discovering superior variants.",
+          "methods_or_tools": [
+            "additive prediction",
+            "DSB_noFFT model"
+          ],
+          "entities": [
+            "LW202"
+          ],
+          "numbers_or_metrics": [
+            "R² = 0.62 (additive), 0.64 (noFFT)"
+          ],
+          "evidence_ids": [
+            "EV_C003_E08_01",
+            "EV_C003_E08_02",
+            "EV_C003_E08_03"
+          ]
+        }
+      ],
+      "notes": "This chunk contains detailed analysis of model performance with and without FFT, ablation studies, computational generation of all variants, experimental validation of top predictions, and confirmation that FFT is essential for capturing epistasis and discovering improved mutants.",
+      "api_usage": {
+        "prompt_tokens": 8421,
+        "completion_tokens": 1590,
+        "total_tokens": 10011,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8165
+      }
+    },
+    {
+      "chunk_id": "C004",
+      "char_start": 51300,
+      "char_end": 69300,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C004_E03",
+          "chunk_id": "C004",
+          "event_type": "validation",
+          "order_hint": 3,
+          "summary": "innov'SAR with FFT correctly predicted improved recombinants, while pure additive model and innov'SAR without FFT failed.",
+          "methods_or_tools": [
+            "innov'SAR",
+            "FFT"
+          ],
+          "entities": [
+            "ANEH",
+            "LW202"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E03_01"
+          ]
+        },
+        {
+          "event_id": "C004_E04",
+          "chunk_id": "C004",
+          "event_type": "hypothesis",
+          "order_hint": 4,
+          "summary": "Hypothesis that FFT-derived frequencies correlate with multiple amino acid positions, enabling epistasis prediction.",
+          "methods_or_tools": [
+            "FFT"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E04_01"
+          ]
+        },
+        {
+          "event_id": "C004_E05",
+          "chunk_id": "C004",
+          "event_type": "limitation",
+          "order_hint": 5,
+          "summary": "Current application limited to recombining learned mutations from the training set.",
+          "methods_or_tools": [],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E05_01"
+          ]
+        },
+        {
+          "event_id": "C004_E06",
+          "chunk_id": "C004",
+          "event_type": "design",
+          "order_hint": 6,
+          "summary": "Future plan to test prediction of non-learned mutations on learned or non-learned positions.",
+          "methods_or_tools": [],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E06_01"
+          ]
+        },
+        {
+          "event_id": "C004_E07",
+          "chunk_id": "C004",
+          "event_type": "validation",
+          "order_hint": 7,
+          "summary": "Experimental confirmation that innov'SAR predictions led to improved epoxide hydrolase variants.",
+          "methods_or_tools": [
+            "innov'SAR"
+          ],
+          "entities": [
+            "epoxide hydrolase"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E07_01"
+          ]
+        }
+      ],
+      "notes": "Chunk contains key validation results, hypothesis about FFT, and limitations.",
+      "api_usage": {
+        "prompt_tokens": 6947,
+        "completion_tokens": 1270,
+        "total_tokens": 8217,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6691
+      }
+    },
+    {
+      "chunk_id": "C005",
+      "char_start": 68400,
+      "char_end": 81048,
+      "chunk_relevance": "none",
+      "events": [],
+      "notes": "This chunk contains only references, author contributions, and license information. No research evolution events are described.",
+      "api_usage": {
+        "prompt_tokens": 5817,
+        "completion_tokens": 52,
+        "total_tokens": 5869,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 5561
+      }
+    }
+  ],
+  "evidence_bank": [
+    {
+      "evidence_id": "EV_C001_E01_01",
+      "source_file": "docs/0067/combined.md",
+      "section": "C001",
+      "char_start": 5109,
+      "char_end": 5193,
+      "quote": "Epistasis phenomena can impair the predictions in protein engineering and screening."
+    },
+    {
+      "evidence_id": "EV_C001_E01_02",
+      "source_file": "docs/0067/combined.md",
+      "section": "C001",
+      "char_start": 5194,
+      "char_end": 5325,
+      "quote": "In this sense, machine learning has not been applied in order to evolve enzyme mutants with enhanced or inverted stereoselectivity."
+    },
+    {
+      "evidence_id": "EV_C001_E02_01",
+      "source_file": "docs/0067/combined.md",
+      "section": "C001",
+      "char_start": 8747,
+      "char_end": 9028,
+      "quote": "We propose a new approach based only on the amino acids sequence and using digital signal processing (FFT) and protein spectrum to modelling and predict the biological activity/fitness and for identifying combination of single points amino acid substitutions with improved fitness."
+    },
+    {
+      "evidence_id": "EV_C001_E03_01",
+      "source_file": "docs/0067/combined.md",
+      "section": "C001",
+      "char_start": 15061,
+      "char_end": 15166,
+      "quote": "innov'SAR consists of 3 phases, namely, the encoding phase, the modelling phase and the predictive phase."
+    },
+    {
+      "evidence_id": "EV_C001_E04_01",
+      "source_file": "docs/0067/combined.md",
+      "section": "C001",
+      "char_start": 16700,
+      "char_end": 16997,
+      "quote": "The protein spectrum allows to take into account the impact of mutations on the whole spectrum and does not focus on local fitness alone. Therefore, a single point mutation impacts the whole protein spectrum in a similar fashion a single point mutation can impact the whole structure of a protein."
+    },
+    {
+      "evidence_id": "EV_C001_E05_01",
+      "source_file": "docs/0067/combined.md",
+      "section": "C001",
+      "char_start": 1652,
+      "char_end": 1797,
+      "quote": "n=9 single point mutants of the enzyme were experimentally assessed for their enantioselectivity and used as a learning dataset to build a model."
+    },
+    {
+      "evidence_id": "EV_C001_E07_01",
+      "source_file": "docs/0067/combined.md",
+      "section": "C001",
+      "char_start": 1930,
+      "char_end": 2034,
+      "quote": "candidates were experimentally checked: better mutants with higher enantioselectivity were indeed found."
+    },
+    {
+      "evidence_id": "EV_C002_E01_01",
+      "source_file": "docs/0067/combined.md",
+      "section": "C002",
+      "char_start": 18138,
+      "char_end": 18229,
+      "quote": "a Fast Fourier transform is applied to convert the encoded sequence into a protein spectrum"
+    },
+    {
+      "evidence_id": "EV_C002_E01_02",
+      "source_file": "docs/0067/combined.md",
+      "section": "C002",
+      "char_start": 19100,
+      "char_end": 19181,
+      "quote": "innov'SAR used a partial least square regression, PLS, as algorithm of regression"
+    },
+    {
+      "evidence_id": "EV_C002_E02_02",
+      "source_file": "docs/0067/combined.md",
+      "section": "C002",
+      "char_start": 21235,
+      "char_end": 21331,
+      "quote": "The method of cross-validation used for this study is the Leave-One-Out Cross-Validation (LOOCV)"
+    },
+    {
+      "evidence_id": "EV_C002_E03_01",
+      "source_file": "docs/0067/combined.md",
+      "section": "C002",
+      "char_start": 20078,
+      "char_end": 20232,
+      "quote": "One particularity of innov'SAR approach, in the modelling phase, is to evaluate multiple encoding indexes to find the best for the construction of models."
+    },
+    {
+      "evidence_id": "EV_C002_E04_02",
+      "source_file": "docs/0067/combined.md",
+      "section": "C002",
+      "char_start": 22620,
+      "char_end": 22659,
+      "quote": "the memory was the main limiting factor"
+    },
+    {
+      "evidence_id": "EV_C002_E06_02",
+      "source_file": "docs/0067/combined.md",
+      "section": "C002",
+      "char_start": 26666,
+      "char_end": 26823,
+      "quote": "the addition of multiple point mutants to the learning dataset includes some information about the epistasis between mutations and thus improves the accuracy"
+    },
+    {
+      "evidence_id": "EV_C002_E07_01",
+      "source_file": "docs/0067/combined.md",
+      "section": "C002",
+      "char_start": 31478,
+      "char_end": 31641,
+      "quote": "It turned out that all of the 28 variants with multiple mutations have a positive or a negative epistasis: 9 with positive epistasis and 19 with negative epistasis"
+    },
+    {
+      "evidence_id": "EV_C002_E08_02",
+      "source_file": "docs/0067/combined.md",
+      "section": "C002",
+      "char_start": 34842,
+      "char_end": 34918,
+      "quote": "The innov'SAR model allows a distinct capture of epistasis for these mutants"
+    },
+    {
+      "evidence_id": "EV_C003_E02_02",
+      "source_file": "docs/0067/combined.md",
+      "section": "C003",
+      "char_start": 35660,
+      "char_end": 35718,
+      "quote": "the higher $R^{2}$ value (0.96) for the LOOCV training set"
+    },
+    {
+      "evidence_id": "EV_C003_E04_02",
+      "source_file": "docs/0067/combined.md",
+      "section": "C003",
+      "char_start": 36768,
+      "char_end": 36807,
+      "quote": "This model has 0.88 as value of $R^{2}$"
+    },
+    {
+      "evidence_id": "EV_C003_E05_01",
+      "source_file": "docs/0067/combined.md",
+      "section": "C003",
+      "char_start": 37138,
+      "char_end": 37248,
+      "quote": "FFT is an improving factor for the predictions of mutants with epistasis in the models generated by innov'SAR."
+    },
+    {
+      "evidence_id": "EV_C003_E06_01",
+      "source_file": "docs/0067/combined.md",
+      "section": "C003",
+      "char_start": 37487,
+      "char_end": 37584,
+      "quote": "we generated computationally all combinations of the 9 single point mutations ( $2^{9}$ variants)"
+    },
+    {
+      "evidence_id": "EV_C003_E07_01",
+      "source_file": "docs/0067/combined.md",
+      "section": "C003",
+      "char_start": 39834,
+      "char_end": 39945,
+      "quote": "We were able to demonstrate that the 5 mutants have properties that corresponded quite well to the predictions."
+    },
+    {
+      "evidence_id": "EV_C003_E07_02",
+      "source_file": "docs/0067/combined.md",
+      "section": "C003",
+      "char_start": 40916,
+      "char_end": 41063,
+      "quote": "Especially impressive is the performance of the predicted mutants P4(8) and P5(9), the experimental E-values amounting to 253 and 228, respectively"
+    },
+    {
+      "evidence_id": "EV_C003_E07_03",
+      "source_file": "docs/0067/combined.md",
+      "section": "C003",
+      "char_start": 40150,
+      "char_end": 40186,
+      "quote": "a $R^{2}$ value of 0.94 was obtained"
+    },
+    {
+      "evidence_id": "EV_C003_E08_01",
+      "source_file": "docs/0067/combined.md",
+      "section": "C003",
+      "char_start": 41192,
+      "char_end": 41300,
+      "quote": "the predictions based on only the addition of mutations cannot find any better mutants than the mutant LW202"
+    },
+    {
+      "evidence_id": "EV_C003_E08_02",
+      "source_file": "docs/0067/combined.md",
+      "section": "C003",
+      "char_start": 41443,
+      "char_end": 41576,
+      "quote": "The prediction based solely on descriptors without FFT also failed to give predictions of enantioselectivity better than mutant LW202"
+    },
+    {
+      "evidence_id": "EV_C003_E08_03",
+      "source_file": "docs/0067/combined.md",
+      "section": "C003",
+      "char_start": 40538,
+      "char_end": 40695,
+      "quote": "We found 0.62 and 0.64 as $R^{2}$ values, respectively, for the predictions based on the addition of mutations and for the predictions generated without FFT."
+    },
+    {
+      "evidence_id": "EV_C004_E03_01",
+      "source_file": "docs/0067/combined.md",
+      "section": "C004",
+      "char_start": 56092,
+      "char_end": 56332,
+      "quote": "In this case the innov'SAR application comprising FFT was the only method that could predict any improved recombinants, while a pure additive model and innov'SAR without FFT proposed at best only the already known experimental LW202 mutant."
+    },
+    {
+      "evidence_id": "EV_C004_E04_01",
+      "source_file": "docs/0067/combined.md",
+      "section": "C004",
+      "char_start": 56827,
+      "char_end": 57029,
+      "quote": "we hypothesize that the frequency of a protein spectrum and each amino-acid position in the protein sequence is not linked to one position, but several amino-acid residues or positions at the same time."
+    },
+    {
+      "evidence_id": "EV_C004_E05_01",
+      "source_file": "docs/0067/combined.md",
+      "section": "C004",
+      "char_start": 58224,
+      "char_end": 58348,
+      "quote": "In this particular case we have limited the application to recombine learned mutations which are contained in the train set."
+    },
+    {
+      "evidence_id": "EV_C004_E06_01",
+      "source_file": "docs/0067/combined.md",
+      "section": "C004",
+      "char_start": 58557,
+      "char_end": 58740,
+      "quote": "In a next step we are considering going further and to test to what extent our approach is able to predict the properties of non-learned mutations on learned or non-learned positions."
+    },
+    {
+      "evidence_id": "EV_C004_E07_01",
+      "source_file": "docs/0067/combined.md",
+      "section": "C004",
+      "char_start": 58956,
+      "char_end": 59083,
+      "quote": "Predictions of new improved versions of the epoxide hydrolase enzyme for enantioselectivity have been confirmed experimentally."
+    },
+    {
+      "evidence_id": "EV_AUTO_001",
+      "source_file": "docs/0067/combined.md",
+      "section": "auto_specific",
+      "char_start": 62736,
+      "char_end": 63037,
+      "quote": "For mutant P2: (1) Amplification of the short fragments of P1 using mixed primers P2-P1-A217N/S219R-F/P2-P1-T317W/M329P/L330Y-R and P2-P1-T317W/M329P/L330Y-F/P2-P1-C350V-R, respectively; (2) Over-lap PCR using the PCR products of step1 as template and mixed primers P2-P1-A217N/S219R-F/P2-P1-C350V-R;"
+    },
+    {
+      "evidence_id": "EV_AUTO_002",
+      "source_file": "docs/0067/combined.md",
+      "section": "auto_specific",
+      "char_start": 63196,
+      "char_end": 63474,
+      "quote": "For mutant P3: (1) Amplification of the short fragments of P1 using mixed primers P2'-P1-L215F/A217N/R219S-F/P3-P1-T317W/M329P -R; (2) Amplification of the whole plasmid of P1 using the PCR product of step1 as megaprimers, leading to the final plasmid for mutant P2' generation."
+    },
+    {
+      "evidence_id": "EV_AUTO_003",
+      "source_file": "docs/0067/combined.md",
+      "section": "auto_specific",
+      "char_start": 63730,
+      "char_end": 64036,
+      "quote": "For mutants P4 and P5: (1) Amplification of the short fragments of P3 using mixed primers P4-P3-S219R-F/P4-P3-C350V-R and P5-P3-P329M-L330Y-F/P5-P3-R; (2) Amplification of the whole plasmid of P3 using the PCR product of step1 as megaprimers, leading to the final plasmids for mutants P4 and P5 generation."
+    },
+    {
+      "evidence_id": "EV_AUTO_004",
+      "source_file": "docs/0067/combined.md",
+      "section": "auto_specific",
+      "char_start": 63474,
+      "char_end": 63728,
+      "quote": "(3) Amplification of the short fragments of P2' using mixed primers P3-P2'-T317W/T318V-F/P3-P2'-C350V-R; (4) Amplification of the whole plasmid of P2' using the PCR product of step1 as megaprimers, leading to the final plasmids for mutant P3 generation."
+    },
+    {
+      "evidence_id": "EV_AUTO_005",
+      "source_file": "docs/0067/combined.md",
+      "section": "auto_specific",
+      "char_start": 62360,
+      "char_end": 62734,
+      "quote": "Primer design depend upon the particular amino-acid chosen, and in the case of P1 involves three sites mutation: (1) Amplification of the short fragments of WTANEH using mixed primers P1-A217N/R219S-F/P1-L249Y-R (Table S6); (2) Amplification of the whole plasmid WTANEH using the PCR products of step1 as megaprimers, leading to the final plasmids for mutant P1 generation."
+    },
+    {
+      "evidence_id": "EV_AUTO_006",
+      "source_file": "docs/0067/combined.md",
+      "section": "auto_specific",
+      "char_start": 4810,
+      "char_end": 4901,
+      "quote": "Chemical reaction scheme showing conversion of rac-1 to (S)-2 and (R)-1 using ANEH and H2O"
+    },
+    {
+      "evidence_id": "EV_AUTO_007",
+      "source_file": "docs/0067/combined.md",
+      "section": "auto_specific",
+      "char_start": 64499,
+      "char_end": 64623,
+      "quote": "The culture was induced by addition of isopropyl $\\beta$ -D-1-thiogalactopyranoside (IPTG) with a final concentration of 0."
+    },
+    {
+      "evidence_id": "EV_AUTO_008",
+      "source_file": "docs/0067/combined.md",
+      "section": "auto_specific",
+      "char_start": 64927,
+      "char_end": 65123,
+      "quote": "A 1 mL mixture of 50 mM rac-1 (10 mM for mutant P2) and recombinant expressed whole cells of WT ANEH or mutants (WT ANEH: $OD_{600}=1$ , P1: $OD_{600}=0.02$ , P2: $OD_{600}=25$ , P3: $OD_{600}=0."
+    },
+    {
+      "evidence_id": "EV_AUTO_009",
+      "source_file": "docs/0067/combined.md",
+      "section": "auto_specific",
+      "char_start": 24838,
+      "char_end": 25093,
+      "quote": "We created a validation dataset with the 28 multiple point mutants (Table S3), including the mutant LW202, that were previously reported (among a total of 512) $^{50}$ , in order to check the accuracy of our models based on only 9 single point mutations."
+    },
+    {
+      "evidence_id": "EV_AUTO_010",
+      "source_file": "docs/0067/combined.md",
+      "section": "auto_specific",
+      "char_start": 37290,
+      "char_end": 37444,
+      "quote": "The best experimental mutant previously described $^{49}$ , named LW202, contains all 9 single point mutations in its sequence and has an E-value of 115."
+    },
+    {
+      "evidence_id": "EV_AUTO_011",
+      "source_file": "docs/0067/combined.md",
+      "section": "auto_specific",
+      "char_start": 64927,
+      "char_end": 65081,
+      "quote": "A 1 mL mixture of 50 mM rac-1 (10 mM for mutant P2) and recombinant expressed whole cells of WT ANEH or mutants (WT ANEH: $OD_{600}=1$ , P1: $OD_{600}=0."
+    },
+    {
+      "evidence_id": "EV_AUTO_012",
+      "source_file": "docs/0067/combined.md",
+      "section": "auto_specific",
+      "char_start": 61178,
+      "char_end": 61321,
+      "quote": "The ANEH, constructed in PET-22b $^{77}$ , was chosen as template for mutants constructing with over-lap PCR and megaprimer approach $^{78}$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_013",
+      "source_file": "docs/0067/combined.md",
+      "section": "auto_specific",
+      "char_start": 40187,
+      "char_end": 40367,
+      "quote": "With only 37 mutants, our model was able to predict the potential outcome of 512, which means that on the basis of only 7% of the mutants, a whole fitness landscape was predicted."
+    },
+    {
+      "evidence_id": "EV_AUTO_014",
+      "source_file": "docs/0067/combined.md",
+      "section": "auto_specific",
+      "char_start": 25551,
+      "char_end": 25743,
+      "quote": "The incorporation of the 28-multiple mutation variants, including the mutant LW202, into the dataset A should improve the accuracy of the model for the prediction of the 512 possible variants."
+    },
+    {
+      "evidence_id": "EV_AUTO_015",
+      "source_file": "docs/0067/combined.md",
+      "section": "auto_specific",
+      "char_start": 22334,
+      "char_end": 22519,
+      "quote": "Using this hardware, we were able to handle up to 30 single mutations, generate all combinations of mutations $(2^{30})$ and predict their values of the activity in less than 48 hours."
+    },
+    {
+      "evidence_id": "EV_AUTO_016",
+      "source_file": "docs/0067/combined.md",
+      "section": "auto_specific",
+      "char_start": 53524,
+      "char_end": 53663,
+      "quote": "The main assumption in iterative mutant library screening methods is that the effects of the mutations are additive in nature $^{67-69}$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_017",
+      "source_file": "docs/0067/combined.md",
+      "section": "auto_specific",
+      "char_start": 52952,
+      "char_end": 53177,
+      "quote": "The ProSAR method has been demonstrated to show a 4000-fold improvement in the volumetric productivity of the enzyme halohydrin dehalogenase, while maintaining complete $(R)$ -selectivity as already shown by the WT $^{21}$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_018",
+      "source_file": "docs/0067/combined.md",
+      "section": "auto_specific",
+      "char_start": 47291,
+      "char_end": 47439,
+      "quote": "QSAR methods have also been applied to model peptide or protein activity, but not focused on improving or reversing enantioselectivity $^{63-65}$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_019",
+      "source_file": "docs/0067/combined.md",
+      "section": "auto_specific",
+      "char_start": 41074,
+      "char_end": 41161,
+      "quote": "These are distinctly better than mutant LW202 (E = 115) evolved in our original study."
+    },
+    {
+      "evidence_id": "EV_AUTO_020",
+      "source_file": "docs/0067/combined.md",
+      "section": "auto_specific",
+      "char_start": 40915,
+      "char_end": 41074,
+      "quote": "Especially impressive is the performance of the predicted mutants P4(8) and P5(9), the experimental E-values amounting to 253 and 228, respectively (Table 2)."
+    },
+    {
+      "evidence_id": "EV_AUTO_021",
+      "source_file": "docs/0067/combined.md",
+      "section": "auto_specific",
+      "char_start": 40549,
+      "char_end": 40695,
+      "quote": "62 and 0.64 as $R^{2}$ values, respectively, for the predictions based on the addition of mutations and for the predictions generated without FFT."
+    },
+    {
+      "evidence_id": "EV_AUTO_022",
+      "source_file": "docs/0067/combined.md",
+      "section": "auto_specific",
+      "char_start": 37585,
+      "char_end": 37670,
+      "quote": "This approach resulted in $2^{9}-38=474$ new variants with multiple point mutations."
+    },
+    {
+      "evidence_id": "EV_AUTO_023",
+      "source_file": "docs/0067/combined.md",
+      "section": "auto_specific",
+      "char_start": 35254,
+      "char_end": 35440,
+      "quote": "Among the 28 multiple point mutants, the model DSB\\_FFT generates more accurate predictions for 22 mutants, better results than the one based only on the addition of mutations (see Fig."
+    },
+    {
+      "evidence_id": "EV_AUTO_024",
+      "source_file": "docs/0067/combined.md",
+      "section": "auto_specific",
+      "char_start": 34668,
+      "char_end": 34825,
+      "quote": "Among the 28 multiple point mutants, the model DSA\\_FFT gives better results for 18 mutants than the prediction based only on the addition of mutations (Fig."
+    },
+    {
+      "evidence_id": "EV_AUTO_025",
+      "source_file": "docs/0067/combined.md",
+      "section": "auto_specific",
+      "char_start": 31477,
+      "char_end": 31653,
+      "quote": "It turned out that all of the 28 variants with multiple mutations have a positive or a negative epistasis: 9 with positive epistasis and 19 with negative epistasis (Table S4)."
+    },
+    {
+      "evidence_id": "EV_AUTO_026",
+      "source_file": "docs/0067/combined.md",
+      "section": "auto_specific",
+      "char_start": 30941,
+      "char_end": 31128,
+      "quote": "Leave-One-Out Cross-Validation (LOOCV) predictions from model DSB\\_FFT, based on all the 37 single and multiple point mutants, including LW202 mutant, and the WT of ANEH as learning set."
+    },
+    {
+      "evidence_id": "EV_AUTO_027",
+      "source_file": "docs/0067/combined.md",
+      "section": "auto_specific",
+      "char_start": 27354,
+      "char_end": 27667,
+      "quote": "The effect of combining mutations can be either an addition of mutations where the resulting activity represents the sum of the single activities, or a positive epistasis, with an increase of activity compared to the addition, or a negative epistasis with decreased activity compared to the addition $^{56-59}$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_028",
+      "source_file": "docs/0067/combined.md",
+      "section": "auto_specific",
+      "char_start": 27159,
+      "char_end": 27354,
+      "quote": "In a mutant demonstrating epistasis, the association of two or several mutations may result in a different activity than the one resulting from pure addition of each single mutation $^{56-59}$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_029",
+      "source_file": "docs/0067/combined.md",
+      "section": "auto_specific",
+      "char_start": 24441,
+      "char_end": 24684,
+      "quote": "After the evaluation of multiple encoding indexes by innov'SAR, described previously, the encoding index ZHOH040101 $^{54}$ was identified as one of the best to generate an accurate model by innov'SAR and selected to build the model DSA\\_FFT."
+    },
+    {
+      "evidence_id": "EV_AUTO_030",
+      "source_file": "docs/0067/combined.md",
+      "section": "auto_specific",
+      "char_start": 23546,
+      "char_end": 23720,
+      "quote": "As noted above, in the original 2006-study, nine single point mutations of ANEH were experimentally evolved and assessed for their impact on the enantioselectivity $^{49}$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_031",
+      "source_file": "docs/0067/combined.md",
+      "section": "auto_specific",
+      "char_start": 13128,
+      "char_end": 13263,
+      "quote": "Even for this successful approach, this improvement of 25-fold involved at the time a tedious screening effort of around 20000 clones."
+    },
+    {
+      "evidence_id": "EV_AUTO_032",
+      "source_file": "docs/0067/combined.md",
+      "section": "auto_specific",
+      "char_start": 12979,
+      "char_end": 13128,
+      "quote": "After 5 iterative rounds of saturation mutagenesis, a total of nine single point mutations led to an improved variant (LW202) with an E-value of 115."
+    },
+    {
+      "evidence_id": "EV_AUTO_033",
+      "source_file": "docs/0067/combined.md",
+      "section": "auto_specific",
+      "char_start": 3090,
+      "char_end": 3319,
+      "quote": "Thereafter new versions of machine learning for predicting structure, folding, binding, and even catalytic activity appeared with the aim of processing the accumulating information about mutants and their properties $^{15-21}$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_034",
+      "source_file": "docs/0067/combined.md",
+      "section": "auto_specific",
+      "char_start": 1797,
+      "char_end": 2034,
+      "quote": "Based on combinations of the 9 single point mutations ( $2^{9}$ ), the enantioselectivity of these 512 variants were predicted, and candidates were experimentally checked: better mutants with higher enantioselectivity were indeed found."
+    },
+    {
+      "evidence_id": "EV_AUTO_035",
+      "source_file": "docs/0067/combined.md",
+      "section": "auto_specific",
+      "char_start": 73352,
+      "char_end": 73478,
+      "quote": "Method and electronic system for predicting at least one fitness value of a protein, related computer program product (2016)."
+    },
+    {
+      "evidence_id": "EV_AUTO_036",
+      "source_file": "docs/0067/combined.md",
+      "section": "auto_specific",
+      "char_start": 58348,
+      "char_end": 58556,
+      "quote": "We could identify and experimentally confirmed extremely fit mutants out of 512 possible mutational combinations by using a dataset made of only $7\\%$ of the mutants contained in the total fitness landscape."
+    }
+  ],
+  "event_graph": {
+    "paper_main_problem": "Directed evolution of enantioselective enzymes is limited by epistasis, where non-additive effects of mutations impair prediction of improved variants. The goal is to develop a machine learning method that predicts amino acid interactions from sequence and fitness data alone, without requiring 3D structure, to guide the engineering of enantioselective enzymes.",
+    "canonical_events": [
+      {
+        "canonical_id": "K01",
+        "order": 1,
+        "event_type": "problem",
+        "summary": "Epistasis impairs predictions in protein engineering, and machine learning has not been applied to evolve enzyme mutants with enhanced or inverted stereoselectivity.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E01"
+        ],
+        "evidence_ids": [
+          "EV_C001_E01_01",
+          "EV_C001_E01_02"
+        ],
+        "key_entities": [
+          "epistasis",
+          "machine learning",
+          "stereoselectivity"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K02",
+        "order": 2,
+        "event_type": "hypothesis",
+        "summary": "Digital signal processing (FFT) and protein spectra can model and predict biological activity and identify improved mutants by capturing global sequence effects.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E02"
+        ],
+        "evidence_ids": [
+          "EV_C001_E02_01"
+        ],
+        "key_entities": [
+          "digital signal processing",
+          "protein spectrum"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K03",
+        "order": 3,
+        "event_type": "design",
+        "summary": "innov'SAR methodology designed with three phases: encoding (AAindex + FFT), modelling (PLS regression), and predictive phase.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E03",
+          "C002_E01"
+        ],
+        "evidence_ids": [
+          "EV_C001_E03_01",
+          "EV_C002_E01_01",
+          "EV_C002_E01_02"
+        ],
+        "key_entities": [
+          "innov'SAR",
+          "AAindex",
+          "FFT",
+          "PLS regression"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K04",
+        "order": 4,
+        "event_type": "design",
+        "summary": "Model validation uses cross-validation (LOOCV) and full-set stages, with RMSE and R² as performance metrics; multiple AAindex indices evaluated to select the best.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E02",
+          "C002_E03"
+        ],
+        "evidence_ids": [
+          "EV_C002_E02_02",
+          "EV_C002_E03_01"
+        ],
+        "key_entities": [
+          "LOOCV",
+          "RMSE",
+          "R²",
+          "AAindex"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K05",
+        "order": 5,
+        "event_type": "experiment",
+        "summary": "ANEH enantioselectivity improvement: 9 single point mutants experimentally assessed and used as initial learning dataset.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E05"
+        ],
+        "evidence_ids": [
+          "EV_C001_E05_01",
+          "EV_AUTO_030",
+          "EV_AUTO_032"
+        ],
+        "key_entities": [
+          "ANEH",
+          "epoxide hydrolase"
+        ],
+        "key_numbers": [
+          "9 single point mutants",
+          "E-value"
+        ]
+      },
+      {
+        "canonical_id": "K06",
+        "order": 6,
+        "event_type": "analysis",
+        "summary": "Analysis of 28 recombinants reveals all have epistasis (9 positive, 19 negative); additive predictions give R²=0.80.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E07"
+        ],
+        "evidence_ids": [
+          "EV_C002_E07_01",
+          "EV_AUTO_025"
+        ],
+        "key_entities": [
+          "ANEH"
+        ],
+        "key_numbers": [
+          "28 recombinants",
+          "9 positive epistasis",
+          "19 negative epistasis",
+          "R²=0.80"
+        ]
+      },
+      {
+        "canonical_id": "K07",
+        "order": 7,
+        "event_type": "computation",
+        "summary": "Model DSA_FFT built on 9 single mutants; LOOCV predictions outperform additive model for 18 of 28 mutants, demonstrating capture of epistasis.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E08"
+        ],
+        "evidence_ids": [
+          "EV_C002_E08_02",
+          "EV_AUTO_024"
+        ],
+        "key_entities": [
+          "model DSA_FFT",
+          "ANEH"
+        ],
+        "key_numbers": [
+          "18 mutants"
+        ]
+      },
+      {
+        "canonical_id": "K08",
+        "order": 8,
+        "event_type": "computation",
+        "summary": "Model DSB_FFT built on 37 mutants (single and multiple) achieves LOOCV R²=0.96, improving epistasis capture over DSA_FFT.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E06",
+          "C003_E02"
+        ],
+        "evidence_ids": [
+          "EV_C002_E06_02",
+          "EV_C003_E02_02",
+          "EV_AUTO_023"
+        ],
+        "key_entities": [
+          "model DSB_FFT",
+          "ANEH"
+        ],
+        "key_numbers": [
+          "37 mutants",
+          "R²=0.96",
+          "22 of 28 mutants"
+        ]
+      },
+      {
+        "canonical_id": "K09",
+        "order": 9,
+        "event_type": "failure",
+        "summary": "Model DSB_noFFT (without FFT) can predict some epistatic interactions but with lower accuracy than DSB_FFT (R²=0.88 vs. 0.96).",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E04"
+        ],
+        "evidence_ids": [
+          "EV_C003_E04_02"
+        ],
+        "key_entities": [
+          "ANEH",
+          "DSB_noFFT model",
+          "DSB_FFT model"
+        ],
+        "key_numbers": [
+          "R²=0.88"
+        ]
+      },
+      {
+        "canonical_id": "K10",
+        "order": 10,
+        "event_type": "validation",
+        "summary": "FFT confirmed as key factor for predicting epistatic interactions; without FFT, model fails to identify mutants better than LW202.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E05",
+          "C003_E08",
+          "C004_E03"
+        ],
+        "evidence_ids": [
+          "EV_C003_E05_01",
+          "EV_C003_E08_01",
+          "EV_C003_E08_02",
+          "EV_C003_E08_03",
+          "EV_C004_E03_01"
+        ],
+        "key_entities": [
+          "FFT",
+          "innov'SAR",
+          "LW202"
+        ],
+        "key_numbers": [
+          "R²=0.62 (additive)",
+          "R²=0.64 (noFFT)"
+        ]
+      },
+      {
+        "canonical_id": "K11",
+        "order": 11,
+        "event_type": "computation",
+        "summary": "All 512 possible combinations of 9 single mutations computationally generated and ranked by predicted E-value using model DSB_FFT.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E06"
+        ],
+        "evidence_ids": [
+          "EV_C003_E06_01",
+          "EV_AUTO_022"
+        ],
+        "key_entities": [
+          "ANEH",
+          "LW202",
+          "DSB_FFT model"
+        ],
+        "key_numbers": [
+          "512 variants",
+          "E-value"
+        ]
+      },
+      {
+        "canonical_id": "K12",
+        "order": 12,
+        "event_type": "experiment",
+        "summary": "Five predicted improved mutants (P1-P5) experimentally tested; all showed enantioselectivity matching predictions, with P4 and P5 exceeding previous best mutant LW202 (E-values: P4=253, P5=228, LW202=115; R²=0.94).",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E07"
+        ],
+        "evidence_ids": [
+          "EV_C003_E07_01",
+          "EV_C003_E07_02",
+          "EV_C003_E07_03",
+          "EV_AUTO_019",
+          "EV_AUTO_020"
+        ],
+        "key_entities": [
+          "ANEH",
+          "P4",
+          "P5",
+          "LW202"
+        ],
+        "key_numbers": [
+          "E-values: P4=253, P5=228, LW202=115",
+          "R²=0.94"
+        ]
+      },
+      {
+        "canonical_id": "K13",
+        "order": 13,
+        "event_type": "validation",
+        "summary": "Experimental confirmation that innov'SAR predictions led to improved epoxide hydrolase variants, validating the method.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E07",
+          "C004_E07"
+        ],
+        "evidence_ids": [
+          "EV_C001_E07_01",
+          "EV_C004_E07_01",
+          "EV_AUTO_034",
+          "EV_AUTO_036"
+        ],
+        "key_entities": [
+          "epoxide hydrolase",
+          "innov'SAR"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K14",
+        "order": 14,
+        "event_type": "limitation",
+        "summary": "Current application limited to recombining learned mutations from the training set; future work needed to predict non-learned mutations.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C004_E05",
+          "C004_E06"
+        ],
+        "evidence_ids": [
+          "EV_C004_E05_01",
+          "EV_C004_E06_01"
+        ],
+        "key_entities": [],
+        "key_numbers": []
+      }
+    ],
+    "edges": [
+      {
+        "source": "K01",
+        "target": "K02",
+        "relation": "enables",
+        "reason": "The problem of epistasis motivates the hypothesis that FFT can capture global sequence effects."
+      },
+      {
+        "source": "K02",
+        "target": "K03",
+        "relation": "enables",
+        "reason": "The hypothesis leads to the design of innov'SAR methodology incorporating FFT."
+      },
+      {
+        "source": "K03",
+        "target": "K04",
+        "relation": "refines",
+        "reason": "The design is refined with specific validation metrics and AAindex selection."
+      },
+      {
+        "source": "K04",
+        "target": "K05",
+        "relation": "follows",
+        "reason": "Experimental data collection (9 single mutants) provides the initial dataset for model building."
+      },
+      {
+        "source": "K05",
+        "target": "K06",
+        "relation": "enables",
+        "reason": "The 9 single mutants are used to generate 28 recombinants, whose analysis reveals epistasis."
+      },
+      {
+        "source": "K06",
+        "target": "K07",
+        "relation": "enables",
+        "reason": "Epistasis analysis motivates building model DSA_FFT to capture non-additive effects."
+      },
+      {
+        "source": "K07",
+        "target": "K08",
+        "relation": "refines",
+        "reason": "DSA_FFT is improved by including multiple mutants in training, leading to DSB_FFT with higher accuracy."
+      },
+      {
+        "source": "K08",
+        "target": "K09",
+        "relation": "contradicts",
+        "reason": "DSB_noFFT shows lower accuracy, highlighting the importance of FFT."
+      },
+      {
+        "source": "K09",
+        "target": "K10",
+        "relation": "validates",
+        "reason": "The failure of noFFT model validates that FFT is essential for epistasis prediction."
+      },
+      {
+        "source": "K10",
+        "target": "K11",
+        "relation": "enables",
+        "reason": "Validation of FFT's role supports using DSB_FFT to predict all 512 variants."
+      },
+      {
+        "source": "K11",
+        "target": "K12",
+        "relation": "enables",
+        "reason": "Computational ranking identifies top candidates for experimental testing."
+      },
+      {
+        "source": "K12",
+        "target": "K13",
+        "relation": "validates",
+        "reason": "Experimental success confirms the method's predictive power."
+      },
+      {
+        "source": "K13",
+        "target": "K14",
+        "relation": "follows",
+        "reason": "Despite success, limitations are acknowledged for future improvement."
+      }
+    ],
+    "must_cover_points": [
+      "Epistasis problem in directed evolution",
+      "Hypothesis of using FFT for global sequence effects",
+      "innov'SAR design with encoding, modelling, predictive phases",
+      "Cross-validation and AAindex selection",
+      "Initial 9 single mutants of ANEH",
+      "Epistasis analysis of 28 recombinants",
+      "Model DSA_FFT and improved DSB_FFT with R²=0.96",
+      "Ablation study showing necessity of FFT",
+      "Prediction of 512 variants and experimental validation of top 5",
+      "Improved enantioselectivity over previous best mutant LW202",
+      "Limitation to recombining learned mutations"
+    ],
+    "paper_not_suitable_reasons": []
+  }
+}

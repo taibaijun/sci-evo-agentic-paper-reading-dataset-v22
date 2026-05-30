@@ -1,0 +1,867 @@
+{
+  "case": {
+    "case_id": "sci_evo_0122",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Efficient molecular evolution to generate enantioselective enzymes using a dual-channel microfluidic droplet screening platform",
+      "doi": "https://doi.org/10.1038/s41467-018-03492-6",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0120_10_1038_s41467_018_03492_6_efficient_molecular_evolution_to_generate_enantioselective_enzymes_using_a_dual_channel_mi.pdf",
+      "mineru_md": "docs/0122/mineru.md",
+      "combined_md": "docs/0122/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Directed evolution of enantioselective enzymes is limited by low-throughput screening methods that cannot directly measure enantioselectivity.",
+      "target_object": "AFEST enzyme enantioselectivity toward (S)-ibuprofen ester",
+      "known_context": "Existing droplet microfluidic systems (FADS) use only one substrate and cannot screen for enantioselectivity. Traditional chiral chromatography is low-throughput (<10^4 colonies/day) and costly.",
+      "constraints": [
+        "High-throughput screening required for large mutant libraries",
+        "Need to simultaneously evaluate activity toward two enantiomers"
+      ],
+      "input_data": [
+        "Wild-type afest gene",
+        "Substrates: (S)-ibuprofen-pNP ester and (R)-ibuprofen-pNP ester"
+      ],
+      "quantifiable_goals": [
+        "Improve enantioselectivity (E_S) over wild-type",
+        "Achieve >100-fold improvement in enantioselectivity"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "Directed evolution of enantioselective enzymes is limited by screening throughput (<10^4 colonies/day) and costly chiral chromatography. Existing droplet microfluidic systems (FADS) use only one substrate and cannot screen for enantioselectivity.",
+        "gap_or_uncertainty": "No high-throughput method exists to directly screen for enantioselectivity in enzyme libraries.",
+        "hypothesis": "A dual-channel microfluidic droplet screening platform can simultaneously evaluate two substrates, enabling high-throughput screening for enantioselectivity.",
+        "decision": "Design a dual-channel microfluidic droplet screening (DMDS) platform with two working modes: cooperative mode for activity and biased mode for enantioselectivity.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "DMDS platform design",
+          "version": "N/A",
+          "category": "microfluidic droplet screening"
+        },
+        "parameters": {},
+        "observation": "DMDS platform designed with dual-fluorescence detection/sorting to evaluate two reactions simultaneously. Cooperative mode uses two substrates with same reactive group but different fluorophores to select for catalytic activity. Biased mode uses two substrates differing in reactive groups and fluorophores for positive/negative selection to screen enantioselectivity.",
+        "result_status": "success",
+        "next_step_reason": "Platform design enables high-throughput screening; next, generate and screen a mutant library for improved activity.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0122/combined.md",
+            "section": "C001",
+            "quote_or_span": "Screening such huge mutagenesis libraries for the directed evolution of enzymatic enantioselectivity has been especially challenging, owing to the requirement of performing chiral chromatography, a high-cost and labor-intensive analytical process."
+          },
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0122/combined.md",
+            "section": "C001",
+            "quote_or_span": "existing droplet technologies lose some of this promise when one considers that they lack the ability to screen for enzymatic enantioselectivity."
+          },
+          {
+            "evidence_id": "EV_C001_E03_02",
+            "source_file": "docs/0122/combined.md",
+            "section": "C001",
+            "quote_or_span": "Our system is capable of evaluating two reaction channels simultaneously, through the use of a dual-fluorescence detection/sorting microfluidic device."
+          },
+          {
+            "evidence_id": "EV_C001_E04_02",
+            "source_file": "docs/0122/combined.md",
+            "section": "C001",
+            "quote_or_span": "we define this two selection substrate screening mode as the “DMDS cooperative mode” (sorting the double-positive population in Fig. 1g)."
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "experiment",
+        "state_before": "DMDS platform designed but not yet tested on a real library.",
+        "gap_or_uncertainty": "Need to generate a mutant library and screen for improved activity toward (S)-ibuprofen.",
+        "hypothesis": "Error-prone PCR on wild-type afest will generate variants with improved activity that can be enriched by DMDS cooperative mode.",
+        "decision": "Generate Library 1 (~2 million mutants) by error-prone PCR on wild-type afest and screen in cooperative mode at 0.3 cells/droplet, retaining top 0.2%.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "DMDS cooperative mode",
+          "version": "N/A",
+          "category": "microfluidic droplet screening"
+        },
+        "parameters": {
+          "library_size": "~2 million mutants",
+          "occupancy": "0.3 cells/droplet",
+          "retention": "top 0.2%",
+          "droplets_screened": "18 million",
+          "time": "<4 h"
+        },
+        "observation": "18 million droplets screened in <4 h; top 0.2% retained.",
+        "result_status": "success",
+        "next_step_reason": "High occupancy may cause co-encapsulation artifacts; perform enrichment at lower occupancy.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E06_01",
+            "source_file": "docs/0122/combined.md",
+            "section": "C001",
+            "quote_or_span": "The first round of random mutagenesis used the wild-type afest gene as a template. Error-prone PCR was used to generate a variant library comprised of approximately 2 million mutants that harbored between 2 and 4 nucleotide mutation sites per variant (Library 1)."
+          },
+          {
+            "evidence_id": "EV_C001_E06_02",
+            "source_file": "docs/0122/combined.md",
+            "section": "C001",
+            "quote_or_span": "the DMDS platform was operated in the cooperative mode to improve the catalytic activity of AFEST toward (S)-ibuprofen."
+          },
+          {
+            "evidence_id": "EV_C002_E01_01",
+            "source_file": "docs/0122/combined.md",
+            "section": "C002",
+            "quote_or_span": "The first round of random mutagenesis used the wild-type afest gene as a template."
+          },
+          {
+            "evidence_id": "EV_C002_E01_02",
+            "source_file": "docs/0122/combined.md",
+            "section": "C002",
+            "quote_or_span": "Error-prone PCR was used to generate a variant library comprised of approximately 2 million mutants that harbored between 2 and 4 nucleotide mutation sites per variant (Library 1)."
+          },
+          {
+            "evidence_id": "EV_C003_E07_02",
+            "source_file": "docs/0122/combined.md",
+            "section": "C003",
+            "quote_or_span": "cells were encapsulated at a high occupancy (0.3 cells per droplet). When using the DMDS cooperative mode, only 0.2% of the most active variants were retained."
+          },
+          {
+            "evidence_id": "EV_C003_E07_03",
+            "source_file": "docs/0122/combined.md",
+            "section": "C003",
+            "quote_or_span": "we screened 18 million droplets (in <4 h)."
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "experiment",
+        "state_before": "Library 1 enriched but potential co-encapsulation artifacts due to high occupancy.",
+        "gap_or_uncertainty": "Co-encapsulation at 0.3 cells/droplet may lead to false positives.",
+        "hypothesis": "Reducing occupancy to 0.05 cells/droplet will prevent co-encapsulation artifacts and allow more stringent enrichment.",
+        "decision": "Perform enrichment iteration at 0.05 cells/droplet, retaining top 2%.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "DMDS cooperative mode",
+          "version": "N/A",
+          "category": "microfluidic droplet screening"
+        },
+        "parameters": {
+          "occupancy": "0.05 cells/droplet",
+          "retention": "top 2%",
+          "droplets_screened": "7.2×10^5",
+          "time": "<10 min"
+        },
+        "observation": "7.2×10^5 mutants droplets screened in <10 min; top 2% retained.",
+        "result_status": "success",
+        "next_step_reason": "Enriched library ready for further diversification; perform DNA shuffling of positive mutants.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E08_01",
+            "source_file": "docs/0122/combined.md",
+            "section": "C003",
+            "quote_or_span": "with the goal of preventing artifacts resulting from co-encapsulation at high cell occupancy, we reduced the cell occupancy to 0.05 cells per droplet. Our screen with this low occupancy retained the top 2% of the most active variants."
+          },
+          {
+            "evidence_id": "EV_AUTO_036",
+            "source_file": "docs/0122/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "In this manner, $7.2 \\times 10^{5}$ mutants droplets were screened in <10 min (3× coverage of our condensed library."
+          },
+          {
+            "evidence_id": "EV_C003_E07_02",
+            "source_file": "docs/0122/combined.md",
+            "section": "C003",
+            "quote_or_span": "cells were encapsulated at a high occupancy (0.3 cells per droplet). When using the DMDS cooperative mode, only 0.2% of the most active variants were retained."
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "experiment",
+        "state_before": "Enriched pool of active variants from Library 1.",
+        "gap_or_uncertainty": "Need to recombine beneficial mutations to further improve activity.",
+        "hypothesis": "DNA shuffling of nine mutation sites from positive mutants will generate variants with higher activity.",
+        "decision": "Generate Library 2 (~500,000 variants) by DNA shuffling of nine mutation sites and screen in cooperative mode.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "DNA shuffling",
+          "version": "N/A",
+          "category": "molecular biology"
+        },
+        "parameters": {
+          "library_size": "~500,000 variants",
+          "mutation_sites": "nine"
+        },
+        "observation": "Library 2 generated and screened; best mutant Q30 (I209V/D211G/L257P) identified.",
+        "result_status": "success",
+        "next_step_reason": "Q30 shows improved activity; use as template for further random mutagenesis.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E03_01",
+            "source_file": "docs/0122/combined.md",
+            "section": "C002",
+            "quote_or_span": "The next round of directed evolution of afest consisted of shuffling of these nine mutation sites, generating a DNA shuffling library comprised of approximately 500,000 variants (Library 2)."
+          },
+          {
+            "evidence_id": "EV_AUTO_003",
+            "source_file": "docs/0122/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "6b), a three-site mutant, Q30 (I209V/D211G/L257P), was identified as the best performing mutant variant (Supplementary Fig."
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "experiment",
+        "state_before": "Q30 mutant with improved activity but unknown enantioselectivity.",
+        "gap_or_uncertainty": "Need to further improve activity; enantioselectivity may be compromised.",
+        "hypothesis": "Error-prone PCR on Q30 will yield variants with further improved activity.",
+        "decision": "Generate Library 3 (2 million variants) by error-prone PCR on Q30 and screen in cooperative mode.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "DMDS cooperative mode",
+          "version": "N/A",
+          "category": "microfluidic droplet screening"
+        },
+        "parameters": {
+          "library_size": "2 million variants",
+          "template": "Q30"
+        },
+        "observation": "Mutant IE9 (L13H/F203E/G206E/L284F) showed 2-fold activity improvement over Q30 but enantioselectivity decreased.",
+        "result_status": "partial",
+        "next_step_reason": "Activity improved but enantioselectivity decreased; switch to biased mode to screen for enantioselectivity.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E05_01",
+            "source_file": "docs/0122/combined.md",
+            "section": "C002",
+            "quote_or_span": "We next used the gene encoding Q30 as a template to generate another error-prone PCR-based random mutagenesis library (Library 3). This library was comprised of 2 million variants with 2–4 mutated sites per variant."
+          },
+          {
+            "evidence_id": "EV_AUTO_001",
+            "source_file": "docs/0122/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "It harbors an additional four mutation sites (L13H/F203E/G206E/L284F) compared to Q30, and its activity of IE9 toward (S)-ibuprofen-pNP ester is improved 2-fold (and thus cumulatively \\~4-fold over wild-type AFEST)."
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "experiment",
+        "state_before": "IE9 mutant with improved activity but decreased enantioselectivity.",
+        "gap_or_uncertainty": "Need to improve enantioselectivity while maintaining activity.",
+        "hypothesis": "Screening in biased mode will select for variants with increased activity toward (S)-substrate and decreased activity toward (R)-substrate.",
+        "decision": "Switch to DMDS biased mode; generate Library 4 (~0.5 million mutants) by error-prone PCR on IE9 and screen.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "DMDS biased mode",
+          "version": "N/A",
+          "category": "microfluidic droplet screening"
+        },
+        "parameters": {
+          "library_size": "~0.5 million mutants",
+          "template": "IE9"
+        },
+        "observation": "Mutants 7F9 (F90Y, E_S=1.6) and 5G9 (G88S, E_S=3.6) identified with improved enantioselectivity.",
+        "result_status": "success",
+        "next_step_reason": "Mutations in loop 87-90 suggest structural basis for enantioselectivity; perform saturation mutagenesis on these residues.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E06_01",
+            "source_file": "docs/0122/combined.md",
+            "section": "C002",
+            "quote_or_span": "To further improve the enantioselectivity of AFEST, we expanded the screening strategy to include both increased activity toward (S)-ibuprofen ester and decreased activity toward (R)-ibuprofen ester. To accomplish this, we switched from the DMDS cooperative mode to the DMDS biased mode."
+          },
+          {
+            "evidence_id": "EV_C002_E06_02",
+            "source_file": "docs/0122/combined.md",
+            "section": "C002",
+            "quote_or_span": "Using the gene encoding IE9 as a template, we used error-prone PCR to generate a random mutagenesis library (Library 4) comprised of about 0.5 million mutant variants with an average of 2 mutation sites per variant."
+          },
+          {
+            "evidence_id": "EV_AUTO_009",
+            "source_file": "docs/0122/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "6$ ); the 5G9 variant had a G88S amino acid substitution and improved enantioselectivity for (S)-ibuprofen ester ( $E_{S}=1."
+          },
+          {
+            "evidence_id": "EV_AUTO_010",
+            "source_file": "docs/0122/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "This screening identified two positive mutants: compared to the IE9 variant, the 7F9 variant had a F90Y amino acid substitution and increased enantioselectivity for (S)-ibuprofen ester ( $E_{S}=1."
+          },
+          {
+            "evidence_id": "EV_C002_E07_02",
+            "source_file": "docs/0122/combined.md",
+            "section": "C002",
+            "quote_or_span": "we generated two types of libraries: single-site-saturation mutagenesis libraries (four libraries, one for each of residues 87–90) and combinational saturation mutagenesis libraries (six of these: 87/88, 87/89, 87/90, 88/89, 88/90, and 89/90). These libraries were combined into a pooled library (Library 5) comprised of about 10,000 variants"
+          },
+          {
+            "evidence_id": "EV_AUTO_015",
+            "source_file": "docs/0122/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The final screening library was a site-saturation mutagenesis library (Library 5) targeting the four AFEST residues: 87, 88, 89, and 90; both single-site and two-site combinations were generated, yielding a total of 10,000 site-saturation mutant variants."
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "design",
+        "state_before": "Mutations in loop 87-90 (G88S, F90Y) improve enantioselectivity.",
+        "gap_or_uncertainty": "Optimal combination of residues in loop 87-90 for enantioselectivity is unknown.",
+        "hypothesis": "Saturation mutagenesis of residues 87-90 will identify optimal combinations for enantioselectivity.",
+        "decision": "Design Library 5: saturation mutagenesis of residues 87-90, both single-site and two-site combinations, ~10,000 variants.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "saturation mutagenesis",
+          "version": "N/A",
+          "category": "molecular biology"
+        },
+        "parameters": {
+          "target_residues": "87-90",
+          "library_size": "~10,000 variants"
+        },
+        "observation": "Library 5 designed and constructed.",
+        "result_status": "success",
+        "next_step_reason": "Screen Library 5 in biased mode to identify highly enantioselective mutants.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E07_02",
+            "source_file": "docs/0122/combined.md",
+            "section": "C002",
+            "quote_or_span": "we generated two types of libraries: single-site-saturation mutagenesis libraries (four libraries, one for each of residues 87–90) and combinational saturation mutagenesis libraries (six of these: 87/88, 87/89, 87/90, 88/89, 88/90, and 89/90). These libraries were combined into a pooled library (Library 5) comprised of about 10,000 variants"
+          },
+          {
+            "evidence_id": "EV_AUTO_015",
+            "source_file": "docs/0122/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The final screening library was a site-saturation mutagenesis library (Library 5) targeting the four AFEST residues: 87, 88, 89, and 90; both single-site and two-site combinations were generated, yielding a total of 10,000 site-saturation mutant variants."
+          },
+          {
+            "evidence_id": "EV_AUTO_017",
+            "source_file": "docs/0122/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "To this end, we generated two types of libraries: single-site-saturation mutagenesis libraries (four libraries, one for each of residues 87–90) and combinational saturation mutagenesis libraries (six of these: 87/88, 87/89, 87/90, 88/89, 88/90, and 89/90)."
+          },
+          {
+            "evidence_id": "EV_AUTO_020",
+            "source_file": "docs/0122/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "This screening identified two positive mutants: compared to the IE9 variant, the 7F9 variant had a F90Y amino acid substitution and increased enantioselectivity for (S)-ibuprofen ester ( $E_{S}=1.1$ vs."
+          },
+          {
+            "evidence_id": "EV_AUTO_010",
+            "source_file": "docs/0122/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "This screening identified two positive mutants: compared to the IE9 variant, the 7F9 variant had a F90Y amino acid substitution and increased enantioselectivity for (S)-ibuprofen ester ( $E_{S}=1."
+          },
+          {
+            "evidence_id": "EV_AUTO_019",
+            "source_file": "docs/0122/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "$E_{S}=1.6$ ); the 5G9 variant had a G88S amino acid substitution and improved enantioselectivity for (S)-ibuprofen ester ( $E_{S}=1."
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "experiment",
+        "state_before": "Library 5 constructed but not yet screened.",
+        "gap_or_uncertainty": "Need to identify mutants with highest enantioselectivity from Library 5.",
+        "hypothesis": "Screening Library 5 in biased mode will yield mutants with greatly improved enantioselectivity.",
+        "decision": "Screen Library 5 in biased mode.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "DMDS biased mode",
+          "version": "N/A",
+          "category": "microfluidic droplet screening"
+        },
+        "parameters": {
+          "library": "Library 5"
+        },
+        "observation": "Mutants 6A8 (G89C/F90W) and 4D11 (G89S) achieved 700-fold and 560-fold enantioselectivity improvement over wild-type, respectively.",
+        "result_status": "success",
+        "next_step_reason": "Validate hits and characterize limitations.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E08_01",
+            "source_file": "docs/0122/combined.md",
+            "section": "C002",
+            "quote_or_span": "the enantioselectivity of the top performing (S)-selective mutant variants, 6A8 (G89C/F90W on IE9) and 4D11 (G89S on IE9), was increased by, respectively, 90-fold and 72-fold"
+          },
+          {
+            "evidence_id": "EV_C002_E08_02",
+            "source_file": "docs/0122/combined.md",
+            "section": "C002",
+            "quote_or_span": "the enantioselectivity of the 6A8 and 4D11 variants is 700-fold and 560-fold greater than wild-type AFEST."
+          },
+          {
+            "evidence_id": "EV_AUTO_002",
+            "source_file": "docs/0122/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Compared to IE9, the enantioselectivity of the top performing (S)-selective mutant variants, 6A8 (G89C/F90W on IE9) and 4D11 (G89S on IE9), was increased by, respectively, 90-fold and 72-fold (also see Supplementary Table 4 for a summary of all the key mutants throughout the evolution process and their mutation sites)."
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "validation",
+        "state_before": "Final mutants 6A8 and 4D11 identified with high enantioselectivity.",
+        "gap_or_uncertainty": "Need to confirm enantioselectivity in a secondary assay and validate DMDS hits.",
+        "hypothesis": "96-well plate assays will confirm the enantioselectivity of final mutants.",
+        "decision": "Perform secondary screening in 96-well plates.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "96-well plate assay",
+          "version": "N/A",
+          "category": "biochemical assay"
+        },
+        "parameters": {},
+        "observation": "Enantioselectivity of final mutants confirmed; DMDS hits validated.",
+        "result_status": "success",
+        "next_step_reason": "Characterize limitations of best mutant 6A8.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_024",
+            "source_file": "docs/0122/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "To verify the final positive mutants, 100 colonies were picked and their enantioselectivity toward (S)-ibuprofen-pNP ester or (R)-ibuprofen-pNP ester was monitored at 405 nm in a 96-well plate format."
+          },
+          {
+            "evidence_id": "EV_AUTO_025",
+            "source_file": "docs/0122/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "At last, 200 colonies were picked from the condensed library and their enantioselectivity toward (S)-ibuprofen-pNP ester was monitored at 405 nm in a 96-well plate format."
+          },
+          {
+            "evidence_id": "EV_AUTO_026",
+            "source_file": "docs/0122/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "To verify positive mutants, 400 colonies were picked and their activity toward (S)-ibuprofen-pNP ester was monitored at 405 nm in a 96-well plate format."
+          },
+          {
+            "evidence_id": "EV_AUTO_027",
+            "source_file": "docs/0122/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "After one round of enrichment, 200 colonies were picked, and their activity toward (S)-ibuprofen-pNP ester was monitored at 405 nm in a 96-well plate format."
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "analysis",
+        "state_before": "6A8 shows 700-fold enantioselectivity improvement but substrate scope unknown.",
+        "gap_or_uncertainty": "F90W mutation may limit substrate flexibility.",
+        "hypothesis": "F90W mutation reduces substrate-binding site flexibility, limiting activity toward larger or smaller substrates.",
+        "decision": "Characterize substrate scope of 6A8.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "substrate scope analysis",
+          "version": "N/A",
+          "category": "biochemical characterization"
+        },
+        "parameters": {},
+        "observation": "F90W mutation in 6A8 reduces substrate-binding site flexibility, limiting activity toward larger or smaller substrates.",
+        "result_status": "partial",
+        "next_step_reason": "Limitation noted; future work may address substrate scope.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E04_01",
+            "source_file": "docs/0122/combined.md",
+            "section": "C003",
+            "quote_or_span": "the F90W mutation of 6A8 made its substrate-binding site less flexible. This was not able to accommodate either larger or smaller substrates than rac-1, especially for their (S)-enantiomers."
+          },
+          {
+            "evidence_id": "EV_C002_E08_02",
+            "source_file": "docs/0122/combined.md",
+            "section": "C002",
+            "quote_or_span": "the enantioselectivity of the 6A8 and 4D11 variants is 700-fold and 560-fold greater than wild-type AFEST."
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "96-well plate secondary screening"
+      ],
+      "metrics": [
+        "Enantioselectivity (E_S)",
+        "Fold improvement over wild-type"
+      ],
+      "final_conclusion": "DMDS platform enabled high-throughput screening for enantioselectivity, yielding mutants 6A8 and 4D11 with 700-fold and 560-fold improvement over wild-type AFEST.",
+      "limitations": [
+        "F90W mutation in 6A8 reduces substrate-binding site flexibility, limiting activity toward larger or smaller substrates."
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_specific_evidence_backfilled=11",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_specific_evidence_backfilled=8",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 96.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_mainline_batch30\\states\\0122.json",
+  "events_path": "outputs\\agentic_v22\\v22_mainline_batch30\\events\\0122.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 11,
+      "covered_event_count": 11,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1
+        ],
+        "K04": [
+          1,
+          2,
+          6
+        ],
+        "K05": [
+          1,
+          6
+        ],
+        "K06": [
+          2,
+          3,
+          5,
+          6
+        ],
+        "K07": [
+          2,
+          3
+        ],
+        "K08": [
+          2,
+          3,
+          4,
+          8
+        ],
+        "K09": [
+          2,
+          4,
+          5,
+          6
+        ],
+        "K10": [
+          2,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "K11": [
+          6,
+          7
+        ],
+        "K12": [
+          5,
+          8,
+          10
+        ],
+        "K14": [
+          6,
+          8,
+          9
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02",
+            "K03",
+            "K04",
+            "K05"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K04",
+            "K06",
+            "K07",
+            "K08",
+            "K09",
+            "K10"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K06",
+            "K07",
+            "K08"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K08",
+            "K09",
+            "K10"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K06",
+            "K09",
+            "K10",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K04",
+            "K05",
+            "K06",
+            "K09",
+            "K10",
+            "K11",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K10",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K08",
+            "K10",
+            "K12",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K14"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K12",
+            "K13"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 4,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "0s"
+        ]
+      },
+      {
+        "step_index": 6,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "-90s",
+          "1.6",
+          "3.6"
+        ]
+      },
+      {
+        "step_index": 7,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "-90"
+        ]
+      }
+    ],
+    "step_count": 10,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 96.0
+  },
+  "api_usage": {
+    "prompt_tokens": 99397,
+    "completion_tokens": 25175,
+    "total_tokens": 124572,
+    "prompt_cache_hit_tokens": 5760,
+    "prompt_cache_miss_tokens": 93637
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 1820,
+        "completion_tokens": 454,
+        "total_tokens": 2274,
+        "prompt_tokens_details": {
+          "cached_tokens": 1792
+        },
+        "prompt_cache_hit_tokens": 1792,
+        "prompt_cache_miss_tokens": 28
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 6072,
+        "completion_tokens": 2137,
+        "total_tokens": 8209,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 5688
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 7002,
+        "completion_tokens": 1443,
+        "total_tokens": 8445,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 6618
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 8141,
+        "completion_tokens": 2265,
+        "total_tokens": 10406,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 7757
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 6896,
+        "completion_tokens": 1605,
+        "total_tokens": 8501,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 6512
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 5889,
+        "completion_tokens": 56,
+        "total_tokens": 5945,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 5505
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 10173,
+        "completion_tokens": 3173,
+        "total_tokens": 13346,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 9789
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 12884,
+        "completion_tokens": 6434,
+        "total_tokens": 19318,
+        "prompt_tokens_details": {
+          "cached_tokens": 768
+        },
+        "prompt_cache_hit_tokens": 768,
+        "prompt_cache_miss_tokens": 12116
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 18874,
+        "completion_tokens": 923,
+        "total_tokens": 19797,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 18874
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 21646,
+        "completion_tokens": 6685,
+        "total_tokens": 28331,
+        "prompt_tokens_details": {
+          "cached_tokens": 896
+        },
+        "prompt_cache_hit_tokens": 896,
+        "prompt_cache_miss_tokens": 20750
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

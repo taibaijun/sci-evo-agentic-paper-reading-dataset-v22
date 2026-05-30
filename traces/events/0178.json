@@ -1,0 +1,933 @@
+{
+  "doc_no": "0178",
+  "source": {
+    "title": "Computational Enzyme Design at Zymvol",
+    "doi": "https://doi.org/10.1007/978-1-0716-1826-4_13",
+    "license": "cc-by",
+    "pdf_name": "0176_10_1007_978_1_0716_1826_4_13_computational_enzyme_design_at_zymvol.pdf",
+    "combined_md": "docs/0178/combined.md",
+    "mineru_md": "docs/0178/mineru.md"
+  },
+  "gist_memory": {
+    "paper_problem_memory": "Directed evolution is limited by randomness and limited sequence exploration, requiring screening of thousands to millions of variants. Computational enzyme design can reduce experimental screening to a few hundred candidates by performing sequence space screening in silico. Zymvol's pipeline combines bioinformatics, molecular modeling, MD, and QM in a funnel-like scheme to gradually filter enzyme variants for industrial applications.",
+    "section_gists": [
+      {
+        "section_index": 4,
+        "heading": "Abstract",
+        "gist": "Directed evolution is limited by randomness and limited sequence exploration, requiring massive screening. Computational approaches can reduce lab screening to a few hundred candidates, enabling industrial enzyme development. The chapter describes Zymvol's technology and future directions.",
+        "process_signals": [
+          "Directed evolution's random nature and limited sequence exploration are key drawbacks.",
+          "Computational design aims to replace or guide directed evolution to reduce experimental burden."
+        ],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": [
+          "Directed evolution requires screening thousands to millions of variants."
+        ]
+      },
+      {
+        "section_index": 5,
+        "heading": "1 Introduction",
+        "gist": "Natural enzymes need redesign for industry. Directed evolution introduces random mutations but is limited by randomness and sampling. Computational techniques can drive directed evolution (hot spot prediction) or replace it (rational design). Zymvol's Enzyme Search (ES) and In Silico Design (ISD) pipelines combine bioinformatics, protein design, and molecular modeling in a funnel-like scheme with increasing complexity: implicit solvent molecular modeling, explicit solvent MD, and QM. ES uses only bioinformatics and implicit solvent modeling; ISD includes all steps. Input: target transformation and enzyme sequence. ES outputs 8-16 enzymes; ISD outputs 90 ranked variants per round. Multiple rounds with experimental feedback are possible. The pipeline considers long-range mutations.",
+        "process_signals": [
+          "Directed evolution's randomness and limited sampling restrict beneficial mutations.",
+          "Computational design can replace directed evolution (rational design) or guide it (hot spot prediction).",
+          "The funnel-like scheme gradually filters candidates with increasing complexity.",
+          "ES and ISD have different scopes and use different subsets of the pipeline.",
+          "Iterative rounds with experimental validation improve predictions."
+        ],
+        "methods": [
+          "Bioinformatics",
+          "Implicit solvent molecular modeling (flexible enzyme and ligand, continuous solvent)",
+          "Explicit solvent molecular dynamics (discrete water molecules)",
+          "Quantum mechanics (electronic rearrangements)",
+          "Long-range mutation analysis (dynamical hubs, collective motions)"
+        ],
+        "metrics": [],
+        "failures_or_limits": [
+          "Directed evolution's random nature and limited sequence exploration are major drawbacks.",
+          "Quantum mechanics is excluded when other parameters (e.g., substrate binding) need optimization first."
+        ]
+      },
+      {
+        "section_index": 6,
+        "heading": "2 Bioinformatics and Molecular Modeling",
+        "gist": "This stage includes diagnosis and mutagenesis. Diagnosis: sequence analysis (BLAST, MSA, entropy, mutual information) to identify mutable residues and consensus mutations; protein dynamics (normal modes, concoord, loop sampling) to find hot spots; substrate docking to check productive binding, introducing Ala mutations if needed; substrate/product migration (Monte Carlo) to find kinetic bottlenecks. Mutagenesis: millions of variants modeled and screened with Rosetta/FoldX, using binding energy vs. catalytic distances. Hundreds-thousands of variants selected for next phase. If only low/medium quality homology models are available, final mutants must come from this stage alone, as MD may unfold them.",
+        "process_signals": [
+          "Diagnosis identifies mutable residues and design principles.",
+          "Mutagenesis screens millions of variants using binding energy and catalytic distances.",
+          "Low-quality homology models cannot proceed to MD; final list must come from this stage."
+        ],
+        "methods": [
+          "Sequence analysis (BLAST, MSA, entropy, mutual information)",
+          "Protein dynamics (normal modes, concoord, loop sampling)",
+          "Substrate docking",
+          "Substrate/product migration (Monte Carlo in Rosetta)",
+          "Mutagenesis screening (Rosetta, FoldX)"
+        ],
+        "metrics": [
+          "Binding energy",
+          "Catalytic distances"
+        ],
+        "failures_or_limits": [
+          "Low/medium quality homology models tend to unfold during MD, so final mutants must be selected from this stage alone."
+        ]
+      },
+      {
+        "section_index": 7,
+        "heading": "3 Molecular Dynamics (Explicit Solvent)",
+        "gist": "Selected variants are filtered by MD simulations, mainly using population of near attack conformations (NACs). High-throughput MD (HTMD) with many short simulations is more effective for NAC sampling. MD is often not viable without a suitable crystal structure; alternative Monte Carlo-based NAC methods are being evaluated.",
+        "process_signals": [
+          "NAC population is the main filter.",
+          "HTMD (many short simulations) is more effective than traditional MD for NAC sampling.",
+          "MD is often not viable without a crystal structure; alternative methods are being explored."
+        ],
+        "methods": [
+          "Molecular dynamics (explicit solvent)",
+          "High-throughput MD (HTMD)",
+          "Near attack conformation (NAC) analysis"
+        ],
+        "metrics": [
+          "NAC population"
+        ],
+        "failures_or_limits": [
+          "MD is often not viable without a suitable crystal structure.",
+          "Alternative Monte Carlo-based NAC methods are being evaluated due to this limitation."
+        ]
+      },
+      {
+        "section_index": 8,
+        "heading": "4 Quantum Mechanics",
+        "gist": "QM is needed for electron rearrangements in bond forming/breaking. Traditional QM is too slow for screening hundreds of variants. Smart solutions: calculate properties that correlate with activity and converge faster than TS energy. Example: for laccases, a scoring method based on total spin density on substrate after five geometry optimization steps with distance-dependent dielectric potential. Linear correlation found between activity and spin density. Each calculation took ~4h in 2015; now ~500 variants/day for <€500. Used successfully in oxidoreductase design.",
+        "process_signals": [
+          "Traditional QM is too slow for screening; smart shortcuts are needed.",
+          "Spin density after five optimization steps correlates with activity for laccases.",
+          "Method successfully applied to oxidoreductases."
+        ],
+        "methods": [
+          "Quantum mechanics (QM)",
+          "Spin density scoring after five geometry optimization steps",
+          "Distance-dependent dielectric potential"
+        ],
+        "metrics": [
+          "Spin density on substrate",
+          "Activity (log(kcat/Km))"
+        ],
+        "failures_or_limits": [
+          "Traditional QM is too slow for screening hundreds of variants.",
+          "Shortcut method may be system-specific (demonstrated for laccases/oxidoreductases)."
+        ]
+      },
+      {
+        "section_index": 9,
+        "heading": "5 Areas of Development",
+        "gist": "Current limitations and future work: (1) Machine learning: no single feature strongly correlates with activity; features are family/reaction dependent. Aim to gather thousands of data points for family-dependent models. ML also to speed up QM. (2) Long-range mutations: no reliable quick detection tool; developing tools to predict hot spots and substitutions without long MD, also for immobilization effects. (3) Ancestral reconstruction: using statistical models to reconstruct phylogeny for promiscuity/stability. (4) Quantum computing: potential for intractable biochemistry problems but currently prohibitive.",
+        "process_signals": [
+          "ML analysis shows no universal feature correlates with activity; features are system-dependent.",
+          "Long-range mutation detection lacks reliable quick tools; developing MD-free methods.",
+          "Ancestral reconstruction and quantum computing are future directions."
+        ],
+        "methods": [
+          "Machine learning",
+          "Ancestral reconstruction",
+          "Quantum computing"
+        ],
+        "metrics": [],
+        "failures_or_limits": [
+          "No single molecular feature strongly correlates with experimental activity across systems.",
+          "No reliable tool for quick detection of long-range mutation effects.",
+          "Quantum computing not yet feasible due to hardware limitations."
+        ]
+      }
+    ],
+    "global_hypotheses_about_storyline": [
+      "The pipeline evolved from a need to overcome directed evolution's screening burden by using computational filters of increasing accuracy.",
+      "The funnel-like scheme (bioinformatics → MD → QM) reflects a hypothesis that each stage can eliminate false positives, with QM as the final accurate but costly filter.",
+      "The use of NAC populations and spin density shortcuts suggests a hypothesis that approximate metrics can effectively rank variants without full TS calculations.",
+      "The shift toward ML and MD-free long-range mutation prediction indicates a recognition that current physics-based methods are too slow or incomplete for industrial scale."
+    ],
+    "uncertainties_to_resolve": [
+      "How often does the pipeline fail to produce active variants, and what are the typical failure modes?",
+      "What is the experimental validation rate for variants from each stage?",
+      "How were the specific thresholds (e.g., entropy, NAC population) determined, and have they been adjusted over time?",
+      "Are there examples where the QM shortcut failed for non-oxidoreductase enzymes?",
+      "How does the pipeline handle enzymes with no crystal structure or poor homology models in practice?"
+    ]
+  },
+  "chunk_events": [
+    {
+      "chunk_id": "C001",
+      "char_start": 0,
+      "char_end": 18000,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C001_E01",
+          "chunk_id": "C001",
+          "event_type": "problem",
+          "order_hint": 1,
+          "summary": "Directed evolution's randomness and limited sequence exploration require screening thousands to millions of variants.",
+          "methods_or_tools": [],
+          "entities": [
+            "directed evolution"
+          ],
+          "numbers_or_metrics": [
+            "thousands to millions of variants"
+          ],
+          "evidence_ids": [
+            "EV_C001_E01_01"
+          ]
+        },
+        {
+          "event_id": "C001_E03",
+          "chunk_id": "C001",
+          "event_type": "design",
+          "order_hint": 3,
+          "summary": "Zymvol's pipeline combines bioinformatics, protein design, and molecular modeling in a funnel-like scheme with increasing complexity: implicit solvent, explicit solvent MD, and QM.",
+          "methods_or_tools": [
+            "bioinformatics",
+            "protein design algorithms",
+            "molecular modeling",
+            "implicit solvent",
+            "explicit solvent MD",
+            "quantum mechanics"
+          ],
+          "entities": [
+            "Zymvol"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E03_01"
+          ]
+        },
+        {
+          "event_id": "C001_E06",
+          "chunk_id": "C001",
+          "event_type": "limitation",
+          "order_hint": 6,
+          "summary": "MD is often not viable without a suitable crystal structure; alternative Monte Carlo-based NAC methods are being evaluated.",
+          "methods_or_tools": [
+            "molecular dynamics",
+            "Monte Carlo simulations"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E06_01"
+          ]
+        },
+        {
+          "event_id": "C001_E07",
+          "chunk_id": "C001",
+          "event_type": "computation",
+          "order_hint": 7,
+          "summary": "A QM shortcut using spin density after five geometry optimization steps correlates with activity for laccases, enabling screening of ~500 variants/day.",
+          "methods_or_tools": [
+            "quantum mechanics",
+            "spin density scoring",
+            "geometry optimization"
+          ],
+          "entities": [
+            "laccases"
+          ],
+          "numbers_or_metrics": [
+            "five geometry optimization steps",
+            "~500 variants/day",
+            "€500"
+          ],
+          "evidence_ids": [
+            "EV_C001_E07_01"
+          ]
+        }
+      ],
+      "notes": "Chunk covers abstract, introduction, and sections 2-5, providing core problem statement, design methodology, limitations, and computational shortcuts.",
+      "api_usage": {
+        "prompt_tokens": 6554,
+        "completion_tokens": 1296,
+        "total_tokens": 7850,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6298
+      }
+    },
+    {
+      "chunk_id": "C002",
+      "char_start": 17100,
+      "char_end": 28643,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C002_E03",
+          "chunk_id": "C002",
+          "event_type": "hypothesis",
+          "order_hint": 3,
+          "summary": "Hypothesis that key parameters to label activity are family and reaction dependent.",
+          "methods_or_tools": [],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E03_01"
+          ]
+        },
+        {
+          "event_id": "C002_E04",
+          "chunk_id": "C002",
+          "event_type": "design",
+          "order_hint": 4,
+          "summary": "Plan to gather thousands of data points for key enzyme families to develop family-dependent ML models.",
+          "methods_or_tools": [
+            "machine learning"
+          ],
+          "entities": [
+            "key enzyme families"
+          ],
+          "numbers_or_metrics": [
+            "thousands of data points"
+          ],
+          "evidence_ids": [
+            "EV_C002_E04_01"
+          ]
+        },
+        {
+          "event_id": "C002_E05",
+          "chunk_id": "C002",
+          "event_type": "design",
+          "order_hint": 5,
+          "summary": "Developing tools to quickly detect long-range mutation hot spots without long MD simulations, shrinking prediction time from weeks to minutes.",
+          "methods_or_tools": [
+            "machine learning",
+            "molecular dynamics"
+          ],
+          "entities": [
+            "long range mutations"
+          ],
+          "numbers_or_metrics": [
+            "weeks to minutes"
+          ],
+          "evidence_ids": [
+            "EV_C002_E05_01"
+          ]
+        },
+        {
+          "event_id": "C002_E06",
+          "chunk_id": "C002",
+          "event_type": "limitation",
+          "order_hint": 6,
+          "summary": "No reliable tool available for quick detection of long-range mutation effects.",
+          "methods_or_tools": [],
+          "entities": [
+            "long range mutations"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E06_01"
+          ]
+        },
+        {
+          "event_id": "C002_E07",
+          "chunk_id": "C002",
+          "event_type": "design",
+          "order_hint": 7,
+          "summary": "Aim to predict correct amino acid substitutions for long-range hot spots, not just identify them.",
+          "methods_or_tools": [],
+          "entities": [
+            "long range mutations"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E07_01"
+          ]
+        }
+      ],
+      "notes": "Chunk covers Areas of Development section, detailing current limitations and future design plans for ML, long-range mutations, ancestral reconstruction, and quantum computing.",
+      "api_usage": {
+        "prompt_tokens": 5390,
+        "completion_tokens": 1080,
+        "total_tokens": 6470,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 5134
+      }
+    }
+  ],
+  "evidence_bank": [
+    {
+      "evidence_id": "EV_C001_E01_01",
+      "source_file": "docs/0178/combined.md",
+      "section": "C001",
+      "char_start": 231,
+      "char_end": 414,
+      "quote": "The main drawback resides in its random nature and in the limited sequence exploration; both require screening of thousands (if not millions) of variants to achieve a target function."
+    },
+    {
+      "evidence_id": "EV_C001_E03_01",
+      "source_file": "docs/0178/combined.md",
+      "section": "C001",
+      "char_start": 3004,
+      "char_end": 3331,
+      "quote": "The cornerstone of our technology is the combination of bioinformatics with protein design algorithms and empirical/physics-based simulations that model the interactions between the substrate and the enzyme. Such simulations follow a funnel like scheme with increasing complexity to gradually filter enzyme candidates (Fig. 1)."
+    },
+    {
+      "evidence_id": "EV_C001_E06_01",
+      "source_file": "docs/0178/combined.md",
+      "section": "C001",
+      "char_start": 15108,
+      "char_end": 15322,
+      "quote": "MD is often not a viable solution in industrial applications because of the lack of a suitable crystal structure. Currently, we are evaluating alternative ways to account for NACs, based on Monte Carlo simulations."
+    },
+    {
+      "evidence_id": "EV_C001_E07_01",
+      "source_file": "docs/0178/combined.md",
+      "section": "C001",
+      "char_start": 16040,
+      "char_end": 16268,
+      "quote": "We developed a scoring method based on the total spin density localized on the substrate after five geometry optimization steps (the electron density roughly converged in that time) and a distance-dependent dielectric potential."
+    },
+    {
+      "evidence_id": "EV_C002_E03_01",
+      "source_file": "docs/0178/combined.md",
+      "section": "C002",
+      "char_start": 17980,
+      "char_end": 18146,
+      "quote": "This poses a serious question on the actual knowledge of how enzymes work and whether the key parameters to label activity are actually family and reaction dependent."
+    },
+    {
+      "evidence_id": "EV_C002_E04_01",
+      "source_file": "docs/0178/combined.md",
+      "section": "C002",
+      "char_start": 18505,
+      "char_end": 18649,
+      "quote": "Therefore, we aim at gathering thousands of data points for key enzyme families to conduct further research and develop family-dependent models."
+    },
+    {
+      "evidence_id": "EV_C002_E05_01",
+      "source_file": "docs/0178/combined.md",
+      "section": "C002",
+      "char_start": 19150,
+      "char_end": 19319,
+      "quote": "In our company we are developing tools that do not involve long and resource intensive MD simulations, shrinking the prediction time for hot spots from weeks to minutes."
+    },
+    {
+      "evidence_id": "EV_C002_E06_01",
+      "source_file": "docs/0178/combined.md",
+      "section": "C002",
+      "char_start": 19084,
+      "char_end": 19149,
+      "quote": "no reliable tool seems to be available for their quick detection."
+    },
+    {
+      "evidence_id": "EV_C002_E07_01",
+      "source_file": "docs/0178/combined.md",
+      "section": "C002",
+      "char_start": 19320,
+      "char_end": 19430,
+      "quote": "Moreover, we aim at not only singling out hot spots but actually predict the correct amino acid substitutions."
+    },
+    {
+      "evidence_id": "EV_AUTO_001",
+      "source_file": "docs/0178/combined.md",
+      "section": "auto_specific",
+      "char_start": 18146,
+      "char_end": 18365,
+      "quote": "These doubts were confirmed by ML analysis that we conducted on two data sets: a full mutagenesis study for a small protein ( $\\sim$ 60 residues) $[33]$ and the activity data of 96 ligands against 16 esterases $[34]$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_002",
+      "source_file": "docs/0178/combined.md",
+      "section": "auto_specific",
+      "char_start": 25841,
+      "char_end": 26023,
+      "quote": "Carlin DA, Caster RW, Wang X et al (2016) Kinetic characterization of 100 glycoside hydrolase mutants enables the discovery of structural features correlated with kinetic constants."
+    },
+    {
+      "evidence_id": "EV_AUTO_003",
+      "source_file": "docs/0178/combined.md",
+      "section": "auto_specific",
+      "char_start": 18998,
+      "char_end": 19149,
+      "quote": "Despite this success of MD in characterizing long range mutation effects $[37–41]$ , no reliable tool seems to be available for their quick detection."
+    },
+    {
+      "evidence_id": "EV_AUTO_004",
+      "source_file": "docs/0178/combined.md",
+      "section": "auto_specific",
+      "char_start": 16506,
+      "char_end": 16629,
+      "quote": "With today's cloud computing facilities and better hardware, $\\sim500$ variants can be tested in 1 day for less than €500."
+    },
+    {
+      "evidence_id": "EV_AUTO_005",
+      "source_file": "docs/0178/combined.md",
+      "section": "auto_specific",
+      "char_start": 13543,
+      "char_end": 13744,
+      "quote": "In the second step, mutagenesis, millions of enzyme variants are modeled and screened with an in-house protocol that includes proprietary and third-party software like Rosetta $[21]$ and FoldX $[22]$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_006",
+      "source_file": "docs/0178/combined.md",
+      "section": "auto_specific",
+      "char_start": 27080,
+      "char_end": 27206,
+      "quote": "Romero-Rivera A, Garcia-Borràs M, Osuna S (2017) Role of conformational dynamics in the evolution of retro-aldolase activity."
+    },
+    {
+      "evidence_id": "EV_AUTO_007",
+      "source_file": "docs/0178/combined.md",
+      "section": "auto_specific",
+      "char_start": 26742,
+      "char_end": 26872,
+      "quote": "Romero-Rivera A, Iglesias-Fernández J, Osuna S (2018) Exploring the conversion of a d-sialic acid aldolase into a l-KDO aldolase."
+    },
+    {
+      "evidence_id": "EV_AUTO_008",
+      "source_file": "docs/0178/combined.md",
+      "section": "auto_specific",
+      "char_start": 25455,
+      "char_end": 25640,
+      "quote": "Mateljak I, Monza E, Lucas MF et al (2019) Increasing redox potential, redox mediator activity, and stability in a fungal laccase by computer-guided mutagenesis and directed evolution."
+    },
+    {
+      "evidence_id": "EV_AUTO_009",
+      "source_file": "docs/0178/combined.md",
+      "section": "auto_specific",
+      "char_start": 25261,
+      "char_end": 25422,
+      "quote": "Giacobelli VG, Monza E, Fatima Lucas M et al (2017) Repurposing designed mutants: a valuable strategy for computer-aided laccase engineering—the case of POXA1b."
+    },
+    {
+      "evidence_id": "EV_AUTO_010",
+      "source_file": "docs/0178/combined.md",
+      "section": "auto_specific",
+      "char_start": 24576,
+      "char_end": 24664,
+      "quote": "Wijma H (2016) In silico screening of enzyme variants by molecular dynamics simulation."
+    },
+    {
+      "evidence_id": "EV_AUTO_011",
+      "source_file": "docs/0178/combined.md",
+      "section": "auto_specific",
+      "char_start": 23918,
+      "char_end": 24065,
+      "quote": "Kellogg EH, Leaver-Fay A, Baker D (2011) Role of conformational sampling in computing mutation-induced changes in protein structure and stability."
+    },
+    {
+      "evidence_id": "EV_AUTO_012",
+      "source_file": "docs/0178/combined.md",
+      "section": "auto_specific",
+      "char_start": 22718,
+      "char_end": 22857,
+      "quote": "Demerdash O, Cui Q, Van Wynsberghe A, Li G (2005) Normal mode analysis of macromolecules: from enzyme activity site to molecular machines."
+    },
+    {
+      "evidence_id": "EV_AUTO_013",
+      "source_file": "docs/0178/combined.md",
+      "section": "auto_specific",
+      "char_start": 21296,
+      "char_end": 21459,
+      "quote": "Chica RA, Doucet N, Pelletier JN (2005) Semi-rational approaches to engineering enzyme activity: combining the benefits of directed evolution and rational design."
+    },
+    {
+      "evidence_id": "EV_AUTO_014",
+      "source_file": "docs/0178/combined.md",
+      "section": "auto_specific",
+      "char_start": 21040,
+      "char_end": 21128,
+      "quote": "Romero PA, Arnold FH (2009) Exploring protein fitness landscapes by directed evolution."
+    },
+    {
+      "evidence_id": "EV_AUTO_015",
+      "source_file": "docs/0178/combined.md",
+      "section": "auto_specific",
+      "char_start": 18811,
+      "char_end": 18998,
+      "quote": "It is a matter of fact that mutations that are far away from the active site can lead to remarkable increases in activity, improving catalytic preorganization in evolved enzymes $[36]$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_016",
+      "source_file": "docs/0178/combined.md",
+      "section": "auto_specific",
+      "char_start": 14866,
+      "char_end": 14967,
+      "quote": "This technique proved to be successful in tuning selectivity with high-throughput MD (HTMD) $[24]$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_017",
+      "source_file": "docs/0178/combined.md",
+      "section": "auto_specific",
+      "char_start": 11459,
+      "char_end": 11615,
+      "quote": "In such a way, only residues with enough entropy are retained for the final library and consensus mutations are suggested to stabilize the protein $[12]$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_018",
+      "source_file": "docs/0178/combined.md",
+      "section": "auto_specific",
+      "char_start": 5705,
+      "char_end": 5868,
+      "quote": "Typically an ISD round delivers 90 enzyme variants ranked by priority, but customized solutions are available (like residue positions for saturation mutagenesis)."
+    },
+    {
+      "evidence_id": "EV_AUTO_019",
+      "source_file": "docs/0178/combined.md",
+      "section": "auto_specific",
+      "char_start": 1142,
+      "char_end": 1349,
+      "quote": "Although directed evolution is a revolutionary technique (awarded with the Nobel Prize for Chemistry in 2018), randomness and limited sequence sampling restrict the number of potential beneficial mutations."
+    },
+    {
+      "evidence_id": "EV_AUTO_020",
+      "source_file": "docs/0178/combined.md",
+      "section": "auto_specific",
+      "char_start": 17453,
+      "char_end": 17516,
+      "quote": "3 Electron density-based quantum chemical scoring of activity"
+    },
+    {
+      "evidence_id": "EV_AUTO_021",
+      "source_file": "docs/0178/combined.md",
+      "section": "auto_specific",
+      "char_start": 15802,
+      "char_end": 15972,
+      "quote": "This passes through calculating properties, instead of TS energies, that: (1) correlate with activity; (2) converge much faster than energy during geometry optimization."
+    },
+    {
+      "evidence_id": "EV_AUTO_022",
+      "source_file": "docs/0178/combined.md",
+      "section": "auto_specific",
+      "char_start": 15595,
+      "char_end": 15722,
+      "quote": "Unfortunately, traditional techniques are as slow as informative so they are not suited to screen hundreds of variants $[8]$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_023",
+      "source_file": "docs/0178/combined.md",
+      "section": "auto_specific",
+      "char_start": 5868,
+      "char_end": 5945,
+      "quote": "Both ES and ISD (one round) typically take up to 4 weeks to deliver results."
+    },
+    {
+      "evidence_id": "EV_AUTO_024",
+      "source_file": "docs/0178/combined.md",
+      "section": "auto_specific",
+      "char_start": 4890,
+      "char_end": 5081,
+      "quote": "Long range mutations can affect the encounters between the substrate and the catalytic residues in the active site or the migration of a substrate/product in/from the active site $[9]$ (Fig."
+    },
+    {
+      "evidence_id": "EV_AUTO_025",
+      "source_file": "docs/0178/combined.md",
+      "section": "auto_specific",
+      "char_start": 1544,
+      "char_end": 1794,
+      "quote": "More radically, computational design can also replace directed evolution altogether in what is called rational design: in this case the sequence space screening is done in a computer, leaving only a few candidates for experimental validation $[6]$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_026",
+      "source_file": "docs/0178/combined.md",
+      "section": "auto_specific",
+      "char_start": 993,
+      "char_end": 1142,
+      "quote": "The most popular approach is directed evolution, where mutations are introduced randomly in the parental enzyme, mimicking natural evolution $[3]$ ."
+    }
+  ],
+  "event_graph": {
+    "paper_main_problem": "Directed evolution's randomness and limited sequence exploration require screening thousands to millions of variants, making industrial enzyme development costly and slow.",
+    "canonical_events": [
+      {
+        "canonical_id": "K01",
+        "order": 1,
+        "event_type": "problem",
+        "summary": "Directed evolution's randomness and limited sequence exploration require screening thousands to millions of variants.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E01"
+        ],
+        "evidence_ids": [
+          "EV_C001_E01_01"
+        ],
+        "key_entities": [
+          "directed evolution"
+        ],
+        "key_numbers": [
+          "thousands to millions of variants"
+        ]
+      },
+      {
+        "canonical_id": "K02",
+        "order": 2,
+        "event_type": "design",
+        "summary": "Zymvol's pipeline combines bioinformatics, protein design, and molecular modeling in a funnel-like scheme with increasing complexity: implicit solvent, explicit solvent MD, and QM.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E03"
+        ],
+        "evidence_ids": [
+          "EV_C001_E03_01"
+        ],
+        "key_entities": [
+          "Zymvol",
+          "bioinformatics",
+          "protein design algorithms",
+          "molecular modeling",
+          "implicit solvent",
+          "explicit solvent MD",
+          "quantum mechanics"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K03",
+        "order": 3,
+        "event_type": "computation",
+        "summary": "Bioinformatics and molecular modeling stage: diagnosis (sequence analysis, dynamics, docking, migration) and mutagenesis screening millions of variants with Rosetta/FoldX using binding energy and catalytic distances.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [],
+        "evidence_ids": [
+          "EV_AUTO_005",
+          "EV_AUTO_017"
+        ],
+        "key_entities": [
+          "Rosetta",
+          "FoldX",
+          "binding energy",
+          "catalytic distances"
+        ],
+        "key_numbers": [
+          "millions of variants"
+        ]
+      },
+      {
+        "canonical_id": "K05",
+        "order": 5,
+        "event_type": "computation",
+        "summary": "MD stage filters variants by population of near attack conformations (NACs) using high-throughput MD (HTMD) with many short simulations.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [],
+        "evidence_ids": [
+          "EV_AUTO_016"
+        ],
+        "key_entities": [
+          "NACs",
+          "HTMD"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K06",
+        "order": 6,
+        "event_type": "limitation",
+        "summary": "MD is often not viable without a suitable crystal structure; alternative Monte Carlo-based NAC methods are being evaluated.",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C001_E06"
+        ],
+        "evidence_ids": [
+          "EV_C001_E06_01"
+        ],
+        "key_entities": [
+          "crystal structure",
+          "Monte Carlo"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K07",
+        "order": 7,
+        "event_type": "computation",
+        "summary": "QM shortcut developed: spin density after five geometry optimization steps correlates with activity for laccases, enabling screening of ~500 variants/day for <€500.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E07"
+        ],
+        "evidence_ids": [
+          "EV_C001_E07_01",
+          "EV_AUTO_004",
+          "EV_AUTO_021"
+        ],
+        "key_entities": [
+          "laccases",
+          "spin density",
+          "geometry optimization"
+        ],
+        "key_numbers": [
+          "five steps",
+          "~500 variants/day",
+          "€500"
+        ]
+      },
+      {
+        "canonical_id": "K08",
+        "order": 8,
+        "event_type": "limitation",
+        "summary": "Traditional QM is too slow for screening hundreds of variants; shortcut method may be system-specific (demonstrated for oxidoreductases).",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [],
+        "evidence_ids": [
+          "EV_AUTO_022"
+        ],
+        "key_entities": [
+          "traditional QM"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K09",
+        "order": 9,
+        "event_type": "analysis",
+        "summary": "ML analysis on two datasets shows no single molecular feature strongly correlates with activity across systems; features are family and reaction dependent.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E03"
+        ],
+        "evidence_ids": [
+          "EV_C002_E03_01",
+          "EV_AUTO_001"
+        ],
+        "key_entities": [
+          "machine learning",
+          "family-dependent features"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K10",
+        "order": 10,
+        "event_type": "design",
+        "summary": "Plan to gather thousands of data points for key enzyme families to develop family-dependent ML models.",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C002_E04"
+        ],
+        "evidence_ids": [
+          "EV_C002_E04_01"
+        ],
+        "key_entities": [
+          "key enzyme families",
+          "ML models"
+        ],
+        "key_numbers": [
+          "thousands of data points"
+        ]
+      },
+      {
+        "canonical_id": "K11",
+        "order": 11,
+        "event_type": "limitation",
+        "summary": "No reliable tool available for quick detection of long-range mutation effects.",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C002_E06"
+        ],
+        "evidence_ids": [
+          "EV_C002_E06_01",
+          "EV_AUTO_003"
+        ],
+        "key_entities": [
+          "long-range mutations"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K12",
+        "order": 12,
+        "event_type": "design",
+        "summary": "Developing tools to quickly detect long-range mutation hot spots and predict correct amino acid substitutions without long MD, shrinking prediction time from weeks to minutes.",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C002_E05",
+          "C002_E07"
+        ],
+        "evidence_ids": [
+          "EV_C002_E05_01",
+          "EV_C002_E07_01"
+        ],
+        "key_entities": [
+          "long-range mutations",
+          "hot spots",
+          "amino acid substitutions"
+        ],
+        "key_numbers": [
+          "weeks to minutes"
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "source": "K01",
+        "target": "K02",
+        "relation": "enables",
+        "reason": "The problem of directed evolution's screening burden motivates the design of a computational funnel-like pipeline."
+      },
+      {
+        "source": "K02",
+        "target": "K03",
+        "relation": "follows",
+        "reason": "The pipeline design leads to the first stage: bioinformatics and molecular modeling."
+      },
+      {
+        "source": "K03",
+        "target": "K05",
+        "relation": "follows",
+        "reason": "Variants passing the bioinformatics stage proceed to MD filtering."
+      },
+      {
+        "source": "K05",
+        "target": "K06",
+        "relation": "refines",
+        "reason": "MD stage has a limitation: it requires a crystal structure, leading to exploration of alternatives."
+      },
+      {
+        "source": "K05",
+        "target": "K07",
+        "relation": "follows",
+        "reason": "After MD, QM is applied for reactions involving electron rearrangements."
+      },
+      {
+        "source": "K07",
+        "target": "K08",
+        "relation": "refines",
+        "reason": "The QM shortcut addresses the limitation of traditional QM being too slow."
+      },
+      {
+        "source": "K07",
+        "target": "K09",
+        "relation": "enables",
+        "reason": "The need for better predictive models leads to ML analysis of activity features."
+      },
+      {
+        "source": "K09",
+        "target": "K10",
+        "relation": "enables",
+        "reason": "The finding that features are family-dependent motivates gathering data for family-specific ML models."
+      },
+      {
+        "source": "K09",
+        "target": "K11",
+        "relation": "contradicts",
+        "reason": "ML analysis confirms the lack of universal features, highlighting the challenge of long-range mutation detection."
+      },
+      {
+        "source": "K11",
+        "target": "K12",
+        "relation": "enables",
+        "reason": "The limitation of no reliable tool for long-range mutations drives development of new quick detection and prediction tools."
+      }
+    ],
+    "must_cover_points": [
+      "Directed evolution's screening burden",
+      "Funnel-like pipeline design (bioinformatics, MD, QM)",
+      "Bioinformatics stage: diagnosis and mutagenesis screening",
+      "MD stage: NAC filtering with HTMD",
+      "QM shortcut: spin density scoring for laccases",
+      "ML analysis: no universal activity features, family-dependent",
+      "Future directions: family-dependent ML models, long-range mutation tools"
+    ],
+    "paper_not_suitable_reasons": []
+  }
+}

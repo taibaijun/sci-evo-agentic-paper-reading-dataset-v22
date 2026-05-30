@@ -1,0 +1,952 @@
+{
+  "case": {
+    "case_id": "sci_evo_0169",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Photovoltaphores: pharmacophore models for identifying metal-free dyes for dye-sensitized solar cells",
+      "doi": "https://doi.org/10.1038/s41524-022-00823-6",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0167_10_1038_s41524_022_00823_6_photovoltaphores_pharmacophore_models_for_identifying_metal_free_dyes_for_dye_sensitized_s.pdf",
+      "mineru_md": "docs/0169/mineru.md",
+      "combined_md": "docs/0169/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Develop pharmacophore models ('photovoltaphores') to identify metal-free dyes for dye-sensitized solar cells (DSSCs) via virtual screening, addressing the need for cost-effective, sustainable sensitizers.",
+      "target_object": "metal-free dyes for DSSCs",
+      "known_context": "Pharmacophore models capture spatial arrangement of features shared by active compounds; DSSC dyes typically have D-π-A architecture.",
+      "constraints": [
+        "Metal-free dyes only",
+        "Uniform experimental conditions (AM 1.5G, TiO2, iodide/triiodide)"
+      ],
+      "input_data": [
+        "DSSCDB dataset",
+        "ZINC15 compound library"
+      ],
+      "quantifiable_goals": [
+        "Identify virtual hits with appropriate HOMO/LUMO energies and UV-vis absorption",
+        "Validate enrichment over random selection"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "No pharmacophore models exist for DSSC dye discovery.",
+        "gap_or_uncertainty": "Can standard pharmacophoric features capture key properties of active DSSC dyes?",
+        "hypothesis": "Pharmacophore models using standard features (AR, HI, HBA, NIC) can identify metal-free dyes for DSSCs by capturing the D-π-A architecture.",
+        "decision": "Proceed to build and validate pharmacophore models.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "pharmacophore modeling",
+          "version": "",
+          "category": "ligand-based drug design"
+        },
+        "parameters": {},
+        "observation": "Hypothesis formulated based on known D-π-A architecture and pharmacophoric features.",
+        "result_status": "success",
+        "next_step_reason": "Need to prepare dataset and build models to test hypothesis.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0169/combined.md",
+            "section": "C001",
+            "quote_or_span": "In this work, we explore the usage of pharmacophore modeling to identify metal-free dyes for DSSCs by means of virtual screening."
+          },
+          {
+            "evidence_id": "EV_C001_E05_01",
+            "source_file": "docs/0169/combined.md",
+            "section": "C001",
+            "quote_or_span": "we hypothesized that using the standard pharmacophoric features would account for key properties of active dyes in particular in what pertains to their aromaticity (via the AR feature), hydrophobicity (via the HI feature), and charge distribution (via the NIC, PIC, HBA, and HBA features)."
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "design",
+        "state_before": "Raw DSSCDB contains heterogeneous data.",
+        "gap_or_uncertainty": "Need a homogeneous dataset of metal-free dyes with consistent experimental conditions.",
+        "hypothesis": "Preprocessing DSSCDB to uniform conditions will yield a reliable training set.",
+        "decision": "Preprocess DSSCDB to 1463 metal-free dyes and divide into scaffold subsets.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "data preprocessing",
+          "version": "",
+          "category": "cheminformatics"
+        },
+        "parameters": {
+          "conditions": "AM 1.5G, TiO2, iodide/triiodide",
+          "dye type": "metal-free"
+        },
+        "observation": "Obtained 1463 metal-free dyes divided into scaffold subsets.",
+        "result_status": "success",
+        "next_step_reason": "Dataset ready for pharmacophore model building.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E06_01",
+            "source_file": "docs/0169/combined.md",
+            "section": "C004",
+            "quote_or_span": "A dataset consisting of 1463 dyes was compiled from the dye-sensitized solar cell database (DSSCDB)"
+          },
+          {
+            "evidence_id": "EV_C004_E06_02",
+            "source_file": "docs/0169/combined.md",
+            "section": "C004",
+            "quote_or_span": "The DSSCDB was preprocessed to create a homogenous dataset containing only metal-free dyes with no duplicate structures."
+          },
+          {
+            "evidence_id": "EV_C004_E06_03",
+            "source_file": "docs/0169/combined.md",
+            "section": "C004",
+            "quote_or_span": "entries with light simulator conditions different from AM 1.5 G 100 Mw cm $^{-2}$ (sun simulator conditions), semiconductors different from $TiO_{2}$ or electrolytes different from iodide/triiodide were also excluded."
+          },
+          {
+            "evidence_id": "EV_C004_E06_04",
+            "source_file": "docs/0169/combined.md",
+            "section": "C004",
+            "quote_or_span": "The dataset was also divided into smaller subsets based on molecular scaffolds"
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "design",
+        "state_before": "Preprocessed dataset available.",
+        "gap_or_uncertainty": "How to build pharmacophore models that distinguish active from inactive dyes?",
+        "hypothesis": "Models built from most/least active dyes within scaffolds and across dataset will capture activity-determining features.",
+        "decision": "Build pharmacophore models using clustering and manual refinement from scaffold subsets and MAD/LAD sets.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "pharmacophore model building",
+          "version": "LigandScout 4.4",
+          "category": "ligand-based drug design"
+        },
+        "parameters": {
+          "scaffold families": [
+            "carbazole",
+            "indoline",
+            "phenothiazine",
+            "triphenylamine"
+          ],
+          "MAD threshold": "PCE ≥ 8.5%",
+          "LAD threshold": "PCE ≤ 0.1%",
+          "clustering": "most/least active 7 and 10 compounds per family"
+        },
+        "observation": "Built 33 MAD/LAD models and scaffold-based models, manually refined some.",
+        "result_status": "success",
+        "next_step_reason": "Models need validation to assess predictive performance.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E01_01",
+            "source_file": "docs/0169/combined.md",
+            "section": "C002",
+            "quote_or_span": "clustering (see Methods section) was employed on the most active/least active seven and most active/least active ten compounds from each family."
+          },
+          {
+            "evidence_id": "EV_C002_E02_02",
+            "source_file": "docs/0169/combined.md",
+            "section": "C002",
+            "quote_or_span": "In total, 33 different pharmacophore models were created using this approach."
+          },
+          {
+            "evidence_id": "EV_C004_E07_01",
+            "source_file": "docs/0169/combined.md",
+            "section": "C004",
+            "quote_or_span": "Compounds with the best photovoltaic performance (as determined by PCE) in each class (scaffold-based) were taken to build pharmacophore models."
+          },
+          {
+            "evidence_id": "EV_C004_E07_02",
+            "source_file": "docs/0169/combined.md",
+            "section": "C004",
+            "quote_or_span": "Compounds with lowest PCE in each class were also taken to generate models with undesired features."
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "validation",
+        "state_before": "Pharmacophore models built.",
+        "gap_or_uncertainty": "Do the models accurately discriminate active from inactive dyes?",
+        "hypothesis": "Models will show good performance in small-scale virtual screening with scaffold-matched decoys.",
+        "decision": "Validate models via small-scale VS with scaffold-matched decoys from ZINC15, using AUC, EF1%, MCC, %HA, %LA.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "virtual screening validation",
+          "version": "LigandScout 4.4",
+          "category": "virtual screening"
+        },
+        "parameters": {
+          "decoy source": "ZINC15",
+          "decoy selection": "scaffold-matched",
+          "metrics": [
+            "AUC",
+            "EF1%",
+            "MCC",
+            "%HA",
+            "%LA"
+          ]
+        },
+        "observation": "Models showed varying performance; metrics calculated.",
+        "result_status": "success",
+        "next_step_reason": "Select best models for large-scale screening.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E08_01",
+            "source_file": "docs/0169/combined.md",
+            "section": "C004",
+            "quote_or_span": "Pharmacophore models were validated in small-scale VS experiments by testing their ability to identify active/inactive compounds from within a pool of random compounds"
+          },
+          {
+            "evidence_id": "EV_C004_E08_02",
+            "source_file": "docs/0169/combined.md",
+            "section": "C004",
+            "quote_or_span": "random compounds were selected to have the same scaffolds as those characterizing the corresponding active compounds."
+          },
+          {
+            "evidence_id": "EV_C004_E08_03",
+            "source_file": "docs/0169/combined.md",
+            "section": "C004",
+            "quote_or_span": "The performances of the various pharmacophore models in the VS experiments were validated using several metrics."
+          },
+          {
+            "evidence_id": "EV_C004_E08_04",
+            "source_file": "docs/0169/combined.md",
+            "section": "C004",
+            "quote_or_span": "the area under the curve (AUC) metric was calculated"
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "analysis",
+        "state_before": "Validation metrics available for all models.",
+        "gap_or_uncertainty": "Which models to use for large-scale virtual screening?",
+        "hypothesis": "Models with high AUC and EF1% and good visual inspection will be effective.",
+        "decision": "Select 18 high-activity and 3 low-activity models based on AUC, EF1%, and visual inspection.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "model selection",
+          "version": "",
+          "category": "data analysis"
+        },
+        "parameters": {
+          "selection criteria": "AUC, EF1%, visual inspection"
+        },
+        "observation": "18 high-activity and 3 low-activity models selected.",
+        "result_status": "success",
+        "next_step_reason": "Proceed to large-scale virtual screening.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_029",
+            "source_file": "docs/0169/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Based on AUC and $EF_{1\\%}$ values, coupled with a visual inspection, we have selected a subset consisting of 18 high activity-based and three low activity-based models for virtual screening."
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "experiment",
+        "state_before": "18 high-activity models selected.",
+        "gap_or_uncertainty": "Can these models identify potential dyes from a large compound library?",
+        "hypothesis": "Consensus screening with ≥9 models matched will enrich active-like compounds.",
+        "decision": "Screen ZINC15 in-stock library (>13.8M compounds) against 18 high-activity models, apply consensus (≥9 models).",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "virtual screening",
+          "version": "LigandScout 4.4",
+          "category": "virtual screening"
+        },
+        "parameters": {
+          "library": "ZINC15 in-stock",
+          "library size": ">13.8M",
+          "consensus threshold": "≥9 models"
+        },
+        "observation": "5636 compounds matched at least 9 models.",
+        "result_status": "success",
+        "next_step_reason": "Filter hits to remove false positives.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E05_01",
+            "source_file": "docs/0169/combined.md",
+            "section": "C002",
+            "quote_or_span": "The ZINC15 in-stock library comprised of more than 13.8 M compounds was screened against all 18 high activity-based pharmacophore models."
+          },
+          {
+            "evidence_id": "EV_C002_E05_02",
+            "source_file": "docs/0169/combined.md",
+            "section": "C002",
+            "quote_or_span": "we have adopted a consensus approach focusing on compounds that matched at least nine models. 5636 compounds met this criterion."
+          },
+          {
+            "evidence_id": "EV_C005_E06_01",
+            "source_file": "docs/0169/combined.md",
+            "section": "C005",
+            "quote_or_span": "The compounds from all screening processes were crosschecked and combined into a single hitlist composed only of compounds that matched at least half of the pharmacophore models used for screening."
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "experiment",
+        "state_before": "5636 consensus hits obtained.",
+        "gap_or_uncertainty": "Some hits may be false positives matching high-activity models but also low-activity features.",
+        "hypothesis": "Filtering against low-activity models will remove false positives.",
+        "decision": "Filter 5636 hits against 3 low-activity models, retaining only those not matching any.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "pharmacophore filtering",
+          "version": "LigandScout 4.4",
+          "category": "virtual screening"
+        },
+        "parameters": {
+          "low-activity models": 3,
+          "filter criterion": "match none"
+        },
+        "observation": "446 final hits obtained.",
+        "result_status": "success",
+        "next_step_reason": "Analyze top hits for chemical features.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_026",
+            "source_file": "docs/0169/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "This filtering process resulted in a final hitlist of 446 compounds that did not match any of the three low activity-based models (see Supplementary Table 4)."
+          },
+          {
+            "evidence_id": "EV_C002_E07_01",
+            "source_file": "docs/0169/combined.md",
+            "section": "C002",
+            "quote_or_span": "Because of these potential deficiencies of the top-ranking hits, we have visually inspected the 5636 compounds that matched at least 50% of the pharmacophores and selected an additional 15 of them for QM calculations."
+          },
+          {
+            "evidence_id": "EV_C002_E05_02",
+            "source_file": "docs/0169/combined.md",
+            "section": "C002",
+            "quote_or_span": "we have adopted a consensus approach focusing on compounds that matched at least nine models. 5636 compounds met this criterion."
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "experiment",
+        "state_before": "35 compounds selected (20 top-scoring + 15 manual).",
+        "gap_or_uncertainty": "Do these compounds have suitable electronic and optical properties?",
+        "hypothesis": "DFT and TD-DFT calculations will predict HOMO/LUMO energies and UV-vis spectra.",
+        "decision": "Perform DFT (B3LYP/6-31G(d,p)) and TD-DFT (CAM-B3LYP) on 35 hits, using pharmacophore-aligned geometries.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "DFT and TD-DFT",
+          "version": "Gaussian 16",
+          "category": "quantum chemistry"
+        },
+        "parameters": {
+          "functional": "B3LYP (DFT), CAM-B3LYP (TD-DFT)",
+          "basis set": "6-31G(d,p)",
+          "geometry source": "pharmacophore alignment"
+        },
+        "observation": "HOMO/LUMO energies and UV-vis spectra computed for 35 compounds.",
+        "result_status": "success",
+        "next_step_reason": "Evaluate electronic properties against DSSC criteria.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C005_E01_02",
+            "source_file": "docs/0169/combined.md",
+            "section": "C005",
+            "quote_or_span": "HOMO and LUMO energies were computed in the gas phase employing DFT methods with the B3LYP exchange-correlation functional, using the 6–31 G(d, p) basis set."
+          },
+          {
+            "evidence_id": "EV_C005_E02_01",
+            "source_file": "docs/0169/combined.md",
+            "section": "C005",
+            "quote_or_span": "Input geometries for the QM calculations were selected by aligning the compounds to their respective pharmacophore models in order to emulate their photoactive conformations."
+          },
+          {
+            "evidence_id": "EV_C002_E07_01",
+            "source_file": "docs/0169/combined.md",
+            "section": "C002",
+            "quote_or_span": "Because of these potential deficiencies of the top-ranking hits, we have visually inspected the 5636 compounds that matched at least 50% of the pharmacophores and selected an additional 15 of them for QM calculations."
+          },
+          {
+            "evidence_id": "EV_AUTO_004",
+            "source_file": "docs/0169/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The results of our calculations on the 35 selected hits suggest that all met the criterion for the HOMO lying below the energy level of the electrolyte medium, and most of them (31 out of 35 compounds) met the criterion for the LUMO lying above the semiconductor's conduction band potential ( $-4."
+          },
+          {
+            "evidence_id": "EV_AUTO_002",
+            "source_file": "docs/0169/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The results of our calculations on the 35 selected hits suggest that all met the criterion for the HOMO lying below the energy level of the electrolyte medium, and most of them (31 out of 35 compounds) met the criterion for the LUMO lying above the semiconductor's conduction band potential ( $-4.85\\,eV$ for $I^{-}/I_{3}^{-}$ medium and $-4."
+          },
+          {
+            "evidence_id": "EV_C003_E06_01",
+            "source_file": "docs/0169/combined.md",
+            "section": "C003",
+            "quote_or_span": "out of these 20 compounds, two did not meet the HOMO/LUMO energies criteria (whereas all 20 highest-ranking compounds did), and none of them exhibited a proper separation between the HOMO and the LUMO"
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "analysis",
+        "state_before": "QM results available.",
+        "gap_or_uncertainty": "Which compounds meet HOMO/LUMO criteria and have proper orbital separation?",
+        "hypothesis": "Compounds with HOMO below electrolyte and LUMO above semiconductor, with good separation, are promising.",
+        "decision": "Evaluate HOMO/LUMO energies and localization; identify best candidates.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "orbital analysis",
+          "version": "",
+          "category": "quantum chemistry"
+        },
+        "parameters": {
+          "HOMO criterion": "below I-/I3- redox potential",
+          "LUMO criterion": "above TiO2 conduction band"
+        },
+        "observation": "All 35 meet HOMO criterion; 31 meet LUMO criterion (4 failures are manually selected). TSC6 and ASC5 identified as best with proper HOMO-LUMO separation and localization.",
+        "result_status": "partial",
+        "next_step_reason": "Analyze UV-vis absorption spectra.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E01_01",
+            "source_file": "docs/0169/combined.md",
+            "section": "C003",
+            "quote_or_span": "all met the criterion for the HOMO lying below the energy level of the electrolyte medium, and most of them (31 out of 35 compounds) met the criterion for the LUMO lying above the semiconductor's conduction band potential"
+          },
+          {
+            "evidence_id": "EV_C003_E02_01",
+            "source_file": "docs/0169/combined.md",
+            "section": "C003",
+            "quote_or_span": "Two compounds, TSC6 and ASC5, also met the condition for the HOMO and LUMO to lie furthest away from each other"
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "analysis",
+        "state_before": "Orbital energies evaluated.",
+        "gap_or_uncertainty": "Do compounds absorb in visible region? CAM-B3LYP known to blue-shift.",
+        "hypothesis": "TD-DFT spectra will show UV-vis absorption, but may be blue-shifted; correction needed.",
+        "decision": "Analyze TD-DFT spectra; apply average blue shift correction of 104±76 nm to estimate experimental λmax.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "spectral analysis",
+          "version": "",
+          "category": "quantum chemistry"
+        },
+        "parameters": {
+          "functional": "CAM-B3LYP",
+          "blue shift correction": "104 ± 76 nm"
+        },
+        "observation": "All 35 absorb in 200-400 nm, but spectra narrower than traditional dyes due to lack of π-linkers. Revised λmax: TSC6 390 nm, ASC5 397 nm.",
+        "result_status": "partial",
+        "next_step_reason": "Validate consensus approach with random set.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E04_01",
+            "source_file": "docs/0169/combined.md",
+            "section": "C003",
+            "quote_or_span": "TD-DFT calculations showed that all 35 compounds (including TSC6 and ASC5) had absorption spectra in the UV–vis region, peaking for most compounds between 200 and 400 nm"
+          },
+          {
+            "evidence_id": "EV_C003_E05_01",
+            "source_file": "docs/0169/combined.md",
+            "section": "C003",
+            "quote_or_span": "the known tendency of the CAM-B3LYP functional to yield blue-shifted spectra in comparison with experiment"
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "validation",
+        "state_before": "Top 20 hits characterized.",
+        "gap_or_uncertainty": "Does the consensus approach enrich for better compounds compared to random?",
+        "hypothesis": "Random compounds matching fewer models will have worse properties.",
+        "decision": "Select random set of 20 compounds matching 3-9 models, perform QM, compare to top 20.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "comparative QM analysis",
+          "version": "",
+          "category": "quantum chemistry"
+        },
+        "parameters": {
+          "random set size": 20,
+          "model match range": "3-9"
+        },
+        "observation": "2/20 fail HOMO/LUMO criteria, none have proper HOMO-LUMO separation, average λmax 255 nm vs 297 nm for top 20.",
+        "result_status": "success",
+        "next_step_reason": "Discuss limitations and future work.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E06_01",
+            "source_file": "docs/0169/combined.md",
+            "section": "C003",
+            "quote_or_span": "out of these 20 compounds, two did not meet the HOMO/LUMO energies criteria (whereas all 20 highest-ranking compounds did), and none of them exhibited a proper separation between the HOMO and the LUMO"
+          },
+          {
+            "evidence_id": "EV_AUTO_003",
+            "source_file": "docs/0169/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Finally, the average calculated $\\lambda_{max}$ value for the 20 randomly selected compounds was lower than that for the 20 highest-ranking ones (255 nm versus 297 nm, respectively)."
+          }
+        ]
+      },
+      {
+        "step_index": 12,
+        "phase": "analysis",
+        "state_before": "Validation results obtained.",
+        "gap_or_uncertainty": "What are the limitations of the current approach and how can it be improved?",
+        "hypothesis": "Experimental validation is needed; methodology improvements (conformation, π-bridge features, model selection, QM methods) can enhance predictions.",
+        "decision": "Discuss limitations and suggest future improvements.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "limitation analysis",
+          "version": "",
+          "category": "data analysis"
+        },
+        "parameters": {},
+        "observation": "Results require experimental validation; methodology improvements suggested (conformation, π-bridge features, model selection, QM methods).",
+        "result_status": "success",
+        "next_step_reason": "Conclude study.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E08_01",
+            "source_file": "docs/0169/combined.md",
+            "section": "C003",
+            "quote_or_span": "the results of this research require experimental validation in order to unambiguously confirm the power of pharmacophore models as predictors of dyes for DSSCs"
+          },
+          {
+            "evidence_id": "EV_C004_E01_01",
+            "source_file": "docs/0169/combined.md",
+            "section": "C004",
+            "quote_or_span": "tifying the exact conformation(s) of the dye when bound to the $TiO_{2}$ layer can significantly improve the resulting pharmacophore models and the subsequent VS."
+          },
+          {
+            "evidence_id": "EV_C004_E02_01",
+            "source_file": "docs/0169/combined.md",
+            "section": "C004",
+            "quote_or_span": "the pharmacophore models could be improved by adding additional features, for example, to account for the $\\pi$ -bridges."
+          },
+          {
+            "evidence_id": "EV_C004_E03_01",
+            "source_file": "docs/0169/combined.md",
+            "section": "C004",
+            "quote_or_span": "the selection process of models for VS could be improved."
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "Small-scale virtual screening with scaffold-matched decoys",
+        "Consensus approach validation via random set comparison"
+      ],
+      "metrics": [
+        "AUC",
+        "EF1%",
+        "MCC",
+        "%HA",
+        "%LA",
+        "HOMO/LUMO criteria",
+        "λmax"
+      ],
+      "final_conclusion": "Pharmacophore models can identify metal-free dyes with suitable predicted electronic properties; TSC6 and ASC5 are promising candidates, but experimental validation is required.",
+      "limitations": [
+        "Lack of experimental validation",
+        "Models lack features for π-bridges and hydrophobic moieties",
+        "Conformational sampling limited",
+        "QM methods may have systematic errors"
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_step_trimmed=13_to_12",
+        "v22_specific_evidence_backfilled=6",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_step_trimmed=13_to_12",
+        "v22_specific_evidence_backfilled=6",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 100.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p6\\states\\0169.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p6\\events\\0169.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1
+        ],
+        "K02": [
+          2
+        ],
+        "K03": [
+          1,
+          3
+        ],
+        "K04": [
+          4,
+          5
+        ],
+        "K05": [
+          4,
+          5
+        ],
+        "K06": [
+          6,
+          7
+        ],
+        "K07": [
+          6,
+          7
+        ],
+        "K10": [
+          8
+        ],
+        "K11": [
+          9
+        ],
+        "K12": [
+          10
+        ],
+        "K13": [
+          8,
+          11
+        ],
+        "K14": [
+          12
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K03"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K02"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K03"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K04",
+            "K05"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K04",
+            "K05"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K06",
+            "K07"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K06",
+            "K07",
+            "K09"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K09",
+            "K10",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K11"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K12"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K09",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 12,
+          "covered_event_ids": [
+            "K14"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 7,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "5636h"
+        ]
+      },
+      {
+        "step_index": 8,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "-31",
+          "35h"
+        ]
+      },
+      {
+        "step_index": 10,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "-400",
+          "104",
+          "390",
+          "397",
+          "76"
+        ]
+      },
+      {
+        "step_index": 11,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "-9"
+        ]
+      }
+    ],
+    "step_count": 12,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 100.0
+  },
+  "api_usage": {
+    "prompt_tokens": 140545,
+    "completion_tokens": 29563,
+    "total_tokens": 170108,
+    "prompt_cache_hit_tokens": 3200,
+    "prompt_cache_miss_tokens": 137345
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 3854,
+        "completion_tokens": 734,
+        "total_tokens": 4588,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 3854
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 13147,
+        "completion_tokens": 3541,
+        "total_tokens": 16688,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 13147
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 8640,
+        "completion_tokens": 1258,
+        "total_tokens": 9898,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8384
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 9025,
+        "completion_tokens": 1470,
+        "total_tokens": 10495,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8769
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 9934,
+        "completion_tokens": 1988,
+        "total_tokens": 11922,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9678
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 8919,
+        "completion_tokens": 1594,
+        "total_tokens": 10513,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8663
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C005",
+      "api_usage": {
+        "prompt_tokens": 9382,
+        "completion_tokens": 1168,
+        "total_tokens": 10550,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9126
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C006",
+      "api_usage": {
+        "prompt_tokens": 5539,
+        "completion_tokens": 88,
+        "total_tokens": 5627,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 5283
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 14633,
+        "completion_tokens": 3654,
+        "total_tokens": 18287,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 14249
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 14461,
+        "completion_tokens": 6227,
+        "total_tokens": 20688,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 13821
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 19735,
+        "completion_tokens": 1164,
+        "total_tokens": 20899,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 19735
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 23276,
+        "completion_tokens": 6677,
+        "total_tokens": 29953,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 22636
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

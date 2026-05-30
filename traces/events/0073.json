@@ -1,0 +1,1368 @@
+{
+  "doc_no": "0073",
+  "source": {
+    "title": "Thermal stability and kinetic constants for 129 variants of a family 1 glycoside hydrolase reveal that enzyme activity and stability can be separately designed",
+    "doi": "https://doi.org/10.1371/journal.pone.0176255",
+    "license": "cc-by",
+    "pdf_name": "0071_10_1371_journal_pone_0176255_thermal_stability_and_kinetic_constants_for_129_variants_of_a_family_1_glycoside_hydrolase.pdf",
+    "combined_md": "docs/0073/combined.md",
+    "mineru_md": "docs/0073/mineru.md"
+  },
+  "gist_memory": {
+    "paper_problem_memory": "The study addresses the challenge of evaluating and improving enzyme design algorithms due to the lack of large, quantitative datasets that measure both enzyme kinetic constants and thermal stability. It tests the hypothesis that enzyme stability and activity are traded off, using a family 1 glycoside hydrolase (BglB) as a model system. The goal is to provide a dataset of 129 mutants with measured expression, Tm, kcat, KM, and kcat/KM, and to assess computational predictions of stability.",
+    "section_gists": [
+      {
+        "section_index": 6,
+        "heading": "Abstract",
+        "gist": "Reports quantitative measurements of soluble expression, thermal stability, and Michaelis-Menten constants for 129 designed mutants of a glycoside hydrolase. Statistical analyses show functional Tm is independent of kcat, KM, and kcat/KM, suggesting mutations can modulate these parameters independently. Computational predictions by Rosetta and FoldX correlate only weakly with experimental stability measurements.",
+        "process_signals": [
+          "Hypothesis: stability and activity can be separately designed",
+          "Weak correlation between computational predictions and experiments indicates need for algorithm improvement"
+        ],
+        "methods": [
+          "Quantitative measurements of soluble protein expression in E. coli",
+          "Thermal stability assays",
+          "Michaelis-Menten kinetics (kcat, KM, kcat/KM)",
+          "Computational predictions using Rosetta and FoldX"
+        ],
+        "metrics": [
+          "Functional Tm",
+          "kcat, KM, kcat/KM",
+          "Pearson correlation between predicted and experimental stability"
+        ],
+        "failures_or_limits": [
+          "Computational predictions correlate weakly with experiments (PCC < 0.3)"
+        ]
+      },
+      {
+        "section_index": 7,
+        "heading": "Introduction",
+        "gist": "Enzymes are hypothesized to trade thermodynamic stability for catalytic proficiency. Lack of large, quantitative datasets hinders evaluation of enzyme design algorithms. Previous study on 100 BglB mutants showed algorithms cannot robustly predict kinetic parameters, but machine learning suggested potential with more data. This study expands to 129 mutants, adding thermal stability measurements and evaluating Rosetta and FoldX predictions.",
+        "process_signals": [
+          "Initial hypothesis: trade-off between stability and activity",
+          "Previous work: 100 mutants, algorithms failed to predict kinetics",
+          "Motivation: need larger datasets orthogonal to training data for algorithms"
+        ],
+        "methods": [
+          "Expansion of previous dataset with thermal stability measurements",
+          "Computational modeling using RosettaDesign, Rosetta ΔΔG, FoldX"
+        ],
+        "metrics": [
+          "Pearson correlation between predicted and observed stability"
+        ],
+        "failures_or_limits": [
+          "Previous algorithms could not robustly predict kinetic parameters",
+          "Existing datasets (e.g., ProTherm) lack enzyme kinetic data and are biased"
+        ]
+      },
+      {
+        "section_index": 8,
+        "heading": "Materials and methods",
+        "gist": "Section header only, no content.",
+        "process_signals": [],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 9,
+        "heading": "Mutant selection",
+        "gist": "Mutants were selected from 8,455 possible single point mutations using three approaches: alanine scanning of residues within 12 Å of the active site, random selection within 12 Å, and student-designed mutations using Foldit with energy constraints. The design focused on active site residues, particularly catalytic glutamates E164 and E353, and used RosettaDesign with functional constraints.",
+        "process_signals": [
+          "Design rationale: target active site residues to probe stability-activity relationship",
+          "Use of computational tools (Rosetta, Foldit) for mutant selection"
+        ],
+        "methods": [
+          "Alanine scanning",
+          "Random mutagenesis",
+          "Foldit-based design with energy constraints (≤5 REU above native)"
+        ],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 11,
+        "heading": "Protein production and purification",
+        "gist": "Mutants were expressed in E. coli BLR(DE3) with IPTG induction at 18°C, purified via Ni-NTA affinity chromatography, and assessed by SDS-PAGE and A280. Expression and purification were attempted for all 129 mutants.",
+        "process_signals": [
+          "Standard expression and purification protocol",
+          "Potential for expression failures noted"
+        ],
+        "methods": [
+          "Transformation into E. coli BLR(DE3)",
+          "IPTG induction at 18°C",
+          "Ni-NTA affinity chromatography",
+          "SDS-PAGE and A280 for purity and yield"
+        ],
+        "metrics": [
+          "Soluble protein yield (mg/mL)"
+        ],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 12,
+        "heading": "Determination of Michaelis-Menten kinetics and thermal stability for individual mutants of BglB",
+        "gist": "Kinetic constants were determined as previously described for 10 new mutants; previous data reused. Thermal stability was measured by incubating proteins at 8 temperatures (30–50°C, 2.5°C steps) for 30 min, then assaying residual activity with pNPG. Tm was defined as temperature at half-denaturation, fitted to a logistic equation.",
+        "process_signals": [
+          "Kinetic assays reused from prior study; new mutants added",
+          "Thermal stability assay designed to measure functional Tm"
+        ],
+        "methods": [
+          "Michaelis-Menten kinetics with pNPG substrate",
+          "Thermal challenge at 8 temperatures",
+          "Logistic fitting to determine Tm"
+        ],
+        "metrics": [
+          "kcat, KM, kcat/KM",
+          "Functional Tm"
+        ],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 13,
+        "heading": "Molecular modeling of BglB mutants",
+        "gist": "Three computational approaches were used: RosettaDesign (enzyme-specific, with ligand), Rosetta ΔΔG (ddg_monomer), and FoldX PSSM. Features were calculated and correlated with experimental Tm. All approaches showed weak correlations.",
+        "process_signals": [
+          "Computational predictions compared to experiments to validate algorithms",
+          "Weak correlations indicate need for algorithm improvement"
+        ],
+        "methods": [
+          "RosettaDesign with functional constraints",
+          "Rosetta ddg_monomer",
+          "FoldX PSSM"
+        ],
+        "metrics": [
+          "Pearson correlation between predicted features and experimental Tm"
+        ],
+        "failures_or_limits": [
+          "All three methods showed weak correlation with experimental Tm"
+        ]
+      },
+      {
+        "section_index": 14,
+        "heading": "Results",
+        "gist": "Section header only, no content.",
+        "process_signals": [],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 15,
+        "heading": "Production of BglB mutants in E. coli and protein purification",
+        "gist": "Of 129 mutants, 92 expressed as soluble protein; 37 did not express after at least 2 attempts. Non-expressing mutants often violated protein folding rules (e.g., proline in helix, core charge introduction).",
+        "process_signals": [
+          "High failure rate: 37/129 mutants did not express",
+          "Failures consistent with known folding principles"
+        ],
+        "methods": [
+          "Expression screening by SDS-PAGE"
+        ],
+        "metrics": [
+          "Soluble expression success rate (92/129)"
+        ],
+        "failures_or_limits": [
+          "37 mutants did not express, limiting dataset for those variants"
+        ]
+      },
+      {
+        "section_index": 16,
+        "heading": "Kinetic constants for 10 new variants of BglB build on previous data set",
+        "gist": "Kinetic constants for 10 new mutants were determined, showing strong agreement with previous wild-type replicates (≤4% difference). Notable mutant N220Y had 10-fold lower KM, matching design hypothesis. Data for all 129 mutants summarized in heat map.",
+        "process_signals": [
+          "Reproducibility confirmed by replicate measurements",
+          "Design success: N220Y achieved intended KM reduction"
+        ],
+        "methods": [
+          "Michaelis-Menten kinetics"
+        ],
+        "metrics": [
+          "kcat, KM, kcat/KM",
+          "Limit of detection for kcat/KM: 10 M^-1 min^-1"
+        ],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 17,
+        "heading": "Functional protein melting temperature for 79 mutants of BglB",
+        "gist": "Tm was determined for 79 mutants with detectable activity. Wild-type Tm = 39.9±0.1°C. Mutant Tm range: 34.9–46.0°C. Most mutants (43) had Tm within 1°C of wild-type; 26 lower, 10 higher. Highest Tm: E164A (+6.1°C); lowest: E222H (-5.6°C).",
+        "process_signals": [
+          "Tm measurements successful for 79/92 expressing mutants",
+          "Wide range of stability effects observed"
+        ],
+        "methods": [
+          "Thermal challenge and logistic fitting"
+        ],
+        "metrics": [
+          "Functional Tm",
+          "ΔTm relative to wild-type"
+        ],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 18,
+        "heading": "Overview of data for 129 mutants of BglB",
+        "gist": "Comprehensive heat map of expression, Tm, kinetics, and conservation. Examples of trade-offs (N404C, W120F: increased Tm, decreased kcat) and independent changes (R240A: unchanged Tm, increased kcat; Q313R: increased Tm, unchanged kcat; N220Y: increased Tm, decreased KM).",
+        "process_signals": [
+          "Identification of mutants exhibiting trade-offs and independent modulation",
+          "Supports hypothesis that stability and activity can be separately designed"
+        ],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 19,
+        "heading": "Relationship between Tm and kcat, KM, and kcat/KM for mutants of BglB",
+        "gist": "Pearson correlations between Tm and log(kcat), KM, log(kcat/KM) were -0.27, -0.07, -0.24, respectively. Only 18.8–25.8% of mutants showed trade-offs. Statistical independence suggests stability and kinetics can be separately designed.",
+        "process_signals": [
+          "Weak correlations challenge the stability-activity trade-off hypothesis",
+          "Outliers exist with both high stability and activity"
+        ],
+        "methods": [
+          "Pearson correlation analysis"
+        ],
+        "metrics": [
+          "PCC: Tm vs kcat = -0.27, vs KM = -0.07, vs kcat/KM = -0.24",
+          "Percentage of mutants showing trade-offs: 18.8% (kcat), 25.8% (KM), 21.0% (kcat/KM)"
+        ],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 20,
+        "heading": "Relationship between sequence conservation and functional parameters of BglB mutants",
+        "gist": "Correlations between percent conservation in Pfam GH01 and functional parameters: kcat = -0.70, KM = -0.16, kcat/KM = -0.69, Tm = 0.30. Strong negative correlation with catalytic parameters suggests conserved residues are important for activity.",
+        "process_signals": [
+          "Conservation correlates strongly with catalytic activity, weakly with stability",
+          "Evolutionary information may inform design"
+        ],
+        "methods": [
+          "Sequence alignment to Pfam GH01",
+          "Pearson correlation"
+        ],
+        "metrics": [
+          "PCC: conservation vs kcat = -0.70, vs KM = -0.16, vs kcat/KM = -0.69, vs Tm = 0.30"
+        ],
+        "failures_or_limits": []
+      }
+    ],
+    "global_hypotheses_about_storyline": [
+      "The initial hypothesis of a trade-off between enzyme stability and activity is not strongly supported; instead, stability and kinetic parameters can be independently modulated.",
+      "Computational predictions of stability changes are currently inadequate, as shown by weak correlations with experimental data.",
+      "Large, quantitative datasets are essential for training and evaluating enzyme design algorithms."
+    ],
+    "uncertainties_to_resolve": [
+      "Why do some mutants exhibit both high stability and high activity, contradicting the trade-off hypothesis?",
+      "Can improved algorithms better predict stability and activity changes?",
+      "How generalizable are these findings to other enzymes?"
+    ]
+  },
+  "chunk_events": [
+    {
+      "chunk_id": "C001",
+      "char_start": 0,
+      "char_end": 18000,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C001_E01",
+          "chunk_id": "C001",
+          "event_type": "problem",
+          "order_hint": 1,
+          "summary": "Lack of large datasets with quantitative kinetic constants and thermal stability measurements hinders evaluation of enzyme design algorithms.",
+          "methods_or_tools": [],
+          "entities": [
+            "enzyme design algorithms",
+            "kinetic constants",
+            "thermal stability"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E01_01"
+          ]
+        },
+        {
+          "event_id": "C001_E03",
+          "chunk_id": "C001",
+          "event_type": "design",
+          "order_hint": 3,
+          "summary": "Mutants selected from 8,455 possible single point mutations using three approaches: alanine scanning, random selection, and student-designed mutations via Foldit.",
+          "methods_or_tools": [
+            "alanine scanning",
+            "random mutagenesis",
+            "Foldit"
+          ],
+          "entities": [
+            "BglB",
+            "active site residues",
+            "pNPG"
+          ],
+          "numbers_or_metrics": [
+            "8,455 possible single point mutations",
+            "12 Å distance cutoff"
+          ],
+          "evidence_ids": [
+            "EV_C001_E03_01",
+            "EV_C001_E03_02",
+            "EV_C001_E03_03",
+            "EV_C001_E03_04"
+          ]
+        },
+        {
+          "event_id": "C001_E04",
+          "chunk_id": "C001",
+          "event_type": "experiment",
+          "order_hint": 4,
+          "summary": "Protein production and purification: 129 mutants expressed in E. coli, purified via Ni-NTA affinity chromatography.",
+          "methods_or_tools": [
+            "E. coli BLR(DE3) expression",
+            "Ni-NTA affinity chromatography",
+            "SDS-PAGE",
+            "A280"
+          ],
+          "entities": [
+            "BglB mutants",
+            "E. coli"
+          ],
+          "numbers_or_metrics": [
+            "129 mutants"
+          ],
+          "evidence_ids": [
+            "EV_C001_E04_01",
+            "EV_C001_E04_03"
+          ]
+        },
+        {
+          "event_id": "C001_E05",
+          "chunk_id": "C001",
+          "event_type": "experiment",
+          "order_hint": 5,
+          "summary": "Thermal stability assay: proteins thermally challenged at 8 temperatures, residual activity measured, Tm determined by logistic fitting.",
+          "methods_or_tools": [
+            "thermal challenge",
+            "pNPG substrate",
+            "logistic fitting"
+          ],
+          "entities": [
+            "BglB variants",
+            "pNPG"
+          ],
+          "numbers_or_metrics": [
+            "8 temperatures (30–50°C, 2.5°C steps)",
+            "30 min incubation"
+          ],
+          "evidence_ids": [
+            "EV_C001_E05_01"
+          ]
+        },
+        {
+          "event_id": "C001_E06",
+          "chunk_id": "C001",
+          "event_type": "computation",
+          "order_hint": 6,
+          "summary": "Computational predictions of stability using RosettaDesign, Rosetta ΔΔG, and FoldX PSSM.",
+          "methods_or_tools": [
+            "RosettaDesign",
+            "Rosetta ddg_monomer",
+            "FoldX PSSM"
+          ],
+          "entities": [
+            "BglB mutants",
+            "crystal structure 2JIE"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E06_01",
+            "EV_C001_E06_04"
+          ]
+        },
+        {
+          "event_id": "C001_E07",
+          "chunk_id": "C001",
+          "event_type": "failure",
+          "order_hint": 7,
+          "summary": "37 of 129 mutants did not express as soluble protein after at least 2 attempts.",
+          "methods_or_tools": [
+            "SDS-PAGE"
+          ],
+          "entities": [
+            "BglB mutants",
+            "E. coli"
+          ],
+          "numbers_or_metrics": [
+            "37 mutants did not express",
+            "92 expressed"
+          ],
+          "evidence_ids": [
+            "EV_C001_E07_01",
+            "EV_C001_E07_02"
+          ]
+        }
+      ],
+      "notes": "Chunk covers abstract, introduction, methods, and early results including expression failures and computational validation.",
+      "api_usage": {
+        "prompt_tokens": 7595,
+        "completion_tokens": 1692,
+        "total_tokens": 9287,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7339
+      }
+    },
+    {
+      "chunk_id": "C002",
+      "char_start": 17100,
+      "char_end": 35100,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C002_E01",
+          "chunk_id": "C002",
+          "event_type": "experiment",
+          "order_hint": 1,
+          "summary": "Of 129 mutant proteins produced, 92 expressed and purified as soluble protein; 37 mutants did not express after at least 2 attempts.",
+          "methods_or_tools": [
+            "SDS-PAGE analysis"
+          ],
+          "entities": [
+            "BglB mutants",
+            "E. coli"
+          ],
+          "numbers_or_metrics": [
+            "129 mutants",
+            "92 expressed",
+            "37 did not express"
+          ],
+          "evidence_ids": [
+            "EV_C002_E01_01",
+            "EV_C002_E01_02"
+          ]
+        },
+        {
+          "event_id": "C002_E02",
+          "chunk_id": "C002",
+          "event_type": "analysis",
+          "order_hint": 2,
+          "summary": "Mutants that did not express were broadly consistent with well-established rules of protein folding.",
+          "methods_or_tools": [],
+          "entities": [
+            "non-expressing mutants"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E02_01"
+          ]
+        },
+        {
+          "event_id": "C002_E06",
+          "chunk_id": "C002",
+          "event_type": "analysis",
+          "order_hint": 6,
+          "summary": "Pearson correlations between Tm and kinetic constants were weak, suggesting stability and activity can be separately designed.",
+          "methods_or_tools": [
+            "Pearson correlation"
+          ],
+          "entities": [
+            "BglB"
+          ],
+          "numbers_or_metrics": [
+            "PCC Tm vs kcat -0.27",
+            "vs KM -0.07",
+            "vs kcat/KM -0.24"
+          ],
+          "evidence_ids": [
+            "EV_C002_E06_02"
+          ]
+        }
+      ],
+      "notes": "Chunk contains key experimental results (expression, kinetics, Tm), analysis of stability-activity relationship, and assessment of computational predictions.",
+      "api_usage": {
+        "prompt_tokens": 8641,
+        "completion_tokens": 1485,
+        "total_tokens": 10126,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8385
+      }
+    },
+    {
+      "chunk_id": "C003",
+      "char_start": 34200,
+      "char_end": 47805,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C003_E05",
+          "chunk_id": "C003",
+          "event_type": "failure",
+          "order_hint": 5,
+          "summary": "Weak correlation between experimental data and predictions reveals algorithms require improvement.",
+          "methods_or_tools": [
+            "RosettaDesign",
+            "Rosetta ΔΔG",
+            "FoldX"
+          ],
+          "entities": [
+            "computational predictions",
+            "experimental data"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E05_01"
+          ]
+        }
+      ],
+      "notes": "Chunk contains computational correlation results, discussion of stability-activity independence, and limitations of functional Tm measurements.",
+      "api_usage": {
+        "prompt_tokens": 7022,
+        "completion_tokens": 1383,
+        "total_tokens": 8405,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6766
+      }
+    }
+  ],
+  "evidence_bank": [
+    {
+      "evidence_id": "EV_C001_E01_01",
+      "source_file": "docs/0073/combined.md",
+      "section": "C001",
+      "char_start": 4719,
+      "char_end": 4950,
+      "quote": "One major challenge to evaluating and improving the predictions made by current enzyme design algorithms is the lack of large data sets for which enzyme functional parameters and protein stability have been measured quantitatively."
+    },
+    {
+      "evidence_id": "EV_C001_E03_01",
+      "source_file": "docs/0073/combined.md",
+      "section": "C001",
+      "char_start": 10912,
+      "char_end": 11076,
+      "quote": "To select a subset of the 8,455 possible single point mutations to the native BglB sequence that could be experimentally characterized, three approaches were taken."
+    },
+    {
+      "evidence_id": "EV_C001_E03_02",
+      "source_file": "docs/0073/combined.md",
+      "section": "C001",
+      "char_start": 11077,
+      "char_end": 11166,
+      "quote": "First, all residues within 12 Å of the modeled pNPG were individually mutated to alanine."
+    },
+    {
+      "evidence_id": "EV_C001_E03_03",
+      "source_file": "docs/0073/combined.md",
+      "section": "C001",
+      "char_start": 11167,
+      "char_end": 11290,
+      "quote": "Second, a subset of mutants was chosen at random by selecting a random mutation to residues within 12 Å of the active site."
+    },
+    {
+      "evidence_id": "EV_C001_E03_04",
+      "source_file": "docs/0073/combined.md",
+      "section": "C001",
+      "char_start": 11291,
+      "char_end": 11510,
+      "quote": "Third, a model of the BglB-pNPG complex was loaded into Foldit, a graphical user interface to Rosetta, point mutations to the protein were modeled, and a subset were chosen by students learning about molecular modeling."
+    },
+    {
+      "evidence_id": "EV_C001_E04_01",
+      "source_file": "docs/0073/combined.md",
+      "section": "C001",
+      "char_start": 12118,
+      "char_end": 12232,
+      "quote": "Individual purified plasmid constructs were transformed into chemically competent Escherichia coli BLR (DE3) cells"
+    },
+    {
+      "evidence_id": "EV_C001_E04_03",
+      "source_file": "docs/0073/combined.md",
+      "section": "C001",
+      "char_start": 13357,
+      "char_end": 13517,
+      "quote": "Protein purity was assessed using 4–12% gradient SDS-PAGE (Life Technologies) and total protein yield determined by A280 using a BioTek Epoch spectrophotometer."
+    },
+    {
+      "evidence_id": "EV_C001_E05_01",
+      "source_file": "docs/0073/combined.md",
+      "section": "C001",
+      "char_start": 14213,
+      "char_end": 14357,
+      "quote": "Proteins were thermally challenged for 30 minutes at 8 constant temperatures (lowest: 30°C, highest: 50°C, step size: 2.5°C) in a thermal cycler"
+    },
+    {
+      "evidence_id": "EV_C001_E06_01",
+      "source_file": "docs/0073/combined.md",
+      "section": "C001",
+      "char_start": 15391,
+      "char_end": 15452,
+      "quote": "Three molecular modeling approaches were taken in this study."
+    },
+    {
+      "evidence_id": "EV_C001_E06_04",
+      "source_file": "docs/0073/combined.md",
+      "section": "C001",
+      "char_start": 16849,
+      "char_end": 16925,
+      "quote": "Third, the FoldX position-specific scoring matrix (PSSM) algorithm was used."
+    },
+    {
+      "evidence_id": "EV_C001_E07_01",
+      "source_file": "docs/0073/combined.md",
+      "section": "C001",
+      "char_start": 17571,
+      "char_end": 17648,
+      "quote": "Of 129 mutant proteins produced, 92 expressed and purified as soluble protein"
+    },
+    {
+      "evidence_id": "EV_C001_E07_02",
+      "source_file": "docs/0073/combined.md",
+      "section": "C001",
+      "char_start": 17679,
+      "char_end": 17800,
+      "quote": "The remaining 37 mutants did not visibly appear after SDS-PAGE analysis after at least 2 independent production attempts."
+    },
+    {
+      "evidence_id": "EV_C002_E01_01",
+      "source_file": "docs/0073/combined.md",
+      "section": "C002",
+      "char_start": 17571,
+      "char_end": 17648,
+      "quote": "Of 129 mutant proteins produced, 92 expressed and purified as soluble protein"
+    },
+    {
+      "evidence_id": "EV_C002_E01_02",
+      "source_file": "docs/0073/combined.md",
+      "section": "C002",
+      "char_start": 17679,
+      "char_end": 17800,
+      "quote": "The remaining 37 mutants did not visibly appear after SDS-PAGE analysis after at least 2 independent production attempts."
+    },
+    {
+      "evidence_id": "EV_C002_E02_01",
+      "source_file": "docs/0073/combined.md",
+      "section": "C002",
+      "char_start": 17872,
+      "char_end": 17971,
+      "quote": "Mutants that did not express were broadly consistent with well-established rules of protein folding"
+    },
+    {
+      "evidence_id": "EV_C002_E06_02",
+      "source_file": "docs/0073/combined.md",
+      "section": "C002",
+      "char_start": 26676,
+      "char_end": 26861,
+      "quote": "The statistical independence of stability and functional parameters in the BglB data set suggests that protein stability and enzyme kinetic constants can be separately designed in BglB."
+    },
+    {
+      "evidence_id": "EV_C003_E05_01",
+      "source_file": "docs/0073/combined.md",
+      "section": "C003",
+      "char_start": 35522,
+      "char_end": 35700,
+      "quote": "The weak correlation between experimental data and predictions reveal that the underlying algorithms require improvement in order to robustly predict stability of enzyme mutants."
+    },
+    {
+      "evidence_id": "EV_AUTO_001",
+      "source_file": "docs/0073/combined.md",
+      "section": "auto_specific",
+      "char_start": 17872,
+      "char_end": 18356,
+      "quote": "Mutants that did not express were broadly consistent with well-established rules of protein folding $[1]$ , such as the large destabilizing effect of the introduction of proline into an alpha helix (Y166P, Q19P), the mutation of topology-defining/helix-ending proline residues (P329N), mutations from glycine (G12N, G355A), the introduction of charged residues into the hydrophobic core (A236E, F72H, N293D, N293K), and extreme amino acid volume changes in the core of the protein (e."
+    },
+    {
+      "evidence_id": "EV_AUTO_002",
+      "source_file": "docs/0073/combined.md",
+      "section": "auto_specific",
+      "char_start": 25432,
+      "char_end": 25561,
+      "quote": "The mutation R240A does not change $T_{m}$ , but increases $k_{cat}$ by 10-fold (see Fig 2), while Q313R increases $T_{m}$ by 2."
+    },
+    {
+      "evidence_id": "EV_AUTO_003",
+      "source_file": "docs/0073/combined.md",
+      "section": "auto_specific",
+      "char_start": 23851,
+      "char_end": 24034,
+      "quote": "For E222H, molecular modeling indicates an unfavorable Coulombic interaction between the charged R240 and the mutant E222H being responsible for the loss of stability in this mutant."
+    },
+    {
+      "evidence_id": "EV_AUTO_004",
+      "source_file": "docs/0073/combined.md",
+      "section": "auto_specific",
+      "char_start": 22631,
+      "char_end": 22720,
+      "quote": "1°C), while the lowest $T_{m}$ observed was for mutant E222H, which had a $T_{m}$ of $34."
+    },
+    {
+      "evidence_id": "EV_AUTO_005",
+      "source_file": "docs/0073/combined.md",
+      "section": "auto_specific",
+      "char_start": 22506,
+      "char_end": 22615,
+      "quote": "The highest $T_{m}$ observed in this data set is for the mutation E164A, which increased the $T_{m}$ to $46."
+    },
+    {
+      "evidence_id": "EV_AUTO_006",
+      "source_file": "docs/0073/combined.md",
+      "section": "auto_specific",
+      "char_start": 25716,
+      "char_end": 25840,
+      "quote": "For the Michaelis constant ( $K_{M}$ ) a decrease of 10-fold in mutant N220Y is accompanied by an increase in $T_{m}$ by 1."
+    },
+    {
+      "evidence_id": "EV_AUTO_007",
+      "source_file": "docs/0073/combined.md",
+      "section": "auto_specific",
+      "char_start": 23671,
+      "char_end": 23794,
+      "quote": "Also pictured in Fig 3 are the two mutants that most significantly decreased thermal stability: E222H ( $\\Delta T_{m} - 5."
+    },
+    {
+      "evidence_id": "EV_AUTO_008",
+      "source_file": "docs/0073/combined.md",
+      "section": "auto_specific",
+      "char_start": 23488,
+      "char_end": 23553,
+      "quote": "Similarly, the mutation W120F increased functional $T_{m}$ by 2."
+    },
+    {
+      "evidence_id": "EV_AUTO_009",
+      "source_file": "docs/0073/combined.md",
+      "section": "auto_specific",
+      "char_start": 23387,
+      "char_end": 23446,
+      "quote": "For mutation N404C, the functional $T_{m}$ increased by 2."
+    },
+    {
+      "evidence_id": "EV_AUTO_010",
+      "source_file": "docs/0073/combined.md",
+      "section": "auto_specific",
+      "char_start": 20666,
+      "char_end": 20905,
+      "quote": "The most notable change in kinetic constants within the new mutants characterized in this publication is the 10-fold decrease (indicating more sensitive enzyme response to substrate concentration) for computationally-designed mutant N220Y."
+    },
+    {
+      "evidence_id": "EV_AUTO_011",
+      "source_file": "docs/0073/combined.md",
+      "section": "auto_specific",
+      "char_start": 18358,
+      "char_end": 18397,
+      "quote": ", small-to-large mutations like A227W)."
+    },
+    {
+      "evidence_id": "EV_AUTO_012",
+      "source_file": "docs/0073/combined.md",
+      "section": "auto_specific",
+      "char_start": 12459,
+      "char_end": 12713,
+      "quote": "After incubation at 37°C with shaking at 300 RPM for 24 hours, cells were pelleted and media replaced with 5 mL Terrific Broth containing 1 mM isopropyl- $\\beta$ -D-1-thiogalactopyranoside (IPTG) and 50 $\\mu$ g/mL kanamycin to induce expression of BglB."
+    },
+    {
+      "evidence_id": "EV_AUTO_013",
+      "source_file": "docs/0073/combined.md",
+      "section": "auto_specific",
+      "char_start": 18878,
+      "char_end": 19048,
+      "quote": "The limit of detection of our assay for $k_{cat}/K_{M}$ is $10 M^{-1} min^{-1}$ , and the maximum $k_{cat}/K_{M}$ in the data set is $1,570,000 M^{-1} min^{-1}$ (N220Y)."
+    },
+    {
+      "evidence_id": "EV_AUTO_014",
+      "source_file": "docs/0073/combined.md",
+      "section": "auto_specific",
+      "char_start": 25432,
+      "char_end": 25632,
+      "quote": "The mutation R240A does not change $T_{m}$ , but increases $k_{cat}$ by 10-fold (see Fig 2), while Q313R increases $T_{m}$ by 2.2°C while leaving $k_{cat}$ within 10% of the $k_{cat}$ of native BglB."
+    },
+    {
+      "evidence_id": "EV_AUTO_015",
+      "source_file": "docs/0073/combined.md",
+      "section": "auto_specific",
+      "char_start": 24034,
+      "char_end": 24118,
+      "quote": "For Q19S, it is unclear what the major driving force is behind the destabilization."
+    },
+    {
+      "evidence_id": "EV_AUTO_016",
+      "source_file": "docs/0073/combined.md",
+      "section": "auto_specific",
+      "char_start": 23794,
+      "char_end": 23837,
+      "quote": "0^{\\circ}C$ ) and Q19S ( $\\Delta T_{m} - 3."
+    },
+    {
+      "evidence_id": "EV_AUTO_017",
+      "source_file": "docs/0073/combined.md",
+      "section": "auto_specific",
+      "char_start": 23671,
+      "char_end": 23837,
+      "quote": "Also pictured in Fig 3 are the two mutants that most significantly decreased thermal stability: E222H ( $\\Delta T_{m} - 5.0^{\\circ}C$ ) and Q19S ( $\\Delta T_{m} - 3."
+    },
+    {
+      "evidence_id": "EV_AUTO_018",
+      "source_file": "docs/0073/combined.md",
+      "section": "auto_specific",
+      "char_start": 22631,
+      "char_end": 22736,
+      "quote": "1°C), while the lowest $T_{m}$ observed was for mutant E222H, which had a $T_{m}$ of $34.9^{\\circ}C$ (-5."
+    },
+    {
+      "evidence_id": "EV_AUTO_019",
+      "source_file": "docs/0073/combined.md",
+      "section": "auto_specific",
+      "char_start": 22615,
+      "char_end": 22720,
+      "quote": "0^{\\circ}C$ (+6.1°C), while the lowest $T_{m}$ observed was for mutant E222H, which had a $T_{m}$ of $34."
+    },
+    {
+      "evidence_id": "EV_AUTO_020",
+      "source_file": "docs/0073/combined.md",
+      "section": "auto_specific",
+      "char_start": 22506,
+      "char_end": 22631,
+      "quote": "The highest $T_{m}$ observed in this data set is for the mutation E164A, which increased the $T_{m}$ to $46.0^{\\circ}C$ (+6."
+    },
+    {
+      "evidence_id": "EV_AUTO_021",
+      "source_file": "docs/0073/combined.md",
+      "section": "auto_specific",
+      "char_start": 25716,
+      "char_end": 25844,
+      "quote": "For the Michaelis constant ( $K_{M}$ ) a decrease of 10-fold in mutant N220Y is accompanied by an increase in $T_{m}$ by 1.9°C."
+    },
+    {
+      "evidence_id": "EV_AUTO_022",
+      "source_file": "docs/0073/combined.md",
+      "section": "auto_specific",
+      "char_start": 23488,
+      "char_end": 23595,
+      "quote": "Similarly, the mutation W120F increased functional $T_{m}$ by 2.6°C, while decreasing $k_{cat}$ by 9-fold."
+    },
+    {
+      "evidence_id": "EV_AUTO_023",
+      "source_file": "docs/0073/combined.md",
+      "section": "auto_specific",
+      "char_start": 23387,
+      "char_end": 23488,
+      "quote": "For mutation N404C, the functional $T_{m}$ increased by 2.75°C while $k_{cat}$ decreased by 10-fold."
+    },
+    {
+      "evidence_id": "EV_AUTO_024",
+      "source_file": "docs/0073/combined.md",
+      "section": "auto_specific",
+      "char_start": 21621,
+      "char_end": 21974,
+      "quote": "Of the 79 solubly-expressed mutants which have kinetic activity above our limit of detection for $k_{cat}/K_{M}$ of $10 M^{-1} min^{-1}$ , a functional melting temperature ( $T_{m}$ ) was determined by fitting observed rates collected from proteins incubated at 8 temperatures (30–50°C) to the logistic equation, as described in “Materials and methods”."
+    },
+    {
+      "evidence_id": "EV_AUTO_025",
+      "source_file": "docs/0073/combined.md",
+      "section": "auto_specific",
+      "char_start": 39378,
+      "char_end": 39689,
+      "quote": "Table of protein expression (0 = no, 1 = yes), functional melting temperature (°C), kinetic constants $k_{cat}$ (min $^{-1}$ ), $K_{M}$ (mM) and $k_{cat}/K_{M}$ (M $^{-1}$ min $^{-1}$ ), and statistical analysis (1 standard deviation error, in the same units as for the value) for BglB and each of 129 mutants."
+    },
+    {
+      "evidence_id": "EV_AUTO_026",
+      "source_file": "docs/0073/combined.md",
+      "section": "auto_specific",
+      "char_start": 27255,
+      "char_end": 27418,
+      "quote": "For the 129 variants reported here, the PCC between percent conservation and each of $k_{cat}$ , $K_{M}$ , $k_{cat}/K_{M}$ , and $T_{m}$ is found to be -0.70, -0."
+    },
+    {
+      "evidence_id": "EV_AUTO_027",
+      "source_file": "docs/0073/combined.md",
+      "section": "auto_specific",
+      "char_start": 7013,
+      "char_end": 7485,
+      "quote": "To evaluate the ability of molecular modeling software to predict thermal stability of mutants in our data set, we modeled each of the 129 point mutations to the BglB sequence using three approaches: 1) an enzyme-specific algorithm termed RosettaDesign [11], 2) an algorithm for predicting $\\Delta \\Delta G$ of point mutations to proteins termed Rosetta $\\Delta \\Delta G$ [12], and 3) an algorithm for predicting $\\Delta \\Delta G$ of mutations to proteins using FoldX [9]."
+    },
+    {
+      "evidence_id": "EV_AUTO_028",
+      "source_file": "docs/0073/combined.md",
+      "section": "auto_specific",
+      "char_start": 43182,
+      "char_end": 43226,
+      "quote": "Public Library of Science; 2011; 6: e19230."
+    },
+    {
+      "evidence_id": "EV_AUTO_029",
+      "source_file": "docs/0073/combined.md",
+      "section": "auto_specific",
+      "char_start": 27255,
+      "char_end": 27411,
+      "quote": "For the 129 variants reported here, the PCC between percent conservation and each of $k_{cat}$ , $K_{M}$ , $k_{cat}/K_{M}$ , and $T_{m}$ is found to be -0."
+    },
+    {
+      "evidence_id": "EV_AUTO_030",
+      "source_file": "docs/0073/combined.md",
+      "section": "auto_specific",
+      "char_start": 26496,
+      "char_end": 26627,
+      "quote": "By this analysis, the percentage of mutants in our data set that exhibit function-stability tradeoffs is 18.8% for $k_{cat}$ , 25."
+    },
+    {
+      "evidence_id": "EV_AUTO_031",
+      "source_file": "docs/0073/combined.md",
+      "section": "auto_specific",
+      "char_start": 22250,
+      "char_end": 22382,
+      "quote": "Of 79 mutants for which $T_{m}$ was determined, 43 mutants have a $T_{m}$ that falls within $1^{\\circ}C$ of the wild type $T_{m}$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_032",
+      "source_file": "docs/0073/combined.md",
+      "section": "auto_specific",
+      "char_start": 17571,
+      "char_end": 17678,
+      "quote": "Of 129 mutant proteins produced, 92 expressed and purified as soluble protein (Fig 2, “Expression” column)."
+    },
+    {
+      "evidence_id": "EV_AUTO_033",
+      "source_file": "docs/0073/combined.md",
+      "section": "auto_specific",
+      "char_start": 16446,
+      "char_end": 16663,
+      "quote": "Second, mutations were generated and scored using the Rosetta ddg\\_monomer application, with recommended settings previously validated on experimental data [20], and the results were averaged across all 50 iterations."
+    },
+    {
+      "evidence_id": "EV_AUTO_034",
+      "source_file": "docs/0073/combined.md",
+      "section": "auto_specific",
+      "char_start": 10093,
+      "char_end": 10311,
+      "quote": "PyMOL rendering $[32]$ of modeled BglB in complex with pNPG showing the 68 sequence positions selected for mutation in this study (teal spheres) and the modeled transition-state structure (white ball and stick model)."
+    },
+    {
+      "evidence_id": "EV_AUTO_035",
+      "source_file": "docs/0073/combined.md",
+      "section": "auto_specific",
+      "char_start": 5600,
+      "char_end": 5775,
+      "quote": "Large data sets such as the ProTherm database [7], with roughly 10,000 characterized point mutations from nearly 1000 individual proteins, do not contain enzyme kinetic data."
+    },
+    {
+      "evidence_id": "EV_AUTO_036",
+      "source_file": "docs/0073/combined.md",
+      "section": "auto_specific",
+      "char_start": 5243,
+      "char_end": 5600,
+      "quote": "In contrast, studies that cover >90% of possible point mutations to a particular enzyme measure activity only qualitatively or convolve independent parameters such as stability and activity into a single measurement [5,6], reducing their utility in training enzyme design algorithms seeking to make quantitative predictions of enzyme functional parameters."
+    }
+  ],
+  "event_graph": {
+    "paper_main_problem": "Lack of large datasets with quantitative kinetic constants and thermal stability measurements hinders evaluation of enzyme design algorithms.",
+    "canonical_events": [
+      {
+        "canonical_id": "K01",
+        "order": 1,
+        "event_type": "problem",
+        "summary": "Lack of large datasets with quantitative kinetic constants and thermal stability measurements hinders evaluation of enzyme design algorithms.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E01"
+        ],
+        "evidence_ids": [
+          "EV_C001_E01_01"
+        ],
+        "key_entities": [
+          "enzyme design algorithms",
+          "kinetic constants",
+          "thermal stability"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K02",
+        "order": 2,
+        "event_type": "design",
+        "summary": "Mutants selected from 8,455 possible single point mutations using three approaches: alanine scanning, random selection, and student-designed mutations via Foldit.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E03"
+        ],
+        "evidence_ids": [
+          "EV_C001_E03_01",
+          "EV_C001_E03_02",
+          "EV_C001_E03_03",
+          "EV_C001_E03_04"
+        ],
+        "key_entities": [
+          "BglB",
+          "active site residues",
+          "pNPG"
+        ],
+        "key_numbers": [
+          "8,455 possible single point mutations",
+          "12 Å distance cutoff"
+        ]
+      },
+      {
+        "canonical_id": "K03",
+        "order": 3,
+        "event_type": "experiment",
+        "summary": "Protein production and purification: 129 mutants expressed in E. coli, purified via Ni-NTA affinity chromatography.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E04"
+        ],
+        "evidence_ids": [
+          "EV_C001_E04_01",
+          "EV_C001_E04_03"
+        ],
+        "key_entities": [
+          "BglB mutants",
+          "E. coli"
+        ],
+        "key_numbers": [
+          "129 mutants"
+        ]
+      },
+      {
+        "canonical_id": "K04",
+        "order": 4,
+        "event_type": "failure",
+        "summary": "37 of 129 mutants did not express as soluble protein after at least 2 attempts.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E07",
+          "C002_E01"
+        ],
+        "evidence_ids": [
+          "EV_C001_E07_01",
+          "EV_C001_E07_02",
+          "EV_C002_E01_01",
+          "EV_C002_E01_02"
+        ],
+        "key_entities": [
+          "BglB mutants",
+          "E. coli"
+        ],
+        "key_numbers": [
+          "37 mutants did not express",
+          "92 expressed"
+        ]
+      },
+      {
+        "canonical_id": "K05",
+        "order": 5,
+        "event_type": "analysis",
+        "summary": "Non-expressing mutants were broadly consistent with well-established rules of protein folding.",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C002_E02"
+        ],
+        "evidence_ids": [
+          "EV_C002_E02_01"
+        ],
+        "key_entities": [
+          "non-expressing mutants"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K06",
+        "order": 6,
+        "event_type": "experiment",
+        "summary": "Thermal stability assay: proteins thermally challenged at 8 temperatures, residual activity measured, Tm determined by logistic fitting.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E05"
+        ],
+        "evidence_ids": [
+          "EV_C001_E05_01"
+        ],
+        "key_entities": [
+          "BglB variants",
+          "pNPG"
+        ],
+        "key_numbers": [
+          "8 temperatures (30–50°C, 2.5°C steps)",
+          "30 min incubation"
+        ]
+      },
+      {
+        "canonical_id": "K07",
+        "order": 7,
+        "event_type": "experiment",
+        "summary": "Kinetic constants for 10 new mutants determined, showing strong agreement with previous wild-type replicates (≤4% difference).",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [],
+        "evidence_ids": [
+          "EV_AUTO_010",
+          "EV_AUTO_013"
+        ],
+        "key_entities": [
+          "BglB mutants",
+          "pNPG"
+        ],
+        "key_numbers": [
+          "10 new mutants",
+          "≤4% difference",
+          "limit of detection for kcat/KM: 10 M^-1 min^-1"
+        ]
+      },
+      {
+        "canonical_id": "K08",
+        "order": 8,
+        "event_type": "analysis",
+        "summary": "Functional Tm determined for 79 mutants with detectable activity; wild-type Tm = 39.9±0.1°C; mutant Tm range: 34.9–46.0°C.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [],
+        "evidence_ids": [
+          "EV_AUTO_004",
+          "EV_AUTO_005",
+          "EV_AUTO_018",
+          "EV_AUTO_019",
+          "EV_AUTO_020",
+          "EV_AUTO_024"
+        ],
+        "key_entities": [
+          "BglB mutants"
+        ],
+        "key_numbers": [
+          "79 mutants",
+          "wild-type Tm = 39.9±0.1°C",
+          "Tm range: 34.9–46.0°C",
+          "43 mutants within 1°C of wild-type",
+          "26 lower, 10 higher"
+        ]
+      },
+      {
+        "canonical_id": "K09",
+        "order": 9,
+        "event_type": "analysis",
+        "summary": "Examples of trade-offs and independent modulation: N404C, W120F (increased Tm, decreased kcat); R240A (unchanged Tm, increased kcat); Q313R (increased Tm, unchanged kcat); N220Y (increased Tm, decreased KM).",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [],
+        "evidence_ids": [
+          "EV_AUTO_002",
+          "EV_AUTO_006",
+          "EV_AUTO_008",
+          "EV_AUTO_009",
+          "EV_AUTO_014",
+          "EV_AUTO_021"
+        ],
+        "key_entities": [
+          "BglB mutants"
+        ],
+        "key_numbers": [
+          "N404C: Tm +2.75°C, kcat -10-fold",
+          "W120F: Tm +2.6°C, kcat -9-fold",
+          "R240A: Tm unchanged, kcat +10-fold",
+          "Q313R: Tm +2.2°C, kcat within 10%",
+          "N220Y: Tm +1.9°C, KM -10-fold"
+        ]
+      },
+      {
+        "canonical_id": "K10",
+        "order": 10,
+        "event_type": "analysis",
+        "summary": "Pearson correlations between Tm and kinetic constants were weak: Tm vs kcat = -0.27, vs KM = -0.07, vs kcat/KM = -0.24, suggesting stability and activity can be separately designed.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E06"
+        ],
+        "evidence_ids": [
+          "EV_C002_E06_02"
+        ],
+        "key_entities": [
+          "BglB"
+        ],
+        "key_numbers": [
+          "PCC Tm vs kcat -0.27",
+          "vs KM -0.07",
+          "vs kcat/KM -0.24"
+        ]
+      },
+      {
+        "canonical_id": "K11",
+        "order": 11,
+        "event_type": "analysis",
+        "summary": "Only 18.8–25.8% of mutants showed trade-offs between stability and activity, further supporting independent modulation.",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [],
+        "evidence_ids": [
+          "EV_AUTO_030"
+        ],
+        "key_entities": [
+          "BglB mutants"
+        ],
+        "key_numbers": [
+          "18.8% for kcat",
+          "25.8% for KM",
+          "21.0% for kcat/KM"
+        ]
+      },
+      {
+        "canonical_id": "K12",
+        "order": 12,
+        "event_type": "analysis",
+        "summary": "Sequence conservation correlates strongly with catalytic parameters (kcat: -0.70, kcat/KM: -0.69) but weakly with Tm (0.30).",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [],
+        "evidence_ids": [
+          "EV_AUTO_026",
+          "EV_AUTO_029"
+        ],
+        "key_entities": [
+          "BglB",
+          "Pfam GH01"
+        ],
+        "key_numbers": [
+          "PCC conservation vs kcat -0.70",
+          "vs KM -0.16",
+          "vs kcat/KM -0.69",
+          "vs Tm 0.30"
+        ]
+      },
+      {
+        "canonical_id": "K13",
+        "order": 13,
+        "event_type": "computation",
+        "summary": "Computational predictions of stability using RosettaDesign, Rosetta ΔΔG, and FoldX PSSM.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E06"
+        ],
+        "evidence_ids": [
+          "EV_C001_E06_01",
+          "EV_C001_E06_04",
+          "EV_AUTO_027",
+          "EV_AUTO_033"
+        ],
+        "key_entities": [
+          "BglB mutants",
+          "crystal structure 2JIE"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K14",
+        "order": 14,
+        "event_type": "failure",
+        "summary": "Weak correlation between experimental data and computational predictions reveals algorithms require improvement.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E05"
+        ],
+        "evidence_ids": [
+          "EV_C003_E05_01"
+        ],
+        "key_entities": [
+          "computational predictions",
+          "experimental data"
+        ],
+        "key_numbers": []
+      }
+    ],
+    "edges": [
+      {
+        "source": "K01",
+        "target": "K02",
+        "relation": "enables",
+        "reason": "The problem motivates the design of a mutant library to generate the needed dataset."
+      },
+      {
+        "source": "K02",
+        "target": "K03",
+        "relation": "enables",
+        "reason": "The designed mutants are produced and purified for experimental characterization."
+      },
+      {
+        "source": "K03",
+        "target": "K04",
+        "relation": "follows",
+        "reason": "Expression screening reveals a subset of mutants that fail to express."
+      },
+      {
+        "source": "K04",
+        "target": "K05",
+        "relation": "follows",
+        "reason": "Analysis of non-expressing mutants shows consistency with folding rules."
+      },
+      {
+        "source": "K03",
+        "target": "K06",
+        "relation": "enables",
+        "reason": "Purified proteins are used for thermal stability assays."
+      },
+      {
+        "source": "K03",
+        "target": "K07",
+        "relation": "enables",
+        "reason": "Purified proteins are used for kinetic assays."
+      },
+      {
+        "source": "K06",
+        "target": "K08",
+        "relation": "follows",
+        "reason": "Thermal stability data is analyzed to determine Tm values."
+      },
+      {
+        "source": "K07",
+        "target": "K09",
+        "relation": "follows",
+        "reason": "Kinetic data combined with Tm data reveals specific trade-off and independent modulation examples."
+      },
+      {
+        "source": "K08",
+        "target": "K09",
+        "relation": "follows",
+        "reason": "Tm data is used to identify mutants with notable stability changes."
+      },
+      {
+        "source": "K09",
+        "target": "K10",
+        "relation": "enables",
+        "reason": "Examples motivate statistical analysis of the relationship between stability and activity."
+      },
+      {
+        "source": "K10",
+        "target": "K11",
+        "relation": "refines",
+        "reason": "Quantification of trade-off percentages further supports the independence conclusion."
+      },
+      {
+        "source": "K10",
+        "target": "K12",
+        "relation": "follows",
+        "reason": "Sequence conservation analysis provides additional insight into determinants of function and stability."
+      },
+      {
+        "source": "K02",
+        "target": "K13",
+        "relation": "enables",
+        "reason": "Mutant sequences are used for computational stability predictions."
+      },
+      {
+        "source": "K13",
+        "target": "K14",
+        "relation": "follows",
+        "reason": "Comparison of predictions with experimental Tm reveals weak correlation."
+      },
+      {
+        "source": "K08",
+        "target": "K14",
+        "relation": "enables",
+        "reason": "Experimental Tm data is needed to evaluate computational predictions."
+      }
+    ],
+    "must_cover_points": [
+      "Problem: lack of large quantitative datasets for enzyme design algorithms.",
+      "Design of 129 BglB mutants using three approaches.",
+      "Expression and purification of mutants, with 37 failures.",
+      "Thermal stability assay and Tm determination for 79 mutants.",
+      "Kinetic constants for new mutants and reproducibility.",
+      "Statistical analysis showing weak correlation between Tm and kinetic parameters.",
+      "Computational predictions using Rosetta and FoldX.",
+      "Weak correlation between predictions and experiments, indicating need for algorithm improvement."
+    ],
+    "paper_not_suitable_reasons": []
+  }
+}

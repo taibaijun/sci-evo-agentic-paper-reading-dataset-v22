@@ -1,0 +1,2125 @@
+{
+  "doc_no": "0059",
+  "source": {
+    "title": "Drug design and repurposing with DockThor-VS web server focusing on SARS-CoV-2 therapeutic targets and their non-synonym variants",
+    "doi": "https://doi.org/10.1038/s41598-021-84700-0",
+    "license": "cc-by",
+    "pdf_name": "0057_10_1038_s41598_021_84700_0_drug_design_and_repurposing_with_dockthor_vs_web_server_focusing_on_sars_cov_2_therapeutic.pdf",
+    "combined_md": "docs/0059/combined.md",
+    "mineru_md": "docs/0059/mineru.md"
+  },
+  "gist_memory": {
+    "paper_problem_memory": "The COVID-19 pandemic created an urgent need for effective treatments. Structure-based drug design via docking can accelerate drug repurposing and new drug development against SARS-CoV-2. However, virtual screening success depends on accurate target structures and consideration of protein flexibility and genetic variations. The study aims to develop DockThor-VS, a web server providing curated 3D structures of SARS-CoV-2 therapeutic targets (wild type and non-synonymous variants) and drug libraries, to facilitate repurposing virtual screening and assess the impact of mutations on drug binding.",
+    "section_gists": [
+      {
+        "section_index": 3,
+        "heading": "Drug design and repurposing with DockThor-VS web server focusing on SARS-CoV-2 therapeutic targets and their non-synonym variants",
+        "gist": "Introduces COVID-19 pandemic and the need for treatments. Describes SARS-CoV-2 genome, proteins, and mutations. Highlights the role of structure-based drug design and virtual screening. Presents DockThor-VS as a web server with curated target structures and drug libraries for repurposing, incorporating non-synonymous variations. States the goal to assess impact of mutations on drug binding.",
+        "process_signals": [
+          "Motivation: urgent need for COVID-19 treatments",
+          "Hypothesis: considering multiple conformations and mutations improves virtual screening",
+          "Approach: develop web server with pre-prepared targets and drug libraries"
+        ],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 4,
+        "heading": "Results and discussion",
+        "gist": "Describes the dataset of potential therapeutic targets: Nsp3 (PLpro), Nsp5 (Mpro), Nsp12 (RdRp), Nsp15 (NendoU), N protein, and Spike. For each, provides structural details, flexibility considerations, and selected conformations. Discusses virtual screening results of FDA-approved drugs against these targets, including top-scoring compounds and mutation effects. Highlights the importance of using multiple conformations to avoid false negatives.",
+        "process_signals": [
+          "Observation: protein flexibility (e.g., Tyr268 in PLpro, Met49/Asn142/Gln189 in Mpro) affects binding",
+          "Decision: provide multiple conformations per target",
+          "Result: top drug candidates identified; some show consistent scores across variants, others vary",
+          "Partial result: some drugs score well only in certain conformations or variants"
+        ],
+        "methods": [
+          "Target preparation: protonation states assigned based on literature mechanisms",
+          "Docking: virtual screening of FDA-approved drugs using DockThor-VS",
+          "Mutation analysis: in silico point mutations and docking"
+        ],
+        "metrics": [
+          "Docking scores (e.g., Table 2 shows affinity predictions for Spike variants)"
+        ],
+        "failures_or_limits": [
+          "Some drugs show variable scores across variants, indicating potential resistance",
+          "Limited to available crystal structures; some targets (e.g., Macrodomain) not yet included"
+        ]
+      },
+      {
+        "section_index": 5,
+        "heading": "Methods",
+        "gist": "Details the analysis of non-synonymous variations using GISAID and CoV-GLUE, with impact prediction via PROVEAN. Describes protein structure preparation using Maestro's Protein Preparation Wizard, including protonation, hydrogen-bond optimization, and visual inspection. In silico mutations performed with Modeller. Docking protocol uses DockThor with grid box centered on binding site, and scoring function.",
+        "process_signals": [
+          "Constraint: need to select representative conformations from NMR ensembles (e.g., N protein)",
+          "Decision: cluster open conformations to avoid steric clashes",
+          "Method: use literature-guided protonation states for catalytic residues"
+        ],
+        "methods": [
+          "Non-synonymous variation analysis: GISAID, CoV-GLUE, PROVEAN",
+          "Protein preparation: Maestro Protein Preparation Wizard, PROPKA, visual inspection",
+          "In silico mutation: Modeller",
+          "Docking: DockThor with grid box, scoring function"
+        ],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 6,
+        "heading": "Conclusions",
+        "gist": "Summarizes the development of DockThor-VS for repurposing drugs against six SARS-CoV-2 proteins with wild type and variant structures. Emphasizes the importance of multiple conformations to reduce false negatives. Notes that mutations can alter drug interaction profiles, aiding broader-spectrum drug design. Acknowledges continuous updates with new structures and methods. Suggests consensus scoring with other programs.",
+        "process_signals": [
+          "Validation: importance of multiple conformations confirmed",
+          "Limitation: need for continuous updates as new structures emerge",
+          "Future: incorporate new docking methodologies and protein flexibility strategies"
+        ],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": [
+          "Study limited to six targets; other targets to be added",
+          "Docking scores are approximate; consensus scoring recommended"
+        ]
+      }
+    ],
+    "global_hypotheses_about_storyline": [
+      "The researchers hypothesized that providing pre-prepared, curated structures of SARS-CoV-2 targets, including multiple conformations and common variants, would enable more effective virtual screening for drug repurposing.",
+      "They believed that considering protein flexibility and mutations is crucial to avoid false negatives and to identify drugs with broad-spectrum potential.",
+      "The study aimed to demonstrate the utility of the DockThor-VS platform by performing virtual screening of FDA-approved drugs and analyzing mutation impacts."
+    ],
+    "uncertainties_to_resolve": [
+      "How were the specific mutations selected for each target?",
+      "What were the exact docking parameters (e.g., grid size, exhaustiveness)?",
+      "Were any experimental validations performed on the top hits?",
+      "How does DockThor-VS scoring compare to other docking programs?",
+      "What is the false positive rate of the virtual screening?"
+    ]
+  },
+  "chunk_events": [
+    {
+      "chunk_id": "C001",
+      "char_start": 0,
+      "char_end": 18000,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C001_E01",
+          "chunk_id": "C001",
+          "event_type": "problem",
+          "order_hint": 1,
+          "summary": "The COVID-19 pandemic created an urgent need for effective treatments, and virtual screening success depends on factors like target structure preparation, compound library preparation, receptor flexibility, and genomic variations.",
+          "methods_or_tools": [],
+          "entities": [
+            "COVID-19",
+            "SARS-CoV-2",
+            "virtual screening"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E01_01",
+            "EV_C001_E01_02"
+          ]
+        },
+        {
+          "event_id": "C001_E02",
+          "chunk_id": "C001",
+          "event_type": "design",
+          "order_hint": 2,
+          "summary": "Developed DockThor-VS web server to provide curated structures of SARS-CoV-2 therapeutic targets and drug libraries for repurposing virtual screening.",
+          "methods_or_tools": [
+            "DockThor-VS web server"
+          ],
+          "entities": [
+            "DockThor-VS",
+            "SARS-CoV-2",
+            "Nsp3",
+            "Nsp5",
+            "Nsp12",
+            "Nsp15",
+            "N protein",
+            "Spike"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E02_01",
+            "EV_C001_E02_02"
+          ]
+        },
+        {
+          "event_id": "C001_E03",
+          "chunk_id": "C001",
+          "event_type": "design",
+          "order_hint": 3,
+          "summary": "For each protein target, chose a set of structures representing different relevant conformations to account for receptor flexibility.",
+          "methods_or_tools": [],
+          "entities": [
+            "protein target",
+            "receptor flexibility"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E03_01"
+          ]
+        },
+        {
+          "event_id": "C001_E04",
+          "chunk_id": "C001",
+          "event_type": "design",
+          "order_hint": 4,
+          "summary": "Protonation states of ionisable residues were carefully investigated in the available literature for each protein target.",
+          "methods_or_tools": [],
+          "entities": [
+            "protonation states",
+            "ionisable residues"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E04_01"
+          ]
+        },
+        {
+          "event_id": "C001_E05",
+          "chunk_id": "C001",
+          "event_type": "design",
+          "order_hint": 5,
+          "summary": "Repurposing libraries were carefully prepared considering different protonation states and tautomerism for each compound.",
+          "methods_or_tools": [],
+          "entities": [
+            "repurposing libraries",
+            "protonation states",
+            "tautomerism"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E05_01"
+          ]
+        },
+        {
+          "event_id": "C001_E06",
+          "chunk_id": "C001",
+          "event_type": "design",
+          "order_hint": 6,
+          "summary": "Macrocycle drugs were subjected to special treatment to generate distinct conformations.",
+          "methods_or_tools": [],
+          "entities": [
+            "macrocycle drugs"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E06_01"
+          ]
+        },
+        {
+          "event_id": "C001_E08",
+          "chunk_id": "C001",
+          "event_type": "design",
+          "order_hint": 8,
+          "summary": "Provided two PLpro structures (PDB 6W9C and 6WX4) to represent flexibility of Tyr268 and Leu162.",
+          "methods_or_tools": [],
+          "entities": [
+            "PLpro",
+            "Tyr268",
+            "Leu162",
+            "6W9C",
+            "6WX4"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E08_01"
+          ]
+        }
+      ],
+      "notes": "Chunk contains introduction and early results/discussion, focusing on problem statement and design decisions for the DockThor-VS platform and target preparation.",
+      "api_usage": {
+        "prompt_tokens": 6073,
+        "completion_tokens": 1360,
+        "total_tokens": 7433,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 5817
+      }
+    },
+    {
+      "chunk_id": "C002",
+      "char_start": 17100,
+      "char_end": 35100,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C002_E01",
+          "chunk_id": "C002",
+          "event_type": "analysis",
+          "order_hint": 1,
+          "summary": "Superposition of Mpro structures reveals significant conformational changes in residues Met49, Asn142 and Gln189, reinforcing the importance of multiple conformations in virtual screening.",
+          "methods_or_tools": [
+            "structure superposition"
+          ],
+          "entities": [
+            "Mpro",
+            "Met49",
+            "Asn142",
+            "Gln189",
+            "6LU7",
+            "6W63"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E01_01"
+          ]
+        },
+        {
+          "event_id": "C002_E02",
+          "chunk_id": "C002",
+          "event_type": "design",
+          "order_hint": 2,
+          "summary": "Mpro structures prepared with manually adjusted protonation states: neutral His41 at ND1, catalytic Cys145 protonated, neutral His163 at NE2, neutral His164 at NE2.",
+          "methods_or_tools": [
+            "manual adjustment of protonation states"
+          ],
+          "entities": [
+            "Mpro",
+            "His41",
+            "Cys145",
+            "His163",
+            "His164"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E02_01"
+          ]
+        },
+        {
+          "event_id": "C002_E04",
+          "chunk_id": "C002",
+          "event_type": "design",
+          "order_hint": 4,
+          "summary": "Nsp15 structure prepared based on conformation complexed with tipiracil (PDB 6WXC), with specific protonation states for catalytic residues.",
+          "methods_or_tools": [
+            "protein preparation"
+          ],
+          "entities": [
+            "Nsp15",
+            "6WXC",
+            "His235",
+            "His250",
+            "Lys290"
+          ],
+          "numbers_or_metrics": [
+            "pH 6.2"
+          ],
+          "evidence_ids": [
+            "EV_C002_E04_01"
+          ]
+        },
+        {
+          "event_id": "C002_E05",
+          "chunk_id": "C002",
+          "event_type": "design",
+          "order_hint": 5,
+          "summary": "Five NMR conformations of N-NTD provided to account for protein flexibility, selected by clustering based on Arg92 and Tyr109 conformations.",
+          "methods_or_tools": [
+            "NMR",
+            "clustering"
+          ],
+          "entities": [
+            "N-NTD",
+            "Arg92",
+            "Tyr109",
+            "6YI3"
+          ],
+          "numbers_or_metrics": [
+            "5 conformations",
+            "31 conformations"
+          ],
+          "evidence_ids": [
+            "EV_C002_E05_01"
+          ]
+        },
+        {
+          "event_id": "C002_E07",
+          "chunk_id": "C002",
+          "event_type": "design",
+          "order_hint": 7,
+          "summary": "Suggested binding site for docking on N-NTD centered on hotspot between finger and palm subdomains, essential for RNA binding.",
+          "methods_or_tools": [
+            "docking"
+          ],
+          "entities": [
+            "N-NTD",
+            "finger subdomain",
+            "palm subdomain"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E07_01"
+          ]
+        }
+      ],
+      "notes": "Chunk describes structural details and preparation decisions for Mpro, RdRp, Nsp15, and N protein, highlighting flexibility considerations and binding site definitions for virtual screening.",
+      "api_usage": {
+        "prompt_tokens": 6363,
+        "completion_tokens": 1385,
+        "total_tokens": 7748,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6107
+      }
+    },
+    {
+      "chunk_id": "C003",
+      "char_start": 34200,
+      "char_end": 52200,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C003_E02",
+          "chunk_id": "C003",
+          "event_type": "design",
+          "order_hint": 2,
+          "summary": "Selection of non-synonymous variations for each target based on impact on catalytic region, ligand interaction, amino acid properties, and literature evidence.",
+          "methods_or_tools": [
+            "CoV-GLUE",
+            "PROVEAN"
+          ],
+          "entities": [
+            "PLpro",
+            "Mpro",
+            "RdRp",
+            "Nsp15",
+            "N protein",
+            "Spike"
+          ],
+          "numbers_or_metrics": [
+            "19 NSVs selected"
+          ],
+          "evidence_ids": [
+            "EV_C003_E02_01"
+          ]
+        },
+        {
+          "event_id": "C003_E03",
+          "chunk_id": "C003",
+          "event_type": "experiment",
+          "order_hint": 3,
+          "summary": "Virtual screening of FDA-approved drugs (e-Drug3D) against all six SARS-CoV-2 targets using wild type structures and ensemble docking.",
+          "methods_or_tools": [
+            "DockThor-VS",
+            "e-Drug3D",
+            "ensemble docking"
+          ],
+          "entities": [
+            "PLpro",
+            "Mpro",
+            "RdRp",
+            "NendoU",
+            "Spike",
+            "N protein"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E03_01"
+          ]
+        },
+        {
+          "event_id": "C003_E04",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 4,
+          "summary": "Docking scores for drugs under clinical trials against COVID-19 are presented in Table 1, showing predicted affinities across targets.",
+          "methods_or_tools": [],
+          "entities": [
+            "Table 1"
+          ],
+          "numbers_or_metrics": [
+            "docking scores"
+          ],
+          "evidence_ids": [
+            "EV_C003_E04_01"
+          ]
+        },
+        {
+          "event_id": "C003_E05",
+          "chunk_id": "C003",
+          "event_type": "limitation",
+          "order_hint": 5,
+          "summary": "Docking results are not for clinical guidance; top hits need experimental validation.",
+          "methods_or_tools": [],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E05_01"
+          ]
+        },
+        {
+          "event_id": "C003_E06",
+          "chunk_id": "C003",
+          "event_type": "hypothesis",
+          "order_hint": 6,
+          "summary": "Some drugs may inhibit multiple SARS-CoV-2 targets, exhibiting multiple antiviral mechanisms.",
+          "methods_or_tools": [],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E06_01"
+          ]
+        }
+      ],
+      "notes": "Chunk contains design decisions for Spike conformation selection, mutation selection criteria, virtual screening experiment description, and limitations.",
+      "api_usage": {
+        "prompt_tokens": 7249,
+        "completion_tokens": 1000,
+        "total_tokens": 8249,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6993
+      }
+    },
+    {
+      "chunk_id": "C004",
+      "char_start": 51300,
+      "char_end": 69300,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C004_E01",
+          "chunk_id": "C004",
+          "event_type": "analysis",
+          "order_hint": 1,
+          "summary": "Analysis of virtual screening results shows most predicted binding affinities are moderate, consistent with experimental studies showing modest inhibitory effects.",
+          "methods_or_tools": [
+            "virtual screening",
+            "docking"
+          ],
+          "entities": [
+            "SARS-CoV-2 targets",
+            "drugs under clinical trials"
+          ],
+          "numbers_or_metrics": [
+            "scores higher than -6.8 kcal/mol",
+            "scores lower than -8.2 kcal/mol"
+          ],
+          "evidence_ids": [
+            "EV_C004_E01_01",
+            "EV_C004_E01_02"
+          ]
+        },
+        {
+          "event_id": "C004_E02",
+          "chunk_id": "C004",
+          "event_type": "analysis",
+          "order_hint": 2,
+          "summary": "Identification of ledipasvir, imatinib, lopinavir, and daclatasvir as most promising drugs with good multi-target profiles and low nanomolar predicted affinities.",
+          "methods_or_tools": [
+            "virtual screening",
+            "docking"
+          ],
+          "entities": [
+            "ledipasvir",
+            "imatinib",
+            "lopinavir",
+            "daclatasvir"
+          ],
+          "numbers_or_metrics": [
+            "low nanomolar concentration"
+          ],
+          "evidence_ids": [
+            "EV_C004_E02_01"
+          ]
+        },
+        {
+          "event_id": "C004_E03",
+          "chunk_id": "C004",
+          "event_type": "analysis",
+          "order_hint": 3,
+          "summary": "Ledipasvir predicted as most potent Mpro inhibitor among clinical trial drugs, also top against Spike and RdRp.",
+          "methods_or_tools": [
+            "docking"
+          ],
+          "entities": [
+            "ledipasvir",
+            "Mpro",
+            "Spike",
+            "RdRp"
+          ],
+          "numbers_or_metrics": [
+            "score = -10.59 kcal/mol",
+            "score = -9.66 kcal/mol",
+            "score = -9.16 kcal/mol"
+          ],
+          "evidence_ids": [
+            "EV_C004_E03_01",
+            "EV_C004_E03_02"
+          ]
+        },
+        {
+          "event_id": "C004_E04",
+          "chunk_id": "C004",
+          "event_type": "analysis",
+          "order_hint": 4,
+          "summary": "Imatinib predicted to potentially inhibit Mpro with docking score -10.10 kcal/mol, but recent study reported no effect on SARS-CoV-2 replication.",
+          "methods_or_tools": [
+            "docking",
+            "cell culture assay"
+          ],
+          "entities": [
+            "imatinib",
+            "Mpro",
+            "SARS-CoV-2"
+          ],
+          "numbers_or_metrics": [
+            "score = -10.10 kcal/mol"
+          ],
+          "evidence_ids": [
+            "EV_C004_E04_01",
+            "EV_C004_E04_02"
+          ]
+        },
+        {
+          "event_id": "C004_E05",
+          "chunk_id": "C004",
+          "event_type": "analysis",
+          "order_hint": 5,
+          "summary": "Receptor conformation strongly affects virtual screening ranking; using single conformation can cause false negatives.",
+          "methods_or_tools": [
+            "virtual screening",
+            "docking"
+          ],
+          "entities": [
+            "Mpro",
+            "imatinib",
+            "posaconazole",
+            "elbasvir"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E05_01",
+            "EV_C004_E05_02"
+          ]
+        },
+        {
+          "event_id": "C004_E06",
+          "chunk_id": "C004",
+          "event_type": "analysis",
+          "order_hint": 6,
+          "summary": "Non-synonymous mutation Y343C in NendoU weakens lopinavir binding by losing π-stacking interaction with Tyr343.",
+          "methods_or_tools": [
+            "docking",
+            "in silico mutation"
+          ],
+          "entities": [
+            "NendoU",
+            "lopinavir",
+            "Y343C"
+          ],
+          "numbers_or_metrics": [
+            "score = -10.12 kcal/mol",
+            "score = -9.33 kcal/mol"
+          ],
+          "evidence_ids": [
+            "EV_C004_E06_01"
+          ]
+        }
+      ],
+      "notes": "Chunk contains detailed virtual screening results, analysis of top drug candidates, impact of receptor conformations and mutations on binding, and discussion of false negatives.",
+      "api_usage": {
+        "prompt_tokens": 6867,
+        "completion_tokens": 1508,
+        "total_tokens": 8375,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6611
+      }
+    },
+    {
+      "chunk_id": "C005",
+      "char_start": 68400,
+      "char_end": 86400,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C005_E01",
+          "chunk_id": "C005",
+          "event_type": "analysis",
+          "order_hint": 1,
+          "summary": "Analysis of mutation effects on drug binding for N protein and Spike variants.",
+          "methods_or_tools": [
+            "DockThor-VS",
+            "virtual screening"
+          ],
+          "entities": [
+            "N protein",
+            "Spike",
+            "elbasvir",
+            "lopinavir",
+            "ombitasvir"
+          ],
+          "numbers_or_metrics": [
+            "-10.21 kcal/mol",
+            "-9.68 kcal/mol",
+            "-9.33 kcal/mol"
+          ],
+          "evidence_ids": [
+            "EV_C005_E01_01"
+          ]
+        },
+        {
+          "event_id": "C005_E02",
+          "chunk_id": "C005",
+          "event_type": "experiment",
+          "order_hint": 2,
+          "summary": "Virtual screening experiments for Spike variants using ensemble docking protocol.",
+          "methods_or_tools": [
+            "DockThor-VS",
+            "ensemble docking"
+          ],
+          "entities": [
+            "Spike",
+            "K417N",
+            "N439K",
+            "F456L",
+            "G476S",
+            "V483A",
+            "E484K",
+            "N501Y"
+          ],
+          "numbers_or_metrics": [
+            "24 screening",
+            "three distinct Spike conformations"
+          ],
+          "evidence_ids": [
+            "EV_C005_E02_01"
+          ]
+        },
+        {
+          "event_id": "C005_E03",
+          "chunk_id": "C005",
+          "event_type": "analysis",
+          "order_hint": 3,
+          "summary": "Observation that mutations lead to specific effects on top-ranked drugs without significant affinity differences.",
+          "methods_or_tools": [],
+          "entities": [
+            "ombitasvir",
+            "elbasvir",
+            "mivacurium",
+            "cetrorelix",
+            "abarelix"
+          ],
+          "numbers_or_metrics": [
+            "drop in the predicted affinity of almost 1 kcal/mol"
+          ],
+          "evidence_ids": [
+            "EV_C005_E03_01",
+            "EV_C005_E03_02"
+          ]
+        },
+        {
+          "event_id": "C005_E04",
+          "chunk_id": "C005",
+          "event_type": "analysis",
+          "order_hint": 4,
+          "summary": "Some compounds predicted more potent against variants than wild type.",
+          "methods_or_tools": [],
+          "entities": [
+            "elbasvir",
+            "mivacurium",
+            "cetrorelix",
+            "abarelix"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C005_E04_01"
+          ]
+        },
+        {
+          "event_id": "C005_E05",
+          "chunk_id": "C005",
+          "event_type": "limitation",
+          "order_hint": 5,
+          "summary": "Protein dynamic effects caused by mutations not taken into account by docking protocol.",
+          "methods_or_tools": [
+            "docking protocol"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C005_E05_01"
+          ]
+        },
+        {
+          "event_id": "C005_E07",
+          "chunk_id": "C005",
+          "event_type": "design",
+          "order_hint": 7,
+          "summary": "Protein structures prepared using Maestro's Protein Preparation Wizard with visual inspection.",
+          "methods_or_tools": [
+            "Protein Preparation Wizard",
+            "Maestro",
+            "ProtAssign",
+            "PROPKA"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C005_E07_01",
+            "EV_C005_E07_02"
+          ]
+        }
+      ],
+      "notes": "Chunk contains detailed analysis of mutation effects on drug binding, virtual screening results for Spike variants, and methods for protein preparation and mutation modeling.",
+      "api_usage": {
+        "prompt_tokens": 6524,
+        "completion_tokens": 1396,
+        "total_tokens": 7920,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6268
+      }
+    },
+    {
+      "chunk_id": "C006",
+      "char_start": 85500,
+      "char_end": 103500,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C006_E01",
+          "chunk_id": "C006",
+          "event_type": "design",
+          "order_hint": 1,
+          "summary": "The DockTScore scoring function was developed with multiple terms for protein-ligand binding.",
+          "methods_or_tools": [
+            "DockTScore",
+            "linear model"
+          ],
+          "entities": [
+            "DockTScore",
+            "scoring function"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C006_E01_01"
+          ]
+        },
+        {
+          "event_id": "C006_E02",
+          "chunk_id": "C006",
+          "event_type": "validation",
+          "order_hint": 2,
+          "summary": "The scoring function was trained and tested on a large set of diverse 3D structures.",
+          "methods_or_tools": [
+            "DockTScore"
+          ],
+          "entities": [
+            "scoring function",
+            "3D structures"
+          ],
+          "numbers_or_metrics": [
+            ">2900"
+          ],
+          "evidence_ids": [
+            "EV_C006_E02_01"
+          ]
+        },
+        {
+          "event_id": "C006_E03",
+          "chunk_id": "C006",
+          "event_type": "design",
+          "order_hint": 3,
+          "summary": "Future affinity prediction models for specific target classes will be provided.",
+          "methods_or_tools": [
+            "machine-learning algorithms"
+          ],
+          "entities": [
+            "proteases",
+            "protein–protein interactions"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C006_E03_01"
+          ]
+        },
+        {
+          "event_id": "C006_E04",
+          "chunk_id": "C006",
+          "event_type": "design",
+          "order_hint": 4,
+          "summary": "DockThor web server provides protein/ligand preparation and analysis tools.",
+          "methods_or_tools": [
+            "PdbThorBox",
+            "MMFFLigand",
+            "DTStatistics",
+            "NGL"
+          ],
+          "entities": [
+            "DockThor web server"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C006_E04_01"
+          ]
+        },
+        {
+          "event_id": "C006_E05",
+          "chunk_id": "C006",
+          "event_type": "analysis",
+          "order_hint": 5,
+          "summary": "Using multiple protein conformations in virtual screening reduces false negatives.",
+          "methods_or_tools": [
+            "virtual screening"
+          ],
+          "entities": [
+            "protein target",
+            "conformations"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C006_E05_01"
+          ]
+        },
+        {
+          "event_id": "C006_E06",
+          "chunk_id": "C006",
+          "event_type": "analysis",
+          "order_hint": 6,
+          "summary": "Non-synonymous variations may confer drug resistance by altering interaction profiles.",
+          "methods_or_tools": [],
+          "entities": [
+            "non-synonymous variations",
+            "drugs"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C006_E06_01"
+          ]
+        },
+        {
+          "event_id": "C006_E07",
+          "chunk_id": "C006",
+          "event_type": "limitation",
+          "order_hint": 7,
+          "summary": "The platform currently covers only six targets and will be updated with new structures.",
+          "methods_or_tools": [],
+          "entities": [
+            "PLpro",
+            "Mpro",
+            "RdRp",
+            "NendoU",
+            "N protein",
+            "Spike"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C006_E07_01",
+            "EV_C006_E07_02"
+          ]
+        },
+        {
+          "event_id": "C006_E08",
+          "chunk_id": "C006",
+          "event_type": "revision",
+          "order_hint": 8,
+          "summary": "DockThor-VS will be updated with new docking methodologies and protein flexibility strategies.",
+          "methods_or_tools": [
+            "docking methodologies",
+            "protein flexibility",
+            "binding affinity prediction"
+          ],
+          "entities": [
+            "DockThor-VS"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C006_E08_01"
+          ]
+        }
+      ],
+      "notes": "This chunk contains details on the scoring function design, validation, web server features, and conclusions about the importance of multiple conformations and mutation analysis.",
+      "api_usage": {
+        "prompt_tokens": 6777,
+        "completion_tokens": 1261,
+        "total_tokens": 8038,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6521
+      }
+    },
+    {
+      "chunk_id": "C007",
+      "char_start": 102600,
+      "char_end": 115810,
+      "chunk_relevance": "none",
+      "events": [],
+      "notes": "This chunk contains only references, acknowledgements, author contributions, funding, competing interests, and additional information. No research evolution events are described.",
+      "api_usage": {
+        "prompt_tokens": 5825,
+        "completion_tokens": 61,
+        "total_tokens": 5886,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 5569
+      }
+    }
+  ],
+  "evidence_bank": [
+    {
+      "evidence_id": "EV_C001_E01_01",
+      "source_file": "docs/0059/combined.md",
+      "section": "C001",
+      "char_start": 6534,
+      "char_end": 6670,
+      "quote": "the success of virtual screening experiments depends on factors that are often not trivial to be addressed by non-specialist researchers"
+    },
+    {
+      "evidence_id": "EV_C001_E01_02",
+      "source_file": "docs/0059/combined.md",
+      "section": "C001",
+      "char_start": 7340,
+      "char_end": 7486,
+      "quote": "possible genomic variations in the active/binding site region of molecular targets can drastically affect the binding mode and affinity of ligands"
+    },
+    {
+      "evidence_id": "EV_C001_E02_01",
+      "source_file": "docs/0059/combined.md",
+      "section": "C001",
+      "char_start": 877,
+      "char_end": 1143,
+      "quote": "we present the developments implemented in the DockThor-VS web server to provide a virtual screening (VS) platform with curated structures of potential therapeutic targets from SARS-CoV-2 incorporating genetic information regarding relevant non-synonymous variations"
+    },
+    {
+      "evidence_id": "EV_C001_E02_02",
+      "source_file": "docs/0059/combined.md",
+      "section": "C001",
+      "char_start": 1283,
+      "char_end": 1482,
+      "quote": "DockThor-VS provides ready-for-docking 3D structures for wild type and selected mutations for Nsp3 (papain-like, PLpro domain), Nsp5 (Mpro, 3CLpro), Nsp12 (RdRp), Nsp15 (NendoU), N protein, and Spike"
+    },
+    {
+      "evidence_id": "EV_C001_E03_01",
+      "source_file": "docs/0059/combined.md",
+      "section": "C001",
+      "char_start": 9446,
+      "char_end": 9780,
+      "quote": "For each protein target, we chose a set of structures representing different relevant conformations complexed with varying types of ligand (e.g., ligands covalently bound or not, side chains conformations closing or opening the binding site), thus providing an ensemble of representative structures of the flexibility of the receptor."
+    },
+    {
+      "evidence_id": "EV_C001_E04_01",
+      "source_file": "docs/0059/combined.md",
+      "section": "C001",
+      "char_start": 9786,
+      "char_end": 9912,
+      "quote": "For each protein target, the protonation states of ionisable residues were carefully investigated in the available literature."
+    },
+    {
+      "evidence_id": "EV_C001_E05_01",
+      "source_file": "docs/0059/combined.md",
+      "section": "C001",
+      "char_start": 9919,
+      "char_end": 10066,
+      "quote": "The repurposing libraries open to the users were carefully prepared considering the different protonation states and tautomerism for each compound."
+    },
+    {
+      "evidence_id": "EV_C001_E06_01",
+      "source_file": "docs/0059/combined.md",
+      "section": "C001",
+      "char_start": 10242,
+      "char_end": 10330,
+      "quote": "Macrocycle drugs were subjected to special treatment to generate distinct conformations."
+    },
+    {
+      "evidence_id": "EV_C001_E08_01",
+      "source_file": "docs/0059/combined.md",
+      "section": "C001",
+      "char_start": 14992,
+      "char_end": 15222,
+      "quote": "Given the flexibility observed for Tyr268 from the allosteric site and Leu162, located at the entrance of the catalytic site, we provide to the users two prepared structures related with the PDB codes 6W9C (apo structure) and 6WX4"
+    },
+    {
+      "evidence_id": "EV_C002_E01_01",
+      "source_file": "docs/0059/combined.md",
+      "section": "C002",
+      "char_start": 18140,
+      "char_end": 18442,
+      "quote": "The structures' superposition highlights some significant conformational changes within the ligand-binding site, mainly the residues Met49, Asn142 and Gln189. That reinforces the importance of considering multiple protein conformations in virtual screening experiments to accommodate distinct compounds"
+    },
+    {
+      "evidence_id": "EV_C002_E02_01",
+      "source_file": "docs/0059/combined.md",
+      "section": "C002",
+      "char_start": 18642,
+      "char_end": 18897,
+      "quote": "In the preparation process, the protonation states and flips of key residues were manually adjusted to provide the Mpro structures with neutral His41 at ND1, the catalytic Cys145 protonated (i.e., neutral), neutral His163 at NE2 and neutral His164 at NE2."
+    },
+    {
+      "evidence_id": "EV_C002_E04_01",
+      "source_file": "docs/0059/combined.md",
+      "section": "C002",
+      "char_start": 25969,
+      "char_end": 26219,
+      "quote": "The prepared Nsp15 structure is based on the conformation of the protein complexed with tipiracil (PDB code 6WXC) prepared considering the pH of 6.2 and consists of His235 and His250 neutral at NE2 and ND1, respectively, and Lys290 positively charged"
+    },
+    {
+      "evidence_id": "EV_C002_E05_01",
+      "source_file": "docs/0059/combined.md",
+      "section": "C002",
+      "char_start": 31919,
+      "char_end": 32188,
+      "quote": "we provide to the users five distinct conformations of the N-NTD solved with NMR after clustering the 31 conformations containing the Glu174 on an opened conformation and selecting representative structures according to the flexibility of the residues Arg102 and Tyr109"
+    },
+    {
+      "evidence_id": "EV_C002_E07_01",
+      "source_file": "docs/0059/combined.md",
+      "section": "C002",
+      "char_start": 32199,
+      "char_end": 32442,
+      "quote": "The suggested binding site for docking experiments is centred on the hotspot located at the surface of the N-NTD between the finger and palm subdomains, which have been claimed as essential for RNA binding and a target site for small molecules"
+    },
+    {
+      "evidence_id": "EV_C003_E02_01",
+      "source_file": "docs/0059/combined.md",
+      "section": "C003",
+      "char_start": 40719,
+      "char_end": 40954,
+      "quote": "We assessed some parameters for the mutation's choice, such as the impact of the residue's occurrence in the catalytic region and its possible interaction with a ligand and the amino acid properties (hydropathy, charge and side chain)."
+    },
+    {
+      "evidence_id": "EV_C003_E03_01",
+      "source_file": "docs/0059/combined.md",
+      "section": "C003",
+      "char_start": 46122,
+      "char_end": 46391,
+      "quote": "We performed virtual screening experiments with DockThor-VS for the e-Drug3D dataset at the reference pH (6.6 to 7.4) for all SARS-CoV-2 targets available at the platform so far (e.g., PLpro, Mpro, RdRp, NendoU, Spike and N protein) using the wild type genomic variant."
+    },
+    {
+      "evidence_id": "EV_C003_E04_01",
+      "source_file": "docs/0059/combined.md",
+      "section": "C003",
+      "char_start": 46600,
+      "char_end": 46718,
+      "quote": "The virtual screening results of some drugs currently under clinical trials against COVID-19 are presented in Table 1."
+    },
+    {
+      "evidence_id": "EV_C003_E05_01",
+      "source_file": "docs/0059/combined.md",
+      "section": "C003",
+      "char_start": 47565,
+      "char_end": 47659,
+      "quote": "Thus, the docking results present in this work must not be used for guiding clinical practice."
+    },
+    {
+      "evidence_id": "EV_C003_E06_01",
+      "source_file": "docs/0059/combined.md",
+      "section": "C003",
+      "char_start": 47909,
+      "char_end": 48186,
+      "quote": "However, it is also possible that some drugs with known mechanisms of action, related to the interaction with host proteins or even with the virus entry pathway, can also inhibit one or more targets of the pathogen, thus exhibiting multiple mechanisms for the antiviral effect."
+    },
+    {
+      "evidence_id": "EV_C004_E01_01",
+      "source_file": "docs/0059/combined.md",
+      "section": "C004",
+      "char_start": 54480,
+      "char_end": 54609,
+      "quote": "we found that the majority of the predicted binding affinities are moderate in the range of high to low micromolar affinity units"
+    },
+    {
+      "evidence_id": "EV_C004_E01_02",
+      "source_file": "docs/0059/combined.md",
+      "section": "C004",
+      "char_start": 54796,
+      "char_end": 54989,
+      "quote": "This result is expected since many drugs under clinical trials exhibited no activity or only modest inhibitory effects against SARS-CoV-2 in some experimental studies reported in the literature"
+    },
+    {
+      "evidence_id": "EV_C004_E02_01",
+      "source_file": "docs/0059/combined.md",
+      "section": "C004",
+      "char_start": 55079,
+      "char_end": 55312,
+      "quote": "We identified ledipasvir, imatinib, lopinavir and daclatasvir as the most promising drugs under clinical trials. They all show a good multi-target profile and exhibit some predicted binding affinities at a low nanomolar concentration"
+    },
+    {
+      "evidence_id": "EV_C004_E03_01",
+      "source_file": "docs/0059/combined.md",
+      "section": "C004",
+      "char_start": 55534,
+      "char_end": 55795,
+      "quote": "Ledipasvir is an antiviral to treat chronic Hepatitis C targeting the non-structural protein 5A from the HCV (NS5A) and was predicted as the most potent Mpro inhibitor (score = -10.59 kcal/mol) among the drugs currently ongoing clinical trials against COVID-19."
+    },
+    {
+      "evidence_id": "EV_C004_E03_02",
+      "source_file": "docs/0059/combined.md",
+      "section": "C004",
+      "char_start": 55802,
+      "char_end": 55955,
+      "quote": "ledipasvir was predicted as the most potent drug under clinical trials against Spike and RdRp (scores of -9.66 kcal/mol and -9.16 kcal/mol, respectively)"
+    },
+    {
+      "evidence_id": "EV_C004_E04_01",
+      "source_file": "docs/0059/combined.md",
+      "section": "C004",
+      "char_start": 56752,
+      "char_end": 56847,
+      "quote": "it also potentially inhibits the SARS-CoV-2 Mpro target with a docking score of -10.10 kcal/mol"
+    },
+    {
+      "evidence_id": "EV_C004_E04_02",
+      "source_file": "docs/0059/combined.md",
+      "section": "C004",
+      "char_start": 57040,
+      "char_end": 57170,
+      "quote": "a recent study reported that imatinib had no effects on SARS-CoV-2 infection and replication in a standard viral replication assay"
+    },
+    {
+      "evidence_id": "EV_C004_E05_01",
+      "source_file": "docs/0059/combined.md",
+      "section": "C004",
+      "char_start": 63971,
+      "char_end": 64110,
+      "quote": "These results show the importance of using various, carefully selected, conformations of a protein target in virtual screening experiments."
+    },
+    {
+      "evidence_id": "EV_C004_E05_02",
+      "source_file": "docs/0059/combined.md",
+      "section": "C004",
+      "char_start": 64111,
+      "char_end": 64316,
+      "quote": "Using only one particular receptor conformation could generate false-negative results: (i) by discarding promising ligands due to a lousy ranking position; (ii) by inducing an incorrect ligand binding mode"
+    },
+    {
+      "evidence_id": "EV_C004_E06_01",
+      "source_file": "docs/0059/combined.md",
+      "section": "C004",
+      "char_start": 68358,
+      "char_end": 68461,
+      "quote": "the Y343C variation led to the loss of this interaction and a worse predicted affinity (-9.33 kcal/mol)"
+    },
+    {
+      "evidence_id": "EV_C005_E01_01",
+      "source_file": "docs/0059/combined.md",
+      "section": "C005",
+      "char_start": 68639,
+      "char_end": 68987,
+      "quote": "N protein-elbasvir is another interesting example, where the R92S variation weakened the predicted binding affinity ( $score_{WildType} = -10.21$ kcal/mol versus $score_{R92S} = -9.68$ kcal/mol) led to the loss of the hydrogen-bonded formed between the oxygen-containing heterocycle from elbasvir and the Arg92 side chain in the wild type N-protein"
+    },
+    {
+      "evidence_id": "EV_C005_E02_01",
+      "source_file": "docs/0059/combined.md",
+      "section": "C005",
+      "char_start": 69067,
+      "char_end": 69348,
+      "quote": "We also performed virtual screening experiments for the Spike variants explored in our work (i.e., K417N, N439K, F456L, G476S, V483A, E484K, N501Y, and N501Y + K417N + E484K), totalizing 24 screening due to the ensemble docking protocol using the three distinct Spike conformations"
+    },
+    {
+      "evidence_id": "EV_C005_E03_01",
+      "source_file": "docs/0059/combined.md",
+      "section": "C005",
+      "char_start": 69360,
+      "char_end": 69493,
+      "quote": "The mutants lead to specific effects on the top-ranked drugs, in general without significant differences in the predicted affinities."
+    },
+    {
+      "evidence_id": "EV_C005_E03_02",
+      "source_file": "docs/0059/combined.md",
+      "section": "C005",
+      "char_start": 69494,
+      "char_end": 69653,
+      "quote": "Ombitasvir, the top-scored drug against the wild type Spike, was negatively impacted by N439K, achieving a drop in the predicted affinity of almost 1 kcal/mol."
+    },
+    {
+      "evidence_id": "EV_C005_E04_01",
+      "source_file": "docs/0059/combined.md",
+      "section": "C005",
+      "char_start": 69661,
+      "char_end": 69829,
+      "quote": "some compounds were predicted to be even more potent against some variants when compared to the wild type protein, such as elbasvir, mivacurium, cetrorelix and abarelix"
+    },
+    {
+      "evidence_id": "EV_C005_E05_01",
+      "source_file": "docs/0059/combined.md",
+      "section": "C005",
+      "char_start": 70189,
+      "char_end": 70324,
+      "quote": "protein dynamic effects caused by the mutations, not taken into account by the docking protocol, can significantly affect these results"
+    },
+    {
+      "evidence_id": "EV_C005_E07_01",
+      "source_file": "docs/0059/combined.md",
+      "section": "C005",
+      "char_start": 76009,
+      "char_end": 76093,
+      "quote": "we prepared the protein structures using the Protein Preparation Wizard from Maestro"
+    },
+    {
+      "evidence_id": "EV_C005_E07_02",
+      "source_file": "docs/0059/combined.md",
+      "section": "C005",
+      "char_start": 76537,
+      "char_end": 76775,
+      "quote": "The protonation/tautomeric states of the binding-site residues and the bound ligand were further visually inspected, and appropriate corrections were made guided by the reaction mechanism of the protein target described in the literature."
+    },
+    {
+      "evidence_id": "EV_C006_E01_01",
+      "source_file": "docs/0059/combined.md",
+      "section": "C006",
+      "char_start": 85617,
+      "char_end": 85712,
+      "quote": "The DockTScore is a set of empirical scoring functions recently developed by our research group"
+    },
+    {
+      "evidence_id": "EV_C006_E02_01",
+      "source_file": "docs/0059/combined.md",
+      "section": "C006",
+      "char_start": 86252,
+      "char_end": 86397,
+      "quote": "The scoring function was trained and tested in a large set (>2900) of high-quality 3D structures associated with diverse physicochemical profiles"
+    },
+    {
+      "evidence_id": "EV_C006_E03_01",
+      "source_file": "docs/0059/combined.md",
+      "section": "C006",
+      "char_start": 86581,
+      "char_end": 86801,
+      "quote": "shortly we will also provide the affinity prediction using models developed for specific target classes such as proteases and protein–protein interactions (PPIs) and trained with sophisticated machine-learning algorithms"
+    },
+    {
+      "evidence_id": "EV_C006_E04_01",
+      "source_file": "docs/0059/combined.md",
+      "section": "C006",
+      "char_start": 86804,
+      "char_end": 87046,
+      "quote": "The DockThor program is freely available as a web server at www.dockthor.lncc.br, which provides to the user the main steps for protein and ligand preparation with PdbThorBox and MMFFLigand, and the analyses of the results using DTStatistics."
+    },
+    {
+      "evidence_id": "EV_C006_E05_01",
+      "source_file": "docs/0059/combined.md",
+      "section": "C006",
+      "char_start": 88240,
+      "char_end": 88431,
+      "quote": "we also observe the importance of using various, carefully selected, conformations of the protein target in virtual screening experiments to decrease the possibility of false-negative results"
+    },
+    {
+      "evidence_id": "EV_C006_E06_01",
+      "source_file": "docs/0059/combined.md",
+      "section": "C006",
+      "char_start": 88682,
+      "char_end": 88862,
+      "quote": "For some non-synonymous variations, we also analyzed the possible impacts in the conference of resistance to some drugs promoted by changing the ligand–protein interaction profile."
+    },
+    {
+      "evidence_id": "EV_C006_E07_01",
+      "source_file": "docs/0059/combined.md",
+      "section": "C006",
+      "char_start": 89069,
+      "char_end": 89245,
+      "quote": "Currently, the DockThor-VS platform provides curated 3D structures for wild type and selected mutations for papain-like (PLpro domain), Mpro, RdRp, NendoU, N protein and Spike."
+    },
+    {
+      "evidence_id": "EV_C006_E07_02",
+      "source_file": "docs/0059/combined.md",
+      "section": "C006",
+      "char_start": 89327,
+      "char_end": 89434,
+      "quote": "we are continually updating the targets dataset, and other structures of new targets will be available soon"
+    },
+    {
+      "evidence_id": "EV_C006_E08_01",
+      "source_file": "docs/0059/combined.md",
+      "section": "C006",
+      "char_start": 89436,
+      "char_end": 89627,
+      "quote": "DockThor-VS will also be continuously updated with new docking methodologies developed at our research group, including new strategies for protein flexibility and binding affinity prediction."
+    },
+    {
+      "evidence_id": "EV_AUTO_001",
+      "source_file": "docs/0059/combined.md",
+      "section": "auto_specific",
+      "char_start": 42612,
+      "char_end": 42781,
+      "quote": "Finally, for the Spike glycoprotein of the SARS-CoV-2, we selected seven amino-acid substitutions (K417N, N439K, F456L, G476S, V483A, E484K and N501Y) (Table S1 and Fig."
+    },
+    {
+      "evidence_id": "EV_AUTO_002",
+      "source_file": "docs/0059/combined.md",
+      "section": "auto_specific",
+      "char_start": 69164,
+      "char_end": 69359,
+      "quote": ", K417N, N439K, F456L, G476S, V483A, E484K, N501Y, and N501Y + K417N + E484K), totalizing 24 screening due to the ensemble docking protocol using the three distinct Spike conformations (Table 2)."
+    },
+    {
+      "evidence_id": "EV_AUTO_003",
+      "source_file": "docs/0059/combined.md",
+      "section": "auto_specific",
+      "char_start": 74440,
+      "char_end": 74529,
+      "quote": ", K417N, N439K, F456L, G476S, V483A, E484K, N501Y, and Multiple = N501Y + K417N + E484K)."
+    },
+    {
+      "evidence_id": "EV_AUTO_004",
+      "source_file": "docs/0059/combined.md",
+      "section": "auto_specific",
+      "char_start": 37250,
+      "char_end": 37396,
+      "quote": "Critical residues outside of RBD related to substitutions: D614G, P681H, T716I, S982A, and D1118H, found in the variant VOC-202012/01, are shown."
+    },
+    {
+      "evidence_id": "EV_AUTO_005",
+      "source_file": "docs/0059/combined.md",
+      "section": "auto_specific",
+      "char_start": 41936,
+      "char_end": 42146,
+      "quote": "We selected the four non-synonymous variations on the Nsp15, S293A, S293T (Ser294 in PDB 6VWW), Y342C and Y342H (Tyr343 in PDB 6VWW), whose residues are falling directly on the ligand interaction binding site."
+    },
+    {
+      "evidence_id": "EV_AUTO_006",
+      "source_file": "docs/0059/combined.md",
+      "section": "auto_specific",
+      "char_start": 69979,
+      "char_end": 70179,
+      "quote": "Examples of drugs (Table S4) predicted as the top-1 drug against some variant but not present in the wild type Spike top-20 list are leuprolide (K417N), cisatracurium (G476S) and triptorelin (E484K)."
+    },
+    {
+      "evidence_id": "EV_AUTO_007",
+      "source_file": "docs/0059/combined.md",
+      "section": "auto_specific",
+      "char_start": 43934,
+      "char_end": 44067,
+      "quote": "We further included three lineage-defining mutations in the spike protein with critical residues in the RBD: K417N, E484K and N501Y."
+    },
+    {
+      "evidence_id": "EV_AUTO_008",
+      "source_file": "docs/0059/combined.md",
+      "section": "auto_specific",
+      "char_start": 42337,
+      "char_end": 42496,
+      "quote": "For the nucleocapsid phosphoprotein, we selected the NSVs A50V, R92S and R149L, whose residues fall on the RNA-binding surface of its cognate domain $^{67}$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_009",
+      "source_file": "docs/0059/combined.md",
+      "section": "auto_specific",
+      "char_start": 45001,
+      "char_end": 45194,
+      "quote": "$^{77}$ found that antibodies generated by 20 participants with viruses carrying the N501Y mutation were roughly as potent as antibodies produced to combat Asn501-carrying viruses $^{71,77}$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_010",
+      "source_file": "docs/0059/combined.md",
+      "section": "auto_specific",
+      "char_start": 104660,
+      "char_end": 104737,
+      "quote": "Neutralization of N501Y mutant SARS-CoV-2 by BNT162b2 vaccine-elicited sera."
+    },
+    {
+      "evidence_id": "EV_AUTO_011",
+      "source_file": "docs/0059/combined.md",
+      "section": "auto_specific",
+      "char_start": 68045,
+      "char_end": 68155,
+      "quote": "(B) Docking result of elbasvir against the wild type (left) and Y343C mutant (right) of N protein (state 12)."
+    },
+    {
+      "evidence_id": "EV_AUTO_012",
+      "source_file": "docs/0059/combined.md",
+      "section": "auto_specific",
+      "char_start": 45558,
+      "char_end": 45729,
+      "quote": "$^{71}$ disclosed that the K417N mutation would abolish critical interactions with class 1 neutralizing antibodies and contribute to immune evasion at this site $^{71}$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_013",
+      "source_file": "docs/0059/combined.md",
+      "section": "auto_specific",
+      "char_start": 8389,
+      "char_end": 8909,
+      "quote": "y prediction. Herein, we present the developments implemented in the DockThor-VS web server as an effort to provide for the scientific community the possibility to perform COVID-19-related virtual screening experiments with: (1) curated structures of potential therapeutic targets from SARS-CoV-2 Nsp3 (papain-like, PLpro domain), Nsp5 (Mpro, 3CLpro), Nsp12 (RdRp), Nsp15 (NendoU), Nucleocapsid phosphoprotein (N) and Spike considering wild types and selected variants, and (2) curated libraries of the currently availa"
+    },
+    {
+      "evidence_id": "EV_AUTO_014",
+      "source_file": "docs/0059/combined.md",
+      "section": "auto_specific",
+      "char_start": 113708,
+      "char_end": 113823,
+      "quote": "This research was funded by CNPq, Grant Numbers 307634/2019-1 and 306894/2019-0; by FAPERJ, Grant Numbers E-26/010."
+    },
+    {
+      "evidence_id": "EV_AUTO_015",
+      "source_file": "docs/0059/combined.md",
+      "section": "auto_specific",
+      "char_start": 96121,
+      "char_end": 96258,
+      "quote": "Activity profiling and crystal structures of inhibitor-bound SARS-CoV-2 papain-like protease: a framework for anti-COVID-19 drug design."
+    },
+    {
+      "evidence_id": "EV_AUTO_016",
+      "source_file": "docs/0059/combined.md",
+      "section": "auto_specific",
+      "char_start": 89629,
+      "char_end": 90033,
+      "quote": "We believe that the DockThor-VS web server is an excellent alternative for the development of drug repositioning research against COVID-19, not only for constructing drug libraries and therapeutic target structures available through the web server, but also for allowing studies involving new targets structures provided by the users and virtual screening experiments involving in-house ligand libraries."
+    },
+    {
+      "evidence_id": "EV_AUTO_017",
+      "source_file": "docs/0059/combined.md",
+      "section": "auto_specific",
+      "char_start": 67948,
+      "char_end": 68045,
+      "quote": "(A) Docking result of lopinavir against the wild type (left) and Y343C mutant (right) of NendoU."
+    },
+    {
+      "evidence_id": "EV_AUTO_018",
+      "source_file": "docs/0059/combined.md",
+      "section": "auto_specific",
+      "char_start": 67204,
+      "char_end": 67376,
+      "quote": "NendoU-lopinavir is an interesting example to evaluate the influence of the non-synonymous mutation Y343C in the predicted binding mode and affinity for this complex (Fig."
+    },
+    {
+      "evidence_id": "EV_AUTO_019",
+      "source_file": "docs/0059/combined.md",
+      "section": "auto_specific",
+      "char_start": 61116,
+      "char_end": 61308,
+      "quote": "Due to its inhibitory effect on IL-6 signalling, bazedoxifene has been proposed as a promising drug to prevent the cytokine storm, ARDS and mortality in severe COVID-19 patients $^{99-101}$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_020",
+      "source_file": "docs/0059/combined.md",
+      "section": "auto_specific",
+      "char_start": 44908,
+      "char_end": 45001,
+      "quote": "While N501Y mutation may have a role in escaping class 1 neutralizing antibodies, Xie et al."
+    },
+    {
+      "evidence_id": "EV_AUTO_021",
+      "source_file": "docs/0059/combined.md",
+      "section": "auto_specific",
+      "char_start": 44339,
+      "char_end": 44426,
+      "quote": "The N501Y mutation has also been identified in a new lineage in the United Kingdom: B."
+    },
+    {
+      "evidence_id": "EV_AUTO_022",
+      "source_file": "docs/0059/combined.md",
+      "section": "auto_specific",
+      "char_start": 42496,
+      "char_end": 42610,
+      "quote": "These substitutions have a neutral (A50V and R92S) or deleterious (R149L) predicted functional effect (Table S1)."
+    },
+    {
+      "evidence_id": "EV_AUTO_023",
+      "source_file": "docs/0059/combined.md",
+      "section": "auto_specific",
+      "char_start": 41624,
+      "char_end": 41753,
+      "quote": "Here, we describe one selected non-synonymous variation on the RdRp, namely G683V with deleterious functional effect (Table S1)."
+    },
+    {
+      "evidence_id": "EV_AUTO_024",
+      "source_file": "docs/0059/combined.md",
+      "section": "auto_specific",
+      "char_start": 41397,
+      "char_end": 41624,
+      "quote": "So far, we have selected only the replacement M165I on the Mpro, highlighting that the residue falls on a beta-sheet and is directly part of the ligand-binding site, with the side chains oriented towards the ligand (Table S1)."
+    },
+    {
+      "evidence_id": "EV_AUTO_025",
+      "source_file": "docs/0059/combined.md",
+      "section": "auto_specific",
+      "char_start": 19559,
+      "char_end": 19791,
+      "quote": "RdRp is considered an interesting target for therapeutic solutions against COVID-19, for which the inhibitor remdesivir (RDV, GS-5734), a nucleoside analogue prodrug of the ebola virus (EBOV) RdRP has been already approved $^{34}$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_026",
+      "source_file": "docs/0059/combined.md",
+      "section": "auto_specific",
+      "char_start": 2006,
+      "char_end": 2158,
+      "quote": "6 million confirmed cases including 1,042,798 deaths by September 2020 (WHO Coronavirus Disease (COVID-19) Dashboard, 06 September 2020 https://covid19."
+    },
+    {
+      "evidence_id": "EV_AUTO_027",
+      "source_file": "docs/0059/combined.md",
+      "section": "auto_specific",
+      "char_start": 42146,
+      "char_end": 42337,
+      "quote": "Particularly NSVs S293A and S293T are interesting since the Ser293 accounts as the critical residue for enzyme discrimination between uracil to cytosine or adenine to guanine bases $^{44}$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_028",
+      "source_file": "docs/0059/combined.md",
+      "section": "auto_specific",
+      "char_start": 31236,
+      "char_end": 31530,
+      "quote": "According to NMR-based titration experiments of N-NTD with a short double-stranded RNA (5'-CAC UGAC-3' and 5'-GUCAGUG-3'), the amino acid residues Ala50, Thr57, His59, Arg92, Ile94, Ser105, Arg107, Arg149, Tyr172 were proposed to form the molecular interface of the N-NTD: RNA complex $^{51}$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_029",
+      "source_file": "docs/0059/combined.md",
+      "section": "auto_specific",
+      "char_start": 57355,
+      "char_end": 57652,
+      "quote": "Atorvastatin is an oral antilipemic agent that inhibits the HMG-CoA reductase and also possess anti-inflammatory and immune-modulatory effects, being the statins suggested as effective against viral infections $^{85-87}$ and associated with reduced disease severity of COVID-19 infection $^{88}$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_030",
+      "source_file": "docs/0059/combined.md",
+      "section": "auto_specific",
+      "char_start": 41753,
+      "char_end": 41936,
+      "quote": "Replacement G683V on the RdRp increases the volume of the side chain of a highly conserved glycine $^{37}$ , and it has already been described in vitro as a deleterious NSV $^{33}$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_031",
+      "source_file": "docs/0059/combined.md",
+      "section": "auto_specific",
+      "char_start": 1793,
+      "char_end": 2006,
+      "quote": "Pandemic COVID-19 caused by the infection of severe acute respiratory syndrome (SARS) coronavirus 2 (SARS-CoV-2), initially described near the end of 2019 $^{1}$ , left the world in lockdown and reached almost 35."
+    },
+    {
+      "evidence_id": "EV_AUTO_032",
+      "source_file": "docs/0059/combined.md",
+      "section": "auto_specific",
+      "char_start": 95080,
+      "char_end": 95219,
+      "quote": "D3Targets-2019-nCoV: a webserver for predicting drug targets and for multi-target and multi-site based virtual screening against COVID-19."
+    },
+    {
+      "evidence_id": "EV_AUTO_033",
+      "source_file": "docs/0059/combined.md",
+      "section": "auto_specific",
+      "char_start": 92132,
+      "char_end": 92234,
+      "quote": "CD147 as a target for COVID-19 treatment: suggested effects of azithromycin and stem cell engagement."
+    },
+    {
+      "evidence_id": "EV_AUTO_034",
+      "source_file": "docs/0059/combined.md",
+      "section": "auto_specific",
+      "char_start": 68781,
+      "char_end": 68820,
+      "quote": "21$ kcal/mol versus $score_{R92S} = -9."
+    },
+    {
+      "evidence_id": "EV_AUTO_035",
+      "source_file": "docs/0059/combined.md",
+      "section": "auto_specific",
+      "char_start": 68344,
+      "char_end": 68449,
+      "quote": "As expected, the Y343C variation led to the loss of this interaction and a worse predicted affinity (-9."
+    },
+    {
+      "evidence_id": "EV_AUTO_036",
+      "source_file": "docs/0059/combined.md",
+      "section": "auto_specific",
+      "char_start": 55715,
+      "char_end": 55795,
+      "quote": "59 kcal/mol) among the drugs currently ongoing clinical trials against COVID-19."
+    }
+  ],
+  "event_graph": {
+    "paper_main_problem": "The COVID-19 pandemic created an urgent need for effective treatments. Virtual screening success depends on accurate target structures, receptor flexibility, and genetic variations. The study aims to develop DockThor-VS, a web server providing curated 3D structures of SARS-CoV-2 therapeutic targets (wild type and non-synonymous variants) and drug libraries, to facilitate repurposing virtual screening and assess the impact of mutations on drug binding.",
+    "canonical_events": [
+      {
+        "canonical_id": "K01",
+        "order": 1,
+        "event_type": "problem",
+        "summary": "The COVID-19 pandemic created an urgent need for effective treatments, and virtual screening success depends on factors like target structure preparation, compound library preparation, receptor flexibility, and genomic variations.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E01"
+        ],
+        "evidence_ids": [
+          "EV_C001_E01_01",
+          "EV_C001_E01_02"
+        ],
+        "key_entities": [
+          "COVID-19",
+          "SARS-CoV-2",
+          "virtual screening"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K02",
+        "order": 2,
+        "event_type": "design",
+        "summary": "Developed DockThor-VS web server to provide curated structures of SARS-CoV-2 therapeutic targets and drug libraries for repurposing virtual screening.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E02"
+        ],
+        "evidence_ids": [
+          "EV_C001_E02_01",
+          "EV_C001_E02_02"
+        ],
+        "key_entities": [
+          "DockThor-VS",
+          "SARS-CoV-2",
+          "Nsp3",
+          "Nsp5",
+          "Nsp12",
+          "Nsp15",
+          "N protein",
+          "Spike"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K03",
+        "order": 3,
+        "event_type": "design",
+        "summary": "For each protein target, chose a set of structures representing different relevant conformations to account for receptor flexibility.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E03"
+        ],
+        "evidence_ids": [
+          "EV_C001_E03_01"
+        ],
+        "key_entities": [
+          "protein target",
+          "receptor flexibility"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K04",
+        "order": 4,
+        "event_type": "design",
+        "summary": "Protonation states of ionisable residues were carefully investigated in the available literature for each protein target.",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C001_E04"
+        ],
+        "evidence_ids": [
+          "EV_C001_E04_01"
+        ],
+        "key_entities": [
+          "protonation states",
+          "ionisable residues"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K05",
+        "order": 5,
+        "event_type": "design",
+        "summary": "Repurposing libraries were carefully prepared considering different protonation states and tautomerism for each compound.",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C001_E05"
+        ],
+        "evidence_ids": [
+          "EV_C001_E05_01"
+        ],
+        "key_entities": [
+          "repurposing libraries",
+          "protonation states",
+          "tautomerism"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K06",
+        "order": 6,
+        "event_type": "design",
+        "summary": "Macrocycle drugs were subjected to special treatment to generate distinct conformations.",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C001_E06"
+        ],
+        "evidence_ids": [
+          "EV_C001_E06_01"
+        ],
+        "key_entities": [
+          "macrocycle drugs"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K07",
+        "order": 7,
+        "event_type": "design",
+        "summary": "Provided two PLpro structures (PDB 6W9C and 6WX4) to represent flexibility of Tyr268 and Leu162.",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C001_E08"
+        ],
+        "evidence_ids": [
+          "EV_C001_E08_01"
+        ],
+        "key_entities": [
+          "PLpro",
+          "Tyr268",
+          "Leu162",
+          "6W9C",
+          "6WX4"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K08",
+        "order": 8,
+        "event_type": "analysis",
+        "summary": "Superposition of Mpro structures reveals significant conformational changes in residues Met49, Asn142 and Gln189, reinforcing the importance of multiple conformations in virtual screening.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E01"
+        ],
+        "evidence_ids": [
+          "EV_C002_E01_01"
+        ],
+        "key_entities": [
+          "Mpro",
+          "Met49",
+          "Asn142",
+          "Gln189",
+          "6LU7",
+          "6W63"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K09",
+        "order": 9,
+        "event_type": "design",
+        "summary": "Mpro structures prepared with manually adjusted protonation states: neutral His41 at ND1, catalytic Cys145 protonated, neutral His163 at NE2, neutral His164 at NE2.",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C002_E02"
+        ],
+        "evidence_ids": [
+          "EV_C002_E02_01"
+        ],
+        "key_entities": [
+          "Mpro",
+          "His41",
+          "Cys145",
+          "His163",
+          "His164"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K10",
+        "order": 10,
+        "event_type": "design",
+        "summary": "Nsp15 structure prepared based on conformation complexed with tipiracil (PDB 6WXC), with specific protonation states for catalytic residues.",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C002_E04"
+        ],
+        "evidence_ids": [
+          "EV_C002_E04_01"
+        ],
+        "key_entities": [
+          "Nsp15",
+          "6WXC",
+          "His235",
+          "His250",
+          "Lys290"
+        ],
+        "key_numbers": [
+          "pH 6.2"
+        ]
+      },
+      {
+        "canonical_id": "K11",
+        "order": 11,
+        "event_type": "design",
+        "summary": "Five NMR conformations of N-NTD provided to account for protein flexibility, selected by clustering based on Arg92 and Tyr109 conformations.",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C002_E05"
+        ],
+        "evidence_ids": [
+          "EV_C002_E05_01"
+        ],
+        "key_entities": [
+          "N-NTD",
+          "Arg92",
+          "Tyr109",
+          "6YI3"
+        ],
+        "key_numbers": [
+          "5 conformations",
+          "31 conformations"
+        ]
+      },
+      {
+        "canonical_id": "K12",
+        "order": 12,
+        "event_type": "design",
+        "summary": "Suggested binding site for docking on N-NTD centered on hotspot between finger and palm subdomains, essential for RNA binding.",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C002_E07"
+        ],
+        "evidence_ids": [
+          "EV_C002_E07_01"
+        ],
+        "key_entities": [
+          "N-NTD",
+          "finger subdomain",
+          "palm subdomain"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K13",
+        "order": 13,
+        "event_type": "design",
+        "summary": "Selection of non-synonymous variations for each target based on impact on catalytic region, ligand interaction, amino acid properties, and literature evidence.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E02"
+        ],
+        "evidence_ids": [
+          "EV_C003_E02_01"
+        ],
+        "key_entities": [
+          "PLpro",
+          "Mpro",
+          "RdRp",
+          "Nsp15",
+          "N protein",
+          "Spike"
+        ],
+        "key_numbers": [
+          "19 NSVs selected"
+        ]
+      },
+      {
+        "canonical_id": "K14",
+        "order": 14,
+        "event_type": "experiment",
+        "summary": "Virtual screening of FDA-approved drugs (e-Drug3D) against all six SARS-CoV-2 targets using wild type structures and ensemble docking.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E03"
+        ],
+        "evidence_ids": [
+          "EV_C003_E03_01"
+        ],
+        "key_entities": [
+          "PLpro",
+          "Mpro",
+          "RdRp",
+          "NendoU",
+          "Spike",
+          "N protein"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K15",
+        "order": 15,
+        "event_type": "analysis",
+        "summary": "Docking scores for drugs under clinical trials against COVID-19 are presented in Table 1, showing predicted affinities across targets.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E04"
+        ],
+        "evidence_ids": [
+          "EV_C003_E04_01"
+        ],
+        "key_entities": [
+          "Table 1"
+        ],
+        "key_numbers": [
+          "docking scores"
+        ]
+      },
+      {
+        "canonical_id": "K16",
+        "order": 16,
+        "event_type": "limitation",
+        "summary": "Docking results are not for clinical guidance; top hits need experimental validation.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E05"
+        ],
+        "evidence_ids": [
+          "EV_C003_E05_01"
+        ],
+        "key_entities": [],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K17",
+        "order": 17,
+        "event_type": "hypothesis",
+        "summary": "Some drugs may inhibit multiple SARS-CoV-2 targets, exhibiting multiple antiviral mechanisms.",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C003_E06"
+        ],
+        "evidence_ids": [
+          "EV_C003_E06_01"
+        ],
+        "key_entities": [],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K18",
+        "order": 18,
+        "event_type": "analysis",
+        "summary": "Analysis of virtual screening results shows most predicted binding affinities are moderate, consistent with experimental studies showing modest inhibitory effects.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C004_E01"
+        ],
+        "evidence_ids": [
+          "EV_C004_E01_01",
+          "EV_C004_E01_02"
+        ],
+        "key_entities": [
+          "SARS-CoV-2 targets",
+          "drugs under clinical trials"
+        ],
+        "key_numbers": [
+          "scores higher than -6.8 kcal/mol",
+          "scores lower than -8.2 kcal/mol"
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "source": "K01",
+        "target": "K02",
+        "relation": "enables",
+        "reason": "The urgent need for treatments motivates the development of the DockThor-VS web server."
+      },
+      {
+        "source": "K02",
+        "target": "K03",
+        "relation": "enables",
+        "reason": "The web server design includes providing multiple conformations to account for receptor flexibility."
+      },
+      {
+        "source": "K03",
+        "target": "K04",
+        "relation": "enables",
+        "reason": "Part of the target preparation involves investigating protonation states."
+      },
+      {
+        "source": "K04",
+        "target": "K05",
+        "relation": "enables",
+        "reason": "Similarly, compound libraries require careful preparation of protonation states and tautomerism."
+      },
+      {
+        "source": "K05",
+        "target": "K06",
+        "relation": "enables",
+        "reason": "Special treatment for macrocycle drugs is part of library preparation."
+      },
+      {
+        "source": "K03",
+        "target": "K07",
+        "relation": "enables",
+        "reason": "Specific example of providing multiple conformations for PLpro."
+      },
+      {
+        "source": "K03",
+        "target": "K08",
+        "relation": "enables",
+        "reason": "Analysis of Mpro conformations reinforces the importance of multiple conformations."
+      },
+      {
+        "source": "K08",
+        "target": "K09",
+        "relation": "enables",
+        "reason": "Mpro preparation includes manual adjustment of protonation states based on structural analysis."
+      },
+      {
+        "source": "K03",
+        "target": "K10",
+        "relation": "enables",
+        "reason": "Nsp15 preparation is another example of target-specific protonation state assignment."
+      },
+      {
+        "source": "K03",
+        "target": "K11",
+        "relation": "enables",
+        "reason": "N-NTD conformations are provided to account for flexibility."
+      },
+      {
+        "source": "K11",
+        "target": "K12",
+        "relation": "enables",
+        "reason": "The binding site for N-NTD is suggested based on the selected conformations."
+      },
+      {
+        "source": "K02",
+        "target": "K13",
+        "relation": "enables",
+        "reason": "The web server includes selection of non-synonymous variations for each target."
+      },
+      {
+        "source": "K02",
+        "target": "K14",
+        "relation": "enables",
+        "reason": "The web server is used to perform virtual screening of FDA-approved drugs."
+      },
+      {
+        "source": "K14",
+        "target": "K15",
+        "relation": "enables",
+        "reason": "Docking scores from the virtual screening are presented in Table 1."
+      },
+      {
+        "source": "K15",
+        "target": "K16",
+        "relation": "follows",
+        "reason": "The limitation that docking results are not for clinical guidance is noted after presenting results."
+      },
+      {
+        "source": "K14",
+        "target": "K17",
+        "relation": "enables",
+        "reason": "The hypothesis of multi-target inhibition arises from the virtual screening results."
+      },
+      {
+        "source": "K15",
+        "target": "K18",
+        "relation": "enables",
+        "reason": "Analysis of the virtual screening results shows moderate binding affinities."
+      }
+    ],
+    "must_cover_points": [
+      "The urgent need for COVID-19 treatments and the challenges in virtual screening.",
+      "Development of DockThor-VS with curated target structures and drug libraries.",
+      "Importance of multiple conformations to account for receptor flexibility.",
+      "Selection of non-synonymous variations for each target.",
+      "Virtual screening of FDA-approved drugs against six targets.",
+      "Identification of ledipasvir, imatinib, lopinavir, and daclatasvir as promising drugs.",
+      "Ledipasvir as most potent Mpro inhibitor.",
+      "Imatinib's predicted activity contradicted by experimental evidence.",
+      "Receptor conformation affects ranking; single conformation can cause false negatives.",
+      "Mutation Y343C weakens lopinavir binding in NendoU.",
+      "Analysis of mutation effects on N protein and Spike variants.",
+      "Spike variant screening shows specific effects on top drugs.",
+      "Limitation: protein dynamic effects not considered.",
+      "Conclusion: multiple conformations reduce false negatives; mutations may confer resistance.",
+      "Limitation: platform covers only six targets; continuous updates planned."
+    ],
+    "paper_not_suitable_reasons": []
+  }
+}

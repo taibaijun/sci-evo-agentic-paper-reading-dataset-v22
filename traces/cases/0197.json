@@ -1,0 +1,926 @@
+{
+  "case": {
+    "case_id": "sci_evo_0197",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Next-generation sequencing enables the discovery of more diverse positive clones from a phage-displayed antibody library",
+      "doi": "https://doi.org/10.1038/emm.2017.22",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0196_10_1038_emm_2017_22_next_generation_sequencing_enables_the_discovery_of_more_diverse_positive_clones_from_a_ph.pdf",
+      "mineru_md": "docs/0197/mineru.md",
+      "combined_md": "docs/0197/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Conventional phage display screening yields limited diversity of positive clones due to uncontrolled enrichment.",
+      "target_object": "Antigen-specific scFv clones against PSA",
+      "known_context": "Phage display libraries can contain up to 10^11 variants, but bio-panning enrichment cannot be controlled, frequently resulting in a limited number of clones.",
+      "constraints": [
+        "NGS read length limits full scFv sequencing",
+        "Two-step linker PCR is low-throughput"
+      ],
+      "input_data": [
+        "Three chicken scFv phage-displayed libraries immunized with PSA",
+        "Phagemid DNA from rounds 0-4 of bio-panning"
+      ],
+      "quantifiable_goals": [
+        "Identify more diverse positive clones than conventional colony screening (22 unique HCDR3 sequences)"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "Conventional phage display screening yields limited clone diversity.",
+        "gap_or_uncertainty": "Whether NGS can identify a greater number of clones than conventional methods.",
+        "hypothesis": "NGS can identify more clones than conventional methods.",
+        "decision": "Apply NGS to screen clones from a library and compare with conventional screening.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "NGS",
+          "version": "",
+          "category": "sequencing"
+        },
+        "parameters": {},
+        "observation": "Hypothesis formulated based on known limitation of phage display.",
+        "result_status": "success",
+        "next_step_reason": "Design libraries and panning to test the hypothesis.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0197/combined.md",
+            "section": "C001",
+            "quote_or_span": "a major drawback of phage display technology is that because the degree of the enrichment cannot be controlled during the bio-panning process, it frequently results in a limited number of clones"
+          },
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0197/combined.md",
+            "section": "C001",
+            "quote_or_span": "we applied next-generation sequencing (NGS) to screen clones from a library and determine whether a greater number of clones can be identified using NGS than using conventional methods"
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "design",
+        "state_before": "Hypothesis that NGS can identify more clones.",
+        "gap_or_uncertainty": "Need to construct libraries and perform panning to generate material for NGS.",
+        "hypothesis": "Three chicken scFv libraries panned on PSA will provide phagemid DNA for NGS analysis.",
+        "decision": "Construct three chicken scFv libraries and perform four rounds of bio-panning on PSA.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "phage display library construction",
+          "version": "",
+          "category": "molecular biology"
+        },
+        "parameters": {
+          "antigen": "recombinant human PSA",
+          "vector": "pComb3XSS",
+          "rounds": 4
+        },
+        "observation": "Three libraries constructed and panned.",
+        "result_status": "success",
+        "next_step_reason": "Perform conventional colony screening to establish baseline diversity.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E03_01",
+            "source_file": "docs/0197/combined.md",
+            "section": "C001",
+            "quote_or_span": "Three white leghorn chickens were immunized and boosted four times with recombinant human PSA"
+          },
+          {
+            "evidence_id": "EV_C001_E03_02",
+            "source_file": "docs/0197/combined.md",
+            "section": "C001",
+            "quote_or_span": "three phage-displayed libraries of chicken scFvs were constructed using the pComb3XSS phagemid vector"
+          },
+          {
+            "evidence_id": "EV_C001_E03_03",
+            "source_file": "docs/0197/combined.md",
+            "section": "C001",
+            "quote_or_span": "Four rounds of bio-panning were performed to screen scFv clones from the library"
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "experiment",
+        "state_before": "Libraries constructed and panned.",
+        "gap_or_uncertainty": "Diversity of clones obtained by conventional screening.",
+        "hypothesis": "Conventional colony screening will yield a limited number of unique HCDR3 sequences.",
+        "decision": "Screen 300 clones (100 per library) by phage ELISA and Sanger sequencing.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "colony screening",
+          "version": "",
+          "category": "phage display"
+        },
+        "parameters": {
+          "clones_screened": 300,
+          "threshold": "OD405 > 0.3"
+        },
+        "observation": "Only 22 unique HCDR3 sequences found.",
+        "result_status": "partial",
+        "next_step_reason": "Low diversity motivates NGS analysis to explore deeper diversity.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_005",
+            "source_file": "docs/0197/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "A total of 300 clones (100 clones in each library) exhibiting an optical density of >0.3 at 405 nm were considered to be positive, and their scFv gene sequence was determined by Sanger sequencing analysis."
+          },
+          {
+            "evidence_id": "EV_AUTO_012",
+            "source_file": "docs/0197/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "A total of 300 clones (100 clones in each library) exhibiting an optical density of >0."
+          },
+          {
+            "evidence_id": "EV_C002_E04_01",
+            "source_file": "docs/0197/combined.md",
+            "section": "C002",
+            "quote_or_span": "All 22 HCDR3 sequences in clones found via the conventional colony screening method existed among the HCDR3 sequences obtained from NGS analysis of phagemid DNA prepared after the fourth round of bio-panning (Table 1)."
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "experiment",
+        "state_before": "Conventional screening yielded only 22 unique HCDR3 sequences.",
+        "gap_or_uncertainty": "Full diversity of HCDR3 sequences across panning rounds.",
+        "hypothesis": "NGS of HCDR3 from all panning rounds will reveal enrichment patterns and additional clones.",
+        "decision": "Perform NGS on phagemid DNA from rounds 0-4 using MiSeq.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "MiSeq",
+          "version": "",
+          "category": "NGS"
+        },
+        "parameters": {
+          "samples": 15,
+          "target": "HCDR3"
+        },
+        "observation": "NGS data obtained; 44-53% reads retained after alignment.",
+        "result_status": "success",
+        "next_step_reason": "Cluster HCDR3 sequences by enrichment patterns.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E04_01",
+            "source_file": "docs/0197/combined.md",
+            "section": "C001",
+            "quote_or_span": "A total of 15 sets of phagemid DNA including three initial chicken scFv libraries and three libraries obtained after each of four rounds of bio-panning were analyzed using a MiSeq system"
+          },
+          {
+            "evidence_id": "EV_C002_E01_01",
+            "source_file": "docs/0197/combined.md",
+            "section": "C002",
+            "quote_or_span": "A total of 15 sets of phagemid DNA (three chicken libraries from bio-panning rounds 0, 1, 2, 3, and 4) were used for NGS analysis."
+          },
+          {
+            "evidence_id": "EV_C002_E01_03",
+            "source_file": "docs/0197/combined.md",
+            "section": "C002",
+            "quote_or_span": "44–53% of the original sequences were retained after aligning with OmpSeq primer sequence"
+          },
+          {
+            "evidence_id": "EV_C002_E04_01",
+            "source_file": "docs/0197/combined.md",
+            "section": "C002",
+            "quote_or_span": "All 22 HCDR3 sequences in clones found via the conventional colony screening method existed among the HCDR3 sequences obtained from NGS analysis of phagemid DNA prepared after the fourth round of bio-panning (Table 1)."
+          },
+          {
+            "evidence_id": "EV_C002_E04_02",
+            "source_file": "docs/0197/combined.md",
+            "section": "C002",
+            "quote_or_span": "Two out of the 22 unique HCDR3 sequences belonged to cluster 1, and the other 20 HCDR3 sequences belonged to clusters 2, 3 or 4."
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "analysis",
+        "state_before": "NGS data obtained.",
+        "gap_or_uncertainty": "How to group HCDR3 sequences by enrichment behavior.",
+        "hypothesis": "Hierarchical clustering with Dunn index optimization will reveal distinct enrichment clusters.",
+        "decision": "Use clValid to estimate optimal clusters (2-6) and perform hierarchical clustering.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "hierarchical clustering",
+          "version": "",
+          "category": "bioinformatics"
+        },
+        "parameters": {
+          "method": "Ward's method",
+          "validation": "Dunn index"
+        },
+        "observation": "2-6 clusters identified; Dunn indices: 0.1048 (lib1), 0.2331 (lib2), 0.1860 (lib3).",
+        "result_status": "success",
+        "next_step_reason": "Visualize enrichment patterns with heatmaps.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E05_01",
+            "source_file": "docs/0197/combined.md",
+            "section": "C001",
+            "quote_or_span": "An optimized number of clusters in the merged sequence read counts was estimated using the clValid algorithm"
+          },
+          {
+            "evidence_id": "EV_C001_E05_02",
+            "source_file": "docs/0197/combined.md",
+            "section": "C001",
+            "quote_or_span": "the assessment for each and every clustering is represented in the Dunn index"
+          },
+          {
+            "evidence_id": "EV_C001_E05_03",
+            "source_file": "docs/0197/combined.md",
+            "section": "C001",
+            "quote_or_span": "Unsupervised hierarchical clustering analysis was used to cluster HCDR3 sequences according to the number of clusters estimated by clValid"
+          },
+          {
+            "evidence_id": "EV_C002_E02_01",
+            "source_file": "docs/0197/combined.md",
+            "section": "C002",
+            "quote_or_span": "clValid predicted that 2–6 clusters would be the most dependable in the HCDR3 sequence count profile data (Table 3)."
+          },
+          {
+            "evidence_id": "EV_C002_E02_02",
+            "source_file": "docs/0197/combined.md",
+            "section": "C002",
+            "quote_or_span": "The sequence reads in chicken library 1 showed the maximum Dunn index (0.1048) with 4–6 clusters, and chicken libraries 2 and 3 had maximum Dunn indices with 2–3 clusters."
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "analysis",
+        "state_before": "Clusters defined.",
+        "gap_or_uncertainty": "Enrichment/impoverishment patterns of each cluster.",
+        "hypothesis": "Heatmaps will show cluster 1 impoverished and clusters 2-4 enriched over panning.",
+        "decision": "Generate heatmaps of HCDR3 sequence counts across rounds for each cluster.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "heatmap",
+          "version": "",
+          "category": "visualization"
+        },
+        "parameters": {},
+        "observation": "Cluster 1 highly abundant initially but impoverished in rounds 3-4; clusters 2-4 enriched from round 3.",
+        "result_status": "success",
+        "next_step_reason": "Validate clustering by checking conventional clones.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E03_01",
+            "source_file": "docs/0197/combined.md",
+            "section": "C002",
+            "quote_or_span": "HCDR3 sequences in cluster 1 were highly abundant before bio-panning and up to the second bio-panning round. However, there was a sudden impoverishment in rounds 3 and 4 of bio-panning."
+          },
+          {
+            "evidence_id": "EV_C002_E03_02",
+            "source_file": "docs/0197/combined.md",
+            "section": "C002",
+            "quote_or_span": "In contrast, HCDR3 sequences that belonged to clusters 2 and 3 (including cluster 4 of library 1) showed the opposite pattern. Their populations were very low before bio-panning, remained low after the second round of bio-panning, and started to enrich from the third round of bio-panning."
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "validation",
+        "state_before": "Enrichment patterns observed.",
+        "gap_or_uncertainty": "Whether conventional clones align with enrichment clusters.",
+        "hypothesis": "Conventional clones will mostly belong to enriched clusters.",
+        "decision": "Map the 22 conventional HCDR3 sequences to NGS clusters.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "sequence mapping",
+          "version": "",
+          "category": "bioinformatics"
+        },
+        "parameters": {},
+        "observation": "All 22 found in NGS; 20 in clusters 2-4, 2 in cluster 1.",
+        "result_status": "success",
+        "next_step_reason": "Select new HCDR3 sequences from NGS for retrieval.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E04_01",
+            "source_file": "docs/0197/combined.md",
+            "section": "C002",
+            "quote_or_span": "All 22 HCDR3 sequences in clones found via the conventional colony screening method existed among the HCDR3 sequences obtained from NGS analysis of phagemid DNA prepared after the fourth round of bio-panning (Table 1)."
+          },
+          {
+            "evidence_id": "EV_C002_E04_02",
+            "source_file": "docs/0197/combined.md",
+            "section": "C002",
+            "quote_or_span": "Two out of the 22 unique HCDR3 sequences belonged to cluster 1, and the other 20 HCDR3 sequences belonged to clusters 2, 3 or 4."
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "experiment",
+        "state_before": "Clusters validated.",
+        "gap_or_uncertainty": "Whether new HCDR3 sequences from NGS can be retrieved as full scFv clones.",
+        "hypothesis": "Two-step linker PCR can retrieve full scFv genes from phagemid DNA using HCDR3-specific primers.",
+        "decision": "Select 40 new HCDR3 sequences (1-5 per cluster) and retrieve full scFv by two-step linker PCR.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "two-step linker PCR",
+          "version": "",
+          "category": "molecular biology"
+        },
+        "parameters": {
+          "clones_selected": 40,
+          "selection": "1-5 per cluster"
+        },
+        "observation": "40 scFv clones retrieved and cloned into phagemid vector.",
+        "result_status": "success",
+        "next_step_reason": "Test binding reactivity by phage ELISA.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E06_01",
+            "source_file": "docs/0197/combined.md",
+            "section": "C001",
+            "quote_or_span": "To rebuild real scFv clones from the virtual HCDR3 sequences in the clusters, we performed two-step linker PCR"
+          },
+          {
+            "evidence_id": "EV_C002_E05_01",
+            "source_file": "docs/0197/combined.md",
+            "section": "C002",
+            "quote_or_span": "For each cluster, 1–5 HCDR3 sequences newly identified from the fourth round of bio-panning via NGS analysis were selected arbitrarily (Table 4)."
+          },
+          {
+            "evidence_id": "EV_C002_E05_02",
+            "source_file": "docs/0197/combined.md",
+            "section": "C002",
+            "quote_or_span": "These selected sequences were used to synthesize the primers to retrieve the whole scFv gene from the phagemid DNA."
+          },
+          {
+            "evidence_id": "EV_C002_E05_03",
+            "source_file": "docs/0197/combined.md",
+            "section": "C002",
+            "quote_or_span": "The scFv gene was prepared in two-step linker PCR using the primers and cloned into a phagemid vector (Figure 3)."
+          },
+          {
+            "evidence_id": "EV_AUTO_009",
+            "source_file": "docs/0197/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Of the 40 clones retrieved from the phagemid DNA pool prepared after the fourth round of bio-panning, positive binding reactivity was confirmed in 26 clones."
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "validation",
+        "state_before": "Retrieved clones available.",
+        "gap_or_uncertainty": "Binding reactivity of clones from different clusters.",
+        "hypothesis": "Clusters 2-4 will have high binding, cluster 1 low binding.",
+        "decision": "Perform phage ELISA on retrieved clones.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "phage ELISA",
+          "version": "",
+          "category": "immunoassay"
+        },
+        "parameters": {
+          "antigen": "PSA"
+        },
+        "observation": "85.7% of cluster 1 clones non-binding; 80.8% of clusters 2-4 clones binding.",
+        "result_status": "success",
+        "next_step_reason": "Analyze why some high-proportion clones were missed by conventional screening.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_006",
+            "source_file": "docs/0197/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "In contrast, 21 out of 26 antibody clones (80.8%) in clusters 2\\~4 across the three libraries had significant binding reactivity (O."
+          },
+          {
+            "evidence_id": "EV_AUTO_007",
+            "source_file": "docs/0197/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "In cluster 1, across the three libraries, 12 out of 14 antibody clones (85.7%) had negligible binding reactivity against PSA (O."
+          },
+          {
+            "evidence_id": "EV_C003_E01_01",
+            "source_file": "docs/0197/combined.md",
+            "section": "C003",
+            "quote_or_span": "when a certain HCDR3 sequence was enriched through the bio-panning process, the clone with the HCDR3 is more likely to be positive; in this study over 80% (21 out of 26 clones)"
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "analysis",
+        "state_before": "Binding data obtained.",
+        "gap_or_uncertainty": "Why some high-proportion NGS clones were missed by conventional screening.",
+        "hypothesis": "Toxicity or growth interference may prevent colony formation.",
+        "decision": "Examine proportions of missed clones.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "proportion analysis",
+          "version": "",
+          "category": "statistics"
+        },
+        "parameters": {},
+        "observation": "Some clones with >1% proportion (e.g., 2.16%, 4.79%) not found by colony screening.",
+        "result_status": "failure",
+        "next_step_reason": "Acknowledge limitations of NGS and retrieval method.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E07_02",
+            "source_file": "docs/0197/combined.md",
+            "section": "C002",
+            "quote_or_span": "Why these clones with such high proportions were not identified in the conventional colony screening method is not clear; however, it might be caused by either inherent toxicity with phage assembly or interference from bacterial growth."
+          },
+          {
+            "evidence_id": "EV_AUTO_015",
+            "source_file": "docs/0197/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The proportion of two positive clones in library 1 and library 3 were 2.16 and 4."
+          },
+          {
+            "evidence_id": "EV_AUTO_029",
+            "source_file": "docs/0197/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Four clones in library 1 and one clone in library 3 exhibited a proportion of $>1\\%$ among the HCDR3 sequences obtained after the fourth round."
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "revision",
+        "state_before": "NGS and retrieval method demonstrated.",
+        "gap_or_uncertainty": "Limitations of NGS and two-step linker PCR.",
+        "hypothesis": "NGS cannot sequence full scFv error-free; cross-priming possible.",
+        "decision": "Note limitations for future improvement.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "limitation assessment",
+          "version": "",
+          "category": "review"
+        },
+        "parameters": {},
+        "observation": "scFv gene ~750 bp cannot be sequenced by NGS without error; cross-priming risk during PCR.",
+        "result_status": "inconclusive",
+        "next_step_reason": "Conclude overall effectiveness.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E08_01",
+            "source_file": "docs/0197/combined.md",
+            "section": "C001",
+            "quote_or_span": "sequencing of the entire single-chain variable fragment (scFv) gene, which contains 750–800 bases, could not be achieved using any of these NGS platforms"
+          },
+          {
+            "evidence_id": "EV_C002_E08_01",
+            "source_file": "docs/0197/combined.md",
+            "section": "C002",
+            "quote_or_span": "Using currently available NGS tools, it is not possible to sequence the entire scFv gene, which is about 750 bp in length, without error."
+          },
+          {
+            "evidence_id": "EV_C002_E08_02",
+            "source_file": "docs/0197/combined.md",
+            "section": "C002",
+            "quote_or_span": "However, there is always the possibility of cross-priming between clones during the PCR process."
+          }
+        ]
+      },
+      {
+        "step_index": 12,
+        "phase": "validation",
+        "state_before": "All results and limitations considered.",
+        "gap_or_uncertainty": "Overall effectiveness of NGS + two-step linker PCR.",
+        "hypothesis": "NGS analysis of HCDR3 and two-step linker PCR effectively retrieve antigen-specific scFv clones missed by conventional screening.",
+        "decision": "Validate method as effective for discovering diverse binders.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "conclusion",
+          "version": "",
+          "category": "review"
+        },
+        "parameters": {},
+        "observation": "Method successfully identified additional diverse positive clones.",
+        "result_status": "success",
+        "next_step_reason": "End of trajectory.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E06_01",
+            "source_file": "docs/0197/combined.md",
+            "section": "C003",
+            "quote_or_span": "NGS analysis of the HCDR3 sequence, and two-step linker PCR using PCR primers based on this sequence, provide an effective way to retrieve antigen-specific scFv clones that are difficult to identify by the conventional colony screening method."
+          },
+          {
+            "evidence_id": "EV_C003_E07_01",
+            "source_file": "docs/0197/combined.md",
+            "section": "C003",
+            "quote_or_span": "Enrichment of the HCDR3 sequence over the bio-panning process is a positive predictive factor in the selection of scFv clones harboring binding reactivity."
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "Phage ELISA",
+        "Comparison with conventional colony screening"
+      ],
+      "metrics": [
+        "Binding reactivity (OD405)",
+        "Proportion of clones in NGS data"
+      ],
+      "final_conclusion": "NGS analysis of HCDR3 and two-step linker PCR effectively retrieve antigen-specific scFv clones missed by conventional screening.",
+      "limitations": [
+        "NGS cannot sequence full scFv gene error-free",
+        "Cross-priming possible during PCR retrieval",
+        "Two-step linker PCR is low-throughput"
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_specific_evidence_backfilled=5",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_specific_evidence_backfilled=5",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 96.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p2\\states\\0197.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p2\\events\\0197.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1
+        ],
+        "K02": [
+          1,
+          2
+        ],
+        "K04": [
+          3,
+          4
+        ],
+        "K05": [
+          4,
+          7,
+          8
+        ],
+        "K06": [
+          4,
+          5,
+          6
+        ],
+        "K07": [
+          5,
+          6,
+          7
+        ],
+        "K08": [
+          3,
+          4,
+          6,
+          7,
+          9,
+          10
+        ],
+        "K09": [
+          8
+        ],
+        "K10": [
+          9
+        ],
+        "K11": [
+          9,
+          10
+        ],
+        "K12": [
+          11
+        ],
+        "K14": [
+          2,
+          3,
+          4,
+          8,
+          10,
+          11,
+          12
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K02",
+            "K03",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K04",
+            "K08",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K04",
+            "K05",
+            "K06",
+            "K08",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K06",
+            "K07"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K06",
+            "K07",
+            "K08"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K05",
+            "K07",
+            "K08"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K05",
+            "K09",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K08",
+            "K10",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K08",
+            "K11",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K12",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 12,
+          "covered_event_ids": [
+            "K14"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 4,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "-4",
+          "-53%"
+        ]
+      },
+      {
+        "step_index": 5,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "-6",
+          "0.1860",
+          "0.2331"
+        ]
+      },
+      {
+        "step_index": 6,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "-4",
+          "1h"
+        ]
+      },
+      {
+        "step_index": 7,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "-4"
+        ]
+      },
+      {
+        "step_index": 8,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "-5",
+          "40s"
+        ]
+      },
+      {
+        "step_index": 9,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "-4"
+        ]
+      },
+      {
+        "step_index": 10,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "1%",
+          "2.16%",
+          "4.79%"
+        ]
+      }
+    ],
+    "step_count": 12,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 96.0
+  },
+  "api_usage": {
+    "prompt_tokens": 102012,
+    "completion_tokens": 24315,
+    "total_tokens": 126327,
+    "prompt_cache_hit_tokens": 2432,
+    "prompt_cache_miss_tokens": 99580
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 3279,
+        "completion_tokens": 624,
+        "total_tokens": 3903,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 3279
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 8758,
+        "completion_tokens": 2419,
+        "total_tokens": 11177,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 8758
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 7958,
+        "completion_tokens": 1696,
+        "total_tokens": 9654,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7702
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 8857,
+        "completion_tokens": 2058,
+        "total_tokens": 10915,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8601
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 8193,
+        "completion_tokens": 1124,
+        "total_tokens": 9317,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7937
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 11440,
+        "completion_tokens": 3028,
+        "total_tokens": 14468,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 11056
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 13272,
+        "completion_tokens": 5945,
+        "total_tokens": 19217,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 12632
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 18486,
+        "completion_tokens": 1290,
+        "total_tokens": 19776,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 18486
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 21769,
+        "completion_tokens": 6131,
+        "total_tokens": 27900,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 21129
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

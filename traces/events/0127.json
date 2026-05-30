@@ -1,0 +1,1477 @@
+{
+  "doc_no": "0127",
+  "source": {
+    "title": "RNA-aptamers-in-droplets (RAPID) high-throughput screening for secretory phenotypes",
+    "doi": "https://doi.org/10.1038/s41467-017-00425-7",
+    "license": "cc-by",
+    "pdf_name": "0125_10_1038_s41467_017_00425_7_rna_aptamers_in_droplets_rapid_high_throughput_screening_for_secretory_phenotypes.pdf",
+    "combined_md": "docs/0127/combined.md",
+    "mineru_md": "docs/0127/mineru.md"
+  },
+  "gist_memory": {
+    "paper_problem_memory": "The paper addresses the bottleneck in the design-build-test cycle of synthetic biology: high-throughput screening of secretory phenotypes for non-fluorescent targets. Existing methods like well-plate assays are low-throughput, while droplet microfluidics require fluorescence-based detection, limiting generality. The authors propose RAPID (RNA-aptamers-in-droplets) to transduce extracellular product concentration into fluorescence using Spinach RNA aptamers, enabling ultrahigh-throughput droplet screening for diverse targets.",
+    "section_gists": [
+      {
+        "section_index": 3,
+        "heading": "RNA-aptamers-in-droplets (RAPID) high-throughput screening for secretory phenotypes",
+        "gist": "Introduces RAPID as a general method for ultrahigh-throughput droplet screening of secretory phenotypes. The core innovation is using Spinach RNA aptamers to convert non-fluorescent target concentration into fluorescence. Demonstrates enhanced tyrosine production and recombinant protein secretion in yeast. Highlights the need for generalizable screening methods due to the mismatch between library generation and testing throughput.",
+        "process_signals": [
+          "Problem: testing throughput lags behind library generation capacity.",
+          "Constraint: most targets are non-fluorescent, limiting droplet screening.",
+          "Hypothesis: RNA aptamers can provide a general fluorescence readout in droplets.",
+          "Design choice: use Spinach aptamers for modular, reprogrammable sensing.",
+          "Validation: demonstrated with tyrosine and recombinant protein secretion."
+        ],
+        "methods": [
+          "Spinach RNA aptamers",
+          "Droplet microfluidics",
+          "Fluorescence-based sorting"
+        ],
+        "metrics": [
+          "Fold improvement in production (up to 28-fold for tyrosine, 3-fold for protein secretion)"
+        ],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 4,
+        "heading": "Results",
+        "gist": "Details experimental validation of RAPID. Yeast cells proliferate and produce in droplets. Aptamers sense targets in droplets but initially performed poorly compared to bulk; optimization was required. Model secretion (streptavidin) showed enrichment of high secretors. Enzyme secretion (lipase) and protein secretion (IL-2) were also demonstrated. Sorting enriched high producers, with correlation to bulk assays.",
+        "process_signals": [
+          "Initial failure: aptamers performing well in bulk performed poorly in droplets, especially with cells.",
+          "Iterative improvement: optimized assay conditions for tyrosine aptamer.",
+          "Success: aptamers enabled detection and sorting in droplets.",
+          "Validation: enrichment of high secretors confirmed by bulk assays."
+        ],
+        "methods": [
+          "Droplet cultivation of yeast",
+          "Aptamer-based fluorescence assay in droplets",
+          "Microfluidic sorting",
+          "Bulk assay correlation"
+        ],
+        "metrics": [
+          "Enrichment ratios",
+          "Fluorescence signal normalization",
+          "Sorting efficiency"
+        ],
+        "failures_or_limits": [
+          "Aptamers initially performed poorly in droplets compared to bulk.",
+          "Optimization needed for droplet conditions."
+        ]
+      },
+      {
+        "section_index": 5,
+        "heading": "Discussion",
+        "gist": "RAPID is generalizable for small molecules and proteins. Key innovation is Spinach aptamers as general readouts. Aptamers can be generated via SELEX if not available. Method is gentle, maintaining cell viability. Live cells after sorting enable downstream analysis. Envisions combining with in vivo mutagenesis for continuous evolution.",
+        "process_signals": [
+          "Generalizability: aptamers can be developed for new targets via SELEX.",
+          "Gentle method: maintains cell viability for days.",
+          "Future direction: combine with in vivo mutagenesis for automated cycles."
+        ],
+        "methods": [
+          "SELEX for aptamer generation",
+          "In vivo mutagenesis"
+        ],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 6,
+        "heading": "Methods",
+        "gist": "Provides technical details: microfluidic device fabrication, aptamer construction and testing, droplet encapsulation, cell culture, molecular cloning, and directed evolution for tyrosine overproduction. Includes optimization steps like error-prone PCR for library generation.",
+        "process_signals": [
+          "Aptamer construction: modular grafting of binding sequences to Spinach domain.",
+          "Optimization: thermodynamic optimization using mfold for aptamer design.",
+          "Library generation: error-prone PCR for directed evolution."
+        ],
+        "methods": [
+          "Soft lithography for microfluidic devices",
+          "In vitro transcription for RNA aptamers",
+          "Droplet generation and fluorescence imaging",
+          "Error-prone PCR for mutant libraries"
+        ],
+        "metrics": [
+          "Library sizes (~5×10^4 to 1×10^5)"
+        ],
+        "failures_or_limits": []
+      }
+    ],
+    "global_hypotheses_about_storyline": [
+      "The initial problem was the lack of high-throughput, generalizable screening for secretory phenotypes.",
+      "The hypothesis was that RNA aptamers could transduce target concentration into fluorescence in droplets.",
+      "Design choices included using Spinach aptamers for modularity and droplet microfluidics for throughput.",
+      "Failures in aptamer performance in droplets led to optimization of assay conditions.",
+      "Successful validation with multiple targets (tyrosine, streptavidin, lipase, IL-2) supported generality.",
+      "Limitations include the need for aptamer development for new targets and potential droplet stability issues."
+    ],
+    "uncertainties_to_resolve": [
+      "What specific optimization steps were taken to improve aptamer performance in droplets?",
+      "Were there any failures in sorting efficiency or droplet stability not fully detailed?",
+      "How does the method scale to other cell types or more complex secretion pathways?",
+      "What are the limits of detection and quantification for different targets?"
+    ]
+  },
+  "chunk_events": [
+    {
+      "chunk_id": "C001",
+      "char_start": 0,
+      "char_end": 18000,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C001_E01",
+          "chunk_id": "C001",
+          "event_type": "problem",
+          "order_hint": 1,
+          "summary": "Library generation capacity outpaces high-throughput testing and screening, creating a bottleneck in the design-build-test cycle.",
+          "methods_or_tools": [],
+          "entities": [
+            "design-build-test cycle",
+            "library generation",
+            "high-throughput testing"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E01_01"
+          ]
+        },
+        {
+          "event_id": "C001_E02",
+          "chunk_id": "C001",
+          "event_type": "problem",
+          "order_hint": 2,
+          "summary": "Droplet microfluidic screening is limited to fluorescence-based detection, excluding most non-fluorescent targets.",
+          "methods_or_tools": [
+            "droplet microfluidics"
+          ],
+          "entities": [
+            "droplet microfluidics",
+            "fluorescence"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E02_01"
+          ]
+        },
+        {
+          "event_id": "C001_E03",
+          "chunk_id": "C001",
+          "event_type": "hypothesis",
+          "order_hint": 3,
+          "summary": "RNA aptamers can transduce extracellular product titer into fluorescence, enabling general ultrahigh-throughput droplet screening.",
+          "methods_or_tools": [
+            "RNA aptamers",
+            "Spinach aptamers"
+          ],
+          "entities": [
+            "RNA aptamers",
+            "Spinach aptamers",
+            "fluorescence"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E03_01"
+          ]
+        },
+        {
+          "event_id": "C001_E05",
+          "chunk_id": "C001",
+          "event_type": "validation",
+          "order_hint": 5,
+          "summary": "RAPID enhanced tyrosine production up to 28-fold and recombinant protein secretion up to 3-fold in yeast.",
+          "methods_or_tools": [
+            "RAPID"
+          ],
+          "entities": [
+            "tyrosine",
+            "recombinant protein",
+            "Saccharomyces cerevisiae"
+          ],
+          "numbers_or_metrics": [
+            "28-fold",
+            "3-fold"
+          ],
+          "evidence_ids": [
+            "EV_C001_E05_01"
+          ]
+        }
+      ],
+      "notes": "This chunk introduces the core problem, hypothesis, design, and initial validation of RAPID.",
+      "api_usage": {
+        "prompt_tokens": 6450,
+        "completion_tokens": 808,
+        "total_tokens": 7258,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6194
+      }
+    },
+    {
+      "chunk_id": "C002",
+      "char_start": 17100,
+      "char_end": 35100,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C002_E01",
+          "chunk_id": "C002",
+          "event_type": "design",
+          "order_hint": 1,
+          "summary": "Design criteria for RAPID screening are established, including single-cell cultivation in droplets, aptamer-based target measurement, aptamer stability in presence of cells, and microfluidic sorting with live cell recovery.",
+          "methods_or_tools": [],
+          "entities": [
+            "RAPID",
+            "droplet microfluidics",
+            "RNA aptamers"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E01_01"
+          ]
+        },
+        {
+          "event_id": "C002_E05",
+          "chunk_id": "C002",
+          "event_type": "failure",
+          "order_hint": 5,
+          "summary": "Aptamers that performed well in bulk performed poorly in droplets, especially with cells, requiring optimization.",
+          "methods_or_tools": [],
+          "entities": [
+            "aptamers",
+            "droplets"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E05_01"
+          ]
+        }
+      ],
+      "notes": "This chunk contains key design criteria, initial failure of aptamers in droplets, optimization steps, and validation of aptamer performance in droplets with cells.",
+      "api_usage": {
+        "prompt_tokens": 7053,
+        "completion_tokens": 1430,
+        "total_tokens": 8483,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6797
+      }
+    },
+    {
+      "chunk_id": "C003",
+      "char_start": 34200,
+      "char_end": 52200,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C003_E01",
+          "chunk_id": "C003",
+          "event_type": "experiment",
+          "order_hint": 1,
+          "summary": "RAPID screening used to identify mutations in α-mating factor secretory leader fused to streptavidin in yeast.",
+          "methods_or_tools": [
+            "RAPID screening",
+            "droplet fluorescence detection",
+            "α-mating factor secretory leader"
+          ],
+          "entities": [
+            "streptavidin",
+            "α-mating factor",
+            "yeast"
+          ],
+          "numbers_or_metrics": [
+            "threefold higher supernatant streptavidin titer"
+          ],
+          "evidence_ids": [
+            "EV_C003_E01_02"
+          ]
+        },
+        {
+          "event_id": "C003_E02",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 2,
+          "summary": "Sorted variants statistically enriched for improved tyrosine production over randomly selected variants.",
+          "methods_or_tools": [
+            "Mann–Whitney U-test"
+          ],
+          "entities": [
+            "tyrosine",
+            "sorted variants",
+            "unsorted library"
+          ],
+          "numbers_or_metrics": [
+            "p<0.05"
+          ],
+          "evidence_ids": [
+            "EV_C003_E02_01"
+          ]
+        },
+        {
+          "event_id": "C003_E03",
+          "chunk_id": "C003",
+          "event_type": "experiment",
+          "order_hint": 3,
+          "summary": "Top performing tyrosine variant aro4-9 improved 27-fold over wild-type with three coding mutations.",
+          "methods_or_tools": [
+            "directed evolution",
+            "RAPID screening"
+          ],
+          "entities": [
+            "aro4-9",
+            "tyrosine",
+            "H230Y",
+            "K252N",
+            "V262I"
+          ],
+          "numbers_or_metrics": [
+            "27-fold improved over wild-type"
+          ],
+          "evidence_ids": [
+            "EV_C003_E03_01"
+          ]
+        },
+        {
+          "event_id": "C003_E04",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 4,
+          "summary": "Improvement in aro4-9 primarily driven by novel H230Y mutation adjacent to known K229.",
+          "methods_or_tools": [],
+          "entities": [
+            "H230Y",
+            "K229",
+            "aro4-9"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E04_01"
+          ]
+        },
+        {
+          "event_id": "C003_E05",
+          "chunk_id": "C003",
+          "event_type": "experiment",
+          "order_hint": 5,
+          "summary": "Mutant aro4-229-9 showed 28-fold improvement over wild type and 21% improvement over aro4-K229L.",
+          "methods_or_tools": [
+            "directed evolution",
+            "RAPID screening"
+          ],
+          "entities": [
+            "aro4-229-9",
+            "aro4-K229L",
+            "T46A",
+            "T207I"
+          ],
+          "numbers_or_metrics": [
+            "28-fold improvement over wild type",
+            "21% improvement relative to aro4-K229L"
+          ],
+          "evidence_ids": [
+            "EV_C003_E05_01"
+          ]
+        },
+        {
+          "event_id": "C003_E06",
+          "chunk_id": "C003",
+          "event_type": "validation",
+          "order_hint": 6,
+          "summary": "Cell growth rate not affected by improved enzyme mutations, so variants could not be discovered via growth selections.",
+          "methods_or_tools": [
+            "growth rate measurement"
+          ],
+          "entities": [
+            "improved enzyme",
+            "cell growth rate"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E06_01"
+          ]
+        },
+        {
+          "event_id": "C003_E08",
+          "chunk_id": "C003",
+          "event_type": "experiment",
+          "order_hint": 8,
+          "summary": "RAPID screening for streptavidin secretion enriched high producers; two of seven sorted variants significantly increased secretion.",
+          "methods_or_tools": [
+            "RAPID screening",
+            "droplet sorting",
+            "ANOVA with Dunnett's Test"
+          ],
+          "entities": [
+            "streptavidin",
+            "αMF secretory leader",
+            "sorted variants"
+          ],
+          "numbers_or_metrics": [
+            "two of seven variants",
+            "p < 0.01"
+          ],
+          "evidence_ids": [
+            "EV_C003_E08_01"
+          ]
+        }
+      ],
+      "notes": "Chunk contains detailed experimental results for tyrosine and streptavidin secretion enhancement using RAPID, including statistical validation and identification of novel mutations.",
+      "api_usage": {
+        "prompt_tokens": 5974,
+        "completion_tokens": 1473,
+        "total_tokens": 7447,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 5718
+      }
+    },
+    {
+      "chunk_id": "C004",
+      "char_start": 51300,
+      "char_end": 69300,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C004_E01",
+          "chunk_id": "C004",
+          "event_type": "design",
+          "order_hint": 1,
+          "summary": "Directed evolution library construction for tyrosine over-production using error-prone PCR on aro4 gene.",
+          "methods_or_tools": [
+            "error-prone PCR",
+            "GeneMorph II kit"
+          ],
+          "entities": [
+            "aro4",
+            "K229L mutant"
+          ],
+          "numbers_or_metrics": [
+            "4.5–9 errors per kbp",
+            "library size ~5×10^4 to 1×10^5"
+          ],
+          "evidence_ids": [
+            "EV_C004_E01_02"
+          ]
+        },
+        {
+          "event_id": "C004_E03",
+          "chunk_id": "C004",
+          "event_type": "experiment",
+          "order_hint": 3,
+          "summary": "Microfluidic droplet sorting using custom fluorimeter and dielectrophoresis.",
+          "methods_or_tools": [
+            "custom built fluorimeter",
+            "dielectrophoretic sorting",
+            "LabVIEW"
+          ],
+          "entities": [
+            "473 nm laser",
+            "517 nm bandpass filter",
+            "high voltage amplifier"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E03_01",
+            "EV_C004_E03_02"
+          ]
+        },
+        {
+          "event_id": "C004_E04",
+          "chunk_id": "C004",
+          "event_type": "analysis",
+          "order_hint": 4,
+          "summary": "Post-sort analysis by DNA extraction, retransformation, and sequencing to identify mutations.",
+          "methods_or_tools": [
+            "DNA extraction",
+            "retransformation",
+            "Sanger sequencing"
+          ],
+          "entities": [
+            "E. coli",
+            "yeast"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E04_01",
+            "EV_C004_E04_02"
+          ]
+        },
+        {
+          "event_id": "C004_E06",
+          "chunk_id": "C004",
+          "event_type": "experiment",
+          "order_hint": 6,
+          "summary": "Bulk assay for secreted streptavidin using ammonium sulfate precipitation and Spinach2-Streptavidin aptamer fluorescence.",
+          "methods_or_tools": [
+            "ammonium sulfate precipitation",
+            "Spinach2-Streptavidin aptamer",
+            "DFHBI-1T",
+            "Cytation3 imaging reader"
+          ],
+          "entities": [
+            "streptavidin",
+            "DPBS"
+          ],
+          "numbers_or_metrics": [
+            "5× concentration factor",
+            "standard curve 1–40 mg l−1"
+          ],
+          "evidence_ids": [
+            "EV_C004_E06_02"
+          ]
+        },
+        {
+          "event_id": "C004_E07",
+          "chunk_id": "C004",
+          "event_type": "analysis",
+          "order_hint": 7,
+          "summary": "Statistical analysis of mutant streptavidin secretion using one-way ANOVA with Dunnett's test.",
+          "methods_or_tools": [
+            "GraphPad Prism 6",
+            "one-way ANOVA",
+            "Dunnett's Test"
+          ],
+          "entities": [
+            "WT control"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E07_01"
+          ]
+        }
+      ],
+      "notes": "This chunk contains detailed methods for directed evolution experiments, including library construction, droplet encapsulation, sorting, and post-sort analysis for both tyrosine and streptavidin secretion. It also includes bulk assay procedures and statistical analysis.",
+      "api_usage": {
+        "prompt_tokens": 6364,
+        "completion_tokens": 1423,
+        "total_tokens": 7787,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6108
+      }
+    },
+    {
+      "chunk_id": "C005",
+      "char_start": 68400,
+      "char_end": 77624,
+      "chunk_relevance": "none",
+      "events": [],
+      "notes": "This chunk contains only references, acknowledgements, author contributions, and license information. No research evolution events are present.",
+      "api_usage": {
+        "prompt_tokens": 4490,
+        "completion_tokens": 56,
+        "total_tokens": 4546,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 4234
+      }
+    }
+  ],
+  "evidence_bank": [
+    {
+      "evidence_id": "EV_C001_E01_01",
+      "source_file": "docs/0127/combined.md",
+      "section": "C001",
+      "char_start": 730,
+      "char_end": 816,
+      "quote": "library generation capacity outpaces the rate of high-throughput testing and screening"
+    },
+    {
+      "evidence_id": "EV_C001_E02_01",
+      "source_file": "docs/0127/combined.md",
+      "section": "C001",
+      "char_start": 4635,
+      "char_end": 4791,
+      "quote": "product concentration must be measurable via fluorescence, the only current modality with sufficient signal to robustly detect in kilohertz flowing droplets"
+    },
+    {
+      "evidence_id": "EV_C001_E03_01",
+      "source_file": "docs/0127/combined.md",
+      "section": "C001",
+      "char_start": 1130,
+      "char_end": 1270,
+      "quote": "Using aptamers, we transduce extracellular product titer into fluorescence, allowing ultrahigh-throughput screening of millions of variants."
+    },
+    {
+      "evidence_id": "EV_C001_E05_01",
+      "source_file": "docs/0127/combined.md",
+      "section": "C001",
+      "char_start": 1271,
+      "char_end": 1446,
+      "quote": "We demonstrate the RAPID approach by enhancing production of tyrosine and secretion of a recombinant protein in Saccharomyces cerevisiae by up to 28- and 3-fold, respectively."
+    },
+    {
+      "evidence_id": "EV_C002_E01_01",
+      "source_file": "docs/0127/combined.md",
+      "section": "C002",
+      "char_start": 19368,
+      "char_end": 19962,
+      "quote": "To apply RAPID, several conditions must be met: (i) single cells must be cultivated in a metabolically active and productive state in picoliter droplets; (ii) RNA aptamers must allow target concentration measurements in picoliter droplets; (iii) the aptamer must remain sensitive and specific even in the presence of the producer cell and growth medium for the several day production phase; and (iv) the microfluidic system must perform all requisite operations efficiently and allow recovery of live cells for downstream cultivation and sequencing analysis of responsible proteins or pathways."
+    },
+    {
+      "evidence_id": "EV_C002_E05_01",
+      "source_file": "docs/0127/combined.md",
+      "section": "C002",
+      "char_start": 22507,
+      "char_end": 22660,
+      "quote": "In our first droplet tests, however, we found that aptamers performing well in bulk performed poorly in droplets, particularly when incubated with cells."
+    },
+    {
+      "evidence_id": "EV_C003_E01_02",
+      "source_file": "docs/0127/combined.md",
+      "section": "C003",
+      "char_start": 36902,
+      "char_end": 37021,
+      "quote": "Protein secretion from an individual clone was increased nearly threefold over wild-type production using this approach"
+    },
+    {
+      "evidence_id": "EV_C003_E02_01",
+      "source_file": "docs/0127/combined.md",
+      "section": "C003",
+      "char_start": 38877,
+      "char_end": 39041,
+      "quote": "The sorted variants were statistically enriched for improved production over randomly selected variants from the library (p<0.05, Mann–Whitney U-test; Figs. 3b, e)."
+    },
+    {
+      "evidence_id": "EV_C003_E03_01",
+      "source_file": "docs/0127/combined.md",
+      "section": "C003",
+      "char_start": 39373,
+      "char_end": 39533,
+      "quote": "The mutant aro4-9 derived from wild-type ARO4 (library 1) was 27-fold improved over wild-type and has three coding mutations (H230Y, K252N, and V262I; Fig. 3c)."
+    },
+    {
+      "evidence_id": "EV_C003_E04_01",
+      "source_file": "docs/0127/combined.md",
+      "section": "C003",
+      "char_start": 39534,
+      "char_end": 39728,
+      "quote": "We investigated this variant further and determined that the improvement is primarily driven by the novel H230Y mutation, a residue adjacent to the reported K229 mutation (Supplementary Fig. 8)."
+    },
+    {
+      "evidence_id": "EV_C003_E05_01",
+      "source_file": "docs/0127/combined.md",
+      "section": "C003",
+      "char_start": 39729,
+      "char_end": 39966,
+      "quote": "The mutant aro4-229-9 derived from further mutagenesis of aro4-K229L (library 2) showed a 28-fold improvement over wild type and a 21% improvement relative to aro4-K229L, and has two additional coding mutations (T46A and T207I, Fig. 3f)."
+    },
+    {
+      "evidence_id": "EV_C003_E06_01",
+      "source_file": "docs/0127/combined.md",
+      "section": "C003",
+      "char_start": 39968,
+      "char_end": 40221,
+      "quote": "Importantly, while each improved enzyme possesses novel mutations that increase tyrosine production, cell growth rate is not affected and, thus, these variants could not have been enriched for and discovered via growth selections (Supplementary Fig. 9)."
+    },
+    {
+      "evidence_id": "EV_C003_E08_01",
+      "source_file": "docs/0127/combined.md",
+      "section": "C003",
+      "char_start": 43561,
+      "char_end": 43996,
+      "quote": "After re-transforming individual randomly selected variants from the sorted and unsorted populations into a fresh yeast strain, we measured streptavidin titer in supernatant samples from shake-flask production cultures and found that two of the seven variants isolated by droplet sorting have significantly increased secretion (p < 0.01, One-way analysis of variance (ANOVA) with Dunnett's Test for multiple comparisons to WT control)."
+    },
+    {
+      "evidence_id": "EV_C004_E01_02",
+      "source_file": "docs/0127/combined.md",
+      "section": "C004",
+      "char_start": 52563,
+      "char_end": 52719,
+      "quote": "Each gene was PCR amplified in an error-prone manner using GeneMorph II kit (Agilent) following the protocol for “medium” error-rate (4.5–9 errors per kbp)."
+    },
+    {
+      "evidence_id": "EV_C004_E03_01",
+      "source_file": "docs/0127/combined.md",
+      "section": "C004",
+      "char_start": 54149,
+      "char_end": 54276,
+      "quote": "To detect and sort microfluidic droplets using a fluorescence signal, we made use of a custom built fluorimeter and microscope."
+    },
+    {
+      "evidence_id": "EV_C004_E03_02",
+      "source_file": "docs/0127/combined.md",
+      "section": "C004",
+      "char_start": 54465,
+      "char_end": 54709,
+      "quote": "LabVIEW (National Instruments) software with a user set threshold for sorting controlled a field programmable gate array card to apply a voltage to a high voltage amplifier (Teck) to dielectrophoretically move the droplet into the sorted outlet"
+    },
+    {
+      "evidence_id": "EV_C004_E04_01",
+      "source_file": "docs/0127/combined.md",
+      "section": "C004",
+      "char_start": 55020,
+      "char_end": 55117,
+      "quote": "Post-sort, total DNA from post-sort cultures were extracted (Zymo) and re-transformed to E. coli."
+    },
+    {
+      "evidence_id": "EV_C004_E04_02",
+      "source_file": "docs/0127/combined.md",
+      "section": "C004",
+      "char_start": 55256,
+      "char_end": 55343,
+      "quote": "individual clones were picked from each, followed by plasmids isolation and sequencing."
+    },
+    {
+      "evidence_id": "EV_C004_E06_02",
+      "source_file": "docs/0127/combined.md",
+      "section": "C004",
+      "char_start": 62972,
+      "char_end": 63112,
+      "quote": "Each sample (standard curve point or re-suspended sample) was mixed with a solution of 10 μM Spinach2-Streptavidin aptamer and 2 μM DFHBI-1T"
+    },
+    {
+      "evidence_id": "EV_C004_E07_01",
+      "source_file": "docs/0127/combined.md",
+      "section": "C004",
+      "char_start": 63898,
+      "char_end": 64046,
+      "quote": "Statistical analysis of mutants was performed using GraphPad Prism 6 (one-way ANOVA with Dunnett's Test for multiple comparisons to the WT control)."
+    },
+    {
+      "evidence_id": "EV_AUTO_001",
+      "source_file": "docs/0127/combined.md",
+      "section": "auto_specific",
+      "char_start": 39728,
+      "char_end": 39961,
+      "quote": "The mutant aro4-229-9 derived from further mutagenesis of aro4-K229L (library 2) showed a 28-fold improvement over wild type and a 21% improvement relative to aro4-K229L, and has two additional coding mutations (T46A and T207I, Fig."
+    },
+    {
+      "evidence_id": "EV_AUTO_002",
+      "source_file": "docs/0127/combined.md",
+      "section": "auto_specific",
+      "char_start": 39372,
+      "char_end": 39528,
+      "quote": "The mutant aro4-9 derived from wild-type ARO4 (library 1) was 27-fold improved over wild-type and has three coding mutations (H230Y, K252N, and V262I; Fig."
+    },
+    {
+      "evidence_id": "EV_AUTO_003",
+      "source_file": "docs/0127/combined.md",
+      "section": "auto_specific",
+      "char_start": 37657,
+      "char_end": 37980,
+      "quote": "To both de novo identify new mutations and further improve upon the best-reported Aro4p K229L mutant, we established two directed evolution libraries that targeted: (1) specifically the regulatory region of the wild-type protein (residues 191–263) and (2) the entire protein sequence in the background of the K229L mutant."
+    },
+    {
+      "evidence_id": "EV_AUTO_004",
+      "source_file": "docs/0127/combined.md",
+      "section": "auto_specific",
+      "char_start": 37484,
+      "char_end": 37657,
+      "quote": "Prior work demonstrated that several point mutations in this key enzyme, especially K229L $^{46, 47}$ , reduce feedback inhibition and improve tyrosine production $^{47}$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_005",
+      "source_file": "docs/0127/combined.md",
+      "section": "auto_specific",
+      "char_start": 29915,
+      "char_end": 30117,
+      "quote": "Libraries were constructed through mutagenizing the proposed regulatory region of Aro4p (residues 191-263) a-c and through whole-gene mutagenesis of the best previously reported variant aro4-K229L d-f."
+    },
+    {
+      "evidence_id": "EV_AUTO_006",
+      "source_file": "docs/0127/combined.md",
+      "section": "auto_specific",
+      "char_start": 25987,
+      "char_end": 26125,
+      "quote": "3D protein structure visualization with labeled helices (H230Y, V262I, K252N) and a small green ligand (no text or symbols beyond labels)"
+    },
+    {
+      "evidence_id": "EV_AUTO_007",
+      "source_file": "docs/0127/combined.md",
+      "section": "auto_specific",
+      "char_start": 75264,
+      "char_end": 75384,
+      "quote": "This work was funded by the DARPA Living Foundries Program under contract numbers HR0011-12-C-0066 and HR0011-15-C-0031."
+    },
+    {
+      "evidence_id": "EV_AUTO_008",
+      "source_file": "docs/0127/combined.md",
+      "section": "auto_specific",
+      "char_start": 52373,
+      "char_end": 52562,
+      "quote": "Two libraries were made for the evolution of $aro4$ : one derived from the wild-type gene and one from the K229L mutant, which has been shown to exhibit lower feedback inhibition $^{47}$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_009",
+      "source_file": "docs/0127/combined.md",
+      "section": "auto_specific",
+      "char_start": 39533,
+      "char_end": 39724,
+      "quote": "We investigated this variant further and determined that the improvement is primarily driven by the novel H230Y mutation, a residue adjacent to the reported K229 mutation (Supplementary Fig."
+    },
+    {
+      "evidence_id": "EV_AUTO_010",
+      "source_file": "docs/0127/combined.md",
+      "section": "auto_specific",
+      "char_start": 29580,
+      "char_end": 29695,
+      "quote": "3D protein structure visualization with labeled residues K229L, T46A, and T207I (no text or symbols beyond labels)"
+    },
+    {
+      "evidence_id": "EV_AUTO_011",
+      "source_file": "docs/0127/combined.md",
+      "section": "auto_specific",
+      "char_start": 39245,
+      "char_end": 39372,
+      "quote": "The top performing variant from each library contained novel mutations and was improved over the best known aro4-K229L mutant."
+    },
+    {
+      "evidence_id": "EV_AUTO_012",
+      "source_file": "docs/0127/combined.md",
+      "section": "auto_specific",
+      "char_start": 30421,
+      "char_end": 30530,
+      "quote": "8-fold increase in secretion compared to the unsorted clones for Aro4p and K229L clones, respectively (b, e)."
+    },
+    {
+      "evidence_id": "EV_AUTO_013",
+      "source_file": "docs/0127/combined.md",
+      "section": "auto_specific",
+      "char_start": 56925,
+      "char_end": 57228,
+      "quote": "Briefly, selected strains were inoculated into the appropriate media, either complete (YSC-Histidine) or minimal (20 glucose, 20 methionine, 12 adenine, 20 uracil, and 100 mg l $^{-1}$ leucine), at OD600 = 0.1 and OD600 measurements were taken every 15 min using continuous shaking for 3 days at 30 °C."
+    },
+    {
+      "evidence_id": "EV_AUTO_014",
+      "source_file": "docs/0127/combined.md",
+      "section": "auto_specific",
+      "char_start": 56925,
+      "char_end": 57134,
+      "quote": "Briefly, selected strains were inoculated into the appropriate media, either complete (YSC-Histidine) or minimal (20 glucose, 20 methionine, 12 adenine, 20 uracil, and 100 mg l $^{-1}$ leucine), at OD600 = 0."
+    },
+    {
+      "evidence_id": "EV_AUTO_015",
+      "source_file": "docs/0127/combined.md",
+      "section": "auto_specific",
+      "char_start": 30412,
+      "char_end": 30530,
+      "quote": "9- and 5.8-fold increase in secretion compared to the unsorted clones for Aro4p and K229L clones, respectively (b, e)."
+    },
+    {
+      "evidence_id": "EV_AUTO_016",
+      "source_file": "docs/0127/combined.md",
+      "section": "auto_specific",
+      "char_start": 45794,
+      "char_end": 46124,
+      "quote": "While this initial work focused on screening yeast libraries for enhancing extracellular metabolite or recombinant protein titers, other cell types and screening goals have been addressed using similar microfluidic sorting devices $^{33, 61-63}$ , suggesting a wide range of potential applications for our aptamer-based approach."
+    },
+    {
+      "evidence_id": "EV_AUTO_017",
+      "source_file": "docs/0127/combined.md",
+      "section": "auto_specific",
+      "char_start": 58255,
+      "char_end": 58455,
+      "quote": "The resulting PCR product was then combined with PCR linearized acceptor vector p426-GAL1-SA in 10 standard Gibson assembly reactions to yield the plasmid library/pool p426-GAL1- $\\alpha$ MF[NAM]-SA."
+    },
+    {
+      "evidence_id": "EV_AUTO_018",
+      "source_file": "docs/0127/combined.md",
+      "section": "auto_specific",
+      "char_start": 57609,
+      "char_end": 57687,
+      "quote": "SA was PCR amplified and cloned into p426-GAL1 $^{66}$ to yield p426-GAL1-SA."
+    },
+    {
+      "evidence_id": "EV_AUTO_019",
+      "source_file": "docs/0127/combined.md",
+      "section": "auto_specific",
+      "char_start": 44237,
+      "char_end": 44346,
+      "quote": "11), with the highest performers exhibiting a nonpolar to polar mutation (I → T) in the LLFI motif $^{59}$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_020",
+      "source_file": "docs/0127/combined.md",
+      "section": "auto_specific",
+      "char_start": 20674,
+      "char_end": 20962,
+      "quote": "This shows that the droplet environment is suitable for multi-day yeast culture and production which will enable droplets to be sorted based on fluorescence, validating that our specific microfluidic platform matches previously reported capabilities of microfluidic droplets $^{29-33}$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_021",
+      "source_file": "docs/0127/combined.md",
+      "section": "auto_specific",
+      "char_start": 60120,
+      "char_end": 60401,
+      "quote": "The wild-type αMF-SA plasmid (WT, no mutagenesis), a negative control plasmid (p426-GAL1 with no streptavidin gene), the unsorted plasmid pool, and the sorted plasmid pool were also re-transformed at the same time to act as controls/comparators for the individual clone sequences."
+    },
+    {
+      "evidence_id": "EV_AUTO_022",
+      "source_file": "docs/0127/combined.md",
+      "section": "auto_specific",
+      "char_start": 59728,
+      "char_end": 59890,
+      "quote": "High-copy episomal 2μ plasmids (p426-GAL1 based) bearing individual mutant αMF sequences or sequence pools (unsorted and sorted) were re-transformed into fresh S."
+    },
+    {
+      "evidence_id": "EV_AUTO_023",
+      "source_file": "docs/0127/combined.md",
+      "section": "auto_specific",
+      "char_start": 58784,
+      "char_end": 58946,
+      "quote": "This yielded an estimated yeast library size of $1-3\\times10^{6}$ variants based on fractional plating and colony counting on YSC-Ura + Glucose selective plates."
+    },
+    {
+      "evidence_id": "EV_AUTO_024",
+      "source_file": "docs/0127/combined.md",
+      "section": "auto_specific",
+      "char_start": 58455,
+      "char_end": 58603,
+      "quote": "This library was then transformed into electrocompetent DH10 $\\beta$ in 25 transformations to yield a library size of $\\sim5\\times10^{6}$ variants."
+    },
+    {
+      "evidence_id": "EV_AUTO_025",
+      "source_file": "docs/0127/combined.md",
+      "section": "auto_specific",
+      "char_start": 53053,
+      "char_end": 53224,
+      "quote": "The plasmid libraries were then purified and transformed into a strain of yeast with $aro3$ and $aro4$ (both of which encode DAHP synthase activity) knocked out $^{43}$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_026",
+      "source_file": "docs/0127/combined.md",
+      "section": "auto_specific",
+      "char_start": 45370,
+      "char_end": 45528,
+      "quote": "When no RNA aptamer sequences are available for a given target, systematic evolution of ligands by exponential enrichment (SELEX) can generate them $^{60}$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_027",
+      "source_file": "docs/0127/combined.md",
+      "section": "auto_specific",
+      "char_start": 43169,
+      "char_end": 43267,
+      "quote": "We then sorted the library after 5 days of incubation, recovering the brightest 0.1% of droplets."
+    },
+    {
+      "evidence_id": "EV_AUTO_028",
+      "source_file": "docs/0127/combined.md",
+      "section": "auto_specific",
+      "char_start": 42176,
+      "char_end": 42418,
+      "quote": "Mutants of this sequence have been investigated for improving secretion of antibody fragments (scFv) $^{59}$ , but the screening process required a complex chemical conjugation to alter the cell surface and was dependent on antibody binding."
+    },
+    {
+      "evidence_id": "EV_AUTO_029",
+      "source_file": "docs/0127/combined.md",
+      "section": "auto_specific",
+      "char_start": 40413,
+      "char_end": 40769,
+      "quote": "Indeed, previous efforts to enhance aro4 relied on hypotheses based on crystal structures and understandings of protein dynamics $^{46}$ , approaches that are not always possible or do not always yield the optimal structure, particularly if the enzyme to be evolved is difficult to crystallize, poorly understood, or embedded in a multi-component pathway."
+    },
+    {
+      "evidence_id": "EV_AUTO_030",
+      "source_file": "docs/0127/combined.md",
+      "section": "auto_specific",
+      "char_start": 38876,
+      "char_end": 39033,
+      "quote": "The sorted variants were statistically enriched for improved production over randomly selected variants from the library (p<0.05, Mann–Whitney U-test; Figs."
+    },
+    {
+      "evidence_id": "EV_AUTO_031",
+      "source_file": "docs/0127/combined.md",
+      "section": "auto_specific",
+      "char_start": 38612,
+      "char_end": 38876,
+      "quote": "To confirm this, we re-transformed the sorted and unsorted variants into a fresh yeast strain to eliminate possible strain adaptations that may have occurred during the process, and assayed the re-transformed clones for extracellular tyrosine production $^{45}$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_032",
+      "source_file": "docs/0127/combined.md",
+      "section": "auto_specific",
+      "char_start": 38337,
+      "char_end": 38463,
+      "quote": "3–0.5% of droplets were recovered via fluorescence-activated droplet sorting, and the obtained mutant sequences were analyzed."
+    },
+    {
+      "evidence_id": "EV_AUTO_033",
+      "source_file": "docs/0127/combined.md",
+      "section": "auto_specific",
+      "char_start": 32477,
+      "char_end": 32696,
+      "quote": "Similar to previous Spinach biosensor development efforts that tested 7–10 variants $^{35}$ , we tested seven variants to identify one (Tyr1M1) that was sufficiently sensitive, stable, and inducible (Supplementary Fig."
+    },
+    {
+      "evidence_id": "EV_AUTO_034",
+      "source_file": "docs/0127/combined.md",
+      "section": "auto_specific",
+      "char_start": 32216,
+      "char_end": 32477,
+      "quote": "To identify tyrosine-responsive aptamer variants capable of surviving incubation with cells in droplets, we used a Spinach-tyrosine sensor consisting of tyrosine aptamer Tyr1 $^{42}$ , the Spinach2 stem loop backbone, and variants of a signal transducing stem."
+    },
+    {
+      "evidence_id": "EV_AUTO_035",
+      "source_file": "docs/0127/combined.md",
+      "section": "auto_specific",
+      "char_start": 30696,
+      "char_end": 30796,
+      "quote": "Tyrosine production was increased nearly 28-fold over the wild-type production using this approach"
+    },
+    {
+      "evidence_id": "EV_AUTO_036",
+      "source_file": "docs/0127/combined.md",
+      "section": "auto_specific",
+      "char_start": 30244,
+      "char_end": 30421,
+      "quote": "Isolated and re-transformed clones randomly selected from the pre- and post-sort populations were quantified for tyrosine production with the sorted clones having a 1.9- and 5."
+    }
+  ],
+  "event_graph": {
+    "paper_main_problem": "High-throughput screening of secretory phenotypes is limited to fluorescence-based detection, creating a bottleneck in the design-build-test cycle for non-fluorescent targets.",
+    "canonical_events": [
+      {
+        "canonical_id": "K01",
+        "order": 1,
+        "event_type": "problem",
+        "summary": "Library generation capacity outpaces high-throughput testing and screening, creating a bottleneck in the design-build-test cycle.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E01"
+        ],
+        "evidence_ids": [
+          "EV_C001_E01_01"
+        ],
+        "key_entities": [
+          "design-build-test cycle",
+          "library generation",
+          "high-throughput testing"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K02",
+        "order": 2,
+        "event_type": "problem",
+        "summary": "Droplet microfluidic screening is limited to fluorescence-based detection, excluding most non-fluorescent targets.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E02"
+        ],
+        "evidence_ids": [
+          "EV_C001_E02_01"
+        ],
+        "key_entities": [
+          "droplet microfluidics",
+          "fluorescence"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K03",
+        "order": 3,
+        "event_type": "hypothesis",
+        "summary": "RNA aptamers can transduce extracellular product titer into fluorescence, enabling general ultrahigh-throughput droplet screening.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E03"
+        ],
+        "evidence_ids": [
+          "EV_C001_E03_01"
+        ],
+        "key_entities": [
+          "RNA aptamers",
+          "Spinach aptamers",
+          "fluorescence"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K04",
+        "order": 4,
+        "event_type": "design",
+        "summary": "Design criteria for RAPID screening are established, including single-cell cultivation in droplets, aptamer-based target measurement, aptamer stability in presence of cells, and microfluidic sorting with live cell recovery.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E01"
+        ],
+        "evidence_ids": [
+          "EV_C002_E01_01"
+        ],
+        "key_entities": [
+          "RAPID",
+          "droplet microfluidics",
+          "RNA aptamers"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K05",
+        "order": 5,
+        "event_type": "failure",
+        "summary": "Aptamers that performed well in bulk performed poorly in droplets, especially with cells, requiring optimization.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E05"
+        ],
+        "evidence_ids": [
+          "EV_C002_E05_01"
+        ],
+        "key_entities": [
+          "aptamers",
+          "droplets"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K06",
+        "order": 6,
+        "event_type": "design",
+        "summary": "Directed evolution library construction for tyrosine over-production using error-prone PCR on aro4 gene, including two libraries: one targeting regulatory region of wild-type and one whole-gene mutagenesis of K229L mutant.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C004_E01"
+        ],
+        "evidence_ids": [
+          "EV_C004_E01_02",
+          "EV_AUTO_003",
+          "EV_AUTO_005",
+          "EV_AUTO_008"
+        ],
+        "key_entities": [
+          "aro4",
+          "K229L mutant",
+          "error-prone PCR",
+          "GeneMorph II kit"
+        ],
+        "key_numbers": [
+          "4.5–9 errors per kbp",
+          "library size ~5×10^4 to 1×10^5"
+        ]
+      },
+      {
+        "canonical_id": "K07",
+        "order": 7,
+        "event_type": "experiment",
+        "summary": "RAPID screening used to identify mutations in α-mating factor secretory leader fused to streptavidin in yeast, achieving threefold higher supernatant streptavidin titer.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E01"
+        ],
+        "evidence_ids": [
+          "EV_C003_E01_02"
+        ],
+        "key_entities": [
+          "streptavidin",
+          "α-mating factor",
+          "yeast"
+        ],
+        "key_numbers": [
+          "threefold higher supernatant streptavidin titer"
+        ]
+      },
+      {
+        "canonical_id": "K08",
+        "order": 8,
+        "event_type": "experiment",
+        "summary": "Microfluidic droplet sorting using custom fluorimeter and dielectrophoresis to sort droplets based on fluorescence.",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C004_E03"
+        ],
+        "evidence_ids": [
+          "EV_C004_E03_01",
+          "EV_C004_E03_02"
+        ],
+        "key_entities": [
+          "custom built fluorimeter",
+          "dielectrophoretic sorting",
+          "LabVIEW",
+          "473 nm laser",
+          "517 nm bandpass filter",
+          "high voltage amplifier"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K09",
+        "order": 9,
+        "event_type": "analysis",
+        "summary": "Sorted variants statistically enriched for improved tyrosine production over randomly selected variants (p<0.05, Mann–Whitney U-test).",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E02"
+        ],
+        "evidence_ids": [
+          "EV_C003_E02_01",
+          "EV_AUTO_030"
+        ],
+        "key_entities": [
+          "tyrosine",
+          "sorted variants",
+          "unsorted library"
+        ],
+        "key_numbers": [
+          "p<0.05"
+        ]
+      },
+      {
+        "canonical_id": "K10",
+        "order": 10,
+        "event_type": "experiment",
+        "summary": "Top performing tyrosine variant aro4-9 improved 27-fold over wild-type with three coding mutations (H230Y, K252N, V262I).",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E03"
+        ],
+        "evidence_ids": [
+          "EV_C003_E03_01",
+          "EV_AUTO_002",
+          "EV_AUTO_006"
+        ],
+        "key_entities": [
+          "aro4-9",
+          "tyrosine",
+          "H230Y",
+          "K252N",
+          "V262I"
+        ],
+        "key_numbers": [
+          "27-fold improved over wild-type"
+        ]
+      },
+      {
+        "canonical_id": "K11",
+        "order": 11,
+        "event_type": "analysis",
+        "summary": "Improvement in aro4-9 primarily driven by novel H230Y mutation adjacent to known K229.",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C003_E04"
+        ],
+        "evidence_ids": [
+          "EV_C003_E04_01",
+          "EV_AUTO_009"
+        ],
+        "key_entities": [
+          "H230Y",
+          "K229",
+          "aro4-9"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K12",
+        "order": 12,
+        "event_type": "experiment",
+        "summary": "Mutant aro4-229-9 showed 28-fold improvement over wild type and 21% improvement over aro4-K229L, with additional mutations T46A and T207I.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E05"
+        ],
+        "evidence_ids": [
+          "EV_C003_E05_01",
+          "EV_AUTO_001",
+          "EV_AUTO_010"
+        ],
+        "key_entities": [
+          "aro4-229-9",
+          "aro4-K229L",
+          "T46A",
+          "T207I"
+        ],
+        "key_numbers": [
+          "28-fold improvement over wild type",
+          "21% improvement relative to aro4-K229L"
+        ]
+      },
+      {
+        "canonical_id": "K13",
+        "order": 13,
+        "event_type": "validation",
+        "summary": "Cell growth rate not affected by improved enzyme mutations, so variants could not be discovered via growth selections.",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C003_E06"
+        ],
+        "evidence_ids": [
+          "EV_C003_E06_01"
+        ],
+        "key_entities": [
+          "improved enzyme",
+          "cell growth rate"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K14",
+        "order": 14,
+        "event_type": "experiment",
+        "summary": "RAPID screening for streptavidin secretion enriched high producers; two of seven sorted variants significantly increased secretion (p<0.01, ANOVA with Dunnett's Test).",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E08"
+        ],
+        "evidence_ids": [
+          "EV_C003_E08_01"
+        ],
+        "key_entities": [
+          "streptavidin",
+          "αMF secretory leader",
+          "sorted variants"
+        ],
+        "key_numbers": [
+          "two of seven variants",
+          "p < 0.01"
+        ]
+      },
+      {
+        "canonical_id": "K15",
+        "order": 15,
+        "event_type": "analysis",
+        "summary": "Post-sort analysis by DNA extraction, retransformation, and sequencing to identify mutations.",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C004_E04"
+        ],
+        "evidence_ids": [
+          "EV_C004_E04_01",
+          "EV_C004_E04_02"
+        ],
+        "key_entities": [
+          "DNA extraction",
+          "retransformation",
+          "Sanger sequencing",
+          "E. coli",
+          "yeast"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K16",
+        "order": 16,
+        "event_type": "validation",
+        "summary": "RAPID enhanced tyrosine production up to 28-fold and recombinant protein secretion up to 3-fold in yeast, demonstrating generality.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E05"
+        ],
+        "evidence_ids": [
+          "EV_C001_E05_01",
+          "EV_AUTO_035"
+        ],
+        "key_entities": [
+          "tyrosine",
+          "recombinant protein",
+          "Saccharomyces cerevisiae"
+        ],
+        "key_numbers": [
+          "28-fold",
+          "3-fold"
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "source": "K01",
+        "target": "K02",
+        "relation": "follows",
+        "reason": "General bottleneck leads to specific limitation of droplet microfluidics."
+      },
+      {
+        "source": "K02",
+        "target": "K03",
+        "relation": "enables",
+        "reason": "Limitation motivates hypothesis to use aptamers for fluorescence transduction."
+      },
+      {
+        "source": "K03",
+        "target": "K04",
+        "relation": "enables",
+        "reason": "Hypothesis leads to design criteria for RAPID."
+      },
+      {
+        "source": "K04",
+        "target": "K05",
+        "relation": "follows",
+        "reason": "Design criteria tested, revealing initial failure of aptamers in droplets."
+      },
+      {
+        "source": "K05",
+        "target": "K06",
+        "relation": "enables",
+        "reason": "Failure necessitates optimization and library construction for directed evolution."
+      },
+      {
+        "source": "K06",
+        "target": "K07",
+        "relation": "follows",
+        "reason": "Library construction enables screening for secretory phenotypes."
+      },
+      {
+        "source": "K07",
+        "target": "K08",
+        "relation": "enables",
+        "reason": "Screening requires microfluidic sorting setup."
+      },
+      {
+        "source": "K08",
+        "target": "K09",
+        "relation": "enables",
+        "reason": "Sorting yields enriched populations for analysis."
+      },
+      {
+        "source": "K09",
+        "target": "K10",
+        "relation": "follows",
+        "reason": "Statistical enrichment leads to identification of top variants."
+      },
+      {
+        "source": "K10",
+        "target": "K11",
+        "relation": "refines",
+        "reason": "Analysis of top variant reveals key mutation."
+      },
+      {
+        "source": "K11",
+        "target": "K12",
+        "relation": "enables",
+        "reason": "Insight from key mutation guides further mutagenesis to achieve higher improvement."
+      },
+      {
+        "source": "K12",
+        "target": "K13",
+        "relation": "validates",
+        "reason": "Validation that improved production is not due to growth effects."
+      },
+      {
+        "source": "K13",
+        "target": "K14",
+        "relation": "follows",
+        "reason": "Parallel validation for protein secretion screening."
+      },
+      {
+        "source": "K14",
+        "target": "K15",
+        "relation": "enables",
+        "reason": "Post-sort analysis confirms mutations in enriched variants."
+      },
+      {
+        "source": "K15",
+        "target": "K16",
+        "relation": "validates",
+        "reason": "Overall validation of RAPID's effectiveness across targets."
+      }
+    ],
+    "must_cover_points": [
+      "Problem of limited high-throughput screening for non-fluorescent targets",
+      "Hypothesis of using RNA aptamers for fluorescence transduction",
+      "Design criteria for RAPID",
+      "Initial failure of aptamers in droplets",
+      "Library construction for directed evolution",
+      "Screening and sorting for tyrosine and streptavidin",
+      "Identification of improved variants with key mutations",
+      "Validation of improved production without growth effects",
+      "Demonstration of generality with multiple targets"
+    ],
+    "paper_not_suitable_reasons": []
+  }
+}

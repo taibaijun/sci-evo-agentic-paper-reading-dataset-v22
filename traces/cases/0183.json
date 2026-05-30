@@ -1,0 +1,788 @@
+{
+  "case": {
+    "case_id": "sci_evo_0183",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Accessing unexplored regions of sequence space in directed enzyme evolution via insertion/deletion mutagenesis",
+      "doi": "https://doi.org/10.1038/s41467-020-17061-3",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0181_10_1038_s41467_020_17061_3_accessing_unexplored_regions_of_sequence_space_in_directed_enzyme_evolution_via_insertion_.pdf",
+      "mineru_md": "docs/0183/mineru.md",
+      "combined_md": "docs/0183/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Directed evolution typically uses point substitutions, but insertions and deletions (InDels) are common in natural evolution and may access unexplored sequence space. Existing InDel methods have limitations: high frameshift rates, fixed lengths, or only deletions. The goal is to develop a transposon-based method (TRIAD) to generate random in-frame InDel libraries and explore their functional effects on phosphotriesterase (wtPTE), comparing to point mutations.",
+      "target_object": "phosphotriesterase (wtPTE)",
+      "known_context": "InDels are frequent and beneficial in natural protein evolution but overlooked in laboratory evolution.",
+      "constraints": [
+        "In-frame InDels only",
+        "Random positions",
+        "Multiple lengths (3, 6, 9 bp)"
+      ],
+      "input_data": [],
+      "quantifiable_goals": [
+        "Generate diverse InDel libraries",
+        "Compare fitness effects of InDels vs. point substitutions",
+        "Identify InDel variants with improved arylesterase activity"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "Directed evolution relies on point substitutions; InDels are underexplored.",
+        "gap_or_uncertainty": "InDels may access functional sequence space not reachable by substitutions.",
+        "hypothesis": "InDel mutagenesis can yield functional variants and explore new evolutionary trajectories.",
+        "decision": "Develop a transposon-based method to generate random in-frame InDel libraries.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "literature review",
+          "version": "",
+          "category": "analysis"
+        },
+        "parameters": {},
+        "observation": "InDels remain an overlooked source of variation despite their frequent and functionally beneficial occurrence in natural protein evolution.",
+        "result_status": "success",
+        "next_step_reason": "Design TRIAD deletion and insertion cassettes.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0183/combined.md",
+            "section": "C001",
+            "quote_or_span": "insertions or deletions (InDels) remain an overlooked source of variation despite their frequent and functionally beneficial occurrence in natural protein evolution"
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "design",
+        "state_before": "No method for random in-frame InDels of multiple lengths.",
+        "gap_or_uncertainty": "Need to generate deletions of 3, 6, 9 bp and insertions of +3, +6, +9 bp.",
+        "hypothesis": "Transposon-based cassettes with restriction sites can create precise in-frame InDels.",
+        "decision": "Design TransDel for deletions and TransIns for insertions.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "TRIAD design",
+          "version": "",
+          "category": "molecular biology"
+        },
+        "parameters": {
+          "deletion_cassette": "TransDel with MlyI sites, CamR marker; Del2/Del3 with KanR",
+          "insertion_cassette": "TransIns with NotI/MlyI ends; Ins1/Ins2/Ins3 with randomized triplets and AcuI sites"
+        },
+        "observation": "TransDel enables removal of 3 bp; Del2/Del3 enable 6 and 9 bp deletions. TransIns enables +3, +6, +9 bp insertions.",
+        "result_status": "success",
+        "next_step_reason": "Generate libraries for wtPTE.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E01_01",
+            "source_file": "docs/0183/combined.md",
+            "section": "C002",
+            "quote_or_span": "TransDel carries a selection marker (resistance gene against chloramphenicol; CamR) enabling the recovery of in vitro transposition products after transformation into E. coli."
+          },
+          {
+            "evidence_id": "EV_C002_E01_02",
+            "source_file": "docs/0183/combined.md",
+            "section": "C002",
+            "quote_or_span": "Mlyl digestion removes TransDel together with 8 bp of the target DNA (4 bp at each end), leaving blunt ends and resulting in the removal of a contiguous 3 bp sequence from the target DNA"
+          },
+          {
+            "evidence_id": "EV_C002_E01_03",
+            "source_file": "docs/0183/combined.md",
+            "section": "C002",
+            "quote_or_span": "blunt-ended cassettes Del2 or Del3 are ligated into the gap left upon TransDel removal for the generation of 6 and 9 bp deletions, respectively."
+          },
+          {
+            "evidence_id": "EV_C002_E02_01",
+            "source_file": "docs/0183/combined.md",
+            "section": "C002",
+            "quote_or_span": "TransDel is an asymmetric transposon with Mlyl at one end and Notl at the other end."
+          },
+          {
+            "evidence_id": "EV_AUTO_034",
+            "source_file": "docs/0183/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "cloni® 10G cells subsequently plated on LB-agar-amp, yielding libraries of wtPTE variants with +3, +6 or +9 bp random insertions."
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "experiment",
+        "state_before": "TRIAD cassettes designed.",
+        "gap_or_uncertainty": "Need to validate library generation and quality.",
+        "hypothesis": "TRIAD can produce diverse in-frame InDel libraries in wtPTE.",
+        "decision": "Generate six libraries (-3, -6, -9, +3, +6, +9 bp) and validate by Sanger and deep sequencing.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "TRIAD library generation",
+          "version": "",
+          "category": "molecular biology"
+        },
+        "parameters": {
+          "target": "wtPTE gene",
+          "libraries": [
+            "-3 bp",
+            "-6 bp",
+            "-9 bp",
+            "+3 bp",
+            "+6 bp",
+            "+9 bp"
+          ]
+        },
+        "observation": "Libraries generated; Sanger sequencing of 121 variants confirmed single modifications without incidental mutations. Deep sequencing showed >85% position coverage and high diversity.",
+        "result_status": "success",
+        "next_step_reason": "Assess library quality and limitations.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E04_01",
+            "source_file": "docs/0183/combined.md",
+            "section": "C001",
+            "quote_or_span": "validated by generating libraries of InDel variants of Brevundimonas diminuta phosphotriesterase (wtPTE)"
+          },
+          {
+            "evidence_id": "EV_C001_E07_01",
+            "source_file": "docs/0183/combined.md",
+            "section": "C001",
+            "quote_or_span": "All 121 Sanger-sequenced variants displayed only a single modification from the initial transposon insertion, without any incidental mutations"
+          },
+          {
+            "evidence_id": "EV_C002_E03_01",
+            "source_file": "docs/0183/combined.md",
+            "section": "C002",
+            "quote_or_span": "Good coverage of possible positions in the insertion libraries translates into high diversity at most positions in wtPTE"
+          },
+          {
+            "evidence_id": "EV_C002_E03_02",
+            "source_file": "docs/0183/combined.md",
+            "section": "C002",
+            "quote_or_span": "10 or more distinct DNA insertions were observed between 66% (+3 bp) and 80% (+6 and +9 bp libraries) of positions"
+          },
+          {
+            "evidence_id": "EV_AUTO_016",
+            "source_file": "docs/0183/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "To demonstrate that TRIAD libraries allow access to functional innovation via adaptive InDels, all the libraries generated from the full-length wtPTE gene (six libraries in total: -3, -6, -9, +3, +6 and +9 bp) were subjected to two parallel screening campaigns to identify variants with enhanced arylesterase activity against either 4-nitrophenyl butyrate (4-NPB) or 2-naphthyl hexanoate (2-NH) (Fig."
+          },
+          {
+            "evidence_id": "EV_AUTO_017",
+            "source_file": "docs/0183/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Six independent libraries of wtPTE InDel variants were generated, comprising three deletion (-3, -6 and -9 bp) and three insertion libraries (+3, +6 and +9 bp)."
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "analysis",
+        "state_before": "Libraries generated and sequenced.",
+        "gap_or_uncertainty": "Library sampling completeness and incidental mutations.",
+        "hypothesis": "Deep sequencing can reveal coverage gaps and adjacent substitutions.",
+        "decision": "Analyze deep sequencing data for coverage, diversity, and adjacent substitutions.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "deep sequencing analysis",
+          "version": "",
+          "category": "bioinformatics"
+        },
+        "parameters": {},
+        "observation": "39% of InDels had adjacent amino acid substitutions. +6 and +9 bp libraries undersampled (24% and 2% protein diversity captured).",
+        "result_status": "partial",
+        "next_step_reason": "Proceed to functional comparison despite undersampling.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E04_01",
+            "source_file": "docs/0183/combined.md",
+            "section": "C002",
+            "quote_or_span": "on protein level, an average of 39% of the InDels observed in the deep sequencing dataset of wtPTE variants exhibited such substitutions"
+          },
+          {
+            "evidence_id": "EV_C002_E05_01",
+            "source_file": "docs/0183/combined.md",
+            "section": "C002",
+            "quote_or_span": "this was still insufficient to fully capture the diversity in the +6 and +9 bp libraries (24% and 2% at the protein level, respectively; Table 1)"
+          },
+          {
+            "evidence_id": "EV_C001_E08_02",
+            "source_file": "docs/0183/combined.md",
+            "section": "C001",
+            "quote_or_span": "only a fraction of theoretical library diversity generated from the outset"
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "experiment",
+        "state_before": "Libraries validated, limitations noted.",
+        "gap_or_uncertainty": "How do InDel fitness effects compare to point substitutions?",
+        "hypothesis": "InDels are more deleterious on average but may yield more extreme functional changes.",
+        "decision": "Measure PTE and AE activities of hundreds of variants from TRIAD and TriNEx libraries.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "activity assays",
+          "version": "",
+          "category": "biochemistry"
+        },
+        "parameters": {
+          "substrates": [
+            "paraoxon (PTE)",
+            "4-NPB (AE)"
+          ],
+          "variants": "several hundred from each library"
+        },
+        "observation": "83% deletions, 77% insertions strongly deleterious vs. 24% substitutions. InDels more likely to yield improved AE variants.",
+        "result_status": "success",
+        "next_step_reason": "Screen for improved arylesterase variants.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E06_01",
+            "source_file": "docs/0183/combined.md",
+            "section": "C002",
+            "quote_or_span": "the levels of native phosphotriesterase (PTE; substrate: paraoxon; Fig. 5) and promiscuous arylesterase (AE; substrate: 4-nitrophenyl butyrate, 4-NPB; Fig. 5) activities were determined for several hundred wtPTE variants from each TRIAD library and from a trinucleotide substitution library (TriNEx library; Fig. 6; Supplementary Tables S8-9)."
+          },
+          {
+            "evidence_id": "EV_C003_E01_01",
+            "source_file": "docs/0183/combined.md",
+            "section": "C003",
+            "quote_or_span": "83% of deletions and 77% of insertions are strongly deleterious (<0.1 PTE activity), compared with only 24% in the substitution library"
+          },
+          {
+            "evidence_id": "EV_C001_E05_01",
+            "source_file": "docs/0183/combined.md",
+            "section": "C001",
+            "quote_or_span": "while the average activity of TRIAD variants is more compromised, a larger proportion has successfully adapted for the activity"
+          },
+          {
+            "evidence_id": "EV_C005_E06_01",
+            "source_file": "docs/0183/combined.md",
+            "section": "C005",
+            "quote_or_span": "The effect of InDels is on average more deleterious than substitutions (Fig. 6a), while the fraction of hits is increased in InDel libraries (Fig. 6b)"
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "experiment",
+        "state_before": "Fitness landscape characterized.",
+        "gap_or_uncertainty": "Can InDels improve promiscuous arylesterase activity?",
+        "hypothesis": "Screening TRIAD libraries will identify InDel variants with enhanced AE activity.",
+        "decision": "Screen all six libraries against 2-NH and 4-NPB substrates.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "library screening",
+          "version": "",
+          "category": "biochemistry"
+        },
+        "parameters": {
+          "substrates": [
+            "2-NH",
+            "4-NPB"
+          ],
+          "format": "cell lysates"
+        },
+        "observation": "81 hits (55 insertions, 26 deletions) with 2- to 140-fold AE increase.",
+        "result_status": "success",
+        "next_step_reason": "Characterize top hits kinetically.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E05_01",
+            "source_file": "docs/0183/combined.md",
+            "section": "C003",
+            "quote_or_span": "81 hits (55 insertions and 26 deletions) were identified based on improved arylesterase activity against 2-NH or 4-NPB in cell lysates, with increases ranging from 2- to 140-fold"
+          },
+          {
+            "evidence_id": "EV_C004_E01_01",
+            "source_file": "docs/0183/combined.md",
+            "section": "C004",
+            "quote_or_span": "Overall, 81 hits (55 insertions and 26 deletions) were identified based on improved arylesterase activity against 2-NH or 4-NPB in cell lysates, with increases ranging from 2- to 140-fold in lysate activity compared with wtPTE"
+          },
+          {
+            "evidence_id": "EV_C005_E03_01",
+            "source_file": "docs/0183/combined.md",
+            "section": "C005",
+            "quote_or_span": "the first objective was to identify new adaptive mutations improving the promiscuous arylesterase activity of wtPTE by screening InDel libraries of wtPTE generated via TRIAD. This resulted in the identification of multiple beneficial deletions and insertions"
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "analysis",
+        "state_before": "81 hits identified.",
+        "gap_or_uncertainty": "How do top InDels compare to the known H254R substitution?",
+        "hypothesis": "Adaptive InDels may achieve larger activity gains via different mechanisms.",
+        "decision": "Purify and characterize four top InDel variants and compare to H254R.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "kinetic characterization",
+          "version": "",
+          "category": "biochemistry"
+        },
+        "parameters": {
+          "variants": [
+            "ΔA270-G273",
+            "P256R/G256aA256b",
+            "S256aG256b",
+            "G311a"
+          ],
+          "substrate": "2-NH"
+        },
+        "observation": "Four InDels increase kcat/KM 20- to 35-fold vs. 2.6-fold for H254R. InDels improve via kcat increase; H254R decreased KM for paraoxon.",
+        "result_status": "success",
+        "next_step_reason": "Interpret mechanistic differences and evolutionary implications.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C005_E04_01",
+            "source_file": "docs/0183/combined.md",
+            "section": "C005",
+            "quote_or_span": "four of these adaptive InDels increase arylesterase activity 20- to 35-fold (in $k_{cat}/K_{M}$ ) against 2-NH, which is more than the 2.6-fold difference brought about by the initial H254R mutation"
+          },
+          {
+            "evidence_id": "EV_C005_E05_01",
+            "source_file": "docs/0183/combined.md",
+            "section": "C005",
+            "quote_or_span": "For all four InDel variants, the improvement in 2-NH catalytic efficiency appears to be due to increased $k_{cat}$ (from 28- to 120-fold), which outweighs an increased $K_{M}$ in all four (from 2- to 6-fold)."
+          },
+          {
+            "evidence_id": "EV_C005_E05_02",
+            "source_file": "docs/0183/combined.md",
+            "section": "C005",
+            "quote_or_span": "the substitution H254R showed a different profile: it decreased $K_{M}$ for paraoxon 8-fold"
+          },
+          {
+            "evidence_id": "EV_AUTO_001",
+            "source_file": "docs/0183/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": ", $\\Delta$ A270-G273, P256R/G256aA256b, S256aG256b and G311a) were purified and characterized to give a 20- to 35-fold increased $k_{cat}/K_{M}$ for 2-NH, while decreasing paraoxon hydrolysis by around 100-fold (Fig."
+          },
+          {
+            "evidence_id": "EV_C004_E01_01",
+            "source_file": "docs/0183/combined.md",
+            "section": "C004",
+            "quote_or_span": "Overall, 81 hits (55 insertions and 26 deletions) were identified based on improved arylesterase activity against 2-NH or 4-NPB in cell lysates, with increases ranging from 2- to 140-fold in lysate activity compared with wtPTE"
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "analysis",
+        "state_before": "InDels show distinct mechanisms and larger gains.",
+        "gap_or_uncertainty": "Could InDels enable alternative evolutionary trajectories?",
+        "hypothesis": "InDel mutagenesis may provide different starting points for evolution, bypassing contingent mutations like H254R.",
+        "decision": "Propose that InDels expand accessible sequence space and evolutionary outcomes.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "evolutionary interpretation",
+          "version": "",
+          "category": "analysis"
+        },
+        "parameters": {},
+        "observation": "InDels are more likely to yield improved variants and may lead to different trajectories.",
+        "result_status": "success",
+        "next_step_reason": "Conclude study.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E08_01",
+            "source_file": "docs/0183/combined.md",
+            "section": "C004",
+            "quote_or_span": "InDel mutagenesis and selection puts us in a position to address the question whether alternative initial mutations would enable access to different evolutionary trajectories leading towards the same functional outcome"
+          },
+          {
+            "evidence_id": "EV_C005_E02_01",
+            "source_file": "docs/0183/combined.md",
+            "section": "C005",
+            "quote_or_span": "Based on the hypothesis that the use of a wider genetic and functional diversification (i.e., by both substitutions and InDels) might lead to a wider diversity of possible evolutionary trajectories"
+          },
+          {
+            "evidence_id": "EV_C005_E06_01",
+            "source_file": "docs/0183/combined.md",
+            "section": "C005",
+            "quote_or_span": "The effect of InDels is on average more deleterious than substitutions (Fig. 6a), while the fraction of hits is increased in InDel libraries (Fig. 6b)"
+          },
+          {
+            "evidence_id": "EV_AUTO_014",
+            "source_file": "docs/0183/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "We further observed that four of these adaptive InDels increase arylesterase activity 20- to 35-fold (in $k_{cat}/K_{M}$ ) against 2-NH, which is more than the 2.6-fold difference brought about by the initial H254R mutation from the previous directed evolution $^{21}$ ."
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "Sanger sequencing",
+        "Deep sequencing",
+        "Activity assays"
+      ],
+      "metrics": [
+        "kcat/KM",
+        "fold improvement in activity",
+        "library coverage"
+      ],
+      "final_conclusion": "TRIAD generates diverse in-frame InDel libraries. InDels are more deleterious than substitutions but more likely to yield improved arylesterase variants, with distinct mechanisms (kcat vs. KM) and potential for alternative evolutionary trajectories.",
+      "limitations": [
+        "Undersampling of +6 and +9 bp libraries",
+        "Adjacent substitutions in 39% of InDels",
+        "Limited to in-frame modifications"
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_specific_evidence_backfilled=5",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_specific_evidence_backfilled=4",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 99.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_mainline_batch30\\states\\0183.json",
+  "events_path": "outputs\\agentic_v22\\v22_mainline_batch30\\events\\0183.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1
+        ],
+        "K02": [
+          2
+        ],
+        "K04": [
+          3
+        ],
+        "K05": [
+          3
+        ],
+        "K06": [
+          3
+        ],
+        "K08": [
+          4
+        ],
+        "K09": [
+          1,
+          5
+        ],
+        "K13": [
+          5,
+          6,
+          7
+        ],
+        "K15": [
+          1,
+          5,
+          8
+        ],
+        "K16": [
+          6,
+          7
+        ],
+        "K17": [
+          7
+        ],
+        "K18": [
+          1,
+          8
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K09",
+            "K15",
+            "K18"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K02",
+            "K03"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K04",
+            "K05",
+            "K06"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K07",
+            "K08"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K09",
+            "K10",
+            "K13",
+            "K15"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K13",
+            "K16"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K13",
+            "K16",
+            "K17"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K15",
+            "K18"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 3,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "85%"
+        ]
+      }
+    ],
+    "step_count": 8,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 99.0
+  },
+  "api_usage": {
+    "prompt_tokens": 120736,
+    "completion_tokens": 26948,
+    "total_tokens": 147684,
+    "prompt_cache_hit_tokens": 5632,
+    "prompt_cache_miss_tokens": 115104
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 2199,
+        "completion_tokens": 390,
+        "total_tokens": 2589,
+        "prompt_tokens_details": {
+          "cached_tokens": 2176
+        },
+        "prompt_cache_hit_tokens": 2176,
+        "prompt_cache_miss_tokens": 23
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 7179,
+        "completion_tokens": 1799,
+        "total_tokens": 8978,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 7179
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 6673,
+        "completion_tokens": 1434,
+        "total_tokens": 8107,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6417
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 7926,
+        "completion_tokens": 1456,
+        "total_tokens": 9382,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7670
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 7465,
+        "completion_tokens": 1300,
+        "total_tokens": 8765,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7209
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 6913,
+        "completion_tokens": 1735,
+        "total_tokens": 8648,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6657
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C005",
+      "api_usage": {
+        "prompt_tokens": 6384,
+        "completion_tokens": 1415,
+        "total_tokens": 7799,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6128
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C006",
+      "api_usage": {
+        "prompt_tokens": 7541,
+        "completion_tokens": 1419,
+        "total_tokens": 8960,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7285
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C007",
+      "api_usage": {
+        "prompt_tokens": 3653,
+        "completion_tokens": 59,
+        "total_tokens": 3712,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 3397
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 12084,
+        "completion_tokens": 4540,
+        "total_tokens": 16624,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 11700
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 14072,
+        "completion_tokens": 5002,
+        "total_tokens": 19074,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 13432
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 17899,
+        "completion_tokens": 780,
+        "total_tokens": 18679,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 17899
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 20748,
+        "completion_tokens": 5619,
+        "total_tokens": 26367,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 20108
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

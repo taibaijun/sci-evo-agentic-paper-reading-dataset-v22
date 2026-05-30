@@ -1,0 +1,766 @@
+{
+  "case": {
+    "case_id": "sci_evo_0026",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Laboratory evolution of synthetic electron transport system variants reveals a larger metabolic respiratory system and its plasticity",
+      "doi": "https://doi.org/10.1038/s41467-022-30877-5",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0024_10_1038_s41467_022_30877_5_laboratory_evolution_of_synthetic_electron_transport_system_variants_reveals_a_larger_meta.pdf",
+      "mineru_md": "docs/0026/mineru.md",
+      "combined_md": "docs/0026/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Lack of a holistic, systems-level understanding of the plasticity and modularity of the bacterial respiratory electron transport system (ETS).",
+      "target_object": "E. coli electron transport system (ETS)",
+      "known_context": "E. coli has a highly flexible ETS with multiple dehydrogenases and reductases, but a holistic examination of the system and its plasticity is lacking.",
+      "constraints": [
+        "Unbranched ETS variants with defined proton pumping stoichiometries",
+        "Oxic growth conditions",
+        "Glucose minimal medium"
+      ],
+      "input_data": [
+        "E. coli K-12 MG1655 wild-type strain",
+        "Gene deletion strains for ETS components"
+      ],
+      "quantifiable_goals": [
+        "Achieve plateaued growth rate for all ETS variants",
+        "Characterize proteome allocation and ATP output",
+        "Determine proton-to-ATP ratio"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "The plasticity and modularity of the E. coli ETS are not holistically understood.",
+        "gap_or_uncertainty": "A holistic examination of the system and its plasticity is lacking.",
+        "hypothesis": "Constructing unbranched ETS variants with defined proton pumping stoichiometries will enable a systems-level analysis of ETS plasticity.",
+        "decision": "Generate four E. coli deletion strains with unbranched ETS variants pumping 1, 2, 3, or 4 protons per electron.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "Gene deletion",
+          "version": "",
+          "category": "genetic_engineering"
+        },
+        "parameters": {
+          "strains": [
+            "ETS-1H",
+            "ETS-2H",
+            "ETS-3H",
+            "ETS-4H"
+          ],
+          "proton_pumping": [
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "observation": "Four strains were successfully generated.",
+        "result_status": "success",
+        "next_step_reason": "The variants need to be evolved to observe adaptive responses.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0026/combined.md",
+            "section": "C001",
+            "quote_or_span": "a holistic examination of the system and its plasticity is lacking"
+          },
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0026/combined.md",
+            "section": "C001",
+            "quote_or_span": "we generated four Escherichia coli deletion strains (named ETS-1H, 2H, 3H, and 4H), each with one of the four unbranched ETS variants that pump 1, 2, 3, or 4 proton(s) per electron, respectively"
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "experiment",
+        "state_before": "Four unbranched ETS variants have been constructed.",
+        "gap_or_uncertainty": "The adaptive potential of these synthetic ETS variants is unknown.",
+        "hypothesis": "Adaptive laboratory evolution will improve growth rates and reveal mutational targets.",
+        "decision": "Perform ALE on all four variants in oxic conditions until growth rate plateaus.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Adaptive laboratory evolution (ALE)",
+          "version": "",
+          "category": "experimental_evolution"
+        },
+        "parameters": {
+          "replicates": 4,
+          "environment": "oxic",
+          "medium": "M9 minimal medium with glucose"
+        },
+        "observation": "ETS-1H, 2H, 3H plateaued after ~400 generations; ETS-4H required ~700 generations.",
+        "result_status": "success",
+        "next_step_reason": "Identify genetic changes underlying adaptation.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E03_01",
+            "source_file": "docs/0026/combined.md",
+            "section": "C001",
+            "quote_or_span": "we performed ALE with four independent replicates of each variant in an oxic environment"
+          },
+          {
+            "evidence_id": "EV_C001_E03_02",
+            "source_file": "docs/0026/combined.md",
+            "section": "C001",
+            "quote_or_span": "We evolved all variants until their growth rate plateaued. ETS-1H, 2H & 3H required evolution for approximately 400 generations, while ETS-4H required approximately 700 generations."
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "analysis",
+        "state_before": "Evolved strains obtained from ALE.",
+        "gap_or_uncertainty": "The genetic basis of adaptation is unknown.",
+        "hypothesis": "Whole-genome sequencing will reveal convergent mutations in key genes.",
+        "decision": "Sequence genomes of evolved strains and identify mutations.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Whole-genome sequencing",
+          "version": "",
+          "category": "sequencing"
+        },
+        "parameters": {},
+        "observation": "Few mutations overall; all ETS-3H replicates had sdhA mutations; all ETS-4H replicates had yjjX mutations.",
+        "result_status": "success",
+        "next_step_reason": "Predict functional impact of mutations.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E04_01",
+            "source_file": "docs/0026/combined.md",
+            "section": "C001",
+            "quote_or_span": "All four evolved replicates of uETS-3H acquired point mutations in sdhA"
+          },
+          {
+            "evidence_id": "EV_C001_E04_02",
+            "source_file": "docs/0026/combined.md",
+            "section": "C001",
+            "quote_or_span": "All four replicates of uETS-4H acquired mutations in an inadequately characterized gene, yjjX"
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "analysis",
+        "state_before": "Mutations predicted to affect metabolism.",
+        "gap_or_uncertainty": "How do ETS variants rewire metabolism to support growth?",
+        "hypothesis": "High proton-pumping variants shift glycolytic flux to the proteome-efficient ED pathway.",
+        "decision": "Analyze proteome allocation using ME-model and flux balance analysis.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "ME-model simulation",
+          "version": "ECOLIme 0.0.9",
+          "category": "computational_modeling"
+        },
+        "parameters": {},
+        "observation": "ETS-3H and ETS-4H increased flux through ED pathway; EMP pathway has ~3.5-fold higher protein cost.",
+        "result_status": "success",
+        "next_step_reason": "Relate proteome changes to aero-type classification.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E03_01",
+            "source_file": "docs/0026/combined.md",
+            "section": "C002",
+            "quote_or_span": "The ETS-3H and ETS-4H strains forced to respire using larger NqRED (NDH-I) increased the flux through the proteome conservative ED pathway."
+          },
+          {
+            "evidence_id": "EV_AUTO_007",
+            "source_file": "docs/0026/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "With an approximately 3.5-fold higher protein cost, the Embden–Meyerhoff–Parnass (EMP) pathway consumes a larger proportion of proteome as compared to the Entner–Doudoroff (ED) pathway $^{29}$ ."
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "analysis",
+        "state_before": "Proteome allocation shifts observed.",
+        "gap_or_uncertainty": "Do these shifts alter the overall respiratory strategy (aero-type)?",
+        "hypothesis": "Aero-types will remain conserved except for ETS-4H, which may shift to a higher aero-type.",
+        "decision": "Classify aero-types based on biomass yield and proteome allocation.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Aero-type classification",
+          "version": "",
+          "category": "phenotypic_analysis"
+        },
+        "parameters": {},
+        "observation": "ETS-1H, 2H, 3H preserved aero-types; ETS-4H shifted to a higher aero-type.",
+        "result_status": "success",
+        "next_step_reason": "Define the broader gene set involved in respiratory adaptation.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E04_01",
+            "source_file": "docs/0026/combined.md",
+            "section": "C002",
+            "quote_or_span": "We observed that ETS-1H, ETS-2H, and ETS-3H did not show a major shift in their biomass yield during evolution and thus preserved their respective aero-types (Fig. 3a)."
+          },
+          {
+            "evidence_id": "EV_C002_E04_02",
+            "source_file": "docs/0026/combined.md",
+            "section": "C002",
+            "quote_or_span": "ETS-4H jumped from a lower to a higher aero-type after evolution, suggesting an increase in oxic metabolism."
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "analysis",
+        "state_before": "Aero-type shifts suggest a larger system is involved.",
+        "gap_or_uncertainty": "What is the full set of genes and proteome allocation underlying respiratory adaptation?",
+        "hypothesis": "A defined Aero-Type System (ATS) of 209 genes accounts for ~38% proteome allocation and constant ATP output.",
+        "decision": "Curate ATS gene set and compute total proteome allocation and ATP production.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Proteome allocation analysis",
+          "version": "",
+          "category": "systems_biology"
+        },
+        "parameters": {
+          "gene_set_size": 209,
+          "proteome_fraction": 0.38
+        },
+        "observation": "ATS proteome allocation is similar across evolved variants; total ATP output is almost constant.",
+        "result_status": "success",
+        "next_step_reason": "Explore transcriptomic tradeoffs within the ATS.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E05_01",
+            "source_file": "docs/0026/combined.md",
+            "section": "C002",
+            "quote_or_span": "The total proteome allocated to the ATS was very similar in each eETS variant, and the total ATP output of each proteome expressed was almost constant (Fig. 3b)."
+          },
+          {
+            "evidence_id": "EV_C002_E05_02",
+            "source_file": "docs/0026/combined.md",
+            "section": "C002",
+            "quote_or_span": "The ATS is composed of 209 genes (Supplementary Data 3). The ATS represents about 38% proteome allocation in all evolved variants."
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "analysis",
+        "state_before": "ATS defined with constant proteome allocation and ATP output.",
+        "gap_or_uncertainty": "How do transcriptomic changes enable similar ATP production despite different ETS compositions?",
+        "hypothesis": "An oxic-anoxic transcriptomic tradeoff balances the ATS.",
+        "decision": "Perform independent component analysis (ICA) on ATS transcriptome data.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Independent component analysis (ICA)",
+          "version": "",
+          "category": "transcriptomics"
+        },
+        "parameters": {},
+        "observation": "Oxic-anoxic tradeoff identified; enables similar ATP production capacity across variants.",
+        "result_status": "success",
+        "next_step_reason": "Synthesize findings into a model of metabolic plasticity.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E06_02",
+            "source_file": "docs/0026/combined.md",
+            "section": "C002",
+            "quote_or_span": "Thus, an oxic-anoxic transcriptomic tradeoff enabled the four ETS variants to maintain similar ATP production capacity (Fig. 3d)."
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "analysis",
+        "state_before": "Transcriptomic tradeoff identified.",
+        "gap_or_uncertainty": "Does metabolic plasticity allow redundancy in ETS variants?",
+        "hypothesis": "Metabolic rewiring and proteome allocation plasticity support the same growth rate across variants.",
+        "decision": "Integrate metabolic flux and proteome data to assess plasticity.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Integrated omics analysis",
+          "version": "",
+          "category": "systems_biology"
+        },
+        "parameters": {},
+        "observation": "Metabolic plasticity allows redundancy in eETS variants while supporting the same growth rate.",
+        "result_status": "success",
+        "next_step_reason": "Confirm that proteome allocation and ATP output are conserved.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E08_01",
+            "source_file": "docs/0026/combined.md",
+            "section": "C002",
+            "quote_or_span": "Thus, metabolic plasticity (reflected in metabolic rewiring and associated proteome allocation) allows for redundancy in the eETS variants while supporting the same growth rate."
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "analysis",
+        "state_before": "Metabolic plasticity demonstrated.",
+        "gap_or_uncertainty": "Is the conserved proteome allocation and ATP output a general principle?",
+        "hypothesis": "The overall proteome allocation to the ATS is similar in evolved variants and generates the same amount of ATP, enabling the same growth rate.",
+        "decision": "Quantify proteome allocation and ATP output across all evolved variants.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Proteome allocation quantification",
+          "version": "",
+          "category": "systems_biology"
+        },
+        "parameters": {},
+        "observation": "Similar proteome allocation and ATP output confirmed.",
+        "result_status": "success",
+        "next_step_reason": "Interpret as alternate optimal states.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E01_01",
+            "source_file": "docs/0026/combined.md",
+            "section": "C003",
+            "quote_or_span": "the overall proteome allocation to the ATS is similar in the evolved variants and generates the same amount of ATP, enabling them to achieve the same growth rate"
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "analysis",
+        "state_before": "Conserved proteome allocation and ATP output observed.",
+        "gap_or_uncertainty": "How can different ETS compositions achieve the same function?",
+        "hypothesis": "The ATS can be balanced in different ways, representing alternate optimal states.",
+        "decision": "Characterize the different combinations of proton pumping efficiency, metabolic rewiring, and proteome allocation.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Comparative systems analysis",
+          "version": "",
+          "category": "systems_biology"
+        },
+        "parameters": {},
+        "observation": "Alternate states have different proton pumping efficiency, transcriptome tradeoffs, and proteome allocation but enable the same cellular function.",
+        "result_status": "success",
+        "next_step_reason": "Estimate proton-to-ATP ratio via computational modeling.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E02_01",
+            "source_file": "docs/0026/combined.md",
+            "section": "C003",
+            "quote_or_span": "The different ways in which the ATS is balanced underlies its plasticity and represents a demonstration of the key systems biology concept of alternate optimal states."
+          },
+          {
+            "evidence_id": "EV_C003_E03_01",
+            "source_file": "docs/0026/combined.md",
+            "section": "C003",
+            "quote_or_span": "These alternate states have a different combination of proton pumping efficiency, complementary metabolic rewiring achieved through tradeoffs in the composition of the transcriptome, and concomitant efficiency of proteome allocation, but enable the same overall cellular function."
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "simulation",
+        "state_before": "Alternate optimal states characterized.",
+        "gap_or_uncertainty": "What is the proton-to-ATP ratio consistent with the observed growth rates?",
+        "hypothesis": "A proton-to-ATP ratio of 10:3 is optimal for all variants.",
+        "decision": "Sample proton pumping ratios from 2.5 to 4.5 in ME-model and optimize to match experimental growth rates.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "ME-model simulation",
+          "version": "ECOLIme 0.0.9",
+          "category": "computational_modeling"
+        },
+        "parameters": {
+          "proton_pumping_range": [
+            2.5,
+            4.5
+          ],
+          "target": "biomass dilution rate"
+        },
+        "observation": "A ratio of 10 protons per 3 ATP was supported.",
+        "result_status": "success",
+        "next_step_reason": "Conclude on the deep plasticity of the ATS.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E05_01",
+            "source_file": "docs/0026/combined.md",
+            "section": "C003",
+            "quote_or_span": "Proton pumping ratios from 2.5 to 4.5 were sampled by changing the stoichiometry of the ATPS4rpp reaction in the ME-model, and then the proton pumping ratio was optimized so that the model produced a biomass dilution rate that matched the experimentally determined growth rate."
+          }
+        ]
+      },
+      {
+        "step_index": 12,
+        "phase": "analysis",
+        "state_before": "Computational modeling supports a consistent proton-to-ATP ratio.",
+        "gap_or_uncertainty": "What broader principle does the ATS illustrate?",
+        "hypothesis": "The ATS represents a cytoplasmic-periplasmic adaptive nexus illustrating deep plasticity.",
+        "decision": "Interpret the ATS as a nexus that balances energetic systems across environmental niches.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Conceptual synthesis",
+          "version": "",
+          "category": "systems_biology"
+        },
+        "parameters": {},
+        "observation": "The ATS illustrates deep plasticity in achieving balanced energetic systems to match metabolic needs in different environmental niches.",
+        "result_status": "success",
+        "next_step_reason": "Finalize conclusions on ETS plasticity.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E08_01",
+            "source_file": "docs/0026/combined.md",
+            "section": "C003",
+            "quote_or_span": "The cytoplasmic-periplasmic adaptive nexus that the ATS represents thus illustrates the deep plasticity inherent in achieving balanced energetic systems to match metabolic needs in different environmental niches."
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "Growth rate measurements",
+        "Whole-genome sequencing",
+        "Proteome allocation analysis",
+        "Transcriptomics (ICA)",
+        "ME-model simulations"
+      ],
+      "metrics": [
+        "Growth rate (plateau)",
+        "Number of generations",
+        "Proteome fraction allocated to ATS",
+        "ATP output",
+        "Proton-to-ATP ratio"
+      ],
+      "final_conclusion": "The ATS represents a cytoplasmic-periplasmic adaptive nexus illustrating deep plasticity, enabling alternate optimal states that achieve the same growth rate through different combinations of proton pumping efficiency, metabolic rewiring, and proteome allocation.",
+      "limitations": [
+        "Only oxic conditions tested",
+        "Limited to glucose minimal medium",
+        "Mutations in sdhA and yjjX not fully characterized functionally"
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_specific_evidence_backfilled=1",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_step_trimmed=13_to_12",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 98.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p3\\states\\0026.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p3\\events\\0026.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1
+        ],
+        "K02": [
+          1
+        ],
+        "K03": [
+          2
+        ],
+        "K04": [
+          3
+        ],
+        "K06": [
+          4
+        ],
+        "K08": [
+          6,
+          7,
+          9
+        ],
+        "K09": [
+          6,
+          7,
+          9
+        ],
+        "K10": [
+          7,
+          8
+        ],
+        "K11": [
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "K13": [
+          10
+        ],
+        "K14": [
+          11
+        ],
+        "K15": [
+          12
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K03"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K04"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K06"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K07"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K08",
+            "K09",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K08",
+            "K09",
+            "K10",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K10",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K08",
+            "K09",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K11",
+            "K12",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K14"
+          ]
+        },
+        {
+          "step_index": 12,
+          "covered_event_ids": [
+            "K15"
+          ]
+        }
+      ]
+    },
+    "warnings": [],
+    "step_count": 12,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 98.0
+  },
+  "api_usage": {
+    "prompt_tokens": 89587,
+    "completion_tokens": 21960,
+    "total_tokens": 111547,
+    "prompt_cache_hit_tokens": 2688,
+    "prompt_cache_miss_tokens": 86899
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 2073,
+        "completion_tokens": 535,
+        "total_tokens": 2608,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 2073
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 4976,
+        "completion_tokens": 2315,
+        "total_tokens": 7291,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 4976
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 7601,
+        "completion_tokens": 1100,
+        "total_tokens": 8701,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7345
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 7012,
+        "completion_tokens": 1689,
+        "total_tokens": 8701,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6756
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 6893,
+        "completion_tokens": 1294,
+        "total_tokens": 8187,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6637
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 6269,
+        "completion_tokens": 523,
+        "total_tokens": 6792,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6013
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 9863,
+        "completion_tokens": 3247,
+        "total_tokens": 13110,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 9479
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 11436,
+        "completion_tokens": 5031,
+        "total_tokens": 16467,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 10796
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 15496,
+        "completion_tokens": 667,
+        "total_tokens": 16163,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 15496
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 17968,
+        "completion_tokens": 5559,
+        "total_tokens": 23527,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 17328
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

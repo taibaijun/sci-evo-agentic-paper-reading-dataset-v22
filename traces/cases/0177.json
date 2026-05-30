@@ -1,0 +1,887 @@
+{
+  "case": {
+    "case_id": "sci_evo_0177",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Scalable production and application of Pichia pastoris whole cell catalysts expressing human cytochrome P450 2C9",
+      "doi": "https://doi.org/10.1186/s12934-021-01577-4",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0175_10_1186_s12934_021_01577_4_scalable_production_and_application_of_pichia_pastoris_whole_cell_catalysts_expressing_hum.pdf",
+      "mineru_md": "docs/0177/mineru.md",
+      "combined_md": "docs/0177/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Scalable production of human CYP2C9 whole-cell catalysts in P. pastoris for preparative drug metabolite synthesis, overcoming challenges of membrane protein expression, CPR co-expression, low activity/stability, and bioreactor reproducibility.",
+      "target_object": "Human CYP2C9 whole-cell biocatalyst in P. pastoris",
+      "known_context": "hCYPs usually present low efficiency and stability; bidirectional promoters offer a simple and quick solution to enable multi-gene co-expression in which the expression of each gene can be optimally tuned.",
+      "constraints": [
+        "Membrane protein expression",
+        "Need for CPR co-expression",
+        "Low efficiency and stability",
+        "Bioreactor reproducibility"
+      ],
+      "input_data": [],
+      "quantifiable_goals": [
+        "Achieve high conversion of diclofenac",
+        "Reproduce shake flask activities in bioreactor",
+        "Optimize pH for activity",
+        "Maximize product activity (P) and yield (YP/X) or specific production rate (qp)",
+        "Demonstrate preparative biotransformation of ibuprofen",
+        "Outperform fission yeast system"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "Scalable production of human CYP2C9 whole-cell catalysts is challenging due to membrane association, need for CPR co-expression, and low efficiency/stability.",
+        "gap_or_uncertainty": "How to fine-tune CYP/CPR co-expression ratios to optimize whole-cell activity.",
+        "hypothesis": "Bidirectional promoters can fine-tune CYP/CPR co-expression ratios to optimize whole-cell activity.",
+        "decision": "Use a bidirectional promoter library to co-express CYP2C9 and CPR with different regulation patterns.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "Bidirectional promoter library",
+          "version": "",
+          "category": "genetic_engineering"
+        },
+        "parameters": {},
+        "observation": "Bidirectional promoters offer a simple and quick solution to enable multi-gene co-expression in which the expression of each gene can be optimally tuned.",
+        "result_status": "success",
+        "next_step_reason": "Test the hypothesis by constructing promoter library and high-throughput screening.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_03",
+            "source_file": "docs/0177/combined.md",
+            "section": "C001",
+            "quote_or_span": "hCYPs usually present low efficiency and stability"
+          },
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0177/combined.md",
+            "section": "C001",
+            "quote_or_span": "bidirectional promoters offer a simple and quick solution to enable multi-gene co-expression in which the expression of each gene can be optimally tuned"
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "experiment",
+        "state_before": "Hypothesis that bidirectional promoters can tune co-expression.",
+        "gap_or_uncertainty": "Which promoter combination yields the highest CYP2C9 activity.",
+        "hypothesis": "A specific bidirectional promoter construct will yield high diclofenac conversion.",
+        "decision": "Construct a library of bidirectional promoter constructs and screen using diclofenac and fluorometric assays.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "High-throughput screening (HTS) with diclofenac and MCF assays",
+          "version": "",
+          "category": "assay"
+        },
+        "parameters": {
+          "substrate": "diclofenac (2 mM)",
+          "assay": "diclofenac conversion and fluorometric MCF assay"
+        },
+        "observation": "Construct 2C9-PDC/PDF-CPR showed the best conversion (53%) in the diclofenac-based assay (2 mM). The same construct with inverted promoter orientation 2C9-PDF/PDC-CPR also presented good substrate conversion reaching 39%, while all other constructs showed only 20% conversion of diclofenac, or even lower.",
+        "result_status": "success",
+        "next_step_reason": "Select best clone for bioreactor cultivation, but previous bioreactor attempts failed to reproduce shake flask results.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E04_01",
+            "source_file": "docs/0177/combined.md",
+            "section": "C001",
+            "quote_or_span": "construct 2C9-PDC/PDF-CPR showed the best conversion (53%) in the diclofenac-based assay (2 mM)"
+          },
+          {
+            "evidence_id": "EV_C001_E04_02",
+            "source_file": "docs/0177/combined.md",
+            "section": "C001",
+            "quote_or_span": "The same construct with inverted promoter orientation 2C9-PDF/PDC-CPR, also presented good substrate conversion reaching 39%"
+          },
+          {
+            "evidence_id": "EV_C002_E01_01",
+            "source_file": "docs/0177/combined.md",
+            "section": "C002",
+            "quote_or_span": "construct 2C9-PDC/PDF-CPR showed the best conversion (53%) in the diclofenac-based assay (2 mM)."
+          },
+          {
+            "evidence_id": "EV_AUTO_004",
+            "source_file": "docs/0177/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The same construct with inverted promoter orientation 2C9-PDF/PDC-CPR, also presented good substrate conversion reaching 39%, while all other constructs showed only 20% conversion of diclofenac, or even lower."
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "analysis",
+        "state_before": "Best clone identified (2C9-PDC/PDF-CPR, 53% conversion).",
+        "gap_or_uncertainty": "Previous unpublished bioreactor attempts failed to reproduce shake flask activities.",
+        "hypothesis": "Bioreactor cultivation can be optimized to match shake flask activity.",
+        "decision": "Investigate bioreactor reproducibility by comparing shake flask and bioreactor cells.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Bioreactor cultivation",
+          "version": "",
+          "category": "bioprocess"
+        },
+        "parameters": {},
+        "observation": "Previous unpublished studies in our lab prior to this cultivation optimization demonstrated unexpected difficulties in the reproduction of biocatalyst activities observed in shake flasks after cultivation in methanol induced 5 L bioreactor cultures.",
+        "result_status": "failure",
+        "next_step_reason": "Validate that current bioreactor conditions can reproduce shake flask activity.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E02_01",
+            "source_file": "docs/0177/combined.md",
+            "section": "C002",
+            "quote_or_span": "Previous unpublished studies in our lab prior to this cultivation optimization demonstrated unexpected difficulties in the reproduction of biocatalyst activities observed in shake flasks after cultivation in methanol induced 5 L bioreactor cultures."
+          },
+          {
+            "evidence_id": "EV_C002_E01_01",
+            "source_file": "docs/0177/combined.md",
+            "section": "C002",
+            "quote_or_span": "construct 2C9-PDC/PDF-CPR showed the best conversion (53%) in the diclofenac-based assay (2 mM)."
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "validation",
+        "state_before": "Previous bioreactor failure.",
+        "gap_or_uncertainty": "Whether current bioreactor conditions can reproduce shake flask activity.",
+        "hypothesis": "Bioreactor cells can show similar diclofenac oxidation activity as shake flask cells.",
+        "decision": "Compare conversion rates per mg DCW between shake flask and bioreactor cells.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Diclofenac oxidation assay",
+          "version": "",
+          "category": "assay"
+        },
+        "parameters": {},
+        "observation": "The conversion rates obtained per mg of biomass dry cell weight (DCW) for catalysts generated in this study were rather similar.",
+        "result_status": "success",
+        "next_step_reason": "With reproducibility confirmed, optimize pH for higher activity.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E03_01",
+            "source_file": "docs/0177/combined.md",
+            "section": "C002",
+            "quote_or_span": "the conversion rates obtained per mg of biomass dry cell weight (DCW) for catalysts generated in this study were rather similar."
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "experiment",
+        "state_before": "Bioreactor reproducibility validated.",
+        "gap_or_uncertainty": "Optimal pH for CYP2C9/CPR activity in bioreactor.",
+        "hypothesis": "pH 5 will yield higher specific enzyme activity than pH 6 or 7.",
+        "decision": "Perform chemostat at D=0.10 h⁻¹ and test pH 5, 6, 7.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Chemostat cultivation",
+          "version": "",
+          "category": "bioprocess"
+        },
+        "parameters": {
+          "dilution_rate": "0.10 h⁻¹",
+          "pH_levels": [
+            5,
+            6,
+            7
+          ]
+        },
+        "observation": "Activity tests showed that the best condition was pH=5, obtaining a specific enzyme activity up to threefold higher than in the other conditions tested (Fig. 2). The chemostat was operated at a dilution rate of D=0.10 h⁻¹.",
+        "result_status": "success",
+        "next_step_reason": "Use optimal pH 5 to design fed-batch strategies.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E04_01",
+            "source_file": "docs/0177/combined.md",
+            "section": "C002",
+            "quote_or_span": "Activity tests showed that the best condition was pH=5, obtaining a specific enzyme activity up to threefold higher than in the other conditions tested (Fig. 2)."
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "design",
+        "state_before": "Optimal pH 5 identified.",
+        "gap_or_uncertainty": "How to maximize biocatalyst activity and yield in fed-batch.",
+        "hypothesis": "Different feeding strategies (methanol-free vs. methanol co-feeding) will affect activity and yield.",
+        "decision": "Design five fed-batch strategies: three methanol-free at μ=0.05, 0.10, 0.15 h⁻¹; two with methanol co-feeding at μ=0.05 h⁻¹ (pulses or constant 3 g/L).",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Fed-batch cultivation",
+          "version": "",
+          "category": "bioprocess"
+        },
+        "parameters": {
+          "FB1": "μ=0.05 h⁻¹, glycerol only",
+          "FB2": "μ=0.10 h⁻¹, glycerol only",
+          "FB3": "μ=0.15 h⁻¹, glycerol only",
+          "FB4": "μ=0.05 h⁻¹, glycerol + methanol pulses",
+          "FB5": "μ=0.05 h⁻¹, glycerol + constant methanol 3 g/L"
+        },
+        "observation": "Five fed-batch strategies were designed: FB1 (μ=0.05 h⁻¹, glycerol only), FB2 (μ=0.10 h⁻¹, glycerol only), FB3 (μ=0.15 h⁻¹, glycerol only), FB4 (μ=0.05 h⁻¹, glycerol + methanol pulses), and FB5 (μ=0.05 h⁻¹, glycerol + constant methanol 3 g/L). A primary set of methanol-free FB cultures with glycerol as sole carbon source was performed. The methanol concentration was determined by a Methanol Sensor System and controlled by a predictive-PI control strategy.",
+        "result_status": "success",
+        "next_step_reason": "Execute fed-batch runs and compare biocatalyst activity.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E05_01",
+            "source_file": "docs/0177/combined.md",
+            "section": "C002",
+            "quote_or_span": "a primary set of methanol-free FB cultures with glycerol as sole carbon source was performed."
+          },
+          {
+            "evidence_id": "EV_C004_E01_02",
+            "source_file": "docs/0177/combined.md",
+            "section": "C004",
+            "quote_or_span": "the methanol concentration was determined by a Methanol Sensor System (Raven Biotech Inc., Vancouver, Canada), and controlled by performing a predictive-PI control strategy"
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "analysis",
+        "state_before": "Five fed-batch strategies designed.",
+        "gap_or_uncertainty": "Which strategy yields highest biocatalyst activity and production rates.",
+        "hypothesis": "Methanol-induced strategies will give higher activity than methanol-free.",
+        "decision": "Compare final biocatalyst activity, YP/X, and qp across FB1-5.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Biocatalyst activity assay",
+          "version": "",
+          "category": "assay"
+        },
+        "parameters": {},
+        "observation": "When further inducing the system with methanol a twofold increase in biocatalyst activity could be observed. The use of this co-substrate further induced the protein expression, significantly increasing the production rates, leading to qp improvements of up to 1.72-fold and up to 1.63-fold of YP/X.",
+        "result_status": "success",
+        "next_step_reason": "Analyze the effect of specific growth rate μ on qp and YP/X.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E06_01",
+            "source_file": "docs/0177/combined.md",
+            "section": "C002",
+            "quote_or_span": "when further inducing the system with methanol a twofold increase in biocatalyst activity could be observed."
+          },
+          {
+            "evidence_id": "EV_C002_E08_01",
+            "source_file": "docs/0177/combined.md",
+            "section": "C002",
+            "quote_or_span": "the use of this co-substrate further induced the protein expression, significantly increasing the production rates."
+          },
+          {
+            "evidence_id": "EV_C003_E01_01",
+            "source_file": "docs/0177/combined.md",
+            "section": "C003",
+            "quote_or_span": "it led to $q_{p}$ improvements of up to 1.72-fold, and up to 1.63-fold of $Y_{P/X}$"
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "analysis",
+        "state_before": "Methanol-induced strategies show higher activity.",
+        "gap_or_uncertainty": "How specific growth rate μ affects qp and YP/X.",
+        "hypothesis": "μ positively affects qp, showing production is growth-coupled; high μ maximizes qp in methanol-free, while low μ with methanol maximizes YP/X.",
+        "decision": "Analyze qp and YP/X as functions of μ and methanol presence.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Kinetic analysis",
+          "version": "",
+          "category": "data_analysis"
+        },
+        "parameters": {},
+        "observation": "It has been demonstrated that the μ has a positive effect on qp, demonstrating that the production is coupled with the cell growth. If the objective is to maximise the YP/X and, therefore, the biocatalyst activity, a bioprocess using mixed substrates based on the co-feeding of glycerol and methanol should be recommended.",
+        "result_status": "success",
+        "next_step_reason": "Formulate design recommendations for maximizing qp or YP/X.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E08_01",
+            "source_file": "docs/0177/combined.md",
+            "section": "C003",
+            "quote_or_span": "It has been demonstrated that the $\\mu$ has a positive effect on $q_{p}$ , demonstrating that the production is coupled with the cell growth."
+          },
+          {
+            "evidence_id": "EV_C003_E08_02",
+            "source_file": "docs/0177/combined.md",
+            "section": "C003",
+            "quote_or_span": "if the objective is to maximise the $Y_{P/X}$ and, therefore, the biocatalyst activity, a bioprocess using mixed substrates based on the co-feeding of glycerol and methanol should be recommended."
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "design",
+        "state_before": "Growth-coupling analysis reveals trade-offs.",
+        "gap_or_uncertainty": "How to design process for different objectives (max qp vs max YP/X).",
+        "hypothesis": "To maximize product activity and yield, prolong culture at low μ with methanol co-feeding; to maximize qp, use high μ glycerol-only fed-batch.",
+        "decision": "Provide design recommendations based on μ and methanol effects.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Process design",
+          "version": "",
+          "category": "bioprocess"
+        },
+        "parameters": {
+          "max_qp_strategy": "high μ (0.15 h⁻¹), glycerol only",
+          "max_YP/X_strategy": "low μ (0.05 h⁻¹), glycerol + methanol pulses"
+        },
+        "observation": "To maximise the product activity (P) and yield (YP/X), the process should be prolonged in time, growing the cells not only at a low μ, but also adding methanol as co-substrate, preferably through pulses. Avoiding the use of methanol would allow to avoid the important methanol-associated operational drawbacks.",
+        "result_status": "success",
+        "next_step_reason": "Apply design recommendations to produce cells for preparative biotransformation.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E03_01",
+            "source_file": "docs/0177/combined.md",
+            "section": "C003",
+            "quote_or_span": "To maximise the product activity (P) and yield $(Y_{P/X})$ , the process should be prolonged in time, growing the cells not only at a low $\\mu$ , but also adding methanol as co-substrate, preferably through pulses."
+          },
+          {
+            "evidence_id": "EV_C003_E04_02",
+            "source_file": "docs/0177/combined.md",
+            "section": "C003",
+            "quote_or_span": "avoiding the use of methanol would allow to avoid the important methanol-associated operational drawbacks."
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "experiment",
+        "state_before": "Design recommendations formulated.",
+        "gap_or_uncertainty": "Whether bioreactor-produced cells can perform preparative biotransformation of ibuprofen.",
+        "hypothesis": "Bioreactor-produced cells will achieve significant conversion of ibuprofen with high selectivity for 3-OH-ibuprofen.",
+        "decision": "Perform preparative biotransformation of 2 mM ibuprofen in 500 mL using bioreactor-produced cells.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Preparative biotransformation",
+          "version": "",
+          "category": "biocatalysis"
+        },
+        "parameters": {
+          "substrate": "ibuprofen (2 mM)",
+          "volume": "500 mL",
+          "duration": "86 h",
+          "vessel": "baffled 2 L shake flask"
+        },
+        "observation": "Preparative biotransformation of 2 mM ibuprofen using bioreactor-produced cells achieved 40% total conversion in 86 h, with the main metabolite 3-OH-ibuprofen accounting for 35% of the product mixture as identified by NMR spectroscopy. Conversion was performed in a baffled 2 L shake flask over a period of 86 h.",
+        "result_status": "success",
+        "next_step_reason": "Benchmark performance against literature fission yeast system.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E05_02",
+            "source_file": "docs/0177/combined.md",
+            "section": "C003",
+            "quote_or_span": "metabolite 2 (35%), which was identified as 3-OH-ibuprofen by NMR spectroscopy"
+          },
+          {
+            "evidence_id": "EV_C004_E06_02",
+            "source_file": "docs/0177/combined.md",
+            "section": "C004",
+            "quote_or_span": "Conversion was performed in a baffled 2 L shake flask over a period of 86 h"
+          },
+          {
+            "evidence_id": "EV_AUTO_005",
+            "source_file": "docs/0177/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The qualitative behaviour of both screening methods was rather similar, construct 2C9-PDC/PDF-CPR showed the best conversion (53%) in the diclofenac-based assay (2 mM)."
+          },
+          {
+            "evidence_id": "EV_C004_E04_02",
+            "source_file": "docs/0177/combined.md",
+            "section": "C004",
+            "quote_or_span": "2 mL of cells were mixed with diclofenac to reach a 2 mM substrate concentration and reactions were carried at 28 °C and 200 rpm"
+          },
+          {
+            "evidence_id": "EV_C002_E01_01",
+            "source_file": "docs/0177/combined.md",
+            "section": "C002",
+            "quote_or_span": "construct 2C9-PDC/PDF-CPR showed the best conversion (53%) in the diclofenac-based assay (2 mM)."
+          },
+          {
+            "evidence_id": "EV_C001_E04_01",
+            "source_file": "docs/0177/combined.md",
+            "section": "C001",
+            "quote_or_span": "construct 2C9-PDC/PDF-CPR showed the best conversion (53%) in the diclofenac-based assay (2 mM)"
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "validation",
+        "state_before": "Preparative biotransformation achieved 40% conversion.",
+        "gap_or_uncertainty": "How P. pastoris system compares to fission yeast system.",
+        "hypothesis": "P. pastoris whole cell biocatalyst outperforms fission yeast system.",
+        "decision": "Compare space-time yield and specific production rate with literature values.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Benchmarking",
+          "version": "",
+          "category": "data_analysis"
+        },
+        "parameters": {},
+        "observation": "Values obtained with the P. pastoris whole cell biocatalyst were significantly higher—up to 55% and 21%, respectively—than the reported in the literature, in which the same proteins were expressed in a fission yeast system.",
+        "result_status": "success",
+        "next_step_reason": "Identify limitations for future improvement.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E06_01",
+            "source_file": "docs/0177/combined.md",
+            "section": "C003",
+            "quote_or_span": "values obtained with the P. pastoris whole cell biocatalyst were significantly higher—up to 55% and 21%, respectively—than the reported in the literature, in which the same proteins were expressed in a fission yeast system"
+          }
+        ]
+      },
+      {
+        "step_index": 12,
+        "phase": "analysis",
+        "state_before": "P. pastoris system outperforms fission yeast.",
+        "gap_or_uncertainty": "Remaining limitations for further improvement.",
+        "hypothesis": "Biotransformation could be further improved by addressing dissolved oxygen, NADPH regeneration, and heme group generation.",
+        "decision": "Note limitations for future work.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Limitation analysis",
+          "version": "",
+          "category": "data_analysis"
+        },
+        "parameters": {},
+        "observation": "The biocatalytic reaction could be further improved by addressing the impact of some important parameters such as dissolved oxygen availability, efficiency of NADPH regeneration system and/or heme group generation.",
+        "result_status": "partial",
+        "next_step_reason": "Conclude study with identified limitations.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E07_01",
+            "source_file": "docs/0177/combined.md",
+            "section": "C003",
+            "quote_or_span": "the biocatalytic reaction could be further improved by addressing the impact of some important parameters such as dissolved oxygen availability, efficiency of NADPH regeneration system and/or heme group generation."
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "Diclofenac conversion assay",
+        "Fluorometric MCF assay",
+        "NMR spectroscopy for metabolite identification",
+        "Comparison with literature fission yeast system"
+      ],
+      "metrics": [
+        "Conversion rate (% conversion)",
+        "Specific enzyme activity (mAU/OD600nm)",
+        "Product-to-biomass yield (YP/X, AU/g)",
+        "Specific production rate (qp, AU/g/h)",
+        "Space-time yield (STY)",
+        "Selectivity (ratio of metabolites)"
+      ],
+      "final_conclusion": "A scalable P. pastoris whole-cell catalyst for CYP2C9 was developed using bidirectional promoter tuning, optimized bioreactor cultivation at pH 5 with methanol co-feeding, achieving 40% ibuprofen conversion with high selectivity and outperforming fission yeast by 55% higher STY and 21% higher specific production rate.",
+      "limitations": [
+        "Dissolved oxygen availability",
+        "NADPH regeneration efficiency",
+        "Heme group generation"
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_specific_evidence_backfilled=6",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_specific_evidence_backfilled=6",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 100.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p4\\states\\0177.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p4\\events\\0177.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1
+        ],
+        "K02": [
+          1,
+          2
+        ],
+        "K03": [
+          2,
+          3,
+          10
+        ],
+        "K04": [
+          2,
+          3,
+          4
+        ],
+        "K05": [
+          2,
+          3,
+          4
+        ],
+        "K06": [
+          5
+        ],
+        "K08": [
+          6,
+          7,
+          8
+        ],
+        "K09": [
+          8
+        ],
+        "K10": [
+          6,
+          7,
+          8,
+          9
+        ],
+        "K11": [
+          2,
+          9,
+          10,
+          11
+        ],
+        "K12": [
+          7,
+          8,
+          11
+        ],
+        "K13": [
+          12
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K02",
+            "K03",
+            "K04",
+            "K05",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K03",
+            "K04",
+            "K05"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K04",
+            "K05"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K06"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K07",
+            "K08",
+            "K10"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K07",
+            "K08",
+            "K10",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K07",
+            "K08",
+            "K09",
+            "K10",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K07",
+            "K10",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K03",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K11",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 12,
+          "covered_event_ids": [
+            "K13"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 5,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "0.10h"
+        ]
+      },
+      {
+        "step_index": 6,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "0.05",
+          "0.05h",
+          "0.10",
+          "0.10h",
+          "0.15h"
+        ]
+      },
+      {
+        "step_index": 7,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "-5"
+        ]
+      },
+      {
+        "step_index": 10,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "40%",
+          "500"
+        ]
+      },
+      {
+        "step_index": 11,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "40%"
+        ]
+      }
+    ],
+    "step_count": 12,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 100.0
+  },
+  "api_usage": {
+    "prompt_tokens": 119269,
+    "completion_tokens": 25970,
+    "total_tokens": 145239,
+    "prompt_cache_hit_tokens": 8704,
+    "prompt_cache_miss_tokens": 110565
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 5765,
+        "completion_tokens": 786,
+        "total_tokens": 6551,
+        "prompt_tokens_details": {
+          "cached_tokens": 5760
+        },
+        "prompt_cache_hit_tokens": 5760,
+        "prompt_cache_miss_tokens": 5
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 13603,
+        "completion_tokens": 3480,
+        "total_tokens": 17083,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 13603
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 7984,
+        "completion_tokens": 1315,
+        "total_tokens": 9299,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7728
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 8987,
+        "completion_tokens": 1623,
+        "total_tokens": 10610,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8731
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 8602,
+        "completion_tokens": 1527,
+        "total_tokens": 10129,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8346
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 9277,
+        "completion_tokens": 1447,
+        "total_tokens": 10724,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9021
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C005",
+      "api_usage": {
+        "prompt_tokens": 5995,
+        "completion_tokens": 47,
+        "total_tokens": 6042,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 5739
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 11851,
+        "completion_tokens": 3093,
+        "total_tokens": 14944,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 11467
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 11318,
+        "completion_tokens": 5756,
+        "total_tokens": 17074,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 10678
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 16523,
+        "completion_tokens": 948,
+        "total_tokens": 17471,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 16523
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 19364,
+        "completion_tokens": 5948,
+        "total_tokens": 25312,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 18724
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

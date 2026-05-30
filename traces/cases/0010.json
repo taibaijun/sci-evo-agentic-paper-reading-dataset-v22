@@ -1,0 +1,826 @@
+{
+  "case": {
+    "case_id": "sci_evo_0010",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Heme biosensor-guided in vivo pathway optimization and directed evolution for efficient biosynthesis of heme",
+      "doi": "https://doi.org/10.1186/s13068-023-02285-4",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0008_10_1186_s13068_023_02285_4_heme_biosensor_guided_in_vivo_pathway_optimization_and_directed_evolution_for_efficient_bi.pdf",
+      "mineru_md": "docs/0010/mineru.md",
+      "combined_md": "docs/0010/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Heme biosynthesis in E. coli is limited by unbalanced expression of multiple pathway genes, complex regulatory mechanisms, and low enzymatic activity of protoporphyrin ferrochelatase (FECH).",
+      "target_object": "Heme biosynthetic pathway and FECH enzyme",
+      "known_context": "Heme is a valuable compound with applications in food, medicine, and research. Its biosynthesis in E. coli requires balanced expression of hemBCDEFY genes and efficient conversion of PPIX to heme by FECH. Previous attempts have been hindered by pathway imbalance and low FECH activity.",
+      "constraints": [
+        "Must use E. coli as host",
+        "High-throughput screening required for large libraries"
+      ],
+      "input_data": [
+        "Heme biosynthetic pathway genes (hemBCDEFY)",
+        "FECH gene from Bacillus subtilis"
+      ],
+      "quantifiable_goals": [
+        "Increase PPIX titer",
+        "Increase heme titer",
+        "Achieve high heme yield in fed-batch fermentation"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "Heme biosynthesis is limited by unbalanced expression of multiple genes and low FECH activity.",
+        "gap_or_uncertainty": "How to efficiently screen for optimal pathway expression and improved FECH variants?",
+        "hypothesis": "A heme biosensor can enable high-throughput screening for pathway optimization and FECH evolution.",
+        "decision": "Develop a growth-coupled heme biosensor to link intracellular heme concentration to tetracycline resistance.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "Heme biosensor design",
+          "version": "N/A",
+          "category": "biosensor"
+        },
+        "parameters": {},
+        "observation": "The biosensor concept couples HrtR repressor with tcR reporter, such that heme binding relieves repression and allows growth on tetracycline.",
+        "result_status": "success",
+        "next_step_reason": "Validate the biosensor's ability to differentiate heme levels.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0010/combined.md",
+            "section": "C001",
+            "quote_or_span": "Biosynthesis of heme is limited by the need for optimized expression levels of multiple genes, complex regulatory mechanisms, and low enzymatic activity"
+          },
+          {
+            "evidence_id": "EV_C001_E06_01",
+            "source_file": "docs/0010/combined.md",
+            "section": "C001",
+            "quote_or_span": "FECH is considered to be a bottleneck in heme biosynthesis"
+          },
+          {
+            "evidence_id": "EV_C001_E07_01",
+            "source_file": "docs/0010/combined.md",
+            "section": "C001",
+            "quote_or_span": "We then used it for in vivo pathway optimization and directed evolution at the agar plate- and 96-well deep-well plate-scale for rapid screening of high-level heme producers from large libraries."
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "experiment",
+        "state_before": "Biosensor design not validated in vivo.",
+        "gap_or_uncertainty": "Does the biosensor respond to heme and provide sufficient dynamic range?",
+        "hypothesis": "Adding heme to the medium will enhance growth of biosensor-containing cells under tetracycline selection.",
+        "decision": "Test growth of SPHT strain with and without heme at various tetracycline concentrations.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Growth assay",
+          "version": "N/A",
+          "category": "microbiology"
+        },
+        "parameters": {
+          "tetracycline_concentration": "140 µg/mL",
+          "heme_concentration": "10 µM"
+        },
+        "observation": "Heme addition enhanced growth; optimal differentiation at 140 µg/mL tetracycline.",
+        "result_status": "success",
+        "next_step_reason": "Biosensor validated; proceed to design RBS library for pathway optimization.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E01_02",
+            "source_file": "docs/0010/combined.md",
+            "section": "C002",
+            "quote_or_span": "the concentration of heme was positively correlated with the cell growth"
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "design",
+        "state_before": "Pathway genes hemBCDEFY expressed without optimization.",
+        "gap_or_uncertainty": "Optimal expression levels for each gene are unknown.",
+        "hypothesis": "A combinatorial RBS library with four intensities per gene will allow selection of balanced expression.",
+        "decision": "Design library of 4096 RBS combinations for six genes.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "RBS library design",
+          "version": "N/A",
+          "category": "synthetic_biology"
+        },
+        "parameters": {
+          "library_size": 4096,
+          "rbs_intensities": [
+            "low",
+            "medium-low",
+            "medium-high",
+            "high"
+          ]
+        },
+        "observation": "Library designed with two operons and four RBS intensities per gene.",
+        "result_status": "success",
+        "next_step_reason": "Construct and validate the library.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E02_01",
+            "source_file": "docs/0010/combined.md",
+            "section": "C002",
+            "quote_or_span": "genes hemBCDEFY were divided into two operons, and each gene was expressed using low, medium–low, medium–high, and high intensities of ribosome binding site (RBS)"
+          },
+          {
+            "evidence_id": "EV_AUTO_019",
+            "source_file": "docs/0010/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The total capacity of the library was $4^{6}=4096$ ."
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "experiment",
+        "state_before": "RBS library designed but not constructed.",
+        "gap_or_uncertainty": "Is the library evenly distributed and functional?",
+        "hypothesis": "Gibson assembly will yield an even distribution of RBS variants.",
+        "decision": "Construct library in pRSFduet-1 and validate by sequencing 20 colonies.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Gibson assembly",
+          "version": "N/A",
+          "category": "molecular_biology"
+        },
+        "parameters": {},
+        "observation": "Sequencing confirmed even RBS distribution.",
+        "result_status": "success",
+        "next_step_reason": "Use biosensor to enrich high PPIX producers from the library.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E03_01",
+            "source_file": "docs/0010/combined.md",
+            "section": "C002",
+            "quote_or_span": "the library evenly included RBSs of each intensity, and the RBSs of different intensities were evenly distributed"
+          },
+          {
+            "evidence_id": "EV_C004_E05_03",
+            "source_file": "docs/0010/combined.md",
+            "section": "C004",
+            "quote_or_span": "If the glucose concentration was <10 g/L, the fermenter was supplemented with 20 g/L glucose."
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "experiment",
+        "state_before": "Library contains diverse RBS combinations with unknown PPIX productivity.",
+        "gap_or_uncertainty": "Which RBS combinations yield high PPIX?",
+        "hypothesis": "Iterative tetracycline selection will enrich strains with high intracellular heme/PPIX.",
+        "decision": "Perform four rounds of subculture with tetracycline selection.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Growth-coupled selection",
+          "version": "N/A",
+          "category": "directed_evolution"
+        },
+        "parameters": {
+          "rounds": 4,
+          "tetracycline_concentration": "not specified"
+        },
+        "observation": "Average PPIX increased from 3–7 mg/L to ~9 mg/L after four rounds.",
+        "result_status": "success",
+        "next_step_reason": "Analyze RBS distribution in enriched strains.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E04_01",
+            "source_file": "docs/0010/combined.md",
+            "section": "C002",
+            "quote_or_span": "After four rounds of subculture, the plasmids were extracted."
+          },
+          {
+            "evidence_id": "EV_C002_E04_02",
+            "source_file": "docs/0010/combined.md",
+            "section": "C002",
+            "quote_or_span": "most of the screened strains reached a PPIX yield of 9 mg/L"
+          },
+          {
+            "evidence_id": "EV_C002_E04_03",
+            "source_file": "docs/0010/combined.md",
+            "section": "C002",
+            "quote_or_span": "The average PPIX accumulation of the fourth-generation strains was higher than that of the strains before screening (PPIX yield of 3–7 mg/L)"
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "analysis",
+        "state_before": "Enriched population shows improved PPIX but RBS preferences unknown.",
+        "gap_or_uncertainty": "Which RBS intensities are favored for each gene?",
+        "hypothesis": "High PPIX producers will converge on specific RBS patterns.",
+        "decision": "Sequence RBS regions of top 20 strains and analyze distribution.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Sanger sequencing",
+          "version": "N/A",
+          "category": "sequencing"
+        },
+        "parameters": {},
+        "observation": "hemB favored highest intensity B4 (60%), hemF favored F4 (70%), hemD favored moderate D2/D3.",
+        "result_status": "success",
+        "next_step_reason": "Validate PPIX production of best strain.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E05_01",
+            "source_file": "docs/0010/combined.md",
+            "section": "C002",
+            "quote_or_span": "the RBSs of hemB were mainly (60% of the sequenced isolates) of the highest intensity B4"
+          },
+          {
+            "evidence_id": "EV_C002_E05_02",
+            "source_file": "docs/0010/combined.md",
+            "section": "C002",
+            "quote_or_span": "The RBSs of hemF were mainly (70%) of F4"
+          },
+          {
+            "evidence_id": "EV_C002_E05_03",
+            "source_file": "docs/0010/combined.md",
+            "section": "C002",
+            "quote_or_span": "The RBSs of hemD were mainly of D2 and D3 (i.e., moderate intensity)"
+          },
+          {
+            "evidence_id": "EV_AUTO_017",
+            "source_file": "docs/0010/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "4 a: Heme yield after initiation codon optimization of hemH; b: Specific growth rates of SALHT at different tetracycline concentrations with heme addition c: Computer-aided design of mutants and affinity energies for FECH; d: Molecular docking model of PPIX and FECH from Bacillus subtilis; e: The heme yields of 20 strains were randomly selected from the pressure-screened FECH mutants."
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "validation",
+        "state_before": "RBS preferences identified but best strain not fully characterized.",
+        "gap_or_uncertainty": "What is the maximum PPIX titer achievable with the optimized RBS combination?",
+        "hypothesis": "Strain No. 20, with optimal RBS pattern, will produce high PPIX.",
+        "decision": "Measure PPIX titer of strain No. 20 in shake-flask.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Shake-flask fermentation",
+          "version": "N/A",
+          "category": "fermentation"
+        },
+        "parameters": {},
+        "observation": "Strain No. 20 produced 160.8 mg/L PPIX, the highest reported in shake-flasks.",
+        "result_status": "success",
+        "next_step_reason": "Introduce FECH to convert PPIX to heme.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E01_01",
+            "source_file": "docs/0010/combined.md",
+            "section": "C003",
+            "quote_or_span": "the strain accumulated 160.8 mg/L PPIX (Fig. 3d), which is the highest yield yet reported in shaken-flask fermentation"
+          },
+          {
+            "evidence_id": "EV_C004_E05_03",
+            "source_file": "docs/0010/combined.md",
+            "section": "C004",
+            "quote_or_span": "If the glucose concentration was <10 g/L, the fermenter was supplemented with 20 g/L glucose."
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "experiment",
+        "state_before": "High PPIX strain lacks efficient FECH for heme production.",
+        "gap_or_uncertainty": "Can FECH overexpression convert PPIX to heme efficiently?",
+        "hypothesis": "Overexpressing wild-type FECH in strain No. 20 will yield heme.",
+        "decision": "Introduce FECH expression plasmid into strain No. 20 (resulting strain SAPH).",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Plasmid transformation",
+          "version": "N/A",
+          "category": "molecular_biology"
+        },
+        "parameters": {},
+        "observation": "Strain SAPH produced only 0.79 mg/L heme, indicating a bottleneck.",
+        "result_status": "failure",
+        "next_step_reason": "Low heme titer suggests poor FECH expression or activity; optimize start codon.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E02_01",
+            "source_file": "docs/0010/combined.md",
+            "section": "C003",
+            "quote_or_span": "Strain SAPH produced 0.79 mg/L of heme after 54 h of shaken-flask fermentation (Fig. 4a)"
+          },
+          {
+            "evidence_id": "EV_C004_E05_03",
+            "source_file": "docs/0010/combined.md",
+            "section": "C004",
+            "quote_or_span": "If the glucose concentration was <10 g/L, the fermenter was supplemented with 20 g/L glucose."
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "revision",
+        "state_before": "FECH expression may be limited by non-optimal start codon (GTG).",
+        "gap_or_uncertainty": "Will changing the start codon to ATG improve FECH expression and heme titer?",
+        "hypothesis": "Replacing GTG with ATG start codon in hemH will increase translation efficiency.",
+        "decision": "Add ATG start codon before native GTG in hemH (strain SAPH^ATG).",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Site-directed mutagenesis",
+          "version": "N/A",
+          "category": "molecular_biology"
+        },
+        "parameters": {},
+        "observation": "Heme titer increased to 3.67 mg/L, a significant improvement but still low.",
+        "result_status": "partial",
+        "next_step_reason": "Further improve FECH activity through directed evolution.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E03_01",
+            "source_file": "docs/0010/combined.md",
+            "section": "C003",
+            "quote_or_span": "We added a new start codon, ATG, before this GTG to obtained strain SAPH $^{ATG}$ . Strain SAPH $^{ATG}$ produced a heme titer of 3.67 mg/L"
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "experiment",
+        "state_before": "FECH mutant library designed but not screened.",
+        "gap_or_uncertainty": "Which FECH mutants confer highest heme production?",
+        "hypothesis": "Screening under high tetracycline pressure will enrich for improved FECH variants.",
+        "decision": "Screen mutant library at 280 µg/mL tetracycline; isolate and characterize top strains.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Growth-coupled screening",
+          "version": "N/A",
+          "category": "directed_evolution"
+        },
+        "parameters": {
+          "tetracycline_concentration": "280 µg/mL"
+        },
+        "observation": "Strain SH20 produced 7.48 mg/L heme, a 2.04-fold improvement over wild-type FECH.",
+        "result_status": "success",
+        "next_step_reason": "Combine best FECH mutant with optimized pathway for fed-batch production.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E04_01",
+            "source_file": "docs/0010/combined.md",
+            "section": "C003",
+            "quote_or_span": "a tetracycline concentration of 280 $\\mu$ g/mL was selected for FECH screening"
+          },
+          {
+            "evidence_id": "EV_C003_E06_01",
+            "source_file": "docs/0010/combined.md",
+            "section": "C003",
+            "quote_or_span": "The resulting mutant strains were sub-screened under screening pressure (280 $\\mu$ g/mL tetracycline) to enrich for high-heme-producing strains"
+          },
+          {
+            "evidence_id": "EV_C003_E07_01",
+            "source_file": "docs/0010/combined.md",
+            "section": "C003",
+            "quote_or_span": "the yield of strain SH20 reached 7.48 mg/L, which was 2.04-fold that of the wild type"
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "validation",
+        "state_before": "SH20 shows improved heme production in shake-flask but not tested in controlled bioreactor.",
+        "gap_or_uncertainty": "Can the engineered strain achieve high heme titer under fed-batch conditions?",
+        "hypothesis": "Fed-batch fermentation with optimized conditions will maximize heme yield.",
+        "decision": "Perform fed-batch fermentation of strain SH20C (optimized pathway + FECH mutant) with Fe2+ and sodium glutamate supplementation.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Fed-batch fermentation",
+          "version": "N/A",
+          "category": "fermentation"
+        },
+        "parameters": {
+          "temperature": "30 °C",
+          "ventilation": "2 vvm",
+          "glucose_feed": "20 g/L when <10 g/L"
+        },
+        "observation": "Heme titer reached 127.6 mg/L.",
+        "result_status": "success",
+        "next_step_reason": "Assess commercial viability and remaining limitations.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_008",
+            "source_file": "docs/0010/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Fed-batch fermentation of strain SH20C, harboring the optimized hemBCDEFY and the FECH mutant, produced 127.6 mg/L of heme."
+          },
+          {
+            "evidence_id": "EV_AUTO_012",
+            "source_file": "docs/0010/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "On adding $Fe^{2+}$ and sodium glutamate, the heme yield reached 127.6 mg/L (Fig."
+          },
+          {
+            "evidence_id": "EV_C004_E05_03",
+            "source_file": "docs/0010/combined.md",
+            "section": "C004",
+            "quote_or_span": "If the glucose concentration was <10 g/L, the fermenter was supplemented with 20 g/L glucose."
+          }
+        ]
+      },
+      {
+        "step_index": 12,
+        "phase": "analysis",
+        "state_before": "Fed-batch fermentation achieved 127.6 mg/L heme, but commercial viability remains uncertain.",
+        "gap_or_uncertainty": "Is the current heme yield sufficient for commercialization?",
+        "hypothesis": "The achieved yield is still far from commercial targets, necessitating further optimization.",
+        "decision": "Acknowledge the limitation and identify need for further strain and process improvements.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Limitation assessment",
+          "version": "N/A",
+          "category": "analysis"
+        },
+        "parameters": {},
+        "observation": "Heme yield of 127.6 mg/L is still a long way from the target of commercialization.",
+        "result_status": "inconclusive",
+        "next_step_reason": "Future work should focus on further increasing heme titer and productivity.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E08_01",
+            "source_file": "docs/0010/combined.md",
+            "section": "C003",
+            "quote_or_span": "But this yield is still a long way from the target of commercialization."
+          },
+          {
+            "evidence_id": "EV_AUTO_008",
+            "source_file": "docs/0010/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Fed-batch fermentation of strain SH20C, harboring the optimized hemBCDEFY and the FECH mutant, produced 127.6 mg/L of heme."
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "Shake-flask fermentation for PPIX and heme titers",
+        "Fed-batch fermentation for final heme titer",
+        "HPLC for porphyrin quantification",
+        "Colorimetric assay for heme <2 mg/L"
+      ],
+      "metrics": [
+        "PPIX titer (mg/L)",
+        "Heme titer (mg/L)",
+        "Fold improvement over wild-type"
+      ],
+      "final_conclusion": "The biosensor-guided approach achieved 160.8 mg/L PPIX and 127.6 mg/L heme in fed-batch, demonstrating effective pathway optimization and FECH evolution.",
+      "limitations": [
+        "Heme yield of 127.6 mg/L is still far from commercialization; further optimization needed."
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_step_trimmed=13_to_12",
+        "v22_specific_evidence_backfilled=5",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_step_trimmed=13_to_12",
+        "v22_specific_evidence_backfilled=5",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 99.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_mainline_batch30_p1\\states\\0010.json",
+  "events_path": "outputs\\agentic_v22\\v22_mainline_batch30_p1\\events\\0010.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1,
+          8,
+          9
+        ],
+        "K04": [
+          1,
+          2
+        ],
+        "K05": [
+          2,
+          3,
+          5
+        ],
+        "K06": [
+          4
+        ],
+        "K07": [
+          5
+        ],
+        "K08": [
+          6,
+          10
+        ],
+        "K09": [
+          7
+        ],
+        "K10": [
+          8
+        ],
+        "K11": [
+          9
+        ],
+        "K13": [
+          10,
+          11
+        ],
+        "K14": [
+          11,
+          12
+        ],
+        "K15": [
+          12
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02",
+            "K03",
+            "K04"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K02",
+            "K04",
+            "K05"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K05"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K06"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K05",
+            "K07"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K08"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K09"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K01",
+            "K10"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K01",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K02",
+            "K08",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K02",
+            "K13",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 12,
+          "covered_event_ids": [
+            "K14",
+            "K15"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 2,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "140"
+        ]
+      },
+      {
+        "step_index": 11,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "0s"
+        ]
+      }
+    ],
+    "step_count": 12,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 99.0
+  },
+  "api_usage": {
+    "prompt_tokens": 108533,
+    "completion_tokens": 25059,
+    "total_tokens": 133592,
+    "prompt_cache_hit_tokens": 7552,
+    "prompt_cache_miss_tokens": 100981
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 4192,
+        "completion_tokens": 689,
+        "total_tokens": 4881,
+        "prompt_tokens_details": {
+          "cached_tokens": 4096
+        },
+        "prompt_cache_hit_tokens": 4096,
+        "prompt_cache_miss_tokens": 96
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 12393,
+        "completion_tokens": 3096,
+        "total_tokens": 15489,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 12009
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 8592,
+        "completion_tokens": 1215,
+        "total_tokens": 9807,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 8208
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 9254,
+        "completion_tokens": 1839,
+        "total_tokens": 11093,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 8870
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 8934,
+        "completion_tokens": 1345,
+        "total_tokens": 10279,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 8550
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 7399,
+        "completion_tokens": 1197,
+        "total_tokens": 8596,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7143
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 11424,
+        "completion_tokens": 3240,
+        "total_tokens": 14664,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 11040
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 11364,
+        "completion_tokens": 5520,
+        "total_tokens": 16884,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 10724
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 15928,
+        "completion_tokens": 1216,
+        "total_tokens": 17144,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 15928
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 19053,
+        "completion_tokens": 5702,
+        "total_tokens": 24755,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 18413
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

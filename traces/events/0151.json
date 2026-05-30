@@ -1,0 +1,2959 @@
+{
+  "doc_no": "0151",
+  "source": {
+    "title": "Multistate and functional protein design using RoseTTAFold sequence space diffusion",
+    "doi": "https://doi.org/10.1038/s41587-024-02395-w",
+    "license": "cc-by-nc-nd",
+    "pdf_name": "0149_10_1038_s41587_024_02395_w_multistate_and_functional_protein_design_using_rosettafold_sequence_space_diffusion.pdf",
+    "combined_md": "docs/0151/combined.md",
+    "mineru_md": "docs/0151/mineru.md"
+  },
+  "gist_memory": {
+    "paper_problem_memory": "Protein denoising diffusion probabilistic models (DDPMs) are used for de novo generation of protein backbones but are limited in guiding generation with sequence-specific attributes and functional properties. The goal is to develop a sequence-space diffusion model, ProteinGenerator (PG), based on RoseTTAFold, that simultaneously generates protein sequences and structures, enabling direct sequence-based guidance for multistate and functional protein design.",
+    "section_gists": [
+      {
+        "section_index": 3,
+        "heading": "Multistate and functional protein design using RoseTTAFold sequence space diffusion",
+        "gist": "Introduces ProteinGenerator (PG), a sequence-space diffusion model based on RoseTTAFold that generates sequence-structure pairs by iterative denoising. PG overcomes limitations of structure-based diffusion (e.g., RFdiffusion) by enabling direct sequence-based guidance for multistate and functional design. The model is trained by noising sequences from the PDB and learning to denoise while predicting structure. PG can be guided by desired sequence and structural attributes, and design trajectories can be guided by experimental data.",
+        "process_signals": [
+          "Motivation: structure-based diffusion models (RFdiffusion, Chroma) provide limited opportunities for sequence-based guidance and multistate design.",
+          "Hypothesis: carrying out diffusion in sequence space enables guidance using sequence-based features and explicit design of sequences populating multiple states.",
+          "Approach: adapt RoseTTAFold for sequence space diffusion by noising sequences and training to remove noise while imposing structure prediction loss."
+        ],
+        "methods": [
+          "RoseTTAFold-based sequence space diffusion",
+          "Categorical DDPM with scaled one-hot encoding",
+          "Training on PDB sequences with progressive noising",
+          "Guidance using sequence and structural attributes"
+        ],
+        "metrics": [],
+        "failures_or_limits": [
+          "Structure-based approaches (RFdiffusion, Chroma) limited in sequence-based guidance and multistate design.",
+          "Hallucination approaches can be adversarial and require many steps."
+        ]
+      },
+      {
+        "section_index": 4,
+        "heading": "Results",
+        "gist": "Placeholder for results sections.",
+        "process_signals": [],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 5,
+        "heading": "Categorical DDPM implementation and fine-tuning",
+        "gist": "Describes the implementation of PG: sequences represented as scaled one-hot tensors, embedded via linear layer, and corrupted with Gaussian noise. RoseTTAFold is fine-tuned to predict ground truth sequence-structure pairs from noised sequences, using categorical cross-entropy and FAPE losses. Self-conditioning improves performance. Inference starts from Gaussian noise and iteratively denoises. PG outperforms early hallucination methods in unconditional design accuracy, generates structurally diverse proteins, and scaffolds structural motifs. PG sequence quality (ESM pseudo-perplexity) is comparable to native sequences and better than EvoDiff. Unconditional generation yields proteins with native-like amino acid compositions; 6% of designs have AF2 pLDDT>90 and RMSD<2Å. Experimentally, 32/42 unconditionally generated 70-80 residue proteins were soluble, monomeric, and thermostable.",
+        "process_signals": [
+          "Design choice: scaled one-hot encoding simplifies use of raw sequence-based classifiers for guidance.",
+          "Self-conditioning found to improve training and inference.",
+          "Sampling x_{t-1} ~ q(x_{t-1}|x_0) more effective than q(x_{t-1}|x_0, x_t).",
+          "PG outperforms early hallucination methods in unconditional design accuracy.",
+          "RFdiffusion+MPNN performs better on motif scaffolding and unconditional generation of larger proteins.",
+          "PG sequence quality (ESM pseudo-perplexity) indistinguishable from native sequences, better than EvoDiff.",
+          "Experimental validation: 32/42 soluble, monomeric, thermostable."
+        ],
+        "methods": [
+          "Scaled one-hot sequence representation",
+          "Gaussian noise corruption with square root schedule",
+          "Fine-tuning RoseTTAFold with categorical cross-entropy and FAPE loss",
+          "Self-conditioning",
+          "Inference: predict x0 from xt, noise to x_{t-1}",
+          "Guidance via sequence-based classifiers",
+          "Fixed motifs featurized with extra token",
+          "Secondary structure conditioning via 1D track, 3D coordinates via 2D/3D tracks"
+        ],
+        "metrics": [
+          "AF2 pLDDT, RMSD",
+          "ESM pseudo-perplexity",
+          "Solubility, monomericity (SEC), secondary structure (CD), thermostability (CD melts)"
+        ],
+        "failures_or_limits": [
+          "RFdiffusion+MPNN better for motif scaffolding and larger proteins.",
+          "Only 6% of unconditional designs have AF2 pLDDT>90 and RMSD<2Å."
+        ]
+      },
+      {
+        "section_index": 6,
+        "heading": "Design of rare amino acid enriched proteins",
+        "gist": "PG is used to design proteins enriched in rare amino acids (Trp, Cys, Val, His, Met) by biasing sequence positions during denoising. Designs are filtered by AF2 confidence and self-consistency. 68/96 expressed designs were soluble; many were monomeric and thermostable. Cysteine-rich designs formed disulfide bonds without structural conditioning. Valine-rich designs had higher beta-sheet content. PG can also design proteins with specified charge, pI, and hydrophobicity.",
+        "process_signals": [
+          "Advantage of sequence diffusion: sequence-based guiding functions readily implemented.",
+          "Guiding procedure: rank positions by frequency of target amino acid, bias top N positions.",
+          "Success: designs with 20% composition of rare amino acids, distinct from native sequences.",
+          "Cysteine designs formed 3-4 disulfide bonds without structural conditioning.",
+          "Valine designs showed expected beta-sheet propensity.",
+          "Model reasons over sequence-structure relationships beyond native distributions."
+        ],
+        "methods": [
+          "Sequence-based guidance: bias logits toward desired amino acid at top N positions",
+          "Filtering: AF2 pLDDT>90, RMSD<2Å",
+          "Experimental: SEC, CD, mass spectrometry (disulfide bonds)"
+        ],
+        "metrics": [
+          "Solubility, monomericity",
+          "Secondary structure (CD)",
+          "Thermostability",
+          "Disulfide bond formation (MS with/without TCEP)"
+        ],
+        "failures_or_limits": [
+          "Not all designs soluble/monomeric (68/96 soluble, subset monomeric)."
+        ]
+      },
+      {
+        "section_index": 7,
+        "heading": "Design of sequence repeat proteins",
+        "gist": "PG adapted to generate repeat proteins by applying repeat symmetry to the noised sequence distribution at each timestep. Unconditional generation yielded mostly beta-solenoids; secondary structure conditioning enabled diverse all-alpha, all-beta, and mixed designs. Helical caps added to some designs. 27/74 capped repeats and 10/86 uncapped repeats were soluble and monomeric. Crystal structure of a five-repeat four-helix bundle design showed atomic accuracy (C RMSD 1.38 Å overall, 0.47 Å for asymmetric unit).",
+        "process_signals": [
+          "Previous repeat protein design required pre-specified structural features or expensive MCMC.",
+          "PG adapts by applying repeat symmetry during denoising.",
+          "Unconditional generation biased toward beta-solenoids; secondary structure conditioning expanded diversity.",
+          "Helical caps improved solubility/monodispersity.",
+          "Crystal structure confirms atomic accuracy."
+        ],
+        "methods": [
+          "Repeat symmetry applied to noised sequence distribution",
+          "Secondary structure conditioning",
+          "Helical caps added",
+          "Experimental: SEC, CD, X-ray crystallography"
+        ],
+        "metrics": [
+          "Solubility, monomericity (SEC)",
+          "Secondary structure (CD)",
+          "Crystal structure RMSD"
+        ],
+        "failures_or_limits": [
+          "Low success rate: 27/74 capped, 10/86 uncapped soluble and monomeric.",
+          "Unconditional generation biased toward beta-solenoids."
+        ]
+      },
+      {
+        "section_index": 8,
+        "heading": "Design of conditionally active peptide cages for membrane lysis",
+        "gist": "PG used to cage bioactive peptides (e.g., melittin) within inert protein scaffolds by fixing the peptide sequence and diffusing the remainder. Unlike LOCKR, no pre-specified structure needed. Designs include furin cleavage site for conditional release. 5/13 designs were soluble, monomeric, helical, and thermostable. Furin cleavage confirmed by band shift and mass spectrometry. Conditional hemolysis assay: RBC lysis only with furin pre-treatment.",
+        "process_signals": [
+          "Challenge: design proteins with conditional activity.",
+          "PG approach: fix bioactive peptide sequence, diffuse scaffold, use secondary structure conditioning.",
+          "Multiple constraints required increased sampling and filtering.",
+          "Success: conditional release and activity demonstrated.",
+          "Potential for endosomal escape applications."
+        ],
+        "methods": [
+          "Fixed peptide sequence with adjacent furin cleavage site",
+          "Secondary structure conditioning (helical bundle, loop for cleavage site)",
+          "Experimental: SEC, CD, furin cleavage assay, mass spectrometry, hemolysis assay"
+        ],
+        "metrics": [
+          "Solubility, monomericity",
+          "Secondary structure",
+          "Thermostability",
+          "Cleavage efficiency",
+          "Hemolysis (absorbance at 450 nm)"
+        ],
+        "failures_or_limits": [
+          "Only 5/13 designs soluble and monomeric.",
+          "Required increased sampling and filtering due to multiple constraints."
+        ]
+      },
+      {
+        "section_index": 9,
+        "heading": "Scaffolding barcode peptide sequences",
+        "gist": "PG scaffolds short barcode sequences (7-14 residues) into proteins, enabling intrinsic barcoding. 64/84 designs expressed, 48/64 monodisperse by SEC. SEC-MS showed close agreement with individual SEC for 41/58 designs. PG can incorporate intrinsic barcodes, reducing need for multiple extrinsic barcodes.",
+        "process_signals": [
+          "Motivation: current barcoding uses flexible fusions, requiring multiple degenerate barcodes.",
+          "PG scaffolds barcodes as integral part of structure.",
+          "High expression and monodispersity.",
+          "SEC-MS validation shows agreement with individual SEC."
+        ],
+        "methods": [
+          "Fixed barcode sequence at C-terminus with flanking cleavage sites",
+          "Experimental: SEC, SEC-MS, mass spectrometry"
+        ],
+        "metrics": [
+          "Expression (64/84)",
+          "Monodispersity (48/64)",
+          "SEC-MS vs iSEC agreement (41/58)"
+        ],
+        "failures_or_limits": [
+          "Not all designs expressed or monodisperse."
+        ]
+      },
+      {
+        "section_index": 10,
+        "heading": "Multistate design",
+        "gist": "PG enables multistate design by averaging sequence logits between diffusion trajectories with distinct structural constraints. Designed parent-child triples where the same sequence folds to different supersecondary structures when intact vs split. Experimental validation by NMR and crystallography confirmed conformational switching.",
+        "process_signals": [
+          "Multistate design is challenging: energy landscape must have two minima with small free energy difference.",
+          "PG approach: logit averaging between trajectories with different structural constraints.",
+          "Designed parent-child triples with distinct folds.",
+          "Experimental validation by NMR and crystallography."
+        ],
+        "methods": [
+          "Logit averaging between diffusion trajectories",
+          "Structural constraints for each state",
+          "Experimental: NMR, X-ray crystallography"
+        ],
+        "metrics": [
+          "NMR chemical shifts",
+          "Crystal structure RMSD"
+        ],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 11,
+        "heading": "Guidance with experimental data",
+        "gist": "PG used for iterative protein function optimization guided by experimental data. Tested on GB1 fitness landscape: at each round, classifiers trained on previous data guide diffusion. PG outperforms Bayesian optimization baseline, with average and max fitness increasing each round. Advantage due to rich sequence-structure prior in RoseTTAFold.",
+        "process_signals": [
+          "Goal: optimize function in few experimental iterations.",
+          "Test case: GB1 benchmark with complete fitness data.",
+          "PG approach: gradient-based optimization with classifier guidance.",
+          "Outperforms Bayesian optimization with batched UCB.",
+          "Rich prior in RoseTTAFold improves performance."
+        ],
+        "methods": [
+          "Iterative guidance: train MLP classifiers on experimental fitness, bias sampling via gradients",
+          "Comparison to Bayesian optimization"
+        ],
+        "metrics": [
+          "Fitness (IgG binding activity)"
+        ],
+        "failures_or_limits": [
+          "Retrospective comparison limited to datasets with complete fitness data."
+        ]
+      },
+      {
+        "section_index": 12,
+        "heading": "Discussion",
+        "gist": "PG generates diverse de novo proteins with sequence constraints. Comparison to RFdiffusion: both use RoseTTAFold, but PG better for soft sequence constraints and multistate design via logit averaging. RFdiffusion better for global structural properties. Filtering required to obtain high-confidence designs. PG advantageous for multistate design and directed evolution campaigns.",
+        "process_signals": [
+          "PG vs RFdiffusion: PG better for soft sequence constraints and multistate design; RFdiffusion better for global structural properties.",
+          "Multistate design uniquely enabled by sequence space diffusion and logit averaging.",
+          "Filtering needed to increase fraction of confident designs.",
+          "PG useful for directed evolution by leveraging sequence-structure prior."
+        ],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": [
+          "Considerable filtering required to obtain sequences satisfying constraints.",
+          "RFdiffusion better for unconditional generation of larger proteins and motif scaffolding."
+        ]
+      },
+      {
+        "section_index": 15,
+        "heading": "Methods",
+        "gist": "Placeholder for methods sections.",
+        "process_signals": [],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 16,
+        "heading": "Sequence representation",
+        "gist": "Sequences represented as L×20 scaled one-hot tensors (values 1 and -1). Noising follows standard Gaussian forward process with square root noise schedule, which adds more noise at low timesteps to increase task difficulty.",
+        "process_signals": [
+          "Design choice: scaled one-hot encoding for continuous representation of categorical data.",
+          "Square root schedule chosen to increase difficulty at low timesteps."
+        ],
+        "methods": [
+          "Scaled one-hot encoding",
+          "Gaussian forward process",
+          "Square root noise schedule"
+        ],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 17,
+        "heading": "Training",
+        "gist": "Training: sample t uniformly, noise x0 to xt, predict x0 and structure y. Losses: categorical cross-entropy on sequence, FAPE and other structure losses, KL loss on x_{t-1}. Self-conditioning implemented. RoseTTAFold allowed 1-3 recycle steps. Secondary structure conditioning added later. Additional tasks: structure prediction and fixed backbone design (30% each) to maintain sequence-structure agreement. Motif scaffolding simulated by unmasking spans.",
+        "process_signals": [
+          "Self-conditioning improves performance.",
+          "KL loss stabilizes training.",
+          "Multi-task training (diffusion, structure prediction, fixed backbone design) maintains sequence-structure agreement.",
+          "Secondary structure conditioning added in later iterations."
+        ],
+        "methods": [
+          "Categorical cross-entropy loss",
+          "FAPE, bond angle, bond length, distogram, lddt losses",
+          "KL loss on x_{t-1}",
+          "Self-conditioning",
+          "Recycle steps",
+          "Multi-task training",
+          "Motif scaffolding simulation"
+        ],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 18,
+        "heading": "Inference",
+        "gist": "Inference: from x_t, predict x0 and structure, back-calculate x_{t-1} with self-conditioning. Sampling x_{t-1} ~ q(x_{t-1}|x_0) better than q(x_{t-1}|x_0, x_t). T can be varied; some problems solved in 10 steps. Clamping logits to [-3,3] improves AF2 agreement. x_{t-1} sampled from Gaussian or Gaussian mixture models (GMM2, GMM3).",
+        "process_signals": [
+          "Self-conditioning used during inference.",
+          "Sampling from q(x_{t-1}|x_0) more effective.",
+          "Logit clamping improves AF2 agreement.",
+          "Gaussian mixture sampling increases diversity."
+        ],
+        "methods": [
+          "Self-conditioning",
+          "Logit clamping",
+          "Gaussian mixture sampling"
+        ],
+        "metrics": [],
+        "failures_or_limits": []
+      }
+    ],
+    "global_hypotheses_about_storyline": [
+      "Sequence-space diffusion enables direct sequence-based guidance, overcoming limitations of structure-based diffusion.",
+      "RoseTTAFold can be adapted for sequence diffusion by training on noised sequences with structure prediction loss.",
+      "PG can design proteins with diverse sequence constraints (rare amino acids, repeats, caged peptides, barcodes) and multistate behavior.",
+      "PG can integrate experimental data for iterative functional optimization.",
+      "Sequence space diffusion is particularly advantageous for multistate design via logit averaging."
+    ],
+    "uncertainties_to_resolve": [
+      "How does PG compare to other sequence diffusion models (e.g., EvoDiff) in more detail?",
+      "What are the specific failure modes in designs that did not express or were not monomeric?",
+      "How does the success rate of PG scale with protein length and complexity?",
+      "Can PG be extended to design larger proteins or more complex multistate systems?",
+      "What are the limitations of the current guidance mechanisms?"
+    ]
+  },
+  "chunk_events": [
+    {
+      "chunk_id": "C001",
+      "char_start": 0,
+      "char_end": 18000,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C001_E02",
+          "chunk_id": "C001",
+          "event_type": "hypothesis",
+          "order_hint": 2,
+          "summary": "Carrying out diffusion in sequence space could enable guidance using sequence-based features and multistate design.",
+          "methods_or_tools": [],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E02_01"
+          ]
+        },
+        {
+          "event_id": "C001_E04",
+          "chunk_id": "C001",
+          "event_type": "design",
+          "order_hint": 4,
+          "summary": "Sequences represented as scaled one-hot tensors and embedded via linear layer for Gaussian noise corruption.",
+          "methods_or_tools": [],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E04_01"
+          ]
+        },
+        {
+          "event_id": "C001_E06",
+          "chunk_id": "C001",
+          "event_type": "experiment",
+          "order_hint": 6,
+          "summary": "Unconditional generation yields 6% of designs with AF2 pLDDT>90 and RMSD<2Å; 32/42 tested proteins soluble and monomeric.",
+          "methods_or_tools": [
+            "AlphaFold2",
+            "SEC",
+            "CD"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [
+            "6%",
+            "pLDDT>90",
+            "RMSD<2Å",
+            "32/42"
+          ],
+          "evidence_ids": [
+            "EV_C001_E06_01",
+            "EV_C001_E06_02"
+          ]
+        },
+        {
+          "event_id": "C001_E07",
+          "chunk_id": "C001",
+          "event_type": "experiment",
+          "order_hint": 7,
+          "summary": "Rare amino acid enriched proteins designed; 68/96 expressed designs soluble, many monomeric and thermostable.",
+          "methods_or_tools": [
+            "SEC",
+            "CD",
+            "mass spectrometry"
+          ],
+          "entities": [
+            "tryptophan",
+            "cysteine",
+            "valine",
+            "histidine",
+            "methionine"
+          ],
+          "numbers_or_metrics": [
+            "68/96",
+            "20% composition"
+          ],
+          "evidence_ids": [
+            "EV_C001_E07_01",
+            "EV_C001_E07_02"
+          ]
+        }
+      ],
+      "notes": "Chunk covers introduction, problem statement, hypothesis, design of PG, and initial experimental results for unconditional and rare amino acid designs.",
+      "api_usage": {
+        "prompt_tokens": 9389,
+        "completion_tokens": 1266,
+        "total_tokens": 10655,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9133
+      }
+    },
+    {
+      "chunk_id": "C002",
+      "char_start": 17100,
+      "char_end": 35100,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C002_E02",
+          "chunk_id": "C002",
+          "event_type": "design",
+          "order_hint": 2,
+          "summary": "Iterative design feedback loop: generate designs, evaluate activity, fit surrogate, guide PG.",
+          "methods_or_tools": [
+            "ProteinGenerator",
+            "surrogate function"
+          ],
+          "entities": [
+            "designs",
+            "activity"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E02_01"
+          ]
+        },
+        {
+          "event_id": "C002_E03",
+          "chunk_id": "C002",
+          "event_type": "computation",
+          "order_hint": 3,
+          "summary": "In silico iterative design on GB1 fitness landscape: PG outperforms Bayesian optimization.",
+          "methods_or_tools": [
+            "ProteinGenerator",
+            "Bayesian optimization"
+          ],
+          "entities": [
+            "GB1 fitness landscape"
+          ],
+          "numbers_or_metrics": [
+            "96 designs per round",
+            "P < 0.05"
+          ],
+          "evidence_ids": [
+            "EV_C002_E03_01",
+            "EV_C002_E03_02"
+          ]
+        },
+        {
+          "event_id": "C002_E04",
+          "chunk_id": "C002",
+          "event_type": "experiment",
+          "order_hint": 4,
+          "summary": "Amino acid compositional bias: PG generates proteins enriched in rare amino acids (Trp, Cys, Val, His, Met).",
+          "methods_or_tools": [
+            "ProteinGenerator"
+          ],
+          "entities": [
+            "Trp",
+            "Cys",
+            "Val",
+            "His",
+            "Met"
+          ],
+          "numbers_or_metrics": [
+            "200 designs per amino acid"
+          ],
+          "evidence_ids": [
+            "EV_C002_E04_01",
+            "EV_C002_E04_02"
+          ]
+        },
+        {
+          "event_id": "C002_E05",
+          "chunk_id": "C002",
+          "event_type": "analysis",
+          "order_hint": 5,
+          "summary": "Multidimensional scaling shows amino acid biased sequences occupy distinct regions from native sequences.",
+          "methods_or_tools": [
+            "multidimensional scaling"
+          ],
+          "entities": [
+            "native sequences",
+            "amino acid biased sequences"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E05_01"
+          ]
+        },
+        {
+          "event_id": "C002_E06",
+          "chunk_id": "C002",
+          "event_type": "experiment",
+          "order_hint": 6,
+          "summary": "Hydropathy guidance: biasing toward or away from hydrophobic amino acids shifts hydropathy distribution.",
+          "methods_or_tools": [
+            "ProteinGenerator"
+          ],
+          "entities": [
+            "hydropathy"
+          ],
+          "numbers_or_metrics": [
+            "P < 0.05"
+          ],
+          "evidence_ids": [
+            "EV_C002_E06_01"
+          ]
+        },
+        {
+          "event_id": "C002_E08",
+          "chunk_id": "C002",
+          "event_type": "experiment",
+          "order_hint": 8,
+          "summary": "Experimental characterization of amino acid biased designs: SEC, CD, and thermostability measurements.",
+          "methods_or_tools": [
+            "SEC",
+            "CD",
+            "thermostability"
+          ],
+          "entities": [
+            "designs"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E08_01"
+          ]
+        }
+      ],
+      "notes": "Chunk covers PG inference, iterative design, amino acid bias, hydropathy guidance, and experimental validation of cysteine designs.",
+      "api_usage": {
+        "prompt_tokens": 10232,
+        "completion_tokens": 1309,
+        "total_tokens": 11541,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9976
+      }
+    },
+    {
+      "chunk_id": "C003",
+      "char_start": 34200,
+      "char_end": 52200,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C003_E02",
+          "chunk_id": "C003",
+          "event_type": "experiment",
+          "order_hint": 2,
+          "summary": "Unconditional generation with repeat symmetry yielded largely beta-solenoid structures.",
+          "methods_or_tools": [
+            "unconditional generation"
+          ],
+          "entities": [
+            "beta-solenoid structures"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E02_01"
+          ]
+        },
+        {
+          "event_id": "C003_E03",
+          "chunk_id": "C003",
+          "event_type": "design",
+          "order_hint": 3,
+          "summary": "PG trained to condition on secondary structure to yield diverse all-alpha, all-beta, and mixed alpha/beta repeat protein designs.",
+          "methods_or_tools": [
+            "secondary structure conditioning"
+          ],
+          "entities": [
+            "PG",
+            "repeat proteins"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E03_01"
+          ]
+        },
+        {
+          "event_id": "C003_E04",
+          "chunk_id": "C003",
+          "event_type": "experiment",
+          "order_hint": 4,
+          "summary": "Experimental characterization: 27/74 capped and 10/86 uncapped repeat proteins were soluble and monomeric by SEC.",
+          "methods_or_tools": [
+            "SEC",
+            "circular dichroism"
+          ],
+          "entities": [
+            "repeat proteins",
+            "helical caps"
+          ],
+          "numbers_or_metrics": [
+            "27/74 capped soluble and monomeric",
+            "10/86 uncapped soluble and monomeric"
+          ],
+          "evidence_ids": [
+            "EV_C003_E04_01"
+          ]
+        },
+        {
+          "event_id": "C003_E05",
+          "chunk_id": "C003",
+          "event_type": "validation",
+          "order_hint": 5,
+          "summary": "Crystal structure of a five-repeat four-helix bundle design showed atomic accuracy: C RMSD 1.38 Å overall, 0.47 Å for asymmetric unit.",
+          "methods_or_tools": [
+            "X-ray crystallography"
+          ],
+          "entities": [
+            "five-repeat unit design",
+            "four-helix bundle"
+          ],
+          "numbers_or_metrics": [
+            "C RMSD 1.38 Å overall",
+            "0.47 Å for asymmetric unit"
+          ],
+          "evidence_ids": [
+            "EV_C003_E05_01"
+          ]
+        },
+        {
+          "event_id": "C003_E06",
+          "chunk_id": "C003",
+          "event_type": "design",
+          "order_hint": 6,
+          "summary": "PG used to cage bioactive peptide melittin within an inert protein scaffold by fixing the peptide sequence and diffusing the remainder, with secondary structure conditioning.",
+          "methods_or_tools": [
+            "fixed peptide sequence",
+            "secondary structure conditioning"
+          ],
+          "entities": [
+            "PG",
+            "melittin",
+            "furin cleavage site"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E06_01"
+          ]
+        },
+        {
+          "event_id": "C003_E07",
+          "chunk_id": "C003",
+          "event_type": "experiment",
+          "order_hint": 7,
+          "summary": "Experimental validation: 5/13 designed melittin cages were soluble, monomeric, helical, and thermostable; furin cleavage confirmed by band shift and mass spectrometry.",
+          "methods_or_tools": [
+            "SEC",
+            "CD",
+            "furin cleavage assay",
+            "mass spectrometry"
+          ],
+          "entities": [
+            "melittin cages"
+          ],
+          "numbers_or_metrics": [
+            "5/13 soluble and monodisperse"
+          ],
+          "evidence_ids": [
+            "EV_C003_E07_01",
+            "EV_C003_E07_02",
+            "EV_C003_E07_03"
+          ]
+        },
+        {
+          "event_id": "C003_E08",
+          "chunk_id": "C003",
+          "event_type": "limitation",
+          "order_hint": 8,
+          "summary": "Designing melittin cages with multiple constraints required increased sampling and filtering.",
+          "methods_or_tools": [],
+          "entities": [
+            "melittin cages"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E08_01"
+          ]
+        }
+      ],
+      "notes": "Chunk covers design and experimental validation of repeat proteins and conditionally active peptide cages.",
+      "api_usage": {
+        "prompt_tokens": 9772,
+        "completion_tokens": 1432,
+        "total_tokens": 11204,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9516
+      }
+    },
+    {
+      "chunk_id": "C004",
+      "char_start": 51300,
+      "char_end": 69300,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C004_E01",
+          "chunk_id": "C004",
+          "event_type": "experiment",
+          "order_hint": 1,
+          "summary": "Experimental characterization of melittin cage designs: 5 of 13 were soluble, monodisperse, helical, and thermostable.",
+          "methods_or_tools": [
+            "SEC",
+            "CD"
+          ],
+          "entities": [
+            "melittin",
+            "design D12"
+          ],
+          "numbers_or_metrics": [
+            "5/13 soluble and monodisperse"
+          ],
+          "evidence_ids": [
+            "EV_C004_E01_01"
+          ]
+        },
+        {
+          "event_id": "C004_E02",
+          "chunk_id": "C004",
+          "event_type": "experiment",
+          "order_hint": 2,
+          "summary": "Furin cleavage of melittin cage confirmed by band shift and mass spectrometry.",
+          "methods_or_tools": [
+            "SDS-PAGE",
+            "mass spectrometry"
+          ],
+          "entities": [
+            "furin protease",
+            "melittin"
+          ],
+          "numbers_or_metrics": [
+            "band shift from -18 kD to -15 kD"
+          ],
+          "evidence_ids": [
+            "EV_C004_E02_01",
+            "EV_C004_E02_02"
+          ]
+        },
+        {
+          "event_id": "C004_E03",
+          "chunk_id": "C004",
+          "event_type": "experiment",
+          "order_hint": 3,
+          "summary": "Conditional hemolysis assay: RBC lysis only with furin pre-treatment, demonstrating conditional activity.",
+          "methods_or_tools": [
+            "hemolysis assay",
+            "absorbance at 450 nm"
+          ],
+          "entities": [
+            "red blood cells",
+            "furin protease",
+            "design D12"
+          ],
+          "numbers_or_metrics": [
+            "P = 0.002",
+            "P = 0.005"
+          ],
+          "evidence_ids": [
+            "EV_C004_E03_01"
+          ]
+        },
+        {
+          "event_id": "C004_E04",
+          "chunk_id": "C004",
+          "event_type": "design",
+          "order_hint": 4,
+          "summary": "PG scaffolds barcode sequences (7-14 residues) into proteins, enabling intrinsic barcoding.",
+          "methods_or_tools": [
+            "ProteinGenerator (PG)"
+          ],
+          "entities": [
+            "barcode sequences",
+            "Lys-C",
+            "trypsin"
+          ],
+          "numbers_or_metrics": [
+            "7-14 residues"
+          ],
+          "evidence_ids": [
+            "EV_C004_E04_01"
+          ]
+        },
+        {
+          "event_id": "C004_E05",
+          "chunk_id": "C004",
+          "event_type": "experiment",
+          "order_hint": 5,
+          "summary": "Experimental validation of barcode scaffolding: 64/84 expressed, 48/64 monodisperse, SEC-MS agreement for 41/58.",
+          "methods_or_tools": [
+            "SEC",
+            "SEC-MS",
+            "Orbitrap Lumos"
+          ],
+          "entities": [
+            "barcode designs"
+          ],
+          "numbers_or_metrics": [
+            "64/84 expressed",
+            "48/64 monodisperse",
+            "41/58 SEC-MS agreement"
+          ],
+          "evidence_ids": [
+            "EV_C004_E05_01",
+            "EV_C004_E05_02"
+          ]
+        },
+        {
+          "event_id": "C004_E06",
+          "chunk_id": "C004",
+          "event_type": "hypothesis",
+          "order_hint": 6,
+          "summary": "Hypothesis: PG is well equipped for multistate design by applying guidance from multiple condition-dependent structural constraints.",
+          "methods_or_tools": [
+            "logit averaging"
+          ],
+          "entities": [
+            "PG"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E06_01"
+          ]
+        },
+        {
+          "event_id": "C004_E07",
+          "chunk_id": "C004",
+          "event_type": "design",
+          "order_hint": 7,
+          "summary": "Multistate design approach: logit averaging between diffusion trajectories with distinct structural constraints.",
+          "methods_or_tools": [
+            "logit averaging",
+            "diffusion trajectories"
+          ],
+          "entities": [
+            "parent-child triples"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E07_01"
+          ]
+        },
+        {
+          "event_id": "C004_E08",
+          "chunk_id": "C004",
+          "event_type": "limitation",
+          "order_hint": 8,
+          "summary": "Multistate design is challenging because the energy landscape must have two minima with small free energy difference.",
+          "methods_or_tools": [],
+          "entities": [
+            "energy landscape"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E08_01"
+          ]
+        }
+      ],
+      "notes": "Chunk covers experimental validation of melittin cage, barcode scaffolding, and introduction to multistate design.",
+      "api_usage": {
+        "prompt_tokens": 9720,
+        "completion_tokens": 1263,
+        "total_tokens": 10983,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9464
+      }
+    },
+    {
+      "chunk_id": "C005",
+      "char_start": 68400,
+      "char_end": 86400,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C005_E01",
+          "chunk_id": "C005",
+          "event_type": "design",
+          "order_hint": 1,
+          "summary": "PG adapted to multistate design by inputting the same sequence with different structural conditioning and averaging output logits.",
+          "methods_or_tools": [
+            "RoseTTAFold",
+            "logit averaging",
+            "DSSP conditioning"
+          ],
+          "entities": [
+            "PG",
+            "multistate sequences"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C005_E01_01"
+          ]
+        },
+        {
+          "event_id": "C005_E02",
+          "chunk_id": "C005",
+          "event_type": "experiment",
+          "order_hint": 2,
+          "summary": "72 parent–child triples experimentally characterized; 4 soluble and monodisperse families selected for CD and NMR.",
+          "methods_or_tools": [
+            "CD",
+            "NMR",
+            "HSQC"
+          ],
+          "entities": [
+            "MS1",
+            "MS2",
+            "MS3",
+            "MS4"
+          ],
+          "numbers_or_metrics": [
+            "72 parent–child triples",
+            "4 families"
+          ],
+          "evidence_ids": [
+            "EV_C005_E02_01",
+            "EV_C005_E02_02"
+          ]
+        },
+        {
+          "event_id": "C005_E04",
+          "chunk_id": "C005",
+          "event_type": "validation",
+          "order_hint": 4,
+          "summary": "NMR structures of MS2 and MS3 parents solved, showing atomic-level accuracy to design models.",
+          "methods_or_tools": [
+            "NMR structure determination"
+          ],
+          "entities": [
+            "MS2 parent",
+            "MS3 parent"
+          ],
+          "numbers_or_metrics": [
+            "MS2 parent Cα RMSD 1.06 Å",
+            "MS3 parent Cα RMSD 1.61 Å"
+          ],
+          "evidence_ids": [
+            "EV_C005_E04_01",
+            "EV_C005_E04_02"
+          ]
+        },
+        {
+          "event_id": "C005_E05",
+          "chunk_id": "C005",
+          "event_type": "experiment",
+          "order_hint": 5,
+          "summary": "PG used for iterative protein function optimization guided by experimental data on GB1 fitness landscape.",
+          "methods_or_tools": [
+            "gradient-based optimization",
+            "MLP classifiers",
+            "batched upper confidence bound"
+          ],
+          "entities": [
+            "GB1",
+            "PG"
+          ],
+          "numbers_or_metrics": [
+            "96 designs per round",
+            "3 rounds"
+          ],
+          "evidence_ids": [
+            "EV_C005_E05_01",
+            "EV_C005_E05_02"
+          ]
+        },
+        {
+          "event_id": "C005_E06",
+          "chunk_id": "C005",
+          "event_type": "analysis",
+          "order_hint": 6,
+          "summary": "PG outperforms Bayesian optimization baseline in average and maximum fitness over rounds.",
+          "methods_or_tools": [
+            "Bayesian optimization",
+            "batched upper confidence bound"
+          ],
+          "entities": [
+            "PG",
+            "GB1"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C005_E06_01"
+          ]
+        },
+        {
+          "event_id": "C005_E07",
+          "chunk_id": "C005",
+          "event_type": "analysis",
+          "order_hint": 7,
+          "summary": "Improved performance attributed to rich sequence-structure prior in RoseTTAFold.",
+          "methods_or_tools": [
+            "RoseTTAFold"
+          ],
+          "entities": [
+            "PG"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C005_E07_01"
+          ]
+        },
+        {
+          "event_id": "C005_E08",
+          "chunk_id": "C005",
+          "event_type": "limitation",
+          "order_hint": 8,
+          "summary": "Obtaining sequences satisfying constraints required considerable filtering.",
+          "methods_or_tools": [],
+          "entities": [
+            "PG"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C005_E08_01"
+          ]
+        }
+      ],
+      "notes": "Chunk covers multistate design results, experimental validation, and experimental data-guided optimization.",
+      "api_usage": {
+        "prompt_tokens": 9493,
+        "completion_tokens": 1317,
+        "total_tokens": 10810,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9237
+      }
+    },
+    {
+      "chunk_id": "C006",
+      "char_start": 85500,
+      "char_end": 103500,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C006_E01",
+          "chunk_id": "C006",
+          "event_type": "analysis",
+          "order_hint": 1,
+          "summary": "Comparison of PG and RFdiffusion for hard vs soft constraints",
+          "methods_or_tools": [],
+          "entities": [
+            "PG",
+            "RFdiffusion"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C006_E01_01"
+          ]
+        },
+        {
+          "event_id": "C006_E02",
+          "chunk_id": "C006",
+          "event_type": "limitation",
+          "order_hint": 2,
+          "summary": "Considerable filtering required to obtain sequences satisfying constraints",
+          "methods_or_tools": [],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C006_E02_01"
+          ]
+        },
+        {
+          "event_id": "C006_E03",
+          "chunk_id": "C006",
+          "event_type": "analysis",
+          "order_hint": 3,
+          "summary": "Sequence space diffusion advantageous for multistate design via logit averaging",
+          "methods_or_tools": [
+            "logit averaging"
+          ],
+          "entities": [
+            "PG"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C006_E03_01"
+          ]
+        },
+        {
+          "event_id": "C006_E04",
+          "chunk_id": "C006",
+          "event_type": "design",
+          "order_hint": 4,
+          "summary": "Sequence representation as scaled one-hot tensors for continuous diffusion",
+          "methods_or_tools": [
+            "scaled one-hot encoding"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C006_E04_01"
+          ]
+        },
+        {
+          "event_id": "C006_E05",
+          "chunk_id": "C006",
+          "event_type": "design",
+          "order_hint": 5,
+          "summary": "Square root noise schedule chosen to increase difficulty at low timesteps",
+          "methods_or_tools": [
+            "square root noise schedule"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C006_E05_01"
+          ]
+        },
+        {
+          "event_id": "C006_E06",
+          "chunk_id": "C006",
+          "event_type": "computation",
+          "order_hint": 6,
+          "summary": "Training with multi-task learning including diffusion, structure prediction, and fixed backbone design",
+          "methods_or_tools": [
+            "categorical cross-entropy loss",
+            "FAPE loss",
+            "KL loss",
+            "self-conditioning"
+          ],
+          "entities": [
+            "RoseTTAFold"
+          ],
+          "numbers_or_metrics": [
+            "40% diffusion",
+            "30% structure prediction",
+            "30% fixed backbone design"
+          ],
+          "evidence_ids": [
+            "EV_C006_E06_01"
+          ]
+        },
+        {
+          "event_id": "C006_E07",
+          "chunk_id": "C006",
+          "event_type": "computation",
+          "order_hint": 7,
+          "summary": "Inference uses self-conditioning and sampling from q(x_{t-1}|x_0) for better performance",
+          "methods_or_tools": [
+            "self-conditioning",
+            "logit clamping"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C006_E07_01"
+          ]
+        },
+        {
+          "event_id": "C006_E08",
+          "chunk_id": "C006",
+          "event_type": "computation",
+          "order_hint": 8,
+          "summary": "Logit clamping to [-3,3] improves AF2 agreement",
+          "methods_or_tools": [
+            "logit clamping"
+          ],
+          "entities": [
+            "AF2"
+          ],
+          "numbers_or_metrics": [
+            "[-3,3]"
+          ],
+          "evidence_ids": [
+            "EV_C006_E08_01"
+          ]
+        }
+      ],
+      "notes": "This chunk contains discussion comparing PG and RFdiffusion, highlighting advantages of sequence space diffusion for soft constraints and multistate design, and details of methods for sequence representation, training, and inference.",
+      "api_usage": {
+        "prompt_tokens": 9168,
+        "completion_tokens": 1179,
+        "total_tokens": 10347,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8912
+      }
+    },
+    {
+      "chunk_id": "C007",
+      "char_start": 102600,
+      "char_end": 120600,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C007_E01",
+          "chunk_id": "C007",
+          "event_type": "design",
+          "order_hint": 1,
+          "summary": "Unconditional protein generation: proteins of 70-80 residues generated in 25 steps, filtered by AF2 pLDDT>90 and RMSD<2Å.",
+          "methods_or_tools": [
+            "AF2",
+            "pLDDT",
+            "RMSD"
+          ],
+          "entities": [
+            "unconditionally generated proteins"
+          ],
+          "numbers_or_metrics": [
+            "70-80 amino acids",
+            "25 steps",
+            "pLDDT>90",
+            "RMSD<2Å"
+          ],
+          "evidence_ids": [
+            "EV_C007_E01_02"
+          ]
+        },
+        {
+          "event_id": "C007_E02",
+          "chunk_id": "C007",
+          "event_type": "design",
+          "order_hint": 2,
+          "summary": "Compositionally biased protein generation: proteins of 70-80 residues generated with amino acid compositional potential, filtered by AF2 pLDDT>90, RMSD<2Å, SAP<30.",
+          "methods_or_tools": [
+            "AF2",
+            "pLDDT",
+            "RMSD",
+            "SAP score"
+          ],
+          "entities": [
+            "compositionally biased proteins"
+          ],
+          "numbers_or_metrics": [
+            "70-80 amino acids",
+            "25 steps",
+            "pLDDT>90",
+            "RMSD<2Å",
+            "SAP<30"
+          ],
+          "evidence_ids": [
+            "EV_C007_E02_01"
+          ]
+        },
+        {
+          "event_id": "C007_E03",
+          "chunk_id": "C007",
+          "event_type": "design",
+          "order_hint": 3,
+          "summary": "Repeat protein generation: 125-150 residue proteins with five repeat units generated in 50 steps with DSSP conditioning, filtered by AF2 pLDDT>80 and RMSD<2Å.",
+          "methods_or_tools": [
+            "DSSP",
+            "AF2",
+            "pLDDT",
+            "RMSD"
+          ],
+          "entities": [
+            "repeat proteins"
+          ],
+          "numbers_or_metrics": [
+            "125-150 amino acids",
+            "50 steps",
+            "pLDDT>80",
+            "RMSD<2Å"
+          ],
+          "evidence_ids": [
+            "EV_C007_E03_01",
+            "EV_C007_E03_02"
+          ]
+        },
+        {
+          "event_id": "C007_E04",
+          "chunk_id": "C007",
+          "event_type": "design",
+          "order_hint": 4,
+          "summary": "Caging bioactive peptides: 155-residue proteins generated with helical DSSP conditioning and fixed melittin sequence, filtered by AF2 pLDDT>85, RMSD<2Å, SAP<40.",
+          "methods_or_tools": [
+            "DSSP",
+            "AF2",
+            "pLDDT",
+            "RMSD",
+            "SAP score"
+          ],
+          "entities": [
+            "caged melittin",
+            "furin cleavage site"
+          ],
+          "numbers_or_metrics": [
+            "155 amino acids",
+            "25 steps",
+            "pLDDT>85",
+            "RMSD<2Å",
+            "SAP<40"
+          ],
+          "evidence_ids": [
+            "EV_C007_E04_01",
+            "EV_C007_E04_02"
+          ]
+        },
+        {
+          "event_id": "C007_E05",
+          "chunk_id": "C007",
+          "event_type": "design",
+          "order_hint": 5,
+          "summary": "Scaffolding barcode peptide sequences: 100-residue proteins generated with fixed C-terminal barcodes, filtered by AF2 pLDDT>85 and RMSD<2Å.",
+          "methods_or_tools": [
+            "AF2",
+            "pLDDT",
+            "RMSD"
+          ],
+          "entities": [
+            "barcode peptides"
+          ],
+          "numbers_or_metrics": [
+            "100 amino acids",
+            "50 steps",
+            "pLDDT>85",
+            "RMSD<2Å"
+          ],
+          "evidence_ids": [
+            "EV_C007_E05_01",
+            "EV_C007_E05_02"
+          ]
+        },
+        {
+          "event_id": "C007_E06",
+          "chunk_id": "C007",
+          "event_type": "design",
+          "order_hint": 6,
+          "summary": "Multistate guidance: parent-child pairs generated using secondary structure features and logit averaging, with partial noising for local exploration.",
+          "methods_or_tools": [
+            "secondary structure features",
+            "logit averaging",
+            "partial noising"
+          ],
+          "entities": [
+            "parent-child protein pairs"
+          ],
+          "numbers_or_metrics": [
+            "25 steps",
+            "λ parameters [0.2, 0.3, 0.5, 0.8]"
+          ],
+          "evidence_ids": [
+            "EV_C007_E06_01",
+            "EV_C007_E06_02",
+            "EV_C007_E06_03"
+          ]
+        },
+        {
+          "event_id": "C007_E07",
+          "chunk_id": "C007",
+          "event_type": "experiment",
+          "order_hint": 7,
+          "summary": "Iterative guidance experiment: three rounds of design on GB1 fitness landscape, using MLP classifiers trained on previous round data, compared to Bayesian optimization.",
+          "methods_or_tools": [
+            "MLP",
+            "Bayesian optimization",
+            "Gaussian processes",
+            "RBF kernel",
+            "qUCB"
+          ],
+          "entities": [
+            "GB1 protein",
+            "V39, D40, G41, V54 sites"
+          ],
+          "numbers_or_metrics": [
+            "batch size 96",
+            "3 rounds",
+            "guidance scale 2.0",
+            "λ=0.5"
+          ],
+          "evidence_ids": [
+            "EV_C007_E07_01",
+            "EV_C007_E07_02",
+            "EV_C007_E07_03"
+          ]
+        },
+        {
+          "event_id": "C007_E08",
+          "chunk_id": "C007",
+          "event_type": "analysis",
+          "order_hint": 8,
+          "summary": "Sequence and structure quality metrics: designs assessed by ESMFold, AF2, RMSD, and ESM pseudo-perplexity.",
+          "methods_or_tools": [
+            "ESMFold",
+            "AF2",
+            "RMSD",
+            "ESM pseudo-perplexity"
+          ],
+          "entities": [
+            "designed proteins"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C007_E08_02"
+          ]
+        }
+      ],
+      "notes": "This chunk contains detailed methods for various design tasks (unconditional, compositionally biased, repeat, caging, barcoding, multistate) and iterative guidance experiments, all directly relevant to the paper's core contributions.",
+      "api_usage": {
+        "prompt_tokens": 9234,
+        "completion_tokens": 1834,
+        "total_tokens": 11068,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8978
+      }
+    },
+    {
+      "chunk_id": "C008",
+      "char_start": 119700,
+      "char_end": 137700,
+      "chunk_relevance": "medium",
+      "events": [
+        {
+          "event_id": "C008_E01",
+          "chunk_id": "C008",
+          "event_type": "experiment",
+          "order_hint": 1,
+          "summary": "NMR structure determination of multistate design parents using 2D and 3D experiments.",
+          "methods_or_tools": [
+            "NMR spectroscopy",
+            "CS-Rosetta",
+            "TALOS-N"
+          ],
+          "entities": [
+            "MS3 parent",
+            "MS2 parent"
+          ],
+          "numbers_or_metrics": [
+            "800 MHz",
+            "37 °C"
+          ],
+          "evidence_ids": [
+            "EV_C008_E01_02",
+            "EV_C008_E01_03"
+          ]
+        },
+        {
+          "event_id": "C008_E02",
+          "chunk_id": "C008",
+          "event_type": "experiment",
+          "order_hint": 2,
+          "summary": "Furin cleavage assay to confirm conditional release of caged peptides.",
+          "methods_or_tools": [
+            "Furin protease",
+            "SDS-PAGE"
+          ],
+          "entities": [
+            "designed proteins"
+          ],
+          "numbers_or_metrics": [
+            "5 U furin",
+            "30 µM design",
+            "25 °C",
+            "16 h"
+          ],
+          "evidence_ids": [
+            "EV_C008_E02_03"
+          ]
+        },
+        {
+          "event_id": "C008_E03",
+          "chunk_id": "C008",
+          "event_type": "experiment",
+          "order_hint": 3,
+          "summary": "Hemolysis assay to test conditional membrane lysis activity of caged melittin designs.",
+          "methods_or_tools": [
+            "RBC hemolysis assay",
+            "microplate reader"
+          ],
+          "entities": [
+            "human RBCs",
+            "melittin"
+          ],
+          "numbers_or_metrics": [
+            "2.5% hematocrit",
+            "15 µM melittin",
+            "450 nm absorbance"
+          ],
+          "evidence_ids": [
+            "EV_C008_E03_01",
+            "EV_C008_E03_03"
+          ]
+        },
+        {
+          "event_id": "C008_E04",
+          "chunk_id": "C008",
+          "event_type": "experiment",
+          "order_hint": 4,
+          "summary": "Crystallography of designed repeat protein C12 to validate atomic accuracy.",
+          "methods_or_tools": [
+            "X-ray crystallography",
+            "molecular replacement",
+            "Phenix",
+            "Coot"
+          ],
+          "entities": [
+            "CAP repeat protein C12"
+          ],
+          "numbers_or_metrics": [
+            "0.1 M PCB buffer pH 4",
+            "25% PEG 1500",
+            "PDB 8VD6"
+          ],
+          "evidence_ids": [
+            "EV_C008_E04_01"
+          ]
+        }
+      ],
+      "notes": "This chunk primarily contains detailed experimental methods (NMR, furin cleavage, hemolysis, crystallography) and data/code deposition, which validate earlier design claims but do not introduce new research evolution events beyond validation and analysis.",
+      "api_usage": {
+        "prompt_tokens": 9430,
+        "completion_tokens": 1318,
+        "total_tokens": 10748,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9174
+      }
+    },
+    {
+      "chunk_id": "C009",
+      "char_start": 136800,
+      "char_end": 143166,
+      "chunk_relevance": "none",
+      "events": [],
+      "notes": "This chunk contains only reporting summary, software/data availability, and field-specific reporting information. No research evolution events are described.",
+      "api_usage": {
+        "prompt_tokens": 6115,
+        "completion_tokens": 56,
+        "total_tokens": 6171,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 5859
+      }
+    }
+  ],
+  "evidence_bank": [
+    {
+      "evidence_id": "EV_C001_E02_01",
+      "source_file": "docs/0151/combined.md",
+      "section": "C001",
+      "char_start": 5325,
+      "char_end": 5533,
+      "quote": "We reasoned that carrying out diffusion in sequence space rather than structure space could enable guidance of design using sequence-based features and explicit design of sequences populating multiple states."
+    },
+    {
+      "evidence_id": "EV_C001_E04_01",
+      "source_file": "docs/0151/combined.md",
+      "section": "C001",
+      "char_start": 6256,
+      "char_end": 6542,
+      "quote": "We implement diffusion and data noising in categorical space by representing protein sequences as scaled one-hot tensors (for native sequences, true values are set to 1 and all other values set to -1) and embed via a linear layer, allowing for progressive corruption with Gaussian noise"
+    },
+    {
+      "evidence_id": "EV_C001_E06_01",
+      "source_file": "docs/0151/combined.md",
+      "section": "C001",
+      "char_start": 9896,
+      "char_end": 9955,
+      "quote": "6% of designs have AF2 confidence pLDDT > 90 and RMSD < 2 Å"
+    },
+    {
+      "evidence_id": "EV_C001_E06_02",
+      "source_file": "docs/0151/combined.md",
+      "section": "C001",
+      "char_start": 10426,
+      "char_end": 10504,
+      "quote": "Of the 42 proteins experimentally tested, 32 were soluble and monomeric by SEC"
+    },
+    {
+      "evidence_id": "EV_C001_E07_01",
+      "source_file": "docs/0151/combined.md",
+      "section": "C001",
+      "char_start": 11840,
+      "char_end": 11901,
+      "quote": "Of the expressed designs, 68 were soluble in Escherichia coli"
+    },
+    {
+      "evidence_id": "EV_C001_E07_02",
+      "source_file": "docs/0151/combined.md",
+      "section": "C001",
+      "char_start": 12352,
+      "char_end": 12504,
+      "quote": "Guiding for high cysteine content at the sequence level resulted in the formation of 3–4 disulfide bonds per protein without any structural conditioning"
+    },
+    {
+      "evidence_id": "EV_C002_E02_01",
+      "source_file": "docs/0151/combined.md",
+      "section": "C002",
+      "char_start": 21437,
+      "char_end": 21663,
+      "quote": "Designs generated by the model are evaluated for activity; a surrogate function approximating sequence to function relationships is fit; and gradients from the surrogate can then be used to guide PG toward active design space."
+    },
+    {
+      "evidence_id": "EV_C002_E03_01",
+      "source_file": "docs/0151/combined.md",
+      "section": "C002",
+      "char_start": 21667,
+      "char_end": 21798,
+      "quote": "In silico demonstration of iterative design using GB1 fitness landscape for binding and comparison with Bayesian optimization (BO)."
+    },
+    {
+      "evidence_id": "EV_C002_E03_02",
+      "source_file": "docs/0151/combined.md",
+      "section": "C002",
+      "char_start": 22217,
+      "char_end": 22374,
+      "quote": "Mean activities for each round are statistically significant between the two populations (P < 0.05, two-sided Mann–Whitney U-test, n = 96 designs per round)."
+    },
+    {
+      "evidence_id": "EV_C002_E04_01",
+      "source_file": "docs/0151/combined.md",
+      "section": "C002",
+      "char_start": 33058,
+      "char_end": 33129,
+      "quote": "separate PG trajectories were carried out for each enriched amino acid."
+    },
+    {
+      "evidence_id": "EV_C002_E04_02",
+      "source_file": "docs/0151/combined.md",
+      "section": "C002",
+      "char_start": 33165,
+      "char_end": 33330,
+      "quote": "Biased distributions are significantly different from unconditional amino acid frequencies (P < 0.05, two-sided Mann–Whitney U-test, n = 200 designs per amino acid)."
+    },
+    {
+      "evidence_id": "EV_C002_E05_01",
+      "source_file": "docs/0151/combined.md",
+      "section": "C002",
+      "char_start": 33492,
+      "char_end": 33617,
+      "quote": "Multidimensional scaling of native and amino acid biased sequences shows that they occupy distinct regions of sequence space."
+    },
+    {
+      "evidence_id": "EV_C002_E06_01",
+      "source_file": "docs/0151/combined.md",
+      "section": "C002",
+      "char_start": 33642,
+      "char_end": 33831,
+      "quote": "Biasing the sequence toward or away from hydrophobic amino acids results in a shifted distribution of hydropathy scores compared to unconditional generation (P < 0.05 two-sided Mann–Whitney"
+    },
+    {
+      "evidence_id": "EV_C002_E08_01",
+      "source_file": "docs/0151/combined.md",
+      "section": "C002",
+      "char_start": 26896,
+      "char_end": 26921,
+      "quote": "SEC Normalized absorbance"
+    },
+    {
+      "evidence_id": "EV_C003_E02_01",
+      "source_file": "docs/0151/combined.md",
+      "section": "C003",
+      "char_start": 46931,
+      "char_end": 47016,
+      "quote": "Unconditional generation with this approach yielded largely beta-solenoid structures."
+    },
+    {
+      "evidence_id": "EV_C003_E03_01",
+      "source_file": "docs/0151/combined.md",
+      "section": "C003",
+      "char_start": 47017,
+      "char_end": 47244,
+      "quote": "To encourage further exploration, we trained PG to condition on secondary structure (Supplementary Fig. 16) and specified secondary structure constraints to yield a wide range of all-alpha, all-beta and mixed alpha/beta designs"
+    },
+    {
+      "evidence_id": "EV_C003_E04_01",
+      "source_file": "docs/0151/combined.md",
+      "section": "C003",
+      "char_start": 47480,
+      "char_end": 47580,
+      "quote": "Of these, 27 repeats with caps and 10 repeats without helical caps were soluble and monomeric by SEC"
+    },
+    {
+      "evidence_id": "EV_C003_E05_01",
+      "source_file": "docs/0151/combined.md",
+      "section": "C003",
+      "char_start": 47719,
+      "char_end": 47989,
+      "quote": "We solved the crystal structure of a five-repeat unit design composed of a four-helix bundle asymmetric unit and found the design to have atomic accuracy: the C RMSD of design to the crystal structure was 1.38 Å for the whole structure and 0.47 Å for the asymmetric unit"
+    },
+    {
+      "evidence_id": "EV_C003_E06_01",
+      "source_file": "docs/0151/combined.md",
+      "section": "C003",
+      "char_start": 49794,
+      "char_end": 50088,
+      "quote": "We used PG to address this challenge by scaffolding bioactive peptide sequences within an inert protein cage (Fig. 4a) by designating a region of the protein chain (usually at the N or C terminus) to be fixed at the bioactive peptide sequence and freely diffusing the remainder of the sequence."
+    },
+    {
+      "evidence_id": "EV_C003_E07_01",
+      "source_file": "docs/0151/combined.md",
+      "section": "C003",
+      "char_start": 51500,
+      "char_end": 51649,
+      "quote": "Of 13 experimentally characterized designs, five were soluble and monodisperse by SEC, folded with helical secondary structure by CD and thermostable"
+    },
+    {
+      "evidence_id": "EV_C003_E07_02",
+      "source_file": "docs/0151/combined.md",
+      "section": "C003",
+      "char_start": 51802,
+      "char_end": 51918,
+      "quote": "Upon addition of furin protease, a band shift from -18 kD to -15 kD indicated cleavage of our designed melittin cage"
+    },
+    {
+      "evidence_id": "EV_C003_E07_03",
+      "source_file": "docs/0151/combined.md",
+      "section": "C003",
+      "char_start": 51930,
+      "char_end": 52001,
+      "quote": "Mass spectrometry analysis confirmed release of intact melittin peptide"
+    },
+    {
+      "evidence_id": "EV_C003_E08_01",
+      "source_file": "docs/0151/combined.md",
+      "section": "C003",
+      "char_start": 51115,
+      "char_end": 51298,
+      "quote": "Because of the multiple constraints (scaffolding the melittin sequence in an ordered structure and a furin cleavage sequence in a loop), this required increased sampling and filtering"
+    },
+    {
+      "evidence_id": "EV_C004_E01_01",
+      "source_file": "docs/0151/combined.md",
+      "section": "C004",
+      "char_start": 51500,
+      "char_end": 51649,
+      "quote": "Of 13 experimentally characterized designs, five were soluble and monodisperse by SEC, folded with helical secondary structure by CD and thermostable"
+    },
+    {
+      "evidence_id": "EV_C004_E02_01",
+      "source_file": "docs/0151/combined.md",
+      "section": "C004",
+      "char_start": 51802,
+      "char_end": 51918,
+      "quote": "Upon addition of furin protease, a band shift from -18 kD to -15 kD indicated cleavage of our designed melittin cage"
+    },
+    {
+      "evidence_id": "EV_C004_E02_02",
+      "source_file": "docs/0151/combined.md",
+      "section": "C004",
+      "char_start": 51930,
+      "char_end": 52001,
+      "quote": "Mass spectrometry analysis confirmed release of intact melittin peptide"
+    },
+    {
+      "evidence_id": "EV_C004_E03_01",
+      "source_file": "docs/0151/combined.md",
+      "section": "C004",
+      "char_start": 52286,
+      "char_end": 52445,
+      "quote": "Samples pre-incubated with furin protease were bright red in color, indicating membrane lysis, whereas little lysis was observed without furin before treatment"
+    },
+    {
+      "evidence_id": "EV_C004_E04_01",
+      "source_file": "docs/0151/combined.md",
+      "section": "C004",
+      "char_start": 53375,
+      "char_end": 53523,
+      "quote": "PG could scaffold short barcode-like sequences (7–14 residues) into a protein of interest, thereby removing the need for multiple extrinsic barcodes"
+    },
+    {
+      "evidence_id": "EV_C004_E05_01",
+      "source_file": "docs/0151/combined.md",
+      "section": "C004",
+      "char_start": 54343,
+      "char_end": 54455,
+      "quote": "64 of 84 (76%) were expressed, and 48 of 64 (75%) of the expressed proteins exhibited monodisperse elution peaks"
+    },
+    {
+      "evidence_id": "EV_C004_E05_02",
+      "source_file": "docs/0151/combined.md",
+      "section": "C004",
+      "char_start": 54717,
+      "char_end": 54815,
+      "quote": "We observed close agreement between SEC-MS and iSEC peak elution volume for 41 of 58 (71%) designs"
+    },
+    {
+      "evidence_id": "EV_C004_E06_01",
+      "source_file": "docs/0151/combined.md",
+      "section": "C004",
+      "char_start": 55358,
+      "char_end": 55492,
+      "quote": "We reasoned that PG was well equipped for explicit multistate design because guidance can be applied from multiple condition-dependent"
+    },
+    {
+      "evidence_id": "EV_C004_E07_01",
+      "source_file": "docs/0151/combined.md",
+      "section": "C004",
+      "char_start": 55435,
+      "char_end": 55492,
+      "quote": "guidance can be applied from multiple condition-dependent"
+    },
+    {
+      "evidence_id": "EV_C004_E08_01",
+      "source_file": "docs/0151/combined.md",
+      "section": "C004",
+      "char_start": 55079,
+      "char_end": 55347,
+      "quote": "Designing an amino acid sequence that can adopt distinct structural conformations upon an external trigger is a challenging task, as the energy landscape must contain two discrete minima with free energy differences small enough for a trigger to induce state switching"
+    },
+    {
+      "evidence_id": "EV_C005_E01_01",
+      "source_file": "docs/0151/combined.md",
+      "section": "C005",
+      "char_start": 76680,
+      "char_end": 76887,
+      "quote": "To adapt PG to multistate design, we input to RoseTTAFold the same sequence but different structural conditioning information and take a linear combination of the output logits as input to the next timestep."
+    },
+    {
+      "evidence_id": "EV_C005_E02_01",
+      "source_file": "docs/0151/combined.md",
+      "section": "C005",
+      "char_start": 79813,
+      "char_end": 79991,
+      "quote": "We experimentally characterized 72 parent–child triples that AF2 predicted with high confidence and accuracy to be in the parent state when intact and the child states when split"
+    },
+    {
+      "evidence_id": "EV_C005_E02_02",
+      "source_file": "docs/0151/combined.md",
+      "section": "C005",
+      "char_start": 80021,
+      "char_end": 80148,
+      "quote": "we selected 4 (MS1–MS4) soluble and monodisperse sequence families for detailed CD and nuclear magnetic resonance (NMR) studies"
+    },
+    {
+      "evidence_id": "EV_C005_E04_01",
+      "source_file": "docs/0151/combined.md",
+      "section": "C005",
+      "char_start": 81881,
+      "char_end": 81966,
+      "quote": "The solution NMR structure of MS2 parent is within 1.06 Å Cα RMSD of the design model"
+    },
+    {
+      "evidence_id": "EV_C005_E04_02",
+      "source_file": "docs/0151/combined.md",
+      "section": "C005",
+      "char_start": 82028,
+      "char_end": 82113,
+      "quote": "The solution NMR structure of MS3 parent is within 1.61 Å Cα RMSD of the design model"
+    },
+    {
+      "evidence_id": "EV_C005_E05_01",
+      "source_file": "docs/0151/combined.md",
+      "section": "C005",
+      "char_start": 83314,
+      "char_end": 83499,
+      "quote": "We simulated an iterative guidance process by exploring the fitness landscape of the protein GB1 via gradient-based optimization with IgG binding activity-guided diffusion trajectories."
+    },
+    {
+      "evidence_id": "EV_C005_E05_02",
+      "source_file": "docs/0151/combined.md",
+      "section": "C005",
+      "char_start": 83500,
+      "char_end": 83633,
+      "quote": "At each step, we biased sampling by gradients from classifiers trained on the experimentally determined fitnesses of preceding rounds"
+    },
+    {
+      "evidence_id": "EV_C005_E06_01",
+      "source_file": "docs/0151/combined.md",
+      "section": "C005",
+      "char_start": 84103,
+      "char_end": 84320,
+      "quote": "We found that the average and maximum fitness of PG-generated designs increases each round, outperforming a Bayesian optimization baseline with the best identified acquisition function (batched upper confidence bound)"
+    },
+    {
+      "evidence_id": "EV_C005_E07_01",
+      "source_file": "docs/0151/combined.md",
+      "section": "C005",
+      "char_start": 84366,
+      "char_end": 84581,
+      "quote": "The improved performance likely reflects the rich prior understanding of protein sequence–structure relationships implicit in RoseTTAFold compared to the baseline, which has access to only limited experimental data."
+    },
+    {
+      "evidence_id": "EV_C005_E08_01",
+      "source_file": "docs/0151/combined.md",
+      "section": "C005",
+      "char_start": 86246,
+      "char_end": 86388,
+      "quote": "As with other protein generative models, obtaining sequences predicted to satisfy specific problem constraints required considerable filtering"
+    },
+    {
+      "evidence_id": "EV_C006_E01_01",
+      "source_file": "docs/0151/combined.md",
+      "section": "C006",
+      "char_start": 85973,
+      "char_end": 86245,
+      "quote": "'softer' sequence constraints, such as biases on the number of amino acids of a given type, are more readily implemented in sequence space diffusion, whereas global structural properties, such as overall symmetry, are more readily implemented in structure-based diffusion."
+    },
+    {
+      "evidence_id": "EV_C006_E02_01",
+      "source_file": "docs/0151/combined.md",
+      "section": "C006",
+      "char_start": 86287,
+      "char_end": 86388,
+      "quote": "obtaining sequences predicted to satisfy specific problem constraints required considerable filtering"
+    },
+    {
+      "evidence_id": "EV_C006_E03_01",
+      "source_file": "docs/0151/combined.md",
+      "section": "C006",
+      "char_start": 86493,
+      "char_end": 86800,
+      "quote": "Sequence space diffusion is specifically advantageous in multi-state design of protein sequences that fold to two or more distinct structures as in our parent child designs; this can be implemented in sequence space diffusion by logit averaging, but it is not straightforward with structure space diffusion."
+    },
+    {
+      "evidence_id": "EV_C006_E04_01",
+      "source_file": "docs/0151/combined.md",
+      "section": "C006",
+      "char_start": 97505,
+      "char_end": 97800,
+      "quote": "we represented the sequence, $x_{0}$ , with dimensions $L \\times 20$ where L corresponds to the protein length with 20 possibilities for each amino acid type. This takes the form of a one-hot encoded vector that is centered at zero by multiplying the $L \\times 20$ tensor by 2 and subtracting 1."
+    },
+    {
+      "evidence_id": "EV_C006_E05_01",
+      "source_file": "docs/0151/combined.md",
+      "section": "C006",
+      "char_start": 98671,
+      "char_end": 98768,
+      "quote": "The square root noise schedule $^{10}$ satisfies this requirement and was employed in this study."
+    },
+    {
+      "evidence_id": "EV_C006_E06_01",
+      "source_file": "docs/0151/combined.md",
+      "section": "C006",
+      "char_start": 100332,
+      "char_end": 100514,
+      "quote": "Along with the standard diffusion task (40% of the time), the model was also challenged with structure prediction (seq2str) and fixed backbone sequence design (30% of the time each)."
+    },
+    {
+      "evidence_id": "EV_C006_E07_01",
+      "source_file": "docs/0151/combined.md",
+      "section": "C006",
+      "char_start": 101377,
+      "char_end": 101602,
+      "quote": "Benchmarking against conditioning on $x_{t}$ , as done in Ho et al. $^{8}$ with the below equation, shows that this approach performs better (Supplementary Fig. 3c), as seen in other categorical diffusion methods $^{10,17}$ ."
+    },
+    {
+      "evidence_id": "EV_C006_E08_01",
+      "source_file": "docs/0151/combined.md",
+      "section": "C006",
+      "char_start": 102362,
+      "char_end": 102475,
+      "quote": "clamping the model's output logits from -3,3 gives better agreement with AF2 predictions (Supplementary Fig. 3b)."
+    },
+    {
+      "evidence_id": "EV_C007_E01_02",
+      "source_file": "docs/0151/combined.md",
+      "section": "C007",
+      "char_start": 103160,
+      "char_end": 103259,
+      "quote": "Designs were filtered by AF2 pLDDT > 90 and AF2 RMSD to design < 2 Å for ordering final constructs."
+    },
+    {
+      "evidence_id": "EV_C007_E02_01",
+      "source_file": "docs/0151/combined.md",
+      "section": "C007",
+      "char_start": 103477,
+      "char_end": 103600,
+      "quote": "Proteins ranging from 70 to 80 amino acids in length with an amino acid compositional potential were generated in 25 steps."
+    },
+    {
+      "evidence_id": "EV_C007_E03_01",
+      "source_file": "docs/0151/combined.md",
+      "section": "C007",
+      "char_start": 105195,
+      "char_end": 105331,
+      "quote": "Repeat proteins ranging from 125 to 150 amino acids in length were generated in 50 steps with and without DSSP conditioning information."
+    },
+    {
+      "evidence_id": "EV_C007_E03_02",
+      "source_file": "docs/0151/combined.md",
+      "section": "C007",
+      "char_start": 105756,
+      "char_end": 105825,
+      "quote": "Designs were filtered on AF2 pLDDT > 80 and AF2 RMSD to design < 2 Å."
+    },
+    {
+      "evidence_id": "EV_C007_E04_01",
+      "source_file": "docs/0151/combined.md",
+      "section": "C007",
+      "char_start": 105856,
+      "char_end": 106031,
+      "quote": "Proteins of 155 amino acids in length were generated in 25 steps with spans of helical DSSP conditioning to encourage the model to generate helical bundles and cleavage loops."
+    },
+    {
+      "evidence_id": "EV_C007_E04_02",
+      "source_file": "docs/0151/combined.md",
+      "section": "C007",
+      "char_start": 106250,
+      "char_end": 106336,
+      "quote": "Designs were filtered by AF2 pLDDT > 85, AF2 RMSD to design < 2 Å and SAP scores < 40."
+    },
+    {
+      "evidence_id": "EV_C007_E05_01",
+      "source_file": "docs/0151/combined.md",
+      "section": "C007",
+      "char_start": 106379,
+      "char_end": 106503,
+      "quote": "Proteins of 100 amino acids in length were generated in 50 steps with barcodes being set as fixed regions on the C-terminus."
+    },
+    {
+      "evidence_id": "EV_C007_E05_02",
+      "source_file": "docs/0151/combined.md",
+      "section": "C007",
+      "char_start": 106504,
+      "char_end": 106573,
+      "quote": "Designs were filtered by AF2 pLDDT > 85 and AF2 RMSD to design < 2 Å."
+    },
+    {
+      "evidence_id": "EV_C007_E06_01",
+      "source_file": "docs/0151/combined.md",
+      "section": "C007",
+      "char_start": 106598,
+      "char_end": 106693,
+      "quote": "Parent and child protein pairings were generated in 25 steps using secondary structure features"
+    },
+    {
+      "evidence_id": "EV_C007_E06_02",
+      "source_file": "docs/0151/combined.md",
+      "section": "C007",
+      "char_start": 107297,
+      "char_end": 107422,
+      "quote": "To promote further exploration of known active sequence subspaces, we implemented partial noising during design trajectories."
+    },
+    {
+      "evidence_id": "EV_C007_E06_03",
+      "source_file": "docs/0151/combined.md",
+      "section": "C007",
+      "char_start": 107624,
+      "char_end": 107710,
+      "quote": "This forced the model to do local exploration of the partially noisy sequence subpace."
+    },
+    {
+      "evidence_id": "EV_C007_E07_01",
+      "source_file": "docs/0151/combined.md",
+      "section": "C007",
+      "char_start": 108523,
+      "char_end": 108595,
+      "quote": "Three rounds of iterative design were conducted with a batch size of 96."
+    },
+    {
+      "evidence_id": "EV_C007_E07_02",
+      "source_file": "docs/0151/combined.md",
+      "section": "C007",
+      "char_start": 108597,
+      "char_end": 108765,
+      "quote": "We performed diffusion on the four mutation sites in the GB1 protein while providing guidance using a scale of 2.0 in the second-round and third-round design processes."
+    },
+    {
+      "evidence_id": "EV_C007_E07_03",
+      "source_file": "docs/0151/combined.md",
+      "section": "C007",
+      "char_start": 109083,
+      "char_end": 109258,
+      "quote": "For comparison, batched Bayesian optimization was performed for three rounds using the sequences generated in the first round of the iterative guidance as the initial dataset."
+    },
+    {
+      "evidence_id": "EV_C007_E08_02",
+      "source_file": "docs/0151/combined.md",
+      "section": "C007",
+      "char_start": 109730,
+      "char_end": 109894,
+      "quote": "All designs that were used in AF2 benchmarks and ordered for experimental characterization were predicted in single-sequence structure prediction mode with model 4."
+    },
+    {
+      "evidence_id": "EV_C008_E01_02",
+      "source_file": "docs/0151/combined.md",
+      "section": "C008",
+      "char_start": 123176,
+      "char_end": 123257,
+      "quote": "Structure calculations were set up with automated Python scripts using CS-Rosetta"
+    },
+    {
+      "evidence_id": "EV_C008_E01_03",
+      "source_file": "docs/0151/combined.md",
+      "section": "C008",
+      "char_start": 123662,
+      "char_end": 123785,
+      "quote": "From the 30,000 decoys calculated, the 10 lowest energy models were selected to represent the final NMR ensemble structure."
+    },
+    {
+      "evidence_id": "EV_C008_E02_03",
+      "source_file": "docs/0151/combined.md",
+      "section": "C008",
+      "char_start": 124879,
+      "char_end": 124918,
+      "quote": "Cleavage reaction was used for SDS-PAGE"
+    },
+    {
+      "evidence_id": "EV_C008_E03_01",
+      "source_file": "docs/0151/combined.md",
+      "section": "C008",
+      "char_start": 125376,
+      "char_end": 125458,
+      "quote": "Blood cell lysis was carried out in a 96-well plate at a final hematocrit of 2.5%."
+    },
+    {
+      "evidence_id": "EV_C008_E03_03",
+      "source_file": "docs/0151/combined.md",
+      "section": "C008",
+      "char_start": 125967,
+      "char_end": 126052,
+      "quote": "Absorbance was measured at 450 nm on an Agilent BioTek Epoch 2 TSC microplate reader."
+    },
+    {
+      "evidence_id": "EV_C008_E04_01",
+      "source_file": "docs/0151/combined.md",
+      "section": "C008",
+      "char_start": 126409,
+      "char_end": 126502,
+      "quote": "Diffraction quality crystals formed in a mixture of 0.1 M PCB buffer (pH 4) and 25% PEG 1500."
+    },
+    {
+      "evidence_id": "EV_AUTO_001",
+      "source_file": "docs/0151/combined.md",
+      "section": "auto_specific",
+      "char_start": 125546,
+      "char_end": 125661,
+      "quote": "Positive controls include 2% Triton-X-100 (Sigma-Aldrich, 9036-19-5) and 15 $\\mu$ M melittin (GenScript, RP20415)."
+    },
+    {
+      "evidence_id": "EV_AUTO_002",
+      "source_file": "docs/0151/combined.md",
+      "section": "auto_specific",
+      "char_start": 124640,
+      "char_end": 124809,
+      "quote": "To cleave designed proteins, 5 U of furin protease (New England Biolabs, P8077S) was combined with 30 $\\mu$ M design in enzyme buffer (20 mM HEPES, 1 mM CaCl $_{2}$ , 0."
+    },
+    {
+      "evidence_id": "EV_AUTO_003",
+      "source_file": "docs/0151/combined.md",
+      "section": "auto_specific",
+      "char_start": 118112,
+      "char_end": 118397,
+      "quote": "From every other fraction, 100 $\\mu$ l was added to fresh wells in a 96-well plate, and fractions were subjected to cleavage in 100 $\\mu$ l of Lys-C buffer (8 M urea, 100 mM Tris HCl (pH 8)) plus 1 $\\mu$ g of endoproteinase LysC (New England Biolabs, P8109S), as previously described."
+    },
+    {
+      "evidence_id": "EV_AUTO_004",
+      "source_file": "docs/0151/combined.md",
+      "section": "auto_specific",
+      "char_start": 119905,
+      "char_end": 120054,
+      "quote": "For ${}^{15}$ N/ ${}^{13}$ C-labeled proteins, ${}^{13}$ C-labeled glucose (Cambridge Isotope Laboratories, CLM-1396) was used as the carbon source."
+    },
+    {
+      "evidence_id": "EV_AUTO_005",
+      "source_file": "docs/0151/combined.md",
+      "section": "auto_specific",
+      "char_start": 118397,
+      "char_end": 118613,
+      "quote": "After hexaHis-tagged barcode pulldown with magnetic His-pulldown beads (Thermo Fisher Scientific, 10103D) and subsequent trypsin (New England Biolabs, P8101S) digest to free barcodes, barcodes were diluted 50% in 0."
+    },
+    {
+      "evidence_id": "EV_AUTO_006",
+      "source_file": "docs/0151/combined.md",
+      "section": "auto_specific",
+      "char_start": 116123,
+      "char_end": 116272,
+      "quote": "CD spectra were collected on a Jasco J-1500 CD spectrometer with 1-nm bandwidth, 50-nm permanent scan rate and data integration time of 4 s per read."
+    },
+    {
+      "evidence_id": "EV_AUTO_007",
+      "source_file": "docs/0151/combined.md",
+      "section": "auto_specific",
+      "char_start": 133464,
+      "char_end": 133549,
+      "quote": "); by Helmsley Charitable Trust Type 1 Diabetes (T1D) program grant 2019PG-T1D026 (X."
+    },
+    {
+      "evidence_id": "EV_AUTO_008",
+      "source_file": "docs/0151/combined.md",
+      "section": "auto_specific",
+      "char_start": 133359,
+      "char_end": 133445,
+      "quote": "); by Juvenile Diabetes Research Foundation International grant 2-SRA-2018-605-Q-R (X."
+    },
+    {
+      "evidence_id": "EV_AUTO_009",
+      "source_file": "docs/0151/combined.md",
+      "section": "auto_specific",
+      "char_start": 119707,
+      "char_end": 119905,
+      "quote": ", and the inoculum was used to initiate a 1-L 1× minimal media culture supplemented with kanamycin and ${}^{15}$ N ammonium chloride (Cambridge Isotope Laboratories, NLM-467) as the nitrogen source."
+    },
+    {
+      "evidence_id": "EV_AUTO_010",
+      "source_file": "docs/0151/combined.md",
+      "section": "auto_specific",
+      "char_start": 66466,
+      "char_end": 66559,
+      "quote": "005, two-sided Mann–Whitney U-test) and is on par with positive controls Triton X-100 (P = 0."
+    },
+    {
+      "evidence_id": "EV_AUTO_011",
+      "source_file": "docs/0151/combined.md",
+      "section": "auto_specific",
+      "char_start": 126260,
+      "char_end": 126408,
+      "quote": "Crystallization plates were set up using a mosquito LCP from SPT Labtech and then imaged using UVEX microscopes and UVEX PS-256 from JAN Scientific."
+    },
+    {
+      "evidence_id": "EV_AUTO_012",
+      "source_file": "docs/0151/combined.md",
+      "section": "auto_specific",
+      "char_start": 117660,
+      "char_end": 117936,
+      "quote": "To identify the molecular mass and alkylations status of each protein, intact mass spectra were obtained via reverse-phase LC–MS on the Agilent G6230B TOF on an AdvanceBio RP-Desalting column and subsequently deconvoluted by way of BioConfirm using a total entropy algorithm."
+    },
+    {
+      "evidence_id": "EV_AUTO_013",
+      "source_file": "docs/0151/combined.md",
+      "section": "auto_specific",
+      "char_start": 116604,
+      "char_end": 116897,
+      "quote": "To identify the molecular mass of each protein, intact mass spectra were obtained via reverse-phase liquid chromatography–mass spectrometry (LC–MS) on an Agilent G6230B TOF on an AdvanceBio RP-Desalting column and subsequently deconvoluted by way of BioConfirm using a total entropy algorithm."
+    },
+    {
+      "evidence_id": "EV_AUTO_014",
+      "source_file": "docs/0151/combined.md",
+      "section": "auto_specific",
+      "char_start": 66243,
+      "char_end": 66330,
+      "quote": "Positive controls Triton X-100 and melittin are shown to the left of the vertical bar."
+    },
+    {
+      "evidence_id": "EV_AUTO_015",
+      "source_file": "docs/0151/combined.md",
+      "section": "auto_specific",
+      "char_start": 124640,
+      "char_end": 124878,
+      "quote": "To cleave designed proteins, 5 U of furin protease (New England Biolabs, P8077S) was combined with 30 $\\mu$ M design in enzyme buffer (20 mM HEPES, 1 mM CaCl $_{2}$ , 0.2 mM 13-mercaptoethanol) and incubated at 25 ${}^{\\circ}$ C for 16 h."
+    },
+    {
+      "evidence_id": "EV_AUTO_016",
+      "source_file": "docs/0151/combined.md",
+      "section": "auto_specific",
+      "char_start": 133226,
+      "char_end": 133357,
+      "quote": "); by funding from the DARPA program Harnessing Enzymatic Activity for Lifesaving Remedies (HEALR) under award HR0011-21-2-0012 (X."
+    },
+    {
+      "evidence_id": "EV_AUTO_017",
+      "source_file": "docs/0151/combined.md",
+      "section": "auto_specific",
+      "char_start": 9764,
+      "char_end": 9976,
+      "quote": "Structure predictions from AF2 and ESM-Fold $^{21}$ of the generated sequences are close to the designed structures and confident (6% of designs have AF2 confidence pLDDT > 90 and RMSD < 2 Å; Supplementary Figs."
+    },
+    {
+      "evidence_id": "EV_AUTO_018",
+      "source_file": "docs/0151/combined.md",
+      "section": "auto_specific",
+      "char_start": 113123,
+      "char_end": 113238,
+      "quote": "Proteins selected for further downstream characterization were expressed in 50 ml of auto-induction media $^{60}$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_019",
+      "source_file": "docs/0151/combined.md",
+      "section": "auto_specific",
+      "char_start": 84581,
+      "char_end": 84762,
+      "quote": "Our PG approach can readily incorporate any experimentally measurable fitness attribute and should be useful for machine-learning-assisted directed evolution campaigns $^{46-48}$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_020",
+      "source_file": "docs/0151/combined.md",
+      "section": "auto_specific",
+      "char_start": 53524,
+      "char_end": 53740,
+      "quote": "We scaffolded a set of validated peptide barcodes $^{7,39,40}$ at the C-terminus, flanked by lysine and arginine on the N-termini and C-termini, respectively, to permit facile tandem cleavage with Lys-C and trypsin."
+    },
+    {
+      "evidence_id": "EV_AUTO_021",
+      "source_file": "docs/0151/combined.md",
+      "section": "auto_specific",
+      "char_start": 22313,
+      "char_end": 22374,
+      "quote": "05, two-sided Mann–Whitney U-test, n = 96 designs per round)."
+    },
+    {
+      "evidence_id": "EV_AUTO_022",
+      "source_file": "docs/0151/combined.md",
+      "section": "auto_specific",
+      "char_start": 11668,
+      "char_end": 11838,
+      "quote": "Generated designs were filtered for high AF2 confidence (pLDDT > 90) and self-consistency (RMSD to design < 2 Å), and 96 were selected for experimental characterization."
+    },
+    {
+      "evidence_id": "EV_AUTO_023",
+      "source_file": "docs/0151/combined.md",
+      "section": "auto_specific",
+      "char_start": 4706,
+      "char_end": 4957,
+      "quote": "Although powerful, structure-based approaches, such as RFdiffusion $^{11}$ and Chroma $^{12}$ , provide limited opportunities to guide protein generation using sequence-based features and to identify sequences with more than one fold and/or function."
+    },
+    {
+      "evidence_id": "EV_AUTO_024",
+      "source_file": "docs/0151/combined.md",
+      "section": "auto_specific",
+      "char_start": 2796,
+      "char_end": 3145,
+      "quote": "Traditional methods, such as Rosetta flexible backbone protein design $^{1}$ , alternate between structure and sequence design, whereas recent deep-learning-based approaches $^{2-5}$ typically generate backbones first and then use sequence design methods, such as ProteinMPNN (MPNN), to identify sequences that fold into a given backbone $^{6,7}$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_025",
+      "source_file": "docs/0151/combined.md",
+      "section": "auto_specific",
+      "char_start": 118397,
+      "char_end": 118643,
+      "quote": "After hexaHis-tagged barcode pulldown with magnetic His-pulldown beads (Thermo Fisher Scientific, 10103D) and subsequent trypsin (New England Biolabs, P8101S) digest to free barcodes, barcodes were diluted 50% in 0.1% trifluoroacetic acid (TFA)."
+    },
+    {
+      "evidence_id": "EV_AUTO_026",
+      "source_file": "docs/0151/combined.md",
+      "section": "auto_specific",
+      "char_start": 114431,
+      "char_end": 114565,
+      "quote": "The best expressing proteins used in high-resolution structural studies were selected for further scale-up and SNAC cleavage $^{61}$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_027",
+      "source_file": "docs/0151/combined.md",
+      "section": "auto_specific",
+      "char_start": 113935,
+      "char_end": 114083,
+      "quote": "Protein designs were then screened via SEC using an ÄKTA FPLC outfitted with an autosampler capable of running samples from a 96-well source plate."
+    },
+    {
+      "evidence_id": "EV_AUTO_028",
+      "source_file": "docs/0151/combined.md",
+      "section": "auto_specific",
+      "char_start": 108943,
+      "char_end": 109082,
+      "quote": "25 after the first layer) is trained on the designs generated in the preceding round using a fitness equal to 1 as the classifier boundary."
+    },
+    {
+      "evidence_id": "EV_AUTO_029",
+      "source_file": "docs/0151/combined.md",
+      "section": "auto_specific",
+      "char_start": 108842,
+      "char_end": 109082,
+      "quote": "For each round, a vanilla MLP (two layers, rectified linear unit (ReLU) activation and dropout of 0.25 after the first layer) is trained on the designs generated in the preceding round using a fitness equal to 1 as the classifier boundary."
+    },
+    {
+      "evidence_id": "EV_AUTO_030",
+      "source_file": "docs/0151/combined.md",
+      "section": "auto_specific",
+      "char_start": 108266,
+      "char_end": 108522,
+      "quote": "We investigated the nearly complete fitness landscape of the V39, D40, G41 and V54 amino acid sites of GB1, which is the binding domain of protein G, an immunoglobulin binding protein found in streptococcal bacteria, as provided in the FLIP $^{58}$ paper."
+    },
+    {
+      "evidence_id": "EV_AUTO_031",
+      "source_file": "docs/0151/combined.md",
+      "section": "auto_specific",
+      "char_start": 100648,
+      "char_end": 100918,
+      "quote": "Training examples were conditioned on sequence or structure by either unmasking 1–4 spans of residues, each 4–8 amino acids in length to simulate motif scaffolding, or unmasking randomly selected residues for the model to scaffold as an active site scaffolding problem."
+    },
+    {
+      "evidence_id": "EV_AUTO_032",
+      "source_file": "docs/0151/combined.md",
+      "section": "auto_specific",
+      "char_start": 92062,
+      "char_end": 92165,
+      "quote": "Dependence of $\\alpha$ -helical and 13-sheet amino acid propensities on the overall protein fold type."
+    },
+    {
+      "evidence_id": "EV_AUTO_033",
+      "source_file": "docs/0151/combined.md",
+      "section": "auto_specific",
+      "char_start": 83754,
+      "char_end": 83937,
+      "quote": "For broad applicability, we carried out this optimization with standard settings and no extensive hyperparameter turning (96 designs generated and tested per round for three rounds)."
+    },
+    {
+      "evidence_id": "EV_AUTO_034",
+      "source_file": "docs/0151/combined.md",
+      "section": "auto_specific",
+      "char_start": 83040,
+      "char_end": 83312,
+      "quote": "For other datasets where only a small fraction of sequences have known fitness, it is difficult to do such retrospective comparisons (because the PG-generated sequences will almost always have unknown fitness, like the vast majority of other possible sequences) $^{45}$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_035",
+      "source_file": "docs/0151/combined.md",
+      "section": "auto_specific",
+      "char_start": 81508,
+      "char_end": 81551,
+      "quote": "24e) suggest may not adopt a single fold)."
+    },
+    {
+      "evidence_id": "EV_AUTO_036",
+      "source_file": "docs/0151/combined.md",
+      "section": "auto_specific",
+      "char_start": 80011,
+      "char_end": 80168,
+      "quote": "23), and we selected 4 (MS1–MS4) soluble and monodisperse sequence families for detailed CD and nuclear magnetic resonance (NMR) studies (Supplementary Fig."
+    }
+  ],
+  "event_graph": {
+    "paper_main_problem": "Developing a sequence-space diffusion model (ProteinGenerator) based on RoseTTAFold that simultaneously generates protein sequences and structures, enabling direct sequence-based guidance for multistate and functional protein design.",
+    "canonical_events": [
+      {
+        "canonical_id": "K01",
+        "order": 1,
+        "event_type": "problem",
+        "summary": "Structure-based diffusion models (RFdiffusion, Chroma) provide limited opportunities for sequence-based guidance and multistate design.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [],
+        "evidence_ids": [
+          "EV_AUTO_023"
+        ],
+        "key_entities": [
+          "RFdiffusion",
+          "Chroma"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K02",
+        "order": 2,
+        "event_type": "hypothesis",
+        "summary": "Carrying out diffusion in sequence space could enable guidance using sequence-based features and multistate design.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E02"
+        ],
+        "evidence_ids": [
+          "EV_C001_E02_01"
+        ],
+        "key_entities": [],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K03",
+        "order": 3,
+        "event_type": "design",
+        "summary": "Sequences represented as scaled one-hot tensors and embedded via linear layer for Gaussian noise corruption.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E04",
+          "C006_E04"
+        ],
+        "evidence_ids": [
+          "EV_C001_E04_01",
+          "EV_C006_E04_01"
+        ],
+        "key_entities": [],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K04",
+        "order": 4,
+        "event_type": "design",
+        "summary": "Square root noise schedule chosen to increase difficulty at low timesteps.",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C006_E05"
+        ],
+        "evidence_ids": [
+          "EV_C006_E05_01"
+        ],
+        "key_entities": [],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K05",
+        "order": 5,
+        "event_type": "computation",
+        "summary": "Training with multi-task learning including diffusion (40%), structure prediction (30%), and fixed backbone design (30%) using categorical cross-entropy, FAPE, and KL losses with self-conditioning.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C006_E06"
+        ],
+        "evidence_ids": [
+          "EV_C006_E06_01"
+        ],
+        "key_entities": [
+          "RoseTTAFold"
+        ],
+        "key_numbers": [
+          "40%",
+          "30%",
+          "30%"
+        ]
+      },
+      {
+        "canonical_id": "K06",
+        "order": 6,
+        "event_type": "computation",
+        "summary": "Inference uses self-conditioning and sampling from q(x_{t-1}|x_0) for better performance; logit clamping to [-3,3] improves AF2 agreement.",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C006_E07",
+          "C006_E08"
+        ],
+        "evidence_ids": [
+          "EV_C006_E07_01",
+          "EV_C006_E08_01"
+        ],
+        "key_entities": [],
+        "key_numbers": [
+          "[-3,3]"
+        ]
+      },
+      {
+        "canonical_id": "K07",
+        "order": 7,
+        "event_type": "experiment",
+        "summary": "Unconditional generation yields 6% of designs with AF2 pLDDT>90 and RMSD<2Å; 32/42 tested proteins soluble and monomeric.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E06",
+          "C007_E01"
+        ],
+        "evidence_ids": [
+          "EV_C001_E06_01",
+          "EV_C001_E06_02",
+          "EV_C007_E01_02"
+        ],
+        "key_entities": [
+          "AlphaFold2"
+        ],
+        "key_numbers": [
+          "6%",
+          "pLDDT>90",
+          "RMSD<2Å",
+          "32/42"
+        ]
+      },
+      {
+        "canonical_id": "K08",
+        "order": 8,
+        "event_type": "experiment",
+        "summary": "Rare amino acid enriched proteins designed; 68/96 expressed designs soluble, many monomeric and thermostable; cysteine designs formed 3-4 disulfide bonds without structural conditioning.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E07",
+          "C002_E04",
+          "C002_E08"
+        ],
+        "evidence_ids": [
+          "EV_C001_E07_01",
+          "EV_C001_E07_02",
+          "EV_C002_E04_01",
+          "EV_C002_E08_01"
+        ],
+        "key_entities": [
+          "tryptophan",
+          "cysteine",
+          "valine",
+          "histidine",
+          "methionine"
+        ],
+        "key_numbers": [
+          "68/96",
+          "20% composition",
+          "3-4 disulfide bonds"
+        ]
+      },
+      {
+        "canonical_id": "K09",
+        "order": 9,
+        "event_type": "experiment",
+        "summary": "Repeat protein generation: unconditional generation biased toward beta-solenoids; secondary structure conditioning enabled diverse designs; 27/74 capped and 10/86 uncapped soluble and monomeric.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E02",
+          "C003_E03",
+          "C003_E04"
+        ],
+        "evidence_ids": [
+          "EV_C003_E02_01",
+          "EV_C003_E03_01",
+          "EV_C003_E04_01"
+        ],
+        "key_entities": [
+          "repeat proteins",
+          "helical caps"
+        ],
+        "key_numbers": [
+          "27/74",
+          "10/86"
+        ]
+      },
+      {
+        "canonical_id": "K10",
+        "order": 10,
+        "event_type": "validation",
+        "summary": "Crystal structure of a five-repeat four-helix bundle design showed atomic accuracy: C RMSD 1.38 Å overall, 0.47 Å for asymmetric unit.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E05",
+          "C008_E04"
+        ],
+        "evidence_ids": [
+          "EV_C003_E05_01",
+          "EV_C008_E04_01"
+        ],
+        "key_entities": [
+          "five-repeat unit design",
+          "four-helix bundle"
+        ],
+        "key_numbers": [
+          "C RMSD 1.38 Å",
+          "0.47 Å"
+        ]
+      },
+      {
+        "canonical_id": "K11",
+        "order": 11,
+        "event_type": "design",
+        "summary": "PG used to cage bioactive peptide melittin within an inert protein scaffold by fixing the peptide sequence and diffusing the remainder, with secondary structure conditioning and furin cleavage site.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E06",
+          "C007_E04"
+        ],
+        "evidence_ids": [
+          "EV_C003_E06_01",
+          "EV_C007_E04_01"
+        ],
+        "key_entities": [
+          "melittin",
+          "furin cleavage site"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K12",
+        "order": 12,
+        "event_type": "experiment",
+        "summary": "Experimental validation of melittin cages: 5/13 soluble, monomeric, helical, thermostable; furin cleavage confirmed by band shift and mass spectrometry; conditional hemolysis assay showed RBC lysis only with furin pre-treatment.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E07",
+          "C004_E01",
+          "C004_E02",
+          "C004_E03",
+          "C008_E02",
+          "C008_E03"
+        ],
+        "evidence_ids": [
+          "EV_C003_E07_01",
+          "EV_C003_E07_02",
+          "EV_C003_E07_03",
+          "EV_C004_E01_01",
+          "EV_C004_E02_01",
+          "EV_C004_E02_02"
+        ],
+        "key_entities": [
+          "melittin",
+          "furin protease",
+          "red blood cells"
+        ],
+        "key_numbers": [
+          "5/13",
+          "P = 0.002",
+          "P = 0.005"
+        ]
+      },
+      {
+        "canonical_id": "K13",
+        "order": 13,
+        "event_type": "limitation",
+        "summary": "Designing melittin cages with multiple constraints required increased sampling and filtering.",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C003_E08"
+        ],
+        "evidence_ids": [
+          "EV_C003_E08_01"
+        ],
+        "key_entities": [
+          "melittin cages"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K14",
+        "order": 14,
+        "event_type": "experiment",
+        "summary": "Scaffolding barcode peptide sequences: 64/84 expressed, 48/64 monodisperse, SEC-MS agreement for 41/58.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C004_E04",
+          "C004_E05",
+          "C007_E05"
+        ],
+        "evidence_ids": [
+          "EV_C004_E04_01",
+          "EV_C004_E05_01",
+          "EV_C004_E05_02",
+          "EV_C007_E05_01"
+        ],
+        "key_entities": [
+          "barcode sequences"
+        ],
+        "key_numbers": [
+          "64/84",
+          "48/64",
+          "41/58"
+        ]
+      },
+      {
+        "canonical_id": "K15",
+        "order": 15,
+        "event_type": "design",
+        "summary": "Multistate design approach: logit averaging between diffusion trajectories with distinct structural constraints to design parent-child triples.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C004_E06",
+          "C004_E07",
+          "C005_E01",
+          "C007_E06"
+        ],
+        "evidence_ids": [
+          "EV_C004_E06_01",
+          "EV_C004_E07_01",
+          "EV_C005_E01_01",
+          "EV_C007_E06_01"
+        ],
+        "key_entities": [
+          "parent-child triples"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K16",
+        "order": 16,
+        "event_type": "experiment",
+        "summary": "Experimental characterization of multistate designs: 72 parent-child triples tested; 4 families selected for CD and NMR; NMR structures of MS2 and MS3 parents solved with Cα RMSD 1.06 Å and 1.61 Å.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C005_E02",
+          "C005_E04",
+          "C008_E01"
+        ],
+        "evidence_ids": [
+          "EV_C005_E02_01",
+          "EV_C005_E02_02",
+          "EV_C005_E04_01",
+          "EV_C005_E04_02",
+          "EV_C008_E01_02"
+        ],
+        "key_entities": [
+          "MS1",
+          "MS2",
+          "MS3",
+          "MS4"
+        ],
+        "key_numbers": [
+          "72",
+          "4",
+          "1.06 Å",
+          "1.61 Å"
+        ]
+      },
+      {
+        "canonical_id": "K17",
+        "order": 17,
+        "event_type": "computation",
+        "summary": "Iterative design on GB1 fitness landscape: PG outperforms Bayesian optimization in average and maximum fitness over 3 rounds.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E03",
+          "C005_E05",
+          "C005_E06",
+          "C007_E07"
+        ],
+        "evidence_ids": [
+          "EV_C002_E03_01",
+          "EV_C002_E03_02",
+          "EV_C005_E05_01",
+          "EV_C005_E06_01",
+          "EV_C007_E07_01"
+        ],
+        "key_entities": [
+          "GB1",
+          "Bayesian optimization"
+        ],
+        "key_numbers": [
+          "96 designs per round",
+          "3 rounds",
+          "P < 0.05"
+        ]
+      },
+      {
+        "canonical_id": "K18",
+        "order": 18,
+        "event_type": "analysis",
+        "summary": "Improved performance attributed to rich sequence-structure prior in RoseTTAFold.",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C005_E07"
+        ],
+        "evidence_ids": [
+          "EV_C005_E07_01"
+        ],
+        "key_entities": [
+          "RoseTTAFold"
+        ],
+        "key_numbers": []
+      }
+    ],
+    "edges": [
+      {
+        "source": "K01",
+        "target": "K02",
+        "relation": "enables",
+        "reason": "The limitation of structure-based models motivates the hypothesis that sequence-space diffusion could overcome these limitations."
+      },
+      {
+        "source": "K02",
+        "target": "K03",
+        "relation": "enables",
+        "reason": "The hypothesis leads to the design of a sequence representation suitable for diffusion."
+      },
+      {
+        "source": "K03",
+        "target": "K04",
+        "relation": "refines",
+        "reason": "The noise schedule is a refinement of the diffusion process design."
+      },
+      {
+        "source": "K04",
+        "target": "K05",
+        "relation": "enables",
+        "reason": "The noise schedule is part of the training setup."
+      },
+      {
+        "source": "K05",
+        "target": "K06",
+        "relation": "enables",
+        "reason": "Training enables the inference procedure."
+      },
+      {
+        "source": "K06",
+        "target": "K07",
+        "relation": "enables",
+        "reason": "Inference enables unconditional generation experiments."
+      },
+      {
+        "source": "K07",
+        "target": "K08",
+        "relation": "follows",
+        "reason": "After unconditional generation, the model is applied to rare amino acid enrichment."
+      },
+      {
+        "source": "K08",
+        "target": "K09",
+        "relation": "follows",
+        "reason": "The paper then explores repeat protein design."
+      },
+      {
+        "source": "K09",
+        "target": "K10",
+        "relation": "validates",
+        "reason": "Crystal structure validates the atomic accuracy of repeat protein designs."
+      },
+      {
+        "source": "K10",
+        "target": "K11",
+        "relation": "follows",
+        "reason": "The paper moves to caging bioactive peptides."
+      },
+      {
+        "source": "K11",
+        "target": "K12",
+        "relation": "validates",
+        "reason": "Experimental characterization validates the melittin cage designs."
+      },
+      {
+        "source": "K12",
+        "target": "K13",
+        "relation": "contradicts",
+        "reason": "The success is tempered by the limitation of requiring increased sampling and filtering."
+      },
+      {
+        "source": "K13",
+        "target": "K14",
+        "relation": "follows",
+        "reason": "Despite limitations, the paper proceeds to barcode scaffolding."
+      },
+      {
+        "source": "K14",
+        "target": "K15",
+        "relation": "follows",
+        "reason": "Barcode scaffolding is followed by multistate design."
+      },
+      {
+        "source": "K15",
+        "target": "K16",
+        "relation": "validates",
+        "reason": "Experimental characterization validates the multistate designs."
+      },
+      {
+        "source": "K16",
+        "target": "K17",
+        "relation": "follows",
+        "reason": "Multistate design is followed by iterative optimization with experimental data."
+      },
+      {
+        "source": "K17",
+        "target": "K18",
+        "relation": "enables",
+        "reason": "The analysis explains why PG outperforms Bayesian optimization."
+      }
+    ],
+    "must_cover_points": [
+      "Motivation: structure-based diffusion models limited for sequence-based guidance and multistate design.",
+      "Hypothesis: sequence-space diffusion enables sequence-based guidance.",
+      "Design: scaled one-hot encoding and Gaussian noise corruption.",
+      "Training: multi-task learning with RoseTTAFold.",
+      "Unconditional generation results: 6% high-confidence designs, 32/42 soluble.",
+      "Rare amino acid enrichment: 68/96 soluble, disulfide bonds without structural conditioning.",
+      "Repeat protein design: secondary structure conditioning enables diversity; crystal structure validation.",
+      "Caging bioactive peptides: melittin cage with conditional activity.",
+      "Barcode scaffolding: high expression and monodispersity.",
+      "Multistate design: logit averaging, experimental validation by NMR.",
+      "Iterative optimization: outperforms Bayesian optimization on GB1.",
+      "Limitation: considerable filtering required.",
+      "Comparison to RFdiffusion: PG better for soft sequence constraints and multistate design."
+    ],
+    "paper_not_suitable_reasons": []
+  }
+}

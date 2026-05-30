@@ -1,0 +1,941 @@
+{
+  "case": {
+    "case_id": "sci_evo_0022",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "NADPH biosensor-based identification of an alcohol dehydrogenase variant with improved catalytic properties caused by a single charge reversal at the protein surface",
+      "doi": "https://doi.org/10.1186/s13568-020-0946-7",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0020_10_1186_s13568_020_0946_7_nadph_biosensor_based_identification_of_an_alcohol_dehydrogenase_variant_with_improved_cat.pdf",
+      "mineru_md": "docs/0022/mineru.md",
+      "combined_md": "docs/0022/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Improve catalytic properties of LbADH for 2,5-hexanedione reduction using NADPH biosensor-based FACS screening to overcome throughput limits.",
+      "target_object": "Lactobacillus brevis alcohol dehydrogenase (LbADH)",
+      "known_context": "LbADH catalyzes NADPH-dependent reduction of prochiral ketones. Conventional screening methods are low-throughput, limiting directed evolution efforts.",
+      "constraints": [
+        "Must use NADPH biosensor pSenSox for fluorescence-based detection",
+        "Screening must be performed in E. coli"
+      ],
+      "input_data": [
+        "Wild-type LbADH gene",
+        "pSenSox plasmid",
+        "2,5-hexanedione substrate"
+      ],
+      "quantifiable_goals": [
+        "Identify LbADH variants with improved activity for 2,5-hexanedione reduction",
+        "Achieve higher fluorescence signal in biosensor assay compared to wild-type"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "design",
+        "state_before": "No high-throughput screening method available for LbADH variants.",
+        "gap_or_uncertainty": "How to screen large LbADH libraries for improved 2,5-hexanedione reduction activity?",
+        "hypothesis": "A multi-step FACS strategy using the pSenSox NADPH biosensor can enrich cells expressing LbADH variants with higher activity.",
+        "decision": "Design a FACS screening strategy with three positive selection steps followed by one negative selection step.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "FACS screening strategy design",
+          "version": "",
+          "category": "experimental design"
+        },
+        "parameters": {
+          "positive_selection_steps": 3,
+          "negative_selection_step": 1,
+          "biosensor": "pSenSox",
+          "substrate": "2,5-hexanedione"
+        },
+        "observation": "The entire screening process comprised three positive selection steps for cells showing high fluorescence after biotransformation of 2,5-hexanedione followed by a negative selection step. In the latter, cells showing high fluorescence independent of 2,5-hexanedione were excluded by collecting only those cells in the library that showed the same fluorescence as E. coli TOP10/pSenNeg cells lacking an active LbADH.",
+        "result_status": "success",
+        "next_step_reason": "The designed strategy needs to be implemented by generating a mutant library.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E01_01",
+            "source_file": "docs/0022/combined.md",
+            "section": "C002",
+            "quote_or_span": "The entire screening process comprised three positive selection steps for cells showing high fluorescence after biotransformation of 2,5-hexanedione followed by a negative selection step."
+          },
+          {
+            "evidence_id": "EV_C002_E01_02",
+            "source_file": "docs/0022/combined.md",
+            "section": "C002",
+            "quote_or_span": "In the latter, cells showing high fluorescence independent of 2,5-hexanedione were excluded by collecting only those cells in the library that showed the same fluorescence as E. coli TOP10/pSenNeg cells lacking an active LbADH."
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "experiment",
+        "state_before": "FACS screening strategy designed but no mutant library available.",
+        "gap_or_uncertainty": "Need to generate a diverse library of LbADH variants for screening.",
+        "hypothesis": "Error-prone PCR can introduce random mutations across the LbADH gene to create a library of ~4×10^6 clones.",
+        "decision": "Generate random mutagenesis library of LbADH by error-prone PCR.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "error-prone PCR",
+          "version": "",
+          "category": "molecular biology"
+        },
+        "parameters": {
+          "template": "LbADH gene",
+          "library_size": "4×10^6 clones"
+        },
+        "observation": "4 × 10^6 clones created by random mutagenesis we identified the variant LbADH^{K71E}.",
+        "result_status": "success",
+        "next_step_reason": "Library is ready for FACS screening.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_020",
+            "source_file": "docs/0022/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "4 \\times 10^{6}$ clones created by random mutagenesis we identified the variant $LbADH^{K71E}$ ."
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "experiment",
+        "state_before": "LbADH mutant library generated but not yet screened.",
+        "gap_or_uncertainty": "Which clones in the library have improved activity for 2,5-hexanedione reduction?",
+        "hypothesis": "FACS can sort cells with high fluorescence after biotransformation, enriching for improved variants.",
+        "decision": "Perform FACS screening: analyze 2.5×10^5 cells, sort 240 high-fluorescence cells, recover colonies.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "FACS",
+          "version": "",
+          "category": "high-throughput screening"
+        },
+        "parameters": {
+          "cells_analyzed": "2.5×10^5",
+          "cells_sorted": 240,
+          "colonies_recovered": 83,
+          "recovery_rate": "35%"
+        },
+        "observation": "240 library cells showing a higher fluorescence than the reference were spotted on LB agar plates; 83 out of the 240 spotted cells formed colonies (35% recovery).",
+        "result_status": "success",
+        "next_step_reason": "Recovered clones need to be validated for fluorescence phenotype.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E05_01",
+            "source_file": "docs/0022/combined.md",
+            "section": "C001",
+            "quote_or_span": "240 library cells showing a higher fluorescence than the reference were spotted on LB agar plates"
+          },
+          {
+            "evidence_id": "EV_C001_E05_02",
+            "source_file": "docs/0022/combined.md",
+            "section": "C001",
+            "quote_or_span": "83 out of the 240 spotted cells formed colonies"
+          },
+          {
+            "evidence_id": "EV_C002_E02_02",
+            "source_file": "docs/0022/combined.md",
+            "section": "C002",
+            "quote_or_span": "83 cells (35%) formed colonies and were further analyzed."
+          },
+          {
+            "evidence_id": "EV_C002_E01_01",
+            "source_file": "docs/0022/combined.md",
+            "section": "C002",
+            "quote_or_span": "The entire screening process comprised three positive selection steps for cells showing high fluorescence after biotransformation of 2,5-hexanedione followed by a negative selection step."
+          },
+          {
+            "evidence_id": "EV_C001_E04_01",
+            "source_file": "docs/0022/combined.md",
+            "section": "C001",
+            "quote_or_span": "The strategy used to isolate cells containing LbADH variants with improved activity for reduction of 2,5-hexanedione included three enrichments steps with positive selection followed by one negative selection step and another positive selection step."
+          },
+          {
+            "evidence_id": "EV_C002_E03_01",
+            "source_file": "docs/0022/combined.md",
+            "section": "C002",
+            "quote_or_span": "Several of the clones showed an increased specific fluorescence in the presence of 2,5-hexanedione compared to the absence of 2,5-hexanedione and a higher specific fluorescence than the reference strain with wild-type LbADH."
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "experiment",
+        "state_before": "83 colonies recovered from FACS but their fluorescence phenotype unconfirmed.",
+        "gap_or_uncertainty": "Do the sorted clones truly exhibit increased specific fluorescence compared to wild-type?",
+        "hypothesis": "BioLector cultivation will confirm increased specific fluorescence for several clones.",
+        "decision": "Cultivate clones in BioLector system with and without 2,5-hexanedione and measure specific fluorescence.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "BioLector",
+          "version": "",
+          "category": "microbioreactor"
+        },
+        "parameters": {
+          "substrate": "2,5-hexanedione",
+          "reference": "wild-type LbADH strain"
+        },
+        "observation": "Several of the clones showed an increased specific fluorescence in the presence of 2,5-hexanedione compared to the absence of 2,5-hexanedione and a higher specific fluorescence than the reference strain with wild-type LbADH.",
+        "result_status": "success",
+        "next_step_reason": "Promising clones should be sequenced to identify mutations.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E03_01",
+            "source_file": "docs/0022/combined.md",
+            "section": "C002",
+            "quote_or_span": "Several of the clones showed an increased specific fluorescence in the presence of 2,5-hexanedione compared to the absence of 2,5-hexanedione and a higher specific fluorescence than the reference strain with wild-type LbADH."
+          },
+          {
+            "evidence_id": "EV_C002_E02_02",
+            "source_file": "docs/0022/combined.md",
+            "section": "C002",
+            "quote_or_span": "83 cells (35%) formed colonies and were further analyzed."
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "experiment",
+        "state_before": "Several clones confirmed with increased fluorescence, but mutations unknown.",
+        "gap_or_uncertainty": "What mutations are responsible for the improved phenotype?",
+        "hypothesis": "Sequencing will reveal the genetic changes in the improved clones.",
+        "decision": "Sequence plasmids from four clones with highest fluorescence.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Sanger sequencing",
+          "version": "",
+          "category": "DNA sequencing"
+        },
+        "parameters": {
+          "clones_sequenced": 4
+        },
+        "observation": "Sequencing of the plasmids isolated from four of these clones revealed that all carried a single G→A transition in the Lbadh gene resulting in the amino acid exchange K71E.",
+        "result_status": "success",
+        "next_step_reason": "Need to confirm that K71E alone causes the phenotype, not other mutations.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E04_01",
+            "source_file": "docs/0022/combined.md",
+            "section": "C002",
+            "quote_or_span": "Sequencing of the plasmids isolated from four of these clones revealed that all carried a single G→A transition in the Lbadh gene resulting in the amino acid exchange K71E."
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "validation",
+        "state_before": "K71E mutation identified but causality not confirmed.",
+        "gap_or_uncertainty": "Is the K71E mutation alone sufficient for the improved fluorescence?",
+        "hypothesis": "Re-cloning K71E into fresh pSenSox will confirm that the mutation alone causes increased fluorescence.",
+        "decision": "Amplify Lbadh^{K71E} gene by PCR, replace wild-type Lbadh in pSenSox, and test in BioLector.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "site-directed mutagenesis and BioLector",
+          "version": "",
+          "category": "molecular biology"
+        },
+        "parameters": {
+          "plasmid": "pSenSox-Lbadh^{K71E}",
+          "host": "E. coli"
+        },
+        "observation": "Cultivation of the recombinant strain carrying pSenSox-Lbadh^{K71E} in a BioLector system confirmed that it shows a higher specific fluorescence in the presence of 2,5-hexanedione than in the absence, and higher fluorescence than E. coli with wild-type LbADH. This result supported the assumption that the K71E mutation in LbADH was responsible for the increased fluorescence and leads to improved properties for 2,5-hexanedione reduction.",
+        "result_status": "success",
+        "next_step_reason": "Confirmed variant should be purified for detailed characterization.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_005",
+            "source_file": "docs/0022/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "This result supported the assumption that the K71E mutation in LbADH was responsible for the increased fluorescence and leads to improved properties for 2,5-hexanedione reduction."
+          },
+          {
+            "evidence_id": "EV_AUTO_006",
+            "source_file": "docs/0022/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "To confirm that this mutation, rather than secondary mutations in the pSenSox plasmid or in the genomic DNA, was responsible for the increased fluorescence during the biotransformation of 2,5-hexanedione, the $Lbadh^{K71E}$ gene was amplified by PCR, used to replace the wild-type Lbadh gene in plasmid pSenSox, and transferred into E."
+          },
+          {
+            "evidence_id": "EV_AUTO_034",
+            "source_file": "docs/0022/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Cultivation of the recombinant strain carrying pSenSox- $Lbadh^{K71E}$ in a BioLector system confirmed that it shows a higher specific fluorescence in the presence of 2,5-hexanedione than in the absence, and higher fluorescence than E."
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "experiment",
+        "state_before": "K71E variant confirmed but not biophysically characterized.",
+        "gap_or_uncertainty": "Does the K71E mutation affect protein structure or oligomeric state?",
+        "hypothesis": "Purification and SEC/SDS-PAGE/DLS will reveal any structural changes.",
+        "decision": "Purify LbADH^{WT} and LbADH^{K71E} with N-terminal StrepTag-II and analyze by SEC, SDS-PAGE, and DLS.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "protein purification and biophysical analysis",
+          "version": "",
+          "category": "biochemistry"
+        },
+        "parameters": {
+          "tag": "StrepTag-II",
+          "methods": [
+            "SEC",
+            "SDS-PAGE",
+            "DLS"
+          ]
+        },
+        "observation": "LbADH^{WT} eluted with an apparent molecular mass of 95 kDa and LbADH^{K71E} with an apparent molecular mass of 113 kDa. SDS-PAGE also suggested a shift. DLS showed no significant difference in hydrodynamic radius, but the consistent elution volume difference indicated a structural change triggered by the K71E exchange.",
+        "result_status": "success",
+        "next_step_reason": "Stability of the variant should be assessed.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_018",
+            "source_file": "docs/0022/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "To characterize and compare the $LbADH^{K71E}$ variant with the $LbADH^{WT}$ , both enzymes containing an N-terminal StrepTag-II were overproduced in E."
+          },
+          {
+            "evidence_id": "EV_AUTO_026",
+            "source_file": "docs/0022/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "$LbADH^{WT}$ eluted with an apparent molecular mass of 95 kDa and $LbADH^{K71E}$ with an apparent molecular mass of 113 kDa."
+          },
+          {
+            "evidence_id": "EV_AUTO_027",
+            "source_file": "docs/0022/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "2c) derived from standard proteins was somewhat larger for $LbADH^{K71E}$ (113 kDa) than for $LbADH^{WT}$ (95 kDa)."
+          },
+          {
+            "evidence_id": "EV_AUTO_033",
+            "source_file": "docs/0022/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "39$ mL between $LbADH^{WT}$ and $LbADH^{K71E}$ was consistent for three independent protein preparations with varying sample order and indicated a structural change triggered by the K71E exchange."
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "experiment",
+        "state_before": "Structural change observed, but thermal stability unknown.",
+        "gap_or_uncertainty": "Does K71E affect protein stability?",
+        "hypothesis": "Thermal shift assay will reveal differences in melting temperature.",
+        "decision": "Perform thermal shift assay with SYPRO orange dye on purified proteins.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "thermal shift assay",
+          "version": "",
+          "category": "biophysics"
+        },
+        "parameters": {
+          "dye": "SYPRO orange"
+        },
+        "observation": "LbADH^{K71E} appeared to be slightly more stable with a melting point of 52.8°C compared to 51.5°C for wild-type.",
+        "result_status": "success",
+        "next_step_reason": "Kinetic parameters for the main substrate should be determined.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_016",
+            "source_file": "docs/0022/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "To test whether the K71E exchange has an influence on LbADH stability, the apparent melting point of the two protein variants was determined using a thermal shift assay with the dye SYPRO orange."
+          },
+          {
+            "evidence_id": "EV_AUTO_032",
+            "source_file": "docs/0022/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "$LbADH^{K71E}$ appeared to be slightly more stable with a melting point of $52."
+          },
+          {
+            "evidence_id": "EV_AUTO_036",
+            "source_file": "docs/0022/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "These predictions were supported by thermal shift assays revealing a slightly higher melting temperature for $LbADH^{K71E}$ than for $LbADH^{WT}$ ."
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "experiment",
+        "state_before": "Stability slightly improved, but catalytic efficiency for 2,5-hexanedione not quantified.",
+        "gap_or_uncertainty": "How does K71E affect KM and Vmax for 2,5-hexanedione?",
+        "hypothesis": "Kinetic analysis will show improved KM and Vmax compared to wild-type.",
+        "decision": "Measure NADPH oxidation at 340 nm with varying 2,5-hexanedione concentrations.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "UV/VIS spectrophotometry",
+          "version": "JASCO V560",
+          "category": "enzyme kinetics"
+        },
+        "parameters": {
+          "temperature": "30°C",
+          "wavelength": "340 nm",
+          "substrate": "2,5-hexanedione"
+        },
+        "observation": "Kinetic analysis of the purified enzyme revealed that LbADH^{K71E} had a ~16% lowered KM value (4.3 mM) and a 17% higher Vmax (173.3 μmol/min/mg) for 2,5-hexanedione compared to the wild-type LbADH.",
+        "result_status": "success",
+        "next_step_reason": "Test if improved kinetics extend to other substrates.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_024",
+            "source_file": "docs/0022/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Kinetic analysis of the purified enzyme revealed that $LbADH^{K71E}$ had a $\\sim 16\\%$ lowered $K_{M}$ value and a 17% higher $V_{max}$ for 2,5-hexanedione compared to the wild-type LbADH."
+          },
+          {
+            "evidence_id": "EV_AUTO_031",
+            "source_file": "docs/0022/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Consequently, $LbADH^{K71E}$ is more active than $LbADH^{WT}$ regarding the NADPH-dependent reduction of 2,5-hexanedione and has a higher affinity for this substrate."
+          },
+          {
+            "evidence_id": "EV_AUTO_004",
+            "source_file": "docs/0022/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The maximal activity calculated for $LbADH^{K71E}$ (173."
+          },
+          {
+            "evidence_id": "EV_AUTO_022",
+            "source_file": "docs/0022/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The kinetic properties of purified $LbADH^{WT}$ and $LbADH^{K71E}$ were analyzed using an assay in which the oxidation of NADPH was followed at 340 nm using a JASCO V560 UV/VIS spectrophotometer (JASCO, Gross-Umstadt, Germany) equipped with a water bath-heated cell holder set at 30 °C."
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "experiment",
+        "state_before": "Improved kinetics for 2,5-hexanedione confirmed, but substrate scope unknown.",
+        "gap_or_uncertainty": "Is the improvement specific to 2,5-hexanedione or general?",
+        "hypothesis": "K71E will show improved activity for other ketone substrates.",
+        "decision": "Measure activity of purified enzymes for methyl acetoacetate, 2-acetylpyridine, 2-hexanone, acetophenone, and 4-hydroxy-2-butanone.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "enzyme activity assay",
+          "version": "",
+          "category": "biochemistry"
+        },
+        "parameters": {
+          "substrates": [
+            "methyl acetoacetate",
+            "2-acetylpyridine",
+            "2-hexanone",
+            "acetophenone",
+            "4-hydroxy-2-butanone"
+          ]
+        },
+        "observation": "LbADH^{K71E} showed 21–39% higher activity for 2-acetylpyridine, 2-hexanone, acetophenone, and 4-hydroxy-2-butanone. For methyl acetoacetate, K71E also showed better affinity and higher maximal activity than wild-type.",
+        "result_status": "success",
+        "next_step_reason": "Structural basis for the improvement should be investigated.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_001",
+            "source_file": "docs/0022/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "As summarized in Table 4, $LbADH^{K71E}$ showed 21–39% higher activity for 2-acetylpyridine, 2-hexanone, acetophenone, and 4-hydroxy-2-butanone, suggesting that the positive effect of the K71E exchange on LbADH activity was independent of the substrate."
+          },
+          {
+            "evidence_id": "EV_AUTO_011",
+            "source_file": "docs/0022/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Table 4 Analysis of $LbADH^{WT}$ and $LbADH^{K71E}$ activity for the substrates methyl acetoacetate, 2-acetylpyridine, 4-hydroxy-2-butanone, acetophenone, and 2-hexanone"
+          },
+          {
+            "evidence_id": "EV_AUTO_015",
+            "source_file": "docs/0022/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Also for this substrate, $LbADH^{K71E}$ showed a better affinity and a higher maximal activity than $LbADH^{WT}$ (Fig."
+          },
+          {
+            "evidence_id": "EV_AUTO_030",
+            "source_file": "docs/0022/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "To test whether the improved kinetic properties of $LbADH^{K71E}$ are specific for 2,5-hexanedione, we determined the $K_{M}$ and $V_{max}$ values for methyl acetoacetate."
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "simulation",
+        "state_before": "K71E improves activity for multiple substrates, but structural rationale missing.",
+        "gap_or_uncertainty": "How does a surface mutation far from the active site improve catalysis?",
+        "hypothesis": "Structural modeling will show that K71 is distant from the active site, suggesting an indirect mechanism.",
+        "decision": "Analyze the position of K71 in the LbADH crystal structure (PDB 1ZK4) using PyMOL.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "PyMOL",
+          "version": "2.2.0",
+          "category": "structural biology"
+        },
+        "parameters": {
+          "pdb_code": "1ZK4",
+          "ligands": [
+            "acetophenone",
+            "NADPH"
+          ]
+        },
+        "observation": "Position 71 is not located close to the active center at the protein core, but solvent-exposed on the protein surface. The distance of position 71 to the substrate acetophenone is around 28.0 Å and to the cofactor NADPH approximately 14.1 Å.",
+        "result_status": "success",
+        "next_step_reason": "The distant location highlights a limitation in mechanistic understanding.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E06_01",
+            "source_file": "docs/0022/combined.md",
+            "section": "C003",
+            "quote_or_span": "position 71 is not located close to the active center at the protein core, but solvent-exposed on the protein surface"
+          },
+          {
+            "evidence_id": "EV_C003_E06_02",
+            "source_file": "docs/0022/combined.md",
+            "section": "C003",
+            "quote_or_span": "the distance of position 71 to the substrate acetophenone is around 28.0 Å and to the cofactor NADPH approximately 14.1 Å"
+          },
+          {
+            "evidence_id": "EV_C004_E01_01",
+            "source_file": "docs/0022/combined.md",
+            "section": "C004",
+            "quote_or_span": "The images were generated with the software PyMOL 2.2.0 (PDB code 1ZK4)"
+          },
+          {
+            "evidence_id": "EV_AUTO_001",
+            "source_file": "docs/0022/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "As summarized in Table 4, $LbADH^{K71E}$ showed 21–39% higher activity for 2-acetylpyridine, 2-hexanone, acetophenone, and 4-hydroxy-2-butanone, suggesting that the positive effect of the K71E exchange on LbADH activity was independent of the substrate."
+          }
+        ]
+      },
+      {
+        "step_index": 12,
+        "phase": "analysis",
+        "state_before": "Structural analysis shows K71E is distant from active site, mechanism unclear.",
+        "gap_or_uncertainty": "The mechanism by which K71E improves activity remains unknown; only one variant characterized.",
+        "hypothesis": "The improvement may involve stabilization of a charged transition state or altered dynamics, but this is speculative.",
+        "decision": "Acknowledge limitations and propose future work.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "literature reasoning",
+          "version": "",
+          "category": "interpretation"
+        },
+        "parameters": {},
+        "observation": "Although it is still unclear how the K71E exchange positively influences the KM and vmax values, the improved catalytic and stability properties of the LbADH^{K71E} variant should be favorable for biotechnological applications. It is surprising that a single mutation on the protein surface is sufficient to increase enzyme activity. The stringent selection may have limited diversity, as only one variant was found.",
+        "result_status": "partial",
+        "next_step_reason": "Case complete; limitations noted for future studies.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E08_01",
+            "source_file": "docs/0022/combined.md",
+            "section": "C003",
+            "quote_or_span": "the amino acid at position 71 is not directly involved in substrate binding and reduction"
+          },
+          {
+            "evidence_id": "EV_AUTO_008",
+            "source_file": "docs/0022/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Although it is still unclear how the K71E exchange positively influences the $K_{M}$ and $v_{max}$ values, the improved catalytic and stability properties the $LbADH^{K71E}$ variant should be favorable for biotechnological applications."
+          },
+          {
+            "evidence_id": "EV_AUTO_009",
+            "source_file": "docs/0022/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "It is surprising that a single mutation on the protein surface, as is the case of the $LbADH^{K71E}$ variant, is sufficient to increase enzyme activity."
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "BioLector cultivation with and without substrate",
+        "Re-cloning of K71E into fresh pSenSox",
+        "Purification and biophysical characterization (SEC, SDS-PAGE, DLS)",
+        "Thermal shift assay",
+        "Kinetic analysis with multiple substrates"
+      ],
+      "metrics": [
+        "Specific fluorescence (BioLector)",
+        "Apparent molecular mass (SEC)",
+        "Melting temperature (thermal shift)",
+        "KM and Vmax (kinetic assays)",
+        "Activity relative to wild-type for various substrates"
+      ],
+      "final_conclusion": "The FACS-based screening using the pSenSox biosensor successfully identified the LbADH^{K71E} variant with improved catalytic properties for 2,5-hexanedione reduction and broader substrate scope. The mutation is a single charge reversal on the protein surface, distant from the active site, yet it enhances activity and slightly increases stability. The mechanism remains unclear.",
+      "limitations": [
+        "Mechanism of K71E improvement not fully elucidated",
+        "Only one variant characterized; stringent selection may have limited diversity",
+        "Structural change observed but not fully explained",
+        "In vivo biosensor signal may not perfectly correlate with in vitro kinetics"
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_phase_action_fixed=3",
+        "v22_specific_evidence_backfilled=3",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_specific_evidence_backfilled=6",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 100.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_mainline_batch30_p2\\states\\0022.json",
+  "events_path": "outputs\\agentic_v22\\v22_mainline_batch30_p2\\events\\0022.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K03": [
+          1,
+          3
+        ],
+        "K04": [
+          2
+        ],
+        "K05": [
+          3,
+          4
+        ],
+        "K06": [
+          3,
+          4,
+          5,
+          6
+        ],
+        "K07": [
+          5
+        ],
+        "K08": [
+          5,
+          6
+        ],
+        "K09": [
+          7
+        ],
+        "K10": [
+          8
+        ],
+        "K11": [
+          9
+        ],
+        "K12": [
+          6,
+          9,
+          10,
+          11,
+          12
+        ],
+        "K13": [
+          11,
+          12
+        ],
+        "K14": [
+          12
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K03"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K04"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K03",
+            "K05",
+            "K06"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K05",
+            "K06"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K06",
+            "K07",
+            "K08"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K06",
+            "K08",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K09"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K10"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K11",
+            "K12"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K12"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K12",
+            "K13",
+            "K71"
+          ]
+        },
+        {
+          "step_index": 12,
+          "covered_event_ids": [
+            "K12",
+            "K13",
+            "K14"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 3,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "2.5",
+          "240h"
+        ]
+      },
+      {
+        "step_index": 8,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "51.5",
+          "52.8"
+        ]
+      },
+      {
+        "step_index": 9,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "16%",
+          "173.3",
+          "4.3mm"
+        ]
+      }
+    ],
+    "step_count": 12,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 100.0
+  },
+  "api_usage": {
+    "prompt_tokens": 110719,
+    "completion_tokens": 28400,
+    "total_tokens": 139119,
+    "prompt_cache_hit_tokens": 2944,
+    "prompt_cache_miss_tokens": 107775
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 4679,
+        "completion_tokens": 629,
+        "total_tokens": 5308,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 4679
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 8998,
+        "completion_tokens": 2763,
+        "total_tokens": 11761,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 8998
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 8245,
+        "completion_tokens": 1218,
+        "total_tokens": 9463,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7989
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 8124,
+        "completion_tokens": 1744,
+        "total_tokens": 9868,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7868
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 8633,
+        "completion_tokens": 1593,
+        "total_tokens": 10226,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8377
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 8320,
+        "completion_tokens": 1355,
+        "total_tokens": 9675,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8064
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C005",
+      "api_usage": {
+        "prompt_tokens": 3910,
+        "completion_tokens": 48,
+        "total_tokens": 3958,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 3654
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 8963,
+        "completion_tokens": 3173,
+        "total_tokens": 12136,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 8579
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 11508,
+        "completion_tokens": 7382,
+        "total_tokens": 18890,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 10868
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 18243,
+        "completion_tokens": 1202,
+        "total_tokens": 19445,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 18243
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 21096,
+        "completion_tokens": 7293,
+        "total_tokens": 28389,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 20456
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

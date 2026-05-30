@@ -1,0 +1,1858 @@
+{
+  "doc_no": "0148",
+  "source": {
+    "title": "Molecular property prediction using pretrained-BERT and Bayesian active learning: a data-efficient approach to drug design",
+    "doi": "https://doi.org/10.1186/s13321-025-00986-6",
+    "license": "cc-by",
+    "pdf_name": "0146_10_1186_s13321_025_00986_6_molecular_property_prediction_using_pretrained_bert_and_bayesian_active_learning_a_data_ef.pdf",
+    "combined_md": "docs/0148/combined.md",
+    "mineru_md": "docs/0148/mineru.md"
+  },
+  "gist_memory": {
+    "paper_problem_memory": "The paper addresses the challenge of data-efficient molecular property prediction in drug discovery using active learning (AL). The initial problem is that traditional AL methods rely on handcrafted features (ECFP) and struggle with limited labeled data, leading to poor uncertainty estimation and suboptimal sample selection. The motivation is to improve AL by leveraging pretrained molecular representations (MolBERT) and Bayesian acquisition functions (BALD, EPIG) to enable reliable uncertainty quantification from small initial datasets. Key constraints include class imbalance, limited labeled data (~100 initial molecules), and the need for robust uncertainty estimates. The hypothesis is that better feature representations (BERT) enable more effective uncertainty estimation, which in turn improves AL performance, especially with EPIG. The study compares BERT vs ECFP features, BALD vs EPIG acquisition functions, and supervised vs semi-supervised AL on Tox21 and ClinTox datasets.",
+    "section_gists": [
+      {
+        "section_index": 6,
+        "heading": "Introduction",
+        "gist": "Introduces active learning (AL) as a semi-supervised approach to iteratively select informative samples for labeling, reducing labeling cost. Highlights AL's success in drug discovery for virtual screening, property optimization, and molecular design. Emphasizes that AL effectiveness depends on accurate uncertainty estimation. Traditional methods (distance metrics, ensembles) capture only epistemic uncertainty; Bayesian frameworks unify epistemic and aleatoric uncertainty. Bayesian experimental design formalizes selection via acquisition functions like BALD (maximizes information gain about parameters) and EPIG (maximizes predictive information gain on target distribution). Notes that deep learning models (GNNs, transformers) outperform classical QSPR but cannot be directly applied in low-data AL due to overfitting and poor calibration. Proposes using MolBERT, a pretrained BERT on 1.26M compounds, to provide robust representations for AL, enabling better uncertainty estimation with lim\n...[clipped]...",
+        "process_signals": [
+          "AL is valuable when labeling is expensive; drug discovery has large unlabeled libraries.",
+          "Traditional uncertainty methods are limited; Bayesian methods offer principled uncertainty.",
+          "Deep learning models fail in low-data AL due to overfitting; pretrained representations can mitigate this.",
+          "Hypothesis: pretrained BERT features will enable better uncertainty estimation and AL performance."
+        ],
+        "methods": [
+          "Active learning (AL)",
+          "Bayesian experimental design",
+          "BALD acquisition function",
+          "EPIG acquisition function",
+          "MolBERT pretrained model"
+        ],
+        "metrics": [],
+        "failures_or_limits": [
+          "Traditional uncertainty methods only capture epistemic uncertainty.",
+          "Deep neural networks overfit and give poorly calibrated uncertainty in low-data AL."
+        ]
+      },
+      {
+        "section_index": 7,
+        "heading": "Materials and methods",
+        "gist": "Section header only; no content.",
+        "process_signals": [],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 8,
+        "heading": "Datasets",
+        "gist": "Describes two datasets: Tox21 (~8000 compounds, 12 toxicity tasks, binary labels, 6.24% active, 73% inactive, 20.56% missing) and ClinTox (1484 compounds, binary labels, FDA-approved vs failed clinical trials). Both have class imbalance and missing values.",
+        "process_signals": [
+          "Datasets are publicly available benchmarks for toxicity prediction.",
+          "Class imbalance is severe (Tox21: ~6% active; ClinTox not specified but likely imbalanced).",
+          "Missing values in Tox21 may require handling."
+        ],
+        "methods": [],
+        "metrics": [],
+        "failures_or_limits": [
+          "Class imbalance poses challenge for AL.",
+          "Missing values in Tox21."
+        ]
+      },
+      {
+        "section_index": 9,
+        "heading": "Data splitting",
+        "gist": "Uses scaffold splitting (80:20) to ensure train/test sets have no shared scaffolds, testing generalization. Initial set: 100 balanced molecules (50 positive, 50 negative) randomly from training set. Pool set: remaining training molecules.",
+        "process_signals": [
+          "Scaffold splitting is a rigorous test of generalization to new chemical scaffolds.",
+          "Balanced initial set ensures both classes are represented from start.",
+          "Small initial set (100) simulates low-data regime."
+        ],
+        "methods": [
+          "Scaffold splitting",
+          "Balanced initial set"
+        ],
+        "metrics": [],
+        "failures_or_limits": []
+      },
+      {
+        "section_index": 10,
+        "heading": "Bayesian experimental design and active learning",
+        "gist": "Formalizes AL as Bayesian experimental design: select design (molecule) to maximize expected utility (acquisition function). Defines BALD as mutual information between parameters and output, equivalent to epistemic uncertainty (total uncertainty minus aleatoric). EPIG targets reduction of predictive uncertainty on a target distribution (test set). Approximates acquisition functions using MC dropout (variational inference) with 20 forward passes. Details formulas for BALD and EPIG with binary classification.",
+        "process_signals": [
+          "BALD selects for epistemic uncertainty; EPIG selects for reducing predictive uncertainty on test distribution.",
+          "MC dropout is used for practical Bayesian inference.",
+          "Acquisition functions are approximated via sampling from dropout distribution."
+        ],
+        "methods": [
+          "BALD acquisition function",
+          "EPIG acquisition function",
+          "MC dropout for uncertainty estimation"
+        ],
+        "metrics": [],
+        "failures_or_limits": [
+          "Posterior is intractable; approximations needed.",
+          "MC dropout may underestimate uncertainty."
+        ]
+      },
+      {
+        "section_index": 11,
+        "heading": "Semi-supervised active learning (SSAL)",
+        "gist": "Fully supervised AL is inefficient because limited labeled data hinders learning the input manifold, especially in chemical space. SSAL uses both labeled and unlabeled data to learn representations. Proposes using MolBERT pretrained on 1.6M SMILES via masking and physicochemical properties to get 764-dim embeddings. Trains an MLP head on these embeddings for AL. This leverages large unlabeled data to improve representation quality for small datasets.",
+        "process_signals": [
+          "Motivation: limited labeled data in AL makes learning input manifold hard; SSAL addresses this.",
+          "Choice of MolBERT: pretrained on large corpus, captures chemical context.",
+          "Design: freeze BERT, train MLP on embeddings for AL tasks."
+        ],
+        "methods": [
+          "Semi-supervised active learning (SSAL)",
+          "MolBERT pretrained embeddings",
+          "MLP head on frozen BERT features"
+        ],
+        "metrics": [],
+        "failures_or_limits": [
+          "Public molecular datasets are still small even without labels; pretraining on external large corpus is key."
+        ]
+      },
+      {
+        "section_index": 12,
+        "heading": "Practical Bayesian neural networks",
+        "gist": "Uses Bayesian neural network with MC dropout (dropout rate 0.5 at test time, 20 forward passes) for uncertainty. Architecture: input features (BERT or ECFP), hidden layer with ReLU, batch norm, dropout, skip connection, output logits with sigmoid. Hyperparameters: input dim 768/1024, hidden dim 128, 1 hidden layer, dropout 0.3, Adam optimizer, lr 1e-3, weight decay 1e-2, cosine annealing, batch size 16, 110 epochs.",
+        "process_signals": [
+          "MC dropout is a practical approximation for Bayesian inference.",
+          "Architecture is simple MLP with skip connection.",
+          "Hyperparameters are fixed; no tuning mentioned."
+        ],
+        "methods": [
+          "Bayesian neural network with MC dropout",
+          "Skip connection",
+          "Batch normalization"
+        ],
+        "metrics": [],
+        "failures_or_limits": [
+          "MC dropout uncertainty is often underestimated."
+        ]
+      },
+      {
+        "section_index": 13,
+        "heading": "Baselines",
+        "gist": "Compares three acquisition functions (random, BALD, EPIG) and two learning paradigms: supervised AL (SAL) with ECFP (1024-bit, radius 2) and semi-supervised AL (SSAL) with BERT features. ECFP is a traditional fingerprint; BERT is pretrained. Figure 1 shows learning curves (average precision) for Tox21 and ClinTox. BERT consistently outperforms ECFP; EPIG generally best. BERT-BALD diverges from random earlier than ECFP-BALD. ClinTox: BALD underperforms random in both feature spaces.",
+        "process_signals": [
+          "ECFP represents traditional handcrafted features; BERT represents learned features.",
+          "Hypothesis: BERT features will improve AL, especially with Bayesian acquisition functions.",
+          "Figure 1 shows BERT-EPIG has steepest learning curve.",
+          "BALD underperforms random on ClinTox, indicating acquisition function sensitivity."
+        ],
+        "methods": [
+          "ECFP fingerprints",
+          "BERT features",
+          "Random sampling",
+          "BALD",
+          "EPIG"
+        ],
+        "metrics": [
+          "Average precision"
+        ],
+        "failures_or_limits": [
+          "ECFP-based Bayesian methods show marginal improvement over random.",
+          "BALD underperforms random on ClinTox."
+        ]
+      },
+      {
+        "section_index": 14,
+        "heading": "Results and discussion",
+        "gist": "Evaluates impact of representations and acquisition functions. Tox21: BERT-EPIG has steeper slope; BERT-BALD reaches stable significance (p<0.05) at iteration 529 vs 878 for ECFP-BALD. ClinTox: BERT-EPIG converges earlier (300 vs 600 iterations). BALD underperforms random in ClinTox. Statistical tests confirm BERT-EPIG significantly better than BERT-BALD (p=1e-4 Tox21, p=3e-3 ClinTox at iteration 300).",
+        "process_signals": [
+          "Better features (BERT) enable earlier identification of informative samples.",
+          "EPIG consistently outperforms BALD.",
+          "BALD can be worse than random, especially with poor features.",
+          "Statistical significance validates findings."
+        ],
+        "methods": [
+          "Wilcoxon signed-rank test"
+        ],
+        "metrics": [
+          "Average precision",
+          "p-value for significance"
+        ],
+        "failures_or_limits": [
+          "BALD underperforms random on ClinTox.",
+          "ECFP-BALD takes longer to become significant."
+        ]
+      },
+      {
+        "section_index": 15,
+        "heading": "Analysis of learned representations",
+        "gist": "UMAP visualization shows BERT features form structured clusters (positive samples in distinct clusters), while ECFP features are scattered with overlap. PCA (appendix) confirms. Quantitative metrics: Davies-Bouldin index, class purity, Fisher's ratio show BERT has better class separation. This explains why BERT enables better uncertainty estimation and AL performance.",
+        "process_signals": [
+          "Visualization reveals BERT's structured manifold vs ECFP's scattered distribution.",
+          "Quantitative metrics confirm BERT's superiority is fundamental, not a visualization artifact.",
+          "Supports hypothesis: well-structured representations enable reliable uncertainty estimation."
+        ],
+        "methods": [
+          "UMAP",
+          "PCA",
+          "Davies-Bouldin index",
+          "Class purity",
+          "Fisher's ratio"
+        ],
+        "metrics": [
+          "Davies-Bouldin index",
+          "Class purity",
+          "Fisher's ratio"
+        ],
+        "failures_or_limits": [
+          "ECFP's poor structure leads to unreliable uncertainty estimates."
+        ]
+      },
+      {
+        "section_index": 16,
+        "heading": "Model calibration analysis",
+        "gist": "Analyzes Expected Calibration Error (ECE) over AL iterations. All methods start with high ECE (0.30-0.38). BERT methods have consistently lower ECE than ECFP early on. BERT-EPIG achieves fastest ECE reduction (statistically significant vs second-best at iteration 200). ECFP methods maintain higher ECE longer. This explains why Bayesian acquisition functions underperform with ECFP: poor calibration leads to unreliable uncertainty estimates.",
+        "process_signals": [
+          "ECE measures calibration; lower is better.",
+          "BERT features lead to better calibrated uncertainties.",
+          "EPIG with BERT learns well-calibrated uncertainties most efficiently.",
+          "ECFP's poor calibration explains why BALD/EPIG don't help much."
+        ],
+        "methods": [
+          "Expected Calibration Error (ECE)"
+        ],
+        "metrics": [
+          "ECE"
+        ],
+        "failures_or_limits": [
+          "ECFP-based methods have persistently poor calibration.",
+          "All methods eventually converge, but ECFP requires more data."
+        ]
+      },
+      {
+        "section_index": 17,
+        "heading": "Analysis of sample acquisition patterns",
+        "gist": "Analyzes cumulative positive sample acquisition on ClinTox (starting balanced 50/50, pool has 22/835 positive). BERT-EPIG identifies 70% of toxic compounds in 266 iterations vs 600 for random (2-fold improvement). BERT-BALD takes 343 iterations. ECFP-EPIG initially comparable but plateaus earlier. BERT-EPIG shows steeper gain over random than ECFP-EPIG. BALD with ECFP initially degrades performance. Shows BERT features enable better exploration of chemical space for rare positives.",
+        "process_signals": [
+          "Class imbalance is severe; identifying positives is key.",
+          "BERT-EPIG is most efficient at finding rare positives.",
+          "ECFP-EPIG plateaus, suggesting scattered representation limits exploration.",
+          "BALD with ECFP can hurt performance initially."
+        ],
+        "methods": [],
+        "metrics": [
+          "Cumulative positive sample acquisition",
+          "Iterations to reach 70% positives"
+        ],
+        "failures_or_limits": [
+          "ECFP-EPIG plateaus early.",
+          "ECFP-BALD initially degrades performance."
+        ]
+      },
+      {
+        "section_index": 18,
+        "heading": "Better features enable better uncertainty estimation",
+        "gist": "Synthesizes findings: BERT features give higher absolute performance, but the key is improved uncertainty estimation. Relative gains over random show BERT-EPIG has steeper gain curve (max 0.05 Tox21, 0.08 ClinTox) vs ECFP-EPIG (0.02). EPIG maintains consistent gains; BALD shows delayed gains or initial degradation. Concludes that successful AL requires both high-quality representations and well-calibrated uncertainty; BERT-EPIG optimally combines both.",
+        "process_signals": [
+          "Disentangles feature quality from uncertainty estimation by analyzing relative gains.",
+          "BERT features enable more reliable uncertainty, leading to better sample selection.",
+          "EPIG outperforms BALD, especially early on.",
+          "BALD can be detrimental with poor features."
+        ],
+        "methods": [],
+        "metrics": [
+          "Relative gain over random baseline"
+        ],
+        "failures_or_limits": [
+          "ECFP-BALD degrades performance initially on ClinTox."
+        ]
+      },
+      {
+        "section_index": 19,
+        "heading": "Conclusion",
+        "gist": "Summarizes that AL success depends on synergy between features and acquisition functions. BERT features enable better uncertainty estimation (faster ECE convergence, steeper learning curves). EPIG outperforms BALD. BERT-EPIG achieves up to 0.05 (Tox21) and 0.08 (ClinTox) improvement over random. Future work: develop feature representations that enable reliable uncertainty quantification in low-data regimes.",
+        "process_signals": [
+          "Main finding: feature quality is critical for uncertainty-based AL.",
+          "EPIG is preferred over BALD.",
+          "Limitation: study limited to binary classification, two datasets, one pretrained model.",
+          "Future direction: better representations for uncertainty quantification."
+        ],
+        "methods": [],
+        "metrics": [
+          "Average precision improvement over random"
+        ],
+        "failures_or_limits": [
+          "Only binary classification tasks.",
+          "Limited to two datasets.",
+          "Computational cost of BERT not discussed.",
+          "Generalizability to other tasks/properties not tested."
+        ]
+      }
+    ],
+    "global_hypotheses_about_storyline": [
+      "The central hypothesis is that the quality of molecular representations is the key enabler for effective uncertainty-based active learning in low-data regimes.",
+      "The paper posits that pretrained BERT features provide a structured embedding space that allows reliable uncertainty estimation even with limited labeled data, unlike traditional ECFP fingerprints.",
+      "It further hypothesizes that EPIG, which targets predictive uncertainty reduction on the test distribution, is more effective than BALD, which targets parameter uncertainty reduction, especially when combined with good features.",
+      "The storyline moves from identifying the problem (poor AL with handcrafted features) to proposing a solution (pretrained BERT + Bayesian AL), then validating through comparisons of representations, acquisition functions, and in-depth analyses of representations, calibration, and acquisition patterns."
+    ],
+    "uncertainties_to_resolve": [
+      "How does the approach scale to larger and more diverse datasets?",
+      "Would other pretrained models (e.g., graph-based) yield similar benefits?",
+      "How sensitive are the results to the choice of Bayesian approximation (MC dropout vs other methods)?",
+      "Can the method be extended to regression tasks or multi-class classification?",
+      "What is the computational cost of using BERT features in an iterative AL loop?",
+      "How does the method perform with different initial set sizes or imbalance ratios?",
+      "Are there scenarios where BALD could outperform EPIG with better calibration?",
+      "The paper does not discuss hyperparameter tuning; how were hyperparameters chosen?"
+    ]
+  },
+  "chunk_events": [
+    {
+      "chunk_id": "C001",
+      "char_start": 0,
+      "char_end": 18000,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C001_E01",
+          "chunk_id": "C001",
+          "event_type": "problem",
+          "order_hint": 1,
+          "summary": "Fully supervised active learning neglects unlabeled data, impairing predictive performance and molecule selection.",
+          "methods_or_tools": [],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E01_01"
+          ]
+        },
+        {
+          "event_id": "C001_E02",
+          "chunk_id": "C001",
+          "event_type": "hypothesis",
+          "order_hint": 2,
+          "summary": "Integrating a pretrained BERT model into active learning will disentangle representation learning and uncertainty estimation, leading to more reliable molecule selection.",
+          "methods_or_tools": [
+            "transformer-based BERT model",
+            "MolBERT"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E02_01"
+          ]
+        },
+        {
+          "event_id": "C001_E04",
+          "chunk_id": "C001",
+          "event_type": "experiment",
+          "order_hint": 4,
+          "summary": "Experiments are conducted on Tox21 and ClinTox datasets to evaluate the approach.",
+          "methods_or_tools": [],
+          "entities": [
+            "Tox21",
+            "ClinTox"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E04_01"
+          ]
+        },
+        {
+          "event_id": "C001_E05",
+          "chunk_id": "C001",
+          "event_type": "analysis",
+          "order_hint": 5,
+          "summary": "Analysis shows pretrained BERT representations create a structured embedding space enabling reliable uncertainty estimation despite limited labeled data.",
+          "methods_or_tools": [],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C001_E05_01"
+          ]
+        },
+        {
+          "event_id": "C001_E06",
+          "chunk_id": "C001",
+          "event_type": "validation",
+          "order_hint": 6,
+          "summary": "The approach achieves equivalent toxic compound identification with 50% fewer iterations compared to conventional active learning.",
+          "methods_or_tools": [],
+          "entities": [],
+          "numbers_or_metrics": [
+            "50% fewer iterations"
+          ],
+          "evidence_ids": [
+            "EV_C001_E06_01"
+          ]
+        }
+      ],
+      "notes": "This chunk contains the abstract and introduction, establishing the problem, hypothesis, design, and initial validation claims.",
+      "api_usage": {
+        "prompt_tokens": 8439,
+        "completion_tokens": 1059,
+        "total_tokens": 9498,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8183
+      }
+    },
+    {
+      "chunk_id": "C002",
+      "char_start": 17100,
+      "char_end": 35100,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C002_E01",
+          "chunk_id": "C002",
+          "event_type": "design",
+          "order_hint": 1,
+          "summary": "Proposes using pretrained MolBERT embeddings for semi-supervised active learning to leverage large unlabeled data.",
+          "methods_or_tools": [
+            "MolBERT",
+            "MLP head"
+          ],
+          "entities": [
+            "MolBERT",
+            "SMILES"
+          ],
+          "numbers_or_metrics": [
+            "1.6 million SMILES",
+            "dimension 764"
+          ],
+          "evidence_ids": [
+            "EV_C002_E01_01",
+            "EV_C002_E01_02"
+          ]
+        },
+        {
+          "event_id": "C002_E02",
+          "chunk_id": "C002",
+          "event_type": "design",
+          "order_hint": 2,
+          "summary": "Designs a Bayesian neural network with MC dropout for uncertainty estimation, using skip connections and batch normalization.",
+          "methods_or_tools": [
+            "MC dropout",
+            "Bayesian neural network",
+            "skip connection",
+            "batch normalization"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [
+            "dropout rate 0.5",
+            "20 forward passes",
+            "dropout probability 0.3",
+            "hidden layer dim 128"
+          ],
+          "evidence_ids": [
+            "EV_C002_E02_01",
+            "EV_C002_E02_02",
+            "EV_C002_E02_03"
+          ]
+        },
+        {
+          "event_id": "C002_E03",
+          "chunk_id": "C002",
+          "event_type": "experiment",
+          "order_hint": 3,
+          "summary": "Compares active learning performance using BERT vs ECFP features and EPIG, BALD, Random acquisition functions on Tox21 and ClinTox.",
+          "methods_or_tools": [
+            "BERT",
+            "ECFP",
+            "EPIG",
+            "BALD",
+            "Random sampling"
+          ],
+          "entities": [
+            "Tox21",
+            "ClinTox"
+          ],
+          "numbers_or_metrics": [
+            "average precision"
+          ],
+          "evidence_ids": [
+            "EV_C002_E03_01"
+          ]
+        },
+        {
+          "event_id": "C002_E04",
+          "chunk_id": "C002",
+          "event_type": "analysis",
+          "order_hint": 4,
+          "summary": "BERT-EPIG shows steeper learning curve and earlier convergence than ECFP-EPIG; BERT-BALD reaches stable significance earlier than ECFP-BALD.",
+          "methods_or_tools": [
+            "Wilcoxon signed-rank test"
+          ],
+          "entities": [
+            "Tox21",
+            "ClinTox"
+          ],
+          "numbers_or_metrics": [
+            "iteration 529",
+            "iteration 878",
+            "p-value < 0.05",
+            "iteration 300",
+            "p-value = 1e-4",
+            "p-value = 3e-3"
+          ],
+          "evidence_ids": [
+            "EV_C002_E04_01",
+            "EV_C002_E04_02",
+            "EV_C002_E04_03"
+          ]
+        },
+        {
+          "event_id": "C002_E05",
+          "chunk_id": "C002",
+          "event_type": "failure",
+          "order_hint": 5,
+          "summary": "BALD underperforms random sampling on ClinTox in both feature spaces.",
+          "methods_or_tools": [
+            "BALD"
+          ],
+          "entities": [
+            "ClinTox"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C002_E05_01"
+          ]
+        },
+        {
+          "event_id": "C002_E06",
+          "chunk_id": "C002",
+          "event_type": "analysis",
+          "order_hint": 6,
+          "summary": "UMAP visualization shows BERT features form structured clusters while ECFP features are scattered, explaining better uncertainty estimation.",
+          "methods_or_tools": [
+            "UMAP",
+            "PCA",
+            "Davies-Bouldin index",
+            "class purity",
+            "Fisher's ratio"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [
+            "6.8% positive samples"
+          ],
+          "evidence_ids": [
+            "EV_C002_E06_01",
+            "EV_C002_E06_02",
+            "EV_C002_E06_03"
+          ]
+        },
+        {
+          "event_id": "C002_E07",
+          "chunk_id": "C002",
+          "event_type": "analysis",
+          "order_hint": 7,
+          "summary": "Model calibration analysis shows BERT-based methods have lower ECE early on; BERT-EPIG achieves fastest ECE reduction.",
+          "methods_or_tools": [
+            "Expected Calibration Error (ECE)"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [
+            "ECE 0.30–0.38 initially"
+          ],
+          "evidence_ids": [
+            "EV_C002_E07_01",
+            "EV_C002_E07_02",
+            "EV_C002_E07_03"
+          ]
+        }
+      ],
+      "notes": "Chunk covers design of SSAL with MolBERT, BNN architecture, baseline comparison results, representation analysis, and calibration analysis. Last quote is truncated but still supports the event.",
+      "api_usage": {
+        "prompt_tokens": 9284,
+        "completion_tokens": 1413,
+        "total_tokens": 10697,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9028
+      }
+    },
+    {
+      "chunk_id": "C003",
+      "char_start": 34200,
+      "char_end": 52200,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C003_E01",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 1,
+          "summary": "Analysis of Expected Calibration Error (ECE) shows BERT-based approaches have lower ECE than ECFP early in active learning.",
+          "methods_or_tools": [
+            "Expected Calibration Error (ECE)"
+          ],
+          "entities": [
+            "BERT",
+            "ECFP",
+            "Tox21",
+            "ClinTox"
+          ],
+          "numbers_or_metrics": [
+            "ECE 0.30–0.38 initially"
+          ],
+          "evidence_ids": [
+            "EV_C003_E01_01",
+            "EV_C003_E01_02"
+          ]
+        },
+        {
+          "event_id": "C003_E02",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 2,
+          "summary": "EPIG with BERT features achieves fastest ECE reduction, indicating superior uncertainty calibration.",
+          "methods_or_tools": [
+            "EPIG",
+            "BERT",
+            "Expected Calibration Error (ECE)"
+          ],
+          "entities": [
+            "BERT-EPIG",
+            "Tox21",
+            "ClinTox"
+          ],
+          "numbers_or_metrics": [
+            "p-value = 2e-5 (Tox21), 4e-4 (ClinTox) at iteration 200"
+          ],
+          "evidence_ids": [
+            "EV_C003_E02_01"
+          ]
+        },
+        {
+          "event_id": "C003_E03",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 3,
+          "summary": "ECFP-based methods maintain higher ECE longer, struggling with uncertainty estimation despite sophisticated acquisition strategies.",
+          "methods_or_tools": [
+            "ECFP",
+            "Expected Calibration Error (ECE)"
+          ],
+          "entities": [
+            "ECFP"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C003_E03_01"
+          ]
+        },
+        {
+          "event_id": "C003_E04",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 4,
+          "summary": "All methods eventually converge to well-calibrated uncertainties (ECE < 0.1) after 600-800 iterations, but ECFP requires more data.",
+          "methods_or_tools": [
+            "Expected Calibration Error (ECE)"
+          ],
+          "entities": [
+            "ECFP",
+            "BERT"
+          ],
+          "numbers_or_metrics": [
+            "ECE < 0.1 after 600-800 iterations"
+          ],
+          "evidence_ids": [
+            "EV_C003_E04_01"
+          ]
+        },
+        {
+          "event_id": "C003_E05",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 5,
+          "summary": "Analysis of positive sample acquisition on ClinTox shows BERT-EPIG identifies 70% of toxic compounds in 266 iterations, a 2-fold improvement over random.",
+          "methods_or_tools": [
+            "BERT-EPIG",
+            "ClinTox"
+          ],
+          "entities": [
+            "BERT-EPIG",
+            "ClinTox"
+          ],
+          "numbers_or_metrics": [
+            "70% of toxic compounds in 266 iterations",
+            "2-fold improvement over random"
+          ],
+          "evidence_ids": [
+            "EV_C003_E05_01",
+            "EV_C003_E05_02"
+          ]
+        },
+        {
+          "event_id": "C003_E07",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 7,
+          "summary": "Relative gain analysis shows BERT-EPIG achieves higher gains over random than ECFP-EPIG, indicating better uncertainty estimation.",
+          "methods_or_tools": [
+            "BERT-EPIG",
+            "ECFP-EPIG"
+          ],
+          "entities": [
+            "BERT-EPIG",
+            "ECFP-EPIG",
+            "Tox21"
+          ],
+          "numbers_or_metrics": [
+            "BERT-EPIG max gain 0.05, ECFP-EPIG 0.02",
+            "p-value = 1e-3 at iteration 282"
+          ],
+          "evidence_ids": [
+            "EV_C003_E07_02"
+          ]
+        },
+        {
+          "event_id": "C003_E08",
+          "chunk_id": "C003",
+          "event_type": "analysis",
+          "order_hint": 8,
+          "summary": "BALD shows delayed gains or initial degradation, especially with ECFP on ClinTox, while EPIG maintains stable improvements.",
+          "methods_or_tools": [
+            "BALD",
+            "EPIG",
+            "ECFP"
+          ],
+          "entities": [
+            "BALD",
+            "EPIG",
+            "ClinTox"
+          ],
+          "numbers_or_metrics": [
+            "ECFP-BALD initially degrades performance (-0.125)"
+          ],
+          "evidence_ids": [
+            "EV_C003_E08_01",
+            "EV_C003_E08_02"
+          ]
+        }
+      ],
+      "notes": "Chunk contains detailed analysis of model calibration (ECE), sample acquisition patterns, and relative performance gains, supporting the paper's hypothesis that BERT features enable better uncertainty estimation and EPIG outperforms BALD.",
+      "api_usage": {
+        "prompt_tokens": 9144,
+        "completion_tokens": 1618,
+        "total_tokens": 10762,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8888
+      }
+    },
+    {
+      "chunk_id": "C004",
+      "char_start": 51300,
+      "char_end": 69300,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C004_E01",
+          "chunk_id": "C004",
+          "event_type": "analysis",
+          "order_hint": 1,
+          "summary": "Statistical significance analysis of BALD vs random sampling for Tox21 shows BERT representations achieve earlier and more pronounced significance than ECFP.",
+          "methods_or_tools": [
+            "Wilcoxon signed-rank test"
+          ],
+          "entities": [
+            "BALD",
+            "random sampling",
+            "BERT",
+            "ECFP",
+            "Tox21"
+          ],
+          "numbers_or_metrics": [
+            "p=0.05 threshold",
+            "iteration 500 for BERT",
+            "iteration 850 for ECFP"
+          ],
+          "evidence_ids": [
+            "EV_C004_E01_01"
+          ]
+        },
+        {
+          "event_id": "C004_E02",
+          "chunk_id": "C004",
+          "event_type": "analysis",
+          "order_hint": 2,
+          "summary": "Quantitative analysis of molecular representations shows BERT has better cluster separation and class purity than ECFP.",
+          "methods_or_tools": [
+            "Davies-Bouldin index",
+            "class purity",
+            "Fisher's ratio"
+          ],
+          "entities": [
+            "BERT",
+            "ECFP"
+          ],
+          "numbers_or_metrics": [
+            "Davies-Bouldin: BERT 6.046 vs ECFP 9.529",
+            "Positive class purity: BERT 0.154 vs ECFP 0.091",
+            "Fisher's ratio: BERT 0.054 vs ECFP 0.021"
+          ],
+          "evidence_ids": [
+            "EV_C004_E02_01",
+            "EV_C004_E02_02",
+            "EV_C004_E02_03"
+          ]
+        },
+        {
+          "event_id": "C004_E03",
+          "chunk_id": "C004",
+          "event_type": "analysis",
+          "order_hint": 3,
+          "summary": "PCA projection confirms BERT embeddings show more coherent clustering of positive samples than ECFP.",
+          "methods_or_tools": [
+            "PCA"
+          ],
+          "entities": [
+            "BERT",
+            "ECFP",
+            "positive samples"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E03_01"
+          ]
+        },
+        {
+          "event_id": "C004_E05",
+          "chunk_id": "C004",
+          "event_type": "analysis",
+          "order_hint": 5,
+          "summary": "Model calibration analysis using Expected Calibration Error (ECE) is defined and measured.",
+          "methods_or_tools": [
+            "Expected Calibration Error (ECE)"
+          ],
+          "entities": [],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E05_01"
+          ]
+        },
+        {
+          "event_id": "C004_E06",
+          "chunk_id": "C004",
+          "event_type": "validation",
+          "order_hint": 6,
+          "summary": "Quantitative metrics confirm BERT representations inherently separate toxic from non-toxic compounds more effectively, supporting earlier claims.",
+          "methods_or_tools": [],
+          "entities": [
+            "BERT",
+            "ECFP"
+          ],
+          "numbers_or_metrics": [],
+          "evidence_ids": [
+            "EV_C004_E06_01"
+          ]
+        }
+      ],
+      "notes": "Chunk contains appendix material with detailed quantitative analyses, statistical significance tests, and calibration definitions that support the main findings.",
+      "api_usage": {
+        "prompt_tokens": 10511,
+        "completion_tokens": 1130,
+        "total_tokens": 11641,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 10255
+      }
+    },
+    {
+      "chunk_id": "C005",
+      "char_start": 68400,
+      "char_end": 84893,
+      "chunk_relevance": "high",
+      "events": [
+        {
+          "event_id": "C005_E01",
+          "chunk_id": "C005",
+          "event_type": "analysis",
+          "order_hint": 1,
+          "summary": "Analysis of sample acquisition patterns on ClinTox using UCB and Greedy acquisition functions shows BERT-based models extract 70% of positive samples in ~100 iterations vs ~180 for ECFP, but no significant difference between UCB and Greedy.",
+          "methods_or_tools": [
+            "Upper Confidence Bound (UCB)",
+            "Greedy acquisition function"
+          ],
+          "entities": [
+            "ClinTox dataset",
+            "BERT",
+            "ECFP"
+          ],
+          "numbers_or_metrics": [
+            "70% positive samples",
+            "~100 iterations",
+            "~180 iterations"
+          ],
+          "evidence_ids": [
+            "EV_C005_E01_01",
+            "EV_C005_E01_02"
+          ]
+        },
+        {
+          "event_id": "C005_E02",
+          "chunk_id": "C005",
+          "event_type": "analysis",
+          "order_hint": 2,
+          "summary": "Performance advantages of BERT over ECFP extend to ADME datasets (PAMPA permeability, Pgp inhibition). BERT-BALD and BERT-EPIG significantly outperform Random sampling on PAMPA, while ECFP methods perform similarly to Random.",
+          "methods_or_tools": [
+            "BALD",
+            "EPIG",
+            "Random sampling"
+          ],
+          "entities": [
+            "PAMPA permeability",
+            "Pgp inhibition",
+            "BERT",
+            "ECFP"
+          ],
+          "numbers_or_metrics": [
+            "p = 9e-6 (BERT-BALD vs Random)",
+            "p = 2e-3 (BERT-EPIG vs Random)",
+            "iteration = 200"
+          ],
+          "evidence_ids": [
+            "EV_C005_E02_01",
+            "EV_C005_E02_03"
+          ]
+        },
+        {
+          "event_id": "C005_E03",
+          "chunk_id": "C005",
+          "event_type": "analysis",
+          "order_hint": 3,
+          "summary": "On Pgp inhibition, BERT-BALD and BERT-EPIG separate from Random sampling earlier (iteration 50-100) than ECFP methods (iteration 250-300), with a smaller performance gap for ECFP.",
+          "methods_or_tools": [
+            "BALD",
+            "EPIG",
+            "Random sampling"
+          ],
+          "entities": [
+            "Pgp inhibition",
+            "BERT",
+            "ECFP"
+          ],
+          "numbers_or_metrics": [
+            "iteration 50-100",
+            "iteration 250-300"
+          ],
+          "evidence_ids": [
+            "EV_C005_E03_01",
+            "EV_C005_E03_02"
+          ]
+        },
+        {
+          "event_id": "C005_E04",
+          "chunk_id": "C005",
+          "event_type": "failure",
+          "order_hint": 4,
+          "summary": "BERT-EPIG and BERT-BALD show a decline in average precision after peaking at iterations 150-200 on Pgp inhibition due to distribution mismatch between pool and test sets.",
+          "methods_or_tools": [
+            "BERT-EPIG",
+            "BERT-BALD"
+          ],
+          "entities": [
+            "Pgp inhibition"
+          ],
+          "numbers_or_metrics": [
+            "iterations 150-200",
+            "pool positive ratio 1.56",
+            "test positive ratio 0.35"
+          ],
+          "evidence_ids": [
+            "EV_C005_E04_01",
+            "EV_C005_E04_02"
+          ]
+        },
+        {
+          "event_id": "C005_E05",
+          "chunk_id": "C005",
+          "event_type": "analysis",
+          "order_hint": 5,
+          "summary": "Uncertainty-based methods preferentially select minority negative samples from the pool, causing a harmful distribution shift. BERT-BALD's positive-to-negative ratio drops from 1.0 to 0.55 by iteration 300.",
+          "methods_or_tools": [
+            "BERT-BALD"
+          ],
+          "entities": [
+            "Pgp inhibition"
+          ],
+          "numbers_or_metrics": [
+            "positive-to-negative ratio 1.0 to 0.55",
+            "iteration 300"
+          ],
+          "evidence_ids": [
+            "EV_C005_E05_01",
+            "EV_C005_E05_02"
+          ]
+        }
+      ],
+      "notes": "This chunk contains appendix material with additional experiments on ADME datasets and analysis of sample acquisition patterns, providing further evidence for the main findings.",
+      "api_usage": {
+        "prompt_tokens": 9003,
+        "completion_tokens": 1388,
+        "total_tokens": 10391,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8747
+      }
+    }
+  ],
+  "evidence_bank": [
+    {
+      "evidence_id": "EV_C001_E01_01",
+      "source_file": "docs/0148/combined.md",
+      "section": "C001",
+      "char_start": 960,
+      "char_end": 1249,
+      "quote": "Active learning typically trains models on labeled examples alone, while unlabeled data is only used for acquisition. This fully supervised approach neglects valuable information present in unlabeled molecular data, impairing both predictive performance and the molecule selection process."
+    },
+    {
+      "evidence_id": "EV_C001_E02_01",
+      "source_file": "docs/0148/combined.md",
+      "section": "C001",
+      "char_start": 1250,
+      "char_end": 1523,
+      "quote": "We address this limitation by integrating a transformer-based BERT model, pretrained on 1.26 million compounds, into the active learning pipeline. This effectively disentangles representation learning and uncertainty estimation, leading to more reliable molecule selection."
+    },
+    {
+      "evidence_id": "EV_C001_E04_01",
+      "source_file": "docs/0148/combined.md",
+      "section": "C001",
+      "char_start": 1524,
+      "char_end": 1713,
+      "quote": "Experiments on Tox21 and ClinTox datasets demonstrate that our approach achieves equivalent toxic compound identification with 50% fewer iterations compared to conventional active learning."
+    },
+    {
+      "evidence_id": "EV_C001_E05_01",
+      "source_file": "docs/0148/combined.md",
+      "section": "C001",
+      "char_start": 1714,
+      "char_end": 1935,
+      "quote": "Analysis reveals that pretrained BERT representations generate a structured embedding space enabling reliable uncertainty estimation despite limited labeled data, confirmed through Expected Calibration Error measurements."
+    },
+    {
+      "evidence_id": "EV_C001_E06_01",
+      "source_file": "docs/0148/combined.md",
+      "section": "C001",
+      "char_start": 1583,
+      "char_end": 1713,
+      "quote": "our approach achieves equivalent toxic compound identification with 50% fewer iterations compared to conventional active learning."
+    },
+    {
+      "evidence_id": "EV_C002_E01_01",
+      "source_file": "docs/0148/combined.md",
+      "section": "C002",
+      "char_start": 18588,
+      "char_end": 18896,
+      "quote": "we propose to use molecular representations from a pretrained self-supervised learning model. Specifically, we encoded the molecular SMILES sequences into corresponding embeddings, utilizing a large transformer model MolBERT, pretrained on 1.6 million SMILES via masking, alongside physicochemical properties"
+    },
+    {
+      "evidence_id": "EV_C002_E01_02",
+      "source_file": "docs/0148/combined.md",
+      "section": "C002",
+      "char_start": 18906,
+      "char_end": 19010,
+      "quote": "The embedding of each SMILES sequence is a pooled output from the pretrained MolBERT with dimension 764."
+    },
+    {
+      "evidence_id": "EV_C002_E02_01",
+      "source_file": "docs/0148/combined.md",
+      "section": "C002",
+      "char_start": 19304,
+      "char_end": 19374,
+      "quote": "we use a Bayesian neural network to account for the model uncertainty."
+    },
+    {
+      "evidence_id": "EV_C002_E02_02",
+      "source_file": "docs/0148/combined.md",
+      "section": "C002",
+      "char_start": 19778,
+      "char_end": 19908,
+      "quote": "we conduct 20 stochastic forward passes with dropout rate 0.5, each with a different dropout mask, to obtain a set of predictions."
+    },
+    {
+      "evidence_id": "EV_C002_E02_03",
+      "source_file": "docs/0148/combined.md",
+      "section": "C002",
+      "char_start": 20609,
+      "char_end": 20730,
+      "quote": "the network incorporates a skip connection, merging the input and output of the hidden layer, enhancing information flow."
+    },
+    {
+      "evidence_id": "EV_C002_E03_01",
+      "source_file": "docs/0148/combined.md",
+      "section": "C002",
+      "char_start": 27252,
+      "char_end": 27441,
+      "quote": "We evaluated the impact of molecular representations on active learning performance using three acquisition strategies (EPIG, BALD, and Random sampling) on two datasets (Tox21 and ClinTox)."
+    },
+    {
+      "evidence_id": "EV_C002_E04_01",
+      "source_file": "docs/0148/combined.md",
+      "section": "C002",
+      "char_start": 27572,
+      "char_end": 27676,
+      "quote": "BERT-EPIG demonstrates superior learning dynamics with a steeper improvement slope compared to ECFP-EPIG"
+    },
+    {
+      "evidence_id": "EV_C002_E04_02",
+      "source_file": "docs/0148/combined.md",
+      "section": "C002",
+      "char_start": 27854,
+      "char_end": 28035,
+      "quote": "BERT-BALD diverges from random sampling, achieving stable significance (p-value < 0.05) at iteration 529. In contrast, ECFP-BALD reaches stable significance only after iteration 878"
+    },
+    {
+      "evidence_id": "EV_C002_E04_03",
+      "source_file": "docs/0148/combined.md",
+      "section": "C002",
+      "char_start": 28403,
+      "char_end": 28511,
+      "quote": "BERT-EPIG achieves convergence significantly earlier (300 iterations) compared to ECFP-EPIG (600 iterations)"
+    },
+    {
+      "evidence_id": "EV_C002_E05_01",
+      "source_file": "docs/0148/combined.md",
+      "section": "C002",
+      "char_start": 28590,
+      "char_end": 28737,
+      "quote": "BALD underperforms random sampling in both feature spaces, aligning with previous findings about BALD's potential limitations in certain scenarios."
+    },
+    {
+      "evidence_id": "EV_C002_E06_01",
+      "source_file": "docs/0148/combined.md",
+      "section": "C002",
+      "char_start": 29450,
+      "char_end": 29595,
+      "quote": "The BERT features exhibit more structured organization, where positive samples (red points, 6.8% of dataset) are distributed in distinct clusters"
+    },
+    {
+      "evidence_id": "EV_C002_E06_02",
+      "source_file": "docs/0148/combined.md",
+      "section": "C002",
+      "char_start": 29877,
+      "char_end": 29995,
+      "quote": "ECFP representations show a more scattered distribution with significant overlap between positive and negative regions"
+    },
+    {
+      "evidence_id": "EV_C002_E06_03",
+      "source_file": "docs/0148/combined.md",
+      "section": "C002",
+      "char_start": 33571,
+      "char_end": 33707,
+      "quote": "These metrics collectively demonstrate that BERT's structural advantages are fundamental rather than artifacts of visualization choices."
+    },
+    {
+      "evidence_id": "EV_C002_E07_01",
+      "source_file": "docs/0148/combined.md",
+      "section": "C002",
+      "char_start": 34529,
+      "char_end": 34638,
+      "quote": "All methods initially exhibit high ECE (0.30–0.38), indicating poor calibration due to limited training data."
+    },
+    {
+      "evidence_id": "EV_C002_E07_02",
+      "source_file": "docs/0148/combined.md",
+      "section": "C002",
+      "char_start": 34648,
+      "char_end": 34798,
+      "quote": "the BERT-based approaches demonstrate consistently lower ECE compared to their ECFP counterparts throughout the early stages of AL (iterations 0-200)."
+    },
+    {
+      "evidence_id": "EV_C002_E07_03",
+      "source_file": "docs/0148/combined.md",
+      "section": "C002",
+      "char_start": 35004,
+      "char_end": 35099,
+      "quote": "Particularly noteworthy is the EPIG acquisition function with BERT features, which achieves the"
+    },
+    {
+      "evidence_id": "EV_C003_E01_01",
+      "source_file": "docs/0148/combined.md",
+      "section": "C003",
+      "char_start": 34529,
+      "char_end": 34638,
+      "quote": "All methods initially exhibit high ECE (0.30–0.38), indicating poor calibration due to limited training data."
+    },
+    {
+      "evidence_id": "EV_C003_E01_02",
+      "source_file": "docs/0148/combined.md",
+      "section": "C003",
+      "char_start": 34648,
+      "char_end": 34798,
+      "quote": "the BERT-based approaches demonstrate consistently lower ECE compared to their ECFP counterparts throughout the early stages of AL (iterations 0-200)."
+    },
+    {
+      "evidence_id": "EV_C003_E02_01",
+      "source_file": "docs/0148/combined.md",
+      "section": "C003",
+      "char_start": 35031,
+      "char_end": 35211,
+      "quote": "the EPIG acquisition function with BERT features, which achieves the fastest reduction in ECE (solid red line), suggesting it learns well-calibrated uncertainties more efficiently."
+    },
+    {
+      "evidence_id": "EV_C003_E03_01",
+      "source_file": "docs/0148/combined.md",
+      "section": "C003",
+      "char_start": 40302,
+      "char_end": 40465,
+      "quote": "ECFP-based methods maintain higher ECE for a longer period, indicating persistent struggles in uncertainty estimation despite sophisticated acquisition strategies."
+    },
+    {
+      "evidence_id": "EV_C003_E04_01",
+      "source_file": "docs/0148/combined.md",
+      "section": "C003",
+      "char_start": 40467,
+      "char_end": 40637,
+      "quote": "While all methods eventually converge to well-calibrated uncertainties (ECE < 0.1) after 600-800 iterations, the path to achieving good calibration is markedly different."
+    },
+    {
+      "evidence_id": "EV_C003_E05_01",
+      "source_file": "docs/0148/combined.md",
+      "section": "C003",
+      "char_start": 41549,
+      "char_end": 41758,
+      "quote": "BERT-EPIG demonstrates superior acquisition efficiency, identifying 70% of toxic compounds in only 266 iterations, compared to 343 iterations for BERT-BALD and approximately 600 iterations for Random sampling."
+    },
+    {
+      "evidence_id": "EV_C003_E05_02",
+      "source_file": "docs/0148/combined.md",
+      "section": "C003",
+      "char_start": 41759,
+      "char_end": 41855,
+      "quote": "BERT-EPIG demonstrated a 2-fold improvement over Random sampling in identifying toxic compounds."
+    },
+    {
+      "evidence_id": "EV_C003_E07_02",
+      "source_file": "docs/0148/combined.md",
+      "section": "C003",
+      "char_start": 49702,
+      "char_end": 49864,
+      "quote": "This disparity suggests BERT features not only provide better base performance but also enable more reliable uncertainty estimation for superior sample selection."
+    },
+    {
+      "evidence_id": "EV_C003_E08_01",
+      "source_file": "docs/0148/combined.md",
+      "section": "C003",
+      "char_start": 49947,
+      "char_end": 50062,
+      "quote": "While BALD shows positive gains after 400-600 iterations, EPIG maintains consistent improvements from early stages."
+    },
+    {
+      "evidence_id": "EV_C003_E08_02",
+      "source_file": "docs/0148/combined.md",
+      "section": "C003",
+      "char_start": 50063,
+      "char_end": 50217,
+      "quote": "This difference is most pronounced in ClinTox, where ECFP-BALD initially degrades performance (-0.125) before recovery, while EPIG maintains stable gains."
+    },
+    {
+      "evidence_id": "EV_C004_E01_01",
+      "source_file": "docs/0148/combined.md",
+      "section": "C004",
+      "char_start": 59312,
+      "char_end": 59516,
+      "quote": "BERT representations show earlier and more pronounced statistical significance (beginning around iteration 500) compared to ECFP, which only shows consistent significance much later (around iteration 850)"
+    },
+    {
+      "evidence_id": "EV_C004_E02_01",
+      "source_file": "docs/0148/combined.md",
+      "section": "C004",
+      "char_start": 61035,
+      "char_end": 61236,
+      "quote": "The Davies-Bouldin index, where lower values indicate better cluster separation, shows that BERT (6.046) provides 36.5% better separation between toxic and non-toxic compounds compared to ECFP (9.529)."
+    },
+    {
+      "evidence_id": "EV_C004_E02_02",
+      "source_file": "docs/0148/combined.md",
+      "section": "C004",
+      "char_start": 61370,
+      "char_end": 61499,
+      "quote": "For the minority positive class (toxic compounds), BERT embeddings demonstrate 69.5% higher neighborhood purity (0.154 vs. 0.091)"
+    },
+    {
+      "evidence_id": "EV_C004_E02_03",
+      "source_file": "docs/0148/combined.md",
+      "section": "C004",
+      "char_start": 61999,
+      "char_end": 62183,
+      "quote": "Fisher's ratio-a direct measure of class separability that quantifies the ratio of between-class to within-class variance-is 2.5 times higher for BERT (0.054) compared to ECFP (0.021)."
+    },
+    {
+      "evidence_id": "EV_C004_E03_01",
+      "source_file": "docs/0148/combined.md",
+      "section": "C004",
+      "char_start": 63808,
+      "char_end": 64001,
+      "quote": "Fig. 7 PCA projection of molecular representations. a BERT embeddings showing more coherent clustering of positive samples (red). b ECFP embeddings with less distinct separation between classes"
+    },
+    {
+      "evidence_id": "EV_C004_E05_01",
+      "source_file": "docs/0148/combined.md",
+      "section": "C004",
+      "char_start": 65477,
+      "char_end": 65714,
+      "quote": "Expected Calibration Error (ECE) measures how closely a model's predictive confidence aligns with its actual accuracy by binning predictions and calculating the weighted average of absolute differences between bin accuracy and confidence"
+    },
+    {
+      "evidence_id": "EV_C004_E06_01",
+      "source_file": "docs/0148/combined.md",
+      "section": "C004",
+      "char_start": 62386,
+      "char_end": 62593,
+      "quote": "These quantitative metrics offer objective evidence that the structural advantages of BERT representations are fundamental rather than artifacts of specific dimensionality reduction or visualization choices."
+    },
+    {
+      "evidence_id": "EV_C005_E01_01",
+      "source_file": "docs/0148/combined.md",
+      "section": "C005",
+      "char_start": 71410,
+      "char_end": 71617,
+      "quote": "BERT-based models efficiently extracted 70% of positive samples in approximately 100 iterations, while ECFP-based models required around 180 iterations—nearly a twofold increase in sample acquisition effort."
+    },
+    {
+      "evidence_id": "EV_C005_E01_02",
+      "source_file": "docs/0148/combined.md",
+      "section": "C005",
+      "char_start": 71627,
+      "char_end": 71753,
+      "quote": "no significant differences were observed between the Greedy and UCB acquisition functions across both feature representations."
+    },
+    {
+      "evidence_id": "EV_C005_E02_01",
+      "source_file": "docs/0148/combined.md",
+      "section": "C005",
+      "char_start": 73597,
+      "char_end": 73759,
+      "quote": "For PAMPA permeability (top row), both BALD and EPIG acquisition functions with BERT representations achieve higher average precision compared to Random sampling."
+    },
+    {
+      "evidence_id": "EV_C005_E02_03",
+      "source_file": "docs/0148/combined.md",
+      "section": "C005",
+      "char_start": 74023,
+      "char_end": 74174,
+      "quote": "when using ECFP features for the same dataset, both BALD and EPIG perform nearly identically to Random sampling throughout the entire learning process."
+    },
+    {
+      "evidence_id": "EV_C005_E03_01",
+      "source_file": "docs/0148/combined.md",
+      "section": "C005",
+      "char_start": 74239,
+      "char_end": 74349,
+      "quote": "With BERT representations, both BALD and EPIG quickly separate from Random sampling (around iteration 50-100)."
+    },
+    {
+      "evidence_id": "EV_C005_E03_02",
+      "source_file": "docs/0148/combined.md",
+      "section": "C005",
+      "char_start": 74362,
+      "char_end": 74548,
+      "quote": "with ECFP features, the separation from random sampling occurs much later (around iteration 250-300) and the performance gap remains considerably smaller throughout the learning process."
+    },
+    {
+      "evidence_id": "EV_C005_E04_01",
+      "source_file": "docs/0148/combined.md",
+      "section": "C005",
+      "char_start": 74550,
+      "char_end": 74658,
+      "quote": "Both EPIG and BALD with BERT features show decline in average precision after peaking at iterations 150-200."
+    },
+    {
+      "evidence_id": "EV_C005_E04_02",
+      "source_file": "docs/0148/combined.md",
+      "section": "C005",
+      "char_start": 74659,
+      "char_end": 74803,
+      "quote": "This decline stems from a distribution mismatch-the pool set has more positives (ratio 1.56) while the test set has more negatives (ratio 0.35)."
+    },
+    {
+      "evidence_id": "EV_C005_E05_01",
+      "source_file": "docs/0148/combined.md",
+      "section": "C005",
+      "char_start": 74804,
+      "char_end": 74996,
+      "quote": "Figure 10 shows uncertainty-based methods preferentially select minority negative samples from the pool, with BERT-BALD's positive-to-negative ratio dropping from 1.0 to 0.55 by iteration 300."
+    },
+    {
+      "evidence_id": "EV_C005_E05_02",
+      "source_file": "docs/0148/combined.md",
+      "section": "C005",
+      "char_start": 74997,
+      "char_end": 75092,
+      "quote": "This sampling initially improves performance but eventually creates harmful distribution shift."
+    },
+    {
+      "evidence_id": "EV_AUTO_001",
+      "source_file": "docs/0148/combined.md",
+      "section": "auto_specific",
+      "char_start": 84142,
+      "char_end": 84198,
+      "quote": "IEEE Trans Pattern Anal Mach Intell, PAMI-1(2):224–227."
+    },
+    {
+      "evidence_id": "EV_AUTO_002",
+      "source_file": "docs/0148/combined.md",
+      "section": "auto_specific",
+      "char_start": 39711,
+      "char_end": 40018,
+      "quote": "BERT-EPIG demonstrated a 2-fold improvement over Random sampling by identifying 70% of toxic compounds (gray horizontal line) in only 266 iterations compared to approximately 600 iterations for Random sampling, demonstrating better exploration of the chemical space when starting with limited labeled data"
+    },
+    {
+      "evidence_id": "EV_AUTO_003",
+      "source_file": "docs/0148/combined.md",
+      "section": "auto_specific",
+      "char_start": 29000,
+      "char_end": 29245,
+      "quote": "Statistical validation through Wilcoxon signed-rank tests confirmed BERT-EPIG's significant superiority over BERT-BALD in both Tox21 (iteration: 300, p-value = $1 \\times 10^{-4}$ ) and in ClinTox (iteration: 300, p-value = $3 \\times 10^{-3}$ )."
+    },
+    {
+      "evidence_id": "EV_AUTO_004",
+      "source_file": "docs/0148/combined.md",
+      "section": "auto_specific",
+      "char_start": 55761,
+      "char_end": 55934,
+      "quote": "Train and test sets are created using an 80/20 scaffold split, with the training set further divided into initial set, validation set, and pool set through random splitting."
+    },
+    {
+      "evidence_id": "EV_AUTO_005",
+      "source_file": "docs/0148/combined.md",
+      "section": "auto_specific",
+      "char_start": 82132,
+      "char_end": 82255,
+      "quote": "Gayvert KM, Madhukar NS, Elemento O (2016) A data-driven approach to predicting successes and failures of clinical trials."
+    },
+    {
+      "evidence_id": "EV_AUTO_006",
+      "source_file": "docs/0148/combined.md",
+      "section": "auto_specific",
+      "char_start": 81683,
+      "char_end": 82046,
+      "quote": "Richard AM, Huang R, Waidyanatha S, Shinn P, Collins BJ, Thillainadarajah I, Grulke CM, Williams AJ, Lougee RR, Judson RS, Houck KA, Shobair M, Yang C, Rathman JF, Yasgar A, Fitzpatrick SC, Simeonov A, Thomas RS, Crofton KM, Paules RS, Bucher JR, Austin CP, Kavlock RJ, Tice RR (2021) The Tox21 10K compound library: collaborative chemistry advancing toxicology."
+    },
+    {
+      "evidence_id": "EV_AUTO_007",
+      "source_file": "docs/0148/combined.md",
+      "section": "auto_specific",
+      "char_start": 5202,
+      "char_end": 5473,
+      "quote": "These include measuring distances in molecular descriptor space between input compounds and training sets $[7, 8]$ , or employing ensemble-based techniques where multiple model variants generate predictions to quantify uncertainty through their observed variance $[9]$ ."
+    },
+    {
+      "evidence_id": "EV_AUTO_008",
+      "source_file": "docs/0148/combined.md",
+      "section": "auto_specific",
+      "char_start": 3642,
+      "char_end": 3858,
+      "quote": "In drug discovery, AL has become instrumental in efficiently identifying potent inhibitors from large molecular libraries, particularly in high-throughput screening (HTS) where exhaustive search is infeasible $[2]$ ."
+    }
+  ],
+  "event_graph": {
+    "paper_main_problem": "Data-efficient molecular property prediction in drug discovery using active learning, where traditional methods with handcrafted features (ECFP) struggle with limited labeled data, leading to poor uncertainty estimation and suboptimal sample selection.",
+    "canonical_events": [
+      {
+        "canonical_id": "K01",
+        "order": 1,
+        "event_type": "problem",
+        "summary": "Fully supervised active learning neglects unlabeled data, impairing predictive performance and molecule selection.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E01"
+        ],
+        "evidence_ids": [
+          "EV_C001_E01_01"
+        ],
+        "key_entities": [],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K02",
+        "order": 2,
+        "event_type": "hypothesis",
+        "summary": "Integrating a pretrained BERT model (MolBERT) into active learning will disentangle representation learning and uncertainty estimation, leading to more reliable molecule selection.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E02"
+        ],
+        "evidence_ids": [
+          "EV_C001_E02_01"
+        ],
+        "key_entities": [
+          "MolBERT"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K03",
+        "order": 3,
+        "event_type": "design",
+        "summary": "Proposes semi-supervised active learning using pretrained MolBERT embeddings (764-dim) and an MLP head, leveraging large unlabeled data.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E01"
+        ],
+        "evidence_ids": [
+          "EV_C002_E01_01",
+          "EV_C002_E01_02"
+        ],
+        "key_entities": [
+          "MolBERT",
+          "SMILES"
+        ],
+        "key_numbers": [
+          "1.6 million SMILES",
+          "dimension 764"
+        ]
+      },
+      {
+        "canonical_id": "K04",
+        "order": 4,
+        "event_type": "design",
+        "summary": "Designs a Bayesian neural network with MC dropout (dropout rate 0.5, 20 forward passes), skip connections, and batch normalization for uncertainty estimation.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E02"
+        ],
+        "evidence_ids": [
+          "EV_C002_E02_01",
+          "EV_C002_E02_02",
+          "EV_C002_E02_03"
+        ],
+        "key_entities": [],
+        "key_numbers": [
+          "dropout rate 0.5",
+          "20 forward passes",
+          "dropout probability 0.3",
+          "hidden layer dim 128"
+        ]
+      },
+      {
+        "canonical_id": "K05",
+        "order": 5,
+        "event_type": "experiment",
+        "summary": "Compares active learning performance using BERT vs ECFP features and EPIG, BALD, Random acquisition functions on Tox21 and ClinTox datasets with scaffold splitting and balanced initial set of 100 molecules.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C001_E04",
+          "C002_E03"
+        ],
+        "evidence_ids": [
+          "EV_C001_E04_01",
+          "EV_C002_E03_01",
+          "EV_AUTO_004"
+        ],
+        "key_entities": [
+          "Tox21",
+          "ClinTox"
+        ],
+        "key_numbers": [
+          "average precision",
+          "initial set 100 molecules"
+        ]
+      },
+      {
+        "canonical_id": "K06",
+        "order": 6,
+        "event_type": "analysis",
+        "summary": "BERT-EPIG shows steeper learning curve and earlier convergence than ECFP-EPIG; BERT-BALD reaches stable significance earlier than ECFP-BALD.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E04",
+          "C004_E01"
+        ],
+        "evidence_ids": [
+          "EV_C002_E04_01",
+          "EV_C002_E04_02",
+          "EV_C002_E04_03",
+          "EV_C004_E01_01"
+        ],
+        "key_entities": [
+          "Tox21",
+          "ClinTox"
+        ],
+        "key_numbers": [
+          "iteration 529",
+          "iteration 878",
+          "p-value < 0.05",
+          "iteration 300",
+          "p-value = 1e-4",
+          "p-value = 3e-3"
+        ]
+      },
+      {
+        "canonical_id": "K07",
+        "order": 7,
+        "event_type": "failure",
+        "summary": "BALD underperforms random sampling on ClinTox in both feature spaces.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E05"
+        ],
+        "evidence_ids": [
+          "EV_C002_E05_01"
+        ],
+        "key_entities": [
+          "ClinTox"
+        ],
+        "key_numbers": []
+      },
+      {
+        "canonical_id": "K08",
+        "order": 8,
+        "event_type": "analysis",
+        "summary": "UMAP and PCA visualizations show BERT features form structured clusters while ECFP features are scattered; quantitative metrics (Davies-Bouldin index, class purity, Fisher's ratio) confirm better class separation for BERT.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E06",
+          "C004_E02",
+          "C004_E03",
+          "C004_E06"
+        ],
+        "evidence_ids": [
+          "EV_C002_E06_01",
+          "EV_C002_E06_02",
+          "EV_C002_E06_03",
+          "EV_C004_E02_01",
+          "EV_C004_E02_02",
+          "EV_C004_E02_03"
+        ],
+        "key_entities": [
+          "BERT",
+          "ECFP"
+        ],
+        "key_numbers": [
+          "Davies-Bouldin: BERT 6.046 vs ECFP 9.529",
+          "Positive class purity: BERT 0.154 vs ECFP 0.091",
+          "Fisher's ratio: BERT 0.054 vs ECFP 0.021"
+        ]
+      },
+      {
+        "canonical_id": "K09",
+        "order": 9,
+        "event_type": "analysis",
+        "summary": "Model calibration analysis shows BERT-based methods have lower ECE early on; BERT-EPIG achieves fastest ECE reduction, indicating superior uncertainty calibration.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C002_E07",
+          "C003_E01",
+          "C003_E02",
+          "C003_E03",
+          "C003_E04",
+          "C004_E05"
+        ],
+        "evidence_ids": [
+          "EV_C002_E07_01",
+          "EV_C002_E07_02",
+          "EV_C002_E07_03",
+          "EV_C003_E01_01",
+          "EV_C003_E01_02",
+          "EV_C003_E02_01"
+        ],
+        "key_entities": [],
+        "key_numbers": [
+          "ECE 0.30–0.38 initially",
+          "p-value = 2e-5 (Tox21), 4e-4 (ClinTox) at iteration 200",
+          "ECE < 0.1 after 600-800 iterations"
+        ]
+      },
+      {
+        "canonical_id": "K10",
+        "order": 10,
+        "event_type": "analysis",
+        "summary": "Analysis of positive sample acquisition on ClinTox shows BERT-EPIG identifies 70% of toxic compounds in 266 iterations, a 2-fold improvement over random.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E05"
+        ],
+        "evidence_ids": [
+          "EV_C003_E05_01",
+          "EV_C003_E05_02",
+          "EV_AUTO_002"
+        ],
+        "key_entities": [
+          "ClinTox"
+        ],
+        "key_numbers": [
+          "70% of toxic compounds in 266 iterations",
+          "2-fold improvement over random"
+        ]
+      },
+      {
+        "canonical_id": "K11",
+        "order": 11,
+        "event_type": "analysis",
+        "summary": "Relative gain analysis shows BERT-EPIG achieves higher gains over random than ECFP-EPIG; BALD shows delayed gains or initial degradation, especially with ECFP on ClinTox.",
+        "required_for_good_trajectory": true,
+        "source_event_ids": [
+          "C003_E07",
+          "C003_E08"
+        ],
+        "evidence_ids": [
+          "EV_C003_E07_02",
+          "EV_C003_E08_01",
+          "EV_C003_E08_02"
+        ],
+        "key_entities": [
+          "Tox21",
+          "ClinTox"
+        ],
+        "key_numbers": [
+          "BERT-EPIG max gain 0.05, ECFP-EPIG 0.02",
+          "p-value = 1e-3 at iteration 282",
+          "ECFP-BALD initially degrades performance (-0.125)"
+        ]
+      },
+      {
+        "canonical_id": "K12",
+        "order": 12,
+        "event_type": "validation",
+        "summary": "Performance advantages of BERT over ECFP extend to ADME datasets (PAMPA permeability, Pgp inhibition); BERT-BALD and BERT-EPIG significantly outperform Random on PAMPA, while ECFP methods perform similarly to Random.",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C005_E02",
+          "C005_E03"
+        ],
+        "evidence_ids": [
+          "EV_C005_E02_01",
+          "EV_C005_E02_03",
+          "EV_C005_E03_01",
+          "EV_C005_E03_02"
+        ],
+        "key_entities": [
+          "PAMPA permeability",
+          "Pgp inhibition"
+        ],
+        "key_numbers": [
+          "p = 9e-6 (BERT-BALD vs Random)",
+          "p = 2e-3 (BERT-EPIG vs Random)",
+          "iteration = 200"
+        ]
+      },
+      {
+        "canonical_id": "K13",
+        "order": 13,
+        "event_type": "failure",
+        "summary": "BERT-EPIG and BERT-BALD show a decline in average precision after peaking at iterations 150-200 on Pgp inhibition due to distribution mismatch between pool and test sets.",
+        "required_for_good_trajectory": false,
+        "source_event_ids": [
+          "C005_E04",
+          "C005_E05"
+        ],
+        "evidence_ids": [
+          "EV_C005_E04_01",
+          "EV_C005_E04_02",
+          "EV_C005_E05_01",
+          "EV_C005_E05_02"
+        ],
+        "key_entities": [
+          "Pgp inhibition"
+        ],
+        "key_numbers": [
+          "iterations 150-200",
+          "pool positive ratio 1.56",
+          "test positive ratio 0.35",
+          "positive-to-negative ratio 1.0 to 0.55",
+          "iteration 300"
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "source": "K01",
+        "target": "K02",
+        "relation": "enables",
+        "reason": "The problem of neglecting unlabeled data motivates the hypothesis of using pretrained BERT to improve active learning."
+      },
+      {
+        "source": "K02",
+        "target": "K03",
+        "relation": "enables",
+        "reason": "The hypothesis leads to the design of semi-supervised active learning with MolBERT embeddings."
+      },
+      {
+        "source": "K03",
+        "target": "K04",
+        "relation": "enables",
+        "reason": "The design of using MolBERT embeddings is complemented by the Bayesian neural network design for uncertainty estimation."
+      },
+      {
+        "source": "K04",
+        "target": "K05",
+        "relation": "enables",
+        "reason": "The Bayesian neural network design enables the experimental comparison of acquisition functions and features."
+      },
+      {
+        "source": "K05",
+        "target": "K06",
+        "relation": "follows",
+        "reason": "The experiment yields results that are analyzed to show BERT-EPIG's superior learning dynamics."
+      },
+      {
+        "source": "K06",
+        "target": "K07",
+        "relation": "contradicts",
+        "reason": "While BERT-EPIG performs well, BALD underperforms random on ClinTox, highlighting a failure case."
+      },
+      {
+        "source": "K06",
+        "target": "K08",
+        "relation": "enables",
+        "reason": "The performance differences motivate analysis of learned representations to explain why BERT features are better."
+      },
+      {
+        "source": "K08",
+        "target": "K09",
+        "relation": "enables",
+        "reason": "The structured representations explain why BERT-based methods achieve better calibration (lower ECE)."
+      },
+      {
+        "source": "K09",
+        "target": "K10",
+        "relation": "enables",
+        "reason": "Better calibration leads to more efficient positive sample acquisition, as shown by BERT-EPIG's 2-fold improvement."
+      },
+      {
+        "source": "K10",
+        "target": "K11",
+        "relation": "refines",
+        "reason": "Relative gain analysis further refines the understanding of BERT-EPIG's advantage and BALD's limitations."
+      },
+      {
+        "source": "K11",
+        "target": "K12",
+        "relation": "validates",
+        "reason": "The findings are validated on additional ADME datasets, showing consistent advantages of BERT features."
+      },
+      {
+        "source": "K12",
+        "target": "K13",
+        "relation": "contradicts",
+        "reason": "Despite overall advantages, a failure case on Pgp inhibition shows performance decline due to distribution mismatch."
+      }
+    ],
+    "must_cover_points": [
+      "Problem of fully supervised active learning neglecting unlabeled data.",
+      "Hypothesis that pretrained BERT features improve uncertainty estimation.",
+      "Design of semi-supervised active learning with MolBERT and Bayesian neural network.",
+      "Experimental comparison of BERT vs ECFP and EPIG vs BALD vs Random.",
+      "Key result: BERT-EPIG achieves steeper learning curve and earlier convergence.",
+      "Failure: BALD underperforms random on ClinTox.",
+      "Analysis: BERT features form structured clusters, enabling better uncertainty estimation.",
+      "Calibration analysis: BERT-EPIG achieves fastest ECE reduction.",
+      "Positive sample acquisition: BERT-EPIG identifies 70% toxic compounds in 266 iterations (2-fold improvement).",
+      "Relative gain analysis: BERT-EPIG max gain 0.05 vs ECFP-EPIG 0.02; BALD degrades with ECFP.",
+      "Limitations: binary classification, limited datasets, one pretrained model."
+    ],
+    "paper_not_suitable_reasons": []
+  }
+}

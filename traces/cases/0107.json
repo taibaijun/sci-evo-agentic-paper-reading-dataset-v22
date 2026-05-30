@@ -1,0 +1,880 @@
+{
+  "case": {
+    "case_id": "sci_evo_0107",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "ECNet is an evolutionary context-integrated deep learning framework for protein engineering",
+      "doi": "https://doi.org/10.1038/s41467-021-25976-8",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0105_10_1038_s41467_021_25976_8_ecnet_is_an_evolutionary_context_integrated_deep_learning_framework_for_protein_engineerin.pdf",
+      "mineru_md": "docs/0107/mineru.md",
+      "combined_md": "docs/0107/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Protein engineering requires accurate prediction of functional fitness for unseen variants, but existing ML methods have limited accuracy because they capture general sequence contexts not specific to the target protein.",
+      "target_object": "protein fitness landscape",
+      "known_context": "Existing ML algorithms for protein engineering have limited accuracy because the general sequence contexts they capture are not specific to the protein being engineered.",
+      "constraints": [
+        "Limited labeled DMS data",
+        "Need to model epistasis"
+      ],
+      "input_data": [
+        "DMS datasets",
+        "Homologous sequences"
+      ],
+      "quantifiable_goals": [
+        "Improve Spearman correlation for fitness prediction",
+        "Generalize from low-order to higher-order mutants"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "Existing ML algorithms for protein engineering have limited accuracy because they capture general sequence contexts not specific to the target protein.",
+        "gap_or_uncertainty": "Whether co-evolution information can be used to infer epistasis or fitness of proteins.",
+        "hypothesis": "Co-evolution information can be used to infer epistasis or fitness of proteins.",
+        "decision": "Investigate the relationship between co-evolution of residue pairs and fitness of double mutants.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "Direct coupling analysis",
+          "version": "",
+          "category": "computational"
+        },
+        "parameters": {},
+        "observation": "Hypothesized that co-evolution information can be used to infer epistasis or fitness of proteins.",
+        "result_status": "success",
+        "next_step_reason": "Test the hypothesis by correlating co-evolution strength with double mutant fitness.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E01_01",
+            "source_file": "docs/0107/combined.md",
+            "section": "C001",
+            "quote_or_span": "because the general sequence contexts they capture are not specific to the protein being engineered, the accuracy of existing machine learning algorithms is rather limited"
+          },
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0107/combined.md",
+            "section": "C001",
+            "quote_or_span": "we hypothesized that co-evolution information can also be used to infer epistasis or fitness of proteins"
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "experiment",
+        "state_before": "Hypothesized that co-evolution information can infer epistasis or fitness.",
+        "gap_or_uncertainty": "Whether the strength of pairwise dependencies correlates with fitness of double mutants.",
+        "hypothesis": "The strength of pairwise dependencies correlates with the fitness of double mutants.",
+        "decision": "Compute pairwise dependencies from direct coupling analysis and correlate with DMS fitness data for double mutants.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "Direct coupling analysis",
+          "version": "",
+          "category": "computational"
+        },
+        "parameters": {
+          "protein": "human YAP65 WW domain",
+          "mutant_type": "double mutants"
+        },
+        "observation": "Found Spearman correlation 0.35 between pairwise dependency strength and double mutant fitness.",
+        "result_status": "partial",
+        "next_step_reason": "Extend analysis to more DMS datasets and examine effect of homologous sequence depth.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E03_01",
+            "source_file": "docs/0107/combined.md",
+            "section": "C001",
+            "quote_or_span": "We found that the strength of pairwise dependencies correlated with the fitness of double mutants (Spearman correlation 0.35; Fig. 1a)."
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "analysis",
+        "state_before": "Observed moderate correlation (0.35) for one protein.",
+        "gap_or_uncertainty": "Whether the correlation generalizes across proteins and depends on MSA depth.",
+        "hypothesis": "Change of dependency strength can predict fitness across DMS datasets, and correlation increases with more homologous sequences.",
+        "decision": "Use change of dependency strength to predict fitness across multiple DMS datasets and analyze trend with number of homologous sequences.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Direct coupling analysis",
+          "version": "",
+          "category": "computational"
+        },
+        "parameters": {
+          "datasets": "multiple DMS datasets"
+        },
+        "observation": "Spearman correlations ranged from 0.1 to 0.5; observed trend of increasing correlation with more homologous sequences.",
+        "result_status": "partial",
+        "next_step_reason": "Design a model that integrates local evolutionary context from homologous sequences and global context from protein language models.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E04_01",
+            "source_file": "docs/0107/combined.md",
+            "section": "C001",
+            "quote_or_span": "We found that the predictions correlated with experimental data with a Spearman correlation ranging from 0.1 to 0.5 (Fig. 1b)."
+          },
+          {
+            "evidence_id": "EV_C001_E05_01",
+            "source_file": "docs/0107/combined.md",
+            "section": "C001",
+            "quote_or_span": "we observed a trend of increasing correlation score if a protein has more homologous sequences, presumably because abundant homologous sequences lead to a more accurately fitted direct coupling analysis model"
+          },
+          {
+            "evidence_id": "EV_C001_E03_01",
+            "source_file": "docs/0107/combined.md",
+            "section": "C001",
+            "quote_or_span": "We found that the strength of pairwise dependencies correlated with the fitness of double mutants (Spearman correlation 0.35; Fig. 1a)."
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "design",
+        "state_before": "Co-evolution information shows predictive power but limited accuracy; correlation depends on MSA depth.",
+        "gap_or_uncertainty": "How to integrate local evolutionary context (residue-residue epistasis) with global evolutionary context (from protein language models) for improved fitness prediction.",
+        "hypothesis": "Integrating local evolutionary context from homologous sequences with global evolutionary context from protein language models will improve fitness prediction.",
+        "decision": "Design ECNet to combine local evolutionary context (via direct coupling analysis) and global evolutionary context (via protein language model, e.g., TAPE).",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "ECNet",
+          "version": "",
+          "category": "deep learning framework"
+        },
+        "parameters": {
+          "local_context": "direct coupling analysis",
+          "global_context": "protein language model (TAPE)",
+          "global_vector_dim": 768
+        },
+        "observation": "Designed ECNet architecture integrating local and global evolutionary contexts.",
+        "result_status": "success",
+        "next_step_reason": "Specify the neural network architecture and training procedure.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E06_01",
+            "source_file": "docs/0107/combined.md",
+            "section": "C001",
+            "quote_or_span": "This algorithm integrates local evolutionary context from homologous sequences that explicitly model residue-residue epistasis for the protein of interest with the global evolutionary context that encodes rich semantic and structural features from the enormous protein sequence universe."
+          },
+          {
+            "evidence_id": "EV_C002_E01_01",
+            "source_file": "docs/0107/combined.md",
+            "section": "C002",
+            "quote_or_span": "ECNet integrates global and local evolutionary contexts to represent the protein sequence of interest."
+          },
+          {
+            "evidence_id": "EV_C002_E01_02",
+            "source_file": "docs/0107/combined.md",
+            "section": "C002",
+            "quote_or_span": "a direct coupling analysis model is used to capture the dependencies between residues in protein sequences, which encodes the local evolutionary context."
+          },
+          {
+            "evidence_id": "EV_C002_E01_03",
+            "source_file": "docs/0107/combined.md",
+            "section": "C002",
+            "quote_or_span": "we integrated general protein sequence representations from unsupervised protein contextual language models"
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "design",
+        "state_before": "ECNet conceptual design established.",
+        "gap_or_uncertainty": "Need to specify the neural network architecture and training details.",
+        "hypothesis": "A BiLSTM with self-attention and fully-connected layers, trained with MSE loss and ensemble of three models, will effectively model sequence-to-function mapping.",
+        "decision": "Use BiLSTM with self-attention and fully-connected layers, train with MSE loss, and ensemble three replicas.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "BiLSTM with self-attention",
+          "version": "",
+          "category": "recurrent neural network"
+        },
+        "parameters": {
+          "loss": "MSE",
+          "ensemble_size": 3
+        },
+        "observation": "Architecture specified: recurrent neural network (BiLSTM) with self-attention, ensemble of three models.",
+        "result_status": "success",
+        "next_step_reason": "Address skewed training data bias by adding auxiliary classification objective.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E07_01",
+            "source_file": "docs/0107/combined.md",
+            "section": "C001",
+            "quote_or_span": "a recurrent neural network model, trained on the fitness data of screened variants, is used for the sequence-to-function modeling with both representations"
+          },
+          {
+            "evidence_id": "EV_C005_E05_01",
+            "source_file": "docs/0107/combined.md",
+            "section": "C005",
+            "quote_or_span": "To improve the model’s robustness and prediction accuracy, we used an ensemble approach to output the prediction, in which three replicas of ECNet models were trained using the same hyperparameters and training data, and their output scores were averaged as the final prediction."
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "revision",
+        "state_before": "Basic ECNet architecture defined, but training data may be skewed (e.g., only 18% positive variants in Envision TEM-1).",
+        "gap_or_uncertainty": "Skewed training data may bias the model towards negative predictions.",
+        "hypothesis": "Adding an auxiliary classification objective will mitigate bias from skewed data.",
+        "decision": "Introduce auxiliary classification objective.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Auxiliary classification objective",
+          "version": "",
+          "category": "loss function modification"
+        },
+        "parameters": {},
+        "observation": "Added auxiliary classification objective to address skewed training data bias.",
+        "result_status": "success",
+        "next_step_reason": "Benchmark ECNet against existing methods on Envision dataset.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C005_E06_01",
+            "source_file": "docs/0107/combined.md",
+            "section": "C005",
+            "quote_or_span": "We addressed this issue by introducing an auxiliary classification objective."
+          },
+          {
+            "evidence_id": "EV_AUTO_008",
+            "source_file": "docs/0107/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "For example, in the Envision dataset $^{35}$ , only 18% of TEM-1 variants are more active than the wild-type sequence (positive effects) while the remaining are less active than the wild-type sequence (negative effects)."
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "experiment",
+        "state_before": "ECNet with auxiliary loss ready for benchmarking.",
+        "gap_or_uncertainty": "How ECNet performs compared to the approach of Yang et al on the Envision dataset.",
+        "hypothesis": "ECNet will outperform the approach of Yang et al on the Envision dataset.",
+        "decision": "Train ECNet on 80% of DMS data and test on 20%, using Spearman correlation as metric.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "ECNet",
+          "version": "",
+          "category": "deep learning framework"
+        },
+        "parameters": {
+          "train_split": 0.8,
+          "test_split": 0.2,
+          "metric": "Spearman correlation"
+        },
+        "observation": "ECNet consistently outperformed the approach of Yang et al on all 12 datasets, with a relative improvement ranging from 16 to 60% in Spearman correlation.",
+        "result_status": "success",
+        "next_step_reason": "Compare ECNet to unsupervised methods on DeepSequence dataset.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E03_01",
+            "source_file": "docs/0107/combined.md",
+            "section": "C002",
+            "quote_or_span": "ECNet consistently outperformed the approach of Yang et al on all the 12 datasets, with a relative improvement ranging from 16 to 60% in terms of the achieved Spearman correlation"
+          },
+          {
+            "evidence_id": "EV_C006_E01_01",
+            "source_file": "docs/0107/combined.md",
+            "section": "C006",
+            "quote_or_span": "For each protein, we used 80% of the DMS data to train ECNet or other methods and the remaining 20% data to evaluate the model's performance."
+          },
+          {
+            "evidence_id": "EV_C006_E01_02",
+            "source_file": "docs/0107/combined.md",
+            "section": "C006",
+            "quote_or_span": "Spearman correlation was used as the evaluation metric."
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "experiment",
+        "state_before": "ECNet outperformed the approach of Yang et al on Envision dataset.",
+        "gap_or_uncertainty": "How ECNet compares to unsupervised methods (EVmutation, DeepSequence, Autoregressive) on DeepSequence dataset.",
+        "hypothesis": "ECNet, as a supervised predictor, will outperform unsupervised methods on the DeepSequence dataset.",
+        "decision": "Perform five-fold cross-validation on DeepSequence dataset, using Spearman correlation as metric.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "ECNet",
+          "version": "",
+          "category": "deep learning framework"
+        },
+        "parameters": {
+          "cross_validation": "five-fold",
+          "metric": "Spearman correlation"
+        },
+        "observation": "ECNet outperformed EVmutation, DeepSequence, and Autoregressive across almost all proteins.",
+        "result_status": "success",
+        "next_step_reason": "Perform ablation and robustness analyses to validate contributions of joint representations and noise tolerance.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E05_01",
+            "source_file": "docs/0107/combined.md",
+            "section": "C002",
+            "quote_or_span": "ECNet, predicting the mutation effects using a supervised predictor, outperformed these methods across almost all proteins"
+          },
+          {
+            "evidence_id": "EV_C006_E03_01",
+            "source_file": "docs/0107/combined.md",
+            "section": "C006",
+            "quote_or_span": "For ECNet, we performed five-fold cross-validation on this dataset and reported the average performance over all the five folds."
+          },
+          {
+            "evidence_id": "EV_C006_E03_02",
+            "source_file": "docs/0107/combined.md",
+            "section": "C006",
+            "quote_or_span": "We used Spearman correlation as the evaluation metric."
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "analysis",
+        "state_before": "ECNet demonstrated superior performance in benchmarks.",
+        "gap_or_uncertainty": "Whether joint representations are necessary and how robust ECNet is to data noise.",
+        "hypothesis": "Joint representations outperform individual ones, and ECNet is robust to data noise.",
+        "decision": "Conduct ablation study comparing joint vs. individual representations, and test robustness by perturbing 10% of training data.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Ablation study",
+          "version": "",
+          "category": "analysis"
+        },
+        "parameters": {
+          "noise_level": 0.1
+        },
+        "observation": "Joint representations outperformed individual ones; test correlation decreased only 2% with 10% noise.",
+        "result_status": "success",
+        "next_step_reason": "Test generalization from single to double mutants.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E07_01",
+            "source_file": "docs/0107/combined.md",
+            "section": "C002",
+            "quote_or_span": "a model using joint representations outperformed a model using any individual representation"
+          },
+          {
+            "evidence_id": "EV_C002_E08_01",
+            "source_file": "docs/0107/combined.md",
+            "section": "C002",
+            "quote_or_span": "ECNet's test correlation only decreased by 2% when the training data was perturbed by 10%"
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "experiment",
+        "state_before": "ECNet validated on single mutant predictions.",
+        "gap_or_uncertainty": "Whether ECNet can generalize from single mutants to predict fitness of double mutants.",
+        "hypothesis": "ECNet trained on single mutant data can predict double mutant fitness.",
+        "decision": "Train ECNet on single mutant data only and test on double mutants for six proteins.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "ECNet",
+          "version": "",
+          "category": "deep learning framework"
+        },
+        "parameters": {
+          "training_data": "single mutants",
+          "test_data": "double mutants",
+          "num_proteins": 6
+        },
+        "observation": "ECNet achieved Spearman correlations ranging from 0.73 to 0.94 on six proteins.",
+        "result_status": "success",
+        "next_step_reason": "Validate ECNet's ability to prioritize higher-order mutants in wet-lab experiments.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E04_01",
+            "source_file": "docs/0107/combined.md",
+            "section": "C003",
+            "quote_or_span": "We then trained our prediction model using single mutant data only and tested its performance on double mutants."
+          },
+          {
+            "evidence_id": "EV_C003_E04_02",
+            "source_file": "docs/0107/combined.md",
+            "section": "C003",
+            "quote_or_span": "ECNet achieved Spearman correlations ranging from 0.73 to 0.94 for the six proteins"
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "experiment",
+        "state_before": "ECNet shows strong generalization from single to double mutants in silico.",
+        "gap_or_uncertainty": "Whether ECNet can prioritize novel higher-order TEM-1 variants with improved ampicillin resistance in wet-lab.",
+        "hypothesis": "ECNet-prioritized TEM-1 variants will show improved ampicillin resistance.",
+        "decision": "Train ECNet on low-order TEM-1 DMS data, predict fitness of 146 inhibitor-resistant variants and random variants, prioritize 37 variants, and test in E. coli.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "ECNet",
+          "version": "",
+          "category": "deep learning framework"
+        },
+        "parameters": {
+          "training_data": "low-order TEM-1 DMS",
+          "num_prioritized_variants": 37
+        },
+        "observation": "Most prioritized variants showed improved fitness as compared to the wild type.",
+        "result_status": "success",
+        "next_step_reason": "Confirm generalization to higher-order mutants and discuss limitations.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E01_01",
+            "source_file": "docs/0107/combined.md",
+            "section": "C004",
+            "quote_or_span": "most of the variants prioritized by ECNet demonstrated improved fitness as compared to the wild type"
+          },
+          {
+            "evidence_id": "EV_C006_E07_01",
+            "source_file": "docs/0107/combined.md",
+            "section": "C006",
+            "quote_or_span": "We trained an ECNet model and used it to predict the fitness of 146 TEM-1 inhibitor-resistant variants and a set of randomly generated variants."
+          },
+          {
+            "evidence_id": "EV_C006_E07_02",
+            "source_file": "docs/0107/combined.md",
+            "section": "C006",
+            "quote_or_span": "For every of the 146 TEM-1 inhibitor-resistant variants, we generate ten random variants that have the same mutated sites"
+          },
+          {
+            "evidence_id": "EV_C006_E08_03",
+            "source_file": "docs/0107/combined.md",
+            "section": "C006",
+            "quote_or_span": "In total, we used ECNet to identify 37 TEM-1 variants that were likely to demonstrate improved fitness"
+          }
+        ]
+      },
+      {
+        "step_index": 12,
+        "phase": "validation",
+        "state_before": "Wet-lab results show improved ampicillin resistance for ECNet-prioritized variants.",
+        "gap_or_uncertainty": "Whether ECNet generalizes from low-order to higher-order mutants.",
+        "hypothesis": "ECNet generalizes from low-order to higher-order mutants.",
+        "decision": "Validate that ECNet prioritized novel higher-order TEM-1 mutants with improved resistance, despite being trained on single and consecutive double mutants.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Validation analysis",
+          "version": "",
+          "category": "analysis"
+        },
+        "parameters": {},
+        "observation": "ECNet prioritized novel and higher-order TEM-1 mutants that showed improved resistance against ampicillin.",
+        "result_status": "success",
+        "next_step_reason": "Acknowledge limitations regarding MSA and DMS data dependence.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E02_01",
+            "source_file": "docs/0107/combined.md",
+            "section": "C004",
+            "quote_or_span": "Despite being trained on the data of single mutants and consecutive double mutants, ECNet prioritized novel and higher-order TEM-1 mutants that showed improved resistance against ampicillin."
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "Benchmarking against the approach of Yang et al on Envision dataset",
+        "Comparison with unsupervised methods (EVmutation, DeepSequence, Autoregressive) on DeepSequence dataset",
+        "Ablation study on joint vs. individual representations",
+        "Robustness test with 10% data noise",
+        "Generalization test from single to double mutants",
+        "Wet-lab validation of prioritized TEM-1 variants"
+      ],
+      "metrics": [
+        "Spearman correlation",
+        "Hit rate at different ampicillin concentrations"
+      ],
+      "final_conclusion": "ECNet integrates local and global evolutionary contexts to accurately predict protein fitness, outperforms existing methods, generalizes from low-order to higher-order mutants, and successfully prioritizes novel functional variants in wet-lab experiments.",
+      "limitations": [
+        "ECNet's prediction performance is impacted by the MSA characteristics and DMS data properties.",
+        "The exploration-exploitation trade-off of training data also influenced the model performance."
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_specific_evidence_backfilled=7",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_specific_evidence_backfilled=2",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 96.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_mainline_batch30_p4\\states\\0107.json",
+  "events_path": "outputs\\agentic_v22\\v22_mainline_batch30_p4\\events\\0107.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1
+        ],
+        "K03": [
+          1,
+          2,
+          3
+        ],
+        "K04": [
+          2,
+          3
+        ],
+        "K06": [
+          5
+        ],
+        "K07": [
+          5,
+          6
+        ],
+        "K08": [
+          7,
+          8
+        ],
+        "K09": [
+          7,
+          8
+        ],
+        "K10": [
+          7,
+          8,
+          9
+        ],
+        "K11": [
+          9,
+          10,
+          11,
+          12
+        ],
+        "K12": [
+          11,
+          12
+        ],
+        "K13": [
+          10,
+          11,
+          12
+        ],
+        "K14": [
+          4
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02",
+            "K03"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K02",
+            "K03",
+            "K04"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K03",
+            "K04",
+            "K05"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K05",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K06",
+            "K07"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K07"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K08",
+            "K09",
+            "K10"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K08",
+            "K09",
+            "K10"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K10",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K11",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K11",
+            "K12",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 12,
+          "covered_event_ids": [
+            "K11",
+            "K12",
+            "K13"
+          ]
+        }
+      ]
+    },
+    "warnings": [],
+    "step_count": 12,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 96.0
+  },
+  "api_usage": {
+    "prompt_tokens": 130094,
+    "completion_tokens": 27501,
+    "total_tokens": 157595,
+    "prompt_cache_hit_tokens": 3456,
+    "prompt_cache_miss_tokens": 126638
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 2817,
+        "completion_tokens": 724,
+        "total_tokens": 3541,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 2817
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 11170,
+        "completion_tokens": 2516,
+        "total_tokens": 13686,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 11170
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 7562,
+        "completion_tokens": 1082,
+        "total_tokens": 8644,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7306
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 7538,
+        "completion_tokens": 1367,
+        "total_tokens": 8905,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7282
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 7515,
+        "completion_tokens": 1439,
+        "total_tokens": 8954,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7259
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 7249,
+        "completion_tokens": 1091,
+        "total_tokens": 8340,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6993
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C005",
+      "api_usage": {
+        "prompt_tokens": 6879,
+        "completion_tokens": 1456,
+        "total_tokens": 8335,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6623
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C006",
+      "api_usage": {
+        "prompt_tokens": 7026,
+        "completion_tokens": 1489,
+        "total_tokens": 8515,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6770
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C007",
+      "api_usage": {
+        "prompt_tokens": 7922,
+        "completion_tokens": 58,
+        "total_tokens": 7980,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7666
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 12843,
+        "completion_tokens": 3364,
+        "total_tokens": 16207,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 12459
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 12690,
+        "completion_tokens": 5943,
+        "total_tokens": 18633,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 12050
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 17703,
+        "completion_tokens": 1186,
+        "total_tokens": 18889,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 17703
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 21180,
+        "completion_tokens": 5786,
+        "total_tokens": 26966,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 20540
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

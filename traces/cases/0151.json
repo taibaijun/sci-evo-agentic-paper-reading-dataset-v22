@@ -1,0 +1,982 @@
+{
+  "case": {
+    "case_id": "sci_evo_0151",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Multistate and functional protein design using RoseTTAFold sequence space diffusion",
+      "doi": "https://doi.org/10.1038/s41587-024-02395-w",
+      "url": "",
+      "license": "cc-by-nc-nd",
+      "publication_date": "",
+      "raw_file": "0149_10_1038_s41587_024_02395_w_multistate_and_functional_protein_design_using_rosettafold_sequence_space_diffusion.pdf",
+      "mineru_md": "docs/0151/mineru.md",
+      "combined_md": "docs/0151/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Developing a sequence-space diffusion model (ProteinGenerator) based on RoseTTAFold that simultaneously generates protein sequences and structures, enabling direct sequence-based guidance for multistate and functional protein design.",
+      "target_object": "ProteinGenerator (PG) model",
+      "known_context": "Structure-based diffusion models (RFdiffusion, Chroma) provide limited opportunities for sequence-based guidance and multistate design.",
+      "constraints": [],
+      "input_data": [],
+      "quantifiable_goals": []
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "Structure-based diffusion models (RFdiffusion, Chroma) provide limited opportunities for sequence-based guidance and multistate design.",
+        "gap_or_uncertainty": "How to enable sequence-based guidance and multistate design in protein diffusion models.",
+        "hypothesis": "Carrying out diffusion in sequence space rather than structure space could enable guidance using sequence-based features and explicit design of sequences populating multiple states.",
+        "decision": "Develop a sequence-space diffusion model (ProteinGenerator) based on RoseTTAFold.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "Literature reasoning",
+          "version": "",
+          "category": "reasoning"
+        },
+        "parameters": {},
+        "observation": "Sequence-space diffusion could overcome limitations of structure-based models.",
+        "result_status": "success",
+        "next_step_reason": "Proceed to design sequence representation and diffusion process.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_023",
+            "source_file": "docs/0151/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Although powerful, structure-based approaches, such as RFdiffusion $^{11}$ and Chroma $^{12}$ , provide limited opportunities to guide protein generation using sequence-based features and to identify sequences with more than one fold and/or function."
+          },
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0151/combined.md",
+            "section": "C001",
+            "quote_or_span": "We reasoned that carrying out diffusion in sequence space rather than structure space could enable guidance of design using sequence-based features and explicit design of sequences populating multiple states."
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "simulation",
+        "state_before": "Sequence representation and noise schedule defined.",
+        "gap_or_uncertainty": "Need to train the model to generate sequences and structures.",
+        "hypothesis": "Multi-task learning with diffusion, structure prediction, and fixed backbone design will yield a model capable of sequence-structure generation.",
+        "decision": "Train RoseTTAFold-based model with multi-task learning (40% diffusion, 30% structure prediction, 30% fixed backbone design) using categorical cross-entropy, FAPE, and KL losses with self-conditioning.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "RoseTTAFold",
+          "version": "",
+          "category": "deep_learning"
+        },
+        "parameters": {
+          "task_weights": "diffusion 40%, structure prediction 30%, fixed backbone design 30%",
+          "losses": "categorical cross-entropy, FAPE, KL",
+          "self_conditioning": true
+        },
+        "observation": "Model trained with multi-task learning.",
+        "result_status": "success",
+        "next_step_reason": "Set up inference procedure with self-conditioning and logit clamping.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C006_E06_01",
+            "source_file": "docs/0151/combined.md",
+            "section": "C006",
+            "quote_or_span": "Along with the standard diffusion task (40% of the time), the model was also challenged with structure prediction (seq2str) and fixed backbone sequence design (30% of the time each)."
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "experiment",
+        "state_before": "Inference procedure defined.",
+        "gap_or_uncertainty": "Does unconditional generation produce viable proteins?",
+        "hypothesis": "Unconditional generation will yield a fraction of high-confidence designs that are soluble and monomeric.",
+        "decision": "Generate proteins unconditionally and filter by AF2 pLDDT>90 and RMSD<2Å; experimentally test 42 designs.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Unconditional generation",
+          "version": "",
+          "category": "generation"
+        },
+        "parameters": {
+          "filter": "AF2 pLDDT>90, RMSD<2Å",
+          "tested": 42
+        },
+        "observation": "6% of designs have AF2 pLDDT>90 and RMSD<2Å; 32/42 tested proteins soluble and monomeric.",
+        "result_status": "success",
+        "next_step_reason": "Explore sequence-based guidance with rare amino acid enrichment.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E06_01",
+            "source_file": "docs/0151/combined.md",
+            "section": "C001",
+            "quote_or_span": "6% of designs have AF2 confidence pLDDT > 90 and RMSD < 2 Å"
+          },
+          {
+            "evidence_id": "EV_C001_E06_02",
+            "source_file": "docs/0151/combined.md",
+            "section": "C001",
+            "quote_or_span": "Of the 42 proteins experimentally tested, 32 were soluble and monomeric by SEC"
+          },
+          {
+            "evidence_id": "EV_C007_E01_02",
+            "source_file": "docs/0151/combined.md",
+            "section": "C007",
+            "quote_or_span": "Designs were filtered by AF2 pLDDT > 90 and AF2 RMSD to design < 2 Å for ordering final constructs."
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "experiment",
+        "state_before": "Unconditional generation successful.",
+        "gap_or_uncertainty": "Can sequence-based guidance enrich rare amino acids and induce disulfide bonds without structural conditioning?",
+        "hypothesis": "Biasing amino acid composition during generation will yield soluble proteins enriched in rare amino acids, and high cysteine content will form disulfide bonds.",
+        "decision": "Generate proteins with biased amino acid composition (tryptophan, cysteine, valine, histidine, methionine) and test expression and solubility.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Amino acid composition biasing",
+          "version": "",
+          "category": "sequence_guidance"
+        },
+        "parameters": {
+          "enriched_amino_acids": [
+            "tryptophan",
+            "cysteine",
+            "valine",
+            "histidine",
+            "methionine"
+          ],
+          "composition_target": "20%"
+        },
+        "observation": "68/96 expressed designs soluble; cysteine designs formed 3-4 disulfide bonds without structural conditioning.",
+        "result_status": "success",
+        "next_step_reason": "Apply to repeat protein design.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E07_01",
+            "source_file": "docs/0151/combined.md",
+            "section": "C001",
+            "quote_or_span": "Of the expressed designs, 68 were soluble in Escherichia coli"
+          },
+          {
+            "evidence_id": "EV_C001_E07_02",
+            "source_file": "docs/0151/combined.md",
+            "section": "C001",
+            "quote_or_span": "Guiding for high cysteine content at the sequence level resulted in the formation of 3–4 disulfide bonds per protein without any structural conditioning"
+          },
+          {
+            "evidence_id": "EV_C002_E04_01",
+            "source_file": "docs/0151/combined.md",
+            "section": "C002",
+            "quote_or_span": "separate PG trajectories were carried out for each enriched amino acid."
+          },
+          {
+            "evidence_id": "EV_C002_E08_01",
+            "source_file": "docs/0151/combined.md",
+            "section": "C002",
+            "quote_or_span": "SEC Normalized absorbance"
+          },
+          {
+            "evidence_id": "EV_AUTO_022",
+            "source_file": "docs/0151/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Generated designs were filtered for high AF2 confidence (pLDDT > 90) and self-consistency (RMSD to design < 2 Å), and 96 were selected for experimental characterization."
+          },
+          {
+            "evidence_id": "EV_AUTO_033",
+            "source_file": "docs/0151/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "For broad applicability, we carried out this optimization with standard settings and no extensive hyperparameter turning (96 designs generated and tested per round for three rounds)."
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "experiment",
+        "state_before": "Rare amino acid enrichment demonstrated.",
+        "gap_or_uncertainty": "Can PG generate diverse repeat proteins?",
+        "hypothesis": "Secondary structure conditioning will enable diverse repeat protein designs beyond beta-solenoids.",
+        "decision": "Generate repeat proteins with and without secondary structure conditioning; test solubility and monomericity.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Repeat protein generation",
+          "version": "",
+          "category": "generation"
+        },
+        "parameters": {
+          "conditioning": "secondary structure (DSSP)",
+          "length": "125-150 amino acids",
+          "steps": 50
+        },
+        "observation": "Unconditional generation biased toward beta-solenoids; secondary structure conditioning enabled diverse designs; 27/74 capped and 10/86 uncapped soluble and monomeric.",
+        "result_status": "success",
+        "next_step_reason": "Validate atomic accuracy with crystal structure.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E02_01",
+            "source_file": "docs/0151/combined.md",
+            "section": "C003",
+            "quote_or_span": "Unconditional generation with this approach yielded largely beta-solenoid structures."
+          },
+          {
+            "evidence_id": "EV_C003_E03_01",
+            "source_file": "docs/0151/combined.md",
+            "section": "C003",
+            "quote_or_span": "To encourage further exploration, we trained PG to condition on secondary structure (Supplementary Fig. 16) and specified secondary structure constraints to yield a wide range of all-alpha, all-beta and mixed alpha/beta designs"
+          },
+          {
+            "evidence_id": "EV_C003_E04_01",
+            "source_file": "docs/0151/combined.md",
+            "section": "C003",
+            "quote_or_span": "Of these, 27 repeats with caps and 10 repeats without helical caps were soluble and monomeric by SEC"
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "validation",
+        "state_before": "Repeat protein designs generated.",
+        "gap_or_uncertainty": "Are the designs atomically accurate?",
+        "hypothesis": "The designed repeat protein structure will match the crystal structure with high accuracy.",
+        "decision": "Solve crystal structure of a five-repeat four-helix bundle design.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "X-ray crystallography",
+          "version": "",
+          "category": "structural_biology"
+        },
+        "parameters": {
+          "design": "five-repeat four-helix bundle",
+          "crystallization_condition": "0.1 M PCB buffer (pH 4), 25% PEG 1500"
+        },
+        "observation": "C RMSD 1.38 Å overall, 0.47 Å for asymmetric unit.",
+        "result_status": "success",
+        "next_step_reason": "Apply PG to cage bioactive peptides.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E05_01",
+            "source_file": "docs/0151/combined.md",
+            "section": "C003",
+            "quote_or_span": "We solved the crystal structure of a five-repeat unit design composed of a four-helix bundle asymmetric unit and found the design to have atomic accuracy: the C RMSD of design to the crystal structure was 1.38 Å for the whole structure and 0.47 Å for the asymmetric unit"
+          },
+          {
+            "evidence_id": "EV_C008_E04_01",
+            "source_file": "docs/0151/combined.md",
+            "section": "C008",
+            "quote_or_span": "Diffraction quality crystals formed in a mixture of 0.1 M PCB buffer (pH 4) and 25% PEG 1500."
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "design",
+        "state_before": "Atomic accuracy validated.",
+        "gap_or_uncertainty": "Can PG cage bioactive peptides for conditional activity?",
+        "hypothesis": "Fixing a bioactive peptide sequence and diffusing the remainder with secondary structure conditioning and a furin cleavage site will yield a caged peptide that is released upon protease cleavage.",
+        "decision": "Design melittin cages by fixing melittin sequence, diffusing scaffold, and including furin cleavage site.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "Peptide caging design",
+          "version": "",
+          "category": "design"
+        },
+        "parameters": {
+          "peptide": "melittin",
+          "length": "155 amino acids",
+          "steps": 25,
+          "conditioning": "helical DSSP",
+          "cleavage_site": "furin"
+        },
+        "observation": "Melittin cage designs generated.",
+        "result_status": "success",
+        "next_step_reason": "Experimentally validate melittin cages.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E06_01",
+            "source_file": "docs/0151/combined.md",
+            "section": "C003",
+            "quote_or_span": "We used PG to address this challenge by scaffolding bioactive peptide sequences within an inert protein cage (Fig. 4a) by designating a region of the protein chain (usually at the N or C terminus) to be fixed at the bioactive peptide sequence and freely diffusing the remainder of the sequence."
+          },
+          {
+            "evidence_id": "EV_C007_E04_01",
+            "source_file": "docs/0151/combined.md",
+            "section": "C007",
+            "quote_or_span": "Proteins of 155 amino acids in length were generated in 25 steps with spans of helical DSSP conditioning to encourage the model to generate helical bundles and cleavage loops."
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "experiment",
+        "state_before": "Melittin cage designs generated.",
+        "gap_or_uncertainty": "Do the designed cages express, fold, and release melittin upon furin cleavage?",
+        "hypothesis": "A subset of designs will be soluble, monomeric, helical, thermostable, and show conditional hemolysis.",
+        "decision": "Express and characterize 13 designs; test furin cleavage and hemolysis.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Protein characterization",
+          "version": "",
+          "category": "biochemistry"
+        },
+        "parameters": {
+          "tested": 13,
+          "assays": [
+            "SEC",
+            "CD",
+            "SDS-PAGE",
+            "mass spectrometry",
+            "hemolysis"
+          ]
+        },
+        "observation": "5/13 soluble, monomeric, helical, thermostable; furin cleavage confirmed; conditional hemolysis (P=0.002, P=0.005).",
+        "result_status": "success",
+        "next_step_reason": "Note limitation of increased sampling and filtering.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E07_01",
+            "source_file": "docs/0151/combined.md",
+            "section": "C003",
+            "quote_or_span": "Of 13 experimentally characterized designs, five were soluble and monodisperse by SEC, folded with helical secondary structure by CD and thermostable"
+          },
+          {
+            "evidence_id": "EV_C003_E07_02",
+            "source_file": "docs/0151/combined.md",
+            "section": "C003",
+            "quote_or_span": "Upon addition of furin protease, a band shift from -18 kD to -15 kD indicated cleavage of our designed melittin cage"
+          },
+          {
+            "evidence_id": "EV_C003_E07_03",
+            "source_file": "docs/0151/combined.md",
+            "section": "C003",
+            "quote_or_span": "Mass spectrometry analysis confirmed release of intact melittin peptide"
+          },
+          {
+            "evidence_id": "EV_C004_E01_01",
+            "source_file": "docs/0151/combined.md",
+            "section": "C004",
+            "quote_or_span": "Of 13 experimentally characterized designs, five were soluble and monodisperse by SEC, folded with helical secondary structure by CD and thermostable"
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "experiment",
+        "state_before": "Limitation noted.",
+        "gap_or_uncertainty": "Can PG scaffold barcode peptides for protein identification?",
+        "hypothesis": "PG can scaffold short barcode sequences into a protein, enabling intrinsic barcoding.",
+        "decision": "Design proteins with C-terminal barcode sequences and test expression and monodispersity.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Barcode scaffolding",
+          "version": "",
+          "category": "design"
+        },
+        "parameters": {
+          "barcode_length": "7-14 residues",
+          "protein_length": "100 amino acids",
+          "steps": 50
+        },
+        "observation": "64/84 expressed, 48/64 monodisperse, SEC-MS agreement for 41/58.",
+        "result_status": "success",
+        "next_step_reason": "Apply PG to multistate design.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E04_01",
+            "source_file": "docs/0151/combined.md",
+            "section": "C004",
+            "quote_or_span": "PG could scaffold short barcode-like sequences (7–14 residues) into a protein of interest, thereby removing the need for multiple extrinsic barcodes"
+          },
+          {
+            "evidence_id": "EV_C004_E05_01",
+            "source_file": "docs/0151/combined.md",
+            "section": "C004",
+            "quote_or_span": "64 of 84 (76%) were expressed, and 48 of 64 (75%) of the expressed proteins exhibited monodisperse elution peaks"
+          },
+          {
+            "evidence_id": "EV_C004_E05_02",
+            "source_file": "docs/0151/combined.md",
+            "section": "C004",
+            "quote_or_span": "We observed close agreement between SEC-MS and iSEC peak elution volume for 41 of 58 (71%) designs"
+          },
+          {
+            "evidence_id": "EV_C007_E05_01",
+            "source_file": "docs/0151/combined.md",
+            "section": "C007",
+            "quote_or_span": "Proteins of 100 amino acids in length were generated in 50 steps with barcodes being set as fixed regions on the C-terminus."
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "experiment",
+        "state_before": "Multistate designs generated.",
+        "gap_or_uncertainty": "Do the designs adopt the intended parent and child folds?",
+        "hypothesis": "A subset of parent-child triples will be soluble and monodisperse, and NMR structures will match designs.",
+        "decision": "Characterize 72 triples; select 4 families for CD and NMR; solve NMR structures of MS2 and MS3 parents.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "NMR spectroscopy",
+          "version": "",
+          "category": "structural_biology"
+        },
+        "parameters": {
+          "triples_tested": 72,
+          "families_selected": 4,
+          "NMR_structures": [
+            "MS2 parent",
+            "MS3 parent"
+          ]
+        },
+        "observation": "MS2 parent Cα RMSD 1.06 Å, MS3 parent Cα RMSD 1.61 Å.",
+        "result_status": "success",
+        "next_step_reason": "Apply PG to iterative optimization with experimental data.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C005_E02_01",
+            "source_file": "docs/0151/combined.md",
+            "section": "C005",
+            "quote_or_span": "We experimentally characterized 72 parent–child triples that AF2 predicted with high confidence and accuracy to be in the parent state when intact and the child states when split"
+          },
+          {
+            "evidence_id": "EV_C005_E02_02",
+            "source_file": "docs/0151/combined.md",
+            "section": "C005",
+            "quote_or_span": "we selected 4 (MS1–MS4) soluble and monodisperse sequence families for detailed CD and nuclear magnetic resonance (NMR) studies"
+          },
+          {
+            "evidence_id": "EV_C005_E04_01",
+            "source_file": "docs/0151/combined.md",
+            "section": "C005",
+            "quote_or_span": "The solution NMR structure of MS2 parent is within 1.06 Å Cα RMSD of the design model"
+          },
+          {
+            "evidence_id": "EV_C005_E04_02",
+            "source_file": "docs/0151/combined.md",
+            "section": "C005",
+            "quote_or_span": "The solution NMR structure of MS3 parent is within 1.61 Å Cα RMSD of the design model"
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "simulation",
+        "state_before": "Multistate designs validated.",
+        "gap_or_uncertainty": "Can PG iteratively optimize sequences using experimental fitness data?",
+        "hypothesis": "Gradient-based guidance from classifiers trained on experimental fitness will outperform Bayesian optimization.",
+        "decision": "Simulate 3 rounds of iterative design on GB1 fitness landscape; compare to Bayesian optimization.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "Iterative optimization",
+          "version": "",
+          "category": "optimization"
+        },
+        "parameters": {
+          "rounds": 3,
+          "batch_size": 96,
+          "fitness_landscape": "GB1",
+          "baseline": "Bayesian optimization"
+        },
+        "observation": "PG outperforms Bayesian optimization in average and maximum fitness (P<0.05).",
+        "result_status": "success",
+        "next_step_reason": "Attribute improved performance to RoseTTAFold prior.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E03_01",
+            "source_file": "docs/0151/combined.md",
+            "section": "C002",
+            "quote_or_span": "In silico demonstration of iterative design using GB1 fitness landscape for binding and comparison with Bayesian optimization (BO)."
+          },
+          {
+            "evidence_id": "EV_C002_E03_02",
+            "source_file": "docs/0151/combined.md",
+            "section": "C002",
+            "quote_or_span": "Mean activities for each round are statistically significant between the two populations (P < 0.05, two-sided Mann–Whitney U-test, n = 96 designs per round)."
+          },
+          {
+            "evidence_id": "EV_C005_E05_01",
+            "source_file": "docs/0151/combined.md",
+            "section": "C005",
+            "quote_or_span": "We simulated an iterative guidance process by exploring the fitness landscape of the protein GB1 via gradient-based optimization with IgG binding activity-guided diffusion trajectories."
+          },
+          {
+            "evidence_id": "EV_C005_E06_01",
+            "source_file": "docs/0151/combined.md",
+            "section": "C005",
+            "quote_or_span": "We found that the average and maximum fitness of PG-generated designs increases each round, outperforming a Bayesian optimization baseline with the best identified acquisition function (batched upper confidence bound)"
+          }
+        ]
+      },
+      {
+        "step_index": 12,
+        "phase": "analysis",
+        "state_before": "Iterative optimization results.",
+        "gap_or_uncertainty": "Why does PG outperform Bayesian optimization?",
+        "hypothesis": "The rich sequence-structure prior in RoseTTAFold enables better exploration.",
+        "decision": "Attribute improved performance to RoseTTAFold prior.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Performance analysis",
+          "version": "",
+          "category": "analysis"
+        },
+        "parameters": {},
+        "observation": "Improved performance likely due to RoseTTAFold's prior understanding of sequence-structure relationships.",
+        "result_status": "success",
+        "next_step_reason": "Conclude trajectory.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C005_E07_01",
+            "source_file": "docs/0151/combined.md",
+            "section": "C005",
+            "quote_or_span": "The improved performance likely reflects the rich prior understanding of protein sequence–structure relationships implicit in RoseTTAFold compared to the baseline, which has access to only limited experimental data."
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "AF2 prediction confidence and RMSD",
+        "SEC for solubility and monodispersity",
+        "CD for secondary structure",
+        "X-ray crystallography",
+        "NMR spectroscopy",
+        "Mass spectrometry",
+        "Hemolysis assay"
+      ],
+      "metrics": [
+        "pLDDT",
+        "RMSD",
+        "Cα RMSD",
+        "Solubility rate",
+        "Monodispersity rate",
+        "Fitness (GB1)"
+      ],
+      "final_conclusion": "ProteinGenerator (PG) successfully generates sequences and structures with sequence-based guidance, enabling multistate design, peptide caging, barcode scaffolding, and iterative optimization, outperforming Bayesian optimization on GB1.",
+      "limitations": [
+        "Considerable filtering required for complex designs (e.g., melittin cages).",
+        "PG better for soft sequence constraints; structure-based models better for global structural properties."
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_step_trimmed=16_to_12",
+        "v22_specific_evidence_backfilled=2",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_specific_evidence_backfilled=2",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 100.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p4\\states\\0151.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p4\\events\\0151.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K01": [
+          1
+        ],
+        "K05": [
+          2
+        ],
+        "K07": [
+          3,
+          4,
+          5,
+          10
+        ],
+        "K08": [
+          3,
+          4,
+          5
+        ],
+        "K09": [
+          4,
+          5
+        ],
+        "K10": [
+          6
+        ],
+        "K11": [
+          7
+        ],
+        "K12": [
+          8
+        ],
+        "K14": [
+          9
+        ],
+        "K16": [
+          10
+        ],
+        "K17": [
+          11
+        ],
+        "K18": [
+          12
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K01",
+            "K02"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K05"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K07",
+            "K08"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K07",
+            "K08",
+            "K09"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K07",
+            "K08",
+            "K09"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K10"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K11"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K12",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K14"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K07",
+            "K16"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K17"
+          ]
+        },
+        {
+          "step_index": 12,
+          "covered_event_ids": [
+            "K18"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 4,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "-4"
+        ]
+      },
+      {
+        "step_index": 5,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "74",
+          "86"
+        ]
+      },
+      {
+        "step_index": 8,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "0.002",
+          "0.005",
+          "13s"
+        ]
+      }
+    ],
+    "step_count": 12,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 100.0
+  },
+  "api_usage": {
+    "prompt_tokens": 187920,
+    "completion_tokens": 36813,
+    "total_tokens": 224733,
+    "prompt_cache_hit_tokens": 19968,
+    "prompt_cache_miss_tokens": 167952
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 9237,
+        "completion_tokens": 1551,
+        "total_tokens": 10788,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 9237
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 13893,
+        "completion_tokens": 4010,
+        "total_tokens": 17903,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 13893
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 9389,
+        "completion_tokens": 1266,
+        "total_tokens": 10655,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9133
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 10232,
+        "completion_tokens": 1309,
+        "total_tokens": 11541,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9976
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 9772,
+        "completion_tokens": 1432,
+        "total_tokens": 11204,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9516
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 9720,
+        "completion_tokens": 1263,
+        "total_tokens": 10983,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9464
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C005",
+      "api_usage": {
+        "prompt_tokens": 9493,
+        "completion_tokens": 1317,
+        "total_tokens": 10810,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9237
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C006",
+      "api_usage": {
+        "prompt_tokens": 9168,
+        "completion_tokens": 1179,
+        "total_tokens": 10347,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8912
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C007",
+      "api_usage": {
+        "prompt_tokens": 9234,
+        "completion_tokens": 1834,
+        "total_tokens": 11068,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8978
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C008",
+      "api_usage": {
+        "prompt_tokens": 9430,
+        "completion_tokens": 1318,
+        "total_tokens": 10748,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9174
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C009",
+      "api_usage": {
+        "prompt_tokens": 6115,
+        "completion_tokens": 56,
+        "total_tokens": 6171,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 5859
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 19348,
+        "completion_tokens": 4569,
+        "total_tokens": 23917,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 18964
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 16756,
+        "completion_tokens": 8093,
+        "total_tokens": 24849,
+        "prompt_tokens_details": {
+          "cached_tokens": 16640
+        },
+        "prompt_cache_hit_tokens": 16640,
+        "prompt_cache_miss_tokens": 116
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 21133,
+        "completion_tokens": 984,
+        "total_tokens": 22117,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 21133
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 25000,
+        "completion_tokens": 6632,
+        "total_tokens": 31632,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 24360
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

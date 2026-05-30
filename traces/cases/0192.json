@@ -1,0 +1,862 @@
+{
+  "case": {
+    "case_id": "sci_evo_0192",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Engineering Bacillus pumilus alkaline serine protease to increase its low-temperature proteolytic activity by directed evolution",
+      "doi": "https://doi.org/10.1186/s12896-018-0451-0",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0191_10_1186_s12896_018_0451_0_engineering_bacillus_pumilus_alkaline_serine_protease_to_increase_its_low_temperature_prot.pdf",
+      "mineru_md": "docs/0192/mineru.md",
+      "combined_md": "docs/0192/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "The mesophilic alkaline serine protease DHAP from Bacillus pumilus BA06 has high catalytic efficiency at ~50 °C but low activity at low temperatures, limiting its industrial use.",
+      "target_object": "DHAP (alkaline serine protease from Bacillus pumilus BA06)",
+      "known_context": "DHAP is a mesophilic enzyme with optimal activity around 50 °C. Previous site-directed mutagenesis efforts have been made to improve cold activity.",
+      "constraints": [
+        "Maintain or improve thermostability while enhancing cold activity."
+      ],
+      "input_data": [],
+      "quantifiable_goals": [
+        "Increase proteolytic activity at low temperature (15 °C) compared to wild-type."
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "DHAP has low cold activity.",
+        "gap_or_uncertainty": "Can directed evolution improve the cold activity of DHAP?",
+        "hypothesis": "Directed evolution can improve the cold activity of DHAP.",
+        "decision": "Proceed with directed evolution approach.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "Directed evolution",
+          "version": "",
+          "category": "protein engineering"
+        },
+        "parameters": {},
+        "observation": "Directed evolution is a viable strategy to enhance cold activity.",
+        "result_status": "success",
+        "next_step_reason": "Construct a mutant library to test the hypothesis.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0192/combined.md",
+            "section": "C001",
+            "quote_or_span": "Here we attempted to improve the cold activity of DHAP via directed evolution."
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "design",
+        "state_before": "No mutant library exists.",
+        "gap_or_uncertainty": "Need to generate genetic diversity for screening.",
+        "hypothesis": "Error-prone PCR with dITP and DNA shuffling will create a diverse mutant library.",
+        "decision": "Construct a random mutant library using error-prone PCR and DNA shuffling.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Error-prone PCR with dITP and DNA shuffling",
+          "version": "",
+          "category": "molecular biology"
+        },
+        "parameters": {
+          "dITP": "used for mutagenesis",
+          "DNA shuffling": "performed"
+        },
+        "observation": "More than 100,000 independent transformants were obtained.",
+        "result_status": "success",
+        "next_step_reason": "Screen the library for improved cold activity.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E03_02",
+            "source_file": "docs/0192/combined.md",
+            "section": "C001",
+            "quote_or_span": "Finally, more than 100,000 independent transformants were harvested from the LB agar plates and used to isolate the plasmid DNAs, which were stored at -20 °C as the mutation library."
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "experiment",
+        "state_before": "Library of >100,000 clones available.",
+        "gap_or_uncertainty": "Which clones have improved cold activity and retained thermostability?",
+        "hypothesis": "A two-round screening process will identify variants with enhanced cold activity and maintained thermostability.",
+        "decision": "Screen the library using milk plate halo size, then 96-well plate assays at 50 °C and 15 °C, plus thermostability test at 60 °C.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Two-round screening: milk plate halo, 96-well plate assays, thermostability test",
+          "version": "",
+          "category": "screening"
+        },
+        "parameters": {
+          "first_round": "milk plate halo size",
+          "second_round": "96-well plate assays at 50 °C and 15 °C",
+          "thermostability_test": "60 °C for 15 min, survival activity at 50 °C"
+        },
+        "observation": "The screening process was performed; 36 final clones were selected for further analysis.",
+        "result_status": "success",
+        "next_step_reason": "Sequence the library to assess mutation frequency.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E04_03",
+            "source_file": "docs/0192/combined.md",
+            "section": "C001",
+            "quote_or_span": "another set of the supernatant samples was pre-treated at 60 °C for 15 min and the survival activity was measured at 50 °C"
+          },
+          {
+            "evidence_id": "EV_AUTO_030",
+            "source_file": "docs/0192/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The caseinolytic activity was primarily assayed at both 15 °C and 50 °C for the 36 variants and the wt of DHAP."
+          },
+          {
+            "evidence_id": "EV_C001_E03_02",
+            "source_file": "docs/0192/combined.md",
+            "section": "C001",
+            "quote_or_span": "Finally, more than 100,000 independent transformants were harvested from the LB agar plates and used to isolate the plasmid DNAs, which were stored at -20 °C as the mutation library."
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "analysis",
+        "state_before": "Library screened, but mutation quality unknown.",
+        "gap_or_uncertainty": "What is the mutation frequency and spectrum in the library?",
+        "hypothesis": "Sequencing random clones will reveal mutation frequency and bias.",
+        "decision": "Sequence 21 random clones.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "DNA sequencing",
+          "version": "",
+          "category": "sequencing"
+        },
+        "parameters": {
+          "number_of_clones": 21
+        },
+        "observation": "Mutation frequency and spectrum were evaluated from 21 clones.",
+        "result_status": "success",
+        "next_step_reason": "Identify specific variants with improved activity from the 36 final clones.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E05_01",
+            "source_file": "docs/0192/combined.md",
+            "section": "C001",
+            "quote_or_span": "To evaluate the mutation frequency, 21 independent transformants were randomly selected for DNA sequencing."
+          },
+          {
+            "evidence_id": "EV_AUTO_030",
+            "source_file": "docs/0192/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The caseinolytic activity was primarily assayed at both 15 °C and 50 °C for the 36 variants and the wt of DHAP."
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "experiment",
+        "state_before": "36 final clones selected from screening.",
+        "gap_or_uncertainty": "Which specific variants have increased cold activity?",
+        "hypothesis": "Some of the 36 clones will show increased proteolytic activity at 15 °C.",
+        "decision": "Characterize the 36 clones and identify variants with increased activity at 15 °C.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Proteolytic activity assay with casein and synthetic peptide substrates",
+          "version": "",
+          "category": "biochemical assay"
+        },
+        "parameters": {
+          "temperature": "15 °C",
+          "substrates": [
+            "casein",
+            "synthetic peptide"
+          ]
+        },
+        "observation": "Seven variants (P9S, A1G/K27Q, A38V, A116T, T162I, S182R, T243S) showed increased proteolytic activity at 15 °C towards both substrates.",
+        "result_status": "success",
+        "next_step_reason": "Validate thermostability of these seven variants.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E06_01",
+            "source_file": "docs/0192/combined.md",
+            "section": "C001",
+            "quote_or_span": "Seven variants (P9S, A1G/K27Q, A38V, A116T, T162I, S182R, and T243S) of DHAP from B. pumilus were obtained via directed evolution."
+          },
+          {
+            "evidence_id": "EV_C001_E06_02",
+            "source_file": "docs/0192/combined.md",
+            "section": "C001",
+            "quote_or_span": "all of the variants had increased proteolytic activity at 15 °C towards both the casein and synthetic peptide substrates."
+          },
+          {
+            "evidence_id": "EV_C002_E01_01",
+            "source_file": "docs/0192/combined.md",
+            "section": "C002",
+            "quote_or_span": "Subsequently, seven variants were selected for further assays."
+          },
+          {
+            "evidence_id": "EV_AUTO_030",
+            "source_file": "docs/0192/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The caseinolytic activity was primarily assayed at both 15 °C and 50 °C for the 36 variants and the wt of DHAP."
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "validation",
+        "state_before": "Seven variants identified with increased cold activity.",
+        "gap_or_uncertainty": "Do these variants retain thermostability?",
+        "hypothesis": "Most variants will retain thermostability comparable to wild-type.",
+        "decision": "Assess thermostability of the seven variants.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Thermostability assay (half-life at 60 °C)",
+          "version": "",
+          "category": "biochemical assay"
+        },
+        "parameters": {
+          "temperature": "60 °C"
+        },
+        "observation": "Except T243S, the thermostability of the variants did not decrease compared to wild-type.",
+        "result_status": "partial",
+        "next_step_reason": "Quantify activity improvements of the seven variants.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E07_01",
+            "source_file": "docs/0192/combined.md",
+            "section": "C001",
+            "quote_or_span": "With the exception of variant T243S, the thermostability of these variants did not decrease in comparison with the wild-type enzyme."
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "analysis",
+        "state_before": "Seven variants with increased cold activity and mostly retained thermostability.",
+        "gap_or_uncertainty": "What are the quantitative improvements in caseinolytic activity?",
+        "hypothesis": "Variants will show enhanced caseinolytic activity at various temperatures, with some showing high fold-increases at 15 °C.",
+        "decision": "Measure caseinolytic activity of the seven variants at different temperatures.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Caseinolytic activity assay",
+          "version": "",
+          "category": "biochemical assay"
+        },
+        "parameters": {
+          "temperatures": "various, including 15 °C"
+        },
+        "observation": "All seven variants showed enhanced caseinolytic activity. A1G/K27Q and T162I had 2.62- and 2.41-fold increases at 15 °C, respectively.",
+        "result_status": "success",
+        "next_step_reason": "Combine beneficial mutations to further improve activity.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E02_01",
+            "source_file": "docs/0192/combined.md",
+            "section": "C002",
+            "quote_or_span": "Figure 1 shows that all of the seven variants achieved enhanced caseinolytic activity at different temperatures compared with the wt."
+          },
+          {
+            "evidence_id": "EV_C002_E02_02",
+            "source_file": "docs/0192/combined.md",
+            "section": "C002",
+            "quote_or_span": "the caseinolytic activity of two variants (A1G/K27Q and T162I) was increased by 2.62- and 2.41-fold at 15 °C, respectively, compared with the wt."
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "design",
+        "state_before": "Single variants show up to 2.62-fold improvement.",
+        "gap_or_uncertainty": "Can combining beneficial mutations yield additive or synergistic effects?",
+        "hypothesis": "Combining P9S, K27Q, and T162I will further increase cold activity.",
+        "decision": "Construct four new variants by combining P9S, K27Q, and T162I via site-directed mutagenesis.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Site-directed mutagenesis (QuickChange protocol)",
+          "version": "",
+          "category": "molecular biology"
+        },
+        "parameters": {
+          "substitutions": [
+            "P9S",
+            "K27Q",
+            "T162I"
+          ],
+          "combinations": [
+            "P9S/K27Q",
+            "P9S/T162I",
+            "K27Q/T162I",
+            "P9S/K27Q/T162I"
+          ]
+        },
+        "observation": "Four combined variants constructed.",
+        "result_status": "success",
+        "next_step_reason": "Test combined variants for caseinolytic activity.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E03_01",
+            "source_file": "docs/0192/combined.md",
+            "section": "C002",
+            "quote_or_span": "Based on the above results, four new variants were constructed by the combination of three amino acid substitutions: P9S, K27Q, and T162I."
+          },
+          {
+            "evidence_id": "EV_C002_E02_02",
+            "source_file": "docs/0192/combined.md",
+            "section": "C002",
+            "quote_or_span": "the caseinolytic activity of two variants (A1G/K27Q and T162I) was increased by 2.62- and 2.41-fold at 15 °C, respectively, compared with the wt."
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "experiment",
+        "state_before": "Combined variants constructed.",
+        "gap_or_uncertainty": "Do combined variants show further improved activity?",
+        "hypothesis": "Combined variants will exhibit higher caseinolytic activity than single variants.",
+        "decision": "Measure caseinolytic activity of combined variants at 15 °C and 50 °C.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Caseinolytic activity assay",
+          "version": "",
+          "category": "biochemical assay"
+        },
+        "parameters": {
+          "temperatures": [
+            "15 °C",
+            "50 °C"
+          ]
+        },
+        "observation": "P9S/K27Q, P9S/T162I, and P9S/K27Q/T162I showed ~5-fold increase at 15 °C and 2.8-fold at 50 °C compared to wild-type.",
+        "result_status": "success",
+        "next_step_reason": "Evaluate thermostability of combined variants.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E04_01",
+            "source_file": "docs/0192/combined.md",
+            "section": "C002",
+            "quote_or_span": "the caseinolytic activity of the mutant (P9S/K27Q, P9S/T162I, P9S/K27Q/T162I) was increased by about 5-fold and 2.8-fold compared with the wt at 15 °C and 50 °C, respectively."
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "experiment",
+        "state_before": "Combined variants show high activity.",
+        "gap_or_uncertainty": "Do combined variants maintain thermostability?",
+        "hypothesis": "Some combined variants may have altered thermostability.",
+        "decision": "Assess thermostability of combined variants and compare with single variants.",
+        "action_type": "wet_experiment",
+        "tool_or_method": {
+          "name": "Thermostability assay (half-life at 60 °C)",
+          "version": "",
+          "category": "biochemical assay"
+        },
+        "parameters": {
+          "temperature": "60 °C"
+        },
+        "observation": "T243S and K27Q/T162I showed improved thermostability; S182R and P9S/K27Q/T162I showed reduced thermostability.",
+        "result_status": "partial",
+        "next_step_reason": "Perform structural analysis to interpret results.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E07_01",
+            "source_file": "docs/0192/combined.md",
+            "section": "C002",
+            "quote_or_span": "The slope of two variants (T243S and K27Q/T162I) was slower than that of the wt, indicating that their thermostability was improved."
+          },
+          {
+            "evidence_id": "EV_C002_E07_02",
+            "source_file": "docs/0192/combined.md",
+            "section": "C002",
+            "quote_or_span": "the thermostability of two variants (S182R and P9S/K27Q/T162I) was reduced compared with the wt."
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "analysis",
+        "state_before": "Experimental data on activity and thermostability collected.",
+        "gap_or_uncertainty": "What structural basis explains the observed effects?",
+        "hypothesis": "Homology modeling will reveal how substitutions affect flexibility, electrostatics, and stability.",
+        "decision": "Perform homology modeling of DHAP and analyze substitution sites.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Homology modeling",
+          "version": "",
+          "category": "computational"
+        },
+        "parameters": {},
+        "observation": "P9S may increase flexibility without thermostability loss; loop substitutions (A38, T162, S182) may increase kcat but can decrease thermostability; K27Q may change electrostatic potential and increase cold activity.",
+        "result_status": "success",
+        "next_step_reason": "Conclude on integration of cold activity and thermostability.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E03_01",
+            "source_file": "docs/0192/combined.md",
+            "section": "C003",
+            "quote_or_span": "the four substitution sites (P9, A38, T162, and S182) were predicated to be exposed on the protein surface."
+          },
+          {
+            "evidence_id": "EV_C003_E04_01",
+            "source_file": "docs/0192/combined.md",
+            "section": "C003",
+            "quote_or_span": "substitution of P9 with S9 may lead to more flexibility in this region of the protein (Fig. 7a)"
+          },
+          {
+            "evidence_id": "EV_C003_E04_02",
+            "source_file": "docs/0192/combined.md",
+            "section": "C003",
+            "quote_or_span": "substitution of P9 with S9 in DHAP did not result in loss of thermostability (Fig. 4b)."
+          },
+          {
+            "evidence_id": "EV_C003_E05_01",
+            "source_file": "docs/0192/combined.md",
+            "section": "C003",
+            "quote_or_span": "These loop regions are thought to confer flexibility in any given protein."
+          },
+          {
+            "evidence_id": "EV_AUTO_006",
+            "source_file": "docs/0192/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The combined variants of P9S/K27Q and P9S/T162I exhibited an approximate 5-fold increase in caseinolytic activity at 15 °C and almost no loss of thermostability."
+          }
+        ]
+      },
+      {
+        "step_index": 12,
+        "phase": "validation",
+        "state_before": "Combined variants P9S/K27Q and P9S/T162I show ~5-fold increase at 15 °C with no thermostability loss.",
+        "gap_or_uncertainty": "Can cold activity and thermostability be integrated into a single variant?",
+        "hypothesis": "Enhancement of cold activity and thermostability can be integrated into a single variant.",
+        "decision": "Conclude that P9S/K27Q and P9S/T162I achieve the goal.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Data integration",
+          "version": "",
+          "category": "analysis"
+        },
+        "parameters": {},
+        "observation": "P9S/K27Q and P9S/T162I achieved ~5-fold increase in caseinolytic activity at 15 °C without thermostability loss. Effects of individual substitutions are accumulative.",
+        "result_status": "success",
+        "next_step_reason": "Final conclusion.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C003_E07_01",
+            "source_file": "docs/0192/combined.md",
+            "section": "C003",
+            "quote_or_span": "four combined variants were constructed from three sites: P9, K27, and T162, and catalytic activity with the macromolecular substrate casein was found to be further increased, especially at low temperature."
+          },
+          {
+            "evidence_id": "EV_C003_E07_02",
+            "source_file": "docs/0192/combined.md",
+            "section": "C003",
+            "quote_or_span": "the variant (P9S/K27Q) showed an increase in caseinolytic activity of more than 5-fold compared with the wt"
+          },
+          {
+            "evidence_id": "EV_C003_E07_03",
+            "source_file": "docs/0192/combined.md",
+            "section": "C003",
+            "quote_or_span": "the effects of individual substitutions on catalytic activity may be accumulative and can be integrated into a single variant"
+          },
+          {
+            "evidence_id": "EV_C003_E08_01",
+            "source_file": "docs/0192/combined.md",
+            "section": "C003",
+            "quote_or_span": "the enhancement of cold activity and thermostability can be integrated into a single variant of bacterial alkaline protease."
+          },
+          {
+            "evidence_id": "EV_AUTO_006",
+            "source_file": "docs/0192/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "The combined variants of P9S/K27Q and P9S/T162I exhibited an approximate 5-fold increase in caseinolytic activity at 15 °C and almost no loss of thermostability."
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "Caseinolytic activity assay at 15 °C and 50 °C",
+        "Thermostability assay (half-life at 60 °C)",
+        "Homology modeling and structural analysis"
+      ],
+      "metrics": [
+        "Fold increase in caseinolytic activity at 15 °C",
+        "Thermostability (half-life at 60 °C)"
+      ],
+      "final_conclusion": "Directed evolution successfully improved the cold activity of DHAP. Combined variants P9S/K27Q and P9S/T162I achieved ~5-fold increase in caseinolytic activity at 15 °C without loss of thermostability, demonstrating that cold activity and thermostability can be integrated.",
+      "limitations": [
+        "Some variants (e.g., T243S, S182R, P9S/K27Q/T162I) showed reduced thermostability.",
+        "The study focused on caseinolytic activity; performance on other substrates may vary.",
+        "Structural interpretations are based on homology modeling, not experimental structures."
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "v22_specific_evidence_backfilled=10",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_specific_evidence_backfilled=6",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 96.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p1\\states\\0192.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p1\\events\\0192.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K02": [
+          1,
+          11
+        ],
+        "K03": [
+          2,
+          3
+        ],
+        "K04": [
+          3
+        ],
+        "K05": [
+          4
+        ],
+        "K06": [
+          5,
+          7,
+          10
+        ],
+        "K07": [
+          5,
+          6
+        ],
+        "K08": [
+          5,
+          7,
+          8,
+          9,
+          12
+        ],
+        "K09": [
+          8
+        ],
+        "K10": [
+          5,
+          7,
+          8,
+          9,
+          10,
+          12
+        ],
+        "K11": [
+          5,
+          7,
+          9,
+          10
+        ],
+        "K13": [
+          11,
+          12
+        ],
+        "K14": [
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K02"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K03"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K03",
+            "K04"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K05"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K06",
+            "K07",
+            "K08",
+            "K10",
+            "K11"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K07"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K06",
+            "K08",
+            "K10",
+            "K11",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K08",
+            "K09",
+            "K10",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K08",
+            "K10",
+            "K11",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K06",
+            "K10",
+            "K11",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K02",
+            "K12",
+            "K13",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 12,
+          "covered_event_ids": [
+            "K08",
+            "K10",
+            "K13",
+            "K14",
+            "K27"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 3,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "96"
+        ]
+      }
+    ],
+    "step_count": 12,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 96.0
+  },
+  "api_usage": {
+    "prompt_tokens": 103364,
+    "completion_tokens": 23447,
+    "total_tokens": 126811,
+    "prompt_cache_hit_tokens": 2688,
+    "prompt_cache_miss_tokens": 100676
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 5381,
+        "completion_tokens": 1184,
+        "total_tokens": 6565,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 5381
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 8392,
+        "completion_tokens": 2372,
+        "total_tokens": 10764,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 8392
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 7892,
+        "completion_tokens": 1394,
+        "total_tokens": 9286,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7636
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 8516,
+        "completion_tokens": 1503,
+        "total_tokens": 10019,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8260
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 7781,
+        "completion_tokens": 1314,
+        "total_tokens": 9095,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7525
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 5069,
+        "completion_tokens": 50,
+        "total_tokens": 5119,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 4813
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 10366,
+        "completion_tokens": 3424,
+        "total_tokens": 13790,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 9982
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 12203,
+        "completion_tokens": 5454,
+        "total_tokens": 17657,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 11563
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 17343,
+        "completion_tokens": 1097,
+        "total_tokens": 18440,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 17343
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 20421,
+        "completion_tokens": 5655,
+        "total_tokens": 26076,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 19781
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}

@@ -1,0 +1,882 @@
+{
+  "case": {
+    "case_id": "sci_evo_0153",
+    "dataset_type": "Sci-Evo",
+    "domain": "protein_engineering",
+    "source": {
+      "title": "Designing of a multi-epitopes based vaccine against Haemophilius parainfluenzae and its validation through integrated computational approaches",
+      "doi": "https://doi.org/10.3389/fimmu.2024.1380732",
+      "url": "",
+      "license": "cc-by",
+      "publication_date": "",
+      "raw_file": "0151_10_3389_fimmu_2024_1380732_designing_of_a_multi_epitopes_based_vaccine_against_haemophilius_parainfluenzae_and_its_va.pdf",
+      "mineru_md": "docs/0153/mineru.md",
+      "combined_md": "docs/0153/combined.md"
+    },
+    "initial_request": {
+      "research_problem": "Design a multi-epitope vaccine against Haemophilus parainfluenzae using computational methods to address antibiotic resistance and lack of existing vaccine.",
+      "target_object": "multi-epitope vaccine (MEV) against H. parainfluenzae",
+      "known_context": "H. parainfluenzae is an opportunistic pathogen with increasing antibiotic resistance; no vaccine exists.",
+      "constraints": [
+        "Computational design only",
+        "Must be non-allergenic, non-toxic, antigenic",
+        "Must cover broad population HLA alleles"
+      ],
+      "input_data": [
+        "H. parainfluenzae proteome from UniProt"
+      ],
+      "quantifiable_goals": [
+        "90% worldwide population coverage",
+        "Stable 3D structure with >90% Ramachandran favored",
+        "Strong immune simulation response"
+      ]
+    },
+    "evolution_trajectory": [
+      {
+        "step_index": 1,
+        "phase": "hypothesis",
+        "state_before": "No vaccine exists for H. parainfluenzae; antibiotic resistance is a concern.",
+        "gap_or_uncertainty": "Can a multi-epitope vaccine designed via bioinformatics elicit broad immune response?",
+        "hypothesis": "A multi-epitope vaccine designed using immunoinformatics can elicit broad humoral and cellular immune responses against H. parainfluenzae.",
+        "decision": "Proceed with computational design of a multi-epitope vaccine.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "Immunoinformatics approach",
+          "version": "",
+          "category": "computational vaccine design"
+        },
+        "parameters": {},
+        "observation": "Hypothesis formulated based on prior successes of multi-epitope vaccines for other pathogens.",
+        "result_status": "success",
+        "next_step_reason": "Need to select antigenic proteins from the proteome.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E02_01",
+            "source_file": "docs/0153/combined.md",
+            "section": "C001",
+            "quote_or_span": "The principal objective of this investigation is to utilize bioinformatics and immuno-informatic methodologies in the development of a candidate multi-epitope Vaccine."
+          }
+        ]
+      },
+      {
+        "step_index": 2,
+        "phase": "experiment",
+        "state_before": "CTL epitopes selected; need B-cell epitopes.",
+        "gap_or_uncertainty": "Which B-cell epitopes are antigenic, non-allergenic, non-toxic?",
+        "hypothesis": "B-cell epitopes predicted by ABCPred (score >0.5) and filtered will be suitable.",
+        "decision": "Predict B-cell epitopes using ABCPred, filter by antigenicity, allergenicity, toxicity.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "ABCPred, VaxiJen 2.0, AllerTOP 2.0, ToxinPred",
+          "version": "",
+          "category": "epitope prediction and filtering"
+        },
+        "parameters": {
+          "ABCPred_threshold": 0.5
+        },
+        "observation": "Two B-cell epitopes selected (Table 4).",
+        "result_status": "success",
+        "next_step_reason": "Construct multi-epitope vaccine with linkers and adjuvant.",
+        "evidence": [
+          {
+            "evidence_id": "EV_AUTO_014",
+            "source_file": "docs/0153/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Similarly, among the selected 19 LBL epitopes, two were deemed suitable for vaccine development, considering predictions related to toxicity, allergenicity, and antigenicity (Table 4)."
+          },
+          {
+            "evidence_id": "EV_AUTO_024",
+            "source_file": "docs/0153/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "TABLE 4 Final selected B-cell epitope for the construction of vaccine."
+          }
+        ]
+      },
+      {
+        "step_index": 3,
+        "phase": "design",
+        "state_before": "CTL and B-cell epitopes selected.",
+        "gap_or_uncertainty": "How to assemble epitopes into a stable, immunogenic construct?",
+        "hypothesis": "Using adjuvant (cholera enterotoxin subunit B) and specific linkers (EAAAK, AAY, GPGPG, KK) will yield a functional vaccine.",
+        "decision": "Construct MEV: adjuvant at N-terminal via EAAAK; CTL linked with AAY, HTL with GPGPG, B-cell with KK.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Manual design with linkers",
+          "version": "",
+          "category": "vaccine construction"
+        },
+        "parameters": {
+          "adjuvant": "cholera enterotoxin subunit B",
+          "linkers": "EAAAK, AAY, GPGPG, KK"
+        },
+        "observation": "Final construct of 344 amino acids.",
+        "result_status": "success",
+        "next_step_reason": "Analyze physicochemical and safety properties.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E04_01",
+            "source_file": "docs/0153/combined.md",
+            "section": "C001",
+            "quote_or_span": "Multi-epitope constructs were designed by using suitable linker sequences. To enhance the immunological potential, an adjuvant sequence was incorporated using the EAAAK linker."
+          },
+          {
+            "evidence_id": "EV_C001_E04_02",
+            "source_file": "docs/0153/combined.md",
+            "section": "C001",
+            "quote_or_span": "The final vaccine construct, comprising 344 amino acids, was achieved after the addition of adjuvants and linkers."
+          }
+        ]
+      },
+      {
+        "step_index": 4,
+        "phase": "simulation",
+        "state_before": "MEV construct validated for safety.",
+        "gap_or_uncertainty": "What is the 3D structure of the MEV?",
+        "hypothesis": "AlphaFold2 can predict a reliable 3D model, which can be refined by GalaxyRefine.",
+        "decision": "Predict 3D structure with AlphaFold2, refine with GalaxyRefine.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "AlphaFold2, GalaxyRefine",
+          "version": "",
+          "category": "3D structure prediction and refinement"
+        },
+        "parameters": {},
+        "observation": "Initial model generated and refined.",
+        "result_status": "success",
+        "next_step_reason": "Validate refined structure.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E01_01",
+            "source_file": "docs/0153/combined.md",
+            "section": "C002",
+            "quote_or_span": "The initial vaccine 3D structure was generated using the Alpha-fold 2 server"
+          },
+          {
+            "evidence_id": "EV_C002_E01_02",
+            "source_file": "docs/0153/combined.md",
+            "section": "C002",
+            "quote_or_span": "The projected 3D structure was further refined and enhanced through the GalaxyRefine server"
+          },
+          {
+            "evidence_id": "EV_AUTO_007",
+            "source_file": "docs/0153/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Your vaccine's tertiary structure was created using a multi-step process that guaranteed the protective structure's accuracy and predicted its function: The initial vaccine 3D structure was generated using the Alpha-fold 2 server (49)."
+          }
+        ]
+      },
+      {
+        "step_index": 5,
+        "phase": "validation",
+        "state_before": "Refined 3D model obtained.",
+        "gap_or_uncertainty": "Is the refined structure stereochemically valid?",
+        "hypothesis": "Ramachandran plot and ProSA-web will confirm structural quality.",
+        "decision": "Validate with RAMPAGE and ProSA-web.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "RAMPAGE, ProSA-web",
+          "version": "",
+          "category": "structure validation"
+        },
+        "parameters": {},
+        "observation": "Ramachandran: 90.3% favored, 8.3% allowed, 1.3% outliers; ProSA Z-score acceptable.",
+        "result_status": "success",
+        "next_step_reason": "Enhance stability via disulfide engineering.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E02_01",
+            "source_file": "docs/0153/combined.md",
+            "section": "C002",
+            "quote_or_span": "Analysis of the improved model using the Ramachandran plot indicated that 90.3% of amino acids were situated in the favored regions, 8.3% were in the allowed regions, and only 1.3% were in the outlier regions"
+          },
+          {
+            "evidence_id": "EV_C003_E02_01",
+            "source_file": "docs/0153/combined.md",
+            "section": "C003",
+            "quote_or_span": "Ramachandran Plot was generated to assess quality of the vaccine construct, revealing that 90.3% of amino acids residues in favored regions."
+          },
+          {
+            "evidence_id": "EV_C005_E05_01",
+            "source_file": "docs/0153/combined.md",
+            "section": "C005",
+            "quote_or_span": "The Ramachandran plot values provided evidence of substantial improvement and desired characteristics in the quality and stability of the resulting vaccine constructs"
+          }
+        ]
+      },
+      {
+        "step_index": 6,
+        "phase": "design",
+        "state_before": "Validated 3D structure.",
+        "gap_or_uncertainty": "Can stability be further improved?",
+        "hypothesis": "Introducing disulfide bonds at specific residue pairs will enhance stability.",
+        "decision": "Use Design v2.0/DbD2 to identify and introduce disulfide bonds.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "Design v2.0, DbD2",
+          "version": "",
+          "category": "disulfide engineering"
+        },
+        "parameters": {
+          "chi3_range": "-87 to +97",
+          "energy_threshold": "<2.2"
+        },
+        "observation": "Three pairs selected: PRO74-HIS78, GLY223-GLN245, PHE246-ALA264.",
+        "result_status": "success",
+        "next_step_reason": "Dock stabilized MEV with TLR4.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E04_01",
+            "source_file": "docs/0153/combined.md",
+            "section": "C002",
+            "quote_or_span": "By creating disulfide connections between cysteine residues, disulfide engineering seeks to improve the stability of a protein's three-dimensional structure"
+          },
+          {
+            "evidence_id": "EV_C002_E04_02",
+            "source_file": "docs/0153/combined.md",
+            "section": "C002",
+            "quote_or_span": "The improved model was presented in Design v2.0"
+          },
+          {
+            "evidence_id": "EV_C003_E03_01",
+            "source_file": "docs/0153/combined.md",
+            "section": "C003",
+            "quote_or_span": "Thirty-three amino acid residue pairings with the ability to create disulfide bonds were found by the DbD2 server."
+          },
+          {
+            "evidence_id": "EV_C003_E03_02",
+            "source_file": "docs/0153/combined.md",
+            "section": "C003",
+            "quote_or_span": "Subsequent evaluation based on chi3 and B-factor energy parameters narrowed down the selection to three specific pairs: PRO74-HIS78, GLY223-GLN245, and PHE246-ALA264."
+          }
+        ]
+      },
+      {
+        "step_index": 7,
+        "phase": "simulation",
+        "state_before": "Stabilized MEV structure.",
+        "gap_or_uncertainty": "Does MEV bind to TLR4 to potentially activate innate immunity?",
+        "hypothesis": "Molecular docking will show favorable binding between MEV and TLR4.",
+        "decision": "Perform molecular docking of MEV with TLR4.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "Molecular docking (unspecified tool)",
+          "version": "",
+          "category": "protein-protein docking"
+        },
+        "parameters": {},
+        "observation": "Docking performed; binding poses obtained.",
+        "result_status": "success",
+        "next_step_reason": "Analyze stability of MEV-TLR4 complex via normal mode analysis.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E05_01",
+            "source_file": "docs/0153/combined.md",
+            "section": "C002",
+            "quote_or_span": "To assess how well your MEV could bind to human immunological receptors, molecular docking research was conducted"
+          },
+          {
+            "evidence_id": "EV_C002_E05_02",
+            "source_file": "docs/0153/combined.md",
+            "section": "C002",
+            "quote_or_span": "One specific immunological receptor investigated in this research is Toll-like receptor 4 (TLR4)"
+          },
+          {
+            "evidence_id": "EV_C005_E06_01",
+            "source_file": "docs/0153/combined.md",
+            "section": "C005",
+            "quote_or_span": "To evaluate the potential effectiveness of H. parainfluenzae vaccines, molecular docking analyses were performed, specifically focusing on their interactions with human TLR4 receptors"
+          },
+          {
+            "evidence_id": "EV_AUTO_006",
+            "source_file": "docs/0153/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Furthermore, docking was done between TLR-4 and the vaccine."
+          }
+        ]
+      },
+      {
+        "step_index": 8,
+        "phase": "analysis",
+        "state_before": "MEV-TLR4 docked complex.",
+        "gap_or_uncertainty": "Is the complex dynamically stable?",
+        "hypothesis": "Normal mode analysis will indicate stability through low eigenvalues and favorable deformability.",
+        "decision": "Perform normal mode analysis using iMODS.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "iMODS",
+          "version": "",
+          "category": "normal mode analysis"
+        },
+        "parameters": {},
+        "observation": "Eigenvalue(1)=2.277729e-05; covariance, B-factors, deformability indicate stability.",
+        "result_status": "success",
+        "next_step_reason": "Simulate immune response to MEV.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E06_01",
+            "source_file": "docs/0153/combined.md",
+            "section": "C002",
+            "quote_or_span": "In my research, the iMODS server was employed for this purpose"
+          },
+          {
+            "evidence_id": "EV_C002_E06_02",
+            "source_file": "docs/0153/combined.md",
+            "section": "C002",
+            "quote_or_span": "It calculates various parameters, including eigenvalues, covariance, B-factors, and deformability, to characterize the protein's dynamics and stability"
+          },
+          {
+            "evidence_id": "EV_C004_E01_01",
+            "source_file": "docs/0153/combined.md",
+            "section": "C004",
+            "quote_or_span": "MD simulation of the docked complex of MEV, (A) deformability; (B) B-factor; (C) covariance index; (D) elastic network analysis; (E) eigenvalue."
+          },
+          {
+            "evidence_id": "EV_C004_E01_02",
+            "source_file": "docs/0153/combined.md",
+            "section": "C004",
+            "quote_or_span": "Eigenvalue(1)=2.277729e-05"
+          }
+        ]
+      },
+      {
+        "step_index": 9,
+        "phase": "experiment",
+        "state_before": "Stable MEV-TLR4 complex predicted.",
+        "gap_or_uncertainty": "Will MEV elicit a robust immune response in silico?",
+        "hypothesis": "C-ImmSim simulation will show strong primary and secondary responses with memory development.",
+        "decision": "Simulate immune response using C-ImmSim.",
+        "action_type": "dry_experiment",
+        "tool_or_method": {
+          "name": "C-ImmSim",
+          "version": "",
+          "category": "immune simulation"
+        },
+        "parameters": {},
+        "observation": "Effective immune response observed; memory B and T cells developed.",
+        "result_status": "success",
+        "next_step_reason": "Assess population coverage of selected epitopes.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E07_01",
+            "source_file": "docs/0153/combined.md",
+            "section": "C002",
+            "quote_or_span": "Through utilization of C-ImmSim, investigators have the capability to computationally simulate and forecast the immune reactions elicited by the MEV construct"
+          },
+          {
+            "evidence_id": "EV_C003_E06_02",
+            "source_file": "docs/0153/combined.md",
+            "section": "C003",
+            "quote_or_span": "the immunization produced an effective immune response, which resulted in the pathogen being eliminated on consecutive visits."
+          },
+          {
+            "evidence_id": "EV_C004_E02_01",
+            "source_file": "docs/0153/combined.md",
+            "section": "C004",
+            "quote_or_span": "In silico immune response in which MEV serves as an antigen: (A) Immunoglobulins and B-cell isotypes formation when exposed to antigen; (B) cytokine and interleukin production in various stages with the Simson index."
+          },
+          {
+            "evidence_id": "EV_C005_E07_01",
+            "source_file": "docs/0153/combined.md",
+            "section": "C005",
+            "quote_or_span": "Repeated exposure to the antigenic vaccine construct resulted in the activation of stronger immune responses. This included the stimulation of Helper T cells and the development of memory B and T cells."
+          }
+        ]
+      },
+      {
+        "step_index": 10,
+        "phase": "analysis",
+        "state_before": "Immune simulation successful.",
+        "gap_or_uncertainty": "What is the global population coverage of the selected epitopes?",
+        "hypothesis": "The epitopes will cover >90% of the world population.",
+        "decision": "Perform population coverage analysis.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Population coverage tool (unspecified)",
+          "version": "",
+          "category": "population coverage analysis"
+        },
+        "parameters": {},
+        "observation": "90% worldwide coverage; highest in Japan (98.41%).",
+        "result_status": "success",
+        "next_step_reason": "Optimize codons for expression.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C002_E08_01",
+            "source_file": "docs/0153/combined.md",
+            "section": "C002",
+            "quote_or_span": "Statistical analysis reveal that the shared coverage of 90.00% worldwide for chosen epitopes"
+          },
+          {
+            "evidence_id": "EV_C002_E08_02",
+            "source_file": "docs/0153/combined.md",
+            "section": "C002",
+            "quote_or_span": "The greatest population coverage was recorded in Japan that was 98.41%"
+          },
+          {
+            "evidence_id": "EV_C004_E04_01",
+            "source_file": "docs/0153/combined.md",
+            "section": "C004",
+            "quote_or_span": "the selected epitopes covered around 90% of the world's population combined."
+          },
+          {
+            "evidence_id": "EV_AUTO_012",
+            "source_file": "docs/0153/combined.md",
+            "section": "auto_specific",
+            "quote_or_span": "Interestingly, the selected epitopes covered around 90% of the world's population combined."
+          }
+        ]
+      },
+      {
+        "step_index": 11,
+        "phase": "design",
+        "state_before": "Population coverage confirmed.",
+        "gap_or_uncertainty": "Can the MEV be expressed in E. coli?",
+        "hypothesis": "Codon optimization for E. coli K12 will enable high expression.",
+        "decision": "Perform codon optimization and in silico cloning.",
+        "action_type": "analysis",
+        "tool_or_method": {
+          "name": "Codon optimization tool (unspecified)",
+          "version": "",
+          "category": "codon optimization"
+        },
+        "parameters": {
+          "host": "E. coli K12",
+          "vector": "pET30a(+)"
+        },
+        "observation": "CAI=0.9, GC content=49.32%, clone size 5788 bp.",
+        "result_status": "success",
+        "next_step_reason": "Acknowledge need for experimental validation.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C004_E03_01",
+            "source_file": "docs/0153/combined.md",
+            "section": "C004",
+            "quote_or_span": "The Codon Adaptation Index (CAI) was calculated to be 0.9, indicating a high level of alignment, and the GC content of the optimized DNA was determined to be 49.32%."
+          },
+          {
+            "evidence_id": "EV_C004_E03_02",
+            "source_file": "docs/0153/combined.md",
+            "section": "C004",
+            "quote_or_span": "the resultant clone's overall size of 5788 base pairs"
+          }
+        ]
+      },
+      {
+        "step_index": 12,
+        "phase": "revision",
+        "state_before": "Computational design complete.",
+        "gap_or_uncertainty": "Computational predictions require experimental validation.",
+        "hypothesis": "Experimental studies are needed to confirm immunogenicity and efficacy.",
+        "decision": "Note limitations and future work.",
+        "action_type": "literature_reasoning",
+        "tool_or_method": {
+          "name": "N/A",
+          "version": "",
+          "category": "limitation acknowledgment"
+        },
+        "parameters": {},
+        "observation": "Reliance on prediction methods introduces uncertainties; experimental validation imperative.",
+        "result_status": "inconclusive",
+        "next_step_reason": "End of trajectory.",
+        "evidence": [
+          {
+            "evidence_id": "EV_C001_E08_01",
+            "source_file": "docs/0153/combined.md",
+            "section": "C001",
+            "quote_or_span": "It is crucial to emphasize that despite these computational validations, experimental research in the laboratory is imperative to demonstrate the immunogenicity and protective efficacy of the developed vaccine."
+          },
+          {
+            "evidence_id": "EV_C005_E08_01",
+            "source_file": "docs/0153/combined.md",
+            "section": "C005",
+            "quote_or_span": "The construction of immune-informatics-based vaccines heavily relies on prediction methods, introducing uncertainties regarding the level of protection against LptD and BamA infections"
+          }
+        ]
+      }
+    ],
+    "success_verification": {
+      "validation_methods": [
+        "Ramachandran plot (RAMPAGE)",
+        "ProSA-web Z-score",
+        "Normal mode analysis (iMODS)",
+        "Immune simulation (C-ImmSim)",
+        "Population coverage analysis"
+      ],
+      "metrics": [
+        "Ramachandran favored: 90.3%",
+        "Ramachandran allowed: 8.3%",
+        "Ramachandran outliers: 1.3%",
+        "Eigenvalue(1): 2.277729e-05",
+        "Worldwide coverage: 90%",
+        "Japan coverage: 98.41%",
+        "CAI: 0.9",
+        "GC content: 49.32%"
+      ],
+      "final_conclusion": "The computationally designed MEV shows promising in silico immunogenicity, stability, and population coverage, but requires experimental validation.",
+      "limitations": [
+        "No experimental validation (in vitro/in vivo)",
+        "Reliance on prediction algorithms with inherent uncertainties",
+        "Specific to H. parainfluenzae; may not generalize"
+      ]
+    },
+    "quality_control": {
+      "traceable": true,
+      "human_reviewed": false,
+      "evidence_coverage": 1.0,
+      "risk_notes": [
+        "All steps are computational; no wet-lab validation.",
+        "Some tool versions not specified.",
+        "HTL epitope prediction step not explicitly covered in provided events but implied in construct design.",
+        "v22_step_trimmed=15_to_13",
+        "v22_agentic_generation",
+        "v22_model=deepseek-v4-pro",
+        "v22_step_trimmed=13_to_12",
+        "v22_revision_applied=1",
+        "v22_revision_decision=accepted_revision"
+      ],
+      "auto_quality_score": 100.0
+    }
+  },
+  "state_path": "outputs\\agentic_v22\\v22_full_all_p4\\states\\0153.json",
+  "events_path": "outputs\\agentic_v22\\v22_full_all_p4\\events\\0153.json",
+  "validation_errors": [],
+  "deterministic_gate": {
+    "decision": "pass",
+    "schema_errors": [],
+    "step_count_errors": [],
+    "missing_step_evidence": [],
+    "quote_errors": [],
+    "coverage_errors": [],
+    "mainline_coverage": {
+      "required_event_count": 12,
+      "covered_event_count": 12,
+      "missing_event_count": 0,
+      "missing_events": [],
+      "covered": {
+        "K02": [
+          1
+        ],
+        "K04": [
+          2
+        ],
+        "K06": [
+          2
+        ],
+        "K07": [
+          3
+        ],
+        "K09": [
+          4
+        ],
+        "K10": [
+          5
+        ],
+        "K11": [
+          6
+        ],
+        "K13": [
+          7,
+          8
+        ],
+        "K14": [
+          9
+        ],
+        "K15": [
+          10
+        ],
+        "K16": [
+          11
+        ],
+        "K17": [
+          12
+        ]
+      },
+      "step_event_map": [
+        {
+          "step_index": 1,
+          "covered_event_ids": [
+            "K02"
+          ]
+        },
+        {
+          "step_index": 2,
+          "covered_event_ids": [
+            "K04",
+            "K06"
+          ]
+        },
+        {
+          "step_index": 3,
+          "covered_event_ids": [
+            "K07"
+          ]
+        },
+        {
+          "step_index": 4,
+          "covered_event_ids": [
+            "K09"
+          ]
+        },
+        {
+          "step_index": 5,
+          "covered_event_ids": [
+            "K10"
+          ]
+        },
+        {
+          "step_index": 6,
+          "covered_event_ids": [
+            "K11"
+          ]
+        },
+        {
+          "step_index": 7,
+          "covered_event_ids": [
+            "K12",
+            "K13"
+          ]
+        },
+        {
+          "step_index": 8,
+          "covered_event_ids": [
+            "K13"
+          ]
+        },
+        {
+          "step_index": 9,
+          "covered_event_ids": [
+            "K12",
+            "K14"
+          ]
+        },
+        {
+          "step_index": 10,
+          "covered_event_ids": [
+            "K15"
+          ]
+        },
+        {
+          "step_index": 11,
+          "covered_event_ids": [
+            "K12",
+            "K16"
+          ]
+        },
+        {
+          "step_index": 12,
+          "covered_event_ids": [
+            "K17"
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "step_index": 2,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "0.5"
+        ]
+      },
+      {
+        "step_index": 11,
+        "type": "numbers_not_in_step_evidence",
+        "tokens": [
+          "5788bp"
+        ]
+      }
+    ],
+    "step_count": 12,
+    "evidence_coverage": 1.0,
+    "auto_quality_score": 100.0
+  },
+  "api_usage": {
+    "prompt_tokens": 123850,
+    "completion_tokens": 29348,
+    "total_tokens": 153198,
+    "prompt_cache_hit_tokens": 3200,
+    "prompt_cache_miss_tokens": 120650
+  },
+  "stage_calls": [
+    {
+      "stage": "plan_reading",
+      "api_usage": {
+        "prompt_tokens": 6864,
+        "completion_tokens": 1180,
+        "total_tokens": 8044,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 6864
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "read_sections",
+      "api_usage": {
+        "prompt_tokens": 5328,
+        "completion_tokens": 2579,
+        "total_tokens": 7907,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 5328
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C001",
+      "api_usage": {
+        "prompt_tokens": 6837,
+        "completion_tokens": 1157,
+        "total_tokens": 7994,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6581
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C002",
+      "api_usage": {
+        "prompt_tokens": 8120,
+        "completion_tokens": 1338,
+        "total_tokens": 9458,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7864
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C003",
+      "api_usage": {
+        "prompt_tokens": 9326,
+        "completion_tokens": 1259,
+        "total_tokens": 10585,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 9070
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C004",
+      "api_usage": {
+        "prompt_tokens": 8896,
+        "completion_tokens": 1162,
+        "total_tokens": 10058,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8640
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C005",
+      "api_usage": {
+        "prompt_tokens": 7889,
+        "completion_tokens": 1174,
+        "total_tokens": 9063,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 7633
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "extract_events:C006",
+      "api_usage": {
+        "prompt_tokens": 8825,
+        "completion_tokens": 44,
+        "total_tokens": 8869,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8569
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "build_event_graph",
+      "api_usage": {
+        "prompt_tokens": 11295,
+        "completion_tokens": 3914,
+        "total_tokens": 15209,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 10911
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "draft_trajectory",
+      "api_usage": {
+        "prompt_tokens": 12486,
+        "completion_tokens": 7468,
+        "total_tokens": 19954,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 11846
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "self_critic",
+      "api_usage": {
+        "prompt_tokens": 17255,
+        "completion_tokens": 1481,
+        "total_tokens": 18736,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 17255
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    },
+    {
+      "stage": "revise_once",
+      "api_usage": {
+        "prompt_tokens": 20729,
+        "completion_tokens": 6592,
+        "total_tokens": 27321,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 20089
+      },
+      "api_model": "deepseek-v4-pro",
+      "api_finish_reason": "stop"
+    }
+  ]
+}
