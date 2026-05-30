@@ -12,6 +12,7 @@ This is the primary submission package for the Sci-Evo track.
 - `docs/schema.md`: field definitions and JSONL contract.
 - `docs/construction_pipeline.md`: reproducible construction workflow.
 - `docs/mineru_usage.md`: how MinerU was used.
+- `docs/project_pitch_slides.pptx`: presentation deck for the project.
 - `audits/`: deterministic evidence, structure, and rule audit outputs.
 - `raw_data_samples/`: MinerU raw-output samples for 10 papers.
 - `traces/`: replay artifacts for all 142 primary cases, including cases, events, and agent states.
@@ -49,4 +50,6 @@ After the repository is created, use this URL in the competition submission form
 
 ## Internet Dataset Link
 
-The competition form asks for an internet-accessible open dataset link. After uploading this package to a public repository or object store, fill the final link in `docs/submission_form_template.md`.
+Use the public repository as the internet-accessible open dataset link:
+
+`https://github.com/taibaijun/sci-evo-agentic-paper-reading-dataset-v22`

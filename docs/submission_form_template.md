@@ -4,7 +4,7 @@ Use this as a checklist when filling the official competition submission form.
 
 ## Dataset Link
 
-TODO: upload `submission_v22_agentic_scievo_final.zip` to an internet-accessible public location and paste the URL here.
+https://github.com/taibaijun/sci-evo-agentic-paper-reading-dataset-v22
 
 ## Dataset Type
 
@@ -33,6 +33,10 @@ A high-confidence evidence-grounded Sci-Evo dataset that converts open-access pr
 ## Construction Code
 
 `code/` contains the generation and audit code snapshot. Credentials are not included.
+
+## Presentation Materials
+
+`docs/project_pitch_slides.pptx`.
 
 ## Quality Summary
 
