@@ -92,3 +92,7 @@ The dataset is suitable for:
 - evaluation of multi-step scientific planning and revision.
 
 It is not intended as a laboratory protocol database or as a replacement for reading the original papers.
+
+## 10. Open Source Release
+
+The package is released as a public GitHub repository at `https://github.com/taibaijun/sci-evo-agentic-paper-reading-dataset-v22` using the `taibaijun918@gmail.com` Git identity.

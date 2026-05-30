@@ -45,7 +45,7 @@ Recommended repository name: `sci-evo-agentic-paper-reading-dataset-v22`.
 
 After the repository is created, use this URL in the competition submission form:
 
-`https://github.com/<github-username>/sci-evo-agentic-paper-reading-dataset-v22`
+`https://github.com/taibaijun/sci-evo-agentic-paper-reading-dataset-v22`
 
 ## Internet Dataset Link
 

@@ -55,3 +55,7 @@ Each step must cite at least one evidence quote. Final evidence is aligned again
 ## License Notes
 
 The structured annotation layer can be released under CC BY 4.0 or a similar permissive license. Source paper text and quotes remain under each paper's original license. Per-case license metadata is retained in the `source.license` field.
+
+## Repository
+
+`https://github.com/taibaijun/sci-evo-agentic-paper-reading-dataset-v22`

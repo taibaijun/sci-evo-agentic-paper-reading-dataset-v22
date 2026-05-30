@@ -42,6 +42,6 @@ A high-confidence evidence-grounded Sci-Evo dataset that converts open-access pr
 
 ## Open Source Repository
 
-Recommended repo: `https://github.com/<github-username>/sci-evo-agentic-paper-reading-dataset-v22`
+Recommended repo: `https://github.com/taibaijun/sci-evo-agentic-paper-reading-dataset-v22`
 
 Use account/email: `taibaijun918@gmail.com`.
