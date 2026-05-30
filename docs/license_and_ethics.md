@@ -1,19 +1,19 @@
-# License and Ethics Notes
+# 许可与伦理说明
 
-## Source Licensing
+## 来源许可
 
-This submission is built from open-access scientific papers. Each case keeps source metadata in `source.title`, `source.doi`, `source.license`, `source.raw_file`, `source.mineru_md`, and `source.combined_md`.
+本提交基于开放获取科学论文构建。每条 样本 都保留来源元数据，包括 `source.title`、`source.doi`、`source.license`、`source.raw_file`、`source.mineru_md` 和 `source.combined_md`。
 
-The structured annotation layer is intended for open research use. Original paper text, figures, and quoted evidence remain governed by the corresponding source paper licenses. Users should check the per-case `source.license` field before redistributing source text.
+结构化标注层用于开放研究。原论文文本、图表和 证据引用 仍受对应源论文许可约束。用户在二次分发或复用源文本前，应检查每条 样本 的 `source.license` 字段。
 
-## No Fabricated Scientific Results
+## 不伪造科学结果
 
-The dataset does not claim new experiments. It structures and summarizes research trajectories reported by source papers. Every trajectory step has evidence quotes aligned against MinerU full text, and final primary cases passed quote, schema, source, and critical-token grounding audits.
+本数据集不声明新的实验结果。它只是把源论文已经报告的研究过程结构化成科学演化轨迹。每个轨迹步骤都带有 MinerU 全文证据，主提交 样本 均通过了 引用、结构规范、source 和关键数字/实体 证据支撑 审计。
 
-## Sensitive and Safety Considerations
+## 安全与伦理边界
 
-The dataset is designed for scientific reasoning and AI4Science workflow research. It is not an executable wet-lab protocol collection. Users should not use it to bypass laboratory safety review, biosafety review, or domain expert validation.
+数据集面向科学推理和 AI4Science 工作流研究，不是可执行湿实验协议库。用户不应使用它绕过实验室安全审查、生物安全审查或领域专家验证。
 
-## Attribution
+## 引用要求
 
-When using the dataset, cite both this dataset package and the original papers represented in each case.
+使用本数据集时，应同时引用本数据集包和每条 样本 所对应的原始论文。

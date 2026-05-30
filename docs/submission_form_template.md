@@ -1,51 +1,51 @@
-# Submission Form Template
+# 提交表填写模板
 
-Use this as a checklist when filling the official competition submission form.
+填写官方提交表时，可按下面内容复制或改写。
 
-## Dataset Link
+## 数据集链接
 
 https://github.com/taibaijun/sci-evo-agentic-paper-reading-dataset-v22
 
-## Dataset Type
+## 数据集类型
 
-Sci-Evo.
+Sci-Evo。
 
-## Dataset Name
+## 数据集名称
 
-Sci-Evo Agentic Paper-Reading Dataset V22.
+Sci-Evo 科学演化轨迹数据集 V22。
 
-## Short Description
+## 简短介绍
 
-A high-confidence evidence-grounded Sci-Evo dataset that converts open-access protein-engineering papers parsed by MinerU into multi-step scientific evolution trajectories. Each case records research problem, hypotheses, design choices, wet/dry experiments, failures or partial results, revisions, validation methods, metrics, and exact evidence quotes.
+这是一个高置信、证据对齐的 Sci-Evo 数据集。数据集将开放获取的蛋白工程论文经 MinerU 解析后，整理成多步科学演化轨迹。每条 样本 记录研究问题、假设、设计选择、湿实验/干实验、失败或部分结果、修订、验证方法、指标和全文精确证据。
 
-## Main Dataset File
+## 主数据文件
 
-`dataset.jsonl`, 142 cases.
+`dataset.jsonl`，共 142 条 样本。
 
-## Original Data Samples
+## 原始数据样例
 
-`raw_data_samples/docs/` contains 10 MinerU parsed-paper samples.
+`raw_data_samples/docs/` 包含 10 篇论文的 MinerU 解析样例。
 
-## Technical Report
+## 技术报告
 
-`docs/technical_report.md`.
+`docs/technical_report.md`。
 
-## Construction Code
+## 构建代码
 
-`code/` contains the generation and audit code snapshot. Credentials are not included.
+`code/` 包含生成、校验和审计代码快照；不包含任何 API key。
 
-## Presentation Materials
+## 展示材料
 
-`docs/project_pitch_slides.pptx`.
+`docs/project_pitch_slides.pptx`。
 
-## Quality Summary
+## 质量摘要
 
-- Evidence audit: 0 bad evidence spans out of 4434.
-- Structure audit: 142 pass, 0 repair, 0 issues.
-- Rule audit: 142 pass, 0 review, 0 fail, 0 errors, 0 high warnings.
+- 证据审计：4434 条 证据片段 中 0 条错误。
+- 结构审计：142 条通过，0 条需修复，0 个问题。
+- 规则审计：142 条通过，0 条 需复核，0 条 未通过，0 个 高风险警告。
 
-## Open Source Repository
+## 开源仓库
 
-Recommended repo: `https://github.com/taibaijun/sci-evo-agentic-paper-reading-dataset-v22`
+推荐填写：`https://github.com/taibaijun/sci-evo-agentic-paper-reading-dataset-v22`
 
-Use account/email: `taibaijun918@gmail.com`.
+账号/邮箱：`taibaijun918@gmail.com`。

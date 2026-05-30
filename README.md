@@ -1,55 +1,64 @@
-# Sci-Evo Agentic Paper-Reading Dataset V22
+# Sci-Evo 科学演化轨迹数据集 V22
 
-This is the primary submission package for the Sci-Evo track.
+这是本项目的正式提交包，面向 **Sci-Evo 科学演化轨迹数据集** 赛道。数据集把开放获取的蛋白工程论文，通过 MinerU 解析、智能体式论文阅读和确定性质量审计，整理成可追溯、可解析、证据对齐的多步科研过程数据。
 
-## Primary Files
+## 评审快速入口
 
-- `dataset.jsonl`: primary high-confidence Sci-Evo dataset, 142 cases.
-- `samples_10.json`: 10 complete examples for quick review.
-- `quality_report.json`: aggregate statistics and audit results.
-- `docs/technical_report.md`: full technical report.
-- `docs/data_card.md`: data card, scope, license, risks, and intended use.
-- `docs/schema.md`: field definitions and JSONL contract.
-- `docs/construction_pipeline.md`: reproducible construction workflow.
-- `docs/mineru_usage.md`: how MinerU was used.
-- `docs/project_pitch_slides.pptx`: presentation deck for the project.
-- `audits/`: deterministic evidence, structure, and rule audit outputs.
-- `raw_data_samples/`: MinerU raw-output samples for 10 papers.
-- `traces/`: replay artifacts for all 142 primary cases, including cases, events, and agent states.
-- `code/`: code snapshot for generation, validation, and audits.
-- `extended_candidate/`: non-primary 178-case candidate set kept only for transparency; do not use as the main submission file.
+- 赛道类型：**Sci-Evo**，科学演化轨迹数据集。
+- 主数据文件：`dataset.jsonl`，共 142 条高置信 样本。
+- 完整样例：`samples_10.json`，包含 10 条完整数据样例。
+- 技术报告：`docs/technical_report.md`。
+- 字段说明：`docs/schema.md`。
+- 构建流程：`docs/construction_pipeline.md`。
+- MinerU 使用说明：`docs/mineru_usage.md`。
+- 原始数据样例：`raw_data_samples/docs/`，包含 10 篇 MinerU 解析输出。
+- 质量审计：`audits/` 与 `quality_report.json`。
+- 构建代码：`code/`，包含生成、校验和审计脚本。
+- 项目介绍 PPT：`docs/project_pitch_slides.pptx`。
+- 公开数据集链接：`https://github.com/taibaijun/sci-evo-agentic-paper-reading-dataset-v22`。
 
-## Submission Identity
+## 主要文件
 
-- Track/type: Sci-Evo, scientific evolution data.
-- Domain: protein engineering and AI/computation-assisted biomolecular design.
-- Main count: 142 cases.
-- Average trajectory length: 11.43 steps.
-- Evidence count: 4434 exact full-paper evidence quotes.
+- `dataset.jsonl`：正式主数据集，142 条高置信 Sci-Evo 数据。
+- `samples_10.json`：10 条完整样例，便于快速审阅。
+- `quality_report.json`：整体统计和审计摘要。
+- `docs/technical_report.md`：完整技术报告。
+- `docs/data_card.md`：数据卡，说明范围、许可、风险和适用场景。
+- `docs/schema.md`：字段定义和 JSONL 结构约定。
+- `docs/construction_pipeline.md`：可复现的数据构建流程。
+- `docs/mineru_usage.md`：MinerU 在构建过程中的使用方式。
+- `docs/project_pitch_slides.pptx`：登台汇报用项目介绍 PPT。
+- `docs/project_pitch_slides.md`：PPT 对应的中文文案。
+- `docs/presentation_speaker_notes.md`：中文演讲提示稿。
+- `audits/`：证据、结构和规则审计输出。
+- `raw_data_samples/`：10 篇论文的 MinerU 原始解析样例。
+- `traces/`：142 条主数据的可追溯过程记录，包括 样本、事件 和 智能体状态。
+- `code/`：数据生成、验证和审计代码快照。
+- `extended_candidate/`：178 条扩展候选集，仅用于展示筛选过程，不作为正式主提交。
 
-## Final Audit Summary
+## 提交身份
 
-- Evidence audit: 0 bad evidence out of 4434 evidence spans.
-- Structure audit: 142 pass, 0 repair, 0 issues.
-- Rule audit: 142 pass, 0 review, 0 fail, 0 errors, 0 high warnings.
-- Duplicate case IDs: 0.
+- 数据类型：Sci-Evo，科学演化数据。
+- 研究领域：蛋白工程与 AI/计算辅助生物分子设计。
+- 主数据规模：142 条 样本。
+- 平均轨迹长度：11.43 步。
+- 证据引用数量：4434 条全文精确证据。
 
-## Recommended Submission
+## 质量审计摘要
 
-Use `dataset.jsonl` as the official dataset file. The extended 178-case candidate is included only to show the conservative filtering process; it is not the recommended main submission.
+- 证据审计：4434 条 证据片段 中 0 条错误。
+- 结构审计：142 条通过，0 条需修复，0 个结构问题。
+- 规则审计：142 条通过，0 条 需复核，0 条 未通过，0 个 错误，0 个 高风险警告。
+- 重复数据 ID：0。
 
-## Open Source Repository
+## 推荐提交方式
 
-Intended GitHub account/email: `taibaijun918@gmail.com`.
+正式数据集文件使用 `dataset.jsonl`。`extended_candidate/` 中的 178 条候选集仅用于说明我们采用了保守筛选策略，不建议作为主数据提交。
 
-Recommended repository name: `sci-evo-agentic-paper-reading-dataset-v22`.
+## 开源仓库与数据集链接
 
-After the repository is created, use this URL in the competition submission form:
+公开仓库：
 
 `https://github.com/taibaijun/sci-evo-agentic-paper-reading-dataset-v22`
 
-## Internet Dataset Link
-
-Use the public repository as the internet-accessible open dataset link:
-
-`https://github.com/taibaijun/sci-evo-agentic-paper-reading-dataset-v22`
+提交表中“互联网可访问数据集链接”建议填写同一个公开仓库地址。

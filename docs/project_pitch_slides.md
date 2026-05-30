@@ -1,68 +1,77 @@
-# Project Pitch Slides
+# 项目路演 PPT 文案
 
 ---
 
-## Sci-Evo Agentic Paper-Reading Dataset V22
+## Sci-Evo 科学演化轨迹数据集 V22
 
-Evidence-grounded scientific evolution trajectories from MinerU-parsed open-access protein-engineering papers.
-
----
-
-## Problem
-
-AI systems need data that teaches how science develops: uncertainty, hypothesis, method choice, failed attempts, revision, and validation. Plain QA or static summaries do not capture the decision process.
+基于 MinerU 解析开放获取蛋白工程论文，构建证据对齐、可追溯的科学演化轨迹数据集。
 
 ---
 
-## Dataset
+## 30 秒总结
 
-- 142 high-confidence Sci-Evo cases.
-- 1,623 trajectory steps.
-- 4,434 full-paper evidence quotes.
-- 7-12 steps per paper.
-- Every step links to source evidence.
-
----
-
-## Architecture
-
-DeepSeek-v4-pro proposes paper-reading plans, event extraction, event graphs, trajectories, critic feedback, and one constrained revision. Deterministic code owns quote alignment, schema validation, number/entity grounding, source consistency, and final filtering.
+- 赛道：Sci-Evo。
+- 主数据：142 条高置信 样本。
+- 证据：4434 条全文精确 引用。
+- 特点：每个科研步骤都有来源证据，可追溯、可审计、可解析。
 
 ---
 
-## Why It Is Agentic
+## 为什么需要它
 
-The system first discovers paper-native events, builds relations between events, then derives the research trajectory. It is not a single prompt that asks for a final answer from a whole paper.
-
----
-
-## Quality Strategy
-
-A broader 178-case candidate pool was generated. The primary submission keeps only 142 rule-pass cases and excludes 36 review-risk plus 2 hard-fail cases.
+现有 QA 或摘要数据通常只记录最终结论，难以体现科学研究中的假设、失败、修订和验证。本数据集关注“科学是如何一步步发生的”。
 
 ---
 
-## Audit Results
+## 数据集规模
 
-- Evidence audit: 0 bad spans / 4,434.
-- Structure audit: 142 pass / 0 repair.
-- Rule audit: 142 pass / 0 review / 0 fail.
-- Duplicate case IDs: 0.
-
----
-
-## MinerU Role
-
-MinerU converts PDFs into Markdown and structured content. `combined.md` is the canonical evidence source. Final quotes must resolve to MinerU full text.
+- 142 条高置信 Sci-Evo 样本。
+- 1623 个科研轨迹步骤。
+- 4434 条全文 证据引用。
+- 每篇论文 7-12 个步骤。
+- 10 篇 MinerU 原始解析样例。
 
 ---
 
-## Value
+## 数据结构
 
-The dataset supports training and evaluation of scientific agents that need to reason over multi-step experimental and computational research workflows.
+每条 JSONL 记录包含：来源论文、初始研究问题、科学演化轨迹、成功验证、质量控制信息。每个轨迹步骤记录状态、假设、决策、方法、观察、结果和证据。
 
 ---
 
-## Deliverables
+## 构建流程
 
-`dataset.jsonl`, examples, technical report, data card, schema, construction pipeline, MinerU raw samples, audits, traces, and code snapshot.
+PDF 先经 MinerU 解析，再由智能体式论文阅读流程抽取事件、构建事件图、草拟轨迹、对齐证据、批判修订，最后通过确定性质量门筛选。
+
+---
+
+## MinerU 的作用
+
+MinerU 将 PDF 转成 Markdown 和结构化内容。`combined.md` 是最终 证据引用 的唯一标准来源，所有证据都必须能在 MinerU 全文中匹配。
+
+---
+
+## 质量控制
+
+- 证据审计：4434 条证据中 0 条错误。
+- 结构审计：142 条通过，0 条需修复。
+- 规则审计：142 条通过，0 条 需复核，0 条 未通过。
+- 重复数据 ID：0。
+
+---
+
+## 合规与伦理
+
+数据来自开放获取论文，保留 DOI、license 和来源路径。本数据集不声明新实验、不伪造结果，不作为可执行湿实验协议库。
+
+---
+
+## 应用价值
+
+可用于训练和评估科学智能体的多步推理、证据对齐、实验反馈理解、失败结果处理和科研过程建模能力。
+
+---
+
+## 提交材料
+
+`dataset.jsonl`、10 条完整样例、技术报告、数据卡、结构规范、构建流程、MinerU 使用说明、原始数据样例、审计报告、可追溯 traces、构建代码和中文 PPT。

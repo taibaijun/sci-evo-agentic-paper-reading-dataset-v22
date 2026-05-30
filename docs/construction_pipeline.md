@@ -1,49 +1,49 @@
-# Construction Pipeline
+# 数据构建流程
 
-## Inputs
+## 输入
 
-- Open-access scientific PDFs.
-- MinerU parsed outputs under `docs/####/`.
-- `combined.md` as the canonical final evidence source.
+- 开放获取科学论文 PDF。
+- MinerU 解析输出目录，形如 `docs/####/`。
+- `combined.md`，作为最终 证据引用 对齐的标准全文来源。
 
-## Agentic Generation
+## 智能体式生成
 
-The main generator is `code/scripts/sci_evo_agentic_generate.py`; supporting code is in `code/sci_evo_pipeline/`.
+主生成入口是 `code/scripts/sci_evo_agentic_generate.py`，支撑模块位于 `code/sci_evo_pipeline/`。
 
-DeepSeek-v4-pro is used for paper-reading and trajectory construction. The model is not trusted as a final validator. Code performs the final checks.
+DeepSeek-v4-pro 用于论文阅读、事件抽取和轨迹草拟。模型不作为最终裁判，最终质量由确定性代码检查。
 
-## Per-Paper Flow
+## 单篇论文流程
 
-1. Plan reading from title, headings, abstract, and section structure.
-2. Read key sections and build section memory.
-3. Extract paper-native events chunk by chunk.
-4. Build an event graph connecting events by follows/enables/refines/contradicts/validates relations.
-5. Draft the Sci-Evo trajectory from the event graph.
-6. Align evidence quotes to exact MinerU text.
-7. Run self-critic for missing mainline, weak evidence, ordering, and hallucinated metrics.
-8. Revise once with evidence constraints.
-9. Run deterministic gates.
-10. Keep only final rule-pass cases for submission.
+1. 根据标题、章节、摘要和结构规划阅读重点。
+2. 阅读关键章节，构建章节级记忆。
+3. 从文本块中抽取论文原生科研事件。
+4. 构建事件图，连接 follows、enables、refines、contradicts、validates 等关系。
+5. 从事件图草拟 Sci-Evo 科研演化轨迹。
+6. 将 证据引用 对齐到 MinerU 精确文本。
+7. 运行 self-critic，检查主线缺失、弱证据、顺序问题和指标幻觉。
+8. 在证据约束下进行一次修订。
+9. 运行确定性质量门。
+10. 只保留最终 规则审计 通过 的 样本。
 
-## Deterministic Gates
+## 确定性质量门
 
-- Schema validity.
-- Evidence exactness against `combined.md`.
-- Step count and per-step evidence coverage.
-- Critical number/entity/mutation grounding.
-- Source document consistency.
-- Evidence reuse and phase-order sanity.
+- 结构规范 有效性。
+- 证据与 `combined.md` 的精确匹配。
+- 步骤数和每步证据覆盖。
+- 关键数字、实体、突变信息 证据支撑。
+- 来源文档一致性。
+- 证据复用和阶段顺序合理性检查。
 
-## Final Selection
+## 最终筛选
 
-The broad V22 generation produced a 178-case final candidate. For competition submission, the main dataset keeps only 142 cases with rule-audit `pass` and excludes 36 review-risk cases plus 2 hard fail cases. This prioritizes precision and scientific reliability over raw volume.
+V22 广泛生成阶段得到 178 条候选。正式比赛主提交只保留 142 条 规则审计 `通过` 样本，排除 36 条 需复核风险 样本 和 2 条 严重未通过 样本。这样做是为了优先保证科学可靠性，而不是追求更大的数量。
 
-## Reproduction Commands
+## 复现命令
 
 ```powershell
-python scripts\sci_evo_quality_evidence_audit.py --dataset-jsonl outputs\submission_v22_agentic_scievo_final\dataset.jsonl --mineru-root D:\mineru_flat_results_20260521_200done --output-json outputs\submission_v22_agentic_scievo_finaludits\quality_evidence_audit.json --output-csv outputs\submission_v22_agentic_scievo_finaludits\quality_evidence_audit.csv
-python scripts\sci_evo_quality_structure_audit.py --dataset-jsonl outputs\submission_v22_agentic_scievo_final\dataset.jsonl --output-json outputs\submission_v22_agentic_scievo_finaludits\quality_structure_audit.json --output-csv outputs\submission_v22_agentic_scievo_finaludits\quality_structure_audit.csv
-python scripts\sci_evo_rule_audit.py --dataset-jsonl outputs\submission_v22_agentic_scievo_final\dataset.jsonl --mineru-root D:\mineru_flat_results_20260521_200done --output-root outputs\submission_v22_agentic_scievo_finaluditsule_audit
+python scripts\sci_evo_quality_evidence_audit.py --dataset-jsonl outputs\submission_v22_agentic_scievo_final\dataset.jsonl --mineru-root D:\mineru_flat_results_20260521_200done --output-json outputs\submission_v22_agentic_scievo_final\audits\quality_evidence_audit.json --output-csv outputs\submission_v22_agentic_scievo_final\audits\quality_evidence_audit.csv
+python scripts\sci_evo_quality_structure_audit.py --dataset-jsonl outputs\submission_v22_agentic_scievo_final\dataset.jsonl --output-json outputs\submission_v22_agentic_scievo_final\audits\quality_structure_audit.json --output-csv outputs\submission_v22_agentic_scievo_final\audits\quality_structure_audit.csv
+python scripts\sci_evo_rule_audit.py --dataset-jsonl outputs\submission_v22_agentic_scievo_final\dataset.jsonl --mineru-root D:\mineru_flat_results_20260521_200done --output-root outputs\submission_v22_agentic_scievo_final\audits\rule_audit
 ```
 
-API credentials are read from environment variables during generation and are not stored in this package.
+生成阶段从环境变量读取 API 凭证，提交包中不保存任何密钥。

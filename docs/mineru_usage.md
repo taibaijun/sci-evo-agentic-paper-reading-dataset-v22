@@ -1,29 +1,29 @@
-# MinerU Usage
+# MinerU 使用说明
 
-MinerU is used as the document understanding and parsing layer.
+MinerU 在本项目中承担论文解析和文档理解底座的角色。
 
-## Parsing Outputs
+## 解析输出
 
-For each paper, MinerU produces a directory like `docs/0001/` containing:
+对每篇论文，MinerU 会生成类似 `docs/0001/` 的目录，包含：
 
-- `mineru.md`: Markdown text extracted by MinerU.
-- `combined.md`: normalized full-paper text used as the canonical evidence source.
-- `content_list.json`: structured content blocks.
-- `middle.json`: intermediate parse representation.
-- `images/`: extracted figures and page assets when available.
-- `status.json`: parse status and metadata.
+- `mineru.md`：MinerU 抽取出的 Markdown 文本。
+- `combined.md`：规范化后的全文文本，也是最终证据对齐的标准来源。
+- `content_list.json`：结构化内容块。
+- `middle.json`：中间解析表示。
+- `images/`：解析出的图表和页面图片资源。
+- `status.json`：解析状态和元数据。
 
-## Use in Dataset Construction
+## 在数据集构建中的用途
 
-The V22 pipeline never treats the PDF filename or model memory as final evidence. Final evidence must come from `combined.md`.
+V22 流程不会把 PDF 文件名或模型记忆当作最终证据。最终证据必须来自 `combined.md`。
 
-MinerU is used for:
+MinerU 主要用于：
 
-1. retrieving abstracts, section text, results, methods, discussions, and captions;
-2. chunking long papers for event extraction;
-3. checking every evidence quote against full-paper text;
-4. preserving source document traceability via `docs/####/combined.md` paths.
+1. 抽取摘要、结果、方法、讨论、图表说明等论文内容；
+2. 将长论文切分为适合事件抽取的文本块；
+3. 对每条 证据引用 做全文匹配和可追溯校验；
+4. 通过 `docs/####/combined.md` 路径保留来源文档链路。
 
-## Included Raw Samples
+## 随包原始样例
 
-`raw_data_samples/docs/` contains 10 complete MinerU sample directories with `combined.md`, `mineru.md`, `content_list.json`, and `status.json` when available. These demonstrate the original data format without packaging all source papers.
+`raw_data_samples/docs/` 中包含 10 个完整 MinerU 样例目录，包含 `combined.md`、`mineru.md`、`content_list.json` 和 `status.json` 等文件。它们展示了原始数据格式，同时避免把全部源论文解析结果都打入提交包。

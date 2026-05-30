@@ -1,98 +1,102 @@
-# Technical Report: Sci-Evo Agentic Paper-Reading Dataset V22
+# 技术报告：Sci-Evo 科学演化轨迹数据集 V22
 
-## 1. Dataset Overview
+## 1. 数据集简介
 
-This dataset targets the Sci-Evo track. Each record turns an open-access scientific paper into a machine-readable research trajectory: initial problem, evolving hypotheses, design choices, dry/wet experiments, observations, failures or partial results, revisions, validation, and final scientific conclusion.
+本数据集面向 Sci-Evo 赛道。每条记录把一篇开放获取科学论文转化为机器可读的科研演化轨迹，内容包括初始问题、假设变化、设计选择、干实验/湿实验、观察结果、失败或部分成功、修订过程、验证方法和最终科学结论。
 
-The primary submission contains 142 high-confidence cases selected from a larger 178-case candidate pool. The submitted set is intentionally conservative: only cases that passed the deterministic rule audit are included in `dataset.jsonl`.
+主提交包含 142 条高置信 样本，来自一个 178 条候选集。最终版本采用保守筛选策略：只有通过确定性规则审计的 样本 才进入 `dataset.jsonl`。
 
-## 2. Scientific Motivation
+## 2. 科学动机
 
-The goal is to help AI systems reason about how scientific work develops over time, not only memorize final facts. Protein engineering papers are well suited for this because they commonly include:
+本项目希望帮助 AI 系统理解“科学工作如何一步一步发展”，而不是只记住最终结论。蛋白工程论文很适合构建这类数据，因为它们通常包含：
 
-- explicit design goals and constraints;
-- multi-round computational and experimental decisions;
-- negative or partial results that redirect the research path;
-- measurable endpoints such as activity, yield, stability, affinity, expression, enrichment, or fold improvement;
-- tool-rich workflows involving mutagenesis, screening, sequencing, structure modeling, machine learning, and biochemical validation.
+- 明确的设计目标和约束条件；
+- 多轮计算与实验决策；
+- 会改变研究方向的失败结果或部分结果；
+- 可度量终点，例如活性、产量、稳定性、亲和力、表达量、富集倍数或 fold improvement；
+- 包含诱变、筛选、测序、结构建模、机器学习和生化验证等工具化流程。
 
-## 3. Data Structure
+## 3. 数据结构
 
-Each JSONL row contains one Sci-Evo case. The main fields are:
+`dataset.jsonl` 中每一行是一条完整 Sci-Evo 样本。主要字段包括：
 
-- `case_id`: stable ID, `sci_evo_####`.
-- `dataset_type`: always `Sci-Evo`.
-- `domain`: currently `protein_engineering`.
-- `source`: title, DOI, license, MinerU paths, and source PDF metadata.
-- `initial_request`: research problem, target object, context, input data, constraints, and goals.
-- `evolution_trajectory`: ordered 7-12 step scientific process.
-- `success_verification`: validation methods, metrics, conclusion, and limitations.
-- `quality_control`: traceability and automated quality notes.
+- `case_id`：稳定 ID，格式为 `sci_evo_####`。
+- `dataset_type`：固定为 `Sci-Evo`。
+- `domain`：当前为 `protein_engineering`。
+- `source`：论文标题、DOI、许可、MinerU 路径和源 PDF 元数据。
+- `initial_request`：研究问题、目标对象、已知背景、输入数据、约束和目标。
+- `evolution_trajectory`：有顺序的 7-12 步科研过程。
+- `success_verification`：验证方法、指标、结论和局限性。
+- `quality_control`：可追溯信息和自动化质量记录。
 
-Each trajectory step includes phase, state before the step, uncertainty, hypothesis, decision, action type, method/tool, parameters, observation, result status, next-step reason, and evidence quotes.
+每个轨迹步骤包含 phase、步骤前状态、不确定性、局部假设、决策、动作类型、方法/工具、参数、观察、结果状态、下一步原因和 证据引用。
 
-## 4. Construction Method
+## 4. 数据构建方案
 
-The V22 pipeline is an agentic paper-reading workflow powered by DeepSeek-v4-pro and deterministic guardrails.
+V22 流程是一个智能体式论文阅读流程，使用 DeepSeek-v4-pro 生成结构化候选，再用确定性规则做最终质量把关。
 
-1. `plan_reading`: plan which sections are relevant from title, headings, and structure.
-2. `read_sections`: build section-level memory from abstract, results, methods, discussion, figures, and tables.
-3. `extract_events`: extract paper-native scientific events from chunks without seeing candidate answers.
-4. `build_event_graph`: merge events and infer relations such as follows, enables, refines, contradicts, and validates.
-5. `draft_trajectory`: draft a 5-12 step Sci-Evo trajectory from the event graph.
-6. `quote_align`: deterministically align every evidence quote to `combined.md`.
-7. `self_critic`: ask the model to check missing mainline, ordering, weak evidence, and hallucinated metrics.
-8. `revise_once`: perform one constrained revision using only the evidence bank and critic feedback.
-9. `deterministic_gate`: enforce schema, step count, quote exactness, critical entity/number grounding, and source consistency.
-10. `final_filter`: keep only rule-audit pass cases for the primary submission.
+1. `plan_reading`：根据标题、摘要、章节结构规划阅读重点。
+2. `read_sections`：从摘要、结果、方法、讨论、图表等部分构建章节级记忆。
+3. `extract_events`：从文本块中抽取论文原生科研事件，不让模型提前看到目标答案。
+4. `build_event_graph`：合并事件，并推断 follows、enables、refines、contradicts、validates 等关系。
+5. `draft_trajectory`：从事件图草拟 5-12 步 Sci-Evo 轨迹。
+6. `quote_align`：把每条 证据引用 确定性对齐到 `combined.md`。
+7. `self_critic`：让模型检查主线缺失、顺序问题、弱证据和指标幻觉。
+8. `revise_once`：只基于证据库和 critic feedback 做一次受限修订。
+9. `deterministic_gate`：强制检查 结构规范、步骤数、引用 精确性、关键实体/数字 证据支撑 和来源一致性。
+10. `final_filter`：只保留 规则审计 通过 的 样本 进入主提交。
 
-The AI proposes structure and scientific interpretation; code owns evidence exactness, schema validity, source traceability, filtering, and packaging.
+模型负责提出结构和科学解释；代码负责证据精确性、结构规范 有效性、来源可追溯、筛选和打包。
 
-## 5. MinerU Usage
+## 5. MinerU 使用方式
 
-PDFs were parsed with MinerU into per-document outputs including `mineru.md`, `content_list.json`, `middle.json`, images, and status files. The pipeline uses `combined.md` as the sole evidence source for final quote alignment. A quote must appear in the corresponding MinerU text for the case to pass.
+所有 PDF 先由 MinerU 解析为每篇论文的结构化输出，包括 `mineru.md`、`content_list.json`、`middle.json`、图片和状态文件。最终流程使用 `combined.md` 作为 证据引用 对齐的唯一标准文本。只有能在对应 MinerU 文本中匹配到的 引用，才允许进入最终 样本。
 
-Raw MinerU examples for 10 papers are included in `raw_data_samples/docs/`.
+提交包中 `raw_data_samples/docs/` 提供了 10 篇论文的 MinerU 原始解析样例。
 
-## 6. Statistics
+## 6. 数据统计
 
-- Primary cases: 142.
-- Total steps: 1623.
-- Steps per case: min 7, max 12, average 11.43.
-- Total evidence quotes: 4434.
-- Average evidence quotes per case: 31.23.
-- Result statuses: `{"success": 1311, "partial": 190, "failure": 71, "inconclusive": 51}`.
-- Action types: `{"wet_experiment": 628, "analysis": 605, "dry_experiment": 210, "literature_reasoning": 180}`.
-- Phases: `{"experiment": 489, "analysis": 424, "design": 223, "validation": 199, "hypothesis": 159, "revision": 72, "simulation": 57}`.
+- 主提交 样本 数：142。
+- 轨迹步骤总数：1623。
+- 每条 样本 步骤数：最少 7，最多 12，平均 11.43。
+- 证据引用 总数：4434。
+- 平均每条 样本 证据数：31.23。
+- 结果状态分布：`{"success": 1311, "partial": 190, "failure": 71, "inconclusive": 51}`。
+- 动作类型分布：`{"wet_experiment": 628, "analysis": 605, "dry_experiment": 210, "literature_reasoning": 180}`。
+- 阶段分布：`{"experiment": 489, "analysis": 424, "design": 223, "validation": 199, "hypothesis": 159, "revision": 72, "simulation": 57}`。
 
-## 7. Quality Evaluation
+## 7. 质量评估
 
-Three deterministic audits were rerun on the final primary dataset:
+最终主数据重新运行了三类确定性审计：
 
-- Evidence audit: 0 bad evidence out of 4434 evidence spans.
-- Structure audit: 142 pass, 0 repair, 0 issues.
-- Rule audit: 142 pass, 0 review, 0 fail, 0 errors, 0 high warnings.
-- Duplicate case IDs: 0.
+- 证据审计：4434 条 证据片段 中 0 条 错误证据。
+- 结构审计：142 条 通过，0 条 修复，0 个 问题。
+- 规则审计：142 条 通过，0 条 需复核，0 条 未通过，0 个 错误，0 个 高风险警告。
+- 重复数据 ID：0。
 
-The 178-case extended candidate contained 36 review-risk cases and 2 rule-fail cases. They were excluded from the primary dataset to maximize reliability.
+178 条扩展候选集中有 36 条 需复核风险 样本 和 2 条 规则未通过 样本。它们没有进入主数据集，以优先保证可靠性和科学可信度。
 
-## 8. Compliance and Ethics
+## 8. 合规与伦理
 
-The dataset is derived from open-access scientific papers. Source title, DOI, license, and MinerU paths are preserved per record. The dataset does not fabricate experiments: every trajectory step must cite evidence from the parsed full paper. Users should respect the original paper licenses; annotation files may be released under a permissive license, but source text remains governed by source licenses.
+本数据集来自开放获取科学论文。每条记录保留源论文 title、DOI、license 和 MinerU 路径。数据集不伪造实验结果：每个轨迹步骤都必须引用解析全文中的证据。用户应尊重原论文许可；结构化标注文件可按开放许可发布，但源文本和引用内容仍受原论文许可约束。
 
-## 9. Usage
+## 9. 使用方式
 
-`dataset.jsonl` can be loaded line by line. Each line is independent and contains the complete source metadata, trajectory, and evidence needed for training, evaluation, or agent memory construction.
+`dataset.jsonl` 可以逐行读取。每一行都是独立完整的样本，包含来源元数据、科学轨迹和证据，适用于训练、评估或构建智能体记忆。
 
-The dataset is suitable for:
+适用场景包括：
 
-- scientific reasoning and research-process modeling;
-- agent decision-trace training;
-- evidence-grounded trajectory retrieval;
-- evaluation of multi-step scientific planning and revision.
+- 科学推理和科研过程建模；
+- 智能体决策轨迹训练；
+- 证据对齐的科研轨迹检索；
+- 多步科学规划、修订和验证能力评估。
 
-It is not intended as a laboratory protocol database or as a replacement for reading the original papers.
+不建议把本数据集当作实验协议数据库，也不应替代阅读原始论文。
 
-## 10. Open Source Release
+## 10. 开源发布与成果说明
 
-The package is released as a public GitHub repository at `https://github.com/taibaijun/sci-evo-agentic-paper-reading-dataset-v22` using the `taibaijun918@gmail.com` Git identity.
+本项目已作为公开数据集仓库发布：
+
+`https://github.com/taibaijun/sci-evo-agentic-paper-reading-dataset-v22`
+
+本次可提交成果包括主数据集、原始数据样例、构建代码、审计报告、可追溯过程文件和中文 PPT 展示材料。发布时间为 2026-05-30，满足 2024 年 12 月之后的成果时间要求。

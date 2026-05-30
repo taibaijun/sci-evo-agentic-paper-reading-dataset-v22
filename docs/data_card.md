@@ -1,61 +1,61 @@
-# Data Card
+# 数据卡
 
-## Dataset Name
+## 数据集名称
 
-Sci-Evo Agentic Paper-Reading Dataset V22.
+Sci-Evo 科学演化轨迹数据集 V22。
 
-## Type
+## 数据类型
 
-Sci-Evo scientific evolution data.
+Sci-Evo 科学演化轨迹数据。
 
-## Version
+## 版本
 
-High-confidence primary submission, generated 2026-05-30 from the V22 agentic pipeline.
+V22 高置信主提交版本，生成时间为 2026-05-30。
 
-## Size
+## 数据规模
 
-- Main dataset: 142 cases.
-- Extended candidate appendix: 178 cases.
-- Main evidence spans: 4434.
-- Total trajectory steps: 1623.
+- 主数据集：142 条 样本。
+- 扩展候选附录：178 条 样本，仅用于展示筛选过程。
+- 主数据证据引用：4434 条。
+- 主数据轨迹步骤：1623 步。
 
-## Domain
+## 研究领域
 
-Protein engineering and AI/computation-assisted biomolecular design.
+蛋白工程与 AI/计算辅助生物分子设计。
 
-## Source Data
+## 数据来源
 
-Open-access scientific papers parsed by MinerU. Each case preserves DOI/license/source paths. Raw MinerU examples for 10 papers are included.
+数据来源为开放获取科学论文。论文先由 MinerU 解析，每条 样本 保留 DOI、license、来源路径、MinerU path 等来源信息。提交包中包含 10 篇论文的 MinerU 原始解析样例。
 
-## Intended Uses
+## 适用场景
 
-- Train or evaluate AI systems on scientific process understanding.
-- Build retrieval systems over research trajectories.
-- Study decision chains in protein engineering and biomolecular design.
-- Evaluate evidence-grounded scientific agents.
+- 训练或评估 AI 系统对科研过程的理解能力。
+- 构建面向研究轨迹的检索、记忆和分析系统。
+- 研究蛋白工程中的多轮决策链、实验反馈和修订过程。
+- 评估科学智能体的证据对齐、多步推理和结果验证能力。
 
-## Out-of-Scope Uses
+## 不适用场景
 
-- Treating generated trajectories as executable lab protocols.
-- Claiming new scientific results beyond what the source papers report.
-- Removing source attribution or ignoring original source licenses.
+- 不能把生成的轨迹直接当作可执行湿实验方案。
+- 不能声称数据集产生了源论文之外的新科学发现。
+- 不能去除源论文 attribution，也不能忽略原论文许可。
 
-## Annotation and Evidence Policy
+## 标注与证据原则
 
-Each step must cite at least one evidence quote. Final evidence is aligned against MinerU `combined.md`; unsupported or quote-mismatched cases are filtered out.
+每个轨迹步骤必须引用至少一条证据。最终证据必须能在 MinerU 的 `combined.md` 全文文本中对齐；证据缺失或证据引用不匹配的样本会被过滤掉。
 
-## Quality Results
+## 质量结果
 
-- Evidence quote errors: 0.
-- Structure issues: 0.
-- Rule audit fail: 0.
-- Rule audit review: 0.
-- High warnings: 0.
+- 证据引用错误：0。
+- 结构问题：0。
+- 规则审计 未通过：0。
+- 规则审计 需复核：0。
+- 高风险警告：0。
 
-## License Notes
+## 许可说明
 
-The structured annotation layer can be released under CC BY 4.0 or a similar permissive license. Source paper text and quotes remain under each paper's original license. Per-case license metadata is retained in the `source.license` field.
+结构化标注层建议按 CC BY 4.0 或类似开放许可发布。源论文文本、图片和 证据引用 仍遵循原论文许可。每条 样本 的 `source.license` 字段保留了来源许可信息。
 
-## Repository
+## 公开仓库
 
 `https://github.com/taibaijun/sci-evo-agentic-paper-reading-dataset-v22`
