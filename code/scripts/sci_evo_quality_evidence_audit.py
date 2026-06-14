@@ -15,9 +15,9 @@ from sci_evo_pipeline.quality_first import doc_no, read_jsonl
 def main() -> None:
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
-    parser = argparse.ArgumentParser(description="Audit candidate evidence quotes against full MinerU text.")
+    parser = argparse.ArgumentParser(description="Audit evidence quotes against full MinerU text.")
     parser.add_argument("--dataset-jsonl", required=True)
-    parser.add_argument("--mineru-root", default=r"D:\mineru_flat_results_20260521_200done")
+    parser.add_argument("--mineru-root", default=r"mineru_results")
     parser.add_argument("--output-json", required=True)
     parser.add_argument("--output-csv", default="")
     parser.add_argument("--case-ids", default="")

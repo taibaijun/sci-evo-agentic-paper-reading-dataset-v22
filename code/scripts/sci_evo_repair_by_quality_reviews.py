@@ -120,7 +120,7 @@ def build_repair_prompt(case: dict[str, Any], full_text: str, issue_bundle: dict
     return f"""Repair this Sci-Evo case as strict JSON.
 
 Goal:
-Resolve the reviewer blockers while preserving the useful scientific trajectory. The repaired case must be competition-quality, traceable, and grounded in the full paper.
+Resolve the reviewer blockers while preserving the useful scientific trajectory. The repaired case must be publication-quality, traceable, and grounded in the full paper.
 
 Mandatory rules:
 1. Keep the same case_id, dataset_type, domain, source, and overall paper identity.
@@ -183,7 +183,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Repair cases using quality-gate AI review findings and full paper text.")
     parser.add_argument("--dataset-jsonl", required=True)
     parser.add_argument("--quality-arbitration-json", required=True)
-    parser.add_argument("--mineru-root", default=r"D:\mineru_flat_results_20260521_200done")
+    parser.add_argument("--mineru-root", default=r"mineru_results")
     parser.add_argument("--output-root", required=True)
     parser.add_argument("--case-ids", default="", help="Comma-separated doc numbers/case IDs; default repairs non-pass cases from arbitration.")
     parser.add_argument("--decisions", default="repair,fail", help="Comma-separated gate decisions to repair when --case-ids is omitted.")

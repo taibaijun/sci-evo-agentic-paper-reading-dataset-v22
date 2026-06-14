@@ -1,4 +1,4 @@
-"""Sci-Evo competition extraction pipeline."""
+"""Sci-Evo dataset extraction pipeline."""
 
 __all__ = [
     "corpus",
@@ -6,4 +6,3 @@ __all__ = [
     "extract",
     "schema",
 ]
-

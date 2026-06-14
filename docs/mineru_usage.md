@@ -26,4 +26,4 @@ MinerU 主要用于：
 
 ## 随包原始样例
 
-`raw_data_samples/docs/` 中包含 10 个完整 MinerU 样例目录，包含 `combined.md`、`mineru.md`、`content_list.json` 和 `status.json` 等文件。它们展示了原始数据格式，同时避免把全部源论文解析结果都打入提交包。
+`raw_data_samples/docs/` 中包含 10 个完整 MinerU 样例目录，包含 `combined.md`、`mineru.md`、`content_list.json` 和 `status.json` 等文件。它们展示了原始数据格式，同时避免在仓库中分发全部源论文解析结果。

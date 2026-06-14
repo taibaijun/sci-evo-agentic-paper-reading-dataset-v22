@@ -35,9 +35,9 @@ def main() -> None:
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     parser = argparse.ArgumentParser(description="Repair cases flagged by full-paper AI review.")
-    parser.add_argument("--dataset-jsonl", default=r"outputs\submission_v2_supported\dataset.jsonl")
+    parser.add_argument("--dataset-jsonl", default=r"dataset.jsonl")
     parser.add_argument("--full-review-dir", default=r"outputs\full_paper_review_v2\reviews")
-    parser.add_argument("--mineru-root", default=r"D:\mineru_flat_results_20260521_200done")
+    parser.add_argument("--mineru-root", default=r"mineru_results")
     parser.add_argument("--output-root", default=r"outputs\fullpaper_repaired_v3")
     parser.add_argument("--model", default="deepseek-v4-flash")
     parser.add_argument("--api-base", default="https://api.deepseek.com")

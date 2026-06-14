@@ -17,7 +17,7 @@ Your job is not to rewrite the final dataset. Your job is to find quality issues
 Rules:
 - If the full paper content is missing, return a repair verdict with evaluator_uncertain.
 - Prefer severe, actionable findings over polite summaries.
-- Check true paper storyline, mainline completeness, step order, factuality, evidence grounding, and competition value.
+- Check true paper storyline, mainline completeness, step order, factuality, evidence grounding, and dataset value.
 - If a numeric value, mutation, method, or conclusion is not grounded by evidence, report it.
 - If a platform/method paper is compressed into a generic directed-evolution summary, report it.
 - If the candidate is repairable, give code-level repair actions.

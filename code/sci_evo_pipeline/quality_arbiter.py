@@ -303,7 +303,7 @@ def rule_audit_to_review(case_audit: dict[str, Any]) -> dict[str, Any] | None:
                 "severity": severity,
                 "affected_steps": [],
                 "paper_basis": "",
-                "problem": f"Candidate has only {step_count} trajectory step(s), which is too compressed for a competition Sci-Evo paper.",
+                "problem": f"Candidate has only {step_count} trajectory step(s), which is too compressed for a Sci-Evo paper trajectory.",
                 "code_fix_hint": "Force reconstruction of the full problem-design-screen-observe-select-validate storyline instead of accepting terse repaired output.",
             }
         )

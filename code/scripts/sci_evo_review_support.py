@@ -33,10 +33,10 @@ def main() -> None:
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     parser = argparse.ArgumentParser(description="Run DeepSeek support critic on extracted Sci-Evo cases.")
-    parser.add_argument("--run-root", default=r"outputs\deepseek_top50")
+    parser.add_argument("--run-root", default=r"outputs\run")
     parser.add_argument("--contexts-root", default="")
     parser.add_argument("--reviews-dir", default="")
-    parser.add_argument("--dataset-jsonl", default=r"outputs\submission_final_core\dataset.jsonl")
+    parser.add_argument("--dataset-jsonl", default=r"dataset.jsonl")
     parser.add_argument("--model", default="deepseek-v4-flash")
     parser.add_argument("--api-base", default="https://api.deepseek.com")
     parser.add_argument("--api-key-env", default="DEEPSEEK_API_KEY")

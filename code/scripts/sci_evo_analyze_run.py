@@ -33,7 +33,7 @@ def main() -> None:
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     parser = argparse.ArgumentParser(description="Analyze a Sci-Evo extraction run.")
-    parser.add_argument("--run-root", default=r"outputs\deepseek_top50")
+    parser.add_argument("--run-root", default=r"outputs\run")
     parser.add_argument("--min-quality", type=float, default=75.0)
     parser.add_argument("--min-steps", type=int, default=5)
     args = parser.parse_args()

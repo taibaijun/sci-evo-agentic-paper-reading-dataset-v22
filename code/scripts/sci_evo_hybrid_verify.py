@@ -70,9 +70,9 @@ def main() -> None:
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     parser = argparse.ArgumentParser(description="Run hybrid code+AI step verification.")
-    parser.add_argument("--dataset-jsonl", default=r"outputs\submission_v3_fullpaper_strict\dataset.jsonl")
-    parser.add_argument("--mineru-root", default=r"D:\mineru_flat_results_20260521_200done")
-    parser.add_argument("--rule-detail", default=r"outputs\rule_audit_v3\rule_audit_detail.json")
+    parser.add_argument("--dataset-jsonl", default=r"dataset.jsonl")
+    parser.add_argument("--mineru-root", default=r"mineru_results")
+    parser.add_argument("--rule-detail", default=r"audits\rule_audit\rule_audit_detail.json")
     parser.add_argument("--output-root", default=r"outputs\hybrid_verify_v3")
     parser.add_argument("--scope", choices=["flagged", "review_cases", "all"], default="flagged")
     parser.add_argument("--model", default="deepseek-v4-flash")

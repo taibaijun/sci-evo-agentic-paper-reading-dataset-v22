@@ -11,8 +11,8 @@ from sci_evo_pipeline.corpus import build_index, records_to_dicts, write_jsonl
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Build and rank the Sci-Evo paper index.")
-    parser.add_argument("--input-root", default=r"D:\mineru_flat_results_20260521_200done")
-    parser.add_argument("--raw-inventory", default=r"D:\mineru数据比赛\raw_papers\pdf_inventory.csv")
+    parser.add_argument("--input-root", default=r"mineru_results")
+    parser.add_argument("--raw-inventory", default=r"raw_papers\pdf_inventory.csv")
     parser.add_argument("--output", default=r"outputs\sci_evo_index.jsonl")
     args = parser.parse_args()
 

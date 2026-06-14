@@ -25,7 +25,7 @@ def select_records(rows: list[dict], doc_nos: list[str], limit: int) -> list[dic
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Extract Sci-Evo cases with DeepSeek JSON mode.")
-    parser.add_argument("--input-root", default=r"D:\mineru_flat_results_20260521_200done")
+    parser.add_argument("--input-root", default=r"mineru_results")
     parser.add_argument("--index", default=r"outputs\sci_evo_index.jsonl")
     parser.add_argument("--output-root", default=r"outputs\deepseek_trial")
     parser.add_argument("--limit", type=int, default=3)

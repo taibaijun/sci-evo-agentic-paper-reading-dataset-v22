@@ -1,60 +1,66 @@
 # Sci-Evo 科学演化轨迹数据集 V22
 
-这是本项目的正式提交包，面向 **Sci-Evo 科学演化轨迹数据集** 赛道。数据集把开放获取的蛋白工程论文，通过 MinerU 解析、智能体式论文阅读和确定性质量审计，整理成可追溯、可解析、证据对齐的多步科研过程数据。
+Sci-Evo 科学演化轨迹数据集 V22 是一个面向 AI4Science 的开放数据集。数据集将开放获取的蛋白工程论文解析为可追溯的多步科研过程，覆盖研究问题、假设、设计选择、实验与分析、失败或部分结果、修订过程、验证方法和结论。
 
-## 评审快速入口
+数据集的核心目标是让模型学习科学研究如何逐步推进，而不是只学习论文的最终结论。
 
-- 赛道类型：**Sci-Evo**，科学演化轨迹数据集。
-- 主数据文件：`dataset.jsonl`，共 142 条高置信 样本。
+## 数据概览
+
+- 数据类型：Sci-Evo 科学演化轨迹数据。
+- 研究领域：蛋白工程与 AI/计算辅助生物分子设计。
+- 数据规模：142 条高置信样本。
+- 轨迹步骤：1623 步，平均每条样本 11.43 步。
+- 证据引用：4434 条全文证据。
 - 完整样例：`samples_10.json`，包含 10 条完整数据样例。
-- 技术报告：`docs/technical_report.md`。
-- 字段说明：`docs/schema.md`。
-- 构建流程：`docs/construction_pipeline.md`。
-- MinerU 使用说明：`docs/mineru_usage.md`。
-- 原始数据样例：`raw_data_samples/docs/`，包含 10 篇 MinerU 解析输出。
-- 质量审计：`audits/` 与 `quality_report.json`。
-- 构建代码：`code/`，包含生成、校验和审计脚本。
-- 公开数据集链接：`https://github.com/taibaijun/sci-evo-agentic-paper-reading-dataset-v22`。
 
-## 主要文件
+## 数据来源
 
-- `dataset.jsonl`：正式主数据集，142 条高置信 Sci-Evo 数据。
-- `samples_10.json`：10 条完整样例，便于快速审阅。
-- `quality_report.json`：整体统计和审计摘要。
-- `docs/technical_report.md`：完整技术报告。
-- `docs/data_card.md`：数据卡，说明范围、许可、风险和适用场景。
+本数据集来源于开放获取科学论文。每条样本都保留源论文标题、DOI、许可信息、原始文件名、MinerU Markdown 路径和 `combined.md` 证据路径。
+
+最终证据均来自 MinerU 解析后的全文文本，不使用无授权闭源数据，不生成或伪造实验结果。
+
+## 文件结构
+
+- `dataset.jsonl`：主数据集，每行一条完整 Sci-Evo 样本。
+- `samples_10.json`：10 条完整样例。
+- `quality_report.json`：数据统计和质量审计摘要。
+- `docs/technical_report.md`：技术报告。
+- `docs/data_card.md`：数据卡，说明范围、来源、许可、风险和适用场景。
 - `docs/schema.md`：字段定义和 JSONL 结构约定。
-- `docs/construction_pipeline.md`：可复现的数据构建流程。
-- `docs/mineru_usage.md`：MinerU 在构建过程中的使用方式。
+- `docs/construction_pipeline.md`：数据构建流程。
+- `docs/mineru_usage.md`：MinerU 在数据构建中的使用方式。
+- `docs/license_and_ethics.md`：许可与伦理说明。
 - `audits/`：证据、结构和规则审计输出。
 - `raw_data_samples/`：10 篇论文的 MinerU 原始解析样例。
-- `traces/`：142 条主数据的可追溯过程记录，包括 样本、事件 和 智能体状态。
-- `code/`：数据生成、验证和审计代码快照。
-- `extended_candidate/`：178 条扩展候选集，仅用于展示筛选过程，不作为正式主提交。
+- `traces/`：样本构建过程的可追溯记录。
+- `code/`：生成、验证和审计代码快照。
 
-## 提交身份
+## 快速使用
 
-- 数据类型：Sci-Evo，科学演化数据。
-- 研究领域：蛋白工程与 AI/计算辅助生物分子设计。
-- 主数据规模：142 条 样本。
-- 平均轨迹长度：11.43 步。
-- 证据引用数量：4434 条全文精确证据。
+```python
+import json
 
-## 质量审计摘要
+with open("dataset.jsonl", "r", encoding="utf-8") as f:
+    for line in f:
+        item = json.loads(line)
+        print(item["case_id"], len(item["evolution_trajectory"]))
+```
 
-- 证据审计：4434 条 证据片段 中 0 条错误。
+每条样本均包含来源元数据、初始研究问题、演化轨迹、验证信息和质量控制信息。字段定义见 `docs/schema.md`。
+
+## 质量审计
+
+- 证据审计：4434 条证据片段中 0 条错误。
 - 结构审计：142 条通过，0 条需修复，0 个结构问题。
-- 规则审计：142 条通过，0 条 需复核，0 条 未通过，0 个 错误，0 个 高风险警告。
+- 规则审计：142 条通过，0 条需复核，0 条未通过，0 个高风险警告。
 - 重复数据 ID：0。
 
-## 推荐提交方式
+详细结果见 `quality_report.json` 和 `audits/`。
 
-正式数据集文件使用 `dataset.jsonl`。`extended_candidate/` 中的 178 条候选集仅用于说明我们采用了保守筛选策略，不建议作为主数据提交。
+## 许可
 
-## 开源仓库与数据集链接
+结构化标注层按 CC BY 4.0 发布。原论文文本、图表和证据引用仍受各自来源论文许可约束。使用者应根据每条样本的 `source.license`、`source.doi` 和相关来源字段确认二次使用范围。
 
-公开仓库：
+## 引用
 
-`https://github.com/taibaijun/sci-evo-agentic-paper-reading-dataset-v22`
-
-提交表中“互联网可访问数据集链接”建议填写同一个公开仓库地址。
+使用本数据集时，请引用本数据集以及样本对应的原始论文。引用信息见 `CITATION.cff`。

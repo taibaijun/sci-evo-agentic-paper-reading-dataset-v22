@@ -21,7 +21,7 @@ def main() -> None:
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     parser = argparse.ArgumentParser(description="Create V16 quality-first AI/subagent review packets.")
     parser.add_argument("--dataset-jsonl", required=True)
-    parser.add_argument("--mineru-root", default=r"D:\mineru_flat_results_20260521_200done")
+    parser.add_argument("--mineru-root", default=r"mineru_results")
     parser.add_argument("--rule-detail", default="")
     parser.add_argument("--output-root", required=True)
     parser.add_argument("--case-ids", default="", help="Comma-separated doc numbers or case ids.")

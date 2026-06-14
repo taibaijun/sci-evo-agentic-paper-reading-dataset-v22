@@ -8,4 +8,4 @@
 - `scripts/sci_evo_rule_audit.py`：确定性规则审计。
 - `sci_evo_pipeline/`：共享 结构规范、模型客户端和智能体流程模块。
 
-生成阶段从环境变量读取 API 凭证。本提交包不包含任何 API key。
+生成阶段从环境变量读取 API 凭证。本仓库不包含任何 API key。

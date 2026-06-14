@@ -96,8 +96,8 @@ def main() -> None:
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
-    parser = argparse.ArgumentParser(description="Generate V22 agentic Sci-Evo candidates with DeepSeek-v4-pro.")
-    parser.add_argument("--input-root", default=r"D:\mineru_flat_results_20260521_200done")
+    parser = argparse.ArgumentParser(description="Generate V22 agentic Sci-Evo records with DeepSeek-v4-pro.")
+    parser.add_argument("--input-root", default=r"mineru_results")
     parser.add_argument("--index", default=r"outputs\sci_evo_index.jsonl")
     parser.add_argument("--output-root", default="", help="Defaults to outputs/agentic_v22/<run-id>.")
     parser.add_argument("--run-id", default="")

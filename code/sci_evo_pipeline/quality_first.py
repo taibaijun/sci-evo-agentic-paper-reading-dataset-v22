@@ -229,8 +229,8 @@ def normalize_review(raw: dict[str, Any], fallback_role: str = "") -> dict[str, 
     score_aliases = {
         "step_ordering": "trajectory_coherence",
         "step_granularity": "trajectory_coherence",
-        "competition_fit": "sci_evo_value",
-        "competition_value": "sci_evo_value",
+        "dataset_fit": "sci_evo_value",
+        "dataset_value": "sci_evo_value",
         "overall": "sci_evo_value",
     }
     expanded_scores = dict(scores)

@@ -31,8 +31,8 @@ def main() -> None:
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     parser = argparse.ArgumentParser(description="Run full-paper AI review over selected Sci-Evo cases.")
-    parser.add_argument("--dataset-jsonl", default=r"outputs\submission_v2_supported\dataset.jsonl")
-    parser.add_argument("--mineru-root", default=r"D:\mineru_flat_results_20260521_200done")
+    parser.add_argument("--dataset-jsonl", default=r"dataset.jsonl")
+    parser.add_argument("--mineru-root", default=r"mineru_results")
     parser.add_argument("--output-root", default=r"outputs\full_paper_review_v2")
     parser.add_argument("--model", default="deepseek-v4-flash")
     parser.add_argument("--api-base", default="https://api.deepseek.com")

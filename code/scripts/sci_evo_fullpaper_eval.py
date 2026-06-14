@@ -74,7 +74,7 @@ def review_to_row(review: dict[str, Any]) -> dict[str, Any]:
         "mainline_completeness": scores.get("mainline_completeness", ""),
         "trajectory_coherence": scores.get("trajectory_coherence", ""),
         "evidence_grounding": scores.get("evidence_grounding", ""),
-        "competition_value": scores.get("competition_value", ""),
+        "dataset_value": scores.get("dataset_value", ""),
         "high_step_issue_count": gate.get("high_step_issue_count", ""),
         "medium_step_issue_count": gate.get("medium_step_issue_count", ""),
         "high_missing_count": gate.get("high_missing_count", ""),
@@ -93,9 +93,9 @@ def main() -> None:
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
-    parser = argparse.ArgumentParser(description="Local full-paper AI evaluator for Sci-Evo candidate datasets.")
+    parser = argparse.ArgumentParser(description="Local full-paper AI evaluator for Sci-Evo datasets.")
     parser.add_argument("--dataset-jsonl", required=True)
-    parser.add_argument("--mineru-root", default=r"D:\mineru_flat_results_20260521_200done")
+    parser.add_argument("--mineru-root", default=r"mineru_results")
     parser.add_argument("--rule-detail", default="")
     parser.add_argument("--output-root", required=True)
     parser.add_argument("--api-key-env", default="DEEPSEEK_API_KEY")
@@ -191,7 +191,7 @@ def main() -> None:
                             "mainline_completeness": 0,
                             "trajectory_coherence": 0,
                             "evidence_grounding": 0,
-                            "competition_value": 0,
+                            "dataset_value": 0,
                         },
                         "step_audits": [],
                         "missing_mainline_events": [],

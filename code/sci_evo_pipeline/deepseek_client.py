@@ -77,7 +77,7 @@ class DeepSeekClient:
         headers = {
             "Authorization": f"Bearer {self.api_key}",
             "Content-Type": "application/json",
-            "User-Agent": "sci-evo-competition-pipeline/0.1",
+            "User-Agent": "sci-evo-dataset-pipeline/0.1",
         }
 
         last_error: str | None = None

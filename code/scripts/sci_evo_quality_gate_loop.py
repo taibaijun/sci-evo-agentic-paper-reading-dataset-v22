@@ -35,7 +35,7 @@ def main() -> None:
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     parser = argparse.ArgumentParser(description="Run the V16 quality gate loop with code audit plus optional full-paper AI review.")
     parser.add_argument("--dataset-jsonl", required=True)
-    parser.add_argument("--mineru-root", default=r"D:\mineru_flat_results_20260521_200done")
+    parser.add_argument("--mineru-root", default=r"mineru_results")
     parser.add_argument("--work-root", required=True)
     parser.add_argument("--case-ids", default="")
     parser.add_argument("--full-review-dir", default="", help="Optional existing full-paper review dir for rule audit.")

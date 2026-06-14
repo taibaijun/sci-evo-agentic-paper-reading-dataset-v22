@@ -312,10 +312,10 @@ def main() -> None:
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     parser = argparse.ArgumentParser(description="Deterministic full-paper audit for Sci-Evo dataset.")
-    parser.add_argument("--dataset-jsonl", default=r"outputs\submission_v3_fullpaper_strict\dataset.jsonl")
-    parser.add_argument("--mineru-root", default=r"D:\mineru_flat_results_20260521_200done")
-    parser.add_argument("--full-review-dir", default=r"outputs\full_paper_review_v3_repaired\reviews")
-    parser.add_argument("--output-root", default=r"outputs\rule_audit_v3")
+    parser.add_argument("--dataset-jsonl", default=r"dataset.jsonl")
+    parser.add_argument("--mineru-root", default=r"mineru_results")
+    parser.add_argument("--full-review-dir", default=r"outputs\full_paper_review\reviews")
+    parser.add_argument("--output-root", default=r"audits\rule_audit")
     parser.add_argument("--case-ids", default="")
     args = parser.parse_args()
 

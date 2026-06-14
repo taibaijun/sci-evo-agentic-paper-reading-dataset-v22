@@ -20,7 +20,7 @@ def main() -> None:
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     parser = argparse.ArgumentParser(description="Re-normalize and repair a run from cached raw responses.")
-    parser.add_argument("--run-root", default=r"outputs\deepseek_top50")
+    parser.add_argument("--run-root", default=r"outputs\run")
     args = parser.parse_args()
 
     run_root = Path(args.run_root)

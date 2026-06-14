@@ -9,7 +9,7 @@ right" failure mode:
    extracts paper-native evolution events with exact quotes.
 2. A reducer builds a canonical storyline from those independent events.
 3. A judge compares the candidate trajectory against the canonical storyline,
-   code audit findings, and competition rubric.
+   code audit findings, and dataset quality rubric.
 4. A red-team pass looks only for missed severe issues.
 5. Deterministic gates convert model outputs into pass/repair/fail decisions.
 """
@@ -319,7 +319,7 @@ Expected JSON:
     "mainline_completeness": 0.0,
     "trajectory_coherence": 0.0,
     "evidence_grounding": 0.0,
-    "competition_value": 0.0
+    "dataset_value": 0.0
   }},
   "step_audits": [
     {{
@@ -359,7 +359,7 @@ Code rule audit:
 def normalize_audit(raw: dict[str, Any], case: dict[str, Any]) -> dict[str, Any]:
     scores = raw.get("dimension_scores") if isinstance(raw.get("dimension_scores"), dict) else {}
     norm_scores = {}
-    for key in ["factuality", "mainline_completeness", "trajectory_coherence", "evidence_grounding", "competition_value"]:
+    for key in ["factuality", "mainline_completeness", "trajectory_coherence", "evidence_grounding", "dataset_value"]:
         try:
             norm_scores[key] = round(max(0.0, min(1.0, float(scores.get(key, 0)))), 3)
         except Exception:
