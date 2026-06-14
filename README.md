@@ -14,7 +14,6 @@
 - 原始数据样例：`raw_data_samples/docs/`，包含 10 篇 MinerU 解析输出。
 - 质量审计：`audits/` 与 `quality_report.json`。
 - 构建代码：`code/`，包含生成、校验和审计脚本。
-- 项目介绍 PPT：`docs/project_pitch_slides.pptx`。
 - 公开数据集链接：`https://github.com/taibaijun/sci-evo-agentic-paper-reading-dataset-v22`。
 
 ## 主要文件
@@ -27,9 +26,6 @@
 - `docs/schema.md`：字段定义和 JSONL 结构约定。
 - `docs/construction_pipeline.md`：可复现的数据构建流程。
 - `docs/mineru_usage.md`：MinerU 在构建过程中的使用方式。
-- `docs/project_pitch_slides.pptx`：登台汇报用项目介绍 PPT。
-- `docs/project_pitch_slides.md`：PPT 对应的中文文案。
-- `docs/presentation_speaker_notes.md`：中文演讲提示稿。
 - `audits/`：证据、结构和规则审计输出。
 - `raw_data_samples/`：10 篇论文的 MinerU 原始解析样例。
 - `traces/`：142 条主数据的可追溯过程记录，包括 样本、事件 和 智能体状态。

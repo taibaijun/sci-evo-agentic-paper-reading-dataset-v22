@@ -34,10 +34,6 @@ Sci-Evo 科学演化轨迹数据集 V22。
 
 `code/` 包含生成、校验和审计代码快照；不包含任何 API key。
 
-## 展示材料
-
-`docs/project_pitch_slides.pptx`。
-
 ## 质量摘要
 
 - 证据审计：4434 条 证据片段 中 0 条错误。
